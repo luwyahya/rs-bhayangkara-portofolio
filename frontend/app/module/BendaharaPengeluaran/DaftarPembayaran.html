@@ -1,0 +1,95 @@
+<style>
+	.style-center {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+	}
+
+	.style-right {
+		display: inline-block;
+		text-align: right;
+		width: 100%;
+	}
+
+	.style-left {
+		display: inline-block;
+		text-align: left;
+		width: 100%;
+	}
+</style>
+
+<div class="panel panel-default container_12">
+	<div class="panel-heading" align="center" c-translate>Daftar Pembayaran</div>
+	<div class="panel-body">
+		<!-- <fieldset style="min-height:50px !important" align="left">
+		 	<legend><h2>Pencarian</h2></legend> -->
+		<div class="grid_6">
+			<div class="grid_4">
+				<div class="grid_12">
+					<label c-label item="item" c-label-text="Kasir"></label>
+				</div>
+				<div class="grid_12">
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.Kasir"
+						k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+						k-auto-bind="false" k-data-source="listKasir" />
+				</div>
+			</div>
+			<div class="grid_4">
+				<div class="grid_12">
+					<label c-label item="item">No SBK</label>
+				</div>
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noSBK" />
+				</div>
+			</div>
+			<div class="grid_4">
+				<div class="grid_12">
+					<label c-label item="item" c-label-text="Cara Bayar"></label>
+				</div>
+				<div class="grid_12">
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.CaraBayar"
+						k-data-text-field="'caraBayar'" k-data-value-field="'id'" k-filter="'contains'"
+						k-auto-bind="false" k-data-source="listCaraBayar" />
+				</div>
+			</div>
+		</div>
+		<div class="grid_4">
+			<div class="grid_6">
+				<label c-label item="item" c-label-text="Tanggal awal"></label>
+				<input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+			<div class="grid_6">
+				<label c-label item="item" c-label-text="Tanggal Akhir"></label>
+				<input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+		</div>
+		<div class="grid_2 k-edit-buttons  k-state-default " style="margin-top:26px">
+			<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SearchData()"
+				style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+			<button class="k-button  k-button-icontext" ng-click="ClearData()" style="width:100px"><span
+					class="k-sprite k-icon k-delete"></span>Clear</button>
+		</div>
+		<!-- 	</fieldset> -->
+		<div class="grid_12 borderBox" style="margin-top: 5px;">
+			<div id="kGrid" kendo-grid k-data-source="dataDaftarPenerimaan" k-selectable="'row'"
+				k-columns="columnDaftarPenerimaan" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSbnSelected">
+			</div>
+		</div>
+		<br />
+		<!-- Total -->
+		<div class="grid_6">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="Total"></label>
+			</div>
+			<div class="grid_12" style="margin-top: 5px">
+				<label c-label>{{totalPenerimaan}}</label>
+			</div>
+		</div>
+		<div class="grid_12" style="margin-top:60px">
+			<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+		</div>
+	</div>
+</div>
+<br />

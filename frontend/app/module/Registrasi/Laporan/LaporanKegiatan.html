@@ -1,0 +1,29 @@
+<div ng-show="dataVOloaded">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Laporan Kegiatan Instalasi Rawat Jalan</b></h1>
+    </div>
+
+    <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="item" c-label-text="Tanggal awal"></label>
+                <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+                    k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+            <div class="grid_2">
+                <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+                    k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+            <div class="grid_1">
+                <label c-label c-label-text=""></label>
+                <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
+                    class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                        class="k-sprite k-icon k-i-search">Cari</span></em>
+            </div>
+    <div class="grid_12">
+            <kendo-grid id="kGrid" data-source="dataSourceGrid" options="columnGrid"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+        </div>
+            
+</div>

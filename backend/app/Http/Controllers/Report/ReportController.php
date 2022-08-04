@@ -1,0 +1,1234 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Egie Ramdan
+ */
+
+namespace App\Http\Controllers\Report;
+use App\Http\Controllers\ApiController;
+
+use App\Traits\Valet;
+use Illuminate\Http\Request;
+
+use Illuminate\Support\Facades\DB;
+
+class ReportController extends ApiController
+{
+    use Valet;
+    public function __construct()
+    {
+        parent::__construct($skip_authentication = true);
+    }
+	public function cetakCuti (Request $r){
+        $data =\DB::table('planningpegawaistatus_t as pps')
+            ->leftJoin('pegawai_m as pg','pg.id','=','pps.objectpegawaifk')
+            ->leftJoin('sdm_jeniscuti_m as jc','jc.id','=','pps.objectstatuspegawaiplanfk')
+            ->leftJoin('jabatan_m as jb','jb.id','=','pg.objectjabatanstrukturalfk')
+            ->leftJoin('unitkerja_m as ukp','ukp.id','=','pg.objectunitkerjafk')
+            ->leftJoin('pangkat_m as pan','pan.id','=','pg.objectpangkatfk')
+            ->leftJoin('golonganpegawai_m as gol','gol.id','=','pan.objectgolonganpegawaifk')
+            ->select( 'pps.norec','pps.noplanning','pps.tglpengajuan','pps.objectpegawaifk','pps.objectstatuspegawaiplanfk',
+                'pps.deskripsistatuspegawaiplan as desk','pps.keterangan','pg.namalengkap','jc.name as statuspermohonan',
+                'jb.namajabatan','ukp.unitkerja','pps.approvalstatus','pg.nip','pan.namapangkat','gol.golonganpegawai')
+            ->where('pps.statusenabled',true)
+            ->where('pps.norec',$r['norec'])
+            ->first();
+        $norec= $data->norec;
+        $details = DB::select(DB::raw("select * from listtanggalcuti_t where objectplanningpegawaistatusfk='$norec'"));
+        $tglVerif = [];
+        foreach ($details as $itmde){
+            if( $itmde-> approvalstatus == 4){
+                $tglVerif [] = array(
+                    'norec' => $itmde->norec,
+                    'tgl' => $itmde->tgl,
+                    'approvalstatus' => $itmde->approvalstatus,
+                    'objectplanningpegawaistatusfk' => $itmde->objectplanningpegawaistatusfk
+                );
+            }
+        }
+        $data->listtanggal = $details;
+        $data->listtanggalapprove= $tglVerif;
+
+        $url = $r->fullUrl();
+//           dd($url);
+        $config['jabatan'] ='Direktur Rumah Sakit Jiwa Daerah Surakarta';
+        $config['pangkat'] ='Pembina utama muda';
+        $config['nip'] = '196010051986101001';
+        $config['direktur'] ='dr. ENDRO SUPRAYITNO, Sp.Kj, M.Si';
+        $config['dibuatdi'] ='Semarang';
+		return view('report.cuti',compact('data','url','config'));
+	}
+    public function cetakEkspertise(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+            SELECT       so.tanggalbacaradiologi, so.nofoto, ps.nocm, ps.namapasien, ps.tgllahir,	to_char(ps.tgllahir, 'DD TMMonth YYYY') AS tgllahir2,(kp.kelompokpasien || ' / ' || case when jks.namaexternal is null then '-' else 'Jaminan Khusus   : ' || jks.namaexternal end ) as  kelompokpasien,
+            ru.namaruangan, so.tanggal as tanggalso,pp.tglpelayanan as tanggal, jk.jeniskelamin, CASE WHEN alm.alamatlengkap IS NULL 
+                         THEN '-' ELSE (alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' ' || kc.namakecamatan || ' ' || kk.namakotakabupaten || ' ' || pro.namapropinsi) END AS alamatlengkap, pg.namalengkap AS perujuk, 
+                         pg2.namalengkap AS dokterrad, pr.namaproduk, so.keterangan, pd.noregistrasi, pg2.nosip, pg2.id AS pgid, pemakaianasuransi_t.nokepesertaan, pemakaianasuransi_t.nosep, so.tanggalcetak, pegawai_m.namalengkap, 
+                         ruangan_m.namaruangan AS ruanganasal
+            FROM ruangan_m RIGHT OUTER JOIN
+             pegawai_m RIGHT OUTER JOIN
+             hasilradiologi_t AS so INNER JOIN
+             pasiendaftar_t AS pd ON pd.norec = so.noregristrasifk INNER JOIN
+             pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
+             kelompokpasien_m AS kp ON kp.id = pd.objectkelompokpasienlastfk INNER JOIN
+             ruangan_m AS ru ON ru.id = pd.objectruanganlastfk INNER JOIN
+             pelayananpasien_t AS pp ON pp.norec = so.pelayananpasienfk INNER JOIN
+             produk_m AS pr ON pr.id = pp.produkfk ON pegawai_m.id = so.dokterperujuk ON ruangan_m.id = so.ruanganperujukfk LEFT OUTER JOIN
+             jeniskelamin_m AS jk ON ps.objectjeniskelaminfk = jk.id LEFT OUTER JOIN
+             pegawai_m AS pg ON pd.objectpegawaifk = pg.id LEFT OUTER JOIN
+             pegawai_m AS pg2 ON pg2.id = so.pegawaifk AND so.statusenabled = 'y' LEFT OUTER JOIN
+             pemakaianasuransi_t ON pd.norec = pemakaianasuransi_t.noregistrasifk LEFT OUTER JOIN
+             kelompokpasien_m AS kps ON kps.id = pd.objectkelompokpasienlastfk LEFT OUTER JOIN
+             alamat_m AS alm ON alm.nocmfk = ps.id LEFT OUTER JOIN
+             desakelurahan_m AS ds ON ds.id = alm.objectdesakelurahanfk LEFT OUTER JOIN
+             kotakabupaten_m AS kk ON kk.id = alm.objectkotakabupatenfk LEFT OUTER JOIN
+             kecamatan_m AS kc ON kc.id = alm.objectkecamatanfk LEFT OUTER JOIN
+             propinsi_m AS pro ON pro.id = alm.objectpropinsifk LEFT OUTER JOIN jaminankhusus_m as jks on pd.objectjaminankhusus = jks.id
+            WHERE
+                so.norec = '$r[norec]'
+     
+            AND so.statusenabled = 'y'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d')) .' / '. $raw->tgllahir2;
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+        $raw2 = collect(DB::select("
+            SELECT cetakanke from cetakanke
+            WHERE  norec= '$r[norec]'
+        "))->first();
+        if(empty($raw2)){
+             $inserthistory = DB::insert("insert into  cetakanke values('".$r['norec'] ."',1,'hasilradiologi_t') ");
+                  $raw2 = collect(DB::select("
+                SELECT cetakanke from cetakanke
+                WHERE  norec= '$r[norec]'
+            "))->first();
+        }else{
+            foreach ($raw2 as $key) {
+               
+                $cetakanke = $key + 1;
+            }
+             $inserthistory = DB::update("update cetakanke set  cetakanke = '".$cetakanke."' where norec = '".$r['norec'] ."' ");
+            // return;
+        }
+
+
+
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.rad.expertise',
+            compact('raw', 'pageWidth','r','now','raw2'));
+
+    }
+     public function cetakLab(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+           select ps.nocm, ps.namapasien, ps.tgllahir, kp.kelompokpasien, ru.namaruangan, jk.jeniskelamin, CASE WHEN alm.alamatlengkap IS NULL 
+                         THEN '-' ELSE (alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' ' + kc.namakecamatan + ' ' + kk.namakotakabupaten + ' ' + pro.namapropinsi) END AS alamatlengkap, pd.noregistrasi, pemakaianasuransi_t.nokepesertaan, 
+                         pemakaianasuransi_t.nosep
+FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
+                         pasiendaftar_t AS pd INNER JOIN
+                         pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
+                         kelompokpasien_m AS kp ON kp.id = pd.objectkelompokpasienlastfk INNER JOIN
+                         ruangan_m AS ru ON ru.id = pd.objectruanganlastfk ON jk.id = ps.objectjeniskelaminfk LEFT OUTER JOIN
+                         pemakaianasuransi_t ON pd.norec = pemakaianasuransi_t.noregistrasifk LEFT OUTER JOIN
+                         kelompokpasien_m AS kps ON kps.id = pd.objectkelompokpasienlastfk LEFT OUTER JOIN
+                         alamat_m AS alm ON alm.nocmfk = ps.id LEFT OUTER JOIN
+                         desakelurahan_m AS ds ON ds.id = alm.objectdesakelurahanfk LEFT OUTER JOIN
+                         kotakabupaten_m AS kk ON kk.id = alm.objectkotakabupatenfk LEFT OUTER JOIN
+                         kecamatan_m AS kc ON kc.id = alm.objectkecamatanfk LEFT OUTER JOIN
+                         propinsi_m AS pro ON pro.id = alm.objectpropinsifk
+            WHERE
+                pd.noregistrasi = '$r[reg]'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+       
+
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.rad.lab',
+            compact('raw', 'pageWidth','r','now'));
+
+    }
+     public function cetakKematian(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+        select pd.namalengkapambilpasien, pd.tglmeninggal, pd.namapemeriksajenazah, pd.tgldimakamkan, pd.tglpemeriksaanjenazah, pm.namapasien, pm.nocm, pm.noidentitas, jk.jeniskelamin, pm.tempatlahir,
+		cast(pm.tgllahir as date) as tgllahir, ag.agama, al.alamatlengkap, al.namadesakelurahan, al.kecamatan, al.kotakabupaten, al.kodepos, pm.nohp, hk.hubungankeluarga, sk.statuskependudukan,
+		sj.statusjenazah, kp.kualifikasipemeriksa,pg.namalengkap AS doktermenerangkan, pk.penyebabkematian, dd.dasardiagnosis, pg2.namalengkap as dokterdiagnosis, pd.penyebablangsunga,pd.penyebablangsungb,
+		pd.penyebablangsungc,pd.penyebablangsungd,pd.penyebablangsunge,pd.penyebabutamabayi,pd.penyebablainbayi,pd.penyebabutamaibu,pd.penyebablainibu
+from pasiendaftar_t as pd left outer join
+	pasien_m as pm on pm.id = pd.nocmfk left outer join
+	jeniskelamin_m as jk on jk.id = pm.objectjeniskelaminfk left outer join
+	agama_m as ag on ag.id = pm.objectagamafk left outer join
+	hubungankeluarga_m as hk on hk.id = pd.objecthubungankeluargaambilpasienfk left outer join
+	alamat_m as al on pm.id = al.nocmfk left outer join
+	statuskependudukan_m as sk on sk.id = pd.objectstatuskependudukanfk left outer join
+	statusjenazah_m as sj on sj.id = pd.objectstatusjenazahfk left outer join
+	kualifikasipemeriksa_m as kp on kp.id = pd.objectkualifikasipemeriksafk	left outer join
+	pegawai_m AS pg ON pg.id = pd.objectdoktermenerangkanfk left outer join
+	penyebabkematian_m as pk on pk.id = pd.objectpenyebabkematianfk left outer join
+	dasardiagnosis_m as dd on dd.id = pd.objectdasardiagnosisfk left outer join
+	pegawai_m as pg2 on pg2.id = pd.objectdokterdiagnosisfk
+            WHERE
+                pd.noregistrasi = '$r[reg]'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+       
+
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.rad.kematian',
+            compact('raw', 'pageWidth','r','now'));
+
+    }
+    
+    public function cetakDokter(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+        SELECT pg.nip, pg.nosip,pg.nama, jk.jeniskelamin, pg.tgllahir, ps.namapasien, ps.nocm, CONVERT(varchar, rm.tglresume, 105) AS tglresume
+        FROM pasiendaftar_t AS pd LEFT OUTER JOIN
+        antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk=pd.norec INNER JOIN
+        resumemedis_t AS rm ON rm.noregistrasifk=apd.norec LEFT OUTER JOIN
+        pegawai_m AS pg ON pg.id=pd.objectpegawaifk LEFT OUTER JOIN
+        jeniskelamin_m AS jk ON jk.id=pg.objectjeniskelaminfk LEFT OUTER JOIN
+        pasien_m AS ps ON ps.id=pd.nocmfk
+            WHERE
+                pd.noregistrasi = '$r[reg]'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.pdf.infodokter',
+            compact('raw', 'pageWidth','r','now'));
+
+    }
+    public function doktermenerangkan(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+        select pd.namalengkapambilpasien, pd.tglmeninggal, pd.namapemeriksajenazah, pd.tgldimakamkan, pd.tglpemeriksaanjenazah, pm.namapasien, pm.nocm, pm.noidentitas, jk.jeniskelamin, pm.tempatlahir,
+		cast(pm.tgllahir as date) as tgllahir, ag.agama, al.alamatlengkap, al.namadesakelurahan, al.kecamatan, al.kotakabupaten, al.kodepos, pm.nohp, hk.hubungankeluarga, sk.statuskependudukan,
+		sj.statusjenazah, kp.kualifikasipemeriksa,pg.namalengkap AS doktermenerangkan, pk.penyebabkematian, dd.dasardiagnosis, pg2.namalengkap as dokterdiagnosis, pd.penyebablangsunga,pd.penyebablangsungb,
+		pd.penyebablangsungc,pd.penyebablangsungd,pd.penyebablangsunge,pd.penyebabutamabayi,pd.penyebablainbayi,pd.penyebabutamaibu,pd.penyebablainibu,pg.nip as nipdoktermenerangkan, pg.nosip as sipdoktermenerangkan, jk2.jeniskelamin as jkdoktermenerangkan, pg2.nip as nipdokterdiagnosis,
+		pg2.nosip as sipdokterdiagnosis, jk3.jeniskelamin as jkdokterdiagnosis, convert(varchar, getdate(), 103) as tglcetak
+from pasiendaftar_t as pd left outer join
+	pasien_m as pm on pm.id = pd.nocmfk left outer join
+	jeniskelamin_m as jk on jk.id = pm.objectjeniskelaminfk left outer join
+	agama_m as ag on ag.id = pm.objectagamafk left outer join
+	hubungankeluarga_m as hk on hk.id = pd.objecthubungankeluargaambilpasienfk left outer join
+	alamat_m as al on pm.id = al.nocmfk left outer join
+	statuskependudukan_m as sk on sk.id = pd.objectstatuskependudukanfk left outer join
+	statusjenazah_m as sj on sj.id = pd.objectstatusjenazahfk left outer join
+	kualifikasipemeriksa_m as kp on kp.id = pd.objectkualifikasipemeriksafk	left outer join
+	pegawai_m AS pg ON pg.id = pd.objectdoktermenerangkanfk left outer join
+	penyebabkematian_m as pk on pk.id = pd.objectpenyebabkematianfk left outer join
+	dasardiagnosis_m as dd on dd.id = pd.objectdasardiagnosisfk left outer join
+	pegawai_m as pg2 on pg2.id = pd.objectdokterdiagnosisfk left outer join
+	jeniskelamin_m as jk2 on jk2.id = pg.objectjeniskelaminfk left outer join
+	jeniskelamin_m as jk3 on jk3.id = pg2.objectjeniskelaminfk
+            WHERE
+                pd.noregistrasi = '$r[reg]'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.pdf.doktermenerangkan',
+            compact('raw', 'pageWidth','r','now'));
+
+    }
+    public function dokterdiagnosis(Request $r) {
+        $kdProfile = (int)$r['kdprofile'];
+        $raw = collect(DB::select("
+        select pd.namalengkapambilpasien, pd.tglmeninggal, pd.namapemeriksajenazah, pd.tgldimakamkan, pd.tglpemeriksaanjenazah, pm.namapasien, pm.nocm, pm.noidentitas, jk.jeniskelamin, pm.tempatlahir,
+		cast(pm.tgllahir as date) as tgllahir, ag.agama, al.alamatlengkap, al.namadesakelurahan, al.kecamatan, al.kotakabupaten, al.kodepos, pm.nohp, hk.hubungankeluarga, sk.statuskependudukan,
+		sj.statusjenazah, kp.kualifikasipemeriksa,pg.namalengkap AS doktermenerangkan, pk.penyebabkematian, dd.dasardiagnosis, pg2.namalengkap as dokterdiagnosis, pd.penyebablangsunga,pd.penyebablangsungb,
+		pd.penyebablangsungc,pd.penyebablangsungd,pd.penyebablangsunge,pd.penyebabutamabayi,pd.penyebablainbayi,pd.penyebabutamaibu,pd.penyebablainibu,pg.nip as nipdoktermenerangkan, pg.nosip as sipdoktermenerangkan, jk2.jeniskelamin as jkdoktermenerangkan, pg2.nip as nipdokterdiagnosis,
+		pg2.nosip as sipdokterdiagnosis, jk3.jeniskelamin as jkdokterdiagnosis, convert(varchar, getdate(), 103) as tglcetak
+from pasiendaftar_t as pd left outer join
+	pasien_m as pm on pm.id = pd.nocmfk left outer join
+	jeniskelamin_m as jk on jk.id = pm.objectjeniskelaminfk left outer join
+	agama_m as ag on ag.id = pm.objectagamafk left outer join
+	hubungankeluarga_m as hk on hk.id = pd.objecthubungankeluargaambilpasienfk left outer join
+	alamat_m as al on pm.id = al.nocmfk left outer join
+	statuskependudukan_m as sk on sk.id = pd.objectstatuskependudukanfk left outer join
+	statusjenazah_m as sj on sj.id = pd.objectstatusjenazahfk left outer join
+	kualifikasipemeriksa_m as kp on kp.id = pd.objectkualifikasipemeriksafk	left outer join
+	pegawai_m AS pg ON pg.id = pd.objectdoktermenerangkanfk left outer join
+	penyebabkematian_m as pk on pk.id = pd.objectpenyebabkematianfk left outer join
+	dasardiagnosis_m as dd on dd.id = pd.objectdasardiagnosisfk left outer join
+	pegawai_m as pg2 on pg2.id = pd.objectdokterdiagnosisfk left outer join
+	jeniskelamin_m as jk2 on jk2.id = pg.objectjeniskelaminfk left outer join
+	jeniskelamin_m as jk3 on jk3.id = pg2.objectjeniskelaminfk
+            WHERE
+                pd.noregistrasi = '$r[reg]'
+        "))->first();
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view('report.pdf.dokterdiagnosis',
+            compact('raw', 'pageWidth','r','now'));
+
+    }
+
+    public function cetakPasien(Request $r) {
+       $kdProfile = (int)$r['kdprofile'];
+       $raw = collect(DB::select("
+       select ps.nocm, ps.namapasien, ps.tgllahir, kp.kelompokpasien, ru.namaruangan, jk.jeniskelamin, pd.noregistrasi, pd.namalengkapambilpasien, CONVERT(varchar, rm.tglresume, 105) as tglresume, CASE WHEN alm.alamatlengkap IS NULL 
+       THEN '-' ELSE (alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' ' + kc.namakecamatan + ' ' + kk.namakotakabupaten + ' ' + pro.namapropinsi) END AS alamatlengkap, pd.noregistrasi, pemakaianasuransi_t.nokepesertaan, 
+       pemakaianasuransi_t.nosep, ps.noidentitas
+FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
+       pasiendaftar_t AS pd INNER JOIN
+       antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk=pd.norec INNER JOIN
+       resumemedis_t AS rm ON rm.noregistrasifk=apd.norec INNER JOIN
+       pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
+       kelompokpasien_m AS kp ON kp.id = pd.objectkelompokpasienlastfk INNER JOIN
+       ruangan_m AS ru ON ru.id = pd.objectruanganlastfk ON jk.id = ps.objectjeniskelaminfk LEFT OUTER JOIN
+       pemakaianasuransi_t ON pd.norec = pemakaianasuransi_t.noregistrasifk LEFT OUTER JOIN
+       kelompokpasien_m AS kps ON kps.id = pd.objectkelompokpasienlastfk LEFT OUTER JOIN
+       alamat_m AS alm ON alm.nocmfk = ps.id LEFT OUTER JOIN
+       desakelurahan_m AS ds ON ds.id = alm.objectdesakelurahanfk LEFT OUTER JOIN
+       kotakabupaten_m AS kk ON kk.id = alm.objectkotakabupatenfk LEFT OUTER JOIN
+       kecamatan_m AS kc ON kc.id = alm.objectkecamatanfk LEFT OUTER JOIN
+       propinsi_m AS pro ON pro.id = alm.objectpropinsifk
+           WHERE
+               pd.noregistrasi = '$r[reg]'
+       "))->first();
+       if(!empty($raw)){
+           $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+       }else{
+           echo 'Data Tidak ada ';
+           return;
+       }
+
+      
+
+
+       $pageWidth = 950;
+       $now =  $this->getDateTime();
+
+       return view('report.pdf.infopasien',
+           compact('raw', 'pageWidth','r','now'));
+
+   }
+
+    public function cetakHispatologi(Request $r) {
+//        $kdProfile = (int)$r['kdprofile'];
+//        $raw = collect(DB::select("
+//            SELECT
+//                pd.noregistrasi, pm.nocm, pm.namapasien, hpl.dokterluar, dokterpengirim.namalengkap as namadokterpengirim,
+//                jk.jeniskelamin + '/ ' + EXTRACT ( YEAR
+//                    FROM AGE(  pd.tglregistrasi,pm.tgllahir )
+//                ) + ' Thn ' + EXTRACT (MONTH  FROM AGE(  pd.tglregistrasi, pm.tgllahir )
+//                ) + ' Bln ' + EXTRACT ( DAY  FROM  AGE( pd.tglregistrasi, pm.tgllahir )  ) + ' Hr' + '(' + to_char(pm.tgllahir, 'DD-MM-YYYY') + ')' AS umur,
+//                to_char(  so.tglorder, 'DD-MM-YYYY HH24:MI:SS') AS tglorder,
+//                to_char( hpl.tanggal, 'DD-MM-YYYY HH24:MI:SS'  ) AS tgljawab,
+//                to_char( pp.tglpelayanan,'DD-MM-YYYY HH24:MI:SS' ) AS tglterima,
+//                to_char(  sbm.tglsbm,'DD-MM-YYYY HH24:MI:SS' ) AS tglbayar, pg.namalengkap,
+//             CASE WHEN hpl.diagnosaklinik IS NULL THEN  ''  ELSE  diagnosaklinik  END AS diagnosaklinik,
+//             CASE WHEN hpl.keteranganklinik IS NULL THEN ''   ELSE hpl.keteranganklinik  END AS keteranganklinik,
+//             CASE WHEN hpl.makroskopik IS NULL THEN   '' ELSE  hpl.makroskopik END AS makroskopik,
+//             CASE WHEN hpl.mikroskopik IS NULL THEN ''   ELSE  hpl.mikroskopik END AS mikroskopik,
+//             CASE WHEN hpl.kesimpulan IS NULL THEN '' ELSE hpl.kesimpulan END AS kesimpulan,
+//             CASE WHEN hpl.anjuran IS NULL THEN  '' ELSE  hpl.anjuran END AS anjuran,
+//             CASE WHEN hpl.topografi IS NULL THEN   '' ELSE hpl.topografi  END AS topografi,
+//             CASE WHEN hpl.morfologi IS NULL THEN  '' ELSE hpl.morfologi END AS morfologi,
+//             CASE WHEN hpl.diagnosapb IS NULL THEN  '' ELSE  hpl.diagnosapb  END AS diagnosapb,
+//             CASE WHEN hpl.keteranganpb IS NULL THEN ''  ELSE hpl.keteranganpb END AS keteranganpb,
+//             CASE WHEN pg1.namalengkap IS NULL THEN '' ELSE  pg1.namalengkap   END AS namapenanggungjawab,
+//             CASE WHEN pg1.nippns IS NULL THEN ''ELSE  pg1.nippns END AS nippns,hpl.nomorpa,
+//             ru.namaruangan as asal,pg1.nosip,
+//              CASE
+//                    WHEN alm.alamatlengkap IS NULL THEN
+//                        '-'
+//                    ELSE
+//                        (
+//                            alm.alamatlengkap + ' ' + (
+//                                CASE
+//                                WHEN ds.namadesakelurahan IS NOT NULL THEN
+//                                   'Kel. ' +  ds.namadesakelurahan
+//                                ELSE
+//                                    ''
+//                                END
+//                            ) + ' ' + (
+//                                CASE
+//                                WHEN kc.namakecamatan IS NOT NULL THEN
+//                                   'Kec. ' + kc.namakecamatan
+//                                ELSE
+//                                    ''
+//                                END
+//                            ) + ' ' + (
+//                                CASE
+//                                WHEN kk.namakotakabupaten IS NOT NULL THEN
+//                                  kk.namakotakabupaten
+//                                ELSE
+//                                    ''
+//                                END
+//                            ) + ' ' + (
+//                                CASE
+//                                WHEN prop.namapropinsi IS NOT NULL THEN
+//                                 'Prov. ' +   prop.namapropinsi
+//                                ELSE
+//                                    ''
+//                                END
+//                            )
+//                        )
+//                    END AS alamatlengkap,
+//                    kps.kelompokpasien,pd.norec as norec_pd,pd.objectruanganlastfk
+//            FROM
+//                hasilpemeriksaanlab_t AS hpl
+//            INNER JOIN pasiendaftar_t AS pd ON pd.norec = hpl.noregistrasifk
+//            INNER JOIN pelayananpasien_t AS pp ON pp.norec = hpl.pelayananpasienfk
+//            LEFT JOIN strukorder_t AS so ON so.norec = pp.strukorderfk
+//            LEFT JOIN strukpelayanan_t AS sp ON sp.norec = pp.strukfk
+//            LEFT JOIN strukbuktipenerimaan_t AS sbm ON sbm.nostrukfk = pp.norec
+//            INNER JOIN produk_m AS pro ON pro. ID = pp.produkfk
+//            INNER JOIN pasien_m AS pm ON pm. ID = pd.nocmfk
+//            LEFT JOIN jeniskelamin_m AS jk ON jk. ID = pm.objectjeniskelaminfk
+//            LEFT JOIN pegawai_m AS pg ON pg. ID = so.objectpegawaiorderfk
+//            LEFT JOIN pegawai_m AS pg1 ON pg1. ID = hpl.pegawaifk
+//            LEFT JOIN pegawai_m AS dokterpengirim ON dokterpengirim. ID = hpl.dokterpengirimfk
+//             LEFT JOIN ruangan_m AS ru ON ru. ID = pd.objectruanganlastfk
+//            left join alamat_m as alm on alm.nocmfk=pm.id
+//            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+//            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+//            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+//            left join propinsi_m as prop on prop.id=alm.objectpropinsifk
+//              left join kelompokpasien_m as kps on kps.id=pd.objectkelompokpasienlastfk
+//            WHERE
+//                pp.norec = '$r[norec]'
+//                and hpl.statusenabled=true
+//        "))->first();
+////        dd($raw);
+//        if(!empty($raw)){
+//            $norec_pd = $raw->norec_pd;
+//            $objectruanganlastfk = $raw->objectruanganlastfk;
+//            $asalRujukan = collect(DB::select("select
+//                    asalrujukan from antrianpasiendiperiksa_t as apd
+//                join asalrujukan_m as asl on asl.id=apd.objectasalrujukanfk
+//                where apd.noregistrasifk='$norec_pd'
+//                and apd.objectruanganfk=$objectruanganlastfk
+//                and apd.kdprofile=$kdProfile
+//                "))->first();
+//            $raw->asalrujukan ='';
+//            if(!empty( $asalRujukan )){
+//                $raw->asalrujukan=  $asalRujukan->asalrujukan;
+//            }
+//
+////            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+//        }else{
+//            echo 'Data Tidak ada ';
+//            return;
+//        }
+////        dd($raw);
+//        $pageWidth = 950;
+        $raw = collect(DB::select("
+            SELECT
+               ps.nocm, ps.namapasien,ps.tgllahir,kp.kelompokpasien,
+            ru.namaruangan, so.tanggal,jk.jeniskelamin,  
+            CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
+            END AS alamatlengkap,
+            CASE WHEN so.dokterperujuk = 1 then '-' else pg3.namalengkap end as dokterperujuk,
+            CASE WHEN so.dokterperujukluar is null then '-' else so.dokterperujukluar end as dokterperujukluar, 
+            pg.namalengkap as perujuk,pg2.namalengkap as dokterrad,
+            pr.namaproduk,pd.noregistrasi,pg2.nosip,
+            pg2.id as pgid,so.expertise,so.tanggal_terima,so.tanggal_jawab,so.topologi,so.morfologi,so.nomorpa
+            FROM
+                hasilpemeriksaanlab_t AS so
+            INNER JOIN pasiendaftar_t AS pd ON pd.norec = so.noregistrasifk
+            INNER JOIN pasien_m AS ps ON ps. ID = pd.nocmfk
+            INNER JOIN kelompokpasien_m AS kp ON kp. ID = pd.objectkelompokpasienlastfk
+            INNER JOIN ruangan_m AS ru ON ru. ID = pd.objectruanganlastfk
+            INNER JOIN pelayananpasien_t AS pp ON pp.norec = so.pelayananpasienfk
+            INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+            LEFT JOIN jeniskelamin_m AS jk ON jk. ID = ps.objectjeniskelaminfk
+            LEFT JOIN kelompokpasien_m AS kps ON kps. ID = pd.objectkelompokpasienlastfk
+            LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps. ID
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+            LEFT JOIN pegawai_m AS pg ON pg. ID = pd.objectpegawaifk
+            LEFT JOIN pegawai_m AS pg2 ON pg2. ID = so.pegawaifk
+            LEFT JOIN pegawai_m AS pg3 ON pg3. ID = so.dokterperujuk
+            WHERE
+                so.norec = '$r[norec]'
+     
+            AND so.statusenabled = true
+        "))->first();
+//        dd($raw);
+        if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+//        dd($raw);
+        $pageWidth = 950;
+
+        return view('report.lab.hasil-pa',
+            compact('raw', 'pageWidth','r'));
+
+
+    }
+    public function cetakBadanSehat(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,hbs.tinggibadan,hbs.beratbadan,hbs.tensidarah,hbs.suhutubuh,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,pg.nippns,
+             convert(char,'$request[noSurat]')+ '/' + case when format(getdate(),'MM') = '01' then 'I' when format(getdate(),'MM') = '02' then 'II'
+             when format(getdate(),'MM') = '03' then 'III'
+             when format(getdate(),'MM') = '04' then 'IV'
+             when format(getdate(),'MM') = '05' then 'V'
+             when format(getdate(),'MM') = '06' then 'VI'
+             when format(getdate(),'MM') = '07' then 'VII'
+             when format(getdate(),'MM') = '08' then 'VIII'
+             when format(getdate(),'MM') = '09' then 'IX'
+             when format(getdate(),'MM') = '10' then 'X'
+             when format(getdate(),'MM') = '11' then 'XI' else 'XII' end + '/' + format(getdate(),'yyyy') + '/' + 'Inst.MCU' as noSurat
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Keterangan Hasil Badan Sehat'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-badan-sehat',
+        compact('raw','request'));
+    }
+    public function cetakBebasNarkoba(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,hpm.nomor2,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            alm.alamatlengkap as alamatlengkap2
+            FROM pasien_m as ps
+        INNER JOIN pasiendaftar_t as pd on pd.nocmfk = ps.id
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        INNER JOIN hasilpemeriksaanmcu_t as hpm on hpm.noregistrasifk = pd.norec
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        WHERE pd.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hpm.keterangan = 'Surat Keterangan Bebas Narkoba'
+        ORDER BY hpm.nomor2 DESC
+        
+        "))->first();
+        // $pageWidth = 960;
+
+        return view('mcu.hasil-bebas-narkoba',
+        compact('raw','request'));
+    }
+    public function cetakKesehatanJiwa(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal + ' ' + 'NRP .' + ' ' + pg.nrp
+            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat + ' ' + 'NIP .' + ' ' + pg.nippns
+            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat + ' ' + 'SIP .' + ' ' + pg.nosip else '-' end as pangkatnrp,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,pt.namapangkat,hbs.persyaratan,hbs.nomor2
+            FROM pasien_m as ps
+        INNER JOIN pasiendaftar_t as pd on pd.nocmfk = ps.id
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN hasilpemeriksaanmcu_t as hbs on hbs.noregistrasifk = pd.norec
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        INNER JOIN pangkat_m as pt on pt.id = pg.objectpangkatfk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Keterangan Dokter Kesehatan Jiwa'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-kesehatan-jiwa',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakBebasNarkobav2(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,hpm.nomor2,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            alm.alamatlengkap as alamatlengkap2
+            FROM pasien_m as ps
+        INNER JOIN pasiendaftar_t as pd on pd.nocmfk = ps.id
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        INNER JOIN hasilpemeriksaanmcu_t as hpm on hpm.noregistrasifk = pd.norec
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        WHERE pd.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hpm.keterangan = 'Surat Keterangan Bebas Narkoba v2'
+        ORDER BY hpm.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-bebas-narkobav2',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakBebasPenyakitMenular(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Keterangan Bebas Penyakit Menular'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-bebas-penyakit-menular',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakBebasHIV(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Keterangan Bebas HIV'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-bebas-hiv',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakHasilTidakHamil(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,pg.nippns,
+            convert(char,'$request[noSurat]')+ '/' + case when format(getdate(),'MM') = '01' then 'I' when format(getdate(),'MM') = '02' then 'II'
+            when format(getdate(),'MM') = '03' then 'III'
+            when format(getdate(),'MM') = '04' then 'IV'
+            when format(getdate(),'MM') = '05' then 'V'
+            when format(getdate(),'MM') = '06' then 'VI'
+            when format(getdate(),'MM') = '07' then 'VII'
+            when format(getdate(),'MM') = '08' then 'VIII'
+            when format(getdate(),'MM') = '09' then 'IX'
+            when format(getdate(),'MM') = '10' then 'X'
+            when format(getdate(),'MM') = '11' then 'XI' else 'XII' end + '/' + format(getdate(),'yyyy') + '/' + 'Inst.MCU' as noSurat
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Keterangan Tidak Hamil'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-tidak-hamil',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakForensik(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,jk.jeniskelamin,ps.tgllahir,ag.agama,ng.namanegara,
+        CASE WHEN pdf.pegawailuar1 is not null then 'Pegawai Luar 1' else ' ' end as pgf1,
+        CASE WHEN pdf.pegawailuar2 is not null then 'Pegawai Luar 2' else ' ' end as pgf2,
+        CASE WHEN pdf.pegawailuar3 is not null then 'Pegawai Luar 3' else ' ' end as pgf3,
+        CASE WHEN pdf.pegawaidalam1 is not null then 'Pegawai Dalam 1' else ' ' end as pgf4,
+        CASE WHEN pdf.pegawaidalam2 is not null then 'Pegawai Dalam 2' else ' ' end as pgf5,
+        CASE WHEN pdf.pegawaidalam3 is not null then 'Pegawai Dalam 3' else ' ' end as pgf6,
+        CASE WHEN ps.objectpekerjaanfk is null then '-' else pk.pekerjaan end as pekerjaan,
+        CASE WHEN ps.objectpekerjaanfk is null then '-' else pk.pekerjaan end as pekerjaan2
+        ,pd.tglregistrasi,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,ps.tempatlahir, ps.tempatlahir as tempatlahir2, ps.tgllahir as tgllahir2,
+            pg1.namalengkap as namalengkap1,pg2.namalengkap as namalengkap2,pg3.namalengkap as namalengkap3,pg4.namalengkap as namalengkap4,pg5.namalengkap as namalengkap5,pg6.namalengkap as namalengkap6,
+            pdf.jumlahgigikananatas + pdf.jumlahgigikananbawah + pdf.jumlahgigikiriatas + pdf.jumlahgigikiribawah as jumlahgigitotal, * FROM pemeriksaandokterforensik_t as pdf
+        INNER JOIN pasiendaftar_t as pd on pd.norec = pdf.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN agama_m as ag on ag.id = ps.objectagamafk
+        LEFT JOIN negara_m as ng on ng.id = ps.objectnegarafk
+        LEFT JOIN pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        LEFT JOIN pegawai_m as pg1 on pg1.id = pdf.pegawailuar1
+        LEFT JOIN pegawai_m as pg2 on pg2.id = pdf.pegawailuar2
+        LEFT JOIN pegawai_m as pg3 on pg3.id = pdf.pegawailuar3
+        LEFT JOIN pegawai_m as pg4 on pg4.id = pdf.pegawaidalam1
+        LEFT JOIN pegawai_m as pg5 on pg5.id = pdf.pegawaidalam2
+        LEFT JOIN pegawai_m as pg6 on pg6.id = pdf.pegawaidalam3
+        WHERE pdf.norec = '$request[norec]'
+        "))->first();
+
+        return view('forensik.hasil-forensik',
+        compact('raw','request'));
+    }
+    public function cetakGambarForensik(Request $request) {
+        $raw = collect(DB::select("
+        SELECT pdf.foto,pdf.keterangangambar FROM pemeriksaandokterforensik_t as pdf
+        WHERE pdf.norec = '$request[norec]'
+        "))->first();
+
+        return view('forensik.hasil-gambar',
+        compact('raw','request'));
+    }
+    public function cetakPemeriksaanCovid(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal + ' ' + 'NRP .' + ' ' + pg.nrp
+            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat + ' ' + 'NIP .' + ' ' + pg.nippns
+            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat + ' ' + 'SIP .' + ' ' + pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,hbs.tglcetak,hbs.tinggibadan,hbs.beratbadan,hbs.suhutubuh,hbs.tensidarah,hbs.jenispemeriksaan
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        LEFT JOIN pangkat_m as pt on pt.id = pg.objectpangkatfk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Hasil Pemeriksaan Covid'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-pemeriksaan-covid',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakPemeriksaanCovidLn(Request $request){
+        $raw = collect(DB::select("
+        SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
+        CASE WHEN alm.alamatlengkap IS NULL THEN
+                '-' ELSE (
+                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
+                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+            END AS alamatlengkap,
+            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal + ' ' + 'NRP .' + ' ' + pg.nrp
+            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat + ' ' + 'NIP .' + ' ' + pg.nippns
+            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat + ' ' + 'SIP .' + ' ' + pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
+            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.nopasspor,'$request[tgldafta]' as tglregistrasi,'$request[tglambil]' as tglambil,pg.nippns
+            FROM hasilpemeriksaanmcu_t as hbs
+        INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
+        INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
+        INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
+        LEFT JOIN alamat_m AS alm ON alm.nocmfk = ps.id
+            left join desakelurahan_m as ds on ds.id=alm.objectdesakelurahanfk
+            left join kotakabupaten_m as kk on kk.id=alm.objectkotakabupatenfk
+            left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
+            left join propinsi_m as pro on pro.id=alm.objectpropinsifk
+        INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
+        LEFT JOIN pangkat_m as pt on pt.id = pg.objectpangkatfk
+        WHERE hbs.norec = '$request[norec]'
+        AND pd.statusenabled = 1
+        AND hbs.keterangan = 'Surat Hasil Pemeriksaan Covid Luar Negeri'
+        ORDER BY hbs.nomor2 DESC
+        
+        "))->first();
+        $pageWidth = 940;
+
+        return view('mcu.hasil-pemeriksaan-covid-ln',
+        compact('raw','pageWidth','request'));
+    }
+    public function cetakKllVisum(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kll',
+        compact('raw','request'));
+    }
+    public function cetakKllVisumKoreksiII(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kll-koreksi-ii',
+        compact('raw','request'));
+    }
+    public function cetakKllVisumKoreksiSpesialis(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kll-koreksi-spesialis',
+        compact('raw','request'));
+    }
+    public function cetakKllVisumKoreksiInstalasi(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kll-koreksi-instalasi',
+        compact('raw','request'));
+    }
+    public function cetakKllVisum2(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
+		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
+		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
+		from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk left join
+        pegawai_m as pg3 on pg3.id = pv.dokterkonsultan2fk left join
+        pegawai_m as pg4 on pg4.id = pv.dokterkonsultan3fk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kll-visum',
+        compact('raw','request'));
+    }
+    public function cetakKfdVisum(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kfd',
+        compact('raw','request'));
+    }
+    public function cetakKfdVisumKoreksiII(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kfd-koreksi-ii',
+        compact('raw','request'));
+    }
+    public function cetakKfdVisumKoreksiSpesialis(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kfd-koreksi-spesialis',
+        compact('raw','request'));
+    }
+    public function cetakKfdVisumKoreksiInstalasi(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kfd-koreksi-instalasi',
+        compact('raw','request'));
+    }
+    public function cetakKfdVisum2(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
+		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
+		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
+		from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk left join
+        pegawai_m as pg3 on pg3.id = pv.dokterkonsultan2fk left join
+        pegawai_m as pg4 on pg4.id = pv.dokterkonsultan3fk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.kfd-visum',
+        compact('raw','request'));
+    }
+    public function cetakKsdVisum(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ' sebagai konsultan forensik' else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.ksd',
+        compact('raw','request'));
+    }
+    public function cetakKsdVisumKoreksiII(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.ksd-koreksi-ii',
+        compact('raw','request'));
+    }
+    public function cetakKsdVisumKoreksiSpesialis(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.ksd-koreksi-spesialis',
+        compact('raw','request'));
+    }
+    public function cetakKsdVisumKoreksiInstalasi(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.ksd-koreksi-instalasi',
+        compact('raw','request'));
+    }
+    public function cetakKsdVisum2(Request $request) {
+        $raw = collect(DB::select("
+        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
+		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
+		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
+		from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk left join
+        pegawai_m as pg3 on pg3.id = pv.dokterkonsultan2fk left join
+        pegawai_m as pg4 on pg4.id = pv.dokterkonsultan3fk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.ksd-visum',
+        compact('raw','request'));
+    }
+    public function cetakVisumNew(Request $request) {
+        $raw = collect(DB::select("
+        select pv.nosurat, pv.tglhasil, pv.nosuratpermintaan, pv.permintaan, pv.tglpermintaan
+		from pasienvisum_t as pv inner join
+        pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
+        negara_m as neg on neg.id = ps.objectnegarafk inner join
+        agama_m as ag on ag.id = ps.objectagamafk inner join
+        pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk left join
+        alamat_m as al on al.nocmfk = pd.nocmfk inner join
+        propinsi_m as pro on pro.id = al.objectpropinsifk left join
+        pegawai_m as pg on pg.id = pv.dokterfk left join
+        pegawai_m as pg2 on pg2.id = pv.dokterkonsultanfk left join
+        pegawai_m as pg3 on pg3.id = pv.dokterkonsultan2fk left join
+        pegawai_m as pg4 on pg4.id = pv.dokterkonsultan3fk
+        where pd.noregistrasi = '$request[noregistrasi]'
+        "))->first();
+
+        return view('visum.visumnew',
+        compact('raw','request'));
+    }
+}    

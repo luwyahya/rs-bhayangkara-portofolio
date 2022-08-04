@@ -1,0 +1,182 @@
+<div ng-show="dataVOloaded">
+	<c-panel item="item" header="'Informasi Daftar Pasien Forensik dan Medikolegal'" disabled>
+		<div class="grid_12">
+			<div class="grid_12">
+				<div class="grid_1">
+					<div class="grid_12">
+						<label c-label class="label-aja" item="item">No CM</label>
+					</div>
+					<div class="grid_12">
+						<input c-text-box type="input" filter="" class="k-textbox"
+							ng-model="item.caridatajenazahbynocm" />
+					</div>
+				</div>
+				<div class="grid_2">
+					<div class="grid_12">
+						<label c-label class="label-aja" item="item">NoRegistrasi</label>
+					</div>
+					<div class="grid_12">
+						<input c-text-box type="input" filter="" class="k-textbox"
+							ng-model="item.caridatajenazahbyNoRegis" />
+					</div>
+				</div>
+				<div class="grid_2">
+					<div class="grid_12">
+						<label c-label class="label-aja" item="item">Nama Pasien</label>
+					</div>
+					<div class="grid_12">
+						<input c-text-box type="input" filter="" class="k-textbox"
+							ng-model="item.caridatajenazahbynama" />
+					</div>
+				</div>
+
+				<div class="grid_3">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Ruangan"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.caridatajenazahbyruangan"
+							k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listRuangan" />
+					</div>
+				</div>
+
+				<div class="grid_4">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Periode Tanggal"></label>
+					</div>
+					<div class="grid_12">
+						<!-- AwalPeriode -->
+						<div class="grid_5 padDatePicker">
+							<div class="grid_12">
+								<input style="width: 100%" k-ng-model="item.caritglawal" kendo-datetimepicker
+									k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+							</div>
+						</div>
+						<!-- AkhirPeriode -->
+						<div class="grid_5 padDatePicker">
+							<div class="grid_12">
+								<input style="width: 100%" k-ng-model="item.caritglakhir" kendo-datetimepicker
+									placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+							</div>
+						</div>
+						<div class="grid_2">
+							<button class="c-button" ng-click="cari()">Cari</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="grid_12">
+				<div class="grid_12 headerBox">
+					<p>Daftar Pasien Forensik dan Medikolegal</p>
+				</div>
+				<div class="clear"></div>
+
+				<!-- grid table -->
+
+				<div class="grid_12 borderBox">
+					<kendo-grid options="mainGridOptions" k-data-source="dataSource" k-ng-model="current"
+						ng-click="klik(current)"></kendo-grid>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12">
+				<div class="grid_2">					
+				</div>
+				<div class="grid_1">
+					<button class="c-button" ng-click="inputTindakan()">Input Tindakan</button>
+				</div>
+
+				<div class="grid_1">
+					<button class="c-button" item="item" ng-click="DetailTagihan()">Detail Tagihan</button>
+				</div>
+
+				<div class="grid_2">
+					<button class="c-button" ng-click="pengambilanJenazah()">Pengambilan Jenazah</button>
+				</div>
+
+				<div class="grid_2">
+					<button class="c-button" ng-click="cetakSuratKeteranganMeninggal()">Cetak Surat Keterangan
+						Meninggal</button>
+				</div>
+
+				<div class="grid_2">
+					<button class="c-button" ng-click="cetakSuratSerahTerimaJenazah()">Cetak Surat Serah Terima</button>
+				</div>
+
+				<div class="grid_2">
+					<button class="c-button" ng-click="cetakSuratPermohonanTindakanPadaJenazah()">Cetak Surat Permohonan
+						Tindakan Pada Jenazah</button>
+				</div>				
+			</div>
+		</div>
+	</c-panel>
+</div>
+<div class="grid_12" style="margin-top:100px">
+	<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div class="grid_12">
+	<div kendo-window="popUpSuratKeteranganMeninggal" k-title="'Penanggung Jawab'" k-visible="false" k-on-open="win2visible = true"
+		k-on-close="win2visible = false">
+		<div class="panel panel-default container_12" style="padding: 0px 10px;">
+			<div class="grid_12">
+				<div class="grid_12">					
+					<label c-label real>Pegawai</label>
+					<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiPenJawab"
+						k-data-text-field="'namalengkap'" k-filter="'contains'" k-minLength="'3'"
+						k-data-value-field="'id'" k-data-source="listDataPegawaiPenjawab" />					
+				</div>
+				<div class="dialog_buttons pull-right" style="margin-top:5%">
+					<input type="button" class="confirm_no k-button" value="Batal" style="width: 70px"
+						ng-click="batalSKM()" />
+					&nbsp;
+					<input type="button" class="confirm_yes k-button" value="Cetak" style="width: 70px"
+						ng-click="cetakSKM()" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="grid_12">
+	<div kendo-window="popUpPermohonan" k-title="'Permohonan Pemulasaraan Jenazah'" k-visible="false" k-on-open="win2visible = true"
+		k-on-close="win2visible = false">
+		<div class="panel panel-default container_12" style="padding: 0px 10px;">
+			<div class="grid_12">
+				<div class="grid_12">					
+					<label c-label real>Pegawai Penanggung Jawab</label>
+					<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiPenJawabST"
+						k-data-text-field="'namalengkap'" k-filter="'contains'" k-minLength="'3'"
+						k-data-value-field="'id'" k-data-source="listDataPegawaiPenjawab" />					
+				</div>
+				<div class="grid_6">					
+					<label c-label real>Penanggung Jawab Pasien</label>
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.PenanggungJawabPasien" />					
+				</div>
+				<div class="grid_6">					
+					<label c-label real>Hubungan Dengan Pasien</label>
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.hubungan"
+							k-data-text-field="'hubungankeluarga'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listhubungankeluarga" />				
+				</div>
+				<div class="grid_12">					
+					<label c-label real>Jenis Permohonan</label>
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.Permohonan"
+							k-data-text-field="'permohonan'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listPermohonanTindakan" />					
+				</div>
+				<div class="dialog_buttons pull-right" style="margin-top:5%">
+					<input type="button" class="confirm_no k-button" value="Batal" style="width: 70px"
+						ng-click="batalPPJ()" />
+					&nbsp;
+					<input type="button" class="confirm_yes k-button" value="Cetak" style="width: 70px"
+						ng-click="cetakPPJ()" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

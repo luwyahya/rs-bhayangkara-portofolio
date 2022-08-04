@@ -1,0 +1,114 @@
+<style>
+    .red {
+        color: red;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .blue {
+        color: blue;
+    }
+
+    button:disabled {
+        background: #B5B2B1;
+    }
+
+    .italic {
+        font-style: italic;
+        font-size: 15px
+    }
+</style>
+
+<div class="grid_12">
+    <div ng-include='"../app/template/Shared/HeaderRekamMedis"'></div>
+    <div class="grid_12">
+        <kendo-grid data-source="resultGrids" options="ColumnResult" k-ng-model="dataSelected"
+            ng-click="klikGrid(dataSelected)" k-groupable="true"></kendo-grid>
+        <!-- <div kendo-grid="grid" k-groupable="'true'" k-ng-model="dataSelected" k-data-source="resultGrids" k-selectable="'row'"
+            k-sortable="'true'" k-columns="ColumnResult">
+        </div> -->
+    </div>
+
+
+    <div class="grid_12">
+    </div>
+    <div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+</div>
+
+<div kendo-window="popUp" k-title="'Masukan Ekspertise'" k-width="800" k-height="241" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <fieldset>
+            <legend>Ekspertise</legend>
+            <div class="grid_12">
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item">No. Foto</label>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.nofoto" />
+                    </div>
+                </div>
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item">Tanggal</label>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12 padDatePicker">
+                            <input style="width: 100%" k-ng-model="item.tglInput" kendo-datetimepicker 
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                              />
+                        </div>
+                </div>
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item">Dokter</label>
+                    </div>
+
+                    <div class="grid_12">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listDokter" />
+                        <!-- <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namadokter" /> -->
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Keterangan</label>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12">
+                    <textarea class="k-textbox" style="height: 76px; width: 100%; resize: none;"
+                        ng-model="item.keterangan"></textarea>
+                    <!-- <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keterangan" /> -->
+                </div>
+            </div>
+            <!-- <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Diagnosis</label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12">
+                <textarea class="k-textbox" style="height: 76px; width: 100%; resize: none;" ng-model="item.diagnosis"></textarea>
+
+            </div>
+        </div> -->
+
+
+
+        </fieldset>
+
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+            <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="Save()"><span
+                    class="k-icon k-update"></span>Simpan</button>
+            <button class="k-button  k-button-icontext" ng-click="batal()"><span
+                    class="k-icon k-cancel"></span>Batal</button>
+        </div>
+
+    </div>
+</div>

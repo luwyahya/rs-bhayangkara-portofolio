@@ -1,0 +1,131 @@
+<style>
+.style-center{
+	display: inline-block;
+	text-align: center;
+	width: 100%;
+}
+
+.style-right{
+	display: inline-block;
+	text-align: right;
+	width: 100%;
+}
+
+.style-left{
+	display: inline-block;
+	text-align: left;
+	width: 100%;
+}
+.k-grid .k-grid-header .k-header .k-link {
+    height: auto;
+}
+
+.k-grid .k-grid-header .k-header  {
+    white-space: normal;
+}
+.k-grid .k-grid-header .k-header  {
+    text-align: center;
+}
+</style>
+
+	<div class="grid_12 headerBox">
+    	<h1 style="color: white;"><b>Daftar Pelayanan Dokter</b></h1>
+    </div>
+    <div class="clear"></div>
+
+    <br/>
+		<div class="grid_12">
+			<div class="panel panel-default container_12">
+				<!-- <div class="grid_2">
+				</div> -->
+				<div class="panel-body">
+					<div class="grid_4">
+						<div class="grid_12">
+							<label c-label item="item">Nama Dokter</label>
+						</div>
+						<div class="grid_12">
+							<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nama" disabled />
+						</div>
+					</div>
+					<div class="grid_3">
+					</div>
+					<div class="grid_2">
+						<div class="grid_12">
+							<label c-label item="item">Nama Layanan</label>
+						</div>
+						<div class="grid_12">
+							<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.produk" />
+						</div>
+					</div>
+
+					<div class="grid_2">
+						<div class="grid_12">
+							<label c-label item="item" c-label-text="Tanggal Pelayanan"></label>
+						</div>
+							<div class="grid_12 padDatePicker">
+								<input style="width: 100%" k-ng-model="item.periodeAwal"  kendo-datetimepicker k-max="now" placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+							</div>
+					</div>
+
+					<div class="grid_1">
+						<div class="grid_12">
+							<label>&nbsp;</label>
+						</div>
+						<div class="clear"></div>
+						<div class="grid_12">
+							<button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()">Cari</button>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+    <div class="grid_12">
+    	<div class="grid_12 borderBox">
+			<kendo-grid  id="kGrid"  data-source="data1" options="columnData1"
+				k-selectable="'row'" 
+				k-sortable="'true'"
+				k-resizable="'true'"
+				k-ng-model="data1Selected"
+				ng-click="klikGrid1(data1Selected)">
+					
+			</kendo-grid>
+			
+		</div>
+		<!-- <div class="panel panel-default container_12">
+			<div class="panel-body">
+				<div ng-cloak>
+		        	<md-content>
+		                <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+		                    <md-tab label=" Pelayanan">
+		                        <md-content class="md-padding">
+		                        	
+		        				</md-content>
+		        			</md-tab>
+		        		</md-tabs>
+		        	</md-content>
+		        </div>
+			</div>
+		</div> -->
+	</div>
+
+		
+		<!-- <div class="grid_12">
+			<div class="grid_8">
+			</div>
+			<div class="grid_3">
+
+					{{item.statuspagu}}
+			</div>
+			<div class="grid_1">
+				<button class="btnTemplate1" style="margin-left: 0;" ng-click="savePagu()" ng-show="item.tmblsimpan">Simpan Pagu</button>
+			</div>
+		</div> -->
+		
+		<div class="grid_12" style="margin-top:60px">
+	        <div ng-include='"../app/module/Shared/TemplateLoading"'></div>
+	    </div>
+			
+

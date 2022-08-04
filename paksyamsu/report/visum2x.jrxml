@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hasillabmikrobiologi" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
+	<property name="ireport.zoom" value="1.6105100000000765"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Crosstab Data Text" hTextAlign="Center" hImageAlign="Center"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="tgllahir" class="java.util.Date"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="printedBy" class="java.lang.String"/>
+	<parameter name="nocm" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="poto" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="poto2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="poto3" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomorEMR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dataLoad" class="java.util.List"/>
+	<queryString>
+		<![CDATA[SELECT top 10 emrp.nocm,emrdp.emrpasienfk ,emrdp.[value] ,emrdp.emrdfk,
+                 emrd.caption,emrd.type, emrd.nourut,emrd.id,emrd.reportdisplay,  emrd.kodeexternal AS kodeex,
+                 emrd.satuan,emr.caption as namaform
+                 From emrpasiend_t As emrdp
+                 INNER JOIN emrpasien_t AS emrp ON emrp.noemr = emrdp.emrpasienfk
+                 INNER JOIN emrdpolri_t AS emrd ON emrd.id = emrdp.emrdfk
+                 INNER JOIN emr_t AS emr ON emr.id = emrdp.emrfk
+                 Where emrdp.statusenabled = 1 
+                 AND emrp.nocm = $P{nocm}
+ 								 and emrp.noemr= $P{nomorEMR}
+                 AND emr.id in (670) Order by emrdp.emrdfk ASC]]>
+	</queryString>
+	<group name="halaman1">
+		<groupHeader>
+			<band height="518">
+				<textField>
+					<reportElement x="131" y="96" width="345" height="15" uuid="8c3dbc36-77fc-4c8e-b120-d47a9f350454"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[8]), Map.class).get("emrdfk")).equals("1123") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[8]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="96" width="122" height="14" uuid="316dd1fe-333b-4cdf-9509-093bca7f2c1a"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="96" width="9" height="14" uuid="4f781fce-9bb8-4eea-8446-8ba5537124b7"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="110" width="345" height="15" uuid="86fc276d-6c2a-4b3b-811d-f9d523ac7ced"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[9]), Map.class).get("emrdfk")).equals("1124") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[9]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="122" y="110" width="9" height="14" uuid="6a6cad00-6dbb-4da6-afa8-f5de772ac546"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="110" width="122" height="14" uuid="2bbc115d-941d-4fcf-8474-47e3dd444725"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Kelamin]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="124" width="345" height="15" uuid="411b1ce4-8b48-4204-8dcc-51fe8a77a317"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[10]), Map.class).get("emrdfk")).equals("1125") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[10]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="124" width="122" height="14" uuid="6f214ee9-eb90-47d3-b4e7-9ff40c4a38a2"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Umur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="124" width="9" height="14" uuid="b709fcb9-f702-45f1-9fc8-f15f88c178e4"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="138" width="345" height="15" uuid="770c7296-2aec-4aa3-8f23-b4b15519440a"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[11]), Map.class).get("emrdfk")).equals("1126") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[11]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="138" width="122" height="14" uuid="21f48b41-bc33-4b2f-824c-e0854e792d0c"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Warga Negara]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="138" width="9" height="14" uuid="9915123d-7e3a-4f31-ad59-12df9a4f7ca4"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="0" width="345" height="15" uuid="ee963ad0-c587-4159-9740-3930923cd232">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="10" isBold="true" isItalic="false" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[HANYA UNTUK INTERN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="18" width="122" height="14" uuid="d911bcd0-7462-4504-a76d-25e84339cc52"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[1. RUJUKAN :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="70" y="32" width="200" height="15" uuid="37da3060-e256-47f6-b2f0-18877079d301"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[1]), Map.class).get("emrdfk")).equals("1116") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[1]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="131" y="152" width="345" height="15" uuid="954f3954-8bdf-433a-a965-45ab97dc6846"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[12]), Map.class).get("emrdfk")).equals("1127") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[12]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="152" width="122" height="14" uuid="ee94f1f9-2812-4f84-902d-946776abfaf4"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Agama]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="152" width="9" height="14" uuid="cbe874dd-cca2-4c93-9896-bb8121e1f133"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="166" width="345" height="15" uuid="86d1748e-60e8-45b7-8b13-c034d9dec706"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[13]), Map.class).get("emrdfk")).equals("1128") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[13]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="166" width="122" height="14" uuid="9b8f351a-cebe-44ea-b89b-961411fb1108"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pekerjaan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="166" width="9" height="14" uuid="2e746d3e-975b-4f12-90eb-cfde542674c2"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="181" width="345" height="44" uuid="c36a7adc-31ba-479d-ad59-8308f375453c"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[14]), Map.class).get("emrdfk")).equals("1129") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[14]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="181" width="122" height="14" uuid="4fed55e6-001b-4355-a19c-316067d7d26f"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Alamat]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="122" y="181" width="9" height="14" uuid="414aed6f-044f-4622-9c2b-a7d32ab0aa11"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="13" y="32" width="56" height="14" uuid="98dd4902-4692-4a10-a732-d37912184e9f"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Surat dari]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="271" y="32" width="44" height="14" uuid="00ee477b-004a-4b0d-bc03-dc842c7980f0"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No.Pol]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="318" y="32" width="189" height="15" uuid="6b78939d-e775-42b8-a7f4-42e524511c1b"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[2]), Map.class).get("emrdfk")).equals("1117") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[2]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="507" y="32" width="44" height="14" uuid="56716bf9-ac61-43ff-80e2-55032c21b93b"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[tanggal]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="13" y="46" width="189" height="15" uuid="e58ae6e2-9502-4271-87be-dc438ef53e59"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[3]), Map.class).get("emrdfk")).equals("1118") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[3]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="202" y="46" width="181" height="14" uuid="4b987aef-e56d-4496-9581-005f3580b36c"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[perihal Perminataan Visum et Repertum]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="383" y="46" width="168" height="15" uuid="2340d4db-2975-4253-9679-d56dd323563b"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[4]), Map.class).get("emrdfk")).equals("1119") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[4]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="61" width="156" height="14" uuid="d50f6add-87ea-4407-a590-31a00ce08e62"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[2. Pemeriksaan dilakukan oleh]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="156" y="61" width="120" height="15" uuid="bf0057ec-421b-4ecb-a972-0a33d2521ead"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[5]), Map.class).get("emrdfk")).equals("1120") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[5]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="277" y="61" width="68" height="14" uuid="ceffeffd-676f-48f4-a0a1-54f7368f9d11"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dokter pada]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="13" y="76" width="534" height="14" uuid="d007c43f-609a-4874-9c6d-4daf6765607c"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Rumah Sakit Bhayangkara Tingkat I R.Said Sukanto Kramat Jati Jakarta atas nama :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="345" y="61" width="203" height="15" uuid="19bf146f-2520-4829-8738-b42fa195546c"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[6]), Map.class).get("emrdfk")).equals("1121") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[6]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="131" y="225" width="420" height="81" uuid="e2385559-1061-40d8-b115-f9eb4ddb120b"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[15]), Map.class).get("emrdfk")).equals("1130") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[15]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="122" y="225" width="9" height="14" uuid="74c03ec7-c1d1-4f95-9448-0d737b211940"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="225" width="122" height="14" uuid="71bce567-eba8-4c3a-837f-a5d3486904e5"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[3. RIWAYAT KEJADIAN]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="131" y="316" width="420" height="81" uuid="6dbaa4e5-736f-4cf9-9e4c-51808e836580"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[16]), Map.class).get("emrdfk")).equals("1131") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[16]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="122" y="316" width="9" height="14" uuid="25303d70-e7a9-43d0-87e0-6af6e47961ad"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="316" width="122" height="14" uuid="0e6c47aa-267e-47a2-99ad-183e0c45fa10"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[4. HASIL PEMERIKSAAN]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="406" width="176" height="14" uuid="b30ec180-f9bf-4317-ae54-71f9db992841"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pendamping dokter pemeriksa :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="17" y="446" width="170" height="15" uuid="80c9b59a-6531-4c41-b106-8dc36cd4474e"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[17]), Map.class).get("emrdfk")).equals("1132") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[17]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="446" width="12" height="14" uuid="b7ac2493-452d-4bb0-8a06-be3baf145b2d"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[1]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="17" y="460" width="170" height="15" uuid="15247042-f936-4b11-bc03-6773d9fff9ac"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[18]), Map.class).get("emrdfk")).equals("1133") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[18]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="460" width="12" height="14" uuid="1cd213b6-aa05-4c3d-ae2a-d0b99bf6742e"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[2]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="432" width="17" height="14" uuid="e8efe71c-b2d1-435e-9d28-78fca929bc43"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="17" y="432" width="170" height="14" uuid="0b70497b-825a-4378-b031-4a1845d52b19"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="187" y="432" width="40" height="14" uuid="7287dde7-60af-4815-a8d3-51ee2400227e"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Paraf]]></text>
+				</staticText>
+				<line>
+					<reportElement x="-4" y="428" width="1" height="89" uuid="40235106-9e9a-4240-848d-d8f2cd529b4f"/>
+				</line>
+				<textField>
+					<reportElement x="17" y="475" width="170" height="15" uuid="69f01276-1be4-40cc-81e2-307539f7d74c"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[19]), Map.class).get("emrdfk")).equals("1134") ? String.valueOf(new com.google.gson.Gson().fromJson(
+new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[19]), Map.class).get("value")) : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="475" width="12" height="14" uuid="85e97bb3-16db-4ef5-a470-a334be08b393"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[3]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="489" width="12" height="14" uuid="91222f29-6293-485e-b7e3-c88eb5a410eb"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[4]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="503" width="12" height="14" uuid="86c326c6-0ee2-4b40-bc8f-ffe6fcadeb58"/>
+					<textElement>
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[5]]></text>
+				</staticText>
+				<line>
+					<reportElement x="16" y="428" width="1" height="89" uuid="5abc8c78-c610-44ce-b662-0f2e864255ec"/>
+				</line>
+				<line>
+					<reportElement x="187" y="428" width="1" height="89" uuid="7a2d25ac-2ad3-4197-b202-5c9b40d48043"/>
+				</line>
+				<line>
+					<reportElement x="227" y="428" width="1" height="89" uuid="8ee46392-550b-4991-8f07-d4927eb20d71"/>
+				</line>
+				<line>
+					<reportElement x="-3" y="516" width="231" height="1" uuid="64d9752c-f8ac-4786-a5b2-712f3cd4a054"/>
+				</line>
+				<line>
+					<reportElement x="-4" y="503" width="231" height="1" uuid="f363c046-9f86-40a6-be24-38e4f3efea6d"/>
+				</line>
+				<line>
+					<reportElement x="-3" y="489" width="231" height="1" uuid="8ed53c76-5a94-49a6-8a63-2a98fb7544a7"/>
+				</line>
+				<line>
+					<reportElement x="-3" y="475" width="231" height="1" uuid="2fa51590-41c3-4d23-bfbb-d3e93e384343"/>
+				</line>
+				<line>
+					<reportElement x="-3" y="460" width="231" height="1" uuid="a8ed89a7-9e93-48ca-aea6-bfe6905489ba"/>
+				</line>
+				<line>
+					<reportElement x="-3" y="446" width="231" height="1" uuid="d3da4a77-6675-4463-b711-c732aebe9502"/>
+				</line>
+				<line>
+					<reportElement x="-4" y="428" width="231" height="1" uuid="cccd07c2-e308-469c-8fa8-146d1b7e80ae"/>
+				</line>
+				<staticText>
+					<reportElement x="375" y="436" width="176" height="14" uuid="14b76428-8b5a-4703-aed7-9bb240b7b3ba"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dokter tersebut di atas]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="373" y="502" width="176" height="14" uuid="f0b974c0-031d-4579-ae6d-10c23e2e3b66"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" isBold="true" isUnderline="true"/>
+					</textElement>
+					<text><![CDATA[dr......................................]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="halaman2">
+		<groupHeader>
+			<band height="724">
+				<image>
+					<reportElement stretchType="RelativeToBandHeight" x="-3" y="20" width="554" height="659" uuid="94924fa0-47b4-42a2-a9e3-a32b7f1a6452"/>
+					<imageExpression><![CDATA[com.google.common.io.BaseEncoding.base64().decode(String.valueOf($P{poto}))]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="halaman3">
+		<groupHeader>
+			<band height="724">
+				<image>
+					<reportElement stretchType="RelativeToBandHeight" x="-3" y="20" width="554" height="659" uuid="ca9db32d-ac45-4508-80b3-ba49976972f2"/>
+					<imageExpression><![CDATA[com.google.common.io.BaseEncoding.base64().decode(String.valueOf($P{poto2}))]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="halaman4">
+		<groupHeader>
+			<band height="724">
+				<image>
+					<reportElement stretchType="RelativeToBandHeight" x="-3" y="20" width="555" height="704" uuid="db607acc-36c7-4118-bbb5-06d7c560f1c7"/>
+					<imageExpression><![CDATA[com.google.common.io.BaseEncoding.base64().decode(String.valueOf($P{poto3}))]]></imageExpression>
+				</image>
+			</band>
+		</groupHeader>
+	</group>
+	<title>
+		<band height="62" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<frame>
+				<reportElement mode="Transparent" x="101" y="10" width="451" height="52" forecolor="#000000" backcolor="#000000" uuid="0e75d09c-0dee-42c3-b5c3-2199be455208"/>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="220" y="-4" width="66" height="15" forecolor="#0A0101" uuid="dce53c43-d95a-4ce7-bba9-2719dc783960"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[printed By]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="-1" y="2" width="420" height="20" forecolor="#0A0101" uuid="2bf6f11f-40dc-4e66-887c-09017be1a3f7"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="-101" y="-20" width="91" height="61" uuid="c6ff64a4-d774-4d26-8f38-f788e760e889"/>
+					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="-1" y="17" width="443" height="35" forecolor="#0A0101" uuid="2622093c-c9f0-45fd-ae58-165d3251927b"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="280" y="-7" width="171" height="18" forecolor="#0A0101" uuid="f24529a9-b79e-48b3-848b-8c6b207da2c6"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{printedBy} == null ?"-" : $P{printedBy}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="-102" y="47" width="551" height="1" uuid="1a4ceec9-d52d-4edc-9916-651413243446"/>
+				</line>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="11"/>
+	</columnHeader>
+	<detail>
+		<band/>
+	</detail>
+</jasperReport>

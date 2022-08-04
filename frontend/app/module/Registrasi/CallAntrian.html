@@ -1,0 +1,264 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .photo-pasiens {
+        /* display: inline-block; */
+        width: 400px;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .md-dialog-container,
+    md-dialog {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        z-index: 200000;
+    }
+
+    fieldset {
+        border: 1px solid #c8c8c8;
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    img.photo-pasien {
+        width: 300px;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
+<c-panel item="item" header="'Call Antrian'" disabled>
+    <div class="panel-place" style="top: -1px;"><i style="cursor:pointer;" ng-click='pasienBaru()'
+            class="fa  fa-user-plus fa-2x"></i></div>
+</c-panel>
+
+<div class="grid_12">
+    <div class="grid_12">
+        <div class="grid_3" style="margin-top:25px;">
+            <label style="font-size: 25px;" c-label real>LOKET </label>
+        </div>
+        <div class="grid_3" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.loket" />
+        </div>
+        <div class="grid_6" style="margin-top:25px;">
+            <label style="font-size: 25px;" c-label real>NO ANTRIAN PANGGIL ULANG </label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_3" style="margin-top:25px;">
+            <label style="font-size: 25px;" c-label real>JENIS </label>
+        </div>
+        <div class="grid_3" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis" />
+        </div>
+        <div class="grid_6" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.noUlang" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6" style="margin-top:25px;">
+            <button class="btnTemplate1 " style="margin-top:-20px;margin-left: 0;height: 50;font-size: 25px;"
+                ng-click="panggil()"><i class="fa fa-play-circle"></i>PANGGIL</button>
+        </div>
+        <div class="grid_6" style="margin-top:25px;">
+            <button class="btnTemplate1 cancel" style="margin-top:-20px;margin-left: 0;height: 50;font-size: 25px;"
+                ng-click="panggilUlang()"><i class="fa fa-retweet"></i>PANGGIL ULANG</button>
+        </div>
+    </div>
+
+    <c-panel item="item" header="'Info'" disabled>
+    </c-panel>
+
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <label style="font-size: 25px;text-align: center;" c-label real>JENIS </label>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <label style="font-size: 25px;text-align: center;" c-label real>SEKARANG </label>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <label style="font-size: 25px;text-align: center;" c-label real>SISA </label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis1" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang1" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa1" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis2" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang2" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa2" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis3" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang3" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa3" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis4" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang4" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa4" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis5" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang5" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa5" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis6" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang6" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa6" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis7" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang7" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa7" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis8" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang8" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa8" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis9" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang9" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa9" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.jenis10" disabled/>
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sekarang10" />
+        </div>
+        <div class="grid_4" style="margin-top:5px;">
+            <input style="height: 50px;font-size: 25px;text-align: center;" c-text-box type="input" filter="'char'" class="k-textbox"
+                ng-model="item.sisa10" />
+        </div>
+    </div>
+</div>

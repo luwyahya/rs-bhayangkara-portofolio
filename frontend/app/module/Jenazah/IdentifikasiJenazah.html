@@ -1,0 +1,94 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>
+            Rekonsiliasi
+        </div>
+    </div>
+    <div class="grid_12" ng-show="cari">
+        <div class="grid_2">
+            <label c-label item="label">Jenis Bencana</label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                k-auto-bind="false" k-data-source="listJenisBencana" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="cari22()">Cari</button>
+        </div>
+    </div>
+    <div class="grid_12" ng-show="identifikasi">
+        <div class="grid_6">
+            <fieldset style="max-width: 100%;">
+                <legend>Data Antemortem</legend>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <label c-label item="label">No Registrasi</label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.noregistrasi"
+                            k-data-text-field="'noregistrasikorban'" k-data-value-field="'noregistrasi'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listNoregistrasi" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 1.7%;">
+                        <button class="btnTemplate1" ng-click="cariDataAntemortem()">Cari Data</button>
+                    </div>
+                </div>
+                <div class="grid_12" ng-show="fotoantemortem">
+                    <div class="grid_12 borderBox" style="max-width: 100%;">
+                        <kendo-grid id="kGrid" data-source="sourceAntemortem" options="columnAntemortem"
+                            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedIdentifikasi"
+                            ng-click="klik(dataSelectedIdentifikasi)">
+                        </kendo-grid>
+                    </div>
+                    <div class="clear"></div>
+                    <div data-ng-repeat="image in images3">
+                        <img data-ng-src="{{image.dataURL3}}" style="max-width: 100%;"/>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_6">
+            <fieldset>
+                <legend>Data Postmortem</legend>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <label c-label item="label">No Label DVI</label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.labeldvi"
+                            k-data-text-field="'labeldvi'" k-data-value-field="'norec'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listLabelDvi" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 1.7%;">
+                        <button class="btnTemplate1" ng-click="cariDataPostmortem()">Cari Data</button>
+                    </div>
+                    <div class="grid_12" ng-show="fotopostmortem">
+                        <div class="grid_12 borderBox" style="max-width: 100%;">
+                            <kendo-grid id="kGrid" data-source="sourcePostmortem" options="columnPostmortem"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedIdentifikasi"
+                                ng-click="klik(dataSelectedIdentifikasi)">
+                            </kendo-grid>
+                        </div>
+                        <div class="clear"></div>
+                        <div data-ng-repeat="image in images4">
+                            <img data-ng-src="{{image.dataURL4}}" style="max-width: 100%;"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6">
+                <label c-label item="label">Keterangan</label>
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangan"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="simpan()"><i class="fa fa-floppy-o"></i> Simpan</button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1 cancel" ng-click="batal22()"><i class="fa fa-floppy-o"></i> Kembali</button>
+            </div>
+            <!-- <div class="grid_2">
+                <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-arrow-left"></i> Kembali</button>
+            </div> -->
+        </div>
+    </div>
+</div>

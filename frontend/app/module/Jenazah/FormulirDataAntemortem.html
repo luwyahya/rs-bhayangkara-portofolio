@@ -1,0 +1,436 @@
+<style>
+    .custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Select files';
+  display: inline-block;
+  background: linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Formulir Data Antemortem</div>
+    </div>
+    <div class="grid_12" ng-show="welcome">
+        <h1>Selamat Datang Di DVI Digital RS Polri</h1>
+    </div>
+    <div class="grid_12" ng-show="welcome">
+        <div class="grid_12">
+            <button class="btnTemplate1" style="display: block; margin-left: auto; margin-right: auto; width: 12.5%;" ng-click="welcome()">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>Next</button>
+        </div>
+    </div>
+    <div class="grid_12" ng-show="isi">
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <div class="grid_12">
+                    <label c-label item="item" required>Nama Pelapor</label>
+                </div>
+                <div class="grid_12">
+                    <label c-label item="item" style="color: red;" required>* NAMA WAJIB SESUAI KTP</label>
+                </div>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.pelapor" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <div class="grid_12">
+                    <label c-label item="item" required>Nama Yang Dilaporkan</label>
+                </div>
+                <div class="grid_12">
+                    <label c-label item="item" style="color: red;" required>* NAMA WAJIB SESUAI KTP</label>
+                </div>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.dilapor" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Nama Panggilan / Alias</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.panggilan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Jenis Kelamin</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jeniskelamin"
+                    k-data-text-field="'jeniskelamin'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisKelamin" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Hubungan</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.hubungan"
+                    k-data-text-field="'hubungankeluarga'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listHubunganKeluarga" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Tanggal Lahir</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%" k-ng-model="item.tgllahir" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <!-- <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Usia</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.usia" />
+            </div>
+        </div> -->
+        <div class="grid_12">
+            <div class="grid_2">
+            </div>
+            <div class="grid_2">
+                <input type="radio" name="bodypart" id="1" class="k-radio" ng-model="item.warganegara" value="1">
+				<label class="k-radio-label" for="1">WNI</label>
+            </div>
+            <div class="grid_5">
+                <input type="radio" name="bodyfull" id="2" class="k-radio" ng-model="item.warganegara" value="2">
+				<label class="k-radio-label" for="2">WNA</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Suku</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.suku"
+                    k-data-text-field="'suku'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listSuku" ng-disabled="block"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Telp/Hp</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="tel" class="k-textbox"
+                ng-model="item.telphp" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Alamat</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.alamat"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <!-- <div class="grid_12">
+            <div class="grid_12">
+                <div class="panel-heading-white" style="text-align: center;"><span class="title" c-translate>Data Identitas Sidik Jari</span></div>
+            </div>
+        </div> -->
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Data Identitas Sidik Jari</div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Sumber</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.sumbersidikjari"
+                    k-data-text-field="'sumber'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listSidikJari" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Uraian</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraiansidikjari"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangansidikjari"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker2" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+                <!-- <h5 style="color: red; float: left; margin-top: 5%;">Ukuran foto maksimal 4 MB</h5> -->
+            </div>
+		</div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Data Identitas Gigi</div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Sumber</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.sumbergigi"
+                    k-data-text-field="'sumber'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listGigi" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Uraian</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraiangigi"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangangigi"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker3" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+                <!-- <h5 style="color: red; float: left; margin-top: 5%;">Ukuran foto maksimal 4 MB</h5> -->
+            </div>
+		</div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Data Identitas DNA</div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px;">
+                <label c-label item="item" required>Sumber</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.sumberdna"
+                    k-data-text-field="'sumber'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDNA" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Uraian</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraiandna"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangandna"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker4" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+                <!-- <h5 style="color: red; float: left; margin-top: 5%;">Ukuran foto maksimal 4 MB</h5> -->
+            </div>
+		</div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Ciri Ciri Fisik</div>
+        </div>
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Ciri fisik umum dan khusus atau riwayat perawatan medis korban atau orang hilang</label>
+        </div>
+        <div class="grid_5">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.ciricirifisik"
+                style="height: 420px; width: 100%; "/>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keteranganfisik"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker5" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+                <!-- <h5 style="color: red; float: left; margin-top: 5%;">Ukuran foto maksimal 4 MB</h5> -->
+            </div>
+		</div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Barang Kepemilikan</div>
+        </div>
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Deskripsikan dengan lengkap barang yang terakhir digunakan atau selalu dipakai oleh korban / orang hilang</label>
+        </div>
+        <div class="grid_5">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.barangkepemilikan"
+                style="height: 420px; width: 100%; "/>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keteranganbarang"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label item="item" required>Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker6" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+                <!-- <h5 style="color: red; float: left; margin-top: 5%;">Ukuran foto maksimal 4 MB</h5> -->
+            </div>
+		</div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Lampiran</div>
+        </div>
+        <div class="grid_12" style="margin: 2% 0 0 2%;">
+			<input type="file" class="custom-file-input" id="filePicker" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+		</div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: -1%;">
+                <h5 style="color: red;">Ukuran foto maksimal 4 MB</h5>
+            </div>
+        </div>
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>Petugas Wawancara</div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_4">
+
+                </div>
+                <div class="grid_8">
+                    <input type="checkbox" id="disabled" class="k-checkbox" ng-model="model.cekpilihManual"
+                        id="petugasluar" ng-click="ceklispilihManual(model.cekpilihManual)">
+                        <label class="c-label k-checkbox-label" for="petugasluar" required >Petugas Wawancara Luar</label>
+                </div>
+                <div class="grid_4" style="margin-top:10px">
+                    <label c-label item="item" required>Petugas Wawancara</label>
+                </div>
+                <div class="grid_8" ng-show="petugasdalam">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugaswawancara"
+                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listPetugas" />
+                </div>
+                <div class="grid_8" ng-show="petugasluar">
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.petugaswawancaraluar" />
+                </div>
+                <div class="grid_4" style="margin-top:10px">
+                    <label c-label item="item" required>No Telepon</label>
+                </div>
+                <div class="grid_8">
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.teleponwawancara" />
+                </div>
+                <div class="grid_4" style="margin-top:10px">
+                    <label c-label item="item" required>Tanggal Wawancara</label>
+                </div>
+                <div class="grid_8">
+                    <input style="width: 100%" k-ng-model="item.tglwawancara" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div>
+            </div>
+            <div class="grid_6">
+                <div class="grid_4">
+
+                </div>
+                <div class="grid_8">
+                    
+                </div>
+                <div class="grid_4" style="margin-top:10px">
+                    <label c-label item="item" required>Petugas Input Data</label>
+                </div>
+                <div class="grid_8">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugasinputdata"
+                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listPetugas" disabled/>
+                </div>
+                <div class="grid_4" style="margin-top:10px">
+                    <label c-label item="item" required>No Telepon</label>
+                </div>
+                <div class="grid_8">
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.teleponinputdata" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" style="margin-top:2%" ng-click="save()" ng-show="button">Simpan</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpJenisBencana" k-title="'Jenis Bencana'" k-width="550" k-height="400" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            
+            <div class="clear"></div>
+    
+            <div class="grid_12">
+                <label c-label item="label">Jenis Bencana</label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+            <div class="grid_10">
+                <div class="grid_10">
+                    <button class="btnTemplate1" ng-click="simpanBencana()"><i class="fa fa-floppy-o"></i>Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

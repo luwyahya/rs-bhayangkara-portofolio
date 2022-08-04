@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="halaman3(2)" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f59f2739-4e41-4bb0-b89e-e187d8e78166">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="102"/>
+	<queryString>
+		<![CDATA[SELECT        nilaiintra, tanggalintra, jenisintra, labelintra, nilaipasca, tanggalpasca, jenispasca, labelpasca
+FROM            emranestesi_t]]>
+	</queryString>
+	<field name="tanggalintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jenisintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nilaiintra" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="labelintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tanggalpasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jenispasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nilaipasca" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="labelpasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="326" splitType="Stretch">
+			<multiAxisChart>
+				<chart>
+					<reportElement x="0" y="114" width="555" height="70" uuid="a60c5183-199e-4aea-b9b2-4bf4495c82cc"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<multiAxisPlot>
+					<plot/>
+					<axis>
+						<lineChart>
+							<chart>
+								<reportElement x="0" y="0" width="0" height="0" backcolor="#FFFFFF" uuid="110d5926-d65f-4730-bfe6-14a13ddb191b"/>
+								<chartTitle color="#000000"/>
+								<chartSubtitle color="#000000"/>
+								<chartLegend textColor="#000000" backgroundColor="#FFFFFF"/>
+							</chart>
+							<categoryDataset>
+								<categorySeries>
+									<seriesExpression><![CDATA[$F{jenisintra}]]></seriesExpression>
+									<categoryExpression><![CDATA[$F{tanggalintra}]]></categoryExpression>
+									<valueExpression><![CDATA[$F{nilaiintra}]]></valueExpression>
+								</categorySeries>
+							</categoryDataset>
+							<linePlot>
+								<plot/>
+								<categoryAxisFormat>
+									<axisFormat/>
+								</categoryAxisFormat>
+								<valueAxisFormat>
+									<axisFormat/>
+								</valueAxisFormat>
+								<rangeAxisMinValueExpression><![CDATA[10]]></rangeAxisMinValueExpression>
+								<rangeAxisMaxValueExpression><![CDATA[220]]></rangeAxisMaxValueExpression>
+							</linePlot>
+						</lineChart>
+					</axis>
+					<axis>
+						<barChart>
+							<chart>
+								<reportElement x="0" y="0" width="0" height="0" backcolor="#FFFFFF" uuid="a4aac0e9-cd3c-4648-933c-da650e0bb633"/>
+								<chartTitle color="#000000"/>
+								<chartSubtitle color="#000000"/>
+								<chartLegend textColor="#000000" backgroundColor="#FFFFFF"/>
+							</chart>
+							<categoryDataset>
+								<categorySeries>
+									<seriesExpression><![CDATA[$F{jenisintra}]]></seriesExpression>
+									<categoryExpression><![CDATA[$F{tanggalintra}]]></categoryExpression>
+									<valueExpression><![CDATA[$F{nilaiintra}]]></valueExpression>
+									<labelExpression><![CDATA[$F{labelintra}]]></labelExpression>
+								</categorySeries>
+							</categoryDataset>
+							<barPlot isShowLabels="true" isShowTickLabels="false" isShowTickMarks="false">
+								<plot>
+									<seriesColor seriesOrder="0" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="1" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="2" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="3" color="rgba(255, 255, 255, 0.0)"/>
+								</plot>
+								<itemLabel/>
+								<categoryAxisFormat>
+									<axisFormat verticalTickLabels="false"/>
+								</categoryAxisFormat>
+								<valueAxisFormat>
+									<axisFormat verticalTickLabels="false" axisLineColor="#FFFFFF"/>
+								</valueAxisFormat>
+								<rangeAxisMinValueExpression><![CDATA[0]]></rangeAxisMinValueExpression>
+								<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+							</barPlot>
+						</barChart>
+					</axis>
+				</multiAxisPlot>
+			</multiAxisChart>
+			<multiAxisChart>
+				<chart>
+					<reportElement x="0" y="184" width="555" height="142" uuid="dac5f325-fb68-4305-bd00-c9ee590e7827"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<multiAxisPlot>
+					<plot/>
+					<axis>
+						<lineChart>
+							<chart>
+								<reportElement x="0" y="0" width="0" height="0" backcolor="#FFFFFF" uuid="d33c49d5-f628-4aa3-b4bd-658bc0298f10"/>
+								<chartTitle color="#000000"/>
+								<chartSubtitle color="#000000"/>
+								<chartLegend textColor="#000000" backgroundColor="#FFFFFF"/>
+							</chart>
+							<categoryDataset>
+								<categorySeries>
+									<seriesExpression><![CDATA[$F{jenispasca}]]></seriesExpression>
+									<categoryExpression><![CDATA[$F{tanggalpasca}]]></categoryExpression>
+									<valueExpression><![CDATA[$F{nilaipasca}]]></valueExpression>
+								</categorySeries>
+							</categoryDataset>
+							<linePlot>
+								<plot/>
+								<categoryAxisFormat>
+									<axisFormat/>
+								</categoryAxisFormat>
+								<valueAxisFormat>
+									<axisFormat/>
+								</valueAxisFormat>
+								<rangeAxisMinValueExpression><![CDATA[5]]></rangeAxisMinValueExpression>
+								<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+							</linePlot>
+						</lineChart>
+					</axis>
+					<axis>
+						<barChart>
+							<chart>
+								<reportElement x="0" y="0" width="0" height="0" backcolor="#FFFFFF" uuid="3f0997f6-2c02-4aed-b90c-b7528792afce"/>
+								<chartTitle color="#000000"/>
+								<chartSubtitle color="#000000"/>
+								<chartLegend textColor="#000000" backgroundColor="#FFFFFF"/>
+							</chart>
+							<categoryDataset>
+								<categorySeries>
+									<seriesExpression><![CDATA[$F{jenispasca}]]></seriesExpression>
+									<categoryExpression><![CDATA[$F{tanggalpasca}]]></categoryExpression>
+									<valueExpression><![CDATA[$F{nilaipasca}]]></valueExpression>
+									<labelExpression><![CDATA[$F{labelpasca}]]></labelExpression>
+								</categorySeries>
+							</categoryDataset>
+							<barPlot isShowLabels="true" isShowTickLabels="false" isShowTickMarks="false">
+								<plot>
+									<seriesColor seriesOrder="0" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="1" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="2" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="3" color="rgba(255, 255, 255, 0.0)"/>
+									<seriesColor seriesOrder="4" color="rgba(255, 255, 255, 0.0)"/>
+								</plot>
+								<itemLabel/>
+								<categoryAxisFormat>
+									<axisFormat/>
+								</categoryAxisFormat>
+								<valueAxisFormat>
+									<axisFormat axisLineColor="#FFFFFF"/>
+								</valueAxisFormat>
+								<rangeAxisMinValueExpression><![CDATA[5]]></rangeAxisMinValueExpression>
+								<rangeAxisMaxValueExpression><![CDATA[200]]></rangeAxisMaxValueExpression>
+							</barPlot>
+						</barChart>
+					</axis>
+				</multiAxisPlot>
+			</multiAxisChart>
+			<textField isBlankWhenNull="false">
+				<reportElement mode="Opaque" x="52" y="29" width="100" height="20" uuid="957899e8-6bf6-451a-87b2-e988f4770e8d"/>
+				<textFieldExpression><![CDATA[$F{labelintra}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="91" y="62" width="100" height="20" uuid="22b31ac4-57aa-4391-95ec-2c1b292c8fad"/>
+				<textElement markup="none">
+					<font fontName="DejaVu Serif" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[▲ 33▲]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

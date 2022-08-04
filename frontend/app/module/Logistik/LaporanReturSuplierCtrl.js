@@ -1,0 +1,312 @@
+define(['initialize'], function (initialize) {
+    'use strict';
+    initialize.controller('LaporanReturSuplierCtrl', ['$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
+        function ($scope, $state, cacheHelper, dateHelper, medifirstService) {
+            $scope.item = {};
+            $scope.dataVOloaded = true;
+            $scope.now = new Date();
+            $scope.isRouteLoading = false;
+            var pegawaiUser = {}
+            LoadCache();
+            ComboLoad();
+
+            function LoadCache() {
+                var chacePeriode = cacheHelper.get('LaporanReturSuplierCtrl');
+                if (chacePeriode != undefined) {
+                    $scope.item.tglAwal = new Date(chacePeriode[0]);
+                    $scope.item.tglAkhir = new Date(chacePeriode[1]);
+
+                    init();
+                }
+                else {
+                    $scope.item.tglAwal = $scope.now;
+                    $scope.item.tglAkhir = $scope.now;
+                    init();
+                }
+            }
+
+            function ComboLoad() {
+                medifirstService.get('logistik/get-combo-logistik').then(function (dat) {
+                    $scope.listDataJabatan = dat.data.jabatan;
+                });
+
+                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function (data) {
+                    $scope.ListDataPegawai = data;
+                });
+
+                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function (data) {
+                    $scope.listNamaBarang = data;
+                });
+            }
+
+            $scope.BatalCetak = function () {
+                $scope.popUp.close();
+            }
+
+            $scope.CetakAh = function () {
+                var jabatan1 = ''
+                if ($scope.item.DataJabatan1 != undefined) {
+                    jabatan1 = $scope.item.DataJabatan1.namajabatan;
+                }
+
+                var pegawai1 = ''
+                if ($scope.item.DataPegawai1 != undefined) {
+                    pegawai1 = $scope.item.DataPegawai1.id;
+                }
+
+                var jabatan2 = ''
+                if ($scope.item.DataJabatan2 != undefined) {
+                    jabatan2 = $scope.item.DataJabatan2.namajabatan;
+                }
+
+                var pegawai2 = ''
+                if ($scope.item.DataPegawai2 != undefined) {
+                    pegawai2 = $scope.item.DataPegawai2.id;
+                }
+
+                var jabatan3 = ''
+                if ($scope.item.DataJabatan3 != undefined) {
+                    jabatan3 = $scope.item.DataJabatan3.namajabatan;
+                }
+
+                var pegawai3 = ''
+                if ($scope.item.DataPegawai3 != undefined) {
+                    pegawai3 = $scope.item.DataPegawai3.id;
+                }
+
+
+                var stt = 'false'
+                if (confirm('View Bukti Penerimaan? ')) {
+                    // Save it!
+                    stt = 'true';
+                } else {
+                    // Do nothing!
+                    stt = 'false'
+                }
+
+                var client = new HttpClient();
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&pegawaiPenerima=' + pegawai2 + '&pegawaiPenyerahan=' + pegawai1 + '&pegawaiMengetahui=' + pegawai3
+                    + '&jabatanPenerima=' + jabatan2 + '&jabatanPenyerahan=' + jabatan1 + '&jabatanMengetahui=' + jabatan3 + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
+                        //aadc=response; 
+
+                    });
+                $scope.popUp.close();
+            }
+
+            function init() {
+                $scope.isRouteLoading = true;
+                var ins = ""
+                if ($scope.item.instalasi != undefined) {
+                    var ins = "&dpid=" + $scope.item.instalasi.id
+                }
+                var rg = ""
+                if ($scope.item.ruangan != undefined) {
+                    var rg = "&ruid=" + $scope.item.ruangan.id
+                }
+                var produkfk = ""
+                if ($scope.item.namaBarang != undefined) {
+                    var produkfk = "&produkfk=" + $scope.item.namaBarang.id
+                }
+                var noSppb = ""
+                if ($scope.item.noSppb != undefined) {
+                    noSppb = "&noSppb=" + $scope.item.noSppb
+                }
+                var retur = ""
+                if ($scope.item.Retur != undefined) {
+                    retur = "&noretur=" + $scope.item.Retur
+                }
+                var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
+                var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
+                medifirstService.get("logistik/get-daftar-retur-penerimaan-detail?" +
+                    "tglAwal=" + tglAwal +
+                    "&tglAkhir=" + tglAkhir +
+                    "&nostruk=" + $scope.item.struk +
+                    "&nofaktur=" + $scope.item.nofaktur +
+                    "&namarekanan=" + $scope.item.namarekanan
+                    + produkfk
+                    + noSppb + retur
+                    , true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        var datas = dat.data.daftar;
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1
+                        }
+                        $scope.dataGrid = datas;
+                        pegawaiUser = dat.data.datalogin.userData
+                    });
+
+                var chacePeriode = {
+                    0: tglAwal,
+                    1: tglAkhir,
+                    2: '',
+                    3: '',
+                    4: '',
+                    5: '',
+                    6: ''
+                }
+                cacheHelper.set('LaporanReturSuplierCtrl', chacePeriode);
+            }
+
+            $scope.getRuangan = function () {
+                $scope.listRuangan = $scope.item.instalasi.ruangan;
+            }
+
+            $scope.cariFilter = function () {
+                init();
+            }
+
+
+            $scope.CetakRincian = function () {
+                var stt = 'false'
+                if (confirm('View resep? ')) {
+                    // Save it!
+                    stt = 'true';
+                } else {
+                    // Do nothing!
+                    stt = 'false'
+                }
+                var client = new HttpClient();
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
+                    //aadc=response;
+                });
+            }
+
+            $scope.CetakBukti = function () {
+                $scope.popUp.center().open();
+            }
+            
+            $scope.formatTanggal = function (tanggal) {
+                return moment(tanggal).format('DD-MMM-YYYY');
+            }
+
+            $scope.columnGrid = {
+                toolbar: [
+                    "excel",
+
+                ],
+                excel: {
+                    fileName: "DaftarReturObatAlkesSupplier.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Orders";
+
+                    var myHeaders = [{
+                        value: "Daftar Retur Obat Alkes Supplier",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                selectable: 'row',
+                pageable: true,
+                columns: [
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "45px",
+                    },
+                    {
+                        "field": "tglretur",
+                        "title": "Tanggal Retur",
+                        "width": "85px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tglretur #', '')}}</span>"
+                    },
+                    {
+                        "field": "noretur",
+                        "title": "No Retur",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "nofaktur",
+                        "title": "No Dokumen",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "nosppb",
+                        "title": "No PO",
+                        "width": "100px",
+                        "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
+                    },
+                    {
+                        "field": "namarekanan",
+                        "title": "Supplier",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Nama Produk",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "satuanstandar",
+                        "title": "Satuan",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "qtyproduk",
+                        "title": "Qty",
+                        "width": "55px",
+                    },
+                    {
+                        "field": "harganetto1",
+                        "title": "Harga Satuan",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: harganetto1 #', '')}}</span>"
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Discount",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    },
+                    {
+                        "field": "tglkadaluarsa",
+                        "title": "Tgl Kadaluarsa",
+                        "width": "90px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                    }
+                ]
+            };
+
+            $scope.formatRupiah = function (value, currency) {
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
+
+            $scope.formatNumber = function (value, currency) {
+                return number + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "1,");
+            }
+
+            $scope.formatTanggal = function (tanggal) {
+                return moment(tanggal).format('DD/MM/YYYY');
+            }
+
+
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
+                    var anHttpRequest = new XMLHttpRequest();
+                    anHttpRequest.onreadystatechange = function () {
+                        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                            aCallback(anHttpRequest.responseText);
+                    }
+
+                    anHttpRequest.open("GET", aUrl, true);
+                    anHttpRequest.send(null);
+                }
+            }
+            //***********************************
+        }
+    ]);
+});

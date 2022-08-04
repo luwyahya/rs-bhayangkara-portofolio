@@ -1,0 +1,100 @@
+<style>
+	.k-grid .k-grid-header .k-header .k-link {
+		height: auto;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		white-space: normal;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		text-align: center;
+	}
+</style>
+<!-- <div ng-controller="LaporanPasienDaftarCtrl"> -->
+<div ng-show="dataVOloaded">
+	<!-- <c-panel item="item" header="'Daftar Tagihan Rekanan'" disabled> -->
+	<div class="grid_12 headerBox">
+		<h1 style="color: white;">
+			<b>Laporan Bulanan Pelayanan Kesehatan Di Rumah Sakit Universitas Andalas</b>
+		</h1>
+	</div>
+
+	<div class="grid_12">
+
+		<div class="grid_3">
+			<label c-label item="item" c-label-text="Bulan"></label>
+			<input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+				k-format="'yyyy-MM-dd HH:mm'" />
+		</div>
+
+
+		<div class="grid_1">
+			<div class="grid_12">
+				<label>&nbsp;</label>
+			</div>
+			<div class="clear"></div>
+			<div class="grid_12">
+				<button class="btnTemplate1" style="margin-left: 0;" ng-click="Search()">Cari</button>
+			</div>
+		</div>
+
+
+	</div>
+
+	<div class="grid_12" style="margin-top:10px">
+		<md-content>
+			<md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+				<md-tab label="Laporan">
+					<md-content class="md-padding">
+						<div class="grid_12 headerBox">
+							<p>Laporan</p>
+						</div>
+						<div class="clear"></div>
+
+						<div class="grid_12 borderBox">
+							<kendo-grid id="kGrid" data-source="sourceLaporanDaftar" options="columnLaporanDaftar"
+								k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelected"
+								ng-click="klik(dataSelected)">
+							</kendo-grid>
+						</div>
+					</md-content>
+				</md-tab>
+			</md-tabs>
+		</md-content>
+
+	</div>
+
+	<div class="clear"></div>
+	<div class="grid_12">
+		<div class="grid_12" style="float:right">
+
+		</div>
+	</div>
+	<br />
+</div>
+
+<div class="grid_12" style="margin-top:60px" ng-show="isLoadingData">
+	<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+
+<div kendo-window="popUpDetail" k-title="'Detail'" k-width="1500" k-height="600" k-visible="false">
+	<div class="grid_12">
+		<div class="grid_12" style="margin-top:10px">
+			<div class="grid_12 headerBox">
+				<p>Detail </p>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12 borderBox" ng-show="isruangan">
+				<kendo-grid data-source="dataPasienDetail" options="columnPasienDetail" k-groupable="true"></kendo-grid>
+			</div>
+			<div class="grid_12 borderBox" ng-show="iskunjL">
+				<kendo-grid data-source="dataPasienDetailKunjL" options="columnPasienDetailKunjL" k-groupable="true">
+				</kendo-grid>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- </div> -->

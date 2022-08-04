@@ -1,0 +1,60 @@
+.table1 {
+  font-family: sans-serif;
+  color: #232323;
+  border-collapse: collapse;
+}
+
+.table1,
+th,
+td {
+  border: 1px solid #999;
+  padding: 8px 20px;
+}
+
+@media print {
+ @page {
+   align-content: center;
+   size: A4, landscape;
+   max-height: 100%;
+   max-width: 100%;
+   /* DIN A4 standard, Europe */
+   margin-left: 0.1;
+   margin-top: 0.3;
+
+   @bottom-left {
+     content: counter(page) " of "counter(pages);
+   }
+
+   /* transform: scale(.65); */
+ }
+
+ @media screen {
+   thead {
+     display: block;
+   }
+
+   tfoot {
+     display: block;
+   }
+ }
+
+ .footer_info_Mh:after {
+   counter-increment: page;
+   content: "Page "counter(page);
+   text-align: center;
+ }
+
+}
+
+.button {
+  background-color:green; /* Green */
+  border: none;
+  color: white;
+  /*padding: 15px 32px;*/
+  font-size: 9px
+  /*text-align: center;*/
+  text-decoration: none;
+  display: inline-block;
+  /*font-size: 16px;*/
+  margin: 4px 2px;
+  cursor: pointer;

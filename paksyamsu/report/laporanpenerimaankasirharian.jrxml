@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporanpenerimaankasirharian" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.4641000000000013"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="176"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="tgllahir" class="java.util.Date"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="printedBy" class="java.lang.String"/>
+	<parameter name="noregistrasi" class="java.lang.String"/>
+	<parameter name="nocm" class="java.lang.String"/>
+	<parameter name="namapasien" class="java.lang.String"/>
+	<parameter name="lastruangan" class="java.lang.String"/>
+	<parameter name="namakamar" class="java.lang.String"/>
+	<parameter name="kelas" class="java.lang.String"/>
+	<parameter name="jmlbiaya" class="java.lang.String"/>
+	<parameter name="deposit" class="java.lang.String"/>
+	<parameter name="sisa" class="java.lang.String"/>
+	<parameter name="isi" class="java.lang.String"/>
+	<parameter name="terbilang" class="java.lang.String"/>
+	<parameter name="bayar" class="java.lang.String"/>
+	<parameter name="nosep" class="java.lang.String"/>
+	<parameter name="where" class="java.lang.String"/>
+	<parameter name="totalDiskon" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select ROW_NUMBER () OVER (ORDER BY pd.noregistrasi) as no, 
+		case when cb.id = 1 then sbm.totaldibayar else 0 end as tunai, 
+		case when cb.id > 1 then sbm.totaldibayar else 0 end as nontunai,
+		case when pd.noregistrasi is null then sp.nostruk else pd.noregistrasi end as noregistrasi,
+		 sbm.tglsbm, ps.nocm, case when ps.namapasien is null then sp.namapasien_klien else ps.namapasien end as namapasien,
+		  case when kp.kelompokpasien is null then 'Non Layanan' else kp.kelompokpasien end as kelompokpasien,
+		   ru.namaruangan, pg.namalengkap, pg2.namaexternal as kasir, sbm.totaldibayar,
+		    CASE WHEN sp.totalprekanan is null then 0 else sp.totalprekanan end as hutangPenjamin,
+		     sp.totalharusdibayar, lu.namaexternal as namaLogin,sc.tglclosing from strukbuktipenerimaan_t as sbm left JOIN strukbuktipenerimaancarabayar_t as sbmc on sbmc.nosbmfk=sbm.norec LEFT JOIN carabayar_m as cb on cb.id=sbmc.objectcarabayarfk INNER JOIN strukpelayanan_t as sp on sp.norec=sbm.nostrukfk  LEFT JOIN loginuser_s as lu on lu.id=sbm.objectpegawaipenerimafk LEFT JOIN pegawai_m as pg2 on pg2.id=lu.objectpegawaifk LEFT JOIN 
+pasiendaftar_t as pd on pd.norec=sp.noregistrasifk LEFT JOIN pasien_m as ps on ps.id=sp.nocmfk LEFT join jeniskelamin_m as jk on jk.id=ps.objectjeniskelaminfk Left JOIN pegawai_m as pg on pg.id=pd.objectpegawaifk LEFT JOIN ruangan_m as ru on ru.id=pd.objectruanganlastfk LEFT JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+left join strukclosing_t as sc on sc.norec=sbm.noclosingfk where $P!{kondisi} order by pd.noregistrasi]]>
+	</queryString>
+	<field name="namaruangan" class="java.lang.String"/>
+	<field name="noregistrasi" class="java.lang.String"/>
+	<field name="no" class="java.lang.String"/>
+	<field name="tglsbm" class="java.lang.String"/>
+	<field name="tglclosing" class="java.lang.String"/>
+	<field name="nocm" class="java.lang.String"/>
+	<field name="namapasien" class="java.lang.String"/>
+	<field name="totaldibayar" class="java.math.BigDecimal"/>
+	<field name="hutangpenjamin" class="java.math.BigDecimal"/>
+	<field name="tunai" class="java.math.BigDecimal"/>
+	<field name="nontunai" class="java.math.BigDecimal"/>
+	<variable name="total1" class="java.math.BigDecimal" resetType="Group" resetGroup="groupnamaruangan" calculation="Sum">
+		<variableExpression><![CDATA[$F{totaldibayar}]]></variableExpression>
+	</variable>
+	<group name="groupnamaruangan">
+		<groupExpression><![CDATA[$F{namaruangan}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="90" y="0" width="140" height="15" uuid="578497da-f1ef-481f-90b7-45d972ef5441">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{namaruangan}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="0" width="88" height="15" uuid="1507d86e-90f3-4a93-ac32-294e82f292df">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poli/Unit Layanan :]]></text>
+				</staticText>
+				<textField evaluationTime="Group" evaluationGroup="groupnamaruangan">
+					<reportElement x="269" y="0" width="112" height="14" uuid="8651590c-31a7-4a74-b966-ee66f52c906a"/>
+					<textFieldExpression><![CDATA[($V{total1} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{total1})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="210" y="1" width="49" height="15" forecolor="#FFFFFF" backcolor="#FFFFFF" uuid="d87ea820-c245-47ac-9899-90e793101b71">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="29d00785-a1c9-4c45-ab40-7fe2f8881730"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="99" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="86" width="540" height="1" uuid="1410d92e-fe52-4da8-b781-0e43546029e7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<frame>
+				<reportElement mode="Transparent" x="87" y="20" width="458" height="67" forecolor="#000000" backcolor="#000000" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="260" y="-15" width="66" height="15" forecolor="#0A0101" uuid="8978eac3-c578-41c9-837e-48d2b0184642"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false" pdfFontName="Times-Roman"/>
+					</textElement>
+					<text><![CDATA[printed By]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="1" y="-12" width="379" height="20" forecolor="#0A0101" uuid="499a6971-49ed-4840-b17e-9b5694a50e32"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="11" isBold="true" pdfFontName="Times-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="-84" y="-14" width="75" height="59" uuid="97705585-a0b5-4ec7-86f3-ae10c220e6af"/>
+					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="0" y="6" width="380" height="35" forecolor="#0A0101" uuid="58cdc4f7-dab7-4243-a922-490365c84f75"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Times New Roman" size="11" isBold="true" pdfFontName="Times-Bold"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="330" y="-17" width="127" height="18" forecolor="#0A0101" uuid="dd9bbe93-55b4-4a11-a6b9-3d64fed72dea"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="10" isBold="false" pdfFontName="Times-Roman"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{printedBy} == null ?"-" : $P{printedBy}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="67" y="50" width="228" height="15" forecolor="#0A0101" uuid="21f66eeb-76fd-427c-83e9-e2f75374f854"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Times New Roman" size="12" isBold="true" pdfFontName="Times-Bold"/>
+					</textElement>
+					<text><![CDATA[LAPORAN PENERIMAAN KASIR]]></text>
+				</staticText>
+				<line>
+					<reportElement x="-87" y="47" width="540" height="1" uuid="44e30a45-3d16-420d-a97f-7131fbef5702">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+			</frame>
+			<staticText>
+				<reportElement x="81" y="0" width="49" height="10" uuid="0d437d06-5948-4a54-94da-43981e1cb628">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="11" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Kelas]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="0" y="0" width="19" height="15" uuid="1346a704-a40a-4670-bca2-08facb55bab7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="0" width="48" height="15" uuid="c0b97eea-b0f0-490b-ba74-81b2feb7e94a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[No. Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="0" width="48" height="15" uuid="fe779f15-e6c4-4800-95a3-edea354f2b97">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Tgl. Bayar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="132" y="0" width="48" height="15" uuid="41b3411e-dbae-42ea-abb7-36cbe18075b0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Tgl Setor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="183" y="0" width="48" height="15" uuid="30208af2-ac76-445e-a1e5-15d614b78693">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="281" y="0" width="66" height="15" uuid="5d243d67-3c6d-4b1b-b40e-73f679c68abe">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Total Biaya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="0" width="48" height="15" uuid="e97340e3-1799-46fa-b836-e10d1de27ebf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Hutang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="0" width="48" height="15" uuid="f96fc24d-7a6d-4cc4-9521-56aff15a3ead">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Tunai]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="488" y="0" width="48" height="15" uuid="e2a8749c-f6a3-4951-8df7-289fb744d6fc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				</textElement>
+				<text><![CDATA[Card/CC]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23" splitType="Immediate">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="16" y="0" width="60" height="15" uuid="cfa3b5b7-c719-4811-be62-e488c275b31c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf1d4f16-76d1-46e0-af63-be58163ea378"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{noregistrasi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="15" height="15" uuid="1261d5f9-2b0a-4d85-aaf3-865eca80049d">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="cf34dfc5-f7b0-455b-be7e-85bd116606ba"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="0" width="53" height="15" uuid="cdb123bf-b549-4d88-8efd-db858c77d991">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bb62a8c6-4b3f-476b-ab46-422667c11fc6"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tglsbm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="183" y="0" width="97" height="15" uuid="4c623740-1def-41f4-970d-9d725e5211b2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="726b1ac7-9c7a-49cb-a3a2-4f46644f3855"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="281" y="0" width="76" height="15" uuid="321176f7-6453-4519-87b4-cc7f66555bd1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="caf08b61-af84-4465-b44c-d7e3747371ba"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{totaldibayar} == null) ? "Rp 0,00" : new java.text.DecimalFormat("Rp #,##0.00").format($F{totaldibayar})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="0" width="57" height="15" uuid="8f20581b-409e-4393-992e-171807c2ab2c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9157a588-8897-4409-b90f-65dbb127f22a"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{hutangpenjamin} == null) ? "Rp 0,00" : new java.text.DecimalFormat("Rp #,##0.00").format($F{hutangpenjamin})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="0" width="70" height="15" uuid="bc4ee552-a818-49a1-a770-fdbcef415c86">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e2dd65e5-3617-451b-bec5-7d8bb63b7270"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{tunai} == null) ? "Rp 0,00" : new java.text.DecimalFormat("Rp #,##0.00").format($F{tunai})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="0" width="55" height="15" uuid="30626ef3-a506-4cf1-b654-7efc5633df77">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b6e152f8-d318-4095-9565-28f8893ac846"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[($F{nontunai} == null) ? "Rp 0,00" : new java.text.DecimalFormat("Rp #,##0.00").format($F{nontunai})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="1" width="60" height="15" uuid="dec624de-befa-4883-a45b-cb3ea330156e">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bb62a8c6-4b3f-476b-ab46-422667c11fc6"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tglclosing}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="-1" y="1" width="540" height="1" uuid="ffcf4ea4-55bc-497f-81d0-d2f7687d390c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="396" y="0" width="112" height="15" uuid="4113a33d-9d01-4ebb-93f5-eebdc8c33d59">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Halaman "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="512" y="0" width="39" height="15" uuid="6c74f59d-9310-4159-9dd3-686565ff7d5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" pdfFontName="Times-Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="56"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,59 @@
+<!-- <c-panel item="item" header="'Daftar Tagihan Rekanan'" disabled> -->
+<div class="grid_12 headerBox">
+	<h1 style="color: white;"><b>Kartu Piutang Perusahaan</b></h1>
+</div>
+<div class="grid_12">
+	<div class="grid_12">
+		<div class="grid_10">
+			<div class="grid_3" style="margin-top:5px">
+				<label c-label item="item">Periode</label>
+				<div class="grid_6" ng-repeat="stat in listPeriode">
+					<input type="radio" name="{{stat.name}}" id="{{stat.name}}" class="k-radio" ng-model="item.periode"
+						value="{{stat.name}}" ng-click="klikPeriode(stat)">
+					<label class="k-radio-label" for="{{ stat.name}}"><b>{{stat.name}}</b></label>
+				</div>
+			</div>
+			<div class="grid_2" style="margin-top:5px" ng-show="isMonth">
+				<label c-label item="item">Bulan</label>
+				<input kendo-date-picker k-options="monthSelectorOptions" k-ng-model="item.tgl" k-format="'MMMM yyyy'"
+					style="width: 100%;" />
+			</div>
+			<div class="grid_3" ng-show="isDate">
+				<div class="grid_6">
+					<label c-label item="item">Tanggal Awal</label>
+					<input style="width: 100%" k-ng-model="item.tglawal" kendo-datepicker placeholer="yyyy-MM-dd"
+						k-format="'yyyy-MM-dd'" />
+				</div>
+
+				<div class="grid_6">
+					<label c-label item="item">Tanggal Akhir</label>
+					<input style="width: 100%" k-ng-model="item.tglakhir" kendo-datepicker placeholer="yyyy-MM-dd"
+						k-format="'yyyy-MM-dd'" />
+				</div>
+			</div>
+			<div class="grid_3" style="margin-top:5px">
+				<label c-label item="item">Nama Perusahaan</label>
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.perusahaan"
+					k-data-text-field="'namarekanan'" k-data-value-field="'id'" k-filter="'contains'"
+					k-auto-bind="false" k-data-source="listRekanan" />
+			</div>
+			<div class="grid_2" style="margin-top:5px">
+				<label c-label item="item">Noregistrasi</label>
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noCollect" />
+			</div>
+			<div class="grid_1" style="margin-top:20px">
+				<button class="btnTemplate1" ng-click="loadData()">Cari</button>
+			</div>
+		</div>
+	</div>
+	<div class="grid_12">
+		<div class="grid_12">
+			<div id="kGrid" kendo-grid k-data-source="dataSource" selectable="'true'" class="max-height"
+				options="detailOption" k-ng-model="dataSelected">
+			</div>
+		</div>
+	</div>
+	<div class="grid_12" style="margin-top:60px">
+		<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+	</div>
+</div>

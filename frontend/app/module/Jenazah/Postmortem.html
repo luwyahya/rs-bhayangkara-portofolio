@@ -1,0 +1,512 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate style="text-align: center;">
+            POSTMORTEM
+        </div>
+    </div>
+    <div class="grid_12" ng-show="isian">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Jenis Bencana</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">No Label DVI</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.nolabeldvi" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Tanggal Periksa</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" ng-model="item.tglperiksa" kendo-datetimepicker k-max="now"
+                    k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Jenis Kelamin</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jeniskelamin"
+                    k-data-text-field="'jeniskelamin'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisKelamin" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Perkiraan Usia</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.perkiraanusia" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Perkiraan Tinggi Badan</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.tinggibadan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Ciri Khusus</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.cirikhusus"
+                    style="height: 120px; width: 100%; " />
+                </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Barang Bukti / Properti</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.barangbukti"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan Barang Bukti</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keteranganbarang"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Golongan Darah</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.golongandarah"
+                    k-data-text-field="'golongandarah'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listGolonganDarah" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Pemeriksaan inafis</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.pemeriksaaninafis"
+                    k-data-text-field="'pemeriksaan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listPemeriksaan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Uraian inafis</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraianinafis"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan inafis</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keteranganinafis"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Tim</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.tim" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Dokter</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.dokter" />
+                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                    k-data-text-field="'namadokter'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDokter" /> -->
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual"
+                    id="pilihManual" ng-click="ceklispilihManual(model.cekpilihManual)">
+                <label class="c-label k-checkbox-label" for="pilihManual" required>Tambah Dokter</label>
+            </div>
+        </div>
+        <div class="grid_12" ng-show="dokter2">
+            <div class="grid_2">
+                <label c-label item="label">Dokter</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.dokter2" />
+                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                    k-data-text-field="'namadokter'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDokter" /> -->
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual2"
+                    id="pilihManual2" ng-click="ceklispilihManual2(model.cekpilihManual2)">
+                <label class="c-label k-checkbox-label" for="pilihManual2" required>Tambah Dokter</label>
+            </div>
+        </div>
+        <div class="grid_12" ng-show="dokter3">
+            <div class="grid_2">
+                <label c-label item="label">Dokter</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.dokter3" />
+                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                    k-data-text-field="'namadokter'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDokter" /> -->
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual3"
+                    id="pilihManual3" ng-click="ceklispilihManual3(model.cekpilihManual3)">
+                <label class="c-label k-checkbox-label" for="pilihManual3" required>Tambah Dokter</label>
+            </div>
+        </div>
+        <div class="grid_12" ng-show="dokter4">
+            <div class="grid_2">
+                <label c-label item="label">Dokter</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.dokter5" />
+                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                    k-data-text-field="'namadokter'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDokter" /> -->
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual4"
+                    id="pilihManual4" ng-click="ceklispilihManual4(model.cekpilihManual4)">
+                <label class="c-label k-checkbox-label" for="pilihManual4" required>Tambah Dokter</label>
+            </div>
+        </div>
+        <div class="grid_12" ng-show="dokter5">
+            <div class="grid_2">
+                <label c-label item="label">Dokter</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.dokter5" />
+                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                    k-data-text-field="'namadokter'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDokter" /> -->
+            </div>
+            <!-- <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual4"
+                    id="pilihManual4" ng-click="ceklispilihManual4(model.cekpilihManual4)">
+                <label class="c-label k-checkbox-label" for="pilihManual4" required>Tambah Dokter</label>
+            </div> -->
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">No Label TKP</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.nolabeltkp" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Obs Odontologi</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.obs" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Hasil Lab</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.hasillab" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Hasil Pemeriksaan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.hasilpemeriksaan"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan Pemeriksaan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keteranganpemeriksaan"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Pemeriksaan Gigi</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.pemeriksaangigi"
+                    k-data-text-field="'pemeriksaan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listPemeriksaan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Uraian Gigi</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraiangigi"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan Gigi</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangangigi"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+            </div>
+            <div class="grid_2"></div>
+            <div class="grid_10" style="margin-left: 17%;">
+            <div data-ng-repeat="image in images" ng-show="gambaredit">
+                <div class="clear" style="margin: 40px 0 0 40px;"></div>
+                <br><br><br>
+                <img data-ng-src="{{image.dataURL}}" style="max-width: 20%;"/>
+                <div class="clear"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" data-ng-click="deletefoto(image)">Hapus Foto</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Pemeriksaan DNA</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.pemeriksaandna"
+                    k-data-text-field="'pemeriksaan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listPemeriksaan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Uraian DNA</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.uraiandna"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan DNA</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangandna"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker2" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+            </div>
+            <div class="grid_2"></div>
+            <div class="grid_10" style="margin-left: 17%;">
+            <div data-ng-repeat="image in images2" ng-show="gambaredit">
+                <div class="clear" style="margin: 40px 0 0 40px;"></div>
+                <br><br><br><br><br>
+                <img data-ng-src="{{image.dataURL2}}" style="max-width: 20%;"/>
+                <div class="clear"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" data-ng-click="deletefoto(image)">Hapus Foto</button>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Sidik Jari</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.sidikjari"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker3" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+            </div>
+            <div class="grid_2"></div>
+            <div class="grid_10" style="margin-left: 17%;">
+            <div data-ng-repeat="image in images3" ng-show="gambaredit">
+                <div class="clear" style="margin: 40px 0 0 40px;"></div>
+                <br><br><br><br><br>
+                <img data-ng-src="{{image.dataURL3}}" style="max-width: 20%;"/>
+                <div class="clear"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" data-ng-click="deletefoto(image)">Hapus Foto</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangan"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 2%;">
+            <div class="grid_2">
+                <label c-label item="label">Lampiran</label>
+            </div>
+            <div class="grid_5">
+                <input type="file" class="custom-file-input" id="filePicker4" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg" multiple>
+            </div>
+            <div class="grid_2"></div>
+            <div class="grid_10" style="margin-left: 17%;">
+            <div data-ng-repeat="image in images4" ng-show="gambaredit">
+                <div class="clear" style="margin-top: 40px; margin-left: -40px;"></div>
+                <br><br><br><br><br>
+                <img data-ng-src="{{image.dataURL4}}" style="max-width: 20%;"/>
+                <div class="clear"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" data-ng-click="deletefoto(image)">Hapus Foto</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 1.5%;" ng-show="buttontambah">
+            <div class="grid_2">
+                <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-arrow-left"></i>Kembali</button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="save()"><i class="fa fa-floppy-o"></i>Simpan</button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 1.5%;" ng-show="buttonedit">
+            <div class="grid_2">
+                <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-arrow-left"></i>Kembali</button>
+            </div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="edit()"><i class="fa fa-floppy-o"></i>Simpan</button>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" ng-show="grid">
+        <div class="grid_2">
+            <label c-label item="label">Jenis Bencana</label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana2"
+                k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                k-auto-bind="false" k-data-source="listJenisBencana" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="search()">Cari</button>
+        </div>
+    </div>
+    <div class="grid_12 borderBox" ng-show="grid">
+        <kendo-grid id="kGrid" data-source="sourcePostmortem" options="columnPostmortem"
+            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedPostmortem"
+            ng-click="klik(dataSelectedPostmortem)">
+        </kendo-grid>
+    </div>
+    <div class="grid_12" ng-show="grid">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="tambah()"><i class="fa fa-plus"></i>Tambah</button>
+        </div>
+        <!-- <div class="grid_2">
+            <button class="btnTemplate1" ng-click="lihatam()"><i class="fa fa-search"></i>Lihat Daftar Antemortem</button>
+        </div> -->
+        <!-- <div class="grid_2">
+            <button class="btnTemplate1" ng-click="lihatam()"><i class="fa fa-search"></i>Teridentifikasi</button>
+        </div> -->
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="lihatdata()"><i class="fa fa-search"></i>Lihat Data</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="cetak()"><i class="fa fa-print"></i>Cetak</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpAntemortem" k-title="'Daftar Antemortem'" k-width="950" k-height="800" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid id="kGrid" data-source="dataAntemortem" options="columnAntemortem"
+                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedAntemortem"
+                ng-click="klik(dataSelectedAntemortem)">
+        </kendo-grid>
+            </div>
+            <div class="grid_10">
+                <div class="grid_10">
+                    <button class="btnTemplate1 cancel" ng-click="closeAntemortem()"><i class="fa fa-undo"></i>Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoAntemortem" k-title="'Foto Antemortem'" k-width="950" k-height="800" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+    
+            <!-- <div class="grid_12">
+                <img data-ng-src="data:image/jpeg;base64,{{imagen.base64}}" width="100%">
+            </div> -->
+            <!-- <div class="grid_12 borderBox">
+                <kendo-grid id="kGrid" data-source="dataFotoAntemortem" options="columnFotoAntemortem"
+                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedAntemortem"
+                ng-click="klik(dataSelectedAntemortem)">
+                </kendo-grid>
+            </div> -->
+            <div data-ng-repeat="image in images2">
+                <img data-ng-src="{{image.dataURL}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoPostmortem" k-title="'Foto Postmortem'" k-width="1800" k-height="800" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images3">
+                <img data-ng-src="{{image.dataURL3}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

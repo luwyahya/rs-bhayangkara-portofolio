@@ -1,0 +1,126 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12" style="background-color:transparant">
+        <div class="panel-heading"><label class='title' c-label item="item" real>Data Pasien</label></div>
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_2" style="margin-top:5px">
+                    <label c-label real>No RM </label>
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noRM"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.noRM" />
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <label c-label real>Nama Pasien</label>
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namaPasien"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.namaPasien" />
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <label c-label real>Tanggal Lahir</label>
+                    <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglLahir"
+                        k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
+                </div>
+
+                <div class="grid_2" style="margin-top:5px">
+                    <label c-label c-label-text="Nama ayah kandung" real></label>
+                    <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox"
+                        ng-model="item.namaAyah" ng-keypress="($event.which == 13)? SearchEnter():item.namaAyah" />
+                </div>
+                <div class="grid_3" style="margin-top:5px">
+                    <label c-label c-label-text="Alamat" real></label>
+                    <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox"
+                        ng-model="item.alamat" ng-keypress="($event.which == 13)? SearchEnter():item.alamat" />
+                </div>
+                <!--    <div class="grid_1" style="margin-top:5px">
+                    <label c-label c-label-text="Alamat" real></label>
+                    <input style="width: 100%;"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.alamat" ng-keypress="($event.which == 13)? SearchEnter():item.alamat"   />
+                </div> -->
+                <!--    <div class="grid_2" style="margin-top:5px">
+                    <label c-label c-label-text="Nama ayah kandung" real></label>
+                    <input style="width: 100%"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaAyah" />
+                </div> -->
+                <div class="grid_1" style="margin-top:5px">
+                    <label c-label c-label-text=""></label>
+                    <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
+                        class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                            class="k-sprite k-icon k-i-refresh">Refresh</span></em>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12 borderBox">
+                    <div id="kGrid" kendo-grid k-data-source="dataSourceGrid" k-selectable="'row'"
+                        k-columns="columnGrid" k-sortable="true" k-reorderable="true" k-pageable="true"
+                        k-groupable="true" k-resizable="true" k-scrollable="'true'" k-ng-model="dataPasienSelected"
+                        ng-click="klikGrid(dataPasienSelected)">
+                    </div>
+                </div>
+                <div class="grid_2" style="float:right;">
+                    <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;"
+                        item="item" size="24" position=" 'right'" ng-click="InputTriage()" class="primary">
+                        <span class="title">Input Triage</span>
+                    </c-button>
+                </div>
+                <div class="grid_3" style="float:right;">
+                    <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;"
+                        item="item" size="24" position=" 'right'" ng-click="InputTriagePasienBaru()" class="primary">
+                        <span class="title">Input Triage Pasien Baru</span>
+                    </c-button>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpTriagePasienBaru" k-title="'Input Data Pasien'" k-width="850" k-height="350" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_7">
+            <div class="grid_12">
+                <label c-label item="item">Nama Pasien</label>
+                <input required c-text-box type="input" filter="'string'" class="k-textbox"
+                    ng-model="dataitem.namaPasien" />
+            </div>
+            <div class="grid_12">
+                <div class="grid_4">
+                    <label c-label item="item">Tempat Lahir</label>
+                    <input required c-text-box type="input" filter="'string'" class="k-textbox"
+                        ng-model="dataitem.tempatLahir" />
+                </div>
+                <div class="grid_4" style="margin-bottom: 2px;">
+                    <label c-label item="item">Tgl Jam Lahir</label>
+                    <input required style="width: 100%" kendo-datetimepicker k-ng-model="dataitem.tglLahir"
+                        placeholer="dd-mm-yyyy HH:mm" k-format="'dd-MM-yyyy HH:mm'" />
+                </div>
+                <div class="grid_4">
+                    <label c-label item="item">Jenis Kelamin</label>
+                    <input required style="width: 100%;" kendo-combo-box k-ng-model="dataitem.jenisKelamin"
+                        k-data-text-field="'jeniskelamin'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-data-source="listDataJenisKelamin" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_5">
+            <div class="grid_12">
+                <label c-label item="item">Alamat</label>
+                <textarea required class="k-textbox" style="height: 76px; width: 100%; resize: none;"
+                    ng-model="dataitem.alamatLengkap"></textarea>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12" style="margin-top:10px">
+                    <label c-label item="item">No Telepon</label>
+                </div>
+                <div class="grid_12">
+                    <input required c-text-box type="input" class="k-textbox" ng-model="dataitem.noTelepon" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="simpanTriage()"><span
+                        class="k-icon k-update"></span>Selanjutnya</button>
+                <button class="k-button  k-button-icontext" ng-click="batal()"><span
+                        class="k-icon k-cancel"></span>Batal</button>
+            </div>
+        </div>
+    </div>
+</div>

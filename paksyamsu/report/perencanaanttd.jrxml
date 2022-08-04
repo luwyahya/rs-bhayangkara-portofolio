@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perencanaanttd" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<parameter name="x" class="java.lang.String"/>
+	<parameter name="defaultValue" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new Integer("1")]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT      top 1  orderpelayanan_t.hargasatuan/hasilkonversi as harga, orderpelayanan_t.hasilkonversi* orderpelayanan_t.qtyproduk as qty, (orderpelayanan_t.hargasatuan/hasilkonversi)*(orderpelayanan_t.hasilkonversi* orderpelayanan_t.qtyproduk) as total,rekanan_m.namarekanan, produk_m.namaproduk, satuanstandar_m.satuanstandar
+FROM            satuanstandar_m INNER JOIN
+                         produk_m ON satuanstandar_m.id = produk_m.objectsatuanstandarfk INNER JOIN
+                         orderpelayanan_t ON produk_m.id = orderpelayanan_t.objectprodukfk INNER JOIN
+                         rekanan_m ON orderpelayanan_t.objectrekananfk = rekanan_m.id
+ where orderpelayanan_t.tglpelayanan between $P{tglawal} and $P{tglakhir}                        
+ORDER BY rekanan_m.namarekanan]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="84" splitType="Stretch">
+			<image>
+				<reportElement x="-1" y="0" width="87" height="58" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="59" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="662" splitType="Stretch">
+			<staticText>
+				<reportElement x="306" y="69" width="212" height="30" uuid="14210247-72cf-4f7d-b1ad-528328883d31"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[BAGIAN PENGADAAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="145" width="196" height="20" uuid="1268f5e6-8730-4965-a0b7-b3e8c5686a9c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[RACHMAWIDIA F, S. Farm. Apt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="321" y="157" width="196" height="20" uuid="b8f0c396-0139-47c9-9d92-644b44e76880"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PTT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="321" y="158" width="196" height="1" uuid="f359082d-dc5f-42f5-9cea-f1508e2ef8fb"/>
+			</line>
+			<staticText>
+				<reportElement x="180" y="199" width="212" height="30" uuid="a65d9361-9880-47a4-9c19-457c2c9b40ea"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[KABID JANGMEDUM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="260" width="196" height="20" uuid="88468b1f-a0ae-4204-8ea4-a519539118c7"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[RUDATIN, S.K.M, M.Si]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="277" width="196" height="20" uuid="a1d89a69-a600-41a2-8803-0d47788cb1ab"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[KOMBES POL. NRP. 66090428]]></text>
+			</staticText>
+			<line>
+				<reportElement x="190" y="273" width="196" height="1" uuid="fcb4078c-20df-4dba-9243-ced7ec4105c0"/>
+			</line>
+			<staticText>
+				<reportElement x="180" y="330" width="212" height="24" uuid="43801818-d3f6-410e-bd12-acdda0563cb0"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[WAKIL KEPALA RUMAH SAKIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="392" width="196" height="20" uuid="b1447046-6d85-4521-b3cd-d426c44ccad4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[dr. UMAR SHAHAB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="408" width="196" height="20" uuid="8d4e8df5-2223-4a04-973b-e99f25a247b2"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[KOMBES POL. NRP. 65040830]]></text>
+			</staticText>
+			<line>
+				<reportElement x="188" y="405" width="196" height="1" uuid="d57eebf0-b25e-4013-be92-898d35930e5d"/>
+			</line>
+			<staticText>
+				<reportElement x="180" y="463" width="212" height="42" uuid="011c7b46-391b-4d47-8376-ebd2a51b134d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[MENGETAHUI
+KARUMKIT BHAYANGKARA TK. 1
+R. SAID SUKANTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="544" width="196" height="20" uuid="69e56548-be88-4cc2-9ec9-9a2cd8de6379"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[dr. ASEP HENDRADIANA Sp.An, KIC, M.Kes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="556" width="196" height="20" uuid="4e62cc1c-46c8-40dc-a40d-cc2bcb0bb752"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[BIRGADIR JENDRAL POLISI]]></text>
+			</staticText>
+			<line>
+				<reportElement x="188" y="557" width="196" height="1" uuid="04277164-75e7-48ed-bdaf-f58bbfa38327"/>
+			</line>
+			<staticText>
+				<reportElement x="50" y="69" width="212" height="30" uuid="20a9590c-cad0-4e53-a67b-6e2ec6a87983"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<text><![CDATA[KA. INSTALASI FARMASI,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="145" width="196" height="20" uuid="43f68bd0-27d6-499f-b29e-ea0ba7e3c898"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[LAILUL HIDAYATI, S.Farm,Apt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="65" y="157" width="196" height="20" uuid="99456e94-dad6-42b6-b400-f9adb03ecf6b"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PENDA TK.I 198007092005012010]]></text>
+			</staticText>
+			<line>
+				<reportElement x="65" y="158" width="196" height="1" uuid="002d67ce-4210-4db0-851a-02095b4f4fd6"/>
+			</line>
+			<textField>
+				<reportElement x="209" y="31" width="153" height="30" uuid="f5575845-3639-4580-a1c2-f75fc52ec587"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["JAKARTA, "+$P{x}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

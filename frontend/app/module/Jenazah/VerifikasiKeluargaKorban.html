@@ -1,0 +1,80 @@
+<style>
+    .btnBiru {
+        color: #000;
+        background-color: #23badb;
+        border-color:  #23badb;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>
+            Verifikasi Keluarga Korban
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_2" ng-show="jenisbencana">
+                <label c-label item="label">Jenis Bencana</label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana2"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana2" />
+            </div>
+            <div class="grid_2">
+                <label c-label item="label">Nama Korban</label>
+                <input style="width: 100%;" class="k-textbox" ng-model="item.namakorban" />
+            </div>
+            <div class="grid_2" style="margin-top: 1%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual"
+                    id="pilihManual" ng-click="ceklispilihManual(model.cekpilihManual)">
+                <label class="c-label k-checkbox-label" for="pilihManual" required>Pencarian Berdasarkan Status Belum di Verifikasi</label>
+            </div>
+            <div class="grid_2" style="margin-top: 0.7%;">
+                <button class="btnTemplate1" ng-click="cari()">Cari</button>
+            </div>
+        </div>
+        <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="sourceVerifikasi" options="columnVerifikasi"
+                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedVerifikasi"
+                ng-click="klik(dataSelectedVerifikasi)">
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div kendo-window="popUpJenisBencana" k-title="'Jenis Bencana'" k-width="550" k-height="400" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            
+            <div class="clear"></div>
+    
+            <div class="grid_12">
+                <label c-label item="label">Jenis Bencana</label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+            <div class="grid_10">
+                <div class="grid_10">
+                    <button class="btnTemplate1" ng-click="simpan()"><i class="fa fa-floppy-o"></i>Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFoto" k-title="'Foto'" k-width="2000" k-height="800" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images1">
+                <img data-ng-src="{{image.dataURL1}}"/>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="tutupLihatFoto()">Kembali</button>
+        </div>
+    </div>
+</div>

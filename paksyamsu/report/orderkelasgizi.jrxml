@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="penerimaanharian" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.print.create.bookmarks" value="true"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select sum(x.KelasI) as KelasI,
+sum(x.KelasII) as KelasII,
+sum(x.KelasIII) as KelasIII,
+sum(x.Intensive) as Intensive,
+sum(x.VVIP) as VVIP,
+sum(x.VIP) as VIP,
+sum(x.KelasI + x.KelasII + x.KelasIII + x.Intensive + x.VIP + x.VVIP) as total2, x.tglorder from  
+(SELECT      CASE WHEN namakelas = 'Kelas I' THEN   COUNT(*)  ELSE 0 END AS KelasI, CASE WHEN namakelas = 'Kelas II' THEN   COUNT(*)  ELSE 0 END AS KelasII, CASE WHEN namakelas = 'Kelas III' THEN   COUNT(*)  ELSE 0 END AS KelasIII, 
+                         CASE WHEN namakelas = 'Intensive' THEN   COUNT(*)  ELSE 0 END AS Intensive, CASE WHEN namakelas = 'VIP' THEN   COUNT(*)  ELSE 0 END AS VIP,CASE WHEN namakelas = 'VVIP' THEN   COUNT(*)  ELSE 0 END AS VVIP, tglorder2 AS tglorder
+FROM            v_labelgizi
+WHERE        $P!{kondisi}
+GROUP BY namakelas, tglorder2
+) as x
+group by tglorder
+ORDER BY tglorder]]>
+	</queryString>
+	<field name="KelasI" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="KelasII" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="KelasIII" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="VIP" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="Intensive" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="VVIP" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tglorder" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="total2" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<variable name="nourut" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{nourut}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="total" class="java.lang.String"/>
+	<variable name="VIPtotal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{VIP}]]></variableExpression>
+	</variable>
+	<variable name="VVIPtotal_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{VVIP}]]></variableExpression>
+	</variable>
+	<variable name="kelas1total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{KelasI}]]></variableExpression>
+	</variable>
+	<variable name="kelas2total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{KelasII}]]></variableExpression>
+	</variable>
+	<variable name="kelas3total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{KelasIII}]]></variableExpression>
+	</variable>
+	<variable name="intensive" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{Intensive}]]></variableExpression>
+	</variable>
+	<variable name="total2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{total2}]]></variableExpression>
+	</variable>
+	<group name="judul">
+		<groupFooter>
+			<band height="31">
+				<staticText>
+					<reportElement x="19" y="-2" width="96" height="16" uuid="38c0ac6a-e1f4-49fb-9814-545f6ff40371"/>
+					<textElement textAlignment="Right">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[TOTAL AKHIR]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="12" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="132" y="24" width="69" height="15" forecolor="#0A0101" uuid="7a2f3caf-43ab-4208-a671-0eb135b750a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periode :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="108" y="0" width="392" height="19" forecolor="#0A0101" uuid="b99ee7b0-0157-4e63-a990-01ab71788e56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REKAPITULASI ORDER GIZI SESUAI KELAS ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="195" y="26" width="95" height="18" uuid="bbeff535-5c48-403d-972c-17c27d2eeefd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tglawal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="26" width="102" height="18" uuid="6d5fb66f-0a66-464b-9b7e-2eb099bda591"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tglakhir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="279" y="24" width="19" height="15" forecolor="#0A0101" uuid="d33bdef1-9303-47c4-8e92-b539f4d74bdd"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="23" width="551" height="1" uuid="f85fb5a1-e8ab-43aa-9927-7e4d63d81081"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="27">
+			<staticText>
+				<reportElement x="10" y="5" width="28" height="16" uuid="29092f69-339c-49ee-a6b5-e7dcaf927932">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="56" y="5" width="66" height="16" uuid="f96eb684-3fba-42a1-b011-9b13b6be6896">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="126" y="5" width="58" height="16" uuid="1eec6925-3a84-4fbd-9faf-f3355355f5e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="5" width="46" height="16" uuid="a3164229-c124-42a2-b467-d2c1d4a1494c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KELAS I]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="5" width="90" height="16" uuid="d69a0877-c845-40fb-95b2-deb596425c6e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KELAS II]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="2" width="551" height="1" uuid="f3ce8ee2-a979-4b92-a22f-e52d60bd9ba3"/>
+			</line>
+			<line>
+				<reportElement x="2" y="24" width="551" height="1" uuid="c163b0e4-421f-4510-acd0-140f57692d81"/>
+			</line>
+			<staticText>
+				<reportElement x="512" y="6" width="58" height="16" uuid="9f82d90f-a4a7-499a-bbde-0aae96adf00b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="354" y="5" width="90" height="16" uuid="62facb64-30e2-4e7c-89b1-f90638c6ffa3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[KELAS III]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="5" width="61" height="16" uuid="ccac3e14-2c1c-4e22-a80b-9493610a6c0f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INTENSIVE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="168" y="5" width="40" height="16" uuid="783307f8-6792-420f-93f9-b8f9bf0abe30">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VVIP]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="52" y="0" width="64" height="12" uuid="e95300ef-bb19-491c-a6e3-3d8b3710c629">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglorder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="1" width="27" height="12" uuid="61cd1eff-9467-49e7-917a-5e31b6624312"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{nourut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="0" width="33" height="12" uuid="ff09e725-37e1-4b2f-a507-74989bd1c8dd">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VIP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="172" y="0" width="42" height="12" uuid="6026d7a0-0732-460e-9208-a0a469be1340">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{VVIP}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="225" y="0" width="62" height="12" uuid="6cfbeb89-6b1d-480e-9adc-5c0904cb0825">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KelasI}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="17" width="551" height="1" uuid="b2613efa-1cb9-44d1-9a5e-23fe3aeb13cf"/>
+			</line>
+			<textField>
+				<reportElement x="293" y="0" width="62" height="12" uuid="cb1ad602-e43e-4e31-8d0b-4c3be5a31132">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KelasII}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="-1" width="62" height="12" uuid="1b56ff57-9961-4024-8008-cd6658d873ed">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{KelasIII}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="437" y="0" width="70" height="12" uuid="c4983d7d-7c53-4f24-a3d4-00cfdfa6e315">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Intensive}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="44" y="-25" width="1" height="43" uuid="0acda877-196e-4deb-8e76-7c9364cc845e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="2" y="-25" width="1" height="43" uuid="1189924e-ddfd-47ab-a6c2-350df2d9e97d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="120" y="-25" width="1" height="43" uuid="ced2ab9d-6f63-4879-bd26-52c4ffcb3577">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="161" y="-25" width="1" height="43" uuid="6f33b0fc-37f3-4f50-a9bf-90c97d437c6d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="208" y="-25" width="1" height="43" uuid="9a611915-4288-477d-be06-9fbd54cff7ac">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="270" y="-25" width="1" height="43" uuid="50346237-0b97-44c8-981c-cdc682e70e9f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="338" y="-25" width="1" height="43" uuid="f5cdaa3c-fbe6-4590-8788-91fe05ba8bc4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="409" y="-25" width="1" height="43" uuid="aa13737c-590c-4d95-a2bc-ec5ad7bfff35">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="497" y="-25" width="1" height="43" uuid="d56bb408-8450-487f-aa26-3f336e6490a5">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="552" y="-25" width="1" height="43" uuid="6895730d-1bc0-4bdb-8bc2-750e3759a0d2">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="518" y="1" width="43" height="12" uuid="64f89763-1903-4d2c-875d-12ded94f1a2d"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="82">
+			<textField>
+				<reportElement x="125" y="-32" width="41" height="12" uuid="ccdb5130-28ce-498f-9d98-dee808450446"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{VIPtotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="170" y="-32" width="41" height="12" uuid="475c3640-dcb8-4090-811e-fa2e9d9a4a37"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{VVIPtotal_1}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="-32" width="41" height="12" uuid="9214e874-3fcc-4518-a09c-091e6a6975bd"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{kelas1total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="291" y="-32" width="41" height="12" uuid="81cbfd74-a85a-4cfb-82a0-089e5e2fc2f7"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{kelas2total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="-32" width="41" height="12" uuid="bd21686f-d9cd-4b1f-b91c-825d08345c3a"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{kelas3total}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="-32" width="41" height="12" uuid="43298e56-5c91-4cee-be80-935c9632ea54"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{intensive}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="509" y="-32" width="41" height="12" uuid="da6fd0b5-32e3-47c9-b8b7-b43e28db2e9b"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

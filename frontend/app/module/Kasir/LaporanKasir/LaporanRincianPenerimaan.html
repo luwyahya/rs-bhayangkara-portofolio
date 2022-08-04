@@ -1,0 +1,209 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+    
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+<div class="grid_12 headerBox">
+    <h1 style="color: white;"><b>Laporan Rincian Penerimaan</b></h1>
+</div>
+<div class="grid_12">
+     <div class="grid_6">
+     </div>
+    <div class="grid_2">
+        <label c-label item="item" c-label-text="Tanggal awal"></label>
+        <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+            k-format="'yyyy-MM-dd HH:mm'" />
+    </div>
+    <div class="grid_2">
+        <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+        <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+            k-format="'yyyy-MM-dd HH:mm'" />
+    </div>
+    <div class="grid_1">
+        <div class="grid_12">
+            <label>&nbsp;</label>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+                ng-click="CariLapPasienPulang()">Cari</button>
+        </div>
+    </div>
+    <div class="grid_1">
+        <div class="grid_12">
+            <label>&nbsp;</label>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+                ng-click="NewMapping()">Mapping</button>
+        </div>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:10px">
+    <div class="grid_12 headerBox">
+        <p>Data Laporan</p>
+    </div>
+    <div class="clear"></div>
+    <div class="grid_12 borderBox">
+        <div id="kGrid" kendo-grid k-data-source="dataPasienPulang" k-selectable="'row'" k-groupable="true" class="max-height"
+            options="columnPasienPulang" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelected"
+            ng-click="klik(dataPasienSelected)">
+        </div>
+        <!-- <kendo-grid data-source="dataPasienPulang" options="columnPasienPulang" k-ng-model="dataPasienSelected"
+            ng-click="click(dataPasienSelected)" k-groupable="true" class="max-height"></kendo-grid> -->
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+
+<div kendo-window="popUpDetail" k-title="'Detail'" k-width="1200"  k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <fieldset>
+            <legend>{{item.nama}}</legend>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <div class="grid_12">
+                        <label c-label item="item">Nama Ruangan</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox"
+                        ng-model="item.nmRuangan" disabled />
+                    </div>
+                </div>
+                <div class="grid_3">
+                    <div class="grid_12">
+                        <label c-label item="item">Nama Layanan</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox"
+                        ng-model="item.nmLayanan" disabled />
+                    </div>
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Kelompok</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompok"
+                        k-data-text-field="'kelompok'" k-data-value-field="'kdkelompokpenerimaan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKelompok" k-on-change='getIsiComboKelompokLayanan()' />
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Kelompok Layanan</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokLayanan"
+                        k-data-text-field="'kelompoklayanan'" k-data-value-field="'kdkelompoklayanan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKelompokLayanan" k-on-change='getIsiComboLayanan()' />
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Layanan</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.layanan"
+                        k-data-text-field="'layanan'" k-data-value-field="'kdlayanan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listLayanan" />
+                </div>
+                 <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:22px">
+                    <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SaveMapping()"><span
+                            class="k-icon k-update"></span>Simpan</button>
+                </div>
+                <div class="grid_12 borderBox">
+                    <div id="kGrid" kendo-grid k-data-source="dataPasienDetail" k-selectable="'row'" k-groupable="true" 
+                        options="columnPasienDetail" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataDetailSelected"
+                        ng-click="klikDetail(dataDetailSelected)">
+                    </div>
+                    <!-- <kendo-grid data-source="dataPasienPulang" options="columnPasienPulang" k-ng-model="dataPasienSelected"
+                        ng-click="click(dataPasienSelected)" k-groupable="true" class="max-height"></kendo-grid> -->
+                </div>
+            </div>
+            
+
+
+        </fieldset>
+
+       <!--  <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+            <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SaveJawab()"><span
+                    class="k-icon k-update"></span>Simpan</button>
+            <button class="k-button  k-button-icontext" ng-click="batal()"><span
+                    class="k-icon k-cancel"></span>Batal</button>
+        </div> -->
+
+    </div>
+</div>
+<div kendo-window="popUpMap" k-title="'Mapping'" k-width="1500"  k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <fieldset>
+            <legend>{{item.nama}}</legend>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <div class="grid_12">
+                        <label c-label item="item">Nama Ruangan</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox"
+                        ng-model="item.nmRuangan" disabled />
+                    </div>
+                </div>
+                <div class="grid_3">
+                    <div class="grid_12">
+                        <label c-label item="item">Nama Layanan</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox"
+                        ng-model="item.nmLayanan" disabled />
+                    </div>
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Kelompok</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompok"
+                        k-data-text-field="'kelompok'" k-data-value-field="'kdkelompokpenerimaan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKelompok" k-on-change='getIsiComboKelompokLayanan()' />
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Kelompok Layanan</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokLayanan"
+                        k-data-text-field="'kelompoklayanan'" k-data-value-field="'kdkelompoklayanan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKelompokLayanan" k-on-change='getIsiComboLayanan()' />
+                </div>
+                <div class="grid_2">
+                    <label c-label item="item">Layanan</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.layanan"
+                        k-data-text-field="'layanan'" k-data-value-field="'kdlayanan'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listLayanan" />
+                </div>
+                 <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:22px">
+                    <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SaveMapping()"><span
+                            class="k-icon k-update"></span>Simpan</button>
+                </div>
+                <div class="grid_12 borderBox">
+                    <div id="kGrid" kendo-grid k-data-source="dataPasienmapping" k-selectable="'row'" k-groupable="true" 
+                        options="columnPasienmapping" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataMapSelected"
+                        ng-click="klikMap(dataMapSelected)">
+                    </div>
+                    <!-- <kendo-grid data-source="dataPasienPulang" options="columnPasienPulang" k-ng-model="dataPasienSelected"
+                        ng-click="click(dataPasienSelected)" k-groupable="true" class="max-height"></kendo-grid> -->
+                </div>
+            </div>
+            
+
+
+        </fieldset>
+
+       
+
+    </div>
+</div>

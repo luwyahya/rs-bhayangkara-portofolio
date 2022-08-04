@@ -1,0 +1,96 @@
+	<div class="panel panel-default container_12"> 
+		<div class="panel-heading" c-translate style="text-align: center;">Tarif Layanan</div>
+		<div class="panel-body">
+			<div class="grid_12" >
+				<div class="grid_4">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Produk"></label>
+						<div class="grid_12">
+				            <div class="grid_4">
+				                <input c-text-box type="input"  filter="" class="k-textbox" ng-model="item.namaproduk"  />
+				            </div>
+							<div class="grid_8">
+						        <input kendo-combo-box k-ng-model="item.produk" k-data-text-field="'namaproduk'" k-data-value-field="'kdproduk'" k-filter="'contains'" k-auto-bind="false" k-data-source="listProduk" />
+						    </div>
+						</div>
+					</div>	
+				</div>
+				<div class="grid_2" style="margin-top: 5px;">
+					<div class="grid_12">
+						 <label c-label item="item" c-label-text="Kelas"></label>
+						 <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="ListKelas" />
+					</div>	
+				</div>
+				<div class="grid_2" style="margin-top: 5px;">
+					<div class="grid_12">
+						 <label c-label item="item" c-label-text="Jenis Pelayanan"></label>
+						 <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisPelayanan" k-data-text-field="'jenispelayanan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="ListJenisPelayanan" />
+					</div>	
+				</div>
+				<div class="grid_2" style="margin-top: 5px;">
+					<div class="grid_12">
+						 <label c-label item="item" c-label-text="Nama Ruangan"></label>
+						 <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="ListRuangan" />
+					</div>	
+				</div>
+				<div class="grid_2" style="margin-top: 27px;">
+            	    <button class="c-button" ng-click="SearchData()">Cari</button>
+                </div>
+			</div>
+			<div class="grid_12" >
+                <!-- grid table -->
+                <div class="grid_12 borderBox">
+                 	<div kendo-grid id="kGrid"
+					k-data-source="sourceTarif"
+	                k-groupable="'true'"
+					k-selectable="'row'" 
+	                class="max-height"
+	                k-pageable="'true'" 
+					k-columns="columndata" 
+					k-sortable="'true'"
+					k-ng-model="dataSelected" 
+					ng-click="klik(dataSelected)">
+	                </div>
+	            </div>
+	        </div>
+
+			
+
+            
+            <div class="grid_12" style="margin-top:60px">
+				<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+			</div>               
+    	</div>
+	</div>
+
+<div kendo-window="popupHitungRemunerasi" k-title="'Detail'" k-visible="false" k-width="1000" k-height="550">
+    <div class="panel panel-default container_12"> 
+         <div class="grid_12">
+                <div class="grid_12 borderBox">
+                 	<div kendo-grid id="kGrid"
+					k-data-source="sourceTarifdetail"
+	                k-groupable="'true'"
+					k-selectable="'row'" 
+	                class="max-height"
+	                k-pageable="'true'" 
+					k-columns="columndatadetail" 
+					k-sortable="'true'"
+					k-ng-model="dataSelecteddetail" 
+					ng-click="klikdetail(dataSelecteddetail)">
+	                </div>
+	            </div>
+	        </div>
+	        <div class="grid_12">
+		        <div class="grid_8">
+		        </div>
+		        <div class="grid_4" >
+		            <div class="grid_12">
+		                <label c-label item="item" c-label-text="Total Harga"></label>
+		            </div>
+		            <div class="grid_12">
+		                <input c-text-box type="input"  filter="" class="k-textbox" ng-model="item.ttlharga" ng-disabled="true" />
+		            </div>
+		        </div>
+	        </div>        		 
+    </div>
+</div>

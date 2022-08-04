@@ -1,0 +1,626 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .photo-pasiens {
+        /* display: inline-block; */
+        width: 400px;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .md-dialog-container,
+    md-dialog {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        z-index: 200000;
+    }
+
+    fieldset {
+        border: 1px solid #c8c8c8;
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    img.photo-pasien {
+        width: 300px;
+        height: 100%;
+        object-fit: contain;
+    }
+</style>
+<c-panel item="item" header="'Pendaftaran Pasien Lama'" disabled>
+    <div class="panel-place" style="top: -1px;"><i style="cursor:pointer;" ng-click='pasienBaru()'
+            class="fa  fa-user-plus fa-2x"></i></div>
+</c-panel>
+
+<div class="grid_12">
+
+    <div class="grid_1" style="margin-top:5px">
+        <label c-label real>No RM </label>
+        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noRM"
+            ng-keypress="($event.which == 13)? SearchEnter():item.noRM" />
+    </div>
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label real>Nama Pasien</label>
+        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namaPasien"
+            ng-keypress="($event.which == 13)? SearchEnter():item.namaPasien" />
+    </div>
+    <div class="grid_1" style="margin-top:5px">
+        <label c-label real>Tanggal Lahir</label>
+        <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglLahir"
+            k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
+    </div>
+
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label c-label-text="Nama ayah kandung" real></label>
+        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaAyah"
+            ng-keypress="($event.which == 13)? SearchEnter():item.namaAyah" />
+    </div>
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label c-label-text="Nama Ibu kandung" real></label>
+        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaIbu"
+            ng-keypress="($event.which == 13)? SearchEnter():item.namaIbu" />
+    </div>
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label c-label-text="Nomor BPJS" real></label>
+        <input style="width: 100%" c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noBpjs"
+            ng-keypress="($event.which == 13)? SearchEnter():item.noBpjs" />
+    </div>
+    <div class="grid_3" style="margin-top:5px">
+        <label c-label c-label-text="Alamat" real></label>
+        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.alamat"
+            ng-keypress="($event.which == 13)? SearchEnter():item.alamat" />
+    </div>
+    <!--    <div class="grid_1" style="margin-top:5px">
+                            <label c-label c-label-text="Alamat" real></label>
+                            <input style="width: 100%;"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.alamat" ng-keypress="($event.which == 13)? SearchEnter():item.alamat"   />
+                        </div> -->
+    <!--    <div class="grid_2" style="margin-top:5px">
+                            <label c-label c-label-text="Nama ayah kandung" real></label>
+                            <input style="width: 100%"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaAyah" />
+                        </div> -->
+    <div class="grid_1" style="margin-top:5px">
+        <label c-label c-label-text=""></label>
+        <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
+            class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                class="k-sprite k-icon k-i-search">Cari</span></em>
+    </div>
+</div>
+<div class="grid_12">
+    <div class="clear"></div>
+    <div class="grid_12 borderBox">
+        <!-- <kendo-grid id="kGrid" data-source="dataDaftarPasienPulang" options="columnDaftarPasienPulang"
+				k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+				k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"></kendo-grid> -->
+        <div id="kGrid" kendo-grid data-source="dataSourceGrid" k-selectable="'row'" options="columnGrid"
+            k-sortable="true" k-reorderable="true" k-pageable="'true'" k-groupable="true" k-resizable="true"
+            k-scrollable="'true'" k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"
+            ng-dblclick="klikdua(dataPasienSelected)">
+        </div>
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="RiwayatRegistrasi()"><i
+                class="fa fa-history"></i>Riwayat Registrasi</button>
+
+        <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+            size="24" position=" 'right'" ng-click="RiwayatRegistrasi()" class="primary">
+            <span class="title">Riwayat Registrasi</span>
+        </c-button> -->
+
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="RegistrasiPasien()"><i
+                class="fa fa-arrow-circle-right"></i> Registrasi</button>
+        <!--   <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+            size="24" position=" 'right'" ng-click="RegistrasiPasien()" class="primary">
+            <span class="title">Registrasi</span>
+        </c-button> -->
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="RegistrasiPasienPegawai()"><i
+                class="fa fa-arrow-circle-right"></i> Registrasi Isoma</button>
+        <!--   <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+            size="24" position=" 'right'" ng-click="RegistrasiPasien()" class="primary">
+            <span class="title">Registrasi</span>
+        </c-button> -->
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="HapusRegistrasiPasienPegawai()"><i
+                class="fa fa-arrow-circle-right"></i>Hapus Registrasi Isoma</button>
+        <!--   <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+            size="24" position=" 'right'" ng-click="RegistrasiPasien()" class="primary">
+            <span class="title">Registrasi</span>
+        </c-button> -->
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="EditPasien()"><i class="fa fa-edit"></i> Edit
+            Pasien</button>
+        <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+            size="24" position=" 'right'" ng-click="EditPasien()" class="primary">
+            <span class="title">Edit Pasien</span>
+        </c-button> -->
+    </div>
+    <!-- <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="cancel" ng-click="HapusPasien()"><i class="fa fa-trash"></i>
+            Hapus Data</button> -->
+    <!-- <c-button ng-show="!isLoading" class="error" style="width: 100%; font-size: 24px; padding:0px, margin:0px;"
+            item="item" size="24" position=" 'right'" ng-click="HapusPasien()" class="primary">
+            <span class="title">Hapus Data</span>
+        </c-button> -->
+    <!-- </div> -->
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="gabungkanNoRM()"><i class="fa fa-copy"></i>
+            Gabungkan</button>
+        <!-- <c-button ng-show="!isLoading" class="error" style="width: 100%; font-size: 24px; padding:0px, margin:0px;"
+                item="item" size="24" position=" 'right'" ng-click="HapusPasien()" class="primary">
+                <span class="title">Hapus Data</span>
+            </c-button> -->
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="inputRMManual()"><i class="fa fa-copy"></i>
+            NoRM Manual</button>
+    </div>
+    <!-- <div class="grid_2" ng-show='cboUbahDokter'>
+        <button class="btnTemplate1" style="margin-top:-20px;margin-left: 0;" ng-click="GelangPasien()"><i
+                class="fa fa-print"></i>Gelang
+            Pasien</button>
+    </div> -->
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="labelpasien()"><i class="fa fa-copy"></i>
+            Label Pasien</button>
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="primary" ng-click="kartupasien()"><i class="fa fa-print"></i>
+            Kartu Pasien</button>
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="warning" ng-click="tambahData()"><i class="fa fa-print"></i>
+            TAMBAH Surat Kontrol/SPRI</button>
+    </div>
+    <div class="grid_2" style="float:right;">
+        <button kendo-button style="width: 100%" class="success" ng-click="synchronizeKontrolAndSPRI()"><i
+                class="fa fa-print"></i>
+            Get No Control n SPRI from BPJS</button>
+    </div>
+
+    <!-- </c-panel>         -->
+    <div class="grid_12">
+        <div kendo-window="popUpRiwayatRegistrasi" k-title="'Data Riwayat Registrasi'" k-width="1000" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <div class="grid_11">
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>No RM </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemD.noRM"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemD.noRM" disabled />
+                    </div>
+                    <div class="grid_3" style="margin-top:5px">
+                        <label c-label real>Nama Pasien </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemD.namaPasien"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemD.namaPasien" disabled />
+                    </div>
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>Tgl Lahir </label>
+                        <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="itemD.tglLahir"
+                            k-format="'dd-MM-yyyy'"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemD.tglLahir" disabled />
+                    </div>
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>No Registrasi </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemD.noRegistrasi"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemD.noRegistrasi" />
+                    </div>
+                    <div class="grid_3" style="margin-top:5px">
+                        <label c-label real>Jumlah Rawat Inap</label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemD.JumlahRawat"
+                            disabled />
+                    </div>
+                </div>
+                <div class="grid_1" style="margin-top:10px">
+                    <label c-label c-label-text=""></label>
+                    <em style="margin-top:6px;" ng-click='SearchEnterDetail()' id="iconButton" data-role="button"
+                        class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                            class="k-sprite k-icon k-i-search">Cari</span></em>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12 headerBox">
+                        <p>Riwayat Registrasi</p>
+                    </div>
+                    <div class="clear"></div>
+                    <!-- grid table -->
+                    <div class="grid_12 borderBox">
+                        <kendo-grid id="kGrid" data-source="dataRiwayatRegistrasi" options="columnRiwayatRegistrasi"
+                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                            k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                        </kendo-grid>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="grid_12">
+                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                        <button class="k-button  k-button-icontext" ng-click="TutupPopUp()"><span
+                                class="k-icon k-cancel"></span>Tutup</button>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top:60px">
+                    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div kendo-window="popUpPhoto" k-title="'Photo '" k-width="370" k-visible="false" k-on-open="win2visible = true"
+        k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <div class="grid_12">
+                <fieldset class="effect-shadow" style="border-radius: 4px;margin-top:5px">
+                    <!-- <a href="../app/image/logo.png" download></a> -->
+                    <div id="crop-avatar" style="padding: 10px">
+                        <img id="embedImage" class="photo-pasien" src="{{item.image}}" alt="Avatar" title="avatar">
+                    </div>
+                    <!--
+                    <button ng-click="saveImage()">save image</button> -->
+                </fieldset>
+            </div>
+            <div class="grid_12">
+                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                    <button class="k-button  k-button-icontext" ng-click="tutupPhoto()"><i
+                            class="fa fa-times-circle"></i>&nbsp;Tutup</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div kendo-window="popUpGabungkan" k-title="'Penggabungan Duplikasi No RM '" k-width="800" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="panel panel-default container_12">
+            <div class="grid_12">
+                <fieldset class="effect-shadow" style="border-radius: 4px;margin-top:5px">
+                    <div class="grid_2">
+                        <div class="grid_12">
+                            <label c-label item="item ">No RM</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.rmAsal"
+                                disabled="" />
+                        </div>
+                    </div>
+                    <div class="grid_8">
+                        <div class="grid_12">
+                            <label c-label item="item ">Nama Pasien</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                ng-model="item.namaPasienAsal" disabled="" />
+                        </div>
+                    </div>
+
+                    <div class="grid_2">
+                        <div class="grid_12">
+                            <label c-label item="item ">Gabung Ke</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                ng-model="item.rmTujukan" />
+                        </div>
+                    </div>
+
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item ">Password</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="password" filter="'char'" class="k-textbox"
+                                ng-model="item.password" />
+                        </div>
+                    </div>
+
+                </fieldset>
+            </div>
+            <div class="grid_12">
+                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                    <button class="k-button  k-button-icontext" ng-click="saveGabungkan()"><i
+                            class="fa fa-times-circle"></i>&nbsp;Simpan</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Cetak Label  -->
+    <div kendo-window="dialogCetakLabel" k-title="'Masukkan kuantiti cetak'" k-width="400" k-height="120"
+        k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <label c-label item="item " c-label-text="kuantiti "></label>
+        <input id="qtyCetak" name="qtyCetak" kendo-numeric-text-box k-options="formatNum" k-ng-model="dats.qty"
+            style="width:100%;" />
+        <div class="clear">
+            <button class="k-button" ng-click="pilihQty(dats)" style="float:right;margin-top:4%">Cetak</button>
+        </div>
+
+        <div kendo-window="popUpManual" k-title="'Input No RM Manual'" k-width="800" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style="border-radius: 4px;margin-top:5px">
+                        <div class="grid_2">
+                            <div class="grid_12">
+                                <label c-label item="item ">No RM Manual</label>
+                            </div>
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                    ng-model="item.normManual" maxlength="8" />
+                            </div>
+                        </div>
+
+
+                    </fieldset>
+                </div>
+                <div class="grid_12">
+                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                        <button class="k-button  k-button-icontext" ng-click="saveNormManual()"><i
+                                class="fa fa-times-circle"></i>&nbsp;Simpan</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div kendo-window="popupDokumen" k-title="'Dokumen'" k-width="1200" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <div class="grid_4" style="margin-top:5px">
+                    <label c-label item="item " c-label-text="jenis Dokumen " real></label>
+                    <input style="width: 100%; " kendo-combo-box k-ng-model="item.namadokumen "
+                        k-data-text-field=" 'namadokumen' " k-filter=" 'contains' " k-data-value-field=" 'value' "
+                        k-auto-bind="false " k-data-source="listDokumen" />
+                </div>
+                <div class="grid_4" style="margin-top:5px">
+                    <label c-label real>Tanggal Dokumen</label>
+                    <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglDokumen"
+                        k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
+                </div>
+                <div class="grid_4" style="margin-top:5px">
+                    <label c-label real>Dokumen</label>
+                    <input type="file" id="filePicker">
+                    <textarea id="base64textarea" placeholder="Base64 will appear here" cols="50" rows="15"
+                        hidden></textarea>
+                </div>
+                <div class="grid_4">
+                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                        <button class="k-button  k-button-icontext" ng-click="upload()"><i
+                                class="fa fa-times-circle"></i>&nbsp;Upload</button>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">List Dokumen Pasien</a>
+                        </legend>
+                        <div class="grid_12">
+
+                            <kendo-grid id="kGrids" data-source="sourceDataListDokumen" options="columnListDokumen"
+                                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'"
+                                k-ng-model="dataListDokumen">
+                            </kendo-grid>
+
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <div kendo-window="popupRujukan" k-title="'Riwayat Rujukan'" k-width="1200" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Daftar Rujukan</a>
+                    </legend>
+                    <div class="grid_12">
+
+                        <kendo-grid id="kGrids" data-source="sourceNoRujukanMulti" options="columnNoRujukanMulti"
+                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataNoRujukanMulti"
+                            ng-click="klikRuj(dataNoRujukanMulti)">
+                        </kendo-grid>
+
+                    </div>
+                </fieldset>
+            </div>
+            <form method="post" action="" id="cetaklistDokumen" ng-model="cetaklistDokumen" hidden>
+                <table width="999" style="border: none;">
+                    <tbody style="border:none;">
+                        <tr>
+                            <!-- <td width="100" style="text-align: left;border:none;">
+                                <p>R.S KEPOLISIAN PUSAT</p>
+                            </td> -->
+                            <td style="text-align: center;border:none;">
+                                <img src="{{gambar}}" alt="Red dot" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </form>
+
+            <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+
+        </div>
+        <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+        <div kendo-window="popUpHistoriPelayananPeserta" k-title="'Histori Pelayanan Peserta'" k-width="1200"
+            k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Daftar Histori</a>
+                    </legend>
+                    <div class="grid_12">
+
+                        <kendo-grid id="kGrids" data-source="dataSourceHistoriPeserta" options="columnHistoriPeserta"
+                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataHistorySelect"
+                            ng-click="klikHis(dataHistorySelect)">
+                        </kendo-grid>
+
+
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div kendo-window="popUpHistoriSuratKontrol" k-title="'Histori Surat'" k-width="1500" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Daftar Histori</a>
+                    </legend>
+                    <div class="grid_12">
+
+                        <kendo-grid id="kGrids" data-source="dataSourceHistoriSuratKontrol"
+                            options="columnHistoriSuratKontrol" k-pageable="'true'" k-sortable="'true'"
+                            k-resizable="'true'" k-ng-model="dataHistorySuratKontrolSelect"
+                            ng-click="klikSuratKontrol(dataHistorySuratKontrolSelect)">
+                        </kendo-grid>
+
+
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div kendo-window="popUpTambah" k-title="'Terbitkan Surat Rencana Kontrol'" k-width="900" k-height="300"
+            k-visible="false">
+            <!-- <div class="grid_12"> -->
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <label c-label item="item" c-label-text="Tanggal Kotrol"></label>
+                        <input style="width: 100%" k-ng-model="item.tanggalRencakaKontrol" kendo-datetimepicker
+                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label item="item" c-label-text="Jenis Pelayanan"></label>
+                        <input style="width:100%" kendo-combo-box k-ng-model="item.jenisKontrol"
+                            k-data-source="listJenisKontrol" k-data-text-field="'name'" k-filter="'contains'"
+                            k-data-value-field="'kode'" k-auto-bind="false" k-on-change='changeJenisPelayanan()' />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label item="item" c-label-text="No SEP Perujuk" ng-show="isControl"></label>
+                        <label c-label item="item" c-label-text="No BPJS" ng-show="isSPRI"></label>
+                        <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                            ng-model="item.noPenunjang" readonly />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_4" ng-show="isControl">
+                        <label c-label item="item" c-label-text="Tanggal Rujukan"></label>
+                        <input style="width: 100%" k-ng-model="item.tanggalRujukan" kendo-date-picker
+                            placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" readonly />
+                    </div>
+                    <div class="grid_4" ng-show="isControl">
+                        <label c-label item="item" c-label-text="Poli Rujukan"></label>
+                        <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                            ng-model="item.poliRujukan" readonly />
+                    </div>
+                    <div class="grid_4" ng-show="isControl">
+                        <label c-label item="item" c-label-text="No Rujukan"></label>
+                        <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                            ng-model="item.noRujukan" readonly />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <label c-label item="item" c-label-text="Poli Kontrol"></label>
+                        <input style="width:100%" kendo-combo-box k-ng-model="item.poliKontrol"
+                            k-data-source="listpoliKontrol" k-data-text-field="'nama'" k-filter="'contains'"
+                            k-data-value-field="'kode'" k-auto-bind="false" k-on-change='checkDPJP()' />
+                    </div>
+                    <div class="grid_3">
+                        <label c-label item="item" c-label-text="DPJP Tujuan"></label>
+                        <input style="width:100%" kendo-combo-box k-ng-model="item.kodeDokter"
+                            k-data-source="listkodeDokter" k-data-text-field="'nama'" k-filter="'contains'"
+                            k-data-value-field="'kode'" k-auto-bind="false" />
+                    </div>
+                    <div class="grid_3">
+                        <label c-label item="item" c-label-text="No Rencana Kontrol"></label>
+                        <input style="background-color: #eea236;" c-text-box type="input" filter="'char'"
+                            class="k-textbox" ng-model="item.noSuratKontrol" readonly />
+                    </div>
+                    <div class="grid_3" style="margin-top: 15px">
+                        <button class="btnTemplate1" style="margin-left: 0;" ng-click="simpanTambah()">Simpan</button>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+        </div>
+        <div kendo-window="popUpHistoriPelayananPeserta" k-title="'Histori Pelayanan Peserta'" k-width="1600"
+            k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Daftar Histori</a>
+                    </legend>
+                    <div class="grid_12">
+
+                        <kendo-grid id="kGrids" data-source="dataSourceHistoriPeserta" options="columnHistoriPeserta"
+                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataHistorySelect"
+                            ng-click="klikHis(dataHistorySelect)">
+                        </kendo-grid>
+
+
+                    </div>
+                    <!-- <div class="grid_12">
+                        <div class="grid_2">
+                            <button class="btnTemplate1" ng-click="cekSepLocal()">Lihat History SEP TM</button>
+                        </div>
+                    </div> -->
+                </fieldset>
+            </div>
+        </div>
+        <!-- <div kendo-window="dialogCetakLabel" k-title="'Masukkan kuantiti cetak'" k-width="400" k-height="120"
+		k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+		<label c-label item="item " c-label-text="kuantiti "></label>
+		<input id="qtyCetak" name="qtyCetak" kendo-numeric-text-box k-options="formatNum" k-ng-model="dats.qty"
+			style="width:100%;" />
+		<div class="clear">
+			<button class="k-button" ng-click="pilihQty(dats)" style="float:right;margin-top:4%">Cetak</button>
+		</div> -->

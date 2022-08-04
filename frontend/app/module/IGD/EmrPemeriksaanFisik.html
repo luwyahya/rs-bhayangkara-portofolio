@@ -1,0 +1,245 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .img-btn {
+        position: absolute;
+        top: 40%;
+        margin-top: -.5em;
+        height: 1.5em;
+        left: 2em;
+    }
+
+    .title {
+        font-size: 12px;
+    }
+</style>
+<div class="container_12">
+    <div class="grid_12">
+        <div class="container_12">
+            <div class="grid_12">
+                <div style="background-color: #41abf2; height: 25px; margin-top: 5p; text-align: left; border: 1px solid; border-color: #10C4B2; padding: 10px 0 10px 10px;"
+                    class="grid_12">
+                    <div class="grid_12">
+                        <span style="font-size: 18px; color: white; padding: 5px;">Pemeriksaan Fisik</span>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <img src="../app/images/emrgawat.png" alt="User Image">
+            </div>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <div class="grid_12 headerBox">
+                                <p>Kode Gambar</p>
+                            </div>
+                            <div class="grid_12">
+                                <div kendo-grid id="grid" k-data-source="dataKodeGambar" options="ColumnGridKodeGambar"
+                                    class="max-height">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_8">
+                        <div class="grid_12">
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Tanggal</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input style="width: 99.5%" k-ng-model="item.obj[7009]" kendo-datetimepicker
+                                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                        parsedate="yyyy-MM-dd HH:mm" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">GCS</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7010]" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Eyes</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7011]" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Verbal</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7012]" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Motoric</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7013]" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Total</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7014]" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12">
+                        <div class="grid_12">
+                            <div class="grid_6">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Kepala dan Wajah</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7015]" />
+                                </div>
+                            </div>
+                            <div class="grid_6">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Leher</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7016]" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Thorax</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Inspeksi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7017]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Palpasi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7018]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Perkusi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7019]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Auskultasi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7020]" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Abdomen</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Inspeksi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7021]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Palpasi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7022]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Perkusi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7023]" />
+                                </div>
+                            </div>
+                            <div class="grid_3">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Auskultasi</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox"
+                                        ng-model="item.AbdomenAuskultasi" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Anogenital</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7024]" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Ekstremitas</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7025]" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" style="margin-top: 5px">Neurologis</label>
+                                </div>
+                                <div class="grid_12">
+                                    <input c-text-box type="input" class="k-textbox" ng-model="item.obj[7026]" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" >
+                    <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div>
+              
+            </div>

@@ -1,0 +1,250 @@
+<style>
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    div.k-window-content {
+        position: relative;
+        height: 100%;
+        padding: .58em;
+        overflow: hidden;
+        outline: 0;
+    }
+</style>
+
+<!-- <div ng-controller="DaftarPasienPulangKasirCtrl"> -->
+<div ng-show="dataVOloaded">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Daftar Remunerasi Kelompok Penghasil</b></h1>
+    </div>
+    <div class="clear"></div>
+
+    <br />
+
+    <div class="grid_12">
+        <div class="grid_12 borderBox containerBorderBox">
+            <div class="grid_2">
+                <div class="grid_12">
+                    <label c-label item="item">No Closing</label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noclosing" />
+                </div>
+            </div>
+
+            <div class="grid_3">
+                <div class="grid_12">
+                    <label c-label item="item">Ruangan</label>
+                </div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaruangan" />
+                </div>
+            </div>
+
+            <div class="grid_2" style="margin-top: 20px">
+
+            </div>
+
+
+            <!-- Periode Pulang -->
+            <div class="grid_4">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Periode Closing"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <!-- AwalPeriode -->
+                    <div class="grid_6 padDatePicker">
+                        <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                    </div>
+
+                    <!-- AkhirPeriode -->
+                    <div class="grid_6 padDatePicker">
+                        <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!-- Button Search -->
+            <div class="grid_1">
+                <div class="grid_12">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12">
+                    <button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()">Cari</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12 headerBox">
+            <p>Daftar</p>
+        </div>
+        <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="data1" options="columnData1" k-selectable="'row'" k-sortable="'true'"
+                k-resizable="'true'" k-ng-model="data1Selected" ng-click="klikGrid1(data1Selected)">
+            </kendo-grid>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_9">
+        </div>
+        <div class="grid_1">
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label c-label item="item">Jml Rows</label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jmlRows" />
+            </div>
+        </div>
+        <div class="grid_1" style="margin-top: 13px;">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="DetailRemun()">Detail</button>
+        </div>
+    </div>
+
+    <div kendo-window="popUpDetail" k-title="'Detail '" k-visible="false" k-width="900"
+        k-on-close="win2visible = false">
+
+        <div class="panel panel-default container_12">
+
+            <div class="grid_4">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="No Closing"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUp.noclosing"
+                        ng-disabled="true" />
+                </div>
+            </div>
+            <div class="grid_4">
+                <div class="grid_12">
+                    <label c-label item="item">Ruangan</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUp.namaruangan"
+                        ng-disabled="true" />
+                </div>
+            </div>
+            <div class="grid_4">
+                <div class="grid_12">
+                    <label c-label item="item">Total Remun</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" style="text-align:right" class="k-textbox"
+                        ng-model="popUp.total" ng-disabled="true" />
+                </div>
+            </div>
+
+            <div class="grid_12 headerBox" style="margin-top:10px;">
+                <p>Rincian </p>
+            </div>
+            <div class="grid_12">
+                <div class="grid_1">
+                    <div class="grid_12">
+                        <label c-label item="item">No</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUp.no"
+                            disabled="true" />
+                    </div>
+                </div>
+                <div class="grid_7">
+                    <div class="grid_12">
+                        <label c-label item="item">Pegawai</label>
+                    </div>
+                    <div class="grid_12">
+                        <input kendo-combo-box k-ng-model="popUp.pegawai" k-data-text-field="'namalengkap'"
+                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listPegawai"/>
+                    </div>
+                </div>
+
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item">Jasa Remun</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUp.pagunilai" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="pull-right">
+                    <button class="k-button" ng-click="add()">Tambah</button>
+                    <button class="k-button" ng-click="del()">&nbsp;Hapus</button>
+                    <button class="k-button" ng-click="cancel()">Batal</button>
+                </div>
+            </div>
+            <div class="grid_12 " style="margin-top:10px">
+                <div id="kGrids" kendo-grid k-data-source="sourceVerif" k-selectable="'row'" k-columns="columnVerif"
+                    k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedVerif"
+                    ng-click="klikVerif(dataSelectedVerif)">
+                </div>
+            </div>
+            <div class="grid_4">
+
+                <div class="grid_12">
+                    <label c-label item="item">Total</label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" disabled="true" class="k-textbox"
+                     style="text-align:right" ng-model="popUp.totalRemun" />
+                </div>
+
+            </div>
+            <div class="grid_2">
+
+            </div>
+            <div class="grid_6">
+                <div class="pull-right" style="margin-top:4%">
+                    <button class="k-button" ng-click="simpanVerifikasi()" ng-disabled='btnSimpanVis'>Simpan</button>
+                    <!-- <button class="k-button" ng-click="cetakBuktiLayanan()">Bukti Layanan</button> -->
+                    <button class="k-button" ng-click="batalVerif()">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

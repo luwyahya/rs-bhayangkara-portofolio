@@ -1,0 +1,125 @@
+<div ng-show="dataVOloaded1">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Respon Time Poliklinik</b></h1>
+    </div>
+   <!--  <div class="grid_12">
+            <kendo-grid id="kGrid" data-source="dataSourceGrid" options="columnGrid"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+        </div> -->
+
+        <!-- Filter Tanggal -->
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Periode Registrasi"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <!-- AwalPeriode -->
+                <div class="grid_6 padDatePicker">
+                    <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+
+                <!-- AkhirPeriode -->
+                <div class="grid_6 padDatePicker">
+                    <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <!-- Button Search -->
+        <div class="grid_1">
+            <div class="grid_12">
+                <label>&nbsp;</label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()"> <i
+                        class="fa fa-search"></i>Cari</button>
+            </div>
+        </div>
+
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div class="grid_12">   
+    <div class="grid_12" style="margin-top: 10px;">
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                <md-tab label="Respon Time Poliklinik">
+                    <md-content class="md-padding">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid k-data-source="dataSourceGridLrtt" k-selectable="'row'"
+                             options="columnGridLrtt" k-pageable="'true'" k-sortable="'true'" k-groupable="true">
+                            </kendo-grid>
+                        </div>
+                        <div class="grid_3 borderBox containerBorderBox">
+                            <!-- total pendapatan -->
+                            <div class="grid_12">
+                                <div class="grid_5">
+                                    <label c-label item="item" c-label-text="Total Pasien : "></label>
+                                </div>
+                                <div class="grid_8"></div>
+                                {{item.jumlahpasien}}
+                            </div>
+                    
+                            <div class="grid_12">
+                                <div class="grid_5">
+                                    <label c-label item="item" c-label-text="Rata - Rata Waktu : "></label>
+                                </div>
+                                <div class="grid_8"></div>
+                                {{item.selisih}}
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Respon Time Poliklinik Pasien Online">
+                    <md-content class="md-padding">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid k-data-source="dataSourceOnline" k-selectable="'row'"
+                             options="columnOnline" k-pageable="'true'" k-sortable="'true'" k-groupable="true">
+                            </kendo-grid>
+                        </div>
+                        <div class="grid_3 borderBox containerBorderBox">
+                            <!-- total pendapatan -->
+                            <div class="grid_12">
+                                <div class="grid_5">
+                                    <label c-label item="item" c-label-text="Total Pasien : "></label>
+                                </div>
+                                <div class="grid_8"></div>
+                                {{item.jumlahpasien2}}
+                            </div>
+                    
+                            <div class="grid_12">
+                                <div class="grid_5">
+                                    <label c-label item="item" c-label-text="Rata - Rata Waktu : "></label>
+                                </div>
+                                <div class="grid_8"></div>
+                                {{item.selisih2}}
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+<!-- <div class="grid_1">
+    <label c-label item="item" c-label-text="Jumlah Pasien"></label>
+    <input c-text-box type="input" class="k-textbox" ng-model="item.jumlahpasien" disabled/>
+</div>
+<div class="grid_4">
+    <label c-label item="item" c-label-text="Total Selisih"></label>
+    <input c-text-box type="input" class="k-textbox" ng-model="item.selisih" disabled/>
+</div> -->
+<div class="grid_3">
+    <div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+        <p></p>
+    </div>
+</div>
+</div>

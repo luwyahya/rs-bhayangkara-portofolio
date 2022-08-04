@@ -1,0 +1,162 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+
+
+<div ng-show="dataVOloaded">
+
+    <div class="grid_12">
+
+        <div class="grid_12 headerBox">
+            <h1 style="color: white;"><b>Daftar Pasien Rawat Inap</b></h1>
+        </div>
+        <div class="grid_12">
+            <div class="grid_5">
+            </div>
+
+            <div class="grid_1">
+                <div class="grid_12">
+                    <label c-label item="item">No Registrasi</label>
+                </div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noReg" />
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12">
+                    <label c-label item="item">No.MR</label>
+                </div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noMr" />
+                </div>
+            </div>
+            <div class="grid_2">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Nama Pasien"></label>
+                </div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien" />
+                </div>
+            </div>
+            <div class="grid_2">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Ruangan"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+            </div>
+
+            <div class="grid_1" style="margin-top: 22px">
+                <button class="c-button" ng-click="cariFilter()">Cari</button>
+            </div>
+            <div class="grid_12">
+
+                <div class="grid_12 borderBox">
+                    <div id="kGrid" kendo-grid k-data-source="dataGrid" k-selectable="'row'" k-columns="columnGrid"
+                        k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelected">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="grid_12">
+
+
+            <div class="grid_10">
+            </div>
+            <div class="grid_2" style="margin-top: 22px">
+                <button class="c-button" ng-click="transaksiPelayanan()">Transaksi Pelayanan</button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+
+        <!-- show pop up input Tindakan -->
+        <div kendo-window="popupAntrians" k-title="'Pilih Ruangan'" k-width="400" k-height="120" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <label c-label item="item " c-label-text="Nama Ruangan "></label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganAntrian"
+                k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                k-data-source="listRuanganApd" />
+            <div class="clear">
+                <button class="k-button" ng-click="showRincian()" style="float:right;margin-top:4%"
+                    ng-show='tombolSimpanVis'>Lanjut </button>
+                <button class="k-button" ng-click="buktiLayanan()" style="float:right;margin-top:4%"
+                    ng-show="showBuktiLayanan">Cetak Bukti Layanan</button>
+
+            </div>
+            <!-- < -->
+        </div>
+        <div kendo-window="popupAntrians" k-title="'Detail Registrasi'" k-visible="false" k-width="1000" k-height="400">
+            <div class="panel panel-default container_12">
+                <div class="grid_12 ">
+                    <div kendo-grid k-data-source="dataPopUpAPD" k-selectable="'row'" k-columns="columnPopUpAPD"
+                        k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpAPD"
+                        ng-click="klikPopUpAPD(dataSelectedPopUpAPD)">
+
+                    </div>
+                </div>
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item"> Dokter DPJP</label>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="grid_12">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokterDpjp"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="true" k-data-source="listDokters" />
+
+                    </div>
+                </div>
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item " c-label-text="Nama Ruangan "></label>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="grid_12">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganAntrian"
+                            k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listRuanganApd" />
+                    </div>
+                </div>
+
+                <div class="grid_4">
+                    <div class="pull-right" style="margin-top:4%">
+                        <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="showRincian()"
+                            ng-show='tombolSimpanVis'><span class="k-icon k-update"></span>Tambah</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- </div> -->

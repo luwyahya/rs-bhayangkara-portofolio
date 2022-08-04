@@ -1,0 +1,131 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Mapping</div>
+    </div>
+    <div class="grid_12">
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom>
+                <md-tab label="Mapping VIC to Data Pegawai">
+                    <md-content class="md-padding">
+                        <div class="grid_12">
+                            <div class="grid_2">
+                                <label c-label item="item" required>Nama Pegawai</label>
+                            </div>
+                            <div class="grid_4">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.namapegawai" k-data-text-field="'namalengkap'" k-data-value-field="'id'" 
+                                k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai"/>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_2">
+                                <button class="btnTemplate1" ng-click="simpan()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Simpan</button>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_12 borderBox">
+                                <kendo-grid id="kGrid" data-source="sourceMapping" options="columnMapping"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedMapping"
+                                ng-click="klik(dataSelectedMapping)">
+                            </kendo-grid>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Mapping Kalak to Data Pegawai">
+                    <md-content class="md-padding">
+                        <div class="grid_12">
+                            <div class="grid_6">
+                                <fieldset style="max-width: 100%;">
+                                    <legend>Nama Kalak</legend>
+                                    <div class="grid_12">
+                                        <div class="grid_6">
+                                            <label c-label item="item" required>Nama Kalak</label>
+                                            <input required c-text-box type="input" class="k-textbox"
+                                            ng-model="item.namakalak" />
+                                        </div>
+                                        <div class="grid_2" style="margin-top: 1.5%;">
+                                            <button class="btnTemplate1" ng-click="cariKalak()"><i class="fa fa-search" aria-hidden="true"></i>Cari</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid id="kGrid" data-source="sourceMappingKalak" options="columnMappingKalak"
+                                        k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedMappingKalak"
+                                        ng-click="klik(dataSelectedMappingKalak)">
+                                        </kendo-grid>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="grid_6">
+                                <fieldset style="max-width: 100%;">
+                                    <legend>Nama Anggota</legend>
+                                    <div class="grid_12">
+                                        <div class="grid_12">
+                                            <label c-label item="item" required>Tambah Anggota</label>
+                                        </div>
+                                        <div class="grid_5">
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaanggota" k-data-text-field="'namalengkap'" k-data-value-field="'id'" 
+                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai"/>
+                                        </div>
+                                        <div class="grid_2">
+                                            <button class="btnTemplate1" ng-click="tambahanggota()"><i class="fa fa-plus" aria-hidden="true"></i>Tambah Anggota</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <div class="grid_12 borderBox">
+                                            <kendo-grid id="kGrid" data-source="sourceAnggota" options="columnAnggota"
+                                            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedAnggota"
+                                            ng-click="klik(dataSelectedAnggota)">
+                                        </kendo-grid>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Status Kedudukan Pegawai">
+                    <md-content class="md-padding">
+                        <div class="grid_12">
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" c-label-text="Nama Pegawai"></label>
+                                </div>
+                                <div class="clear"></div>
+                    
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPegawai" />
+                                </div>
+                            </div>
+                            <div class="grid_4">
+                                <div class="grid_12">
+                                    <label c-label item="item" c-label-text="Nama User"></label>
+                                </div>
+                                <div class="clear"></div>
+                    
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaUser" />
+                                </div>
+                            </div>
+                            <div class="grid_2" style="margin-top: 0.8%;">
+                                <button class="btnTemplate1" ng-click="cariLah()">Cari</button>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_12 borderBox">
+                                <kendo-grid id="kGrid" data-source="sourceKedudukan" options="columnKedudukan"
+                                    k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedKedudukan"
+                                    ng-click="klik(dataSelectedKedudukan)">
+                                </kendo-grid>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_2">
+                                <button class="btnTemplate1" ng-click="gaskeunlah()">Ubah Kedudukan Menjadi Aktif</button>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>

@@ -1,0 +1,125 @@
+<style>
+	#myProgress {
+	  width: 100%;
+	  background-color: #ddd;
+	}
+	
+	#myBar {
+	  width: 0%;
+	  height: 30px;
+	  background-color: yellow;
+	  text-align: center;
+	}
+
+	.koneng {
+		background-color: #FFFF00;
+		color: #191970;
+		/*font-weight: bold;*/
+	}
+
+	.red {
+		background-color: #ff3860;
+		color: #FFFFFF;
+		/*font-weight: bold;*/
+	}
+	</style>
+<!-- <div ng-controller="LaporanPasienPulangCtrl"> -->
+	<div ng-show="dataVOloaded">
+		<!-- <c-panel item="item" header="'Daftar Tagihan Rekanan'" disabled> -->
+		<div class="grid_12 headerBox">
+			<h1 style="color: white;"><b>PURIF MANDIRI</b></h1>
+		</div>
+	
+		<!-- <div class="grid_12">
+	
+			<div class="grid_3">
+				<label c-label item="item" c-label-text="Tanggal awal"></label>
+				<input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+	
+			<div class="grid_3">
+				<label c-label item="item" c-label-text="Tanggal Akhir"></label>
+				<input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+			<div class="grid_3">
+				<label c-label item="item" c-label-text="Departement"></label>
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.departement" k-data-text-field="'departemen'"
+					k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDepartemen"
+					k-on-change="getIsiComboRuangan()" />
+			</div>
+			<div class="grid_3">
+				<label c-label item="item" c-label-text="Ruangan"></label>
+				<input ng-disabled="isDisable" style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+					k-data-text-field="'ruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listRuangan" />
+			</div>
+		</div> -->
+		<div class="grid_12">
+	
+			<div class="grid_1">
+				<div class="grid_12">
+					<label>&nbsp;</label>
+				</div>
+				<div class="clear"></div>
+	
+				<div class="grid_12">
+					<button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+						ng-click="CariLapPasienPulang()">Cari</button>
+				</div>
+	
+			</div>
+			<div class="grid_1">
+				<div class="grid_12">
+					<label>&nbsp;</label>
+				</div>
+				<div class="clear"></div>
+	
+				<div class="grid_12">
+					<button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+						ng-click="sendPurif()">Purif</button>
+				</div>
+			</div>
+			<!-- <div class="grid_1">
+				<div class="grid_12">
+					<label>&nbsp;</label>
+				</div>
+				<div class="clear"></div>
+	
+				<div class="grid_12">
+					<button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+						ng-click="progres()">progres</button>
+				</div>
+			</div> -->
+		</div>
+		<div class="grid_12" style="margin-top:10px">
+			<div class="grid_12 headerBox">
+				<p>Data Laporan</p>
+			</div>
+			<div class="clear"></div>
+	
+			<div class="grid_12 borderBox">
+				<kendo-grid data-source="dataPasienPulang" options="columnPasienPulang" k-ng-model="dataPasienSelected"
+					ng-click="click(dataPasienSelected)" k-groupable="true"></kendo-grid>
+			</div>
+		</div>
+		<div class="grid_12" id="myProgress">
+			<div id="myBar"></div>
+		</div>
+	
+		<div class="grid_6">
+			<div class="grid_12">
+			</div>
+		</div>
+		<div class="clear"></div>
+		<div class="grid_12">
+			<div class="grid_12" style="float:right">
+				<div class="grid_12" style="margin-top:60px" >
+					<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+				</div>
+			</div>
+		</div>
+		<br />
+	</div>
+	</div>

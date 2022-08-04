@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" whenResourceMissingType="Empty" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.363636363636366"/>
+	<property name="ireport.x" value="84"/>
+	<property name="ireport.y" value="1702"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="86512c4e-7c39-4ea1-a1ee-f46c6ed9e8a5">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT 
+ CAST (hr.tanggalbacaradiologi AS date) as tanggalbacaradiologi , ps.nocm, ps.namapasien, hr.nofoto, kp.kelompokpasien, pg3.namalengkap as dokterbaca
+
+FROM pelayananpasien_t as pp
+
+JOIN antrianpasiendiperiksa_t as apd
+ON apd.norec = pp.noregistrasifk
+JOIN pasiendaftar_t as pd
+ON pd.norec = apd.noregistrasifk
+JOIN pasien_m as ps
+ON ps.id = pd.nocmfk
+LEFT JOIN jeniskelamin_m as jk
+ON jk.id = ps.objectjeniskelaminfk
+JOIN produk_m as pr
+ON pr.id = pp.produkfk
+JOIN ruangan_m as ru
+ON ru.id = apd.objectruanganfk
+JOIN ruangan_m as ru1
+ON ru1.id = apd.objectruanganasalfk
+JOIN departemen_m as dp
+ON dp.id = ru.objectdepartemenfk
+LEFT JOIN strukpelayanan_t as sp
+ON sp.norec = pp.strukfk
+LEFT JOIN kelompokpasien_m as kp
+ON kp.id=pd.objectkelompokpasienlastfk
+LEFT JOIN strukorder_t as so ON
+so.norec = pp.strukorderfk
+LEFT JOIN pegawai_m as pg
+ON pg.id = pp.objectpegawaipengirimfk
+LEFT JOIN pegawai_m as pg2
+ON pg2.id = apd.objectpegawaifk
+LEFT JOIN ris_order as ris
+ON ris.order_no = so.noorder
+AND ris.order_code=pp.produkfk
+LEFT JOIN hasilradiologi_t AS hr
+ON hr.pelayananpasienfk=pp.norec
+AND hr.statusenabled= 'y'
+ JOIN pegawai_m as pg3
+ON pg3.id=hr.pegawaifk
+WHERE hr.nofoto IS NOT NULL
+AND pp.strukresepfk IS NULL
+AND ru.objectdepartemenfk=27
+AND hr.tanggalbacaradiologi IS NOT NULL
+AND hr.tanggalbacaradiologi >='2022-06-01 00:00'
+AND hr.tanggalbacaradiologi <='2022-06-09 23:59'
+group by ps.nocm, ps.namapasien, jk.jeniskelamin, pp.tglpelayanan, pp.produkfk, pr.namaproduk, pr.namaexternal,
+pp.jumlah, pp.hargasatuan, pp.hargadiscount, sp.nostruk, pd.noregistrasi, ru.namaruangan, ru1.namaruangan,
+dp.namadepartemen, ps.id, apd.norec, sp.norec, pp.norec,ps.objectjeniskelaminfk,ps.tgllahir,pg.namalengkap,
+ru.objectdepartemenfk, so.noorder, ris.order_key, apd.objectruanganfk,pp.iscito,pp.jasa, hr.norec,hr.nofoto,
+pg.id, kp.id, pg3.id, pg2.id,apd.tanggalbacaradiologi]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<group name="jenisproduk">
+		<groupHeader>
+			<band height="347">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<line>
+					<reportElement x="-1" y="21" width="553" height="1" uuid="08a4e0f0-f687-40a5-804c-2bcab54db73e"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="48" width="553" height="1" uuid="2863fbc3-e76b-400d-b7ab-b83ee3ce649c"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="140" width="553" height="1" uuid="26e3ab4d-6e2c-4d92-8bfe-46991039f59f"/>
+				</line>
+				<line>
+					<reportElement x="84" y="21" width="1" height="326" uuid="9cd5b732-b78d-448f-ae28-bcfbd33bec99">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="0" width="551" height="1" uuid="10b41329-3d54-419a-96fa-b935606b9347"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="0" width="1" height="347" uuid="7c72bb0b-d32d-44f0-ae30-10610b9dbbf0">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="551" y="0" width="1" height="347" uuid="fb52d747-75d3-4e1b-ab6a-dbdd0df67432">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="92" width="553" height="1" uuid="610b1612-81cf-41fd-90cd-c7e173e25924"/>
+				</line>
+				<line>
+					<reportElement x="319" y="140" width="1" height="207" uuid="ff8cd9f1-dd79-4bd6-a0ab-2b349237aa4e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="346" width="551" height="1" uuid="304fa75e-1a47-4b64-ada9-057fcaff7991"/>
+				</line>
+			</band>
+			<band height="31">
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="353" y="16" width="60" height="15" forecolor="#0A0101" uuid="0cf24bad-f205-42fb-b840-d3660468f3db"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dokter]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="293" y="15" width="60" height="15" forecolor="#0A0101" uuid="5ce795c5-5974-4449-9e87-9e455cb40684"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cara Pemberian]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="249" y="15" width="39" height="15" forecolor="#0A0101" uuid="a1e60e6e-3a83-4544-aaac-905f92050595"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Dosis]]></text>
+				</staticText>
+				<line>
+					<reportElement x="244" y="15" width="1" height="15" uuid="a364eb30-30b8-4cd3-b1f5-d567380d55f6"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="30" width="553" height="1" uuid="907adb10-84b3-4cd5-acd4-5e2d5b6bd034"/>
+				</line>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="4" y="15" width="216" height="15" forecolor="#0A0101" uuid="ca3c6cde-bf74-48d3-8ceb-f9e92d91ccc2"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pasien]]></text>
+				</staticText>
+				<line>
+					<reportElement x="291" y="15" width="1" height="15" uuid="c9eb24cb-9773-4d3c-a61b-fa31f1ae426c"/>
+				</line>
+				<line>
+					<reportElement x="351" y="15" width="1" height="15" uuid="6a719335-7302-48f1-a7f3-ab2c7de32cac"/>
+				</line>
+				<line>
+					<reportElement x="0" y="15" width="552" height="1" uuid="01ac2b4a-9aff-4fa0-8e2d-1451dade3312"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="0" width="1" height="30" uuid="5a6f7be9-bfb5-4167-b89c-cd9d73c8785d"/>
+				</line>
+				<line>
+					<reportElement x="551" y="0" width="1" height="30" uuid="0a5c29ad-c1ee-445c-b78b-445980b62365"/>
+				</line>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="420" y="16" width="60" height="15" forecolor="#0A0101" uuid="cd3eb650-b83e-4042-bb5a-205e9dde20b5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Waktu Pemberian]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="485" y="16" width="60" height="15" forecolor="#0A0101" uuid="72189f68-13a8-49e1-8bfb-6beb02c05297"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Perawat]]></text>
+				</staticText>
+				<line>
+					<reportElement x="420" y="15" width="1" height="15" uuid="55692fc6-5822-4e77-9ac3-5fd40580b767"/>
+				</line>
+				<line>
+					<reportElement x="484" y="15" width="1" height="15" uuid="6a6b6a3c-7d49-4541-965d-c4a4c369c389"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="341">
+				<line>
+					<reportElement x="-1" y="12" width="553" height="1" uuid="102e4a74-6004-408b-97d0-decd759bacbf">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="-1" y="-4" width="1" height="278" uuid="32ba6cf0-14c9-4be1-aac1-c600fcbb1b33"/>
+				</line>
+				<line>
+					<reportElement x="551" y="-1" width="1" height="275" uuid="cc464c9c-ea27-4cf2-b60b-0480d462a084"/>
+				</line>
+				<line>
+					<reportElement x="382" y="12" width="1" height="131" uuid="4bd78847-c198-493d-a49d-2fca5122e959"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="143" width="553" height="1" uuid="377c0fb8-6fdd-4e9f-ba76-fbfeac589174">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="-1" y="156" width="553" height="1" uuid="506a6cdb-65c3-42b9-b76c-44dcdf1e6a0d">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="-1" y="168" width="553" height="1" uuid="86d1a170-c88d-4451-9406-5ca1ce7aacff">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="382" y="157" width="1" height="118" uuid="0788b133-95bc-4f05-8ae0-5a353720209e"/>
+				</line>
+				<line>
+					<reportElement x="-1" y="274" width="553" height="1" uuid="3d34bf17-e250-4d3f-a8bf-fbc3e758e207">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="-1" y="0" width="553" height="1" uuid="def0efa6-29d0-477f-a341-a98460e846b3"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="76" splitType="Stretch">
+			<textField>
+				<reportElement x="71" y="0" width="241" height="20" forecolor="#0A0101" uuid="499a6971-49ed-4840-b17e-9b5694a50e32"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<image onErrorType="Icon">
+				<reportElement x="1" y="1" width="70" height="70" uuid="97705585-a0b5-4ec7-86f3-ae10c220e6af"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="71" y="21" width="241" height="51" forecolor="#0A0101" uuid="58cdc4f7-dab7-4243-a922-490365c84f75"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="0" width="239" height="16" forecolor="#0A0101" uuid="0330af12-8859-4d77-a907-41d9c1559f7d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-1" y="-1" width="1" height="17" uuid="ad99e3f6-876c-4b2d-bf84-146e0dbe7bad"/>
+			</line>
+			<line>
+				<reportElement x="244" y="-2" width="1" height="18" uuid="77fafd20-d2a6-4535-90e2-5f604de102b0"/>
+			</line>
+			<line>
+				<reportElement x="291" y="-1" width="1" height="17" uuid="43b2b72d-6716-4efa-8d31-8c4387c47335"/>
+			</line>
+			<line>
+				<reportElement x="551" y="-1" width="1" height="17" uuid="048299aa-3b16-48cc-9af3-627a2ccd884a"/>
+			</line>
+			<line>
+				<reportElement x="351" y="-1" width="1" height="17" uuid="e20e7474-3c5f-4850-96ad-707ef97ddc54"/>
+			</line>
+			<line>
+				<reportElement x="420" y="-1" width="1" height="17" uuid="79b56532-a106-4f5e-8762-b391faed7b27"/>
+			</line>
+			<line>
+				<reportElement x="484" y="-1" width="1" height="17" uuid="92372ef4-1384-487a-99ab-63ea4bb0b3db"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

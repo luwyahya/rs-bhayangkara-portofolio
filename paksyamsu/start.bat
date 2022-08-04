@@ -1,0 +1,1 @@
+java -XX:+UseG1GC -XX:+UseStringDeduplication -Djava.awt.headless=true -Dspring.config.location=smart.properties -jar smart-laporan.jar

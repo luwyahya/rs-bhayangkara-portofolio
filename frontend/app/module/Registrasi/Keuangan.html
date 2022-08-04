@@ -1,0 +1,265 @@
+<div class="panel panel-default">
+    <div class="panel-heading " style="font-size: 18px; "><span c-translate>KEUANGAN</span>
+        <span class="icon fa fa-chevron-circle-down " ng-show="!isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+        <span class="icon fa fa-chevron-circle-up " ng-show="isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+    </div>
+    <div class="panel-body " ng-show="isShowPotensi ">
+        <div class="panel panel-default container_12">
+            <div class="panel-body">
+                <div class="grid_12">
+                    
+                    
+                    <div class="grid_12">
+                        <!-- <div ng-cloak> -->
+                        <md-content>
+                            <md-tabs md-dynamic-height md-border-bottom>
+                                <md-tab label="PENERIMAAN">
+                                    <md-content class="md-padding">
+                                        <div class="grid_12  borderBox" >
+                                            <!-- <div class="grid_12 text-center">
+                                                <label c-label>DATA PENERIMAAN BIOS KEMENKEU</label>
+                                            </div> -->
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Transaksi"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tgltransaksi"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div>
+                                                <div class="grid_4">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Akun"></label>
+                                                    </div>
+                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.akun" k-data-text-field="'uraian'" k-data-value-field="'kode'" k-filter="'contains'" k-auto-bind="false" k-data-source="listAkun" />
+                                                </div>
+                                                <div class="grid_2" style="">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Jumlah"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.jumlah" />
+                                                    </div>
+                            
+                                                </div>
+                                                <div class="grid_2" style="margin-top: 15px;" >
+                                                    <button class="btnTemplate1" style="margin-left: 0;" ng-click="kirim()">Simpan</button>
+                                                </div>
+                                                
+                                                <div class="clear"></div>
+                                            </div>
+
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Pencarian"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tglpencarian"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div> 
+                                                <div class="grid_2" style="margin-top: 20px;">
+                                                    <button class="k-button k-primary k-button-icon" ng-click="findData()"><span
+                                                            class="k-sprite k-icon k-i-search">Find</span></button>
+                                                </div>
+                           
+                                            </div>
+                    
+                                            <div class="grid_12">                        
+                                                <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulang" options="columnDaftarPasienPulang"
+                                                k-selectable="'row'" 
+                                                k-sortable="'true'"
+                                                k-resizable="'true'"
+                                                k-ng-model="dataPasienSelected"
+                                                ng-click="klikGrid(dataPasienSelected)">
+                                                </kendo-grid>
+                                            </div>
+                                               <div class="grid_6" style="" class="pull-right">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Total"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.totalpenerimaan" />
+                                                    </div>
+                            
+                                                </div>
+                    
+                                        </div>
+                    
+                                    </md-content>
+                                </md-tab>
+                                <md-tab label="PENGELUARAN">
+                                    <md-content class="md-padding">
+                                        <div class="grid_12  borderBox" >
+                                            <!-- <div class="grid_12 text-center">
+                                                <label c-label>DATA PENERIMAAN BIOS KEMENKEU</label>
+                                            </div> -->
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Transaksi"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tgltransaksi"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div>
+                                                <div class="grid_4">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Akun"></label>
+                                                    </div>
+                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.akun" k-data-text-field="'uraian'" k-data-value-field="'kode'" k-filter="'contains'" k-auto-bind="false" k-data-source="listAkun" />
+                                                </div>
+                                                <div class="grid_2" style="">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Jumlah"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.jumlah" />
+                                                    </div>
+                            
+                                                </div>
+                                                <div class="grid_2" style="margin-top: 15px;" >
+                                                    <button class="btnTemplate1" style="margin-left: 0;" ng-click="kirimpengeluaran()">Simpan</button>
+                                                </div>
+                                                
+                                                <div class="clear"></div>
+                                            </div>
+
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Pencarian"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tglpencarian"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div> 
+                                                <div class="grid_2" style="margin-top: 20px;">
+                                                    <button class="k-button k-primary k-button-icon" ng-click="findData()"><span
+                                                            class="k-sprite k-icon k-i-search">Find</span></button>
+                                                </div>
+                           
+                                            </div>
+                    
+                                            <div class="grid_12">                        
+                                                <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulang2" options="columnDaftarPasienPulang"
+                                                k-selectable="'row'" 
+                                                k-sortable="'true'"
+                                                k-resizable="'true'"
+                                                k-ng-model="dataPasienSelected"
+                                                ng-click="klikGrid(dataPasienSelected)">
+                                                </kendo-grid>
+                                            </div>
+                                                <div class="grid_6" style="" class="pull-right">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Total"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.totalpengeluaran" />
+                                                    </div>
+                            
+                                                </div>
+                                        </div>
+                    
+                                    </md-content>
+                                </md-tab>
+                                <md-tab label="DATA SALDO">
+                                    <md-content class="md-padding">
+                                        <div class="grid_12  borderBox" >
+                                            <!-- <div class="grid_12 text-center">
+                                                <label c-label>DATA PENERIMAAN BIOS KEMENKEU</label>
+                                            </div> -->
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Transaksi"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tgltransaksi"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div>
+                                                <div class="grid_2">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="BANK"></label>
+                                                    </div>
+                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.bank" k-data-text-field="'uraian'" k-data-value-field="'kode'" k-filter="'contains'" k-auto-bind="false" k-data-source="listBank" />
+                                                </div>
+                                                <div class="grid_2" style="">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="NO. REKENING"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.norek" />
+                                                    </div>
+                            
+                                                </div>
+                                                
+                                                <div class="grid_2" style="">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="SALDO"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="number" filter="" class="k-textbox" ng-model="item.saldo" />
+                                                    </div>
+                            
+                                                </div>
+                                                <div class="grid_2">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="REKENING"></label>
+                                                    </div>
+                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.rekening" k-data-text-field="'uraian'" k-data-value-field="'kode'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRekening" />
+                                                </div>
+                                                <div class="grid_2" style="margin-top: 15px;" >
+                                                    <button class="btnTemplate1" style="margin-left: 0;" ng-click="kirimsaldo()">Simpan</button>
+                                                </div>
+                                                
+                                                <div class="clear"></div>
+                                            </div>
+
+                                            <div class="grid_12">
+                                                <div class="grid_2 padDatePicker" style="margin-top: 5px;">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Tanggal Pencarian"></label>
+                                                    </div>
+                                                    <input style="width: 100%" k-ng-model="item.tglpencarian"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                                                </div> 
+                                                <div class="grid_2" style="margin-top: 20px;">
+                                                    <button class="k-button k-primary k-button-icon" ng-click="findData()"><span
+                                                            class="k-sprite k-icon k-i-search">Find</span></button>
+                                                </div>
+                           
+                                            </div>
+                    
+                                            <div class="grid_12">                        
+                                                <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulang3" options="columnDaftarPasienPulang3"
+                                                k-selectable="'row'" 
+                                                k-sortable="'true'"
+                                                k-resizable="'true'"
+                                                k-ng-model="dataPasienSelected"
+                                                ng-click="klikGrid(dataPasienSelected)">
+                                                </kendo-grid>
+                                            </div>
+                                            <div class="grid_6" style="" class="pull-right">
+                                                    <div class="grid_12">
+                                                        <label c-label item="item" c-label-text="Total"></label>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.totalsaldo" />
+                                                    </div>
+                            
+                                                </div>
+                                        </div>
+                    
+                                    </md-content>
+                                </md-tab>
+                            </md-tabs>
+                        </md-content>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+<style type="text/css">
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+</style>

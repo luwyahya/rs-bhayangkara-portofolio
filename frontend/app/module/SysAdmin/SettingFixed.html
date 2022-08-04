@@ -1,0 +1,231 @@
+<div class="grid_12">
+	<div class="grid_12 headerBox">
+		<h1 style="color: white;">
+			<b>Setting Data Fixed</b>
+		</h1>
+	</div>
+	<md-content class="md-padding">
+		<div class="grid_12">
+
+			<div class="grid_3">
+				<div class="grid_12">
+					<label c-label item="item" c-label-text="Nama Field"></label>
+				</div>
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="filterNama" />
+				</div>
+			</div>
+			<div class="grid_3">
+				<div class="grid_12">
+					<label c-label item="item" c-label-text="Nilai Field"></label>
+				</div>
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="filterNilai" />
+				</div>
+			</div>
+			<div class="grid_3">
+				<div class="grid_12">
+					<label c-label item="item" c-label-text="Keterangan Fungsi"></label>
+				</div>
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="filterKeterangan" />
+				</div>
+			</div>
+
+			<div class="grid_1">
+				<label c-label c-label-text=""></label>
+				<em style="margin-top:6px;" ng-click='search()' id="iconButton" data-role="button"
+					class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+						class="k-sprite k-icon k-i-search">Refresh</span></em>
+				<em style="margin-top:6px;" ng-click='clear()' id="iconButton" data-role="button"
+					class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+						class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+			</div>
+			<div class="grid_12">
+				<!-- grid MANUAL -->
+				<div class="panel panel-default panel-white">
+					<div class="grid_12 headerBox">
+						<p>Daftar Setting Data Fixed</p>
+					</div>
+					<div class="clear"></div>
+					<div class="panel-body">
+						<div class="grid_12">
+							<div class="k-grid k-widget">
+								<div class="k-grid-header">
+									<div class="k-header k-grid-toolbar ng-scope"><button ng-click="add()"
+											class="k-button k-button-icontext k-grid-upload" href="#"><span
+												class="k-icon k-i-plus"></span>Tambah</button></div>
+									<div class="k-grid-header-wrap k-auto-scrollable">
+										<table>
+											<tr>
+												<th style="width:10px; text-align: left;" class="k-header">
+													No
+												</th>
+												<th style="width:150px; text-align: left;" class="k-header">
+													Nama Field
+												</th>
+												<th style="width:110px; text-align: left;" class="k-header">
+													Nilai Field
+												</th>
+												<th style="width:100px; text-align: left;" class="k-header">
+													Deskripsi
+												</th>
+												<th style="width:30px; text-align: left;" class="k-header">
+													Status Enabled
+												</th>
+												<th style="width:60px; text-align: left;" class="k-header">
+
+												</th>
+											</tr>
+										</table>
+									</div>
+								</div>
+								<div class="k-grid-content k-auto-scrollable" style="max-height:356px">
+									<table role="grid" data-role="selectable" class="k-selectable">
+										<tbody role="rowgroup">
+											<tr role="row" class="ng-scope" ng-repeat="data in listGrid"
+												ng-style="data.myStyle" ng-click='selected(data)'
+												ng-class="{'k-state-selected':dataSelected ===data}">
+												<td style="width:10px" role="gridcell"><span ng-bind="data.no"
+														class="ng-binding"></span></td>
+												<td style="width:150px" role="gridcell"><span ng-bind="data.namafield"
+														class="ng-binding"></span></td>
+												<td style="width:110px" role="gridcell"><span ng-bind="data.nilaifield"
+														class="ng-binding">ii</span></td>
+												<td style="width:100px" role="gridcell"><span
+														ng-bind="data.keteranganfungsi" class="ng-binding"></span></td>
+												<td style="width:30px; text-align: center;" role="gridcell">
+													<md-switch ng-model="data.statusenabled" style="margin-left:20px"
+														ng-change='enabledDisabled(data)' class='md-primary'
+														aria-label='Switch'>
+													</md-switch>
+												</td>
+												<td role="gridcell" style="width:60px">
+													<a class="k-button k-button-icontext k-grid-edit"
+														ng-click='editData(data)'>
+														<span class="k-icon k-edit"> </span>Edit</a>
+													<a class="k-button k-button-icontext k-grid-Hapus"
+														ng-click='hapus(data)'>
+														<span class=" k-icon k-delete"></span>Hapus</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- End GRid MANUAL -->
+
+				<!-- <kendo-grid id="idGrid" k-data-source="dataSource" k-selectable="'row'" k-groupable="'true'"
+				k-options="optionGrid" k-ng-model="current" ng-click="kl(current)">
+			</kendo-grid> -->
+			</div>
+			<div kendo-window="dialogPopup" k-title="'Tambah'" k-width="900" k-height="220" k-visible="false"
+				k-on-close="customClicked()">
+				<div class="panel panel-default panel-white container_12">
+					<div class="grid_12">
+						<div class="grid_6">
+
+							<div class="grid_12">
+								<div class="grid_3" style="margin-top:10px">
+									<label c-label item="item" c-label-text="NamaField" real></label>
+								</div>
+								<div class="clear"></div>
+								<div class="grid_9">
+									<input c-text-box type="input" filter="" class="k-textbox"
+										ng-model="item.namaField" />
+								</div>
+							</div>
+							<div class="grid_12">
+								<div class="grid_3" style="margin-top:10px">
+									<label c-label item="item" c-label-text="NilaiField" real></label>
+								</div>
+								<div class="clear"></div>
+								<div class="grid_9">
+									<input c-text-box type="input" filter="" class="k-textbox"
+										ng-model="item.nilaiField" />
+								</div>
+							</div>
+							<div class="grid_12">
+								<div class="grid_3" style="margin-top:10px">
+									<label c-label item="item" c-label-text="TabelRelasi" real></label>
+								</div>
+								<div class="clear"></div>
+								<div class="grid_9">
+									<input c-text-box type="input" filter="" class="k-textbox"
+										ng-model="item.tabelRelasi" />
+								</div>
+							</div>
+						</div>
+						<div class="clear"></div>
+						<div class="grid_6">
+
+							<div class="grid_12">
+								<div class="grid_3" style="margin-top:10px">
+									<label c-label item="item" c-label-text="TypeField" real></label>
+								</div>
+								<div class="clear"></div>
+								<div class="grid_9">
+									<input c-text-box type="input" filter="" class="k-textbox"
+										ng-model="item.typeField" />
+								</div>
+							</div>
+							<div class="grid_12">
+								<div class="grid_3" style="margin-top:10px">
+									<label c-label item="item" c-label-text="Deskripsi / Fungsi" real></label>
+								</div>
+								<div class="clear"></div>
+								<div class="grid_9" style="margin-top:5px">
+									<textarea required class="k-textbox"
+										style="height: 76px; width: 100%; resize: none;"
+										ng-model="item.keteranganFungsi"></textarea>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="k-edit-buttons k-state-default pull-right" style="margin-top:10px">
+						<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="save()"
+							ng-disabled='disabledSave'>
+							<span class="k-icon k-update"></span>Simpan
+						</button>
+						<button class="k-button k-button-icontext k-grid-cancel" ng-click="batal()">
+							<span class="k-icon k-cancel"></span>Batal
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</md-content>
+</div>
+
+<style>
+	.k-window-titlebar {
+		background-color: #10c4b2;
+		font-weight: 800;
+	}
+
+	.k-i-close {
+		display: none;
+	}
+
+	.md-switch {
+		margin: 10px 0;
+	}
+
+	.md-switch.md-default-theme.md-checked.md-primary .md-thumb,
+	md-switch.md-checked.md-primary .md-thumb {
+		/* background-color: rgb(63, 81, 181); */
+		background-color: #10c4b2;
+
+	}
+	.md-switch.md-default-theme.md-checked.md-primary .md-bar, md-switch.md-checked.md-primary .md-bar {
+    background-color: rgba(63, 181, 152, 0.5);
+}
+</style>
+<div class="grid_12" style="margin-top:60px">
+	<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

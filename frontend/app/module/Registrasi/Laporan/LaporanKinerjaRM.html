@@ -1,0 +1,119 @@
+<div ng-show="dataVOloaded">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Laporan Kinerja Instalasi Rekam Medis</b></h1>
+    </div>
+
+    <div class="grid_12" style="margin-top: 25px;">
+            <div class="grid_1">
+                <label c-label item="item" c-label-text="Tahun"></label>
+                    <input style="width: 100%" k-options="yearUngkul" k-ng-model="item.tahun" kendo-date-picker
+                        placeholer="YYYY" k-format="'yyyy'" />
+            </div>
+            <div class="grid_1">
+                <label c-label c-label-text=""></label>
+                <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
+                    class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                        class="k-sprite k-icon k-i-search">Cari</span></em>
+            </div>
+   <!--  <div class="grid_12">
+            <kendo-grid id="kGrid" data-source="dataSourceGrid" options="columnGrid"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+        </div> -->
+            
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div class="grid_12">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+            <md-tab label="Pengunjung RJ">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridPeng" options="columnGridPeng"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+                                ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Kunjungan RJ">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridKunj" options="columnGridKunj"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+                                ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Cara Pembayaran RJ">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridPembayaranRJ" options="columnGridPembayaranRJ"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Kunjungan IGD">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridIGD" options="columnGridIGD"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+                                ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Rawat Inap">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridRanap" options="columnGridRanap"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                k-ng-model="dataSelectedDP" ng-click="klikP(dataSelectedDP)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Cara Pembayaran RI">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridPembayaranRI" options="columnGridPembayaranRI"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Indikator Pelayanan">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="dataSourceGridAg" options="columnGridAg"
+                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>
+
+</div>

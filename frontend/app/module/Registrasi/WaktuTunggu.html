@@ -1,0 +1,133 @@
+<style type="text/css">
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+</style>
+
+<div class="grid_12">
+    <div class="panel panel-default panel-white">
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_12">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading " style="font-size: 18px; ">
+                            <span>WAKTU TUNGGU</span>
+                            <span class="icon fa fa-chevron-circle-down " ng-show="!isShowPotensi " style="right:10px" ng-click="showPotensi() "></span>
+                            <span class="icon fa fa-chevron-circle-up " ng-show="isShowPotensi " style="right:10px" ng-click="showPotensi() "></span>
+                        </div>
+                        <div class="panel-body " ng-show="isShowPotensi ">
+                            <div class="grid_12 animated no-padding ">
+                                <div ng-cloak>
+                                    <md-content>
+                                        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                                            <md-tab label="UPDATE WAKTU">
+                                                <md-content class="md-padding">
+                                                    <div class="panel panel-default container_12">
+                                                        <div class="panel-body">
+
+                                                            <div class="grid_12" style="margin-bottom: 20px;">
+
+                                                                <div class="grid_2">
+                                                                    <div class="grid_12">
+                                                                        <label c-label item="item">Kode Booking</label>
+                                                                    </div>
+                                                                    <div class="clear"></div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box class="k-textbox" style="width:100%; margin-top: 6px;" ng-model="kodebookingUpdate" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="grid_3">
+                                                                    <div class="grid_12">
+                                                                        <label c-label item="item">Jenis Waktu</label>
+                                                                    </div>
+                                                                    <div class="clear"></div>
+                                                                    <div class="grid_12">
+                                                                        <input kendo-combo-box style="width:100%" k-ng-model="waktu" k-data-text-field="'waktu'" k-data-value-field="'id'"
+                                                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listWaktu"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="grid_1">
+                                                                    <div class="grid_12" style="margin-top: 20px">
+                                                                        <div class="grid_12">
+                                                                            <button class="primary c-button" ng-click="submitUpdate()">Submit</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="WAKTU TASK ID">
+                                                <md-content class="md-padding">
+                                                    <div class="panel panel-default container_12">
+                                                        <div class="panel-body">
+
+                                                            <div class="grid_12" style="margin-bottom: 20px;">
+
+                                                                <div class="grid_2">
+                                                                    <div class="grid_12">
+                                                                        <label c-label item="item">Kode Booking</label>
+                                                                    </div>
+                                                                    <div class="clear"></div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box class="k-textbox" style="width:100%" ng-model="kodebooking" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="grid_1">
+                                                                    <div class="grid_12" style="margin-top: 15px">
+                                                                        <div class="grid_12">
+                                                                            <button class="primary c-button" ng-click="submitWaktuTaskId()">Submit</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <br>
+
+                                                                <div class="grid_12 borderBox">
+                                                                    <kendo-grid id="kGrid" data-source="daftarWaktuTaskId" k-options="columnWaktuTaskId"
+                                                                        k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                                                                        on-change="onChange(data)" k-ng-model="dataPasienSelected">
+                                                                    </kendo-grid>
+                                                                </div>
+                                                                <div class="clear"></div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+
+                                        </md-tabs>
+                                    </md-content>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-include=' "../app/template/Shared/TemplateLoading" '></div>

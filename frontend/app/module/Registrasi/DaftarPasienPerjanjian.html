@@ -1,0 +1,306 @@
+<style>
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+
+    .k-multiselect-wrap {
+        position: relative;
+        /* border-width: 0; */
+        /* border-style: solid; */
+        border-radius: 4px;
+        /* border-color: #C5C5C5; */
+        background-color: #FFF;
+        min-height: 2.04em;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #228be6;
+    }
+
+    #myBar {
+        width: 0%;
+        height: 30px;
+        background-color: rgb(255, 255, 0);
+        text-align: center;
+    }
+
+    #customers {
+        /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #myProgress {
+        width: 100%;
+        background-color: #ddd;
+    }
+
+    #customers td,
+    #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #41abf2;
+        color: white;
+    }
+
+    .red {
+        background-color: #ff85f9;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .blue {
+        background-color: #5bf4ff;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .hejo {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+</style>
+<div class="panel panel-default panel-white">
+    <div class="panel-heading"><span class="title" c-translate>Parameter Pencarian</span></div>
+    <div class="panel-body">
+        <div class="grid_12">
+
+            <div class="grid_2">
+                <div class="grid_12" style="margin-left: 2px">
+                    <label c-label c-label-text="tanggalPerjanjian"></label>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_6">
+                        <input style="width: 100%" k-ng-model='from' k-value='now' kendo-date-picker
+                            placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                    </div>
+                    <div class="grid_6">
+                        <input style="width: 100%" k-ng-model='until' k-value='now' kendo-date-picker
+                            placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label item="item" c-label-text="TglPendaftaran"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model='tglinput' kendo-date-picker placeholer="dd-mm-yyyy"
+                        k-format="'dd-MM-yyyy'" />
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label item="item" c-label-text="Ruangan"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="namaRuangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+            </div>
+
+            <div class="grid_2">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="Nama Pasien" real></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" class="k-textbox" ng-model="namaPasien" ng-keypress="($event.which == 13)? findData():namaPasien"/>
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="No CM" real></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" class="k-textbox" ng-model="noCm" ng-keypress="($event.which == 13)? findData():noCm"/>
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="kodeReservasi" real></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" class="k-textbox" ng-model="kodeReservasi" />
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label item="item" c-label-text="Status"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="status" k-data-text-field="'nama'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listStatus" />
+                </div>
+            </div>
+            <div class="grid_1" style="margin-top: 30px;
+               ">
+                <input type="checkbox" class="k-checkbox" id="isTelemedicine" ng-model="item.isTelemedicine"
+                    value="true" ng-click="cekTelemedicine(item.isTelemedicine)">
+                <label class="k-checkbox-label" for="isTelemedicine"><b>Telemedicine</b></label>
+
+                <input type="checkbox" class="k-checkbox" id="isMcu" ng-model="item.isMcu" value="true"
+                    ng-click="cekMcu(item.isMcu)">
+                <label class="k-checkbox-label" for="isMcu"><b>MCU</b></label>
+            </div>
+            <div class="grid_1" style="margin-top: 30px;
+                ">
+                <input type="checkbox" class="k-checkbox" id="isSedangDisiapkan" ng-model="item.isSedangDisiapkan"
+                    value="true" ng-click="cekSedangDisiapkan(item.isSedangDisiapkan)">
+                <label class="k-checkbox-label" for="isSedangDisiapkan"><b>Sedang Disiapkan</b></label>
+            </div>
+            <!-- <div class="grid_1" style="margin-top: 30px;
+                            ">
+                <input type="checkbox" class="k-checkbox" id="isMcu" ng-model="item.isMcu" value="true"
+                    ng-click="cekMcu(item.isMcu)">
+                <label class="k-checkbox-label" for="isMcu"><b>MCU</b></label>
+            </div> -->
+            <div class="grid_1" style="margin-top: 5px">
+                <label c-label c-label-text=""></label>
+                <em style="margin-top: 6px;" ng-click='findData()' id="iconButton" data-role="button"
+                    class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                        class="k-sprite k-icon k-i-search">Cari</span></em>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default container_12">
+    <div class="panel-heading"><label class='title' c-label item="item" c-label-text="daftarPasienPerjanjian"></label>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12" id="myProgress">
+            <div id="myBar"></div>
+        </div>
+        <div class="grid_12">
+            <kendo-grid id="kGrid" k-ng-model="item" data-source="listPasien" options="Column" k-selectable="'row'"
+                k-sortable="'true'" k-groupable="'true'" k-pageable="'true'" options="Column" k-resizable="'true'">
+            </kendo-grid>
+            <!-- <kendo-grid k-ng-model="item" k-data-source="listPasien" k-selectable="'row'" k-sortable="'true'"
+                k-groupable="'true'" k-pageable="Page" options="Column" k-resizable="'true'"></kendo-grid> -->
+        </div>
+    </div>''
+</div>
+<div class="grid_12">
+    <div class="grid_2">
+        <!-- <c-button style="width: 100%; padding:0px, margin:0px;" item="item" position="'right'" is-validate
+            click="reconfirm">
+            <span class="title">Reconfirm</span>
+        </c-button> -->
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="reconfirm()"
+            position="'right'"><i class="fa fa-check"></i>Reconfirm</button>
+    </div>
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="CetakLaporan()"
+            position="'right'"><i class="fa fa-print"></i>Cetak</button>
+        <!-- <c-button style="width: 100%; padding:0px, margin:0px;" item="item" position="'right'" is-validate
+            click="CetakLaporan">
+            <span class="title">Cetak</span>
+        </c-button> -->
+    </div>
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="error" ng-click="hapusReservasi()"
+            position="'right'"><i class="fa fa-trash"></i>Tolak Reservasi Pasien</button>
+
+    </div>
+
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" ng-click="CekNoRujukanAll(0)"> <i
+                class="fa fa-search"></i>Cek No Rujukan</button>
+    </div>
+    <div class="grid_2" ng-hide="true">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakTracer()"
+            position="'right'"><i class="fa fa-print"></i>Cetak Ulang Tracer</button>
+    </div>
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakMCU()"
+            position="'right'"><i class="fa fa-print"></i>Cetak MCU</button>
+    </div>
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="cetakulangtracer()"
+            position="'right'"><i class="fa fa-print"></i>Cetak Ulang Tracer</button>
+    </div>
+    
+    <!-- <div class="grid_4">
+                <c-button style="width: 100%; padding:0px, margin:0px;" item="item" position="'right'" is-validate click="CetakLaporan()">
+                    <span class="title">Cetak</span>
+                </c-button>
+            </div> -->
+    <!-- <div class="grid_8">
+                <span class="title">  {{message}}</span>
+            </div> -->
+</div>
+<div class="grid_12" style="margin-top:30px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div kendo-window="popupTolakPasien" k-title="'Alasan Menolak Reservasi Pasien'" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="padding:5px !important">
+            <label c-label c-label-text="keterangan"></label>
+            <textarea class="k-textbox" row="3" ng-model="item.keteranganTolak" style="width: 100%;" />
+        </div>
+    </div>
+    <br />
+    <div class="grid_12">
+        <div class="grid_6 pull-right">
+            <button class="c-button" ng-click="simpanTolakPasien()" style="float:left;width:120px">Simapn Tolak
+                Pasien</button>
+        </div>
+        <div class="grid_6 pull-right">
+            <button class="c-button error" ng-click="popupTolakPasien.close()"
+                style="float:left;width:120px">Batal</button>
+        </div>
+        <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+    </div>
+</div>
+
+<!-- </div> -->
+<!-- </div>

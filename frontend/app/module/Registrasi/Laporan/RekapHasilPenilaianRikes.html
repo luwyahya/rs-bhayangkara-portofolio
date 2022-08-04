@@ -1,0 +1,45 @@
+<div ng-show="dataVOloaded1">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;">Rekapitulasi Hasil Penilaian Rikkes Berkala Polri</h1>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div class="grid_12">
+        <!-- <div class="grid_3 padDatePicker">
+            <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+        </div> -->
+        <div class="grid_3 padDatePicker" style="margin-top:11px">
+            <label c-label item="item" c-label-text="TanggalAwal"></label>
+            <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker
+                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_3 padDatePicker" style="margin-top:11px">
+            <label c-label item="item" c-label-text="TanggalAkhir"></label>
+            <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label c-label-text="NoRm" real></label>
+            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.norm"/>
+        </div>
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label c-label-text="NoRegistrasi" real></label>
+            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi"/>
+        </div>
+        <div class="grid_1" style="margin-top:18px;">
+        <button class="btnTemplate1" ng-click="Cari()"><i
+            class="fa fa-search"></i>Cari</button>
+        </div>
+    </div>
+    <div class="grid_12">   
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_12 borderBox">
+                <kendo-grid k-data-source="dataRHPR" k-selectable="'row'" k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)"
+                 options="columnRHPR" k-pageable="'true'" k-sortable="'true'" k-groupable="true">
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,216 @@
+<div class="grid_12">
+
+    <c-form item='item'>
+
+        <div ng-include='"../app/template/Shared/headerRegistrasi"'></div>
+        <c-panel item="item" header="'Pendaftaran'" disabled>
+            <div class=" grid_12" ng-hide="showTindakan">
+                <div class="grid_6 ">
+                    <div class="grid_12 ">
+                        <div class="grid_4" style="margin-top: 13px">
+                            <label c-label item="item " c-label-text="Nama Pegawai" real></label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.pegawai "
+                                k-data-text-field=" 'namalengkap' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listpegawai" />
+                        </div>
+                        <div class="grid_4" style="margin-top: 13px">
+                            <label c-label item="item " c-label-text="Pekerjaan" real></label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.pekerjaan "
+                                k-data-text-field=" 'pekerjaan' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listpekerjaan" />
+                        </div>
+                        <div class="grid_4" style="margin-top: 13px">
+                            <label c-label item="item " c-label-text="Ruangan Kerja" real></label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.ruanganKerja "
+                                k-data-text-field=" 'namaruangan' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listruangan" />
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Karyawan RS</label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isYa" ng-model="model.ya"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isYa"><b>Ya</b></label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isTidak" ng-model="model.tidak"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isTidak"><b>Tidak</b></label>
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Keluarga Karyawan RS</label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isYa1" ng-model="model.ya1"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isYa1"><b>Ya</b></label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isTidak1" ng-model="model.tidak1"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isTidak1"><b>Tidak</b></label>
+                        </div>
+                        <div class="grid_4" style="margin-top: 13px">
+                            <label c-label item="item " c-label-text="Nama Anggota Keluarga" real></label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.Keluarga "
+                                k-data-text-field=" 'namalengkap' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listKeluarga " />
+                        </div>
+                        <div class="grid_4" style="margin-top: 13px">
+                            <label c-label item="item " c-label-text="Status Keluarga" real></label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%; " kendo-combo-box k-ng-model="item.setatusKeluarga "
+                                k-data-text-field=" 'hubungankeluarga' " k-filter=" 'contains' " k-data-value-field=" 'id' "
+                                k-auto-bind="false " k-data-source="listStatusKeluarga " />
+                        </div>
+                      
+                     
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Status Covid</label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isPositif" ng-model="model.positif"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isPositif"><b>Positif</b></label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isNegatif" ng-model="model.negatif"
+                                value="true" ng-checked="checked" >
+                            <label class="k-checkbox-label" for="isNegatif"><b>Negatif</b></label>
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Tgl Dinyatakan Positif</label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%" k-ng-model="item.tglPositif" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"
+                                ng-disabled='disableTgl' />
+                        </div>
+                       
+
+                    </div>
+                </div>
+                <div class="grid_6 ">
+                    <div class="grid_12 ">
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Tgl Isolasi Mandiri</label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%" k-ng-model="item.tglIsoman" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"
+                                ng-disabled='disableTgl' />
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Tgl Selesai Isolasi Mandiri</label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%" k-ng-model="item.tglIsomanSelesai" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"
+                                ng-disabled='disableTgl' />
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Tgl Test Kembali</label>
+                        </div>
+                        <div class="grid_8 ">
+                            <input style="width: 100%" k-ng-model="item.tglTestKembali" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"
+                                ng-disabled='disableTgl' />
+                        </div>
+                        <div class="grid_4 " style="margin-top: 13px">
+                            <label c-label item="item ">Hasil Swab / PCR</label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isPositifHasil" ng-model="model.positifHasil"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isPositifHasil"><b>Positif</b></label>
+                        </div>
+                        <div class="grid_8" ng-hide="isPenunjang">
+                            <input type="checkbox" class="k-checkbox" id="isNegatifHasil" ng-model="model.negatifHasil"
+                                value="true" ng-checked="checked">
+                            <label class="k-checkbox-label" for="isNegatifHasil"><b>Negatif</b></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+
+        </c-panel>
+
+    </c-form>
+   
+    <div ng-include='"../app/template/Shared/TemplateButtonRegistrasiNew " ' style="margin-top:30px"
+    ng-hide="showTindakan"></div>
+    <div class="grid_12">
+        <div kendo-window="popUpRiwayatRegistrasi" k-title="'Data Riwayat Registrasi'" k-width="1000" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <div class="panel panel-default container_12" style="padding: 0px 10px;">
+                <div class="grid_11">
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>No RM </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemRiwayat.noRM"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemRiwayat.noRM" disabled />
+                    </div>
+                    <div class="grid_3" style="margin-top:5px">
+                        <label c-label real>Nama Pasien </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemRiwayat.namaPasien"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemRiwayat.namaPasien" disabled />
+                    </div>
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>Tgl Lahir </label>
+                        <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="itemRiwayat.tglLahir"
+                            k-format="'dd-MM-yyyy'"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemRiwayat.tglLahir" disabled />
+                    </div>
+                    <div class="grid_2" style="margin-top:5px">
+                        <label c-label real>No Registrasi </label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemRiwayat.noRegistrasi"
+                            ng-keypress="($event.which == 13)? SearchEnterDetail():itemRiwayat.noRegistrasi" />
+                    </div>
+                    <div class="grid_3" style="margin-top:5px">
+                        <label c-label real>Jumlah Rawat Inap</label>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="itemRiwayat.JumlahRawat"
+                            disabled />
+                    </div>
+                </div>
+                <div class="grid_1" style="margin-top:10px">
+                    <label c-label c-label-text=""></label>
+                    <em style="margin-top:6px;" ng-click='SearchEnterDetail()' id="iconButton" data-role="button"
+                        class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                            class="k-sprite k-icon k-i-search">Cari</span></em>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12 headerBox">
+                        <p>Riwayat Registrasi</p>
+                    </div>
+                    <div class="clear"></div>
+                    <!-- grid table -->
+                    <div class="grid_12 borderBox">
+                        <kendo-grid id="kGrid" data-source="dataRiwayatRegistrasi" options="columnRiwayatRegistrasi"
+                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                            k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                        </kendo-grid>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="grid_12">
+                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                        <button class="k-button  k-button-icontext" ng-click="TutupPopUp()"><span
+                                class="k-icon k-cancel"></span>Tutup</button>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top:60px">
+                    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+                </div>
+            </div>
+        </div>
+    </div>

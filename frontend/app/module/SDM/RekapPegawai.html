@@ -1,0 +1,82 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+</style>
+<div class="panel panel-default container_12">
+    <div class="panel-heading" c-translate>Rekapitulasi Pegawai</div>
+    <div class="panel-body">
+        <fieldset style="min-height:50px !important" align="left">
+            <legend>
+                <h2>Pencarian</h2>
+            </legend>
+            <div class="grid_8">
+                   
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="Kategori Pegawai"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kategory"
+                        k-data-text-field="'kategorypegawai'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKategory" />
+                </div>
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="Jenis Pegawai"></label>
+                    <input ng-disabled="isDisable" style="width: 100%;" kendo-combo-box k-ng-model="item.jenis"
+                        k-data-text-field="'jenispegawai'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listJenisPegawai" />
+                </div>
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="Status Pegawai"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.status"
+                        k-data-text-field="'statuspegawai'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listStatus" />
+                </div>
+                <div class="grid_3">
+                        <label c-label item="item" c-label-text="Kategory Laporan"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.kategoryLap"
+                            k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listKatLaporan" />
+                    </div>
+            </div>
+            <div class="grid_2 k-edit-buttons  k-state-default " style="margin-top:28px">
+                <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="Search()"
+                    style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+                <button class="k-button  k-button-icontext" ng-click="ClearSearch()" style="width:100px"><span
+                        class="k-sprite k-icon k-delete"></span>Clear</button>
+            </div>
+    </div>
+    </fieldset>
+</div>
+<div class="grid_12" style="margin-top:10px">
+    <div class="grid_12 headerBox">
+        <p>Detail</p>
+    </div>
+    <div class="grid_12 borderBox">
+        <kendo-grid k-data-source="sourceLaporan" k-selectable="'row'" k-groupable="'false'" k-options="columnLaporan"
+            k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)"
+            class="max-height">
+        </kendo-grid>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px" ng-show="isLoadingData">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+</div>
+<!-- <div class="clear"></div>
+<div class="grid_12"> -->
+<!-- <div class="grid_12" style="float:right">
+		<div class="grid_3 " style="margin-top: 25px ">
+			<button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakPasienDaftar()">
+				<span class="title">Cetak Pasien Daftar</span>
+			</button>
+		</div>
+	</div> -->
+<!-- </div>
+<br/> -->

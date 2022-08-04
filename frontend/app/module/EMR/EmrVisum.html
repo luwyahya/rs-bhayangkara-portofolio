@@ -1,0 +1,600 @@
+<style type="text/css">
+    <!-- @media screen {
+        p.bodyText {
+            font-family: verdana, arial, sans-serif;
+        }
+    }
+    
+    @media print {
+        p.bodyText {
+            font-family: georgia, times, serif;
+        }
+    }
+    
+    @media screen,
+    print {
+        p.bodyText {
+            font-size: 10pt
+        }
+    }
+    
+    -->fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+    
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+        height: 26px;
+    }
+    
+    .k-slider {
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+    
+    .activeBtn {
+        background-color: #10c4b2;
+        color: #ffffff;
+    }
+    
+    legend b {
+        color: #41abf2;
+    }
+    
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+    
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+    
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+    
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+    
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+    
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+    
+    hr {
+        border: 1px dashed #cccccc;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+</style>
+
+<div class="grid_12" ng-show="showsemua">
+    <div class="grid_12">
+        <div class="panel panel-default container_12">
+            <div class="panel-heading" c-translate> VISUM </div>
+        </div>
+        <div class="panel-body">
+            <div class="grid_12">
+
+                <div ng-cloak>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+
+                            <md-tab label="Visum 1 " md-on-select="onTabChanges(0)">
+                                <md-content class="md-padding">
+                                    <div class="grid_12" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <fieldset style="margin-top: 10px;    height: 5800px;">
+                                                <legend>
+                                                    <b>FORMULIR REKAM MEDIS PEMERIKSAAN PTT ANAK / DEWASA</b>
+                                                </legend>
+
+
+                                                <div class="grid_12" style="margin-top: 5px;">
+                                                    <div class="grid_12" ng-repeat="list in listCaraMasuk | orderBy:'id'" style="padding: 5pt 10pt">
+                                                        <b>{{list.nama}}</b>
+                                                        <div class="grid_12" style="padding: 5pt">
+                                                            <div ng-repeat="jawab in list.detail | orderBy:'id'">
+                                                                <div ng-switch on="jawab.type">
+
+                                                                    <div class="grid_2" ng-switch-when="caption">
+                                                                        <div class="grid_12">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_12" ng-switch-when="captionfull">
+                                                                        <div class="grid_12">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="grid_5" ng-switch-when="checkbox">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+                                                                    <div class="grid_2" ng-switch-when="checkbox2">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+                                                                    <div class="grid_3" ng-switch-when="checkbox3">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+                                                                    <div class="grid_11" ng-switch-when="checkboxfull">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+
+                                                                    <div class="grid_10" ng-switch-when="textbox10">
+                                                                        <!-- <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                            </div> -->
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_12" ng-switch-when="textbox102">
+                                                                        <div class="grid_4" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_8">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="grid_12" ng-switch-when="textbox">
+                                                                        <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_8" ng-switch-when="textbox8">
+                                                                        <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_4" ng-switch-when="textbox4">
+                                                                        <div class="grid_6" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_6">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" ng-switch-when="checkbox1">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+                                                                    <div class="grid_2" ng-switch-when="isiantextbox2" style="margin-top: -15px">
+                                                                        <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                    </div>
+                                                                    <div class="grid_3" ng-switch-when="textboxcap3">
+                                                                        <div class="grid_3" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_6">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                        <div class="grid_3" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.buntut}}">
+                                                    &nbsp;{{jawab.buntut}}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+
+                                        </fieldset>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Visum 2" md-on-select="onTabChanges(1)">
+                                <md-content class="md-padding">
+                                    <div class="grid_12" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <fieldset style="margin-top: 10px;    height: 5800px;">
+                                                <legend>
+                                                    <b>FORMULIR REKAM MEDIS PEMERIKSAAN PTT ANAK / DEWASA</b>
+                                                </legend>
+                                                <div class="grid_12" style="margin-top: 5px;">
+                                                    <div class="grid_12" ng-repeat="list in listCaraMasuk2 | orderBy:'id'" style="padding: 5pt 10pt">
+                                                        <b>{{list.nama}}</b>
+                                                        <div class="grid_12" style="padding: 5pt">
+                                                            <div ng-repeat="jawab in list.detail | orderBy:'id'">
+                                                                <div ng-switch on="jawab.type">
+
+                                                                    <div class="grid_2" ng-switch-when="caption">
+                                                                        <div class="grid_12">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_12" ng-switch-when="captionfull">
+                                                                        <div class="grid_12">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="grid_5" ng-switch-when="checkbox">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+                                                                    <div class="grid_2" ng-switch-when="checkbox2">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+                                                                    <div class="grid_3" ng-switch-when="checkbox3">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+                                                                    <div class="grid_11" ng-switch-when="checkboxfull">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+
+
+                                                                    <div class="grid_10" ng-switch-when="textbox10">
+                                                                        <!-- <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                            </div> -->
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_12" ng-switch-when="textbox102">
+                                                                        <div class="grid_4" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_8">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="grid_12" ng-switch-when="textbox">
+                                                                        <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_8" ng-switch-when="textbox8">
+                                                                        <div class="grid_2" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_10">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_4" ng-switch-when="textbox4">
+                                                                        <div class="grid_6" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_6">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" ng-switch-when="checkbox1">
+                                                                        <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}" ng-model="item.obj[jawab.id]">
+                                                                        <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                &nbsp;{{jawab.nama}}</label>
+                                                                    </div>
+                                                                    <div class="grid_2" ng-switch-when="isiantextbox2" style="margin-top: -15px">
+                                                                        <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                    </div>
+                                                                    <div class="grid_3" ng-switch-when="textboxcap3">
+                                                                        <div class="grid_3" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.id}}">
+                                                    &nbsp;{{jawab.nama}}</label>
+                                                                        </div>
+                                                                        <div class="grid_6">
+                                                                            <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                        </div>
+                                                                        <div class="grid_3" style="margin-top: 15px;margin-left:-5px">
+                                                                            <label for="item.obj{{jawab.buntut}}">
+                                                    &nbsp;{{jawab.buntut}}</label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="grid_12">
+                                                    <div id="surface-container2" style="background-image:url({{user.poto}}); height: 1100px; width: 980px">
+                                                        <div class="surface2" style="background-image:url({{user.poto}}); height: 1100px; width: 980px"></div>
+                                                    </div>
+
+                                                    <div class="grid_6">
+                                                        <div class="grid_12">
+                                                            <div class="grid_4">
+                                                                <button class='k-button clear'>Clear drawing</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="grid_12">
+                                                    <div id="surface-container" style="background-image:url({{user.poto2}}); height: 1500px; width: 1400px">
+                                                        <div class="surface" style="background-image:url({{user.poto2}}); height: 1500px; width: 1400px"></div>
+                                                    </div>
+
+                                                    <div class="grid_6">
+                                                        <div class="grid_12">
+                                                            <div class="grid_4">
+                                                                <button class='k-button clear2'>Clear drawing</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                </div>
+                                                <div class="grid_12">
+                                                    <div id="surface-container3" style="background-image:url({{user.poto3}}); height: 1500px; width: 1400px">
+                                                        <div class="surface3" style="background-image:url({{user.poto3}}); height: 1500px; width: 1400px"></div>
+                                                    </div>
+
+                                                    <div class="grid_6">
+                                                        <div class="grid_12">
+                                                            <div class="grid_4">
+                                                                <button class='k-button clear3'>Clear drawing</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <script>
+                                                        var geom = kendo.geometry;
+                                                        var Point = geom.Point;
+                                                        var draw = kendo.drawing;
+                                                        var Path = draw.Path;
+                                                        var path;
+
+                                                        $("#surface-container").on("mousemove", function(e) {
+                                                            if (!path) {
+                                                                return;
+                                                            }
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            path.lineTo(newPoint);
+                                                        }).on("mousedown", function(e) {
+                                                            path = new Path({
+                                                                stroke: {
+                                                                    color: 'red',
+                                                                    width: 2,
+                                                                    lineCap: "round",
+                                                                    lineJoin: "round"
+                                                                }
+                                                            });
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            for (var i = 0; i < 1; i++) {
+                                                                path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                                            }
+
+                                                            surface.draw(path);
+                                                        }).on("mouseup", function(e) {
+                                                            path = undefined;
+                                                        });
+
+                                                        $("#surface-container2").on("mousemove", function(e) {
+                                                            if (!path) {
+                                                                return;
+                                                            }
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            path.lineTo(newPoint);
+                                                        }).on("mousedown", function(e) {
+                                                            path = new Path({
+                                                                stroke: {
+                                                                    color: 'red',
+                                                                    width: 2,
+                                                                    lineCap: "round",
+                                                                    lineJoin: "round"
+                                                                }
+                                                            });
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            for (var i = 0; i < 1; i++) {
+                                                                path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                                            }
+
+                                                            surface2.draw(path);
+                                                        }).on("mouseup", function(e) {
+                                                            path = undefined;
+                                                        });
+
+                                                        $("#surface-container3").on("mousemove", function(e) {
+                                                            if (!path) {
+                                                                return;
+                                                            }
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            path.lineTo(newPoint);
+                                                        }).on("mousedown", function(e) {
+                                                            path = new Path({
+                                                                stroke: {
+                                                                    color: 'red',
+                                                                    width: 2,
+                                                                    lineCap: "round",
+                                                                    lineJoin: "round"
+                                                                }
+                                                            });
+
+                                                            var offset = $(this).offset();
+                                                            var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                                            for (var i = 0; i < 1; i++) {
+                                                                path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                                            }
+
+                                                            surface3.draw(path);
+                                                        }).on("mouseup", function(e) {
+                                                            path = undefined;
+                                                        });
+
+                                                        var surface = draw.Surface.create($(".surface"));
+                                                        var surface2 = draw.Surface.create($(".surface2"));
+                                                        var surface3 = draw.Surface.create($(".surface3"));
+                                                        // 
+
+
+                                                        $(".clear").click(function() {
+                                                            surface.clear();
+                                                        });
+                                                        $(".clear2").click(function() {
+                                                            surface2.clear();
+                                                        });
+                                                        $(".clear3").click(function() {
+                                                            surface3.clear();
+                                                        });
+                                                    </script>
+
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+
+                                        </fieldset>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- <div class="grid_3">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Tanggal dan Jam Datang"></label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.obj[5000]" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+            </div>
+
+
+            <div class="grid_3">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Tanggal dan Jam Pengkajian"></label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.obj[5001]" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+            </div> -->
+
+
+        <div class="grid_12">
+            <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div>
+        </div>
+    </div>
+</div>
+<div ng-include='"../app/template/Shared/TemplateLoadingEMR"'></div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

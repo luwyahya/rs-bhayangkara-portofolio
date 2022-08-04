@@ -1,0 +1,312 @@
+<div>
+    <div class="panel panel-default ">
+        <div class="panel-heading headerBox"><span class="title" c-translate>Parameter Pencarian</span></div>
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label>Tanggal Pendaftaran</label>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_6">
+                            <input style="width: 100%" k-ng-model='item.from' kendo-date-picker placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                        </div>
+                        <div class="grid_6">
+                            <input style="width: 100%" k-ng-model='item.until' k-max="now" kendo-date-picker placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <div class="grid_12">
+                        <label c-label>No Registrasi</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noReg" />
+                    </div>
+                </div>
+                <div class="grid_1" style="margin-top:5px">
+                    <div class="grid_12">
+                        <label c-label>No Rm</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noRm" />
+                    </div>
+                </div>
+                <div class="grid_2" style="margin-top:5px">
+                    <div class="grid_12">
+                        <label c-label>Nama Pasien</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien" />
+                    </div>
+                </div>
+
+                <div class="grid_1" style="margin-top:5px">
+                    <label c-label c-label-text=""></label>
+                    <em style="margin-top: 6px;" ng-click='findData()' id="iconButton" data-role="button" class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                            class="k-sprite k-icon k-i-search">Cari</span></em>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default panel-white">
+        <div class="panel-heading-white"><span class="title" c-translate>{{title}}</span></div>
+        <div class="panel-body">
+            <div class="grid_12" style="margin-bottom:5px">
+                <kendo-grid k-ng-model="data" k-data-source="dataPasienBatal" k-pageable="'true'" k-sortable="'true'" ng-click="klikGrid(data)" k-selectable="'row'" k-resizable="'true'" options='mainGridOptions'>
+                </kendo-grid>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+
+    <!-- <div class="grid_12">
+        <div class="grid_2" ng-show='cboGrouping'>
+            <button class="btnTemplate1" ng-click="show()"><i class="fa fa-edit"></i>Show</button>
+        </div>
+    </div> -->
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 16px">
+            <button class="btnTemplate1" ng-click="show()"><i class="fa fa-edit"></i>Show</button>
+        </div>
+        <!-- <div class="grid_2" style="margin-top: 16px">
+			<button class="btnTemplate1" ng-click="detailTagihan()">Detail Tagihan</button>
+		</div> -->
+    </div>
+
+
+    <div kendo-window="popUpShow" k-title="'Show Pasien'" k-width="600" k-height="600" k-visible="false">
+        <div class="grid_12">
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="cetakLaboratorium()"><i class="fa fa-edit"></i>Laboratorium</button>
+            </div>
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="cetakEkspertise()"><i class="fa fa-edit"></i>Eksertise Radiologi</button>
+            </div>
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="cetakApotikJasper()"><i class="fa fa-edit"></i>Rincian Obat</button>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="cetakRekapBillingJasper()"><i class="fa fa-edit"></i>Rekap Billing</button>
+            </div>
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="cetakSEP('sep')"><i class="fa fa-print"></i>Cetak SEP</button>
+            </div>
+            <div class="grid_4">
+                <div class="grid_10" ng-show='cboGrouping'>
+                    <button class="btnTemplate1" ng-click="claim()" ng-show="!statusSelesaiPeriksa">
+                    <span class="k-icon k-print"></span>
+                    Claim
+                    </button>
+
+                    <button class="btnTemplate1 cancel" ng-click="batalClaim()" ng-show="statusSelesaiPeriksa">
+                    <span class="k-icon k-print"></span>
+                    Batal Claim
+                    </button>
+                </div>
+            </div>
+            <!-- <div class="grid_10" style="margin-top:10px">
+                <div class="grid_10" ng-show='cboGrouping'>
+                    <button class="btnTemplate1 cancel" ng-click="TutupPopUpPel()"><span
+                            class="k-icon k-cancel"></span>Tutup</button>
+                </div>
+            </div> -->
+            <div class="grid_4">
+                <button class="btnTemplate1 cancel" ng-click="tutuPopUpShow()"><span
+                    class="k-icon k-cancel"></span>Tutup</button>
+            </div>
+        </div>
+        <!-- <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="Cetakv2()"><i class="fa fa-print"></i>Billing</button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="CetakRekap()"><i class="fa fa-print"></i>Rekap Billing</button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="RincianObat()"><i class="fa fa-print"></i>Rincian Obat</button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="RincianObatDetail()"><i class="fa fa-print"></i>Rincian Obat Detail</button>
+            </div>
+        </div> -->
+        <!-- <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="RincianObatApt()"><i class="fa fa-print"></i>Rincian Obat Apotik</button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="ResumeMedis()"><i class="fa fa-print"></i>Cetak Resume Medis</button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1" ng-click="cetakSEP('sep')"><i class="fa fa-print"></i>Cetak SEP</button>
+            </div>
+        </div> -->
+        <!-- <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1"  
+            
+                ng-click="claim()" 
+                ng-show="!statusSelesaiPeriksa">
+                <span class="k-icon k-print"></span>
+                Claim
+                </button>
+                
+                <button class="btnTemplate1 cancel" 
+                    
+                ng-click="batalClaim()" 
+                ng-show="statusSelesaiPeriksa">
+                <span class="k-icon k-print"></span>
+                Batal Claim
+                </button>
+            </div>
+        </div>
+        <div class="grid_10" style="margin-top:10px">
+            <div class="grid_10" ng-show='cboGrouping'>
+                <button class="btnTemplate1 cancel" ng-click="TutupPopUpPel()"><span
+                        class="k-icon k-cancel"></span>Tutup</button>
+            </div>
+        </div> -->
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+
+<form method="post" action="" id="sep" ng-model="sep" hidden>
+    <div id='item.def'>
+        <table width="100%" style="border: none;">
+            <tr>
+                <td width="126" style="width: 100px; border: none;"><img src="../app/images/logobpjs.png" width="300%">
+                </td>
+                <td width="1063" style="text-align: center; border: none; font-size: 24px;">
+                    <p align="center" font="tahoma" style="text-align:center;"><span lang="EN-US" style="font-size: 22pt;">SURAT ELEGIBILITAS PESERTA</span></p>
+                    <p style="text-align:center;tab-stops:177.65pt 187.0pt;"><span lang="EN-US" style="font-size: 22pt;">RUMAH SAKIT UNIVERSITAS ANDALAS
+						</span></p>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" style="border: none; font-size: 20px;">
+            <tr>
+                <td width="103" style="width: 100px; border: none;">No.SEP</td>
+                <td width="12" style="text-align:center; border: none;">:</td>
+                <td width="259" style="text-align: left; border: none;"><span id="nosepx"></td>
+				<td width="545" style="width: 100px; border: none;">No pendaftaran</td>
+				<td width="10" style="text-align:center; border: none;">:</td>
+				<td width="314" style="text-align: left; border: none"><span id="nopendaftaran"> </td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Tgl.SEP</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="tglsep"></td>
+				<td style="width: 100px; border: none;">peserta</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="peserta"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">No. Kartu</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="nokartu"></td>
+				<td style="width: 100px; border: none;">COB</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="cob"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Nama Peserta</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="namapeserta"></td>
+				<td style="width: 100px; border: none;">Jns.Rawat</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="jenisrawat"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Tgl. Lahir</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="tgllahir"></td>
+				<td style="width: 100px; border: none;">Kls.Rawat</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="kelasrawat"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">No. Telepon</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="notelepon"></td>
+				<td style="width: 100px; border: none;">Penjamin</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="penjamin"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Sub/Spesialis</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="politujuan"></td>
+				<td style="width: 100px; border: none;">Prolanis PRB</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="prolanis"></td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">DPJP Yg Melayani</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="namadjpjmelayani"></td>
+				<td style="width: 100px; border: none;">&nbsp;</td>
+				<td style="text-align:center; border: none;">&nbsp;</td>
+				<td style="text-align: left; border: none">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Faskes Perujuk</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="faskesperujuk"></td>
+				<td style="width: 100px; border: none;">&nbsp;</td>
+				<td style="text-align:center; border: none;">&nbsp;</td>
+				<td style="text-align: left; border: none">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Diagnosa Awal</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="diagnosaawal"></td>
+				<td style="width: 100px; border: none;">&nbsp;</td>
+				<td style="text-align:center; border: none;">&nbsp;</td>
+				<td style="text-align: left; border: none">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="width: 100px; border: none;">Catatan</td>
+				<td style="text-align:center; border: none;">:</td>
+				<td style="text-align: left; border: none"><span id="catatan"></td>
+				<td style="width: 100px; border: none;">&nbsp;</td>
+				<td style="text-align:center; border: none;">&nbsp;</td>
+				<td style="border: none;">&nbsp;</td>
+			</tr>
+		</table>
+		<table width="1249" style="border: none;">
+			<tbody>
+				<tr>
+					<td width="688" style="border: none;text-align: center">&nbsp;</td>
+					<td width="418" style="border: none;text-align: center">
+	</div>
+	Pasien /Kelurga Pasien</td>
+	</tr>
+	<tr>
+		<td height="62" style="border: none; text-align: left; font-size: 14px;"><em>
+				<p>*Saya Menyetujui BPJS Kesehatan menggunakan informasi Medis Pasien jika diperlukan</p>
+				<p>*SEP bukan sebagai bukti penjaminan peserta </p>
+				<p>Cetakan ke <span id="cetakanke">
+			</em></p>
+		</td>
+		<td style="border: none;text-align: center">________________________</td>
+	</tr>
+	</tbody>
+	</table>
+	</div>
+
+</form>

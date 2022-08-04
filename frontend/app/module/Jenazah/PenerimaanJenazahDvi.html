@@ -1,0 +1,63 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>
+            Penerimaan Jenazah
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Jenis Bencana</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Body Bag</label>
+            </div>
+            <div class="grid_4">
+                <input type="radio" name="bodypart" id="1" class="k-radio" ng-model="item.bodybag" value="Body Part">
+				<label class="k-radio-label" for="1">Body Part</label>
+            </div>
+            <div class="grid_5">
+                <input type="radio" name="bodyfull" id="2" class="k-radio" ng-model="item.bodybag" value="Body Full">
+				<label class="k-radio-label" for="2">Body Full</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan</label>
+            </div>
+            <div class="grid_5">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.keterangan"
+                    style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="item" required>Tanggal Terima Body Bag</label>
+            </div>
+            <div class="grid_2">
+                <input style="width: 100%" k-ng-model="item.tglterima" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">No Body Bag</label>
+            </div>
+            <div class="grid_5">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.nobodybag" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="save()"><i class="fa fa-floppy-o"></i>Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>

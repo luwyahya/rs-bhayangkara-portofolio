@@ -1,0 +1,1391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="labelPasiena4" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="3.9930000000000305"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="noreg" class="java.lang.String"/>
+	<parameter name="qrcode" class="java.lang.String"/>
+	<parameter name="query" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[$P!{query}]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jk" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tgllahir" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="umur" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="842">
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="449" y="23" width="140" height="16" forecolor="#0A0101" uuid="f95758ac-3543-4e01-acc7-a99b05208a63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="449" y="37" width="47" height="16" forecolor="#0A0101" uuid="cb11e369-0621-41df-8864-0a76b30f0ac3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="500" y="37" width="63" height="16" forecolor="#0A0101" uuid="8ad3af25-e879-46fc-9f2d-3cd8e36ee553">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="407" y="21" width="34" height="16" uuid="4f40c126-5833-41d6-aec6-164ba0e65c74"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="35" width="42" height="16" uuid="34457b2c-d06d-4ea8-83d0-0b09bbee3e58"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="407" y="49" width="34" height="16" uuid="4b1bc290-3f18-4e4a-ae31-c7d2715b2a13"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="50" width="14" height="14" uuid="6f93edc6-df2f-480d-b371-389826faef12"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="36" width="14" height="14" uuid="94f38573-092b-4e6c-8980-4bbbea76f548"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="22" width="14" height="14" uuid="0965d041-e4fa-44ef-932f-b58af3dccb26"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="449" y="51" width="78" height="16" forecolor="#0A0101" uuid="f39b40ba-64a9-4331-9047-30d860a09442">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="492" y="36" width="14" height="17" uuid="9afb54a4-9313-4403-8934-4bdf0f8786f1"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="50" width="14" height="16" uuid="c846cd7f-ef3d-410b-bb0a-3add84950f35"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="532" y="50" width="46" height="16" forecolor="#0A0101" uuid="827eff62-c863-430a-b631-5bec9a53b031">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement style="Title" x="407" y="66" width="148" height="33" uuid="d3032078-1894-4257-9a16-dcf96e6dd3a0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="265" y="36" width="47" height="16" forecolor="#0A0101" uuid="02ac2628-60f1-427d-b6de-f4a1a938e12a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="223" y="20" width="34" height="16" uuid="0f2da1f6-edf0-4648-bd97-408027a2c728"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="34" width="42" height="16" uuid="3630dff9-67e3-416d-9e3f-c9726931ee1f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="48" width="34" height="16" uuid="ff4d1d01-dbd4-4119-bcb0-aa5d39fee8c7"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="49" width="14" height="14" uuid="93e25671-f485-4c64-a7a8-26327593c092"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="35" width="14" height="14" uuid="af8c7d9b-6545-4ec4-a63c-243d8309ad49"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="258" y="21" width="14" height="14" uuid="7c89a3bb-206e-4546-aa8e-bd0f624cfeaa"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="265" y="50" width="78" height="16" forecolor="#0A0101" uuid="9775eb93-2918-467a-af1f-576be4530faf">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="311" y="35" width="14" height="17" uuid="ae8dadb3-bb8c-489b-9e0c-923b8f1040e9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="340" y="49" width="14" height="16" uuid="ecaa06c2-99d7-4c42-8e62-7b71ca5629f0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="224" y="65" width="148" height="33" uuid="792459c9-f2aa-425b-af0e-690d7eab61bb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="265" y="22" width="140" height="16" forecolor="#0A0101" uuid="6025af92-3d24-4cfd-9a6f-f9fbe2b005f9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="349" y="52" width="46" height="16" forecolor="#0A0101" uuid="eaae128f-6a47-415e-965a-e5acac5bacd8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="320" y="39" width="63" height="16" forecolor="#0A0101" uuid="99993eb3-1009-402b-bba4-46a8de3114d3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="87" y="34" width="47" height="16" forecolor="#0A0101" uuid="89109f55-e5e8-4d76-a8e7-ccb35e243114">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="45" y="18" width="34" height="16" uuid="0c7ed13e-eca0-4e83-be83-848c776bee29"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="32" width="42" height="16" uuid="db9467b0-08c2-4336-9964-8f3694e5392d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="46" width="34" height="16" uuid="71efb1e5-2c4f-4a20-be10-c1a9422c66a5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="47" width="14" height="14" uuid="f5ede7db-1213-445a-b478-f42d5265b503"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="33" width="14" height="14" uuid="a59ace73-740a-40b5-87da-8f0601bc956a"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="19" width="14" height="14" uuid="ce575a1b-e69e-4683-97b7-9a2db820f99f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="87" y="48" width="78" height="16" forecolor="#0A0101" uuid="0b926438-950e-4314-97f5-192a885620a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="137" y="33" width="14" height="17" uuid="6cd69623-0579-432f-9608-beeb9dfcdb1c"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="162" y="47" width="14" height="16" uuid="9a5607f2-4c1f-4984-a6a2-7042abf844a8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="43" y="63" width="148" height="33" uuid="370ed3ad-6618-490c-b6a6-cdf714c0116b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="87" y="20" width="140" height="16" forecolor="#0A0101" uuid="d694e10b-514b-49c5-a227-400ed7efaf09">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="171" y="50" width="46" height="16" forecolor="#0A0101" uuid="906998df-ccf2-4790-9550-8a78d9471e3e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="146" y="37" width="63" height="16" forecolor="#0A0101" uuid="84e9309f-8420-41dd-a0c5-680170199c7a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="121" width="140" height="16" forecolor="#0A0101" uuid="7299cb87-fb73-4267-9a59-5e6434f4da32">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="135" width="47" height="16" forecolor="#0A0101" uuid="af405e65-3f04-4fb7-ae5d-1f4a574f63e8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="497" y="135" width="63" height="16" forecolor="#0A0101" uuid="0c8048c9-0c17-4109-b12e-c805a2aa66e2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="119" width="34" height="16" uuid="e6cdd7b4-06ed-4119-ae90-43946ff04c4b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="133" width="42" height="16" uuid="993dc740-02bf-4510-92aa-64aa49be10e5"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="147" width="34" height="16" uuid="c60a1df7-510a-4209-89e9-c62d85f7a2ee"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="148" width="14" height="14" uuid="50146bdf-e766-4039-91be-bc0043fcaa99"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="134" width="14" height="14" uuid="864fa98c-a912-4342-8f05-e177812e70e6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="120" width="14" height="14" uuid="38b9eab0-48b7-4f6b-b1e2-8df8a746ec23"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="149" width="78" height="16" forecolor="#0A0101" uuid="a695623f-96eb-4f37-88b3-43925c8a873f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="134" width="14" height="17" uuid="9d18d50d-b02b-41df-a94f-636d41a400f0"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="148" width="14" height="16" uuid="df876aa4-3496-4d75-b65c-dfd321c4f123"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="529" y="148" width="46" height="16" forecolor="#0A0101" uuid="18757dd8-037b-4c85-9fb3-7d2f39205946">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement style="Title" x="404" y="164" width="148" height="33" uuid="d5439881-8ab9-4ffa-9fc9-61f36f09e78c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="134" width="47" height="16" forecolor="#0A0101" uuid="b7417986-dfb8-4ceb-a5b7-e49dbac60434">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="220" y="118" width="34" height="16" uuid="b10687a6-083e-494b-9e34-f6505f837691"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="132" width="42" height="16" uuid="2a369cac-cc56-483b-9c1f-cf04691c193d"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="146" width="34" height="16" uuid="a04b2cb1-c7e3-4349-b76a-e28d51321ac2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="147" width="14" height="14" uuid="72186eaf-77f5-4551-9e4d-177a89f47437"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="133" width="14" height="14" uuid="52a041f1-692a-4787-8d8c-52380e7f56aa"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="119" width="14" height="14" uuid="0f9d339d-ab5e-487a-b1f5-9b3778a5f9bf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="148" width="78" height="16" forecolor="#0A0101" uuid="8532dded-84d8-49ac-bc9b-0e5e77efa548">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="308" y="133" width="14" height="17" uuid="25e80a6a-bc8f-4b56-80e2-a0a77a79fe0d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="147" width="14" height="16" uuid="0320dd3a-187e-4115-bf0a-f8cc8754c820"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="221" y="163" width="148" height="33" uuid="bf3a921f-2bad-4beb-a891-03cba9c1578d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="120" width="140" height="16" forecolor="#0A0101" uuid="6bfb0677-3087-47c9-b0ce-ef4cf0d8a67f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="346" y="150" width="46" height="16" forecolor="#0A0101" uuid="4661cbf7-6a80-4c88-bef4-46b43df02486">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="317" y="137" width="63" height="16" forecolor="#0A0101" uuid="a7d245d1-4a81-4e43-806b-21929d149f6c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="132" width="47" height="16" forecolor="#0A0101" uuid="11ced4ce-4d24-4741-909c-035931155717">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="42" y="116" width="34" height="16" uuid="00078106-77b7-4f9d-a5b5-aa765fdab3e9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="130" width="42" height="16" uuid="32d7c478-9ad6-4de8-9956-5bd4639186ca"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="144" width="34" height="16" uuid="35957038-71b0-4170-b8ec-05a71d040827"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="145" width="14" height="14" uuid="f55de9a4-b561-4582-80da-82b4e6a4b1cf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="131" width="14" height="14" uuid="4520b418-78bc-49a3-b38b-754b75a33769"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="117" width="14" height="14" uuid="a80f6270-7ea6-4b4f-9205-e87f4ad205e0"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="146" width="78" height="16" forecolor="#0A0101" uuid="e7021865-2788-43cb-9914-95bf7ef8a764">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="134" y="131" width="14" height="17" uuid="03cee213-2d74-4f95-868d-cc6624cf191a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="145" width="14" height="16" uuid="44306221-feee-45c0-98bb-5597e681f8ff"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="40" y="161" width="148" height="33" uuid="2276ab2f-e1a0-424c-9516-6d5e5e121305">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="118" width="140" height="16" forecolor="#0A0101" uuid="1b04391b-c004-45c3-8319-ba0c1bb2e512">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="168" y="148" width="46" height="16" forecolor="#0A0101" uuid="4889735e-d60b-4c39-b4ef-724e1f5b204f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="143" y="135" width="63" height="16" forecolor="#0A0101" uuid="4ca1c86d-28ee-4bf5-9b21-62e1814e6fb1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="221" width="140" height="16" forecolor="#0A0101" uuid="e7c3ce16-a4ea-4946-bb41-0f327631453f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="235" width="47" height="16" forecolor="#0A0101" uuid="ddd9681e-88dd-4bf7-843d-1ec1770896bc">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="497" y="235" width="63" height="16" forecolor="#0A0101" uuid="a5f9dd1f-1a16-416d-bab3-045056c5f240">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="219" width="34" height="16" uuid="45f318cc-2130-4b1c-a96e-ee978e8fa7cc"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="233" width="42" height="16" uuid="d9c0b2da-5b7f-4be1-928b-7ba16558025f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="247" width="34" height="16" uuid="aed8b98f-1c44-47fe-91f2-750628c57bc6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="248" width="14" height="14" uuid="33fce86f-9c04-4b5a-b30d-b658c1dfd9ba"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="234" width="14" height="14" uuid="977c3b30-f99f-4ebf-a6bd-7052f39c74db"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="220" width="14" height="14" uuid="ced5a66b-087b-4600-8741-12a3ea5c2061"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="249" width="78" height="16" forecolor="#0A0101" uuid="bdb5cb24-ee4a-4bff-938c-b288b9f4b9ba">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="234" width="14" height="17" uuid="910f8f05-3e7c-4e58-8e7f-cb304cc85a11"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="248" width="14" height="16" uuid="3d7b490d-7799-4486-b572-646153cd9ee9"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="529" y="248" width="46" height="16" forecolor="#0A0101" uuid="34a85d7b-6080-4cb6-a150-4530b8854c85">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement style="Title" x="404" y="264" width="148" height="33" uuid="50e0cb01-ea39-4e9f-8d34-feb060dfb4c2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="234" width="47" height="16" forecolor="#0A0101" uuid="ed0dd3b2-01af-409d-8a41-5a64e74548f8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="220" y="218" width="34" height="16" uuid="c0fb2078-4544-4343-a297-b9a5cc1c5e7e"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="232" width="42" height="16" uuid="a5ce671b-4ecd-4dcb-bc53-aa42da4f0e5a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="246" width="34" height="16" uuid="0cf0c53a-8743-4462-b730-976191e02754"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="247" width="14" height="14" uuid="65ba3e43-4610-47a2-9819-018c178de0e7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="233" width="14" height="14" uuid="6a66856f-9504-4a7f-b332-827d47841b13"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="219" width="14" height="14" uuid="6a5aebe2-8705-44dc-8ca7-54c76d7015ef"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="248" width="78" height="16" forecolor="#0A0101" uuid="12bfde31-5991-4966-8789-32bc22ea8477">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="308" y="233" width="14" height="17" uuid="3da61c17-c802-4de9-968d-7d735f72b8f2"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="247" width="14" height="16" uuid="128ca82c-5983-416a-8dde-71fe6e12a7fb"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="221" y="263" width="148" height="33" uuid="3cb6cb8a-5065-4999-b199-6f4f043b860c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="220" width="140" height="16" forecolor="#0A0101" uuid="3e5a4a8c-be1f-4147-a98b-5bebf30eea07">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="346" y="250" width="46" height="16" forecolor="#0A0101" uuid="d24451ec-39d5-4fd5-bffb-105fa391ff5f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="317" y="237" width="63" height="16" forecolor="#0A0101" uuid="656143a2-1b46-4a7f-93e8-62310d2d84a5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="232" width="47" height="16" forecolor="#0A0101" uuid="c266ccbf-2377-4c8f-8ff3-ec0600ff3b79">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="42" y="216" width="34" height="16" uuid="f6c64cc9-b8ae-43be-a69c-eae6544d2963"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="230" width="42" height="16" uuid="e95ccaa0-eec4-431b-b6e0-6da13c928a9f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="244" width="34" height="16" uuid="5606f9a8-b32f-4207-8ea8-9707f68fa4ff"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="245" width="14" height="14" uuid="3c9ef7b3-2420-4b05-88f6-d3bb578402fb"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="231" width="14" height="14" uuid="b4020677-c0df-4c80-8612-ea8d90485c90"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="217" width="14" height="14" uuid="54e23b1a-0b22-4469-b9ac-38e1657fef7f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="246" width="78" height="16" forecolor="#0A0101" uuid="d923f67b-12c0-4af4-960b-96d7a6607590">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="134" y="231" width="14" height="17" uuid="4b3f5738-2b79-4dea-b604-24bbaff93d8b"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="245" width="14" height="16" uuid="0b663a38-58d9-43ab-980e-c077e6fcdca8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="40" y="261" width="148" height="33" uuid="2ad949a2-7f4e-4a09-9ed4-2328b9576522">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="218" width="140" height="16" forecolor="#0A0101" uuid="e2eeb0ff-2cff-4780-9c0b-b0b448dde10e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="168" y="248" width="46" height="16" forecolor="#0A0101" uuid="0d0ecb3f-ab96-4182-9649-34d2bbe24c2c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="143" y="235" width="63" height="16" forecolor="#0A0101" uuid="5581dc18-68c5-4e0e-aea1-530c29fdc51d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="320" width="140" height="16" forecolor="#0A0101" uuid="ab33bae5-bd34-4d7d-a262-7e8316ac6d26">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="334" width="47" height="16" forecolor="#0A0101" uuid="4d016216-90b8-46a8-8ed6-720af0480881">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="497" y="334" width="63" height="16" forecolor="#0A0101" uuid="a33d7b4f-2d29-421d-adb9-a1f859eec9f7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="404" y="318" width="34" height="16" uuid="ee34e320-69b9-46de-ae6e-868ebbd44808"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="332" width="42" height="16" uuid="2565aa10-99ab-4d14-9780-f2cad6d1c53b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="346" width="34" height="16" uuid="ac046e77-45a1-47ad-ba11-f5d6913657bb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="347" width="14" height="14" uuid="0e01fffb-b844-457f-972f-cbfd69936cdf"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="333" width="14" height="14" uuid="1d2347ed-fbe9-4aff-9f9c-ad2fd18fc57c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="319" width="14" height="14" uuid="05bad93b-4574-495d-80e3-d46049f96fea"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="446" y="348" width="78" height="16" forecolor="#0A0101" uuid="8dd4f590-bf4e-43aa-b8b3-b360fda67e1a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="489" y="333" width="14" height="17" uuid="9a40b37d-64ce-40a3-a934-e38254c8542a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="347" width="14" height="16" uuid="02e45fa5-ffcb-406d-ba24-a767f1e208a8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="529" y="347" width="46" height="16" forecolor="#0A0101" uuid="cdb0dd9a-7340-4f41-9ef6-d108874e8de7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement style="Title" x="404" y="363" width="148" height="33" uuid="ee871009-6ea2-4ee4-a36e-d4c37ad309e4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="333" width="47" height="16" forecolor="#0A0101" uuid="dfc24549-99a5-48bb-9a7e-bfadbb799815">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="220" y="317" width="34" height="16" uuid="6ce444d4-1f87-4920-b61b-2755b279ff7a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="331" width="42" height="16" uuid="0dfeeb26-ebec-472b-ae63-cfab9acbdb2f"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="345" width="34" height="16" uuid="19fa225a-694a-4f42-863e-aa655e141275"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="346" width="14" height="14" uuid="cfd9100d-183f-4db1-8be3-897d0cad3e7e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="332" width="14" height="14" uuid="a1727bb9-3d98-42aa-8f7f-941b2547ffc7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="255" y="318" width="14" height="14" uuid="e6a93780-34e4-4bf6-9a39-af8676f18ebc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="347" width="78" height="16" forecolor="#0A0101" uuid="0111ed2d-7295-446f-b54b-a4c618c767e7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="308" y="332" width="14" height="17" uuid="7903fbbf-cbc1-426d-b867-5947cf09ef7d"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="337" y="346" width="14" height="16" uuid="4e2ba4d6-216e-4cfe-944e-c69239fda028"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="221" y="362" width="148" height="33" uuid="e56f39f1-66d6-49a2-8870-2a7f5345d53f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="262" y="319" width="140" height="16" forecolor="#0A0101" uuid="c239b0dc-4b6f-453c-811e-5a270cc16b4c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="346" y="349" width="46" height="16" forecolor="#0A0101" uuid="adc08939-8bb3-4c4d-93e5-38cac765b128">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="317" y="336" width="63" height="16" forecolor="#0A0101" uuid="e34084ee-4e1b-4ab9-9e5c-7bc95b633218">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="331" width="47" height="16" forecolor="#0A0101" uuid="d337db6d-56d6-4b6e-93e9-0e24038cc2b8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="42" y="315" width="34" height="16" uuid="73a69175-06e8-4348-9cd7-52e9b95ec6ce"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="329" width="42" height="16" uuid="839bfb1b-9721-44e5-b00b-2361aad5d2e2"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="343" width="34" height="16" uuid="919bbc14-3bb8-4d17-a080-3c04d92f6408"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="344" width="14" height="14" uuid="621db7d0-cbea-4fe7-b6f0-2f9c1cb44511"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="330" width="14" height="14" uuid="1681c333-cb15-47b8-8904-85a8e4a66c4d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="77" y="316" width="14" height="14" uuid="4c64da97-045e-4161-bc94-88754023ece8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="345" width="78" height="16" forecolor="#0A0101" uuid="52930f89-8b68-487c-a521-54f8fbfe9fe6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="134" y="330" width="14" height="17" uuid="766d1c30-53fd-4e37-8584-7ee27feb7213"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="159" y="344" width="14" height="16" uuid="c385752e-ea94-4139-a638-a98b182ce81a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<image>
+				<reportElement style="Title" x="40" y="360" width="148" height="33" uuid="56de1cb2-e067-4719-aea3-eec700f7d910">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="84" y="317" width="140" height="16" forecolor="#0A0101" uuid="757953d3-24c4-44e5-a15b-27026142bc6c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="168" y="347" width="46" height="16" forecolor="#0A0101" uuid="09cab4f3-0edf-4361-8288-9a9f92b9b29e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="143" y="334" width="63" height="16" forecolor="#0A0101" uuid="6b199f0f-bb6b-478e-837d-9269fe044905">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jk}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+</jasperReport>

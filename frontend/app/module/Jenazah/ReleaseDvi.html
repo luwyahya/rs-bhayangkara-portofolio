@@ -1,0 +1,122 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading">
+            Input Release DVI
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Tanggal Teridentifikasi</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.tglteridentifikasi" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Tanggal Release</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.release" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Nomor Antemortem</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.noam" disabled/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Nama</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.nama" disabled/>
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual"
+                    id="pilihManual" ng-click="ceklispilihManual(model.cekpilihManual)">
+                <label class="c-label k-checkbox-label" for="pilihManual" required>Tambah Bin / Binti</label>
+            </div>
+        </div>
+        <div class="grid_12" ng-show="showBin">
+            <div class="grid_2">
+                <label c-label item="label">Bin / Binti</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.binbinti"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Umur</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.umur" disabled/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keluarga / Hubungan</label>
+            </div>
+            <div class="grid_2">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.keluarga" ng-disabled="hubungan"/>
+            </div>
+            <!-- <div class="grid_1">
+                <label c-label item="label">/</label>
+            </div> -->
+            <div class="grid_2">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.hubungankeluarga"
+                    k-data-text-field="'hubungankeluarga'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listHubunganKeluarga"  ng-disabled="hubungan"/>
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual3"
+                    id="pilihManual3" ng-click="ceklispilihManual3(model.cekpilihManual3)">
+                <label class="c-label k-checkbox-label" for="pilihManual3" required>Ganti Keluarga dan Hubungan</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Telepon</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.telepon" disabled/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Tujuan</label>
+            </div>
+            <div class="grid_4">
+                <textarea required c-text-box type="input" class="k-textbox" ng-model="item.tujuan" style="height: 120px; width: 100%; " ng-disabled = "alamat"/>
+            </div>
+            <div class="grid_2" style="margin-top: 0.5%;">
+                <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual2"
+                    id="pilihManual2" ng-click="ceklispilihManual2(model.cekpilihManual2)">
+                <label class="c-label k-checkbox-label" for="pilihManual2" required>Ganti Alamat</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Keterangan</label>
+            </div>
+            <div class="grid_4">
+                <textarea required c-text-box type="input" class="k-textbox" ng-model="item.keterangan" style="height: 120px; width: 100%; "/>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-reply"></i>Kembali</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="save()"><i class="fa fa-floppy-o"></i>Simpan</button>
+        </div>
+    </div>
+</div>

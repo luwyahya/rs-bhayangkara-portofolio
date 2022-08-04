@@ -1,0 +1,195 @@
+<style>
+	.style-center {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+	}
+
+	.style-right {
+		display: inline-block;
+		text-align: right;
+		width: 100%;
+	}
+
+	.style-left {
+		display: inline-block;
+		text-align: left;
+		width: 100%;
+	}
+	.red 
+	{
+	    background-color: #ff3860;
+	    color: #FFFFFF;
+	    /*font-weight: bold;*/
+	}
+	.koneng 
+	{
+	    background-color: yellow;
+	    color: #000000;
+	    /*font-weight: bold;*/
+	}
+	.green 
+	{
+	      background-color: #98FB98;
+	            color: #000000;
+	    /*font-weight: bold;*/
+	}
+</style>
+
+<div ng-show="dataVOloaded1">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Daftar Transfer Gaji</b></h1>
+    </div>
+
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div class="grid_12" style="margin-top: 5px">
+        <div class="grid_12 borderBox containerBorderBox">
+            <div class="grid_12">
+                <!-- <div class="grid_12">
+                    <label c-label item="item" c-label-text="Kategori Pegawai"></label>
+                </div> -->
+                <!-- <div class="clear"></div> -->
+        
+                <div class="grid_4">
+                    <label c-label item="item" c-label-text="Kategori Pegawai"></label>
+                        <select ng-show="listKatagori.length" kendo-multi-select k-options="selectOptionsRuangan"
+                        k-filter="'contains'" k-data-source="listKatagori" k-ng-model="item.katagori"></select>
+                </div>
+                <div class="grid_4 padDatePicker">
+                    <label c-label item="item" c-label-text="Periode"></label>
+                    <input style="width: 100%" k-ng-model="item.tanggalRegistrasiAwal" kendo-datepicker
+                        placeholer="MMM yyyy" k-format="'MMM yyyy'" k-options="BulanTahunAja" />
+                </div>
+        
+                <!-- AkhirPeriode -->
+                <!-- <div class="grid_4 padDatePicker">
+                    <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                    <input style="width: 100%" k-ng-model="item.tanggalRegistrasiAkhir" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div> -->
+                <!-- <div class="grid_12">
+                    <label c-label item="item" c-label-text="KedudukanPegawai"></label>
+                </div> -->
+                <!-- <div class="grid_2">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="KedudukanPegawai"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.kedudukan"
+                            k-data-text-field="'name'" k-data-value-field="'id'"
+                            k-filter="'contains'" k-auto-bind="false"
+                            k-data-source="listKedudukan" />
+                    </div>
+                </div> -->
+                <div class="grid_2" style="margin-top: -5px;">
+                    <label c-label item="item" c-label-text="Nama Pegawai"></label>
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPegawai"
+                    />
+                </div>
+                <div class="grid_2" style="margin-top: 8px;">
+                    <button class="btnTemplate1" ng-click="SearchData()">Cari</button>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="clear"></div>
+        
+                
+            </div>
+        </div>
+    </div>
+   
+    
+    <div class="grid_12">   
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_12 borderBox">
+                <kendo-grid k-data-source="dataSourceRek" k-selectable="'row'" k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)"
+                 options="columnGridRek" k-pageable="'true'" k-sortable="'true'" k-groupable="true">
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+    <div class="grid_2" style="margin-top: 11px;">
+        <button class="btnTemplate1" ng-click="Update()">Update Data</button>
+    </div>
+    <div class="grid_2" style="margin-top: 11px;">
+        <button class="btnTemplate1" ng-click="ShowPopUpEditGaji()">Edit Gaji</button>
+    </div>
+    <div kendo-window="popUpEditGaji" k-title="'Update Data'" k-width="1100" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_2" style="margin-top: 10px;">
+            <label c-label item="item" required>Nama Pegawai</label>
+        </div>
+        <div class="grid_11">
+            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.pegawai" disabled/>
+        </div>
+        <div class="grid_2" style="margin-top: 10px;">
+            <label c-label item="item" required>Periode</label>
+        </div>
+        <div class="grid_11">
+            <input style="width: 100%" k-ng-model="item.tgl" kendo-datepicker placeholer="MMM yyyy" k-format="'MMM yyyy'" k-options="BulanTahunAja" disabled/>
+        </div>
+        <div class="grid_2" style="margin-top: 10px;">
+            <label c-label item="item" required>Salary</label>
+        </div>
+        <div class="grid_4">
+            <input c-text-box type="input" filter="varchar" class="k-textbox uang" ng-model="item.editsalary"/>
+        </div>
+        <div class="grid_1">
+            <button class="btnTemplate1" ng-click="Password()">Simpan</button>
+        </div>
+        <div class="grid_1" style="margin-left: 2%;">
+            <button class="btnTemplate1 cancel" ng-click="Batal2()">Batal</button> 
+        </div>
+    </div>
+    <div kendo-window="popUpUpdateData" k-title="'Update Data'" k-width="400" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <label c-label item="item" c-label-text="Pilih Bulan Periode"></label>
+        <input style="width: 100%" k-ng-model="item.tglupdate" kendo-datepicker
+            placeholer="MMM yyyy" k-format="'MMM yyyy'" k-options="BulanTahunAja" />
+        <div class="grid_2" style="margin-top: 11px;">
+            <button class="btnTemplate1" ng-click="GaskeunUpdate()">Update Data</button>
+        </div>
+        <div class="grid_2" style="margin-top: 11px; margin-left: 25px;">
+            <button class="btnTemplate1 cancel" ng-click="Batal()">Batal</button>
+        </div>
+    </div>
+    <div kendo-window="popUpPassword" k-title="'Update Data'" k-width="800" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <!-- <label c-label item="item" c-label-text="Pilih Bulan Periode"></label> -->
+        <div class="grid_12">
+            <h1>{{ pesan }}</h1>
+        </div>
+        <label c-label item="item" c-label-text="Masukkan Password"></label>
+        <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password" />
+        <div class="grid_2" style="margin-top: 11px;">
+            <button class="btnTemplate1" ng-click="GaskeunUpdate2()">Update Data</button>
+        </div>
+        <div class="grid_2" style="margin-top: 11px; margin-left: 25px;">
+            <button class="btnTemplate1 cancel" ng-click="Batal2()">Batal</button>
+        </div>
+    </div>
+    <div kendo-window="popUpPasswordEdit" k-title="'Edit Data'" k-width="800" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <label c-label item="item" c-label-text="Masukkan Password"></label>
+        <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password2" />
+        <div class="grid_2" style="margin-top: 11px;">
+            <button class="btnTemplate1" ng-click="saveEditGaji()">Simpan</button>
+        </div>
+        <div class="grid_2" style="margin-top: 11px; margin-left: 25px;">
+            <button class="btnTemplate1 cancel" ng-click="Batal2()">Batal</button>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>
+
+<script>
+$('input.uang').on('blur', function() {
+				const value = this.value.replace(/,/g, '');
+				this.value = parseFloat(value).toLocaleString('en-US', {
+				  style: 'decimal',
+				  maximumFractionDigits: 2,
+				  minimumFractionDigits: 2
+				});
+			  });
+</script>

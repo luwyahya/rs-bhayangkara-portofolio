@@ -1,0 +1,27 @@
+<div ng-show="dataVOloaded1">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Mapping No DTD to Golongan Sebab Penyakit</b></h1>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:60px">
+            <div class="grid_1">
+                <label c-label item="item" c-label-text="KodeDiagnosa"></label>
+                <input c-text-box type="input" class="k-textbox" ng-model="item.kddiagnosa" readonly />
+            </div>
+            <div class="grid_1">
+                <label c-label item="item" c-label-text="NoDtd"></label>
+                <input c-text-box type="input" filter="'integer'" class="k-textbox" ng-model="item.nodtd" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="GolonganSebabPenyakit"></label>
+                <input c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.gsp" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4"></div>
+            <div class="grid_8">
+                <div ng-include=' "../app/template/Shared/TemplateButtonSimpanNotFixed" '></div>
+            </div>
+        </div>
+    </div>
+</div>

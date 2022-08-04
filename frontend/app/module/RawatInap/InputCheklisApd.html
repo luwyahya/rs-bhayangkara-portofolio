@@ -1,0 +1,112 @@
+<style>
+    .k-checkbox:checked+.k-checkbox-label:before {
+        /* background-color: #fff; */
+        border-color: #10c4b2;
+        color: white;
+        background-color: #10c4b2;
+    }
+
+    md-content.md-default-theme,
+    md-content {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: #FFFFFF;
+    }
+</style>
+<div class="panel panel-default ">
+    <div class="panel-heading headerBox"><span class="title" c-translate>Cheklis APD</span></div>
+    <div class="panel-body">
+        <div class="grid_12" style="margin-: ">
+            <div class="grid_2">
+                <fieldset class="effect-shadow" style=" border-radius: 1px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Kalender</a>
+                    </legend>
+                    <div class="grid_12">
+                        <div class="grid_12" style="margin-top:10px">
+                            <center> <label c-label item="item"> Bulan : {{item.bulan | date:" MMMM d, yyyy"}}</label>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <center>
+                            <kendo-calendar ng-model="item.bulan" style="margin-top:10px"></kendo-calendar>
+                        </center>
+                    </div>
+                </fieldset>
+            </div>
+            <!-- <div class="grid_1"></div> -->
+            <div class="grid_10">
+                <md-content class="md-padding">
+                    <div class="grid_12">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Ruangan"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                    k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listRuangan" ng-disabled="isInput"
+                                    k-on-change='search()' />
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Pegawai"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.pegawai"
+                                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listPegawai" ng-disabled="isInput"
+                                    k-on-change='search()' />
+                            </div>
+                        </div>
+                        <div class="grid_2" style="margin-top: 22px;">
+                            <button class="c-button" ng-click="cari()">CARI</button>
+                        </div>
+                    </div>
+                </md-content>
+                <md-content class="md-padding" ng-show="isInput">
+                    <div class="grid_12 borderBox" style="width:100%;">
+                        <div kendo-grid id="gridBulan" k-data-source="sourceJadwalBulanan" options="mainGridOptionss"
+                            k-scrollable="'true'" style="font-size: small" k-ng-model="databulan">
+                        </div>
+                    </div>
+                </md-content>
+                <md-content class="md-padding">
+                    <div class="grid_12">
+                        <div class="grid_2">
+                            <kendo-button class=" c-button" ng-click="inputJadwal()" ng-disabled="disableKirim"><span
+                                    class="title">{{titleButton}}
+                                </span></kendo-button>
+                        </div>
+                        <div class="grid_6">
+                        </div>
+                        <div class="grid_2" ng-show="isInput">
+                            <kendo-button class="c-button" ng-click="save()"><span class="title">Simpan
+                                </span></kendo-button>
+                        </div>
+                        <div class="grid_2" ng-show="isInput">
+                            <kendo-button class="error c-button" ng-click="batal()"><span class="title">Batal
+                                </span></kendo-button>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+        <div class="grid_12">
+            <md-content class="md-padding" ng-show="!isInput">
+                <div class="grid_12 headerBox">
+                    <p>Data Cheklis Apd</p>
+                </div>
+                <div class="grid_12">                   
+                    <div kendo-grid id="gridOrder" k-data-source="dataSource" k-options="mainGridOption"></div>                    
+                </div>
+            </md-content>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+</div>

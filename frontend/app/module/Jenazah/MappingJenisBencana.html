@@ -1,0 +1,62 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Mapping Jenis Bencana to Formulir Antemortem</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <label c-label item="item" required>Jenis Bencana</label>
+        </div>
+        <div class="grid_2">
+            <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.jenisbencana" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <label c-label item="item" required>Tanggal Bencana</label>
+        </div>
+        <div class="grid_2">
+            <input style="width: 100%" k-ng-model="item.tglbencana" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="simpan()"><i class="fa fa-floppy-o" aria-hidden="true"></i>Simpan</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="sourceMapping" options="columnMapping"
+            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedMapping"
+            ng-click="klik(dataSelectedMapping)">
+        </kendo-grid>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="verifikasi()" ng-show="!Verifikasi"><i class="fa fa-floppy-o"></i>Verifikasi Tutup Bencana</button>
+            
+            <button class="btnTemplate1 cancel" ng-click="batalVerifikasi()" ng-show="Verifikasi"><i class="fa fa-times"></i>Batal Verifikasi Tutup Bencana</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpPassword" k-title="'Masukkan Passowrd'" k-width="550" k-height="400" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            
+            <div class="clear"></div>
+    
+            <div class="grid_12">
+                <label c-label item="label">Password</label>
+                <input required c-text-box type="password" class="k-textbox"
+                ng-model="item.password" />
+            </div>
+            <div class="grid_10">
+                <div class="grid_10">
+                    <button class="btnTemplate1" ng-click="simpanBatal()"><i class="fa fa-floppy-o"></i>Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

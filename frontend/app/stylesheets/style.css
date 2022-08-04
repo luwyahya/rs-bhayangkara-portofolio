@@ -1,0 +1,8 @@
+button[disabled] {
+    cursor: default;
+    color: #c2c2c2;
+    border-color: #ccc;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+    background-image: none;
+}

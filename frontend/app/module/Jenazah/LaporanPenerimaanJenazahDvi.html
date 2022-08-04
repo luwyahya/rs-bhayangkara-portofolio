@@ -1,0 +1,28 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Penerimaan Jenazah</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Jenis Bencana</label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+            <div class="grid_2" style="margin-top: 0.7%;">
+                <button class="btnTemplate1" ng-click="cari()">Cari</button>
+            </div>
+        </div>
+    </div>
+    <div class="clear" style="margin-top: 3%;"></div>
+    <div class="grid_12 borderBox">
+        <kendo-grid id="kGrid" data-source="sourceLaporanJenazah" options="columnLaporanJenazah"
+            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedJenazah"
+            ng-click="klik(dataSelectedJenazah)">
+        </kendo-grid>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px;z-index:100000">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

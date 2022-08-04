@@ -1,0 +1,18 @@
+[
+  {
+    "name": "home",
+    "url": "/home",
+    "templateurl": "Welcome.html",
+    "controller": "WelcomeCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      }
+    ]
+  }
+]

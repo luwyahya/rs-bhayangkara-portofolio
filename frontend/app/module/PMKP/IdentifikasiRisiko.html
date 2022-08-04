@@ -1,0 +1,268 @@
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    /* table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 40px;
+
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    } */
+</style>
+<div class="panel panel-default container_12" style="background-color:transparant">
+    <div class="panel-heading"><label class='title' c-label item="item" real>Tabel Identifikasi Risiko</label></div>
+    <div class="panel-body">
+        <div class="md-padding">
+            <div class="grid_12">
+                <table style="width:100%;color: #4c5356;">
+                    <tr>
+                        <td>Unit Kerja</td>
+                        <td colspan="4">
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.UnitKerja"
+                                    k-data-text-field="'departemen'" k-data-value-field="'objectdepartemenfk'"
+                                    k-filter="'contains'" k-auto-bind="false" k-data-source="listDepartemen" />
+                            </div>
+                        </td>
+                        <td>Tanggal</td>
+                        <td colspan="2">
+                            <div class="grid_12">
+                                <input style="width: 100%" k-ng-model="item.tanggal" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" />
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <br />
+            </div>
+            <div class="grid_12" style="margin-top: 5px;margin-bottom: 20px;">
+                <table style="width:100%;color: #4c5356;">
+                    <tr>
+                        <td>Ka Instalasi</td>
+                        <td>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.KaInstalasi"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listPegawai" />
+                        </td>
+                        <td>Kepala Bidang</td>
+                        <td>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.KplaBidang"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listPegawai" />
+                        </td>
+                        <td>Direktur</td>
+                        <td>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.Direktur"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listPegawai" />
+                        </td>
+                    </tr>                   
+                </table>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Kategory Risiko</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.KategoryRisiko"
+                        k-data-text-field="'kategoryrisiko'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKategoryRisiko" />
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 15px;">
+                <div class="grid_12 headerBox">
+                    <p>Input Identifikasi Risiko</p>
+                </div>
+                <div class="grid_12" style="margin-top: 20px;">                                      
+                        <div class="grid_12">
+                            <label c-label item="item">Jenis Risiko</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 76px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.JenisRisiko"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Keparahan</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.Keparahan"
+                                k-data-text-field="'skor'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listKeparahan" />
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Kemungkinan</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.Kemungkinan"
+                                k-data-text-field="'skor'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listKemungkinan" />
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Skor</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="numeric" class="k-textbox" ng-model="item.Skor"
+                                disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Rangking Risiko</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="numeric" class="k-textbox"
+                                ng-model="item.RangkingRisiko" />
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Pengendalian</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 76px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Pengendalian"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Rangking For Action</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 76px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Rangking"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_9"></div>
+                <div class="grid_3">
+                    <div class="grid_12" style="margin-top: 10px">
+                        <div class="grid_4">
+                            <button class="btnTemplate1" ng-click="tambah()"><i
+                                    class="fa fa-plus"></i>Tambah</button>
+
+                        </div>
+                        <div class="grid_4">
+                            <button class="btnTemplate1 cancel" ng-click="hapus()"><i
+                                    class="fa fa-trash"></i>Hapus</button>
+
+                        </div>
+                        <div class="grid_4">
+                            <button class="btnTemplate1" ng-click="batal()"><i
+                                    class="fa fa-refresh"></i>Batal</button>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+            <div class="grid_12">
+                <div class="grid_12 borderBox">
+                    <div id="kGrid" kendo-grid k-data-source="dataGrid" k-selectable="'row'"
+                        k-columns="columnGrid" k-pageable="'true'" k-sortable="'true'"
+                        k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_6"></div>
+                <div class="grid_6">
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+                    </div>
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1" ng-click="Batal()"><i class="fa fa-refresh"></i>Batal</button>
+                    </div>
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1 cancel" ng-click="kembali()"><i
+                                class="fa fa-arrow-left"></i>Kembali</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

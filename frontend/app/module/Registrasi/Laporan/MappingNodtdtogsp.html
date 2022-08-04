@@ -1,0 +1,67 @@
+<div ng-show="dataVOloaded">
+    <div class="grid_12 headerBox">
+        <h2 style="color: white;">
+            <p>Mapping No DTD to Golongan Sebab Penyakit</p>
+        </h2>
+    </div>
+
+    <div class="grid_12">
+
+        <!-- Filter Kode Diagnosa -->
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Kode Diagnosa"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.diagnosa"
+                    k-data-text-field="'kddiagnosa'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDiagnosa" />
+            </div>
+        </div>
+        <!-- Button Search -->
+        <div class="grid_1">
+            <div class="grid_12">
+                <label>&nbsp;</label>
+            </div>
+            <div class="grid_12">
+                <button class="primary c-button" style="margin-top: 6px" ng-click="CariData()">Cari</button>
+            </div>
+        </div>
+        <!-- Grid -->
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Data Diagnosa</p>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12 borderBox">
+                <div id="kGrid" kendo-grid data-source="sourceDiagnosa" k-selectable="'row'" options="columnDiagnosa"
+                    k-sortable="true" k-reorderable="true" k-pageable="'true'" k-groupable="true" k-resizable="true"
+                    k-scrollable="'true'" k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"
+                    ng-dblclick="klikdua(dataPasienSelected)">
+                </div>
+            </div>
+            <!-- <div class="grid_12 borderBox">
+                <div id="kGrid" kendo-grid k-groupable="'true'" k-aggregate='aggregate' kendo-grid data-source="sourceDiagnosa"
+                    k-selectable="'row'" options="columnDiagnosa" k-pageable="'true'" k-sortable="'true'"
+                    k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)">
+                </div>
+            </div> -->
+        </div>
+        <!-- Button Edit -->
+        <div class="grid_2">
+            <button class="btnTemplate1" style="margin-left: 0;" 
+            ng-click="EditData()">Edit Data</button>
+        </div>
+    </div>
+    <!-- <div class="grid_12">
+        <div class="grid_2" ng-show='cboUbahDokter'>
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="DaftarRuangan()"><i
+                    class="fa fa-list-alt"></i>Detail Registrasi</button>
+        </div>
+    </div> -->
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

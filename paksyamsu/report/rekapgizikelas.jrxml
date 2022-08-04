@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d52e70de-5892-4fef-a374-7bba86e08846">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="ireport.zoom" value="3.1384283767210035"/>
+	<property name="ireport.x" value="632"/>
+	<property name="ireport.y" value="69"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT       distinct ruanganasal2,namapasien, nocm, namakelas
+FROM            v_labelgizi
+where  $P!{kondisi}
+order by ruanganasal2, namakelas]]>
+	</queryString>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namakelas" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="ruanganasal2" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<variable name="norurut" class="java.lang.Integer" resetType="Group" resetGroup="ruangan" calculation="Count">
+		<variableExpression><![CDATA[$V{norurut}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="ruangan">
+		<groupExpression><![CDATA[$F{ruanganasal2}]]></groupExpression>
+		<groupHeader>
+			<band height="16">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<staticText>
+					<reportElement x="9" y="-7" width="78" height="16" uuid="3ec20fd1-8396-4ee6-982f-706a41937e5b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Ruangan :]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="89" y="-4" width="276" height="13" uuid="8785a5cc-ed9a-469c-acbb-97525ae29de5"/>
+					<textElement>
+						<font size="8" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{ruanganasal2}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="1" y="-7" width="550" height="2" uuid="8e1789aa-4d01-437d-8460-8ade6db6f3f0">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="judul grup">
+		<groupHeader>
+			<band height="12">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<line>
+					<reportElement x="1" y="-5" width="550" height="2" uuid="c407c491-e58b-4753-84b9-6c8dcfcb7520">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement x="0" y="10" width="550" height="2" uuid="1f185c8d-2d63-4d11-9d75-43cf711aa7dd">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="9" y="-3" width="28" height="12" uuid="09a18737-23c7-4072-9a0b-efeb3d5e8d8a">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="52" y="-3" width="58" height="12" uuid="dc6f674a-5b6f-4562-b54d-3504b66b9e1b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NO RM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="156" y="-3" width="66" height="13" uuid="a613bbf5-e40e-4836-9527-bfe23725fefa">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pasien]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="346" y="-3" width="36" height="13" uuid="5885f3fc-78d9-4d26-bab6-6cd6a8131174">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kelas]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="52" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Transparent" x="167" y="3" width="260" height="15" forecolor="#0A0101" uuid="a922f366-014e-4b08-82c7-581ae9fb8447"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DAFTAR ORDER GIZI SESUAI KELAS]]></text>
+			</staticText>
+			<line>
+				<reportElement x="2" y="21" width="550" height="2" uuid="9bcf83b3-a22a-4b54-bf3b-a93685bb5273">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="158" y="26" width="69" height="15" forecolor="#0A0101" uuid="1cc05196-bed8-4ba8-abe6-24e430000d0f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periode :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="217" y="27" width="243" height="18" uuid="91d38c00-b9cb-496d-bc76-7c375193b975"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{tglawal} + "   s/d   " + $P{tglakhir}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="-1" width="550" height="2" uuid="72517514-7fd7-4d68-980c-d817de6a94c3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="349" y="2" width="62" height="15" uuid="1cf6b8c0-6749-4dbb-8bfc-ea7929e92629"/>
+				<textElement>
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namakelas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement isPrintRepeatedValues="false" x="120" y="2" width="220" height="12" uuid="d9d238f1-00be-45f5-a8c7-1908ca6da15a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="52" y="1" width="41" height="13" uuid="88bc1a7c-6e01-46ef-813f-7b87a9c949b9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="14" y="1" width="20" height="16" printWhenGroupChanges="ruangan" uuid="6f5ed10a-5f6a-491f-931d-096aa34491a0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{norurut}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</summary>
+</jasperReport>

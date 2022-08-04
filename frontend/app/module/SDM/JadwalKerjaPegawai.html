@@ -1,0 +1,182 @@
+<style>
+     .k-checkbox:checked+.k-checkbox-label:before {
+        /* background-color: #fff; */
+        border-color: #10c4b2;
+        color: white;
+        background-color: #10c4b2;
+    }
+
+    md-content.md-default-theme,
+    md-content {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: #FFFFFF;
+    }
+</style>
+<div class="panel panel-default ">
+    <div class="panel-heading headerBox"><span class="title" c-translate>Jadwal Kerja Pegawai</span></div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="grid_2">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Kalender</a>
+                    </legend>
+                    <div class="grid_12">
+                        <div class="grid_12" style="margin-top:10px">
+                            <center> <label c-label item="item"> Bulan : {{item.bulan | date:" MMMM d, yyyy"}}</label>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <center>
+                            <kendo-calendar ng-model="item.bulan" style="margin-top:10px"></kendo-calendar>
+                        </center>
+                    </div>
+                </fieldset>
+            </div>
+            <!-- <div class="grid_1"></div> -->
+            <div class="grid_9" style="margin-left: 27px;">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData"> <a ng-click="showAndHide()">Jadwal Kerja</a></legend>
+                    <div class="grid_12">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Unit Kerja"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                    k-data-text-field="'name'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listUnitkerja" ng-disabled="isInput" k-on-change='search()' />
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Shift Kerja"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Shift"
+                                    k-data-text-field="'kelompokshiftkerja'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listShift" ng-disabled="isInput" k-on-change='search()' />
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="JamMulai"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-time-picker k-ng-model="item.jamMulai"
+                                    placeholer="HH:mm" k-format="'HH:mm'" ng-disabled="isInput" />
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="JamSelesai"></label>
+                            </div>
+                            <div class="clear"></div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-time-picker k-ng-model="item.jamSelesai"
+                                    placeholer="HH:mm" k-format="'HH:mm'" ng-disabled="isInput" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_12 ">
+                            <div class="grid_12 headerBox">
+                                <p> <input type="checkbox" class="k-checkbox" id="cekAll" ng-model="item.cekAll"
+                                        ng-click="cekAll(item.cekAll)" ng-disabled="isInput">
+                                    <label class="k-checkbox-label" for="cekAll" style="margin-left:5px"><b>Check
+                                            All
+                                        </b></label></p>
+                            </div>
+                            <div class="grid_12 borderBox containerBorderBox" style="overflow-y: scroll; height:250px;">
+                                <div class="grid_3" ng-repeat="dok in listDokter track by $index  ">
+                                    <input type="checkbox" ng-checked="dok.isChecked" class="k-checkbox"
+                                        name="{{dok.namalengkap}}" id="{{dok.namalengkap}}" ng-model="bool"
+                                        value="{{dok.luid}}" ng-click="addDokter(bool,dok)" ng-disabled="isInput">
+
+                                    <label class="k-checkbox-label"
+                                        for="{{dok.namalengkap}}">{{dok.namalengkap}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_3">
+                            <div class="grid_12" style="margin-top:10px">
+                                <label c-label item="item">Nama Lengkap</label> </div>
+                            <div class="grid_12" style="margin-top: -1px;">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.cariDokter"
+                                    placeholder="Cari Nama Lengkap"
+                                    ng-keypress="($event.which == 13)? cariDokter():item.cariDokter"
+                                    ng-disabled="isInput" />
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+        <div class="grid_12">
+            <md-content class="md-padding" ng-show="!isInput">
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12" style="margin-top:10px">
+                            <label c-label item="item">Nama Lengkap</label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.cariDokters"
+                                placeholder="Cari Nama "
+                                ng-keypress="($event.which == 13)? cariDokterGrid():item.cariDokters" />
+                        </div>
+                    </div>
+                    <div class="grid_1" style="margin-top:11px">
+                        <label c-label c-label-text=""></label>
+                        <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button"
+                            class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+                                class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+                    </div>
+                </div>
+                <div class="grid_12 headerBox">
+                    <p>Data Jadwal</p>
+                </div>        
+                <div class="grid_12">
+                    <kendo-grid id="kGrid" k-ng-model="dataSelected" k-data-source="dataSourceGrid"
+                        options='mainGridOptions' ng-click='klik(dataSelected)'>
+                    </kendo-grid>
+                </div>
+            </md-content>
+            <md-content class="md-padding" ng-show="isInput">
+                <div class="grid_12 borderBox" style="width:100%;">
+                    <div kendo-grid id="gridBulan" k-data-source="sourceJadwalBulanan" options="mainGridOptionss"
+                        k-scrollable="'true'" style="font-size: small" k-ng-model="databulan">
+                    </div>
+                </div>
+            </md-content>
+            <md-content class="md-padding" >
+                <div class="grid_12">
+                    <div class="grid_2" >
+                    <kendo-button class=" c-button" ng-click="inputJadwal()" ng-disabled="disableKirim"><span
+                            class="title">{{titleButton}}
+                        </span></kendo-button>
+                    </div>
+                    <div class="grid_6">
+
+                    </div>
+                    <div class="grid_2" ng-show="isInput">
+                        <kendo-button class="c-button" ng-click="save()"><span class="title">Simpan
+                            </span></kendo-button>
+                    </div>
+                    <div class="grid_2" ng-show="isInput">
+                        <kendo-button class="error c-button" ng-click="batal()"><span class="title">Batal
+                            </span></kendo-button>
+                    </div>
+                </div>
+            </md-content>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>    
+</div>            

@@ -1,0 +1,99 @@
+<style>
+    .k-checkbox:checked+.k-checkbox-label:before {
+        /* background-color: #fff; */
+        border-color: #10c4b2;
+        color: white;
+        background-color: #10c4b2;
+    }
+
+    md-content.md-default-theme,
+    md-content {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: #FFFFFF;
+    }
+</style>
+<div class="panel panel-default ">
+    <div class="panel-heading headerBox"><span class="title" c-translate>Rekap Data Sensus Harian Sasaran Mutu</span>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="grid_12">
+                <md-content class="md-padding">
+                    <div class="grid_12">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <center> <label c-label item="item"> Tahun :
+                                        {{item.bulan | date:" yyyy"}}</label>
+                                </center>
+                            </div>
+                            <div class="grid_12">
+                                <center>
+                                    <input style="width: 100%" k-options="yearUngkul" k-ng-model="item.tahun"
+                                        kendo-date-picker placeholer="YYYY" k-format="'yyyy'" />
+                                </center>
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Departemen"></label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Departemen"
+                                    k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDepartemen" />
+                            </div>
+                        </div>
+                        <div class="grid_2" style="margin-top: 22px;">
+                            <button class="c-button" ng-click="cari()">Cari</button>
+                        </div>
+                    </div>
+                </md-content>
+            </div>
+        </div>
+        <div class="grid_12">
+            <md-content class="md-padding">
+                <div class="grid_12 headerBox">
+                    <p>Sensus Harian Pengukuran Mutu</p>
+                </div>
+                <div class="grid_12">
+                    <div kendo-grid id="gridOrder" k-data-source="dataSource" k-options="mainGridOption"></div>
+                </div>
+            </md-content>
+        </div>
+        <div class="grid_12" id="example">
+            <div class="demo-section k-content wide">
+                <div id="chart" style="height: 250px;"></div>
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top: 10px;">
+            <div class="grid_12">
+                <label c-label item="item" style="margin-top: 5px">Analisa</label>
+            </div>
+            <div class="grid_12">
+                <textarea required class="k-textbox" style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                    ng-model="item.Analisa"></textarea>
+            </div>
+        </div>
+        <div class="grid_6" style="margin-top: 10px;">
+            <div class="grid_12">
+                <label c-label item="item" style="margin-top: 5px">Tindak Lanjut</label>
+            </div>
+            <div class="grid_12">
+                <textarea required class="k-textbox" style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                    ng-model="item.TindakLanjut"></textarea>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_8"></div>
+            <div class="grid_2" style="margin-top: 22px">
+                <button class="c-button" ng-click="Save()">Simpan</button>
+            </div>
+            <div class="grid_2" style="margin-top: 22px">
+                <button class="c-button" ng-click="reset()">Batal</button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+</div>

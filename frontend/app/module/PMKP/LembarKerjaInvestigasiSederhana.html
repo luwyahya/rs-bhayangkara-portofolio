@@ -1,0 +1,190 @@
+<style>
+    button:disabled {
+        background: #B5B2B1;
+    }
+</style>
+<div class="panel panel-default container_12" style="background-color:transparant">
+    <div class="panel-heading"><label class='title' c-label item="item" real>LEMBAR KERJA INVESTIGASI SEDERHANA</label>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <!-- DATA PELANGGAN -->
+            <div class="grid_12">
+                <div class="panel panel-default panel-white">
+                    <div class="panel-heading-white"><span class="title" c-translate></span></div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 10px">Penyebab Langsung Insiden</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.PenyebabInsiden"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 10px">Penyebab Yang Melatarbelangkangi / akar
+                                masalah insiden</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Melatarbelangkangi"></textarea>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 10px">Rekomendasi</label>
+                            </div>
+                            <div class="grid_12">
+                                <textarea required class="k-textbox"
+                                    style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                    ng-model="item.RekomendasiSatu"></textarea>
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Penanggung Jawab</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Pegawai"
+                                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataPegawai" />
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Tanggal</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TanggalSatu" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 10px">Tindakan yang akan dilakukan</label>
+                            </div>
+                            <div class="grid_12">
+                                <textarea required class="k-textbox"
+                                    style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                    ng-model="item.RekomendasiDua"></textarea>
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Penanggung Jawab</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.PegawaiDua"
+                                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataPegawai" />
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Tanggal</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TanggalDua" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default panel-white">
+                    <div class="panel-heading-white"><span class="title" c-translate>Kepala Bagian/
+                            KaSie/Ka.Instalasi/Kepala Unit/Ruangan</span></div>
+                    <div class="grid_12">
+                        <div class="grid_4" style="margin-top: 10px;"''>
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Nama</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Nama"
+                                    k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listNama" />
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Tanggal Mulai Investigasi</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TanggalMulai" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" />
+                            </div>
+                        </div>
+                        <div class="grid_4" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Tanggal Selesai Investigasi</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TanggalSelesai" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Investigasi Lengkap</label>
+                            </div>
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.Investigasi" />
+                            </div>
+                        </div>
+                        <div class="grid_4">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Investigasi Lebih Lanjut</label>
+                            </div>
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.InvestigasiLanjut" />
+                            </div>
+                        </div>
+                        <div class="grid_4">
+                            <div class="grid_12">
+                                <label c-label item="item" style="margin-top: 5px">Regrading</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Regrading"
+                                    k-data-text-field="'regrading'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataRegrading" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_8"></div>
+            <div class="grid_2">
+                <c-button ng-show="!isLoading" class="success"
+                    style="width: 99.5%; font-size: 24px; padding:0px, margin:0px; text-align: center;" item="item"
+                    size="36" position=" 'right'" is-validate ng-click="Save()">
+                    <span class="title">Simpan</span>
+                </c-button>
+            </div>
+            <div class="grid_2">
+                <c-button ng-show="!isLoading"
+                    style="width: 99.5%; font-size: 24px; padding:0px, margin:0px; text-align: center;" item="item"
+                    size="36" position=" 'right'" class="cancel" ng-click="reset()">
+                    <span class="title">Batal</span>
+                </c-button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+</div>

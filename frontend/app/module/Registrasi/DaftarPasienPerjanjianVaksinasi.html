@@ -1,0 +1,334 @@
+<div class="panel panel-default panel-white">
+    <div class="panel-heading"><span class="title" c-translate>Parameter Pencarian</span></div>
+    <div class="panel-body">
+        <div class="grid_12">
+
+            <div class="grid_2">
+                <div class="grid_12" style="margin-left: 2px">
+                    <label c-label c-label-text="tanggalPerjanjian"></label>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_6">
+                        <input style="width: 100%" k-ng-model='from' k-value='now' kendo-date-picker
+                            placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                    </div>
+                    <div class="grid_6">
+                        <input style="width: 100%" k-ng-model='until' k-value='now' kendo-date-picker
+                            placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid_2">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="NIK" real></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" class="k-textbox" ng-model="nik" />
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="kodeReservasi" real></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" class="k-textbox" ng-model="kodeReservasi" />
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label c-label-text="StatusVaksin" real></label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.statuspulang2"
+                        k-data-text-field="'statuspulang'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-data-source="ListStatusPulang2" />
+                </div>
+            </div>
+            
+            <!-- <div class="grid_2">
+                <div class="grid_12" style="margin-bottom: 5px">
+                    <label c-label item="item" c-label-text="Status"></label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="status" k-data-text-field="'nama'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listStatus" />
+                </div>
+            </div> -->
+            <div class="grid_1" style="margin-top: 5px">
+                <label c-label c-label-text=""></label>
+                <em style="margin-top: 6px;" ng-click='findData()' id="iconButton" data-role="button"
+                    class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                        class="k-sprite k-icon k-i-search">Cari</span></em>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default container_12">
+    <div class="panel-heading"><label class='title' c-label item="item"
+            c-label-text="daftarPasienPerjanjianVaksinasi"></label>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <kendo-grid k-ng-model="item" k-data-source="listPasien" k-selectable="'row'" k-sortable="'true'"
+                k-groupable="'true'" k-pageable="Page" options="Column" k-resizable="'true'"></kendo-grid>
+        </div>
+    </div>''
+</div>
+<div class="grid_12">
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="detail()"
+            position="'right'"><i class="fa fa-check"></i>Detail Pertanyaan</button>
+    </div>
+    <!-- <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="reconfirm()"
+            position="'right'"><i class="fa fa-check"></i>Reconfirm</button>
+    </div> -->
+    <!-- <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary" ng-click="CetakLaporan()"
+            position="'right'"><i class="fa fa-print"></i>Cetak</button>
+    </div>
+    <div class="grid_2">
+        <button ng-show="!isLoading" kendo-button style="width: 100%" class="error" ng-click="hapusReservasi()"
+            position="'right'"><i class="fa fa-trash"></i>Tolak Reservasi Pasien</button>
+
+    </div> -->
+</div>
+<div class="grid_12" style="margin-top:30px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div kendo-window="popupPulang" k-title="'Status Pulang'" k-visible="false" k-width="300" k-height="250">
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="StatusPulang"></label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.statuspulang"
+                    k-data-text-field="'statuspulang'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-data-source="ListStatusPulang" />
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:25px" ng-show="item.statuspulang.id == 22">
+        <div class="grid_12">
+            <label c-label item="item" c-label-text="Keterangan"></label>
+        </div>
+        <textarea class="k-textbox" row="3" ng-model="item.keteranganTolak" style="width: 100%;" />
+    </div>
+    <br />
+    <div class="grid_12" style="margin-top: 20px; float: left;">
+        <div class="grid_6 pull-right">
+            <button class="c-button" ng-click="simpanPulang()" style="width:120px;">Simpan</button>
+        </div>
+        <div class="grid_6 pull-right">
+            <button class="c-button error" ng-click="popupPulang.close()"
+                style="width:120px">Batal</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popupTolakPasien" k-title="'Alasan Menolak Reservasi Pasien'" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="padding:5px !important">
+            <label c-label c-label-text="keterangan"></label>
+            <textarea class="k-textbox" row="3" ng-model="item.keteranganTolak" style="width: 100%;" />
+        </div>
+    </div>
+    <br />
+    <div class="grid_12">
+        <div class="grid_6 pull-right">
+            <button class="c-button" ng-click="simpanTolakPasien()" style="float:left;width:120px">Simapn Tolak
+                Pasien</button>
+        </div>
+        <div class="grid_6 pull-right">
+            <button class="c-button error" ng-click="popupTolakPasien.close()"
+                style="float:left;width:120px">Batal</button>
+        </div>
+    </div>
+</div>
+
+<div kendo-window="popupDetail" k-title="'Pre Screning'" k-width="1500" k-height="800" k-visible="false">
+    <div class="grid_12" style="margin-top: 20px">
+        <table style="width:100%;color: #4c5356;">
+            <tr>
+                <th
+                    style="width:95%;font-weight: bold;text-align: center;background-color: white;color: black;font-size: 15px;">
+                    PERTANYAAN</th>
+                <th
+                    style="width:5%;font-weight: bold;text-align: center;background-color: white;color: black;font-size: 15px;">
+                    JAWABAN</th>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan1" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban1" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan2" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban2" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan3" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban3" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan4" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban4" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan5" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban5" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan6" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban6" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan7" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban7" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan8" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban8" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan9" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban9" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan10" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban10" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan11" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban11" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan12" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban12" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan13" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban13" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan14" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban14" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan15" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban15" />
+                </td>
+            </tr>
+            <tr>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.pertanyaan16" />
+                </td>
+                <td style="text-align: center;font-weight: bold;">
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.jawaban16" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <!-- <div class="grid_12">
+        <div class="grid_1" style="margin-top:25px">
+            <input type="checkbox" class="k-checkbox" ng-model="pertama" id="cekpertama">
+            <label c-label class="k-checkbox-label" for="cekpertama">Vaksin Pertama</label>
+        </div>
+        <div class="grid_1" style="margin-top:25px">
+            <input type="checkbox" class="k-checkbox" ng-model="kedua" id="cekkedua">
+            <label c-label class="k-checkbox-label" for="cekkedua">Vaksin Kedua</label>
+        </div>
+        <div class="grid_4" style="margin-top:25px">
+            <button kendo-button style="width: 100%" class="primary" ng-click="simpanVaksin()"
+                position="'right'"><i class="fa fa-check"></i>Simpan</button>
+        </div>
+    </div> -->
+    <!-- <div class="grid_12">
+        <div class="grid_10" style="margin-top:25px">
+            <textarea class="k-textbox" row="3" ng-model="item.keteranganTolak" style="width: 100%;" />
+        </div>
+        <div class="grid_2" style="margin-top:25px">
+            <button kendo-button style="width: 100%" class="primary" ng-click="simpanTolakVaksin()"
+                position="'right'"><i class="fa fa-check"></i>Simpan Ket Tolak Vaksin</button>
+        </div>
+    </div> -->
+
+</div>
+<style>
+    #tabel {
+        margin-top: 10%;
+    }
+    .red {
+     background-color: #ff4d4d;
+     color: #000000;
+ }
+ .ijo {
+     background-color: #98FB98;
+     color: #000000;
+ }
+</style>
+
+<!-- </div> -->
+<!-- </div>

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.539474354692128"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="224"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="tgllahir" class="java.util.Date"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="tglsetor" class="java.lang.String"/>
+	<parameter name="idpetugas" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select * from setorjasa_t where idpetugas= $P{idpetugas} and tglsetor = $P{tglsetor}]]>
+	</queryString>
+	<field name="namalengkap" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="uraian" class="java.lang.String"/>
+	<field name="tarif" class="java.lang.Double"/>
+	<field name="bruto" class="java.lang.Double"/>
+	<field name="pph" class="java.lang.Double"/>
+	<field name="netto" class="java.lang.Double"/>
+	<field name="departemensetor" class="java.lang.String"/>
+	<field name="tglsetor" class="java.lang.String"/>
+	<variable name="totalnetto" class="java.math.BigDecimal" resetType="Group" resetGroup="departementsetor" calculation="Sum">
+		<variableExpression><![CDATA[$F{netto}]]></variableExpression>
+	</variable>
+	<variable name="totalpph" class="java.math.BigDecimal" resetType="Group" resetGroup="departementsetor" calculation="Sum">
+		<variableExpression><![CDATA[$F{pph}]]></variableExpression>
+	</variable>
+	<variable name="totalbruto" class="java.math.BigDecimal" resetType="Group" resetGroup="departementsetor" calculation="Sum">
+		<variableExpression><![CDATA[$F{bruto}]]></variableExpression>
+	</variable>
+	<variable name="totaltarif" class="java.math.BigDecimal" resetType="Group" resetGroup="departementsetor" calculation="Sum">
+		<variableExpression><![CDATA[$F{tarif}]]></variableExpression>
+	</variable>
+	<variable name="grandtotalnetto" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{netto}]]></variableExpression>
+	</variable>
+	<variable name="grandtotalpph" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{pph}]]></variableExpression>
+	</variable>
+	<variable name="grandtotalbruto" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{bruto}]]></variableExpression>
+	</variable>
+	<variable name="grandtotaltarif" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tarif}]]></variableExpression>
+	</variable>
+	<group name="departementsetor">
+		<groupExpression><![CDATA[$F{departemensetor}]]></groupExpression>
+		<groupHeader>
+			<band height="15" splitType="Stretch">
+				<textField>
+					<reportElement x="0" y="0" width="100" height="13" uuid="8199662b-17e2-4194-8137-f5609b45681f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{departemensetor}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="14">
+				<textField>
+					<reportElement x="683" y="0" width="100" height="13" uuid="8eb38465-43d6-4422-80d5-88bae601c501">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[($V{totalnetto} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{totalnetto})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="580" y="0" width="100" height="13" uuid="900d72d7-4236-481e-9499-e19f405a3412">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[
+($V{totalpph}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{totalpph})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="480" y="0" width="100" height="13" uuid="fa8da085-92bb-4129-8349-71080aaaf982">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[
+($V{totalbruto}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{totalbruto})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="380" y="0" width="100" height="13" uuid="2b71da4f-6e50-47bc-80c5-c2d9fa379b2c">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left"/>
+					<textFieldExpression><![CDATA[
+($V{totaltarif}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{totaltarif})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="140" y="1" width="100" height="12" uuid="580b8ab4-b85a-406c-a242-96d529b87b58">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Times New Roman" isBold="true"/>
+						<paragraph lineSpacingSize="1.0"/>
+					</textElement>
+					<text><![CDATA[Sub Jumlah]]></text>
+				</staticText>
+				<line>
+					<reportElement x="1" y="13" width="778" height="1" uuid="95cff817-5fed-4f3b-9c5d-86a311587cc3"/>
+				</line>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="10" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="122" splitType="Stretch">
+			<frame>
+				<reportElement mode="Transparent" x="101" y="10" width="690" height="67" forecolor="#000000" backcolor="#000000" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
+				<textField>
+					<reportElement x="-1" y="2" width="691" height="20" forecolor="#0A0101" uuid="499a6971-49ed-4840-b17e-9b5694a50e32"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="Tahoma" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement x="-101" y="-20" width="91" height="61" uuid="97705585-a0b5-4ec7-86f3-ae10c220e6af"/>
+					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="-1" y="17" width="691" height="35" forecolor="#0A0101" uuid="58cdc4f7-dab7-4243-a922-490365c84f75"/>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font fontName="Tahoma" size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="-100" y="50" width="789" height="17" uuid="b6b2e638-dfcc-477c-a10a-14a9aab418d2"/>
+					<textElement textAlignment="Center">
+						<font fontName="Times New Roman"/>
+					</textElement>
+					<text><![CDATA[REKAPITULASI JASA DOKTER RAWAT INAP, RAWAT JALAN (PEMERIKSA DAN TINDAKAN), IGD]]></text>
+				</staticText>
+			</frame>
+			<textField>
+				<reportElement x="0" y="96" width="791" height="20" uuid="d110b1bc-6fa9-49f4-a710-e358b1efaed9"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglsetor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="78" width="791" height="18" uuid="5ff6769d-d0f4-4b3c-869d-2860d7b6aefb"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namalengkap}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="57" width="780" height="1" uuid="3d32d849-cb5c-4527-936c-b3cecaf8a7e8"/>
+			</line>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="140" y="0" width="100" height="12" uuid="c8216a95-ce3d-4407-b185-2ca78e29d5a5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman"/>
+					<paragraph lineSpacingSize="1.0"/>
+				</textElement>
+				<text><![CDATA[Uraian]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="80" height="13" uuid="2829385b-4bfd-48e2-8412-4ef7ba313f60">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Bruto RS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="0" width="80" height="13" uuid="68e03ff6-68c1-4342-adb8-22f0b50e76e4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Bruto Medik]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="580" y="0" width="80" height="13" uuid="956fb688-efdd-4ff8-b49a-6149a8cdcbe6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[PPH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="680" y="0" width="80" height="13" uuid="af6af707-a00e-4f20-b384-459a0f8d8386">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<text><![CDATA[Jasa(Netto)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="778" height="1" uuid="af00f03f-3188-45d7-8449-a53ba44f9927"/>
+			</line>
+			<line>
+				<reportElement x="1" y="13" width="778" height="1" uuid="1410d92e-fe52-4da8-b781-0e43546029e7"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="140" y="0" width="240" height="13" uuid="e8bec804-288c-4274-8dc9-aa0404e4d26b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{uraian}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="100" height="13" uuid="d6da095b-e102-4fd9-894d-be35c7d8b631">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+($F{tarif}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($F{tarif})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="100" height="13" uuid="32349b79-1030-45b8-929d-3dafba386125">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+($F{bruto}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($F{bruto})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="580" y="0" width="100" height="13" uuid="f6d9dbe2-e86f-4071-8786-41684af74938">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+($F{pph}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($F{pph})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="683" y="0" width="100" height="13" uuid="a432068e-c207-4fbd-b76e-9212aae0d12d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
+				<textFieldExpression><![CDATA[
+($F{netto} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($F{netto})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="118">
+			<staticText>
+				<reportElement x="621" y="20" width="100" height="30" uuid="44244f76-db71-4c3a-b289-306362a7615d"/>
+				<text><![CDATA[Yang Menerima,]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="620" y="70" width="170" height="30" uuid="351a80b9-d701-4f0d-b239-37890d34b170"/>
+				<textFieldExpression><![CDATA[$F{namalengkap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="683" y="0" width="94" height="13" uuid="9e836a02-1bac-4b5f-95eb-4421b8ba9db6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[
+($V{grandtotalnetto}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{grandtotalnetto})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="580" y="0" width="99" height="13" uuid="248aefe0-c74d-4340-b94a-9d28f6d61c7b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[
+($V{grandtotalpph}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{grandtotalpph})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="99" height="13" uuid="f1a2d5b0-14a5-421c-a836-386b9b736a2d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[
+($V{grandtotalbruto}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{grandtotalbruto})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="100" height="13" uuid="4464cf6c-4c8a-4153-8ea2-5bad98c179da">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[
+($V{grandtotaltarif}== null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0").format($V{grandtotaltarif})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="140" y="0" width="100" height="12" uuid="a94b3889-65ec-4024-ad2d-676123189e5b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Times New Roman" isBold="true"/>
+					<paragraph lineSpacingSize="1.0"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

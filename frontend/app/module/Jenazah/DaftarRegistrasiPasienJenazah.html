@@ -1,0 +1,571 @@
+<style>
+	.style-center {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+	}
+
+	.style-right {
+		display: inline-block;
+		text-align: right;
+		width: 100%;
+	}
+
+	.style-left {
+		display: inline-block;
+		text-align: left;
+		width: 100%;
+	}
+
+	.k-grid .k-grid-header .k-header .k-link {
+		height: auto;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		white-space: normal;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		text-align: center;
+	}
+</style>
+
+<!-- <div ng-controller="DaftarPasienPulangKasirCtrl"> -->
+<div ng-show="dataVOloaded">
+
+	<!-- <center>  -->
+	<c-panel item="item" header="'Daftar Registrasi Pasien'" disabled>
+		<!-- </center> -->
+		<!-- Kriteria -->
+		<div class="grid_12">
+			<div class="grid_12 borderBox containerBorderBox">
+				<!-- NoReg -->
+
+				<!-- Ruangan -->
+				<div class="grid_2">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Dokter"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+							k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listDokter2"
+							ng-keypress="($event.which == 13)? SearchData():item.dokter" />
+					</div>
+				</div>
+				<div class="grid_2">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Instalasi"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.instalasi"
+							k-data-text-field="'departemen'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listDepartemen" k-on-change='getIsiComboRuangan()'
+							ng-keypress="($event.which == 13)? SearchData():item.instalasi" />
+					</div>
+				</div>
+
+				<div class="grid_2">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Ruangan"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+							k-data-text-field="'ruangan'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listRuangan"
+							ng-keypress="($event.which == 13)? SearchData():item.ruangan" />
+					</div>
+				</div>
+				<div class="grid_1">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Kelompok"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokpasien"
+							k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'"
+							k-auto-bind="false" k-data-source="listKelompokPasien"
+							ng-keypress="($event.which == 13)? SearchData():item.kelompokpasien" />
+					</div>
+				</div>
+
+				<!-- Periode Pulang -->
+				<div class="grid_4">
+					<div class="grid_12">
+						<label c-label item="item" c-label-text="Periode Registrasi"></label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<!-- AwalPeriode -->
+						<div class="grid_6 padDatePicker">
+							<input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+								placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+								parsedate="yyyy-MM-dd HH:mm" />
+						</div>
+
+						<!-- AkhirPeriode -->
+						<div class="grid_6 padDatePicker">
+							<input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+								placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+
+
+
+				<!-- Button Search -->
+				<div class="grid_1">
+					<div class="grid_12">
+						<label>&nbsp;</label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12" style="margin-top:6px">
+						<button class="c-button" ng-click="SearchData()">Cari </button>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</c-panel>
+	<!-- DaftarPasienPulang -->
+	<div class="grid_12">
+		<div class="grid_12 headerBox">
+			<p>Daftar Pasien</p>
+			<kendo-grid data-source="dataDaftarPasien" options="columnDaftarPasien" k-selectable="'row'"
+				k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+				ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+		</div>
+		<div class="clear"></div>
+	</div>
+
+
+	<div class="grid_12">
+		<div class="grid_1">
+			<div class="grid_12">
+				<label c-label item="item">No Reg</label>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noReg"
+					ng-keypress="($event.which == 13)? SearchData():item.noReg" />
+			</div>
+		</div>
+		<div class="grid_1">
+			<div class="grid_12">
+				<label c-label item="item">No RM</label>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noRm"
+					ng-keypress="($event.which == 13)? SearchData():item.noRm" />
+			</div>
+		</div>
+		<!-- Nama -->
+		<div class="grid_2">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="Nama"></label>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nama"
+					ng-keypress="($event.which == 13)? SearchData():item.nama" />
+			</div>
+		</div>
+		<div class="grid_1">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="Rows"></label>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jmlRows"
+					ng-keypress="($event.which == 13)? SearchData():item.jmlRows" />
+			</div>
+		</div>
+		<div class="grid_3"></div>
+	</div>
+	<div class="grid_12">
+		<div class="grid_2" style="margin-top: 16px" ng-show='cboUbahDokter'>
+			<button class="btnTemplate1" ng-click="Detail()">Detail Tagihan</button>
+		</div>
+		<div class="grid_2" style="margin-top: 16px" ng-show='cboUbahDokter'>
+			<button class="btnTemplate1" ng-click="DaftarRuangan()">Detail Registrasi</button>
+		</div>
+		<div class="grid_2" style="margin-top: 16px" ng-show='cboUbahDokter'>
+			<button class="btnTemplate1" ng-click="transaksiPelayanan()">Transaksi Pelayanan </button>
+		</div>
+		<div class="grid_2" style="margin-top: 16px" ng-show='cboUbahDokter'>
+			<button class="btnTemplate1" ng-click="registrasiJenazah()">Registrasi Jenazah Beda Faktur </button>
+		</div>
+		<!-- <div class="grid_2">
+			<button class="btnTemplate1" style="margin-top: -10px;" ng-click="popUpInputTindakan()">Tindakan Jenazah </button>
+		</div> -->
+		<!-- <div class="grid_2">
+			<button class="btnTemplate1" style="margin-top: 16px;" ng-click="cetakPermohonan()">
+				Permohonan Pelayanan</button>
+		</div> -->
+		<div class="grid_2" style="margin-top: 16px" ng-show='cboUbahDokter'>
+			<button class="btnTemplate1" style="background-color: red;"
+				ng-click="batalMeninggal()">Batal
+				Meninggal</button>
+		</div>
+	</div>
+	<div class="grid_12" style="margin-top:60px">
+		<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+	</div>
+	<!-- show pop up input Tindakan -->
+	<div kendo-window="popupAntrians" k-title="'Pilih Ruangan'" k-width="400" k-height="120" k-visible="false"
+		k-on-open="win2visible = true" k-on-close="win2visible = false">
+		<label c-label item="item " c-label-text="Nama Ruangan "></label>
+		<input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganAntrian" k-data-text-field="'namaruangan'"
+			k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuanganApd" />
+		<div class="clear">
+			<button class="k-button" ng-click="showRincian()" style="float:right;margin-top:4%"
+				ng-show='tombolSimpanVis'>Lanjut </button>
+			<button class="k-button" ng-click="buktiLayanan()" style="float:right;margin-top:4%"
+				ng-show="showBuktiLayanan">Cetak Bukti Layanan</button>
+		</div>
+	</div>
+	<!-- show pop up Permohonan -->
+	<div kendo-window="popupPermohonan" k-title="'Permohonan Pelayanan Pemulasaraan Jenazah'" k-width="950"
+		k-height="600" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+		<div class="panel panel-default container_12">
+			<div class="grid_12" style="margin-top: 10px;">
+				<div class="panel-heading-white"><span class="title" c-translate>No Surat</span></div>
+				<div class="panel-body">
+					<div class="grid_12" style="margin-top: 5px;">
+						<div class="grid_12">
+							<div class="grid_12">
+								<label c-label item="item">No Surat Kematian</label>
+							</div>
+							<div class="grid_12">
+								<input c-text-box type="input" filter="" class="k-textbox"
+									ng-model="item.noSuratKematian" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid_12" style="margin-top: 10px;">
+				<div class="panel-heading-white"><span class="title" c-translate>Pemohon/ Penanggung Jawab</span></div>
+				<div class="panel-body">
+					<div class="grid_6" style="margin-top: 5px;">
+						<div class="grid_12">
+							<label c-label item="item">Nama Penanggung Jawab/Pemohon</label>
+						</div>
+						<div class="grid_12">
+							<input c-text-box type="input" filter="" class="k-textbox"
+								ng-model="item.penanggungJawab" />
+						</div>
+					</div>
+					<div class="grid_3" style="margin-top: 5px;">
+						<div class="grid_12">
+							<label c-label item="item">Jenis Kelamin</label>
+						</div>
+						<div class="grid_12">
+							<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisKelamin"
+								k-data-text-field="'jeniskelamin'" k-filter="'contains'" k-data-value-field="'id'"
+								k-auto-bind="false" k-data-source="listJenisKelamin" />
+						</div>
+					</div>
+					<div class="grid_3" style="margin-top: 5px;">
+						<div class="grid_12">
+							<label c-label item="item">Status Kekeluargaan</label>
+						</div>
+						<div class="grid_12">
+							<input style="width: 100%;" kendo-combo-box k-ng-model="item.hubunganKeluarga"
+								k-data-text-field="'hubungankeluarga'" k-filter="'contains'" k-data-value-field="'id'"
+								k-auto-bind="false" k-data-source="listHubunganKel" />
+						</div>
+					</div>
+					<div class="grid_12" style="margin-top: 5px;">
+						<div class="grid_12">
+							<label c-label item="item">Alamat</label>
+						</div>
+						<div class="grid_12">
+							<textarea required class="k-textbox"
+								style="height:76px;width:100%;margin-top:5px;resize: none;"
+								ng-model="item.alamatLengkap"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid_12">
+				<div class="grid_6" style="margin-top: 10px;">
+					<div class="panel panel-default panel-white">
+						<div class="panel-heading-white"><span class="title" c-translate>Petugas</span></div>
+						<div class="panel-body">
+							<div class="grid_12" style="margin-top: 5px;">
+								<div class="grid_12">
+									<label c-label real>P3J (1)</label>
+								</div>
+								<div class="grid_12">
+									<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiSatu"
+										k-data-text-field="'namalengkap'" k-filter="'contains'"
+										k-data-value-field="'id'" k-data-source="listDataPegawai" />
+								</div>
+							</div>
+							<div class="grid_12" style="margin-top: 5px;">
+								<div class="grid_12">
+									<label c-label real>P3J (2)</label>
+								</div>
+								<div class="grid_12">
+									<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiDua"
+										k-data-text-field="'namalengkap'" k-filter="'contains'"
+										k-data-value-field="'id'" k-data-source="listDataPegawai" />
+								</div>
+							</div>
+							<div class="grid_12" style="margin-top: 5px;">
+								<div class="grid_12">
+									<label c-label real>P3J (3)</label>
+								</div>
+								<div class="grid_12">
+									<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiTiga"
+										k-data-text-field="'namalengkap'" k-filter="'contains'"
+										k-data-value-field="'id'" k-data-source="listDataPegawais" />
+								</div>
+							</div>
+							<div class="grid_12" style="margin-top: 5px;">
+								<div class="grid_12">
+									<label c-label real>P3J (4)</label>
+								</div>
+								<div class="grid_12">
+									<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiEmpat"
+										k-data-text-field="'namalengkap'" k-filter="'contains'"
+										k-data-value-field="'id'" k-data-source="listDataPegawais" />
+								</div>
+							</div>
+							<div class="grid_12" style="margin-top: 5px;">
+								<div class="grid_12">
+									<label c-label real>P3J (5)</label>
+								</div>
+								<div class="grid_12">
+									<input required style="width: 100%;" kendo-combo-box k-ng-model="item.pegawaiLima"
+										k-data-text-field="'namalengkap'" k-filter="'contains'"
+										k-data-value-field="'id'" k-data-source="listDataPegawaiw" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="grid_6" style="margin-top: 10px;">
+					<div class="panel panel-default panel-white">
+						<div class="panel-heading-white"><span class="title" c-translate>Pelayanan</span></div>
+						<div class="panel-body">
+							<div class="grid_12">
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Pemulasaraan
+											Jenazah</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="Pemulasaraan" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label
+											style="padding:5px;font-size:14px; font-weight:600">Pengkafanan/Pemakaian
+											Baju</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="Pengkafanan" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label
+											style="padding:5px;font-size:14px; font-weight:600">Plastisisasi</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="Plastisisasi" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Kantong
+											Jenazah</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="KantongJenazah" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Peti
+											Jenazah</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="PetiJenazah" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Disinfektan
+											Kepada Pasien/Jenazah</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="DisinfektanJenazah" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Pelayanan
+											Kerohanian</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="PelayananKerohanian" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Transportasi
+											Ambulan</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="TransportasiAmbulan" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+								<div class="grid_6">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Disinfektan
+											Ambulan</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="DisinfektanAmbulan" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">YA</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">TIDAK</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid_12">
+				<div class="grid_12" style="margin-top: 10px;">
+					<div class="panel panel-default panel-white">
+						<div class="panel-heading-white"><span class="title" c-translate>Status</span></div>
+						<div class="panel-body">
+							<div class="grid_12">
+								<div class="grid_12">
+									<div class="grid_12">
+										<label c-label style="padding:5px;font-size:14px; font-weight:600">Status Purna
+											Pasien/Jenazah</label>
+									</div>
+									<div class="grid_12">
+										<md-radio-group ng-model="StatusJenazah" layout="row" layout-sm="row"
+											layout-align="left left" layout-wrap>
+											<div class="grid_6">
+												<md-radio-button value="0" class="md-primary">Covid 19</md-radio-button>
+											</div>
+											<div class="grid_6">
+												<md-radio-button value="1" class="md-primary">Non Covid
+												</md-radio-button>
+											</div>
+										</md-radio-group>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+				<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="savePermohonan()"
+					ng-hide="hideExper">
+					<span class="k-icon k-update"></span>Simpan</button>
+				<button class="k-button k-button-icontext k-primary k-grid-update"
+					ng-click="cetakSuratPermohonan()"><span class="k-icon k-print"></span>Cetak</button>
+				<button class="k-button  k-button-icontext" ng-click="hapusPermohonan()"><span
+						class="k-icon k-cancel"></span>Hapus</button>
+				<button class="k-button  k-button-icontext" ng-click="batalPermohonan()"><span
+						class="k-icon k-cancel"></span>Batal</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,236 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .alert {
+        background-color: #63f98e
+    }
+
+    .warning {
+        background-color: #ffff66
+    }
+
+    .danger {
+        background-color: #f76565
+    }
+
+    .green {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    .blue {
+        background-color: #1E90FF;
+        color: #ffffff;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+</style>
+
+<div class="panel panel-default container_12">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Monitoring Obat/Alkes Yang Akan Kadaluarsa</b></h1>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_4">
+                    <label c-label item="item" c-label-text="Ruangan"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+                <div class="grid_4">
+                    <label c-label item="item" c-label-text="Tanggal Kadaluarsa Awal"></label>
+                    <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+			            k-format="'yyyy-MM-dd HH:mm'" />
+                </div> 
+                 <div class="grid_4">
+                    <label c-label item="item" c-label-text="tanggal kadaluarsa Akhir"></label>
+                    <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+			            k-format="'yyyy-MM-dd HH:mm'" />
+                </div> 
+            </div>
+            <div class="grid_6">
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="JenisObat"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.namabentukproduk"
+                        k-data-text-field="'namabentukproduk'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listJenisProduk" />
+                </div> 
+                <div class="grid_4">
+                    <label c-label item="item" c-label-text="Nama Produk"></label>
+                    <input c-text-box type="input" class="k-textbox" ng-model="item.namaProduk" />
+                </div>
+                 <!-- <div class="grid_3">
+                    <label c-label item="item" c-label-text="kelompokpasien"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokpasien"
+                        k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKelompokpasien" />
+                </div> -->
+                <div class="grid_2 pull-left">
+                    <div class="grid_12" style="margin-top:22px">
+                        <button class="c-button" ng-click="cari()">Cari</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12 borderBox">
+                <kendo-grid id="kGrid" data-source="dataGrid" k-selectable="'row'" options="columnGrid"
+                    k-ng-model="dataSelected" ng-click="KlikGrids(dataSelected)">
+                </kendo-grid>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6" ng-hide="bukanLogistik">
+            <input type="checkbox" class="k-checkbox" ng-model='enableNamaRuangan' id="monitoringStokRuangan">
+            <label class="k-checkbox-label" c-label item="item" c-label-text="monitoringStokRuangan"
+                for="monitoringStokRuangan"></label>
+            <div class="grid_3">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganAsal"
+                    k-data-text-field="'namaRuangan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="sourceRuangan" ng-disabled="!enableNamaRuangan" />
+            </div>
+        </div>
+        <div class="grid_10" ng-hide="iniFarmasi"></div>
+        <div class="grid_2"></div>
+       
+        <!-- <div class="grid_2">
+            <label c-label item="item" c-label-text="Total Harga"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.jmlRupiah" disabled />
+        </div> --> 
+        <div class="grid_1 pull-right">
+            <label c-label item="item" c-label-text="Rows"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.jmlRows" />
+        </div>
+        <div class="grid_1 pull-right">
+            <label c-label item="item" c-label-text="Jumlah Stok"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.jmlStok" disabled />
+        </div>
+    </div>
+    <!-- <div class="grid_12">
+    </div> -->
+</div>
+</div>
+<!-- <div class="grid_12" ng-show="cboShow">
+    <div class="grid_12">
+        <div class="grid_3"></div>
+        <div class="grid_3">
+            <button class="c-button" ng-click="HapusTgl()">Hapus Tgl Kadaluarsa</button>
+        </div>
+        <div class="grid_3">
+            <button class="c-button" ng-click="InputTgl()">Input Tgl Kadaluarsa</button>
+        </div>
+        <div class="grid_3" style="float:right;">
+            <button class="c-button" ng-click="Adjustment()">Adjustment Stok</button>
+        </div>
+        <!-- <div class="grid_3" style="float:right;"> -->
+            <!--  <c-button class="success" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" is-validate click="Save">
+                    <span class="title">Simpan</span>
+                </c-button> -->
+        <!-- </div> -->
+        <!-- <div class="grid_3" style="float:right;"> -->
+            <!--  <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" is-back>
+                    <span class="title">Kembali</span>
+                </c-button> -->
+        <!-- </div> -->
+    </div>
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div> -->
+<div class="grid_12" ng-show="updateShow">
+    <div class="grid_12">
+        <div class="grid_3"></div>
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label item="item">Tgl Kadaluarsa</label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.TglKadaluarsa" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </div>
+        <div class="grid_3" style="margin-top: 15px;">
+            <div class="grid_6">
+                <button class="c-button" ng-click="SimpanTgl()">Simpan</button>
+            </div>
+            <div class="grid_6">
+                <button class="c-button" ng-click="batalTgl()">Batal</button>
+            </div>
+        </div>
+        <div class="grid_3"></div>
+
+    </div>
+</div>
+<div kendo-window="AdjustmentShow" k-title="'Adjustment Stok'" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="grid_12">
+        <div class="grid_6">
+            <label c-label item="item" c-label-text="Id Produk"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.idProduk" disabled />
+        </div>
+        <div class="grid_6">
+            <label c-label item="item" c-label-text="Nama Produk"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.namaProduk" disabled />
+        </div>
+        <div class="grid_6">
+            <label c-label item="item" c-label-text="Qty Real"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.QtyReal" disabled />
+        </div>
+        <div class="grid_6">
+            <label c-label item="item" c-label-text="Qty Adjustment"></label>
+            <input c-text-box type="input" class="k-textbox" ng-model="item.QtyAdjustment" />
+        </div>
+    </div>
+    <div class="dialog_buttons pull-right" style="margin-top:5%">
+        <input type="button" class="confirm_no k-button" value="Batal" style="width: 70px"
+            ng-click="BatalAdjustment()" />
+        &nbsp;
+        <input type="button" class="confirm_yes k-button" value="Simpan" style="width: 70px"
+            ng-click="SimpanAdjustment()" />
+    </div>
+</div>
+<div kendo-window="popUp" k-title="'Masukkan Password'" k-width="300" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="grid_12"">
+        <div class=" grid_3" style="margin-top: 10px">
+        <label c-label item="item" c-label-text="Password" real></label>
+    </div>
+    <div class="grid_9">
+        <input c-text-box type="password" filter="" class="k-textbox" ng-model="item.kataKunciPass" />
+    </div>
+</div>
+<div class="dialog_buttons pull-right" style="margin-top:5%">
+    <input type="button" class="confirm_no k-button" value="Tidak" style="width: 70px" ng-click="BatalStokOpname()" />
+    &nbsp;
+    <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px" ng-click="lanjutStokOpname()" />
+</div>
+</div>

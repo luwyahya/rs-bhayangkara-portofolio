@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="kartupasien2" pageWidth="240" pageHeight="155" orientation="Landscape" columnWidth="220" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="39649da2-0e7a-4fe8-8b31-462690ed5d12">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="norec" class="java.lang.Integer"/>
+	<parameter name="qrcode" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	ps.namapasien,
+	jk.jeniskelamin,
+	ps.nocm,
+ to_char(	ps.tgllahir,'MON-DD-YYYY HH12:MIPM' :: TEXT) AS tgllahir,
+	ps.namaayah,
+	ps.noidentitas,
+	CASE
+WHEN ps.namakeluarga IS NULL THEN
+	'-'
+ELSE
+	ps.namakeluarga
+END AS namakeluarga,
+ ps.namasuamiistri,
+ ps.objectjeniskelaminfk,
+ ps.objectstatusperkawinanfk
+FROM            pasien_m AS ps INNER JOIN
+                         jeniskelamin_m AS jk ON jk.id = ps.objectjeniskelaminfk
+where ps.id =$P{norec}]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tgllahir" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="61" width="41" height="20" uuid="5f1f41b7-f135-4a2e-ae81-a63cf410cfad"/>
+				<text><![CDATA[Nama ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="81" width="41" height="20" uuid="f4d36cc3-4793-4e6e-819e-a623310554ec"/>
+				<text><![CDATA[No. RM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="101" width="41" height="20" uuid="4ebdf5fd-e053-49b8-9823-b7d897cfb612"/>
+				<text><![CDATA[Tgl Lahir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="61" width="9" height="20" uuid="cad31455-e86d-443a-9c63-a6436a0b4796"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="81" width="9" height="20" uuid="6618ae9c-8e35-4c2d-9053-19213e400fdc"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="51" y="101" width="9" height="20" uuid="7a94e5b8-06ff-4a9d-afa8-5b43933ec698"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="62" width="160" height="21" uuid="bb9a0aa6-58ab-43ee-8a27-3d5b452e427f"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="81" width="160" height="21" uuid="8b38158f-3a22-421f-8b0a-c32c9d5e7070"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="101" width="160" height="21" uuid="81d68a44-83a5-4ad6-92fc-01b4deb13dfd"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="127" y="84" width="91" height="33" uuid="121f5e2b-af53-40bf-9098-e481bf9d2945">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+	     new com.google.zxing.oned.Code128Writer().encode(
+         $P{qrcode},
+         com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,498 @@
+<style>
+  .green{
+        background-color:#98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+    .red{
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+    .blue{
+        background-color: #1E90FF;
+        color: #ffffff;
+        /*font-weight: bold;*/
+    }
+    .koneng{
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }</style>
+<div class="container">
+    <c-panel item="item" header="'Masa Berlaku SIP/STR'" disabled>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <!-- <div class="grid_12">
+                    <iframe width='100%' height='100%' src="http://localhost:8000/storage/sdm/sip-str/924d3ec0-2bc9-11ea-8f24-93efc1f5/SIP-dr.%20Abdurrahman%20%20Amma,%20M.Kes,%20Sp.KJ.pdf"></iframe>
+                      
+                </div> -->
+                <md-content>
+                    <md-tabs md-dynamic-height md-border-bottom>
+                        <md-tab label="Sip / Str" md-on-select="onTabChanges(1)">
+                            <md-content class="md-padding">
+                                <div class="grid_12">
+                                    <div class="grid_2">
+                                        <label c-label item="item" c-label-text="Nama"></label>
+                                        <input id="category" c-text-box type="input" filter="'varchar'"
+                                            class="k-textbox" ng-model="item.qnamaPegawaiSip" />
+
+                                        <label c-label item="item" c-label-text="Ruangan"></label>
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangansip" k-data-text-field="'namaruangan'" k-data-value-field="'id'" 
+                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+                                    </div>
+                                    <div class="grid_4">
+                                        <fieldset class="borderBox" style="border-radius: 10px">
+                                            <legend>
+                                                <strong style="color:#41abf2 ;">SIP</strong>
+                                            </legend>
+                                            <div class="grid_6">
+                                                <label c-label item="item">Bulan Awal</label>
+                                                <input kendo-date-picker k-ng-model="item.tglAwalSip"
+                                                    k-options="yearSelected" style="width: 100%" />
+                                            </div>
+                                            <div class="grid_6">
+                                                <label c-label item="item">Bulan Akhir</label>
+                                                <input kendo-date-picker k-ng-model="item.tglAkhirSip"
+                                                    k-options="yearSelected" style="width: 100%" />
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="grid_4">
+                                        <fieldset class="borderBox" style="border-radius: 10px">
+                                            <legend>
+                                                <strong style="color:#41abf2 ;">STR</strong>
+                                            </legend>
+                                            <div class="grid_6">
+                                                <label c-label item="item">Bulan Awal</label>
+                                                <input kendo-date-picker k-ng-model="item.tglAwalStr"
+                                                    k-options="yearSelected" style="width: 100%" />
+                                            </div>
+                                            <div class="grid_6">
+                                                <label c-label item="item">Bulan Akhir</label>
+                                                <input kendo-date-picker k-ng-model="item.tglAkhirStr"
+                                                    k-options="yearSelected" style="width: 100%" />
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="grid_1" style="margin-top: 10px;">
+                                        <label c-label c-label-text=""></label>
+                                        <button class="btnTemplate1" ng-click='resetFilter("#gridSip")'><i
+                                            class="fa fa-refresh"></i>Refresh</button>
+                                        <!-- <em style="margin-top:6px;" ng-click='resetFilter("#gridSip")' id="iconButton"
+                                            data-role="button" class="k-button k-button-icon k-primary" role="button"
+                                            aria-disabled="false" tabindex="0"><span
+                                                class="k-sprite k-icon k-i-refresh">Refresh</span></em> -->
+                                    </div>
+                                    <!-- <div class="grid_1">
+                                        <label c-label c-label-text=""></label>
+                                        <em style="margin-top:6px;" ng-click='resetAja(1)' id="iconButton" data-role="button" class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span class="k-sprite k-icon k-i-refresh">Refresh</span></em>
+                                    </div> -->
+                                </div>
+                                <div class="grid_12">
+                                    <kendo-grid id="gridSip" k-data-source="datagridSip" k-selectable="'row'" k-ng-model="datagridSipSelected" options="opsiGridSip" ng-click="klikGrid(datagridSipSelected)">
+                                    </kendo-grid>
+                                </div>
+                                <div class="grid_12">
+                                    <div class="grid_11"></div>
+                                    <div class="grid_1">
+                                        <button class="c-button" style="margin-top: 20px" ng-click="editSIP()">Edit</button>  
+                                    </div>
+                                    <!-- <div class="grid_1">
+                                        <button class="c-button" style="margin-top: 20px" ng-click="editSTR()">Edit STR</button>  
+                                    </div> -->
+                                </div>
+                            </md-content>
+                        </md-tab>
+                        <md-tab label="Str" md-on-select="onTabChanges(2)" ng-if="showSTR">
+                            <md-content class="md-padding">
+                                <div class="grid_12">
+                                    <div class="grid_2">
+                                        <label c-label item="item" c-label-text="Nama"></label>
+                                        <input id="category" c-text-box type="input" filter="'varchar'"
+                                            class="k-textbox" ng-model="item.qnamaPegawaiStr" />
+
+                                        <label c-label item="item" c-label-text="Ruangan"></label>
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganstr" k-data-text-field="'namaruangan'" k-data-value-field="'id'" 
+                                            k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+                                    </div>
+                                    <div class="grid_2">
+                                        <label c-label item="item">Tanggal Awal</label>
+                                        <input kendo-date-picker k-ng-model="item.tglAwalStr" k-options="yearSelected"
+                                            style="width: 100%" />
+                                    </div>
+                                    <div class="grid_2">
+                                        <label c-label item="item">Tanggal Akhir</label>
+                                        <input kendo-date-picker k-ng-model="item.tglAkhirStr" k-options="yearSelected"
+                                            style="width: 100%" />
+                                    </div>
+                                    <div class="grid_1">
+                                        <label c-label c-label-text=""></label>
+                                        <em style="margin-top:6px;" ng-click='resetFilter("#gridStr")' id="iconButton"
+                                            data-role="button" class="k-button k-button-icon k-primary" role="button"
+                                            aria-disabled="false" tabindex="0"><span
+                                                class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+                                    </div>
+                                    <!-- <div class="grid_1">
+                                        <label c-label c-label-text=""></label>
+                                        <em style="margin-top:6px;" ng-click='resetAja(2)' id="iconButton" data-role="button" class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span class="k-sprite k-icon k-i-refresh">Refresh</span></em>
+                                    </div> -->
+                                </div>
+                                <div class="grid_12">
+                                    <kendo-grid id="gridStr" k-data-source="datagridStr" k-ng-model="datagridstrsipselected" options="opsiGridStr">
+                                    </kendo-grid>
+                                </div>
+                            </md-content>
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </div>
+        </div>
+    </c-panel>
+</div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+<div kendo-window="popUpSip" k-title="'Data SIP STR'" k-width="900" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 20px 10px;">
+        <div class="grid_12">
+            <div class="grid_3" style="margin: 10px 0 0 0;">
+                <label c-label item="item" c-label-text="Nama Pegawai"></label>
+            </div>
+            <div class="grid_9">
+                <input kendo-combo-box k-ng-model="itemSip.namaPeg" k-data-text-field="'namalengkap'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai" />
+            </div>
+        </div>
+        <fieldset class="borderBox" style="border-radius: 10px;">
+            <legend>
+                <strong style="color:#41abf2 ;">SIP</strong>
+            </legend>
+            <div class="grid_12">
+                <div class="grid_3" style="margin: 10px 0 0 0;">
+                    <label c-label item="item">Nomor SIP</label>
+                    <!-- <input type="checkbox" class="k-checkbox" name="nomorSip" id="nomorSip" ng-checked="!disableSip" ng-click="toogleClick($event)"> -->
+                    <!-- <label c-label item="item" class="k-checkbox-label" for="nomorSip">No. SIP</label> -->
+                </div>
+                <div class="grid_9">
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemSip.nomor"
+                            ng-disabled="disableSip" />
+                    </div>
+
+                    <div class="grid_4">
+                        <label c-label item="item">Terbit</label>
+                        <input kendo-date-picker k-ng-model="itemSip.terbit" k-format="'dd-MM-yyyy'" style="width: 100%"
+                            ng-disabled="disableSip" />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label item="item">Berakhir</label>
+                        <input kendo-date-picker k-ng-model="itemSip.berakhir" k-format="'dd-MM-yyyy'"
+                            style="width: 100%" ng-disabled="disableSip" />
+                    </div>
+    
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_3">
+                    <label c-label item="item">Unggah File SIP</label>
+                    <br>
+                </div>
+                <form class="grid_9" method="post" enctype="multipart/form-data" id="coba">
+                    <!-- <input type="file" name="files[]" multiple /> -->
+
+                    <div class="grid_12">
+                        <input type="file" name="filesip" id="files" class="mySip" />
+                        <!-- <input type="submit" value="Upload File" name="submit" /> -->
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <fieldset class="borderBox" style="border-radius: 10px;margin-top: 10px;">
+            <legend>
+                <strong style="color:#41abf2 ;">STR</strong>
+            </legend>
+            <!-- Nomor Str -->
+            <div class="grid_12">
+                <div class="grid_3" style="margin: 10px 0 0 0;">
+                    <!-- <input type="checkbox" class="k-checkbox" name="nomorStr" id="nomorStr" ng-checked="!disableStr" ng-click="toogleClick($event)">
+                <label c-label item="item" class="k-checkbox-label" for="nomorStr">No. Str</label> -->
+                    <label c-label item="item">Nomor STR</label>
+                </div>
+                <div class="grid_9">
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemStr.nomor"
+                            style="margin-top:11px" ng-disabled="disableStr" />
+                    </div>
+                </div>
+                <div class="grid_3" style="margin: 10px 0 0 0;">
+                    <label c-label item="item">Keterangan STR</label>
+                </div>
+                <div class="grid_9">           
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemStr.keteranganStr"
+                            style="margin-top:11px" ng-disabled="disableStr" />
+                    </div>
+                </div>
+                <div class="grid_3" style="margin: 10px 0 0 0;">
+                    <label c-label item="item"></label>
+                </div>
+                <div class="grid_9">
+                    <!-- <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemStr.nomor"
+                            style="margin-top:11px" ng-disabled="disableStr" />
+                    </div> -->
+                   
+                    <!-- <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemStr.keteranganStr"
+                            style="margin-top:11px" ng-disabled="disableStr" />
+                    </div> -->
+                    <div class="grid_4">
+                        <label c-label item="item">Terbit</label>
+                        <input kendo-date-picker k-ng-model="itemStr.terbit" k-format="'dd-MM-yyyy'" style="width: 100%"
+                            ng-disabled="disableStr" />
+                    </div>
+                    <div class="grid_4">
+                        <label c-label item="item">Berakhir</label>
+                        <input kendo-date-picker k-ng-model="itemStr.berakhir" k-format="'dd-MM-yyyy'"
+                            style="width: 100%" ng-disabled="disableStr" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid_12">
+                <div class="grid_3">
+                    <label c-label item="item">Unggah File STR</label>
+                    <br>
+                </div>
+                <form class="grid_9" method="post" enctype="multipart/form-data" id="coba2">
+                    <!-- <input type="file" name="files[]" multiple /> -->
+
+                    <div class="grid_12">
+                        <input type="file" name="filestr" class="myStr" id="files" />
+                        <!-- <input type="submit" value="Upload File" name="submit" /> -->
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+        <!-- <div class="grid_12">
+            <div class="grid_6" >
+                <div class="grid_12">
+                    <label c-label item="item">ID Pegawai</label>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="itemSip.idPeg" ng-disabled="true"/>
+                </div>
+
+            </div>
+            <div class="grid_6">                                        
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Nama Pegawai"></label>
+                </div>
+                <div class="grid_12">                                            
+                    <input   kendo-combo-box k-ng-model="itemSip.namaPeg" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai"/>
+                </div>                                              
+            </div>
+            <div class="grid_12">                      
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item">Nomor SIP</label>
+                    </div>                                  
+                    <div class="grid_12">                 
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemSip.noSip" />
+                    </div>
+                </div>
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Tanggal Berakhir"></label>
+                    </div>
+                    <div class="clear"></div> 
+                    <div class="grid_12">                  
+                        <input style="width: 100%" kendo-date-picker k-ng-model="itemSip.tglSipAkhir" k-format="'yyyy-MM-dd'" />
+                    </div>
+                </div>
+            </div>
+            <form class="grid_6" method="post" enctype="multipart/form-data" id="coba">
+          
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Unggah File Sip"></label>
+                    <br>
+                </div>
+                <div class="grid_12">
+                    <input type="file" name="file" />
+                   
+                </div>
+            </form>
+                
+        </div>  -->
+        <div class="grid_12 myForm">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button k-button-icontext k-primary k-grid-update " ng-click="simpanSip()"><span
+                        class="k-icon k-update"></span>Simpan</button>
+                <button class="k-button  k-button-icontext" ng-click="batalSip()"><span
+                        class="k-icon k-cancel"></span>Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpEdit" k-title="'Edit SIP & STR'" style="width:580px;height:270px" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">SIP</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" style="width:300px" 
+                        ng-model="item.editSIP" />
+                </div>
+            </div>
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">Tgl Mulai SIP</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.edittglmulaisip"  kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">STR</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" style="width:300px" 
+                        ng-model="item.editSTR" />
+                </div>
+            </div>
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">Tgl Mulai STR</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.edittglmulaistr"  kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6">
+
+                    <div class="grid_12">
+                        <label c-label item="item">Keterangan STR</label>
+                    </div>
+                    <div class="clear"></div>
+    
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" style="width:300px" 
+                            ng-model="item.editKeteranganaSTR" />
+                    </div>
+                
+                <div class="grid_12">
+                    <label c-label item="item">Tgl Berakhir SIP & STR</label>
+                </div>
+                <div class="clear"></div>
+
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.edittglberakhirsipstr"  kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_10"></div>
+            <div class="grid_2">
+                <button class="c-button" style="margin-top: 15px; width: 70px; margin-left: 450px" ng-click="updateSIP()">Simpan</button>
+            </div>
+        </div>
+</div>
+<div kendo-window="popUpEditSTR" k-title="'Edit STR'" style="width:430px;height:100px" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="grid_10">
+        <div class="grid_12">
+            <label c-label item="item">STR</label>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12">
+            <input c-text-box type="input" filter="" class="k-textbox" style="width:300px" 
+                ng-model="item.editSTR" />
+        </div>
+    </div>
+    <div class="grid_2">
+        <button class="c-button" style="margin-top: 15px" ng-click="updateSTR()">Simpan</button>
+    </div>
+</div>
+<!-- <div kendo-window="popUpStr" k-title="'Data STR'" k-width="900" k-height="300" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 20px 10px;">
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">ID Pegawai</label>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="itemStr.idPeg"
+                        ng-disabled="true" />
+                </div>
+
+            </div>
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="Nama Pegawai"></label>
+                </div>
+                <div class="grid_12">
+                    <input kendo-combo-box k-ng-model="itemStr.namaPeg" k-data-text-field="'namalengkap'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listPegawai" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item">Nomor STR</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="itemStr.noSip" />
+                    </div>
+                </div>
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Tanggal Berakhir"></label>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12">
+                        <input style="width: 100%" kendo-date-picker k-ng-model="itemStr.tglStrAkhir"
+                            k-format="'yyyy-MM-dd'" />
+                    </div>
+                </div>
+            </div>
+            <form class="grid_6" method="post" enctype="multipart/form-data" id="coba2">
+                  <div class="grid_12">
+                    <label c-label item="item">Unggah File STR</label>
+                    <br>
+                </div>
+                <div class="grid_12">
+                    <input type="file" name="file" class="myStr" />
+                   </div>
+            </form>
+
+        </div>
+        <div class="grid_12 myForm">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button k-button-icontext k-primary k-grid-update " ng-click="simpanStr()"><span
+                        class="k-icon k-update"></span>Simpan</button>
+                <button class="k-button  k-button-icontext" ng-click="batalStr()"><span
+                        class="k-icon k-cancel"></span>Batal</button>
+            </div>
+        </div>
+    </div>
+</div> -->

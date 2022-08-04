@@ -1,0 +1,139 @@
+<style>
+.button {
+  display: inline-block;
+  padding: 5px 15px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px rgb(162, 228, 145);
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px rgb(162, 228, 145);
+  transform: translateY(2px);
+}
+</style>
+<div class="panel panel-default">
+    <div class="panel-heading " style="font-size: 18px; "><span c-translate>KESEHATAN</span>
+        <span class="icon fa fa-chevron-circle-down " ng-show="!isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+        <span class="icon fa fa-chevron-circle-up " ng-show="isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+    </div>
+    <div class="panel-body " ng-show="isShowPotensi ">
+        <div class="panel panel-default container_12">
+            <div class="panel-body">
+                <div class="grid_12">
+                    <div class="grid_12">
+						<!-- AwalPeriode -->
+						<div class="grid_2 padDatePicker">
+							<input style="width: 100%" k-ng-model="item.tgltransaksi"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+						</div>
+                        <div class="grid_2 padDatePicker">
+							<input style="width: 100%" k-ng-model="item.tgltransaksi2"  kendo-datetimepicker  placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+						</div>
+                        <div class="grid_2">
+                            <button class="k-button k-primary k-button-icon" ng-click="findData()"><span
+                                    class="k-sprite k-icon k-i-search">Find</span></button>
+                            <!--<em style="margin-top:6px;" ng-click="findDataBySep(item.namaPasien)" id="iconButton" data-role="button" class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span class="k-sprite k-icon k-i-search">Find</span></em>-->
+                        </div>
+						<!-- AkhirPeriode -->
+ 						<!--<div class="grid_6 padDatePicker">
+							<input style="width: 100%" k-ng-model="item.periodeAkhir"  kendo-datetimepicker  placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+						</div> -->
+						<div class="clear"></div>
+					</div>
+                    <!-- <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label>Masukkan Nomor Kartu/NIK :</label>
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.data" />
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_8">
+                                <div class="grid_6" ng-repeat="tipe in dataCheckbox">
+                                    <input type="radio" name="{{tipe.name}}" id="{{tipe.id}}" class="k-radio"
+                                        ng-model="item.identitas" ng-value="tipe">
+                                    <label class="k-radio-label" for="{{tipe.id}}"
+                                        style="margin:5px">{{tipe.name}}</label>
+                                </div>
+                            </div>
+                            <div class="grid_2">
+                                <button class="k-button k-primary k-button-icon" ng-click="findData(item.data)"><span
+                                        class="k-sprite k-icon k-i-search">Find</span></button>
+                            </div>
+                            <div class="grid_2">
+                                <button class="k-button k-primary k-button-icon" ng-click="clear()"><span
+                                        class="k-sprite k-icon k-i-cancel">Clear</span></button>
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- <div class="grid_8">
+                        <div class="grid_12">
+                            <label c-label>Results :</label>
+                        </div>
+                        <pre id="json" class="json-viewer"></pre>
+                    </div> -->
+                     <div class="grid_6">
+                        
+                        <label c-label>DATA RUMAH SAKIT</label>
+                        <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulang2" options="columnDaftarPasienPulang2"
+                        k-selectable="'row'" 
+                        k-sortable="'true'"
+                        k-resizable="'true'"
+                        k-ng-model="dataPasienSelected"
+                        ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+                        
+                    </div>
+                    <div class="grid_6">
+                        
+                        <label c-label>DATA BIOS KEMENKEU</label>
+                        <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulang" options="columnDaftarPasienPulang"
+                        k-selectable="'row'" 
+                        k-sortable="'true'"
+                        k-resizable="'true'"
+                        k-ng-model="dataPasienSelected"
+                        ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+                        
+                    </div>
+<!--                    
+                    <div class="grid_10"class="pull-right">
+
+                    </div> -->
+                    <div class="grid_2"class="pull-left">
+                        <button class="k-button k-primary k-button-icon" ng-click="kirim()">KIRIM KE BIOS</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+<style type="text/css">
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+</style>
+
+<div kendo-window="popupinacbg" k-title="'Rincian Pasien'" k-visible="false" k-width="800" k-height="600">
+	<div class="panel panel-default container_12">
+		            <kendo-grid  id="kGrid"  data-source="dataDaftarPasienPulangdetail" options="columnDaftarPasienPulangdetail"
+                        k-selectable="'row'" 
+                        k-sortable="'true'"
+                        k-resizable="'true'"
+                        k-ng-model="dataPasienSelected"
+>
+                    </kendo-grid>
+
+</div>

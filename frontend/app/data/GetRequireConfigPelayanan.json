@@ -1,0 +1,2660 @@
+{
+    "path": [{
+            "nameDep": "RegistrasiPasienBaruCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienBaruCtrl"
+        },
+        {
+            "nameDep": "RegistrasiPasienBaruMCUCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienBaruMCUCtrl"
+        },
+        {
+            "nameDep": "PengkajianAwalMedisPasienCtrl",
+            "urlDep": "module/EMR/PengkajianAwalMedisPasienCtrl"
+        },
+        {
+            "nameDep": "PengkajianAwalCtrl",
+            "urlDep": "module/EMR/PengkajianAwalCtrl"
+        },
+        {
+            "nameDep": "RegistrasiPasienBaruLangsungCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienBaruLangsungCtrl"
+        },
+        {
+            "nameDep": "RegistrasiPasienLamaCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienLamaCtrl"
+        },
+        {
+            "nameDep": "RegistrasiRuanganCtrl",
+            "urlDep": "module/Registrasi/RegistrasiRuanganCtrl"
+        }
+
+        ,
+        {
+            "nameDep": "RegistrasiPegawaiToPasienCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPegawaiToPasienCtrl"
+        },
+        {
+            "nameDep": "RegistrasiPasienIsomanLangsungCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienIsomanLangsungCtrl"
+        },
+
+        {
+            "nameDep": "DaftarPasienIsomanCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienIsomanCtrl"
+        },
+        {
+            "nameDep": "PemakaianAsuransiCtrl",
+            "urlDep": "module/Registrasi/PemakaianAsuransiCtrl"
+        },
+        {
+            "nameDep": "VerifikasiBayiCtrl",
+            "urlDep": "module/Registrasi/VerifikasiBayiCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienPerjanjianCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienPerjanjianCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienPerjanjianVaksinasiCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienPerjanjianVaksinasiCtrl"
+        },
+        {
+            "nameDep": "KlaimInaCbgCtrl",
+            "urlDep": "module/Registrasi/KlaimInaCbgCtrl"
+        },
+        {
+            "nameDep": "KlaimInaCbgV2Ctrl",
+            "urlDep": "module/Registrasi/KlaimInaCbgV2Ctrl"
+        },
+        {
+            "nameDep": "DaftarPasienEClaimCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienEClaimCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienDokterCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienDokterCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienBelumTutupFakturCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienBelumTutupFakturCtrl"
+        },
+        {
+            "nameDep": "PurifMandiriCtrl",
+            "urlDep": "module/Registrasi/PurifMandiriCtrl"
+        },
+        {
+            "nameDep": "PurifMandiriSepTmCtrl",
+            "urlDep": "module/Registrasi/PurifMandiriSepTmCtrl"
+        },
+        {
+            "nameDep": "SirsOnlineCtrl",
+            "urlDep": "module/Registrasi/SirsOnlineCtrl"
+        },
+        {
+            "nameDep": "CekKepesertaanCtrl",
+            "urlDep": "module/Registrasi/CekKepesertaanCtrl"
+        },
+        {
+            "nameDep": "CekKepesertaanV2Ctrl",
+            "urlDep": "module/Registrasi/CekKepesertaanV2Ctrl"
+        },
+        {
+            "nameDep": "MenuLPKCtrl",
+            "urlDep": "module/Registrasi/MenuLPKCtrl"
+        },
+        {
+            "nameDep": "MjknCtrl",
+            "urlDep": "module/Registrasi/MJKN/MjknCtrl"
+        },
+        {
+            "nameDep": "SuratKontrolVclaimCtrl",
+            "urlDep": "module/Registrasi/MJKN/SuratKontrolVclaimCtrl"
+        },
+        {
+            "nameDep": "RujukanKhususCtrl",
+            "urlDep": "module/Registrasi/MJKN/RujukanKhususCtrl"
+        },
+        {
+            "nameDep": "RencanaKontrolSPRICtrl",
+            "urlDep": "module/Registrasi/MJKN/RencanaKontrolSPRICtrl"
+        },
+        {
+            "nameDep": "DashboardCtrl",
+            "urlDep": "module/Registrasi/DashboardCtrl"
+        },
+        {
+            "nameDep": "AntreanCtrl",
+            "urlDep": "module/Registrasi/AntreanCtrl"
+        },
+        {
+            "nameDep": "PRBCtrl",
+            "urlDep": "module/Registrasi/MJKN/PRBCtrl"
+        },
+        {
+            "nameDep": "MenuMonitoringCtrl",
+            "urlDep": "module/Registrasi/MenuMonitoringCtrl"
+        },
+        {
+            "nameDep": "MenuRujukanCtrl",
+            "urlDep": "module/Registrasi/MenuRujukanCtrl"
+        },
+        {
+            "nameDep": "MenuSEPCtrl",
+            "urlDep": "module/Registrasi/MenuSEPCtrl"
+        },
+        {
+            "nameDep": "MenuSEPV2Ctrl",
+            "urlDep": "module/Registrasi/MenuSEPV2Ctrl"
+        },
+        {
+            "nameDep": "ReferensiVclaimCtrl",
+            "urlDep": "module/Registrasi/ReferensiVclaimCtrl"
+        },
+        {
+            "nameDep": "ReferensiVclaimV2Ctrl",
+            "urlDep": "module/Registrasi/ReferensiVclaimV2Ctrl"
+        },
+        {
+            "nameDep": "BIOSToolsCtrl",
+            "urlDep": "module/Registrasi/BIOSToolsCtrl"
+        },
+        {
+            "nameDep": "KesehatanCtrl",
+            "urlDep": "module/Registrasi/KesehatanCtrl"
+        },
+        {
+            "nameDep": "KeuanganCtrl",
+            "urlDep": "module/Registrasi/KeuanganCtrl"
+        },
+        {
+            "nameDep": "BPJSToolsCtrl",
+            "urlDep": "module/Registrasi/BPJSToolsCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianPasienCtrl",
+            "urlDep": "module/Registrasi/DaftarAntrianPasienCtrl"
+        },
+        {
+            "nameDep": "InputTindakanPendaftaranCtrl",
+            "urlDep": "module/Registrasi/InputTindakanPendaftaranCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienOperatorCtrl",
+            "urlDep": "module/Registrasi/DaftarRegistrasiPasienOperatorCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienRawatCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienRawatCtrl"
+        },
+        {
+            "nameDep": "ReferensiJadwalDokterHFISCtrl",
+            "urlDep": "module/Registrasi/ReferensiJadwalDokterHFISCtrl"
+        },
+        {
+            "nameDep": "WaktuTungguCtrl",
+            "urlDep": "module/Registrasi/WaktuTungguCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienTidakPunyaRujukanCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienTidakPunyaRujukanCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienTidakPunyaRujukanRsCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienTidakPunyaRujukanRsCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapLayananCtrl",
+            "urlDep": "module/Laboratorium/Laporan/LaporanRekapLayananCtrl"
+        },
+        {
+            "nameDep": "RiwayatPemeriksaanMcuCtrl",
+            "urlDep": "module/RawatJalan/RiwayatPemeriksaanMcuCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianSusterRajalCtrl",
+            "urlDep": "module/RawatJalan/DaftarAntrianSusterRajalCtrl"
+        },
+        {
+            "nameDep": "BuatSuratCtrl",
+            "urlDep": "module/RawatJalan/BuatSuratCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienSentraVisumCtrl",
+            "urlDep": "module/RawatJalan/DaftarPasienSentraVisumCtrl"
+        },
+        {
+            "nameDep": "HasilSentraVisumCtrl",
+            "urlDep": "module/RawatJalan/HasilSentraVisumCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianSusterRanapCtrl",
+            "urlDep": "module/RawatInap/DaftarAntrianSusterRanapCtrl"
+        },
+        {
+            "nameDep": "PindahPulangPasienCtrl",
+            "urlDep": "module/RawatInap/PindahPulangPasienCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianDokterBedahCtrl",
+            "urlDep": "module/Bedah/DaftarAntrianDokterBedahCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienMasihDirawatCtrl",
+            "urlDep": "module/RawatInap/DaftarPasienMasihDirawatCtrl"
+        },
+        {
+            "nameDep": "MutasiRawatInapCtrl",
+            "urlDep": "module/IGD/MutasiRawatInapCtrl"
+        },
+        {
+            "nameDep": "RegistrasiPasienMutasiCtrl",
+            "urlDep": "module/Registrasi/RegistrasiPasienMutasiCtrl"
+        },
+        {
+            "nameDep": "DaftarPembatalanPasienCtrl",
+            "urlDep": "module/Registrasi/DaftarPembatalanPasienCtrl"
+        },
+        {
+            "nameDep": "PemeriksaanDokterForensikCtrl",
+            "urlDep": "module/Registrasi/PemeriksaanDokterForensikCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienMeninggalCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienMeninggalCtrl"
+        },
+        {
+            "nameDep": "DaftarBayiBaruLahirCtrl",
+            "urlDep": "module/Registrasi/DaftarBayiBaruLahirCtrl"
+        },
+        {
+            "nameDep": "RiwayatRegistrasiCtrl",
+            "urlDep": "module/Registrasi/RiwayatRegistrasiCtrl"
+        },
+        {
+            "nameDep": "KendaliDokumenRekamMedisCtrl",
+            "urlDep": "module/Registrasi/KendaliDokumenRekamMedisCtrl"
+        },
+        {
+            "nameDep": "KendaliDokumenRekamMedisRevCtrl",
+            "urlDep": "module/Registrasi/KendaliDokumenRekamMedisRevCtrl"
+        },
+        {
+            "nameDep": "DaftarDokumenRekamMedisRevCtrl",
+            "urlDep": "module/Registrasi/DaftarDokumenRekamMedisRevCtrl"
+        },
+        {
+            "nameDep": "DaftarKebutuhanCovidCtrl",
+            "urlDep": "module/Registrasi/DaftarKebutuhanCovidCtrl"
+        },
+        {
+            "nameDep": "DaftarPermintaanLabelCtrl",
+            "urlDep": "module/Registrasi/DaftarPermintaanLabelCtrl"
+        },
+        {
+            "nameDep": "LaporanTracerCtrl",
+            "urlDep": "module/Registrasi/LaporanTracerCtrl"
+        },
+        {
+            "nameDep": "RujukanKeluarCtrl",
+            "urlDep": "module/Registrasi/Sisrute/RujukanKeluarCtrl"
+        },
+        {
+            "nameDep": "DaftarRujukanCtrl",
+            "urlDep": "module/Registrasi/Sisrute/DaftarRujukanCtrl"
+        },
+        {
+            "nameDep": "RiwayatRujukanMasukCtrl",
+            "urlDep": "module/Registrasi/Sisrute/RiwayatRujukanMasukCtrl"
+        },
+        {
+            "nameDep": "ReferensiRujukanCtrl",
+            "urlDep": "module/Registrasi/Sisrute/ReferensiRujukanCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienDaftarCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienDaftarCtrl"
+        },
+        {
+            "nameDep": "LaporanPelayananPasienCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPelayananPasienCtrl"
+        },
+        {
+            "nameDep": "LaporanSensusCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanSensusCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienPulangCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienPulangCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienPulangCsrCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienPulangCsrCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapKunjunganCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekapKunjunganCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapGolonganCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekapGolonganCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapPengunjungCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekapPengunjungCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapPengunjungKsoCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekapPengunjungKsoCtrl"
+        },
+        {
+            "nameDep": "LaporanPendapatanPoliCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPendapatanPoliCtrl"
+        },
+        {
+            "nameDep": "RekapLaporanKedokteranForensikCtrl",
+            "urlDep": "module/Registrasi/Laporan/RekapLaporanKedokteranForensikCtrl"
+        },
+        {
+            "nameDep": "LaporanPelayananKedokteranForensikCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPelayananKedokteranForensikCtrl"
+        },
+        {
+            "nameDep": "RekapHasilPenilaianRikesCtrl",
+            "urlDep": "module/Registrasi/Laporan/RekapHasilPenilaianRikesCtrl"
+        },
+        {
+            "nameDep": "LaporanLayananCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanLayananCtrl"
+        },
+        {
+            "nameDep": "LaporanLayananKasirCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanLayananKasirCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienBaruLamaCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienBaruLamaCtrl"
+        },
+        {
+            "nameDep": "LaporanCetakKartuCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanCetakKartuCtrl"
+        },
+        {
+            "nameDep": "MapLaporanRLCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/MapLaporanRLCtrl"
+        },
+        {
+            "nameDep": "RL12IndikatorPelayananRsCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL12IndikatorPelayananRsCtrl"
+        },
+        {
+            "nameDep": "RL31KegiatanRawatInapCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL31KegiatanRawatInapCtrl"
+        },
+        {
+            "nameDep": "RL32RawatDaruratCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL32RawatDaruratCtrl"
+        },
+        {
+            "nameDep": "RL33GigiDanMulutCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL33GigiDanMulutCtrl"
+        },
+        {
+            "nameDep": "RL34KebidananCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL34KebidananCtrl"
+        },
+        {
+            "nameDep": "RL35PerinatologiCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL35PerinatologiCtrl"
+        },
+        {
+            "nameDep": "RL36PembedahanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL36PembedahanCtrl"
+        },
+        {
+            "nameDep": "RL37RadiologiCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL37RadiologiCtrl"
+        },
+        {
+            "nameDep": "RL38LaboratoriumCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL38LaboratoriumCtrl"
+        },
+        {
+            "nameDep": "RL39RehabilitasiMedikCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL39RehabilitasiMedikCtrl"
+        },
+        {
+            "nameDep": "RL310PelayananKhususCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL310PelayananKhususCtrl"
+        },
+        {
+            "nameDep": "RL311KesehatanJiwaCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL311KesehatanJiwaCtrl"
+        },
+        {
+            "nameDep": "RL312KeluargaBerencanaCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL312KeluargaBerencanaCtrl"
+        },
+        {
+            "nameDep": "RL313FarmasiCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL313FarmasiCtrl"
+        },
+        {
+            "nameDep": "RL314KegiatanRujukanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL314KegiatanRujukanCtrl"
+        },
+        {
+            "nameDep": "RL315CaraBayarCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL315CaraBayarCtrl"
+        },
+        {
+            "nameDep": "RL4aPenyakitRawatInapCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL4aPenyakitRawatInapCtrl"
+        },
+        {
+            "nameDep": "RL2a1PenyakitMenularRawatInapCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL2a1PenyakitMenularRawatInapCtrl"
+        },
+        {
+            "nameDep": "RL2b1PenyakitMenularRawatJalanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL2b1PenyakitMenularRawatJalanCtrl"
+        },
+        {
+            "nameDep": "RL4bPenyakitRawatJalanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL4bPenyakitRawatJalanCtrl"
+        },
+        {
+            "nameDep": "RL51PengunjungRumahSakitCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL51PengunjungRumahSakitCtrl"
+        },
+        {
+            "nameDep": "RL52KunjunganRawatJalanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL52KunjunganRawatJalanCtrl"
+        },
+        {
+            "nameDep": "RL53PenyakiRawatInapCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL53PenyakiRawatInapCtrl"
+        },
+        {
+            "nameDep": "RL54PenyakitRawatJalanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/RL54PenyakitRawatJalanCtrl"
+        },
+        {
+            "nameDep": "MutasiPasienMasukCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/MutasiPasienMasukCtrl"
+        },
+        {
+            "nameDep": "MutasiPasienKeluarCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/MutasiPasienKeluarCtrl"
+        },
+        {
+            "nameDep": "MutasiPasienPindahanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/MutasiPasienPindahanCtrl"
+        },
+        {
+            "nameDep": "RincianTagihanPenunjangCtrl",
+            "urlDep": "module/Radiologi/RincianTagihanPenunjangCtrl"
+        },
+        {
+            "nameDep": "RincianRadRegistrasiCtrl",
+            "urlDep": "module/Radiologi/RincianRadRegistrasiCtrl"
+        },
+        {
+            "nameDep": "RincianLabRegistrasiCtrl",
+            "urlDep": "module/Radiologi/RincianLabRegistrasiCtrl"
+        },
+        {
+            "nameDep": "HapusLayananCtrl",
+            "urlDep": "module/Registrasi/HapusLayananCtrl"
+        },
+        {
+            "nameDep": "LaporanCovidCtrl",
+            "urlDep": "module/Registrasi/LaporanCovidCtrl"
+        },
+        {
+            "nameDep": "LaporanCovidPegawaiCtrl",
+            "urlDep": "module/Registrasi/LaporanCovidPegawaiCtrl"
+        },
+        {
+            "nameDep": "LaporanCovidPulangCtrl",
+            "urlDep": "module/Registrasi/LaporanCovidPulangCtrl"
+        },
+        {
+            "nameDep": "HasilLaboratoriumCtrl",
+            "urlDep": "module/Laboratorium/HasilLaboratoriumCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienPenunjangCtrl",
+            "urlDep": "module/Radiologi/DaftarPasienPenunjangCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienPenunjangCtrl",
+            "urlDep": "module/Radiologi/DaftarRegistrasiPasienPenunjangCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienPenunjangLabCtrl",
+            "urlDep": "module/Radiologi/DaftarRegistrasiPasienPenunjangLabCtrl"
+        },
+        {
+            "nameDep": "DaftarOrderPenunjangCtrl",
+            "urlDep": "module/Radiologi/DaftarOrderPenunjangCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienLabRadRICtrl",
+            "urlDep": "module/Laboratorium/DaftarPasienLabRadRICtrl"
+        },
+        {
+            "nameDep": "DaftarPasienPulangCtrl",
+            "urlDep": "module/TataRekening/DaftarPasienPulangCtrl"
+        },
+        {
+            "nameDep": "VerifikasiTagihanCtrl",
+            "urlDep": "module/TataRekening/VerifikasiTagihanCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienCtrl",
+            "urlDep": "module/TataRekening/DaftarRegistrasiPasienCtrl"
+        },
+        {
+            "nameDep": "PermintaanLabelCtrl",
+            "urlDep": "module/TataRekening/PermintaanLabelCtrl"
+        },
+        {
+            "nameDep": "DaftarDepositPasienCtrl",
+            "urlDep": "module/TataRekening/DaftarDepositPasienCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienDalamPerawatanCtrl",
+            "urlDep": "module/TataRekening/DaftarPasienDalamPerawatanCtrl"
+        },
+        {
+            "nameDep": "IkiDirutCapaianCtrl",
+            "urlDep": "module/TataRekening/IkiDirutCapaianCtrl"
+        },
+        {
+            "nameDep": "OrderPenunjangCtrl",
+            "urlDep": "module/TataRekening/OrderPenunjangCtrl"
+        },
+        {
+            "nameDep": "LaporanPendapatanPerkelasCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanPendapatanPerkelasCtrl"
+        },
+        {
+            "nameDep": "LaporanVolumeCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanVolumeCtrl"
+        },
+        {
+            "nameDep": "LaporanRehabCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanRehabCtrl"
+        },
+        {
+            "nameDep": "LaporanKunjunganPasienCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanKunjunganPasienCtrl"
+        },
+        {
+            "nameDep": "LaporanDiagnosaPasienCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanDiagnosaPasienCtrl"
+        },
+        {
+            "nameDep": "LaporanPenerimaanDepositCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanPenerimaanDepositCtrl"
+        },
+        {
+            "nameDep": "RekapKunjunganPasienCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/RekapKunjunganPasienCtrl"
+        },
+        {
+            "nameDep": "RekapPembayaranJasaPelayananCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/RekapPembayaranJasaPelayananCtrl"
+        },
+        {
+            "nameDep": "RealisasiPendapatanRawatJalanCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/RealisasiPendapatanRawatJalanCtrl"
+        },
+        {
+            "nameDep": "LaporanKegiatanOperasionalCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanKegiatanOperasionalCtrl"
+        },
+        {
+            "nameDep": "LaporanKegiatanOperasionalDetailCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanKegiatanOperasionalDetailCtrl"
+        },
+        {
+            "nameDep": "RekamMedisCtrl",
+            "urlDep": "module/EMR/RekamMedisCtrl"
+        },
+        {
+            "nameDep": "RekamMedisDokterCtrl",
+            "urlDep": "module/EMR/RekamMedisDokterCtrl"
+        },
+        {
+            "nameDep": "PengkajianMedisCtrl",
+            "urlDep": "module/EMR/PengkajianMedisCtrl"
+        },
+        {
+            "nameDep": "PengkajianKeperawatanCtrl",
+            "urlDep": "module/EMR/PengkajianKeperawatanCtrl"
+        },
+        {
+            "nameDep": "MenuPengkajianCtrl",
+            "urlDep": "module/EMR/MenuPengkajianCtrl"
+        },
+        {
+            "nameDep": "MenuSkriningUmumCtrl",
+            "urlDep": "module/EMR/MenuSkriningUmumCtrl"
+        },
+        {
+            "nameDep": "MenuSkriningKhususCtrl",
+            "urlDep": "module/EMR/MenuSkriningKhususCtrl"
+        },
+        {
+            "nameDep": "SkriningKeperawatanCtrl",
+            "urlDep": "module/EMR/SkriningKeperawatanCtrl"
+        },
+        {
+            "nameDep": "PerencanaanPulangCtrl",
+            "urlDep": "module/EMR/PerencanaanPulangCtrl"
+        },
+        {
+            "nameDep": "KeluhanUtamaRevCtrl",
+            "urlDep": "module/EMR/KeluhanUtamaRevCtrl"
+        },
+        {
+            "nameDep": "TandaVitalRevCtrl",
+            "urlDep": "module/EMR/TandaVitalRevCtrl"
+        },
+        {
+            "nameDep": "AlergiCtrl",
+            "urlDep": "module/EMR/AlergiCtrl"
+        },
+        {
+            "nameDep": "SkriningGiziDewasaRevCtrl",
+            "urlDep": "module/EMR/SkriningGiziDewasaRevCtrl"
+        },
+        {
+            "nameDep": "SkriningNyeriRevCtrl",
+            "urlDep": "module/EMR/SkriningNyeriRevCtrl"
+        },
+        {
+            "nameDep": "ResikoJatuhRevCtrl",
+            "urlDep": "module/EMR/ResikoJatuhRevCtrl"
+        },
+        {
+            "nameDep": "StatusFungsionalRevCtrl",
+            "urlDep": "module/EMR/StatusFungsionalRevCtrl"
+        },
+        {
+            "nameDep": "KebutuhanEdukasiRevCtrl",
+            "urlDep": "module/EMR/KebutuhanEdukasiRevCtrl"
+        },
+        {
+            "nameDep": "KebutuhanDasarSusterRevCtrl",
+            "urlDep": "module/EMR/KebutuhanDasarSusterRevCtrl"
+        },
+        {
+            "nameDep": "PsikososialRevCtrl",
+            "urlDep": "module/EMR/PsikososialRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKekhususanTambahanRevCtrl",
+            "urlDep": "module/EMR/SkriningKekhususanTambahanRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKekhususanRiwayatKelahiranRevCtrl",
+            "urlDep": "module/EMR/SkriningKekhususanRiwayatKelahiranRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKekhususanRiwayatTumbuhKembangRevCtrl",
+            "urlDep": "module/EMR/SkriningKekhususanRiwayatTumbuhKembangRevCtrl"
+        },
+        {
+            "nameDep": "InformasiIbuRevCtrl",
+            "urlDep": "module/EMR/InformasiIbuRevCtrl"
+        },
+        {
+            "nameDep": "RiwayatLaluRevCtrl",
+            "urlDep": "module/EMR/RiwayatLaluRevCtrl"
+        },
+        {
+            "nameDep": "KehamilanSekarangRevCtrl",
+            "urlDep": "module/EMR/KehamilanSekarangRevCtrl"
+        },
+        {
+            "nameDep": "CapKakiBayiRevCtrl",
+            "urlDep": "module/EMR/CapKakiBayiRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKhususKlinikRevCtrl",
+            "urlDep": "module/EMR/SkriningKhususKlinikRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKekhususanGinekologiRevCtrl",
+            "urlDep": "module/EMR/SkriningKekhususanGinekologiRevCtrl"
+        },
+        {
+            "nameDep": "RiwayatPersalinandanNipasRevCtrl",
+            "urlDep": "module/EMR/RiwayatPersalinandanNipasRevCtrl"
+        },
+        {
+            "nameDep": "AskepCtrl",
+            "urlDep": "module/EMR/AskepCtrl"
+        },
+        {
+            "nameDep": "AskepDetailCtrl",
+            "urlDep": "module/EMR/AskepDetailCtrl"
+        },
+        {
+            "nameDep": "CPPTCtrl",
+            "urlDep": "module/EMR/CPPTCtrl"
+        },
+        {
+            "nameDep": "InputDiagnosaDokterCtrl",
+            "urlDep": "module/EMR/InputDiagnosaDokterCtrl"
+        },
+        {
+            "nameDep": "InputResepApotikOrderRevCtrl",
+            "urlDep": "module/EMR/InputResepApotikOrderRevCtrl"
+        },
+        {
+            "nameDep": "TransaksiPelayananLaboratoriumDokterRevCtrl",
+            "urlDep": "module/EMR/TransaksiPelayananLaboratoriumDokterRevCtrl"
+        },
+        {
+            "nameDep": "TransaksiPelayananRadiologiDokterRevCtrl",
+            "urlDep": "module/EMR/TransaksiPelayananRadiologiDokterRevCtrl"
+        },
+        {
+            "nameDep": "TransaksiDiagnosaCtrl",
+            "urlDep": "module/EMR/TransaksiDiagnosaCtrl"
+        },
+        {
+            "nameDep": "OdontoGramDokterCtrl",
+            "urlDep": "module/EMR/OdontoGramDokterCtrl"
+        },
+        {
+            "nameDep": "PengkajianGeriatriCtrl",
+            "urlDep": "module/EMR/PengkajianGeriatriCtrl"
+        },
+        {
+            "nameDep": "PengkajianGeriatriDetailCtrl",
+            "urlDep": "module/EMR/PengkajianGeriatriDetailCtrl"
+        },
+        {
+            "nameDep": "GeriatriADLCtrl",
+            "urlDep": "module/EMR/GeriatriADLCtrl"
+        },
+        {
+            "nameDep": "AMTGeriatriCtrl",
+            "urlDep": "module/EMR/AMTGeriatriCtrl"
+        },
+        {
+            "nameDep": "GeriatriSkalaNyeriCtrl",
+            "urlDep": "module/EMR/GeriatriSkalaNyeriCtrl"
+        },
+        {
+            "nameDep": "GeriatriMMSECtrl",
+            "urlDep": "module/EMR/GeriatriMMSECtrl"
+        },
+        {
+            "nameDep": "GeriatriMNACtrl",
+            "urlDep": "module/EMR/GeriatriMNACtrl"
+        },
+        {
+            "nameDep": "PengkajianSurveilansRevCtrl",
+            "urlDep": "module/EMR/PengkajianSurveilansRevCtrl"
+        },
+        {
+            "nameDep": "ResumeRJCtrl",
+            "urlDep": "module/EMR/ResumeRJCtrl"
+        },
+        {
+            "nameDep": "ResumeRICtrl",
+            "urlDep": "module/EMR/ResumeRICtrl"
+        },
+        {
+            "nameDep": "KonsultasiDokterCtrl",
+            "urlDep": "module/EMR/KonsultasiDokterCtrl"
+        },
+        {
+            "nameDep": "EpicECGCtrl",
+            "urlDep": "module/EMR/EpicECGCtrl"
+        },
+        {
+            "nameDep": "OrderJadwalBedahCtrl",
+            "urlDep": "module/EMR/OrderJadwalBedahCtrl"
+        },
+        {
+            "nameDep": "ProsedurKeselamatanCtrl",
+            "urlDep": "module/EMR/ProsedurKeselamatanCtrl"
+        },
+        {
+            "nameDep": "LaporanOperasiCtrl",
+            "urlDep": "module/EMR/LaporanOperasiCtrl"
+        },
+        {
+            "nameDep": "PersetujuanTindakanAnestesiCtrl",
+            "urlDep": "module/EMR/PersetujuanTindakanAnestesiCtrl"
+        },
+        {
+            "nameDep": "PengkajianICUCtrl",
+            "urlDep": "module/EMR/PengkajianICUCtrl"
+        },
+        {
+            "nameDep": "LabelPhotoCtrl",
+            "urlDep": "module/Registrasi/LabelPhotoCtrl"
+        },
+        {
+            "nameDep": "DaftarRencanaPindahPasienCtrl",
+            "urlDep": "module/RawatInap/DaftarRencanaPindahPasienCtrl"
+        },
+        {
+            "nameDep": "PindahPasienCtrl",
+            "urlDep": "module/RawatInap/PindahPasienCtrl"
+        },
+        {
+            "nameDep": "DaftarEpicECGCtrl",
+            "urlDep": "module/EMR/DaftarEpicECGCtrl"
+        },
+        {
+            "nameDep": "DaftarSuratKeteranganCtrl",
+            "urlDep": "module/RawatJalan/DaftarSuratKeteranganCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienJatuhCtrl",
+            "urlDep": "module/RawatInap/DaftarPasienJatuhCtrl"
+        },
+        {
+            "nameDep": "OrderMenuGiziRevCtrl",
+            "urlDep": "module/RawatInap/OrderMenuGiziRevCtrl"
+        },
+        {
+            "nameDep": "DaftarOrderGiziSusterCtrl",
+            "urlDep": "module/Gizi/DaftarOrderGiziSusterCtrl"
+        }, {
+            "nameDep": "InputMenuGiziCtrl",
+            "urlDep": "module/Gizi/InputMenuGiziCtrl"
+        }, {
+            "nameDep": "DaftarMenuGiziCtrl",
+            "urlDep": "module/Gizi/DaftarMenuGiziCtrl"
+        },
+        {
+            "nameDep": "InputEdukasiIPCLNCtrl",
+            "urlDep": "module/RawatInap/InputEdukasiIPCLNCtrl"
+        },
+        {
+            "nameDep": "LaporanSurveilansCtrl",
+            "urlDep": "module/RawatInap/LaporanSurveilansCtrl"
+        },
+        {
+            "nameDep": "PendaftaranTriageCtrl",
+            "urlDep": "module/IGD/PendaftaranTriageCtrl"
+        },
+        {
+            "nameDep": "DaftarHasilTriaseCtrl",
+            "urlDep": "module/IGD/DaftarHasilTriaseCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienByDiagnosaCtrl",
+            "urlDep": "module/RawatJalan/DaftarPasienByDiagnosaCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianDokterRajalCtrl",
+            "urlDep": "module/RawatJalan/DaftarAntrianDokterRajalCtrl"
+        },
+        {
+            "nameDep": "DaftarAntrianDokterRanapCtrl",
+            "urlDep": "module/RawatInap/DaftarAntrianDokterRanapCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienStatusCtrl",
+            "urlDep": "module/RawatJalan/DaftarPasienStatusCtrl"
+        },
+        {
+            "nameDep": "DaftarOrderBedahCtrl",
+            "urlDep": "module/Bedah/DaftarOrderBedahCtrl"
+        },
+        {
+            "nameDep": "DaftarPemeriksaanLuarLabCtrl",
+            "urlDep": "module/RawatJalan/DaftarPemeriksaanLuarLabCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienTelahTerdaftarCtrl",
+            "urlDep": "module/IGD/DaftarPasienTelahTerdaftarCtrl"
+        },
+        {
+            "nameDep": "DaftarPasienTelahTerdaftarCtrl",
+            "urlDep": "module/IGD/DaftarPasienTelahTerdaftarCtrl"
+        },
+        {
+            "nameDep": "RekamMedisIGDCtrl",
+            "urlDep": "module/IGD/RekamMedisIGDCtrl"
+        },
+        {
+            "nameDep": "EmrGawatDaruratCtrl",
+            "urlDep": "module/IGD/EmrGawatDaruratCtrl"
+        },
+        {
+            "nameDep": "EmrGawatDaruratDetailCtrl",
+            "urlDep": "module/IGD/EmrGawatDaruratDetailCtrl"
+        },
+        {
+            "nameDep": "DaftarTriasePasienIgdCtrl",
+            "urlDep": "module/IGD/DaftarTriasePasienIgdCtrl"
+        },
+        {
+            "nameDep": "SkriningGiziAnakRevCtrl",
+            "urlDep": "module/EMR/SkriningGiziAnakRevCtrl"
+        },
+        {
+            "nameDep": "SkriningKekhususanRiwayatImunisasiDasarRevCtrl",
+            "urlDep": "module/EMR/SkriningKekhususanRiwayatImunisasiDasarRevCtrl"
+        },
+        {
+            "nameDep": "FormUbahJenisPasienCtrl",
+            "urlDep": "module/TataRekening/FormUbahJenisPasienCtrl"
+        },
+        {
+            "nameDep": "DaftarOrderGiziCtrl",
+            "urlDep": "module/Gizi/DaftarOrderGiziCtrl"
+        }, {
+            "nameDep": "DaftarOrderGizilihatCtrl",
+            "urlDep": "module/Gizi/DaftarOrderGizilihatCtrl"
+        },
+        {
+            "nameDep": "DaftarKirimMenuCtrl",
+            "urlDep": "module/Gizi/DaftarKirimMenuCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisCtrl",
+            "urlDep": "module/EMR/AsesmenMedisCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisDetailCtrl",
+            "urlDep": "module/EMR/AsesmenMedisDetailCtrl"
+        },
+        {
+            "nameDep": "AsesmenBunuhDiriCtrl",
+            "urlDep": "module/EMR/AsesmenBunuhDiriCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerilakuKesehatanCtrl",
+            "urlDep": "module/EMR/AsesmenPerilakuKesehatanCtrl"
+        },
+        {
+            "nameDep": "AsesmenMelarikanDiriCtrl",
+            "urlDep": "module/EMR/AsesmenMelarikanDiriCtrl"
+        },
+        {
+            "nameDep": "MapAkomodasiOtomatisCtrl",
+            "urlDep": "module/TataRekening/MapAkomodasiOtomatisCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisGawatDaruratCtrl",
+            "urlDep": "module/EMR/AsesmenMedisGawatDaruratCtrl"
+        },
+        {
+            "nameDep": "VitalSignCtrl",
+            "urlDep": "module/EMR/VitalSignCtrl"
+        },
+        {
+            "nameDep": "EmrIgdCtrl",
+            "urlDep": "module/EMR/EmrIgdCtrl"
+        },
+        {
+            "nameDep": "EmrVisumCtrl",
+            "urlDep": "module/EMR/EmrVisumCtrl"
+        },
+        {
+            "nameDep": "SuratPersetujuanCtrl",
+            "urlDep": "module/EMR/SuratPersetujuanCtrl"
+        },
+        {
+            "nameDep": "HistoryEMRCtrl",
+            "urlDep": "module/EMR/HistoryEMRCtrl"
+        },
+        {
+            "nameDep": "EmrIgdEvaluasiCtrl",
+            "urlDep": "module/EMR/EmrIgdEvaluasiCtrl"
+        },
+        {
+            "nameDep": "EmrRanapEvaluasiCtrl",
+            "urlDep": "module/EMR/EmrRanapEvaluasiCtrl"
+        },
+        {
+            "nameDep": "CpptDinamisCtrl",
+            "urlDep": "module/EMR/CpptDinamisCtrl"
+        },
+        {
+            "nameDep": "CpptDinamisDetailCtrl",
+            "urlDep": "module/EMR/CpptDinamisDetailCtrl"
+        },
+        {
+            "nameDep": "CrisisTriageRatingScaleCtrl",
+            "urlDep": "module/EMR/CrisisTriageRatingScaleCtrl"
+        },
+        {
+            "nameDep": "AsesmenAwalKeperawatanIGDCtrl",
+            "urlDep": "module/EMR/AsesmenAwalKeperawatanIGDCtrl"
+        },
+        {
+            "nameDep": "CatatanKeperawatanCtrl",
+            "urlDep": "module/EMR/CatatanKeperawatanCtrl"
+        }, {
+            "nameDep": "CatatanGrafikTandaVitalCtrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVitalCtrl"
+
+        },
+        {
+            "nameDep": "CatatanDokterCtrl",
+            "urlDep": "module/EMR/CatatanDokterCtrl"
+        },
+        {
+            "nameDep": "RencanaAskepCtrl",
+            "urlDep": "module/EMR/RencanaAskepCtrl"
+        },
+        {
+            "nameDep": "LaporanAnestesi4Ctrl",
+            "urlDep": "module/EMR/LaporanAnestesi4Ctrl"
+        },
+        {
+            "nameDep": "DaftarKonsulCtrl",
+            "urlDep": "module/RawatJalan/DaftarKonsulCtrl"
+        },
+        {
+            "nameDep": "EmrPemeriksaanFisikCtrl",
+            "urlDep": "module/IGD/EmrPemeriksaanFisikCtrl"
+        },
+        {
+            "nameDep": "DerajatNyeriIGDCtrl",
+            "urlDep": "module/IGD/DerajatNyeriIGDCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienGiziCtrl",
+            "urlDep": "module/Gizi/DaftarRegistrasiPasienGiziCtrl"
+        },
+        {
+            "nameDep": "HasilRadiologiCtrl",
+            "urlDep": "module/Radiologi/HasilRadiologiCtrl"
+        },
+        {
+            "nameDep": "LaporanPengunjungCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPengunjungCtrl"
+        },
+        {
+            "nameDep": "LaporanMordibitasRehabCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanMordibitasRehabCtrl"
+        },
+        {
+            "nameDep": "LaporanSummaryCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanSummaryCtrl"
+        },
+        {
+            "nameDep": "LaporanPengunjungPemeriksaanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPengunjungPemeriksaanCtrl"
+        },
+        {
+            "nameDep": "LaporanPengunjungTindakanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPengunjungTindakanCtrl"
+        },
+        {
+            "nameDep": "TriasePrimerCtrl",
+            "urlDep": "module/EMR/TriasePrimerCtrl"
+
+        },
+        {
+            "nameDep": "TindakanFiksasiMekanikCtrl",
+            "urlDep": "module/EMR/TindakanFiksasiMekanikCtrl"
+        },
+        {
+            "nameDep": "TindakanInjeksiCtrl",
+            "urlDep": "module/EMR/TindakanInjeksiCtrl"
+        },
+        {
+            "nameDep": "TindakanEctCtrl",
+            "urlDep": "module/EMR/TindakanEctCtrl"
+        },
+        {
+            "nameDep": "TindakanAnestesiUmumCtrl",
+            "urlDep": "module/EMR/TindakanAnestesiUmumCtrl"
+        },
+        {
+            "nameDep": "LaporanOrderGiziCtrl",
+            "urlDep": "module/Gizi/LaporanOrderGiziCtrl"
+        },
+        {
+            "nameDep": "LaporanSummaryCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanSummaryCtrl"
+        },
+        {
+            "nameDep": "LaporanPengunjungPemeriksaanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPengunjungPemeriksaanCtrl"
+        },
+        {
+            "nameDep": "LaporanPengunjungTindakanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPengunjungTindakanCtrl"
+        },
+        {
+            "nameDep": "TriasePrimerCtrl",
+            "urlDep": "module/EMR/TriasePrimerCtrl"
+
+        },
+        {
+            "nameDep": "TindakanFiksasiMekanikCtrl",
+            "urlDep": "module/EMR/TindakanFiksasiMekanikCtrl"
+        },
+        {
+            "nameDep": "TindakanInjeksiCtrl",
+            "urlDep": "module/EMR/TindakanInjeksiCtrl"
+        },
+        {
+            "nameDep": "TindakanEctCtrl",
+            "urlDep": "module/EMR/TindakanEctCtrl"
+        },
+        {
+            "nameDep": "TindakanAnestesiUmumCtrl",
+            "urlDep": "module/EMR/TindakanAnestesiUmumCtrl"
+        },
+        {
+            "nameDep": "LembarPenilaianPansECCtrl",
+            "urlDep": "module/EMR/LembarPenilaianPansECCtrl"
+        },
+        {
+            "nameDep": "PanssSingkatCtrl",
+            "urlDep": "module/EMR/PanssSingkatCtrl"
+        },
+        {
+            "nameDep": "FormACtrl",
+            "urlDep": "module/EMR/FormACtrl"
+
+        },
+        {
+            "nameDep": "DASCtrl",
+            "urlDep": "module/EMR/DASCtrl"
+        },
+        {
+            "nameDep": "AsesmenUlangRisikoJatuhCtrl",
+            "urlDep": "module/EMR/AsesmenUlangRisikoJatuhCtrl"
+        },
+        {
+            "nameDep": "SkriningManajerKhususCtrl",
+            "urlDep": "module/EMR/SkriningManajerKhususCtrl"
+        },
+        {
+            "nameDep": "AsesmenAwalKeperawatanRICtrl",
+            "urlDep": "module/EMR/AsesmenAwalKeperawatanRICtrl"
+        },
+        {
+            "nameDep": "AsesmenUlangRiNyeriCtrl",
+            "urlDep": "module/EMR/AsesmenUlangRiNyeriCtrl"
+        },
+        {
+            "nameDep": "AsesmenFisikCtrl",
+            "urlDep": "module/EMR/AsesmenFisikCtrl"
+        },
+        {
+            "nameDep": "AsesmenKebutuhanTransportasiCtrl",
+            "urlDep": "module/EMR/AsesmenKebutuhanTransportasiCtrl"
+        },
+        {
+            "nameDep": "CatatanRincianAskepCtrl",
+            "urlDep": "module/EMR/CatatanRincianAskepCtrl"
+        },
+        {
+            "nameDep": "FormBCtrl",
+            "urlDep": "module/EMR/FormBCtrl"
+
+        },
+        {
+            "nameDep": "CatatanPerkembanganKeperawatanCtrl",
+            "urlDep": "module/EMR/CatatanPerkembanganKeperawatanCtrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiriCtrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiriCtrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiriCtrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiriCtrl"
+        },
+        {
+            "nameDep": "ImplementasiSosialRICtrl",
+            "urlDep": "module/EMR/ImplementasiSosialRICtrl"
+        },
+
+        {
+            "nameDep": "ImplementasiKeperawatanHalusinasiCtrl",
+            "urlDep": "module/EMR/ImplementasiKeperawatanHalusinasiCtrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasaCtrl",
+            "urlDep": "module/EMR/SkorEWSDewasaCtrl"
+        },
+        {
+            "nameDep": "SkorEWSAnakCtrl",
+            "urlDep": "module/EMR/SkorEWSAnakCtrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVitalCtrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVitalCtrl"
+        },
+        {
+            "nameDep": "PersiapanSebelumECTCtrl",
+            "urlDep": "module/EMR/PersiapanSebelumECTCtrl"
+        },
+        {
+            "nameDep": "StressAnalyserCtrl",
+            "urlDep": "module/EMR/StressAnalyserCtrl"
+        },
+        {
+            "nameDep": "ObservasiFisikCtrl",
+            "urlDep": "module/EMR/ObservasiFisikCtrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrainCtrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrainCtrl"
+        },
+        {
+            "nameDep": "AsesmenAwalKeperawatanRJCtrl",
+            "urlDep": "module/EMR/AsesmenAwalKeperawatanRJCtrl"
+        },
+        {
+            "nameDep": "HasilEEGCtrl",
+            "urlDep": "module/EMR/HasilEEGCtrl"
+
+        },
+        {
+            "nameDep": "AsesmenPerawatJiwaRemajaCtrl",
+            "urlDep": "module/EMR/AsesmenPerawatJiwaRemajaCtrl"
+        },
+        {
+            "nameDep": "CatatanPerkembanganTerapiNutrisiCtrl",
+            "urlDep": "module/EMR/CatatanPerkembanganTerapiNutrisiCtrl"
+        },
+        {
+            "nameDep": "CatatanPemeriksaanPenunjangCtrl",
+            "urlDep": "module/EMR/CatatanPemeriksaanPenunjangCtrl"
+
+        },
+        {
+            "nameDep": "SerahTerimaPasienCtrl",
+            "urlDep": "module/EMR/SerahTerimaPasienCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienPulangCtrlRev",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienPulangCtrlRev"
+        },
+        {
+            "nameDep": "LaporanKunjunganCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanKunjunganCtrl"
+
+        },
+        {
+            "nameDep": "LaporanKegiatanCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanKegiatanCtrl"
+        },
+        {
+            "nameDep": "FormulirTransferCtrl",
+            "urlDep": "module/EMR/FormulirTransferCtrl"
+        },
+        {
+            "nameDep": "PengkajianEdukasiCtrl",
+            "urlDep": "module/EMR/PengkajianEdukasiCtrl"
+        },
+        {
+            "nameDep": "SuratRawatCtrl",
+            "urlDep": "module/EMR/SuratRawatCtrl"
+        },
+        {
+            "nameDep": "ImplementasiKekerasanCtrl",
+            "urlDep": "module/EMR/ImplementasiKekerasanCtrl"
+        },
+        {
+            "nameDep": "SkriningTBCtrl",
+            "urlDep": "module/EMR/SkriningTBCtrl"
+
+        },
+        {
+            "nameDep": "InputCheklisApdCtrl",
+            "urlDep": "module/RawatInap/InputCheklisApdCtrl"
+        },
+        {
+            "nameDep": "InputFormulirPendelegasianObatCtrl",
+            "urlDep": "module/EMR/InputFormulirPendelegasianObatCtrl"
+
+        },
+        {
+            "nameDep": "AsesmenAwalKeperawatanPsikogeriatriCtrl",
+            "urlDep": "module/EMR/AsesmenAwalKeperawatanPsikogeriatriCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisRJCtrl",
+            "urlDep": "module/EMR/AsesmenMedisRJCtrl"
+        },
+        {
+            "nameDep": "AsuhanGiziCtrl",
+            "urlDep": "module/EMR/AsuhanGiziCtrl"
+        },
+        {
+            "nameDep": "AsuhanGiziAnakCtrl",
+            "urlDep": "module/EMR/AsuhanGiziAnakCtrl"
+
+        },
+        {
+            "nameDep": "InformasiTanggunganCtrl",
+            "urlDep": "module/TataRekening/InformasiTanggunganCtrl"
+
+        },
+        {
+            "nameDep": "ImplementasiBunuhDiriCtrl",
+            "urlDep": "module/EMR/ImplementasiBunuhDiriCtrl"
+        },
+        {
+            "nameDep": "ImplementasiKeperawatanWahanCtrl",
+            "urlDep": "module/EMR/ImplementasiKeperawatanWahanCtrl"
+        },
+        {
+            "nameDep": "ImplementasiKeperawatanHargaDiriRendahCtrl",
+            "urlDep": "module/EMR/ImplementasiKeperawatanHargaDiriRendahCtrl"
+        },
+        {
+            "nameDep": "ImplementasiKeperawatanDefisitPerawatanDiriCtrl",
+            "urlDep": "module/EMR/ImplementasiKeperawatanDefisitPerawatanDiriCtrl"
+
+        },
+
+        {
+            "nameDep": "DaftarRiwayatPasienCtrl",
+            "urlDep": "module/Registrasi/DaftarRiwayatPasienCtrl"
+        },
+        {
+            "nameDep": "ResumeDBLamaCtrl",
+            "urlDep": "module/EMR/ResumeDBLamaCtrl"
+        },
+        {
+            "nameDep": "RekamMedisDbLamaCtrl",
+            "urlDep": "module/EMR/RekamMedisDbLamaCtrl"
+        },
+        {
+            "nameDep": "LaboratoriumCtrl",
+            "urlDep": "module/EMR/LaboratoriumCtrl"
+        },
+        {
+            "nameDep": "RadiologiCtrl",
+            "urlDep": "module/EMR/RadiologiCtrl"
+
+        },
+        {
+            "nameDep": "LembarKegiatanRehabCtrl",
+            "urlDep": "module/EMR/LembarKegiatanRehabCtrl"
+        },
+        {
+            "nameDep": "TindakanTMSCtrl",
+            "urlDep": "module/EMR/TindakanTMSCtrl"
+        },
+        {
+            "nameDep": "EKGCtrl",
+            "urlDep": "module/EMR/EKGCtrl"
+        },
+        {
+            "nameDep": "MedisPsikoCtrl",
+            "urlDep": "module/EMR/MedisPsikoCtrl"
+        },
+        {
+            "nameDep": "MectaCtrl",
+            "urlDep": "module/EMR/MectaCtrl"
+        },
+        {
+            "nameDep": "AsesmenPraAnestesiCtrl",
+            "urlDep": "module/EMR/AsesmenPraAnestesiCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerawatJiwaRemajaRICtrl",
+            "urlDep": "module/EMR/AsesmenPerawatJiwaRemajaRICtrl"
+        },
+        {
+            "nameDep": "LaporanBulananRehabSosialCtrl",
+            "urlDep": "module/RawatJalan/LaporanBulananRehabSosialCtrl"
+        },
+        {
+            "nameDep": "LembarPengirimanPasienBangsalKeRehabCtrl",
+            "urlDep": "module/RawatJalan/LembarPengirimanPasienBangsalKeRehabCtrl"
+        },
+        {
+            "nameDep": "IntruksiPascaAnastesiCtrl",
+            "urlDep": "module/EMR/IntruksiPascaAnastesiCtrl"
+        },
+        {
+            "nameDep": "KepatuhanCuciTanganCtrl",
+            "urlDep": "module/PPI/KepatuhanCuciTanganCtrl"
+        },
+        {
+            "nameDep": "KepatuhanHandHygieneCtrl",
+            "urlDep": "module/PPI/KepatuhanHandHygieneCtrl"
+
+        },
+        {
+            "nameDep": "SkorEWSDewasa2Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa2Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa3Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa3Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa4Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa4Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa5Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa5Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa6Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa6Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa7Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa7Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa8Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa8Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa9Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa9Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa10Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa10Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak2Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak2Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak3Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak3Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak3Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak3Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak4Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak4Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak5Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak5Ctrl"
+        },
+        {
+            "nameDep": "MenuEWSDewasaCtrl",
+            "urlDep": "module/EMR/MenuEWSDewasaCtrl"
+        },
+        {
+            "nameDep": "MenuEWSAnakCtrl",
+            "urlDep": "module/EMR/MenuEWSAnakCtrl"
+        },
+        {
+            "nameDep": "LaporanTop10DiagnosisCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanTop10DiagnosisCtrl"
+        },
+        {
+            "nameDep": "MenuKekerasanCtrl",
+            "urlDep": "module/EMR/MenuKekerasanCtrl"
+        },
+        {
+            "nameDep": "AsesmenFisik2Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik2Ctrl"
+        },
+        {
+            "nameDep": "AsesmenFisik3Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik3Ctrl"
+        },
+        {
+            "nameDep": "AsesmenFisik4Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik4Ctrl"
+        },
+        {
+            "nameDep": "AsesmenFisik5Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik5Ctrl"
+        },
+        {
+            "nameDep": "AsesmenFisik6Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik6Ctrl"
+        },
+        {
+            "nameDep": "AsesmenFisik7Ctrl",
+            "urlDep": "module/EMR/AsesmenFisik7Ctrl"
+        },
+        {
+            "nameDep": "MenuMelarikandiriCtrl",
+            "urlDep": "module/EMR/MenuMelarikandiriCtrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri2Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri2Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri3Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri3Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri4Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri4Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri5Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri5Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri6Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri6Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoMelarikanDiri7Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoMelarikanDiri7Ctrl"
+
+        },
+        {
+            "nameDep": "MenuBunuhDiriCtrl",
+            "urlDep": "module/EMR/MenuBunuhDiriCtrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri2Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri2Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri3Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri3Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri4Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri4Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri5Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri5Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri6Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri6Ctrl"
+        },
+        {
+            "nameDep": "AsesmenRisikoBunuhDiri7Ctrl",
+            "urlDep": "module/EMR/AsesmenRisikoBunuhDiri7Ctrl"
+
+        },
+        {
+            "nameDep": "LaporanDemografiRICtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanDemografiRICtrl"
+        },
+        {
+            "nameDep": "TargetDanRealisasiKunjunganCtrl",
+            "urlDep": "module/Registrasi/Laporan/TargetDanRealisasiKunjunganCtrl"
+        },
+        {
+            "nameDep": "IndikatorPelayananTahunCtrl",
+            "urlDep": "module/Registrasi/Laporan/IndikatorPelayananTahunCtrl"
+
+        },
+        {
+            "nameDep": "LaporanKinerjaCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanKinerjaCtrl"
+
+        },
+        {
+            "nameDep": "JumlahPasienDanCaraBayarCtrl",
+            "urlDep": "module/Registrasi/Laporan/JumlahPasienDanCaraBayarCtrl"
+        },
+
+        {
+            "nameDep": "MenuObservasiFisikCtrl",
+            "urlDep": "module/EMR/MenuObservasiFisikCtrl"
+        },
+        {
+            "nameDep": "ObservasiFisik2Ctrl",
+            "urlDep": "module/EMR/ObservasiFisik2Ctrl"
+        },
+        {
+            "nameDep": "ObservasiFisik3Ctrl",
+            "urlDep": "module/EMR/ObservasiFisik3Ctrl"
+        },
+        {
+            "nameDep": "ObservasiFisik4Ctrl",
+            "urlDep": "module/EMR/ObservasiFisik4Ctrl"
+        },
+        {
+            "nameDep": "LaporanKinerjaRMCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanKinerjaRMCtrl"
+        },
+        {
+            "nameDep": "LaporanResponTimeTracerCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanResponTimeTracerCtrl"
+        },
+        {
+            "nameDep": "DataPasienPoldaCtrl",
+            "urlDep": "module/Registrasi/Laporan/DataPasienPoldaCtrl"
+        },
+        {
+            "nameDep": "RuanganCovidCtrl",
+            "urlDep": "module/Registrasi/Laporan/RuanganCovidCtrl"
+        },
+        {
+            "nameDep": "ResponTimePoliklinikCtrl",
+            "urlDep": "module/Registrasi/Laporan/ResponTimePoliklinikCtrl"
+        },
+        {
+            "nameDep": "EditDiagnosaCtrl",
+            "urlDep": "module/Registrasi/Laporan/EditDiagnosaCtrl"
+        },
+        {
+            "nameDep": "MappingNodtdtogspCtrl",
+            "urlDep": "module/Registrasi/Laporan/MappingNodtdtogspCtrl"
+        },
+        {
+            "nameDep": "EditMappingCtrl",
+            "urlDep": "module/Registrasi/Laporan/EditMappingCtrl"
+        },
+        {
+            "nameDep": "MenuTandavitalCtrl",
+            "urlDep": "module/EMR/MenuTandavitalCtrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital2Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital2Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital3Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital3Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital4Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital4Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital5Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital5Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital6Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital6Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital7Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital7Ctrl"
+        },
+        {
+            "nameDep": "LaporanSensusHarianCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanSensusHarianCtrl"
+        },
+        {
+            "nameDep": "MenuRestrainCtrl",
+            "urlDep": "module/EMR/MenuRestrainCtrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain2Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain2Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain3Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain3Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain4Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain4Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain5Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain5Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain6Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain6Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain7Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain7Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain8Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain8Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain9Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain9Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain10Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain10Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain11Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain11Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain12Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain12Ctrl"
+        },
+        {
+            "nameDep": "CPPTJiwaRanapCtrl",
+            "urlDep": "module/EMR/CPPTJiwaRanapCtrl"
+        },
+        {
+            "nameDep": "PengkajianEdukasi2Ctrl",
+            "urlDep": "module/EMR/PengkajianEdukasi2Ctrl"
+        },
+        {
+            "nameDep": "PengkajianEdukasi3Ctrl",
+            "urlDep": "module/EMR/PengkajianEdukasi3Ctrl"
+        },
+        {
+            "nameDep": "LembarPenilaianPansEC2Ctrl",
+            "urlDep": "module/EMR/LembarPenilaianPansEC2Ctrl"
+        },
+        {
+            "nameDep": "LembarPenilaianPansEC3Ctrl",
+            "urlDep": "module/EMR/LembarPenilaianPansEC3Ctrl"
+        },
+        {
+            "nameDep": "LembarPenilaianPansEC4Ctrl",
+            "urlDep": "module/EMR/LembarPenilaianPansEC4Ctrl"
+        },
+        {
+            "nameDep": "LembarPenilaianPansEC5Ctrl",
+            "urlDep": "module/EMR/LembarPenilaianPansEC5Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer2Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer2Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer3Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer3Ctrl"
+
+        },
+        {
+            "nameDep": "FormulirTransfer4Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer4Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer5Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer5Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer6Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer6Ctrl"
+        },
+        {
+            "nameDep": "LembarKegiatanRehab2Ctrl",
+            "urlDep": "module/EMR/LembarKegiatanRehab2Ctrl"
+        },
+        {
+            "nameDep": "PengirimanRehabCtrl",
+            "urlDep": "module/EMR/PengirimanRehabCtrl"
+        },
+        {
+            "nameDep": "MenuEdukasiCtrl",
+            "urlDep": "module/EMR/MenuEdukasiCtrl"
+        },
+        {
+            "nameDep": "MenuTransferCtrl",
+            "urlDep": "module/EMR/MenuTransferCtrl"
+        },
+        {
+            "nameDep": "MenuPansECCtrl",
+            "urlDep": "module/EMR/MenuPansECCtrl"
+
+        },
+        {
+            "nameDep": "RekamPsikologJlCtrl",
+            "urlDep": "module/EMR/RekamPsikologJlCtrl"
+        },
+        {
+            "nameDep": "ObservasifisikJatuhCtrl",
+            "urlDep": "module/EMR/ObservasifisikJatuhCtrl"
+        },
+        {
+            "nameDep": "HPPWISCCtrl",
+            "urlDep": "module/EMR/HPPWISCCtrl"
+        },
+        {
+            "nameDep": "HPPNSTCtrl",
+            "urlDep": "module/EMR/HPPNSTCtrl"
+        },
+        {
+            "nameDep": "CatatanPerkembanganKeperawatan2Ctrl",
+            "urlDep": "module/EMR/CatatanPerkembanganKeperawatan2Ctrl"
+        },
+        {
+            "nameDep": "CatatanPerkembanganKeperawatan3Ctrl",
+            "urlDep": "module/EMR/CatatanPerkembanganKeperawatan3Ctrl"
+        },
+        {
+            "nameDep": "CatatanPerkembanganKeperawatan4Ctrl",
+            "urlDep": "module/EMR/CatatanPerkembanganKeperawatan4Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer7Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer7Ctrl"
+        },
+        {
+            "nameDep": "WhoAssistCtrl",
+            "urlDep": "module/EMR/WhoAssistCtrl"
+        },
+        {
+            "nameDep": "SeleksiRehabCtrl",
+            "urlDep": "module/EMR/SeleksiRehabCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisWajibLaporCtrl",
+            "urlDep": "module/EMR/AsesmenMedisWajibLaporCtrl"
+
+        },
+        {
+            "nameDep": "MenuKegiatanRehabCtrl",
+            "urlDep": "module/EMR/MenuKegiatanRehabCtrl"
+        },
+        {
+            "nameDep": "AsesmenRehabMedikCtrl",
+            "urlDep": "module/EMR/AsesmenRehabMedikCtrl"
+        },
+        {
+            "nameDep": "FormulirTransfer8Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer8Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer9Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer9Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer10Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer10Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer11Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer11Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer12Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer12Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer13Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer13Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer14Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer14Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer15Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer15Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer16Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer16Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer17Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer17Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer18Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer18Ctrl"
+        },
+        {
+            "nameDep": "MenuCPKCtrl",
+            "urlDep": "module/EMR/MenuCPKCtrl"
+        },
+        {
+            "nameDep": "CPPTJiwaRanap2Ctrl",
+            "urlDep": "module/EMR/CPPTJiwaRanap2Ctrl"
+        },
+        {
+            "nameDep": "MenuCPPTCtrl",
+            "urlDep": "module/EMR/MenuCPPTCtrl"
+        },
+        {
+            "nameDep": "CPPTJiwaRanap3Ctrl",
+            "urlDep": "module/EMR/CPPTJiwaRanap3Ctrl"
+        },
+        {
+            "nameDep": "CPPTJiwaRanap4Ctrl",
+            "urlDep": "module/EMR/CPPTJiwaRanap4Ctrl"
+        },
+        {
+            "nameDep": "RingkasanKonselingCtrl",
+            "urlDep": "module/EMR/RingkasanKonselingCtrl"
+        },
+        {
+            "nameDep": "MenuKonselingCtrl",
+            "urlDep": "module/EMR/MenuKonselingCtrl"
+        },
+        {
+            "nameDep": "RehabMedikRjCtrl",
+            "urlDep": "module/EMR/RehabMedikRjCtrl"
+        },
+        {
+            "nameDep": "CatatanTerapiRehabCtrl",
+            "urlDep": "module/EMR/CatatanTerapiRehabCtrl"
+        },
+        {
+            "nameDep": "GeriatricDepressionScaleCtrl",
+            "urlDep": "module/EMR/GeriatricDepressionScaleCtrl"
+
+        },
+        {
+            "nameDep": "AsesmenGigiDanMulutCtrl",
+            "urlDep": "module/EMR/AsesmenGigiDanMulutCtrl"
+        },
+        {
+            "nameDep": "RingkasanKonseling2Ctrl",
+            "urlDep": "module/EMR/RingkasanKonseling2Ctrl"
+        },
+        {
+            "nameDep": "AssesmenRehabilitasiCtrl",
+            "urlDep": "module/EMR/AssesmenRehabilitasiCtrl"
+        },
+        {
+            "nameDep": "CatatanObservasiKejangCtrl",
+            "urlDep": "module/EMR/CatatanObservasiKejangCtrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain13Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain13Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain14Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain14Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain15Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain15Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain16Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain16Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain17Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain17Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain18Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain18Ctrl"
+        },
+        {
+            "nameDep": "LembarPedagogeCtrl",
+            "urlDep": "module/EMR/LembarPedagogeCtrl"
+        },
+        {
+            "nameDep": "LaporanAnestesiCtrl",
+            "urlDep": "module/EMR/LaporanAnestesiCtrl"
+        },
+        {
+            "nameDep": "PemesananMakananCtrl",
+            "urlDep": "module/EMR/PemesananMakananCtrl"
+        },
+        {
+            "nameDep": "MenuPemesananCtrl",
+            "urlDep": "module/EMR/MenuPemesananCtrl"
+        },
+        {
+            "nameDep": "PemesananMakanan2Ctrl",
+            "urlDep": "module/EMR/PemesananMakanan2Ctrl"
+        },
+        {
+            "nameDep": "PemesananMakanan3Ctrl",
+            "urlDep": "module/EMR/PemesananMakanan3Ctrl"
+        },
+        {
+            "nameDep": "PemesananMakanan4Ctrl",
+            "urlDep": "module/EMR/PemesananMakanan4Ctrl"
+        },
+        {
+            "nameDep": "PemesananMakanan5Ctrl",
+            "urlDep": "module/EMR/PemesananMakanan5Ctrl"
+        },
+        {
+            "nameDep": "RehabMedikRICtrl",
+            "urlDep": "module/EMR/RehabMedikRICtrl"
+        },
+        {
+            "nameDep": "CPPTGigiCtrl",
+            "urlDep": "module/EMR/CPPTGigiCtrl"
+        },
+        {
+            "nameDep": "LaporanPendapatanRumahSakitCtrl",
+            "urlDep": "module/TataRekening/LaporanTataRekening/LaporanPendapatanRumahSakitCtrl"
+        },
+        {
+            "nameDep": "MenuAplicareCtrl",
+            "urlDep": "module/Registrasi/MenuAplicareCtrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak6Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak6Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSAnak7Ctrl",
+            "urlDep": "module/EMR/SkorEWSAnak7Ctrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAssCtrl",
+            "urlDep": "module/EMR/HasilRadiologiAssCtrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa11Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa11Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa12Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa12Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa13Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa13Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa14Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa14Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa15Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa15Ctrl"
+        },
+        {
+            "nameDep": "SkorEWSDewasa16Ctrl",
+            "urlDep": "module/EMR/SkorEWSDewasa16Ctrl"
+        },
+        {
+            "nameDep": "MenuTMSCtrl",
+            "urlDep": "module/EMR/MenuTMSCtrl"
+        },
+        {
+            "nameDep": "TindakanTMS2Ctrl",
+            "urlDep": "module/EMR/TindakanTMS2Ctrl"
+        },
+        {
+            "nameDep": "TindakanTMS3Ctrl",
+            "urlDep": "module/EMR/TindakanTMS3Ctrl"
+        },
+        {
+            "nameDep": "TindakanTMS4Ctrl",
+            "urlDep": "module/EMR/TindakanTMS4Ctrl"
+        },
+        {
+            "nameDep": "TindakanTMS5Ctrl",
+            "urlDep": "module/EMR/TindakanTMS5Ctrl"
+        },
+        {
+            "nameDep": "ECTkonsvesionalCtrl",
+            "urlDep": "module/EMR/ECTkonsvesionalCtrl"
+        },
+        {
+            "nameDep": "MenuECTkonsvesionalCtrl",
+            "urlDep": "module/EMR/MenuECTkonsvesionalCtrl"
+        },
+        {
+            "nameDep": "ECTkonsvesional2Ctrl",
+            "urlDep": "module/EMR/ECTkonsvesional2Ctrl"
+        },
+        {
+            "nameDep": "ECTkonsvesional3Ctrl",
+            "urlDep": "module/EMR/ECTkonsvesional3Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain19Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain19Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain20Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain20Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain21Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain21Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain22Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain22Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain23Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain23Ctrl"
+        },
+        {
+            "nameDep": "LembarObservasiPxDenganRestrain24Ctrl",
+            "urlDep": "module/EMR/LembarObservasiPxDenganRestrain24Ctrl"
+        },
+        {
+            "nameDep": "LaporanPasienDaftar2Ctrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienDaftar2Ctrl"
+        },
+        {
+            "nameDep": "CatatanGrafikTandaVital8Ctrl",
+            "urlDep": "module/EMR/CatatanGrafikTandaVital8Ctrl"
+        },
+        {
+            "nameDep": "MenuTransfer2Ctrl",
+            "urlDep": "module/EMR/MenuTransfer2Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer19Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer19Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer20Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer20Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer21Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer21Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer22Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer22Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer23Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer23Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer24Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer24Ctrl"
+        },
+        {
+            "nameDep": "DaftarIsianMectaCtrl",
+            "urlDep": "module/EMR/DaftarIsianMectaCtrl"
+        },
+        {
+            "nameDep": "MenuDaftarIsianMectaCtrl",
+            "urlDep": "module/EMR/MenuDaftarIsianMectaCtrl"
+        },
+        {
+            "nameDep": "DaftarIsianMecta2Ctrl",
+            "urlDep": "module/EMR/DaftarIsianMecta2Ctrl"
+        },
+        {
+            "nameDep": "DaftarIsianMecta3Ctrl",
+            "urlDep": "module/EMR/DaftarIsianMecta3Ctrl"
+        },
+        {
+            "nameDep": "MenuTransfer3Ctrl",
+            "urlDep": "module/EMR/MenuTransfer3Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer25Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer25Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer26Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer26Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer27Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer27Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer28Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer28Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer29Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer29Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer30Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer30Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer31Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer31Ctrl"
+        },
+        {
+            "nameDep": "FormulirTransfer32Ctrl",
+            "urlDep": "module/EMR/FormulirTransfer32Ctrl"
+        },
+        {
+            "nameDep": "MenuTransfer4Ctrl",
+            "urlDep": "module/EMR/MenuTransfer4Ctrl"
+        },
+        {
+            "nameDep": "MenuTransfer4Ctrl",
+            "urlDep": "module/EMR/MenuTransfer4Ctrl"
+        },
+        {
+            "nameDep": "RingkasanKonseling3Ctrl",
+            "urlDep": "module/EMR/RingkasanKonseling3Ctrl"
+        },
+        {
+            "nameDep": "RingkasanKonseling4Ctrl",
+            "urlDep": "module/EMR/RingkasanKonseling4Ctrl"
+        },
+        {
+            "nameDep": "RingkasanKonseling5Ctrl",
+            "urlDep": "module/EMR/RingkasanKonseling5Ctrl"
+        },
+        {
+            "nameDep": "RingkasanKonseling6Ctrl",
+            "urlDep": "module/EMR/RingkasanKonseling6Ctrl"
+        },
+        {
+            "nameDep": "MenuHasilRadCtrl",
+            "urlDep": "module/EMR/MenuHasilRadCtrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAss2Ctrl",
+            "urlDep": "module/EMR/HasilRadiologiAss2Ctrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAss3Ctrl",
+            "urlDep": "module/EMR/HasilRadiologiAss3Ctrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAss4Ctrl",
+            "urlDep": "module/EMR/HasilRadiologiAss4Ctrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAss5Ctrl",
+            "urlDep": "module/EMR/HasilRadiologiAss5Ctrl"
+        },
+        {
+            "nameDep": "HasilRadiologiAss6Ctrl",
+            "urlDep": "module/EMR/HasilRadiologiAss6Ctrl"
+        },
+        {
+            "nameDep": "DaftarTransdataBatchingCtrl",
+            "urlDep": "module/TataRekening/DaftarTransdataBatchingCtrl"
+        },
+        {
+            "nameDep": "MenuEKGCtrl",
+            "urlDep": "module/EMR/MenuEKGCtrl"
+        },
+        {
+            "nameDep": "EKG2Ctrl",
+            "urlDep": "module/EMR/EKG2Ctrl"
+        },
+        {
+            "nameDep": "MenuIntruksiPascaCtrl",
+            "urlDep": "module/EMR/MenuIntruksiPascaCtrl"
+        },
+        {
+            "nameDep": "IntruksiPascaAnastesi2Ctrl",
+            "urlDep": "module/EMR/IntruksiPascaAnastesi2Ctrl"
+        },
+        {
+            "nameDep": "IntruksiPascaAnastesi3Ctrl",
+            "urlDep": "module/EMR/IntruksiPascaAnastesi3Ctrl"
+        },
+        {
+            "nameDep": "MenuAnestesiCtrl",
+            "urlDep": "module/EMR/MenuAnestesiCtrl"
+        },
+        {
+            "nameDep": "SkriningMedisCtrl",
+            "urlDep": "module/EMR/SkriningMedisCtrl"
+        },
+        {
+            "nameDep": "LaporanAnestesi2Ctrl",
+            "urlDep": "module/EMR/LaporanAnestesi2Ctrl"
+        },
+        {
+            "nameDep": "LaporanAnestesi3Ctrl",
+            "urlDep": "module/EMR/LaporanAnestesi3Ctrl"
+        },
+        {
+            "nameDep": "MenuLembarHasilCtrl",
+            "urlDep": "module/EMR/MenuLembarHasilCtrl"
+        },
+        {
+            "nameDep": "LembarHasilMectaCtrl",
+            "urlDep": "module/EMR/LembarHasilMectaCtrl"
+        },
+        {
+            "nameDep": "LembarHasilMecta2Ctrl",
+            "urlDep": "module/EMR/LembarHasilMecta2Ctrl"
+        },
+        {
+            "nameDep": "LembarHasilMecta3Ctrl",
+            "urlDep": "module/EMR/LembarHasilMecta3Ctrl"
+        },
+        {
+            "nameDep": "HPPWAISTCtrl",
+            "urlDep": "module/EMR/HPPWAISTCtrl"
+        },
+        {
+            "nameDep": "MenuSkriningManajerCtrl",
+            "urlDep": "module/EMR/MenuSkriningManajerCtrl"
+        },
+        {
+            "nameDep": "SkriningMedis2Ctrl",
+            "urlDep": "module/EMR/SkriningMedis2Ctrl"
+        },
+        {
+            "nameDep": "MenuPraInduksiCtrl",
+            "urlDep": "module/EMR/MenuPraInduksiCtrl"
+        },
+        {
+            "nameDep": "PraInduksiCtrl",
+            "urlDep": "module/EMR/PraInduksiCtrl"
+        },
+        {
+            "nameDep": "PraInduksi2Ctrl",
+            "urlDep": "module/EMR/PraInduksi2Ctrl"
+        },
+        {
+            "nameDep": "MenuSbarCtrl",
+            "urlDep": "module/EMR/MenuSbarCtrl"
+        },
+        {
+            "nameDep": "FormulirSbarCtrl",
+            "urlDep": "module/EMR/FormulirSbarCtrl"
+        },
+        {
+            "nameDep": "FormulirSbar2Ctrl",
+            "urlDep": "module/EMR/FormulirSbar2Ctrl"
+        },
+        {
+            "nameDep": "FormulirSbar3Ctrl",
+            "urlDep": "module/EMR/FormulirSbar3Ctrl"
+        },
+        {
+            "nameDep": "FormulirSbar4Ctrl",
+            "urlDep": "module/EMR/FormulirSbar4Ctrl"
+        },
+        {
+            "nameDep": "AsesmenUmumDetailCtrl",
+            "urlDep": "module/EMR/AsesmenUmumDetailCtrl"
+        },
+        {
+            "nameDep": "AsesmenUmumCtrl",
+            "urlDep": "module/EMR/AsesmenUmumCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerawatJiwaRemajaUmumCtrl",
+            "urlDep": "module/EMR/AsesmenPerawatJiwaRemajaUmumCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerawatJiwaDewasaCtrl",
+            "urlDep": "module/EMR/AsesmenPerawatJiwaDewasaCtrl"
+        },
+        {
+            "nameDep": "CpptNewCtrl",
+            "urlDep": "module/EMR/CpptNewCtrl"
+        },
+        {
+            "nameDep": "MenuCPPTRawatInapCtrl",
+            "urlDep": "module/EMR/MenuCPPTRawatInapCtrl"
+        },
+        {
+            "nameDep": "CpptNew2Ctrl",
+            "urlDep": "module/EMR/CpptNew2Ctrl"
+        },
+        {
+            "nameDep": "CpptNew3Ctrl",
+            "urlDep": "module/EMR/CpptNew3Ctrl"
+        },
+        {
+            "nameDep": "CpptNew4Ctrl",
+            "urlDep": "module/EMR/CpptNew4Ctrl"
+        },
+        {
+            "nameDep": "CpptNew5Ctrl",
+            "urlDep": "module/EMR/CpptNew5Ctrl"
+        },
+        {
+            "nameDep": "CpptNew6Ctrl",
+            "urlDep": "module/EMR/CpptNew6Ctrl"
+        },
+        {
+            "nameDep": "TriasePrimerUmumCtrl",
+            "urlDep": "module/EMR/TriasePrimerUmumCtrl"
+        },
+        {
+            "nameDep": "SkriningTBUmumCtrl",
+            "urlDep": "module/EMR/SkriningTBUmumCtrl"
+        },
+        {
+            "nameDep": "SuratRawatUmumCtrl",
+            "urlDep": "module/EMR/SuratRawatUmumCtrl"
+        },
+        {
+            "nameDep": "Covid19EWSCtrl",
+            "urlDep": "module/EMR/Covid19EWSCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerawatIGDUmumCtrl",
+            "urlDep": "module/EMR/AsesmenPerawatIGDUmumCtrl"
+        },
+        {
+            "nameDep": "MenuSkriningManajerUmumCtrl",
+            "urlDep": "module/EMR/MenuSkriningManajerUmumCtrl"
+        },
+        {
+            "nameDep": "SkriningManajerUmumCtrl",
+            "urlDep": "module/EMR/SkriningManajerUmumCtrl"
+        },
+        {
+            "nameDep": "SkriningManajerUmum2Ctrl",
+            "urlDep": "module/EMR/SkriningManajerUmum2Ctrl"
+        },
+        {
+            "nameDep": "MenuTransferUmumCtrl",
+            "urlDep": "module/EMR/MenuTransferUmumCtrl"
+        },
+        {
+            "nameDep": "FormulirTransferUmumCtrl",
+            "urlDep": "module/EMR/FormulirTransferUmumCtrl"
+        },
+        {
+            "nameDep": "FormulirTransferUmum2Ctrl",
+            "urlDep": "module/EMR/FormulirTransferUmum2Ctrl"
+        },
+        {
+            "nameDep": "MenuEdukasiUmumCtrl",
+            "urlDep": "module/EMR/MenuEdukasiUmumCtrl"
+        },
+        {
+            "nameDep": "PengkajianEdukasiUmumCtrl",
+            "urlDep": "module/EMR/PengkajianEdukasiUmumCtrl"
+        },
+        {
+            "nameDep": "PengkajianEdukasiUmum2Ctrl",
+            "urlDep": "module/EMR/PengkajianEdukasiUmum2Ctrl"
+        },
+        {
+            "nameDep": "AsesmenUlangRiNyeriUmumCtrl",
+            "urlDep": "module/EMR/AsesmenUlangRiNyeriUmumCtrl"
+        },
+        {
+            "nameDep": "AsesmenPerawatInapUmumCtrl",
+            "urlDep": "module/EMR/AsesmenPerawatInapUmumCtrl"
+        },
+        {
+            "nameDep": "HasilAsesmenCtrl",
+            "urlDep": "module/EMR/HasilAsesmenCtrl"
+        },
+        {
+            "nameDep": "OrderElektromedikCtrl",
+            "urlDep": "module/EMR/OrderElektromedikCtrl"
+        },
+        {
+            "nameDep": "AsesmenMedisGawatUmumCtrl",
+            "urlDep": "module/EMR/AsesmenMedisGawatUmumCtrl"
+        },
+        {
+            "nameDep": "MenuAsesmenPraAnestesiCtrl",
+            "urlDep": "module/EMR/MenuAsesmenPraAnestesiCtrl"
+        },
+        {
+            "nameDep": "AsesmenPraAnestesi2Ctrl",
+            "urlDep": "module/EMR/AsesmenPraAnestesi2Ctrl"
+        },
+        {
+            "nameDep": "AsesmenPraAnestesi3Ctrl",
+            "urlDep": "module/EMR/AsesmenPraAnestesi3Ctrl"
+        },
+        {
+            "nameDep": "PraInduksi3Ctrl",
+            "urlDep": "module/EMR/PraInduksi3Ctrl"
+        },
+        {
+            "nameDep": "AsesmenMedisInapUmumCtrl",
+            "urlDep": "module/EMR/AsesmenMedisInapUmumCtrl"
+        },
+        {
+            "nameDep": "MenuCPPTRawatInapUmumCtrl",
+            "urlDep": "module/EMR/MenuCPPTRawatInapUmumCtrl"
+        },
+        {
+            "nameDep": "CpptNewUmumCtrl",
+            "urlDep": "module/EMR/CpptNewUmumCtrl"
+        },
+        {
+            "nameDep": "LembarHasilTindakanUjiFungsiProsedurKFRCtrl",
+            "urlDep": "module/EMR/LembarHasilTindakanUjiFungsiProsedurKFRCtrl"
+        },
+        {
+            "nameDep": "LembarHasilTindakanUjiFungsiProsedurKFRUmumCtrl",
+            "urlDep": "module/EMR/LembarHasilTindakanUjiFungsiProsedurKFRUmumCtrl"
+        },
+        {
+            "nameDep": "MenuObservasifisikJatuhCtrl",
+            "urlDep": "module/EMR/MenuObservasifisikJatuhCtrl"
+        },
+        {
+            "nameDep": "ObservasifisikJatuh2Ctrl",
+            "urlDep": "module/EMR/ObservasifisikJatuh2Ctrl"
+        },
+        {
+            "nameDep": "CpptNewUmum2Ctrl",
+            "urlDep": "module/EMR/CpptNewUmum2Ctrl"
+        },
+        {
+            "nameDep": "LaporanTindakanRuanganCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanTindakanRuanganCtrl"
+        },
+        {
+            "nameDep": "LaporanPasienDokterCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanPasienDokterCtrl"
+        },
+        {
+            "nameDep": "LaporanMPPCtrl",
+            "urlDep": "module/RawatInap/LaporanMPPCtrl"
+        },
+        {
+            "nameDep": "MapHasilLabCtrl",
+            "urlDep": "module/Laboratorium/MapHasilLabCtrl"
+        },
+        {
+            "nameDep": "HasilLaboratoriumRevCtrl",
+            "urlDep": "module/Laboratorium/HasilLaboratoriumRevCtrl"
+        },
+        {
+            "nameDep": "BuatSuratMedikoCtrl",
+            "urlDep": "module/RawatJalan/BuatSuratMedikoCtrl"
+        },
+        {
+            "nameDep": "CallAntrianCtrl",
+            "urlDep": "module/Registrasi/CallAntrianCtrl"
+        },
+        {
+            "nameDep": "InputDiagnosaDokterAllCtrl",
+            "urlDep": "module/EMR/InputDiagnosaDokterAllCtrl"
+        },
+        {
+            "nameDep": "LaporanDistribusiBarangCtrl",
+            "urlDep": "module/Logistik/Laporan/LaporanDistribusiBarangCtrl"
+        },
+        {
+            "nameDep": "LaporanRekapKunjunganPerRekananCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanRekapKunjunganPerRekananCtrl"
+        },
+        {
+            "nameDep": "LaporanWaktuTungguLayananRadiologiCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanWaktuTungguLayananRadiologiCtrl"
+        },
+        {
+            "nameDep": "LaporanDokterBacaHasilPerPasienCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanDokterBacaHasilPerPasienCtrl"
+        },
+        {
+            "nameDep": "LaporanTindakanUSGCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanTindakanUSGCtrl"
+        },
+        {
+            "nameDep": "LaporanTindakanUSGCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanTindakanUSGCtrl"
+        },
+        {
+            "nameDep": "LaporanKinerjaPelaksanaPerTindakanCtrl",
+            "urlDep": "module/Radiologi/Laporan/LaporanKinerjaPelaksanaPerTindakanCtrl"
+        },
+        {
+            "nameDep": "LaporanPendapatanRuanganCtrlRev",
+            "urlDep": "module/Kasir/LaporanKasir/LaporanPendapatanRuanganCtrlRev"
+        },
+        {
+            "nameDep": "LaporanTindakan",
+            "urlDep": "module/Laboratorium/Laporan/LaporanTindakan"
+        },
+        {
+            "nameDep": "LaporanPasienBatalRegistrasiCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/LaporanPasienBatalRegistrasiCtrl"
+        },
+        {
+            "nameDep": "LaporanKunjunganKesatuanKerjaCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanRekamMedis/LaporanKunjunganKesatuanKerjaCtrl"
+        },
+        {
+            "nameDep": "FormulirDataAntemortemCtrl",
+            "urlDep": "module/Jenazah/FormulirDataAntemortemCtrl"
+        },
+        {
+            "nameDep": "DaftarFormulirAntemortemCtrl",
+            "urlDep": "module/Jenazah/DaftarFormulirAntemortemCtrl"
+        },
+        {
+            "nameDep": "MappingJenisBencanaCtrl",
+            "urlDep": "module/Jenazah/MappingJenisBencanaCtrl"
+        },
+        {
+            "nameDep": "PostmortemCtrl",
+            "urlDep": "module/Jenazah/PostmortemCtrl"
+        },
+        {
+            "nameDep": "PenerimaanJenazahDviCtrl",
+            "urlDep": "module/Jenazah/PenerimaanJenazahDviCtrl"
+        },
+        {
+            "nameDep": "IdentifikasiJenazahCtrl",
+            "urlDep": "module/Jenazah/IdentifikasiJenazahCtrl"
+        },
+        {
+            "nameDep": "LaporanAkhirDviCtrl",
+            "urlDep": "module/Jenazah/LaporanAkhirDviCtrl"
+        },
+        {
+            "nameDep": "VerifikasiKeluargaKorbanCtrl",
+            "urlDep": "module/Jenazah/VerifikasiKeluargaKorbanCtrl"
+        },
+        {
+            "nameDep": "LaporanPenerimaanJenazahDviCtrl",
+            "urlDep": "module/Jenazah/LaporanPenerimaanJenazahDviCtrl"
+        },
+        {
+            "nameDep": "LaporanTeridentifikasiJenazahCtrl",
+            "urlDep": "module/Jenazah/LaporanTeridentifikasiJenazahCtrl"
+        },
+        {
+            "nameDep": "ReleaseDviCtrl",
+            "urlDep": "module/Jenazah/ReleaseDviCtrl"
+        },
+        {
+            "nameDep": "LaporanReleaseDviCtrl",
+            "urlDep": "module/Jenazah/LaporanReleaseDviCtrl"
+        }
+    ]
+}

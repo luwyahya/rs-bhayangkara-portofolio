@@ -1,0 +1,73 @@
+<div>
+    <c-panel item="item" header="'SAL'" disabled>
+        <div class="panel panel-default container_12">
+            <div class="panel-body">
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <label c-label item="item" c-label-text="Uraian"></label>
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="cari.Uraian" />
+                    </div>
+                    <div class="grid_1">
+                        <label c-label item="item" c-label-text="Tahun"></label>
+                        <input style="width: 100%" k-options="yearUngkul" k-ng-model="cari.tahun" kendo-date-picker
+                            placeholer="YYYY" k-format="'yyyy'" />
+                    </div>
+                    <div class="grid_1" style="margin-top: 15px;">
+                        <button class="btnTemplate1" ng-click="cariFilter()">Cari</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c-panel>
+    <div class="grid_12" style="margin: 5px 5px 5px 5px;">
+        <div id="gridMaster" kendo-grid k-data-source="dataSource" options="daftarMasterOpt" k-ng-model="modelGrid"
+            k-selectable="'row'" ng-click="klik(modelGrid)"></div>
+    </div>
+    <div class="grid_12" style="margin-top: 10px">
+        <div class="grid_6"></div>
+        <div class="grid_6">
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="tambah()"><i class="fa fa-plus"></i>Tambah</button>
+            </div>
+            <div class="grid_4">
+                <button class="btnTemplate1" ng-click="Edit()"><i class="fa fa-gear"></i>Edit</button>
+            </div>
+            <div class="grid_4">
+                <button class="btnTemplate1 cancel" ng-click="hapus()"><i class="fa fa-trash"></i>Hapus</button>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>
+<div kendo-window="dialogPopup" k-title="'Tambah'" k-width="600" k-height="295" k-visible="false"
+    k-on-close="customClicked()">
+    <div class="panel panel-default panel-white container_12">
+        <div class="grid_12">
+            <label c-label c-label-text="Uraian"></label>
+            <textarea required class="k-textbox" style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                ng-model="item.Uraian"></textarea>
+        </div>
+        <div class="grid_6">
+            <label c-label c-label-text="Tahun"></label>
+            <input style="width: 100%" k-options="yearUngkul" k-ng-model="item.Tahun" kendo-date-picker
+                placeholer="YYYY" k-format="'yyyy'" />
+
+        </div>
+        <div class="grid_6">
+            <label c-label c-label-text="Nilai"></label>
+            <input name="uraian" c-text-box type="input" filter="numeric" class="k-textbox" ng-model="item.Nilai"
+                k-auto-bind="true" data-bind="value: target" />
+        </div>
+    </div>
+    <div class="k-edit-buttons k-state-default pull-right" style="margin-top:10px">
+        <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="simpan()"
+            ng-disabled='disabledSave'>
+            <span class="k-icon k-update"></span>Simpan
+        </button>
+        <button class="k-button k-button-icontext k-grid-cancel" ng-click="Batal()">
+            <span class="k-icon k-cancel"></span>Batal
+        </button>
+    </div>
+</div>

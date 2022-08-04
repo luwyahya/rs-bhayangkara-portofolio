@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketerangan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="nocm" class="java.lang.String"/>
+	<parameter name="noregistrasi" class="java.lang.String"/>
+	<parameter name="tglpulang" class="java.lang.String"/>
+	<parameter name="penjamin" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+	date_part( 'year', age( pasien_m.tgllahir ) ) || ' Tahun ' || date_part( 'month', age( pasien_m.tgllahir ) ) || ' Bulan ' || date_part( 'day', age( pasien_m.tgllahir ) ) || ' Hari ' AS umur,alamat_m.alamatlengkap ,pasien_m.nohp, pasien_m.namapasien,antrianpasiendiperiksa_t.noantrian,pasien_m.namaibu,ruangan_m.namaruangan,pasiendaftar_t.tglregistrasi,pegawai_m.namalengkap,to_char(pasiendaftar_t.tglregistrasi, 'DD/Mon/YYYY')  as ayeuna,pasien_m.nocm 
+,jeniskelamin_m.jeniskelamin, ruangan_m.namaruangan || ' ' || antrianpasiendiperiksa_t.noantrian as antrian FROM
+	pasien_m
+	INNER JOIN alamat_m ON pasien_m.ID = alamat_m.nocmfk 
+	INNER JOIN pasiendaftar_t on pasien_m.id = pasiendaftar_t.nocmfk
+	inner join antrianpasiendiperiksa_t on pasiendaftar_t.norec = antrianpasiendiperiksa_t.noregistrasifk
+	inner join ruangan_m on antrianpasiendiperiksa_t.objectruanganfk = ruangan_m.id
+	inner join pegawai_m on pasiendaftar_t.objectpegawaifk = pegawai_m.id
+	inner join jeniskelamin_m on pasien_m.objectjeniskelaminfk = jeniskelamin_m.id
+	where antrianpasiendiperiksa_t.objectruanganasalfk is null and pasiendaftar_t.noregistrasi= $P{noregistrasi}]]>
+	</queryString>
+	<field name="umur" class="java.lang.String"/>
+	<field name="alamatlengkap" class="java.lang.String"/>
+	<field name="nohp" class="java.lang.String"/>
+	<field name="namapasien" class="java.lang.String"/>
+	<field name="jeniskelamin" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="427" splitType="Stretch">
+			<image>
+				<reportElement x="-1" y="0" width="87" height="58" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="59" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+			<staticText>
+				<reportElement x="14" y="88" width="90" height="14" uuid="77ea3c78-3e78-4317-ac0a-e23c8aeb937f"/>
+				<text><![CDATA[medrec / No Transaksi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="102" width="90" height="14" uuid="8be52e3e-7a27-4702-ab3f-f4b7bc15d60f"/>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="116" width="90" height="14" uuid="3afb981e-0a18-4116-a05a-80ef4be93841"/>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="130" width="90" height="14" uuid="9f2c4da9-2e6b-47f9-ad48-305708c32168"/>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="88" width="6" height="14" uuid="83613ed9-e5ab-49c1-83eb-23d90b295483"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="102" width="6" height="14" uuid="b1e64694-cc96-44a1-88c0-c4a59af87c6a"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="116" width="6" height="14" uuid="67ce3106-4611-477e-8ddc-7ff00c0ab369"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="130" width="6" height="14" uuid="b6616f9c-ffd8-4433-80f3-dc6d0f17558b"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="116" width="146" height="14" uuid="01607777-c754-4a6f-a130-ae34a7283151"/>
+				<textFieldExpression><![CDATA[$F{jeniskelamin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="126" width="435" height="18" uuid="baf483d1-f176-4148-a173-5073972fd0d4"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{alamatlengkap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="84" width="65" height="18" uuid="2ee884f2-3bcd-4785-b18e-ae6f28965ef4"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="150" y="60" width="251" height="19" uuid="d4993b44-f6d8-47b8-9762-a3e126deaffb"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SURAT KETERANGAN PULANG]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="145" width="90" height="14" uuid="2acea337-9687-4cd5-bda3-ed976f473bec"/>
+				<text><![CDATA[Cara Bayar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="109" y="145" width="6" height="14" uuid="2eafb7be-d9c0-4660-a669-eae34e218220"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="115" y="141" width="202" height="18" uuid="7ca530a8-c7b7-4904-a0de-88c13667e303"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{penjamin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="115" y="98" width="100" height="18" uuid="5b01211b-1b65-48bf-bcc4-1be945d7910f"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="14" y="74" width="536" height="14" uuid="e5f60664-0ae6-42bb-a57d-4332d39d96de"/>
+				<text><![CDATA[Menerangkan bahwa pasien berikut sudah diizinkan pulang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="160" width="266" height="14" uuid="3f5bcade-485b-4849-9066-6d48237a9934"/>
+				<text><![CDATA[Dinyatakan boleh meninggalkan rumah sakit pada tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="160" width="199" height="14" uuid="29125564-66c9-4f95-bd93-ee1841da043e"/>
+				<text><![CDATA[dengan keadaan Perbaikan dan tata keluar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="174" width="266" height="14" uuid="cabe1624-a18e-4896-9cf2-56828039bd9c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Atas persetujuan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="270" y="160" width="82" height="14" uuid="00f35ebf-bed1-4dd2-888d-ad8862f0623f"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{tglpulang}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="50" y="200" width="100" height="14" uuid="c5ae0a64-3706-430c-980f-8b6a9c907d14"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kasir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="260" width="100" height="14" uuid="66a97a17-edad-4549-b549-e85cfa71a22d"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[.............................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="200" width="100" height="14" uuid="b76f4735-de06-4e3d-8539-84e6942a8797"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Medrec]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="260" width="100" height="14" uuid="9ed197c2-936e-43ec-b5f9-a197fbcc3959"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[.............................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="390" y="200" width="59" height="14" uuid="603582c2-c472-4e19-9681-14481abb8138"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Padang,  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="260" width="100" height="14" uuid="375e1363-7ea4-4b6e-8a88-4640b3398b3f"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[.............................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="179" y="88" width="18" height="14" uuid="ac27eec3-398c-4fd0-9db5-99c6ebd0a951"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="197" y="84" width="103" height="18" uuid="c8b7505e-361e-4be4-8097-62a77f79db05"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{noregistrasi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="449" y="200" width="102" height="14" uuid="6be491ea-a1ed-4e09-a173-a4ed92e8cf43"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$P{tglpulang}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<lastPageFooter>
+		<band splitType="Stretch"/>
+	</lastPageFooter>
+</jasperReport>

@@ -1,0 +1,223 @@
+<style>
+    .k-checkbox:checked+.k-checkbox-label:before {
+        /* background-color: #fff; */
+        border-color: #10c4b2;
+        color: white;
+        background-color: #10c4b2;
+    }
+
+    md-content.md-default-theme,
+    md-content {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: #FFFFFF;
+    }
+</style>
+
+<div class="panel panel-default ">
+    <div class="panel-heading headerBox"><span class="title" c-translate>Sensus Harian Sasaran Mutu</span>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <div ng-cloak>
+                <md-content>
+                    <md-tabs md-dynamic-height md-border-bottom>
+                        <md-tab label="Input Sensus">
+                            <md-content class="md-padding">
+                                <div class="panel panel-default container_12">
+                                    <div class="panel-body">
+                                        <div class="grid_12">
+
+                                            <div class="grid_12">
+                                                <md-content class="md-padding">
+                                                    <div class="grid_12">
+                                                        <div class="grid_2">
+                                                            <div class="grid_12">
+                                                                <center> <label c-label item="item"> Bulan :
+                                                                        {{item.bulan | date:" MMMM d, yyyy"}}</label>
+                                                                </center>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <center>
+                                                                    <input style="width: 100%" k-ng-model="item.bulan"
+                                                                        kendo-date-picker placeholer="MMMM"
+                                                                        k-format="'MMMM'"
+                                                                        k-options="monthSelectorOptions()" />
+                                                                </center>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_3">
+                                                            <div class="grid_12">
+                                                                <label c-label item="item"
+                                                                    c-label-text="Departemen"></label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.departemen"
+                                                                    k-data-text-field="'departemen'"
+                                                                    k-data-value-field="'value'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listDepartemen" k-on-change='getIsiComboRuangan()'/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_3">
+                                                            <div class="grid_12">
+                                                                <label c-label item="item"
+                                                                    c-label-text="Ruangan"></label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.ruangan"
+                                                                    k-data-text-field="'ruangan'"
+                                                                    k-data-value-field="'id'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listRuangan" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_2" style="margin-top: 22px;">
+                                                            <button class="c-button" ng-click="inputJadwal()">Input
+                                                                Sasaran Mutu</button>
+                                                        </div>
+                                                        <div class="grid_2" style="margin-top: 22px;">
+                                                            <button class="c-button" ng-click="Hide()">Hide Sasaran
+                                                                Mutu</button>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                                <md-content class="md-padding" ng-show="isInput">
+                                                    <div class="grid_12 borderBox" style="width:100%;">
+                                                        <div kendo-grid id="gridBulan"
+                                                            k-data-source="sourceJadwalBulanan"
+                                                            options="mainGridOptionss" k-scrollable="'true'"
+                                                            style="font-size: small" k-ng-model="databulan">
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                                <md-content class="md-padding">
+                                                    <div class="grid_12">
+
+                                                        <div class="grid_8"></div>
+                                                        <div class="grid_2" ng-show="isInput">
+                                                            <kendo-button class="c-button" ng-click="save()"><span
+                                                                    class="title">Simpan
+                                                                </span></kendo-button>
+                                                        </div>
+                                                        <div class="grid_2" ng-show="isInput">
+                                                            <kendo-button class="error c-button" ng-click="batal()">
+                                                                <span class="title">Batal
+                                                                </span></kendo-button>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </md-content>
+                        </md-tab>
+                        <md-tab label="Laporan">
+                            <md-content class="md-padding">
+                                <div class="panel panel-default container_12">
+                                    <div class="panel-body">
+                                        <div class="grid_12">
+                                            <md-content class="md-padding">
+                                                <div class="grid_12">
+                                                    <div class="grid_2">
+                                                        <div class="grid_12">
+                                                            <center> <label c-label item="item"> Bulan :
+                                                                    {{item.bulan | date:" MMMM d, yyyy"}}</label>
+                                                            </center>
+                                                        </div>
+                                                        <div class="grid_12">
+                                                            <center>
+                                                                <input style="width: 100%" k-ng-model="item2.bulan"
+                                                                    kendo-date-picker placeholer="MMMM"
+                                                                    k-format="'MMMM'"
+                                                                    k-options="monthSelectorOptions()" />
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_3">
+                                                        <div class="grid_12">
+                                                            <label c-label item="item"
+                                                                c-label-text="Departemen"></label>
+                                                        </div>
+                                                        <div class="grid_12">
+                                                            <input style="width: 100%;" kendo-combo-box
+                                                                k-ng-model="item2.departemen"
+                                                                k-data-text-field="'departemen'"
+                                                                k-data-value-field="'value'" k-filter="'contains'"
+                                                                k-auto-bind="false"
+                                                                k-data-source="listDepartemen" k-on-change='getIsiComboRuangan()'/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_3">
+                                                        <div class="grid_12">
+                                                            <label c-label item="item"
+                                                                c-label-text="Ruangan"></label>
+                                                        </div>
+                                                        <div class="grid_12">
+                                                            <input style="width: 100%;" kendo-combo-box
+                                                                k-ng-model="item2.ruangan"
+                                                                k-data-text-field="'ruangan'"
+                                                                k-data-value-field="'id'" k-filter="'contains'"
+                                                                k-auto-bind="false"
+                                                                k-data-source="listRuangan" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_2" style="margin-top: 22px;">
+                                                        <button class="c-button" ng-click="cariLaporan()">Cari
+                                                        </button>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </md-content>
+                                            <md-content class="md-padding" >
+                                                <div class="grid_12 borderBox" style="width:100%;">
+                                                    <div kendo-grid id="gridLap" k-data-source="sourceLaporan"
+                                                        options="mainGridLap" k-scrollable="'true'"
+                                                        style="font-size: small" k-ng-model="dataLapoan">
+                                                    </div>
+                                                </div>
+                                            </md-content>
+                                            <md-content class="md-padding">
+                                                <div class="grid_12" >
+                                                    <kendo-grid id="gridMaster" k-selectable="'row'" k-data-source="dataSourceCapaian"
+                                                        ng-click="klikGrid(dataSelect)" k-ng-model="dataSelect" options="optionGridMaster"
+                                                        class="max-height" style= "width: 70%; margin-left: 250px"></kendo-grid>
+                                                </div>
+                                            </md-content>
+                                        </div>
+                                        <div class="grid_12">
+                                            <div class="grid_9"></div>
+                                            <div class="grid_3" style="margin-top: 11px">
+                                                <button class="btnTemplate1" style="margin-left: 0;" ng-click="cetakJasper()">Cetak Laporan</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </md-content>
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </div>
+        </div>
+        <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+        <!-- <div class="grid_12">
+            <md-content class="md-padding" ng-show="!isInput">
+                <div class="grid_12 headerBox">
+                    <p>Sensus Harian Pengukuran Mutu</p>
+                </div>
+                <div class="grid_12">
+                    <div kendo-grid id="gridOrder" k-data-source="dataSource" k-options="mainGridOption"></div>
+                </div>
+            </md-content>
+        </div> -->
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+</div>

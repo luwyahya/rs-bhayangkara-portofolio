@@ -1,0 +1,233 @@
+<div class="panel panel-default container_12">
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <c-panel item="item" header="'Map Bku To Kelompok Transaksi'" disabled> </c-panel>
+                </div>
+            </div>
+            <div class="grid_12">
+
+                <div class="grid_12">
+
+                    <div class="grid_12" style="margin-top: 10px">
+
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Kelompok Transaksi"></label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.KlmpkTrans"
+                                k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listKlmpkTransaksi" />
+                                <!-- <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.produk"
+                                    ng-keypress="($event.which == 13)? SearchEnter():item.produk" /> -->
+                            </div>
+                        </div>
+                        <div class="grid_2">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Jenis BKU"></label>
+                            </div>
+
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaPaket"
+                                    k-data-text-field="'bku'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listPaket" />
+                            </div>
+                        </div>
+                       
+                        <div class="grid_1">
+                            <label c-label c-label-text=""></label>
+                            <em style="margin-top:6px;" ng-click='Search()' id="iconButton" data-role="button"
+                                class="k-button k-button-icon k-primary" role="button" aria-disabled="false"
+                                tabindex="0"><span class="k-sprite k-icon k-i-search">Refresh</span></em>
+                            <em style="margin-top:6px;" ng-click='Clear()' id="iconButton" data-role="button"
+                                class="k-button k-button-icon k-primary" role="button" aria-disabled="false"
+                                tabindex="0"><span class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px">
+                    <div class="grid_12">
+                        <kendo-grid id="kGrids" data-source="dataSource" options="columnGrid" k-pageable="'true'"
+                            k-sortable="'true'" k-groupable="'true'" k-resizable="'true'" k-selectable="'row'"
+                            k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
+                        </kendo-grid>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_11"></div>
+                    <div class="grid_1">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Jml Row"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jmlRow" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div kendo-window="popUps" k-title="'Tambah'" k-width="1100" k-visible="false"
+        k-on-close="customClicked()">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+
+         
+                <div class="grid_12">
+                    <div class="grid_5">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="BKU"></label>
+                        </div>
+
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="popUp.namaPaket"
+                                k-data-text-field="'bku'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listPaket" k-on-change="getProdukByPaket(popUp.namaPaket)"/>
+                        </div>
+                    </div>
+
+                    <!-- <div class="grid_7">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Kelas"></label>
+                        </div>
+                        <div class="grid_12">
+                            <fieldset class="effect-shadow" style=" border-radius: 4px;margin-top:10px">
+                                <div class="grid_4" ng-repeat="item in listKelas track by $index  ">
+                                    <input type="checkbox" ng-checked="item.isChecked" class="k-checkbox"
+                                        name="{{item.namakelas}}" id="{{item.namakelas}}" ng-model="bool"
+                                        value="{{item.id}}" ng-click="ceklisOneKelas(bool,item)">
+
+                                    <label class="k-checkbox-label" for="{{item.namakelas}}">{{item.namakelas}}</label>
+
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div> -->
+
+                </div>
+            </fieldset>
+            <fieldset class="effect-shadow" style=" border-radius: 4px;margin-top:10px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">Daftar Transaksi</a>
+                </legend>
+                <div class="grid_12 ">
+                    <div class="grid_12 headerBox">
+                        <p> <input type="checkbox" class="k-checkbox" id="cekAll" ng-model="popUp.cekAll"
+                                ng-click="cekAll(popUp.cekAll)">
+                            <label class="k-checkbox-label" for="cekAll" style="margin-left:5px"><b>Check
+                                    All</b></label></p>
+                    </div>
+                    <div class="grid_12 borderBox containerBorderBox" style="overflow-y: scroll; height:280px;">
+                        <div class="grid_4" ng-repeat="item in listProduk track by $index  ">
+                            <input type="checkbox" ng-checked="item.isChecked" class="k-checkbox"
+                                name="{{item.id}}" id="{{item.id}}" ng-model="bool" value="{{item.id}}"
+                                ng-click="ceklisOne(bool,item)">
+
+                            <label class="k-checkbox-label {{item.style}}" for="{{item.id}}">{{item.id}} - {{item.kelompoktransaksi}}</label>
+
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_5">
+                            <div class="grid_4" style="margin-top:10px">
+                                <label c-label item="item">Nama Transaksi</label>
+                            </div>
+                            <div class="grid_8">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-keypress="($event.which == 13)? cariProduk():popUp.cariProduk"
+                                    ng-model="popUp.cariProduk" />
+                            </div>
+                        </div>
+                        <div class="grid_2" style="margin-top: 10px">
+                            <button class="k-button  btnAdd k-button-icontext k-primary k-grid-update"
+                                ng-click="cariProduk()"><span class="k-icon k-i-search"></span>Cari</button>
+
+                        </div>
+                        <div class="grid_2" style="margin-top: 10px;margin-left: -70px">
+                            <button class="k-button  btnAdd k-button-icontext k-primary k-grid-update"
+                                ng-click="clearProduk()"><span class="k-icon k-cancel"></span>Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+            <button class="k-button  btnAdd k-button-icontext k-primary k-grid-update" ng-click="save()"><span
+                    class="k-icon k-update"></span>Simpan</button>
+            <button class="k-button  btnHapus k-button-icontext" ng-click="tutup()"><span
+                    class="k-icon k-cancel"></span>Tutup</button>
+        </div>
+    </div>
+
+    <style>
+        /* .k-window-titlebar {
+            background-color: #10c4b2;
+            font-weight: 800;
+        } */
+
+        .k-i-close {
+            display: none;
+        }
+
+        button:disabled {
+            background: #B5B2B1;
+        }
+
+        .btnAdd {
+            margin-right: 10px;
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            font-size: 12px;
+            background-color: #41abf2;
+            border-radius: 3px;
+            cursor: pointer;
+            min-width: 50px;
+        }
+
+        .custom-button {
+            margin: 0 0 10px;
+            background: none;
+            color: black;
+            border-radius: 0.8em;
+            border: 1px solid;
+            background-color: white;
+        }
+
+        .k-edit,
+        .k-i-download {
+            background-position: -313px -221px;
+        }
+
+        /* a.k-button.k-button-icontext {
+        min-width: 84px;
+        background-color: #e0360b;
+        border: none;
+        margin: .1em;
+    } */
+
+        .duplicateDate {
+            background-color: red;
+            border: 2px solid red !important;
+        }
+
+        span.errorCuti {
+            text-align: center;
+            width: 100%;
+            padding: 10px 20px;
+            color: red;
+            font: italic 14px/30px arial, sans-serif;
+        }
+        .bold-produk {
+            font-weight: bold;
+            background-color: #ffffffee;
+        }
+    </style>

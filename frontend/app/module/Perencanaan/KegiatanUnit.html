@@ -1,0 +1,207 @@
+<style>
+	.k-grid .k-grid-header .k-header .k-link {
+		height: auto;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		white-space: normal;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		text-align: center;
+	}
+</style>
+
+<div ng-show="dataVOloaded">
+	<c-panel item="item" header="'Master Kelompok Anggaran'" disabled>
+	</c-panel>
+	<!-- -->
+	<div class="grid_12">
+		<div ng-cloak>
+			<md-content>
+				<md-tabs md-dynamic-height md-border-bottom>
+					<md-tab label="Input Kegiatan Unit">
+						<md-content class="md-padding">
+
+							<div class="grid_12">
+								<div class="grid_2">
+									<div class="grid_12">
+										<label c-label item="item">Kode Kelompok Pertama</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="text" filter="" class="k-textbox"
+											ng-model="item.kodeHead" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label c-label item="item">Nama Kelompok Pertama</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="text" filter="" class="k-textbox"
+											ng-model="item.namaHead" />
+									</div>
+								</div>							
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="saveHead()">Simpan</button>
+									</div>
+								</div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="hapusHead()">Hapus</button>
+									</div>
+								</div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="batal()">Batal</button>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="clear"></div>
+
+							<br />
+							<div class="grid_12">
+								<div class="grid_12 headerBox">
+									<p>Daftar Kelompok Pertama</p>
+								</div>
+								<div class="clear"></div>
+
+								<div class="grid_12 borderBox">
+									<div id="kGrid" kendo-grid k-columns="columnKelompokHead" k-selectable="'row'"
+										k-pageable="true" k-sortable="true" k-data-source="dataSourceHead"
+										k-ng-model="dataHeadSelected" ng-click="klik(dataHeadSelected)">
+									</div>
+								</div>
+							</div>
+
+							<!-- <br/> -->
+							<div class="clear"></div>
+
+						</md-content>
+
+					</md-tab>
+					<md-tab label="Master Kegiatan Unit">
+						<md-content class="md-padding">
+							<div class="grid_12">
+								<div class="grid_3">
+									<div class="grid_12">
+										<label c-label item="item">Ruangan</label>
+									</div>
+									<div class="clear"></div>
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.Ruangan"
+											k-data-text-field="'nama'" k-data-value-field="'id'"
+											k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label c-label item="item">Tahun</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="text" filter="" class="k-textbox"
+											ng-model="item.tahun" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label c-label item="item">Kegiatan</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="text" filter="" class="k-textbox"
+											ng-model="item.kegiatan" />
+									</div>
+								</div>							
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="saveKelPertama()">Simpan</button>
+									</div>
+								</div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="hapusKelPertama()">Hapus</button>
+									</div>
+								</div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<label>&nbsp;</label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<button class="btnTemplate1" style="margin-left: 0;"
+											ng-click="batal()">Batal</button>
+									</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+
+							<br />
+							<div class="grid_12">
+								<div class="grid_12 headerBox">
+									<p>Daftar Kelompok Kedua</p>
+								</div>
+								<div class="clear"></div>
+
+								<div class="grid_12 borderBox">
+									<div id="kGrid" kendo-grid k-columns="columnKelompokPertama" k-selectable="'row'"
+										k-pageable="true" k-sortable="true" k-data-source="dataSourceKegiatanUnit"
+										k-ng-model="dataPertamaSelected" ng-click="klikPertama(dataPertamaSelected)">
+									</div>
+								</div>
+							</div>
+
+							<div class="clear"></div>
+						</md-content>
+					</md-tab>
+
+				</md-tabs>
+			</md-content>
+		</div>
+
+		<br />
+
+	</div>
+</div>
+<div ng-include='"../app/template/Shared/TemplateLoading"'></div>

@@ -1,0 +1,167 @@
+<div class="panel panel-default container_12">
+    <div class="panel-heading" c-translate>Stok Opname</div>
+    <div class="panel-body">
+        <div class="grid_12">
+
+            <div class="grid_12">
+                <div class="grid_2">
+                    <label c-label item="item" c-label-text="Ruangan"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+                <div class="grid_2" style="margin-bottom:5px">
+                    <label c-label item="item"> Jenis Produk</label>
+                    <select kendo-multi-select k-options="selectOptJenisProduk" k-data-source="listJenisProduk"
+                        k-data-text-field="'jenisproduk'" k-data-value-field="'id'" k-ng-model="selectedJenisProduk" \>
+                    </select>
+                </div>
+                <div class="grid_2" style="margin-bottom:5px">
+                    <label c-label item="item">Detail Jenis Produk</label>
+                    <select kendo-multi-select k-options="selectOptionsDetailJenis" k-data-source="listDetailJenis"
+                        k-data-text-field="'detailjenisproduk'" k-data-value-field="'id'"
+                        k-ng-model="selectedDetailJenis" \>
+                    </select>
+                </div>
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="namaProduk"></label>
+                    <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBarang" k-data-text-field="'namaProduk'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listNamaBarang" /> -->
+                    <div class="grid_12">
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaproduk" />
+                    </div>
+                </div>
+                <div class="grid_3 pull-right" style="margin-top: 15px">
+                    <div class="grid_4" style="margin-top:6px">
+                        <button class="c-button" ng-click="cari()">Cari</button>
+                    </div>
+                    <div class="grid_4" style="margin-top:6px">
+                        <button class="c-button error" ng-click="batal()">Batal</button>
+                    </div>
+                    <div class="grid_4" style="margin-top:6px">
+                        <button class="c-button" ng-click="daftar()">Daftar SO</button>
+                    </div>
+                </div>
+
+               
+                <!-- </fieldset> -->
+                <!-- </form> -->
+            </div>
+            <!--  <div class="grid_2">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Tanggal Hitung"></label>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_12 padDatePicker">
+                            <input style="width: 100%" k-ng-model="item.tglhitung"  kendo-datetimepicker  placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+        <div class="grid_12" style="margin: 5px 0 10px 0;">
+            <kendo-grid k-data-source="dataStokOpname" k-selectable="'row'" k-options="optionsDataStokOpname"
+                k-ng-model="current" ng-click="kl(current)" ng-focus="fk(current)">
+            </kendo-grid>
+        </div>
+        <div class="grid_3" style="margin-top:22px">
+            <input type="file" id="file-input" kendo-upload k-multiple="false" k-select="onUploadTxt" />
+        </div>
+        <div class="grid_3" style="margin-top:22px">
+            <input id="upload" type="file" kendo-upload
+                k-async="{ saveUrl: 'save', removeUrl: 'remove', autoUpload: true }" k-multiple="false"
+                k-select="onUploadExcel" />
+        </div>
+        <div class="grid_6" style="font-size: 24px; padding:0px, margin:0px;margin-top:20px"  size="21">
+            <c-button class="c-button" ng-click="CetakRegJasper()"><span class="title">DAFTAR STOK RUANGAN</span></c-button>
+        </div>
+        <div class="grid_12" ng-show="btnTombol">
+            <div class="grid_6"></div>
+            <div class="grid_3" style="float:right;">
+                <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36"
+                    position=" 'right'" class="cancel" is-back>
+                    <span class="title">Batal</span>
+                </c-button>
+            </div>
+            <div class="grid_3" style="float:right;">
+                <c-button class="success" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item"
+                    size="36" position=" 'right'" is-validate click="Save">
+                    <span class="title">Simpan</span>
+                </c-button>
+            </div>
+        </div>
+        <div class="grid_12" style="margin: 10px 0 10px 0;" ng-show="DataTakSedia">
+            <div class="grid_12 headerBox">
+                <p>Data Stok Opname Gagal</p>            
+                <div id="kGrid" kendo-grid k-aggregate='aggregate' k-data-source="DataTakTersedia" k-selectable="'row'"
+                    k-columns="columndata" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelected"
+                    ng-click="click(dataPasienSelected)">
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:60px">
+            <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+        </div>
+    </div>
+    <div kendo-window="popUp" k-title="'Masukkan Password'" k-width="300" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <div class="grid_12"">
+        <div class=" grid_3" style="margin-top: 10px">
+                <label c-label item="item" c-label-text="Password" real></label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_9">
+                <input c-text-box type="password" filter="" class="k-textbox" ng-model="item.kataKunciPass" />
+            </div>
+        </div>
+        <div class="clear"></div>
+        <!-- kata kunci confirm -->
+        <div class="dialog_buttons pull-right" style="margin-top:5%">
+            <input type="button" class="confirm_no k-button" value="Tidak" style="width: 70px"
+                ng-click="BatalStokOpname()" />
+            &nbsp;
+            <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px"
+                ng-click="lanjutStokOpname()" />
+        </div>
+    </div>
+</div>
+
+        <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<style type="text/css">
+    .gambarAset {
+        width: 60%;
+        height: 100%;
+        border: 1px solid grey;
+    }
+    .k-multiselect-wrap {
+    position: relative;
+    /* border-width: 0; */
+    /* border-style: solid; */
+    border-radius: 4px;
+    /* border-color: #C5C5C5; */
+    background-color: #FFF;
+    min-height: 2.04em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #228be6;
+}
+.green{
+        background-color:#98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+    .red{
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+    .blue{
+        background-color: #1E90FF;
+        color: #ffffff;
+        /*font-weight: bold;*/
+    }
+    .koneng{
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+</style>

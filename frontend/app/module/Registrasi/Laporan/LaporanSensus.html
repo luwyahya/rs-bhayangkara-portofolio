@@ -1,0 +1,286 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+    
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+    
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+    
+    .k-window-content .k-content {
+        overflow: none
+    }
+    
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+    
+    .warnaa {
+        color: black
+    }
+    
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Sensus Harian Rawat Inap</div>
+    </div>
+    <div class="panel panel-default panel-white" ng-hide="isMasuk">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">
+                    <h2><span class="fa fa-plus warnaa">
+                        </span> &nbsp;Pencarian</h2>
+                </a>
+            </legend>
+            <div class="grid_12" id="contentPencarian">
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal awal"></label>
+                            <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                            <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                    </div>
+                    <div class="grid_2" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="Ruangan"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="JenisKelompokPasien"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.jeniskelompokpasien" k-data-text-field="'jeniskelompokpasien'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisKelompokPasien" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="TipePasien"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.tipepasien" k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listTipePasien" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="RekananPasien"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.rekananpasien" k-data-text-field="'namarekanan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRekananPasien" />
+                    </div>
+                    <div class="grid_1" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="ZonaRuangan"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.zona" k-data-text-field="'zona'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listZona" />
+                    </div>
+                    <div class="grid_1" style="margin-top: 2px;">
+                        <label c-label item="item" c-label-text="Kelas"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas" />
+                    </div>
+                    <div class="grid_1" style="margin-top: 1%;">
+                        <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual" id="pilihManual" ng-click="ceklispilihManual(model.cekpilihManual)">
+                        <label class="c-label k-checkbox-label" for="pilihManual" required>Tidak Masuk Sensus</label>
+                    </div>
+                    <div class="grid_2" style="margin-top:23px">
+                        <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SearchData()" style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+                        <button class="k-button  k-button-icontext" ng-click="ClearData()" style="width:100px"><span
+                                class="k-sprite k-icon k-delete"></span>Clear</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_4">
+        <label c-label item="item" c-label-text="Jumlah Tempat Tidur"></label>
+        <input c-text-box type="input" style="text-align: right" filter="" class="k-textbox" ng-model="item.ttlTempatTidur" disabled />
+    </div>
+    <div class="grid_4">
+        <label c-label item="item" c-label-text="Jumlah Tempat Tidur Isi"></label>
+        <input c-text-box type="input" style="text-align: right" filter="" class="k-textbox" ng-model="item.ttlTmpatTidurIsi" disabled />
+    </div>
+    <div class="grid_4">
+        <label c-label item="item" c-label-text="Jumlah Tempat Tidur Kosong"></label>
+        <input c-text-box type="input" style="text-align: right" filter="" class="k-textbox" ng-model="item.ttlTmpatTidurKosong" disabled />
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px;z-index:100000">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div class="grid_12">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+            <md-tab label="Data Kunjungan Pasien">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanri" options="columnLaporanpri" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelected" ng-click="klik(dataSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Masuk">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporan" options="columnLaporan" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelected" ng-click="klik(dataSelected)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Keluar">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanPK" options="columnLaporanPK" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedPK" ng-click="klikPK(dataSelectedPK)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Pindahan">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanP" options="columnLaporanP" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedP" ng-click="klikP(dataSelectedP)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Dipindahankan">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanDP" options="columnLaporanDP" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedDP" ng-click="klikP(dataSelectedDP)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Informasi Pasien Ruangan">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanIn" options="columnLaporanIn" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedIn" ng-click="klikIn(dataSelectedIn)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Meninggal">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanPM" options="columnLaporanPM" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedPM" ng-click="klikPM(dataSelectedPM)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Meninggal D.O.A">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanPDOA" options="columnLaporanPDOA" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedPDOA" ng-click="klikPDOA(dataSelectedPDOA)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Masih Dirawat">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanMD" options="columnLaporanMD" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedMD" ng-click="klikPM(dataSelectedMD)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Data Pasien Pernah Dirawat">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <kendo-grid id="kGrid" data-source="sourceLaporanPD" options="columnLaporanPD" k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedPD" ng-click="klikPM(dataSelectedPD)">
+                            </kendo-grid>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+    </md-content>
+</div>
+<!-- <div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/module/Shared/TemplateLoading"'></div>
+</div> -->
+<!-- <div class="grid_6">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+           
+        </md-tabs>
+    </md-content>
+</div>
+<div class="grid_6">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+            
+        </md-tabs>
+    </md-content>
+</div>
+<div class="grid_6">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+            
+        </md-tabs>
+    </md-content>
+</div>
+<div class="grid_6">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+            
+        </md-tabs>
+    </md-content>
+</div>
+<div class="grid_6">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">                    
+            
+        </md-tabs>
+    </md-content> -->
+
+<!-- </div> -->

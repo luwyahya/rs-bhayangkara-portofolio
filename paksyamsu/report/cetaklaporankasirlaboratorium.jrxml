@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cetaklaporankasirradiologi" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<parameter name="x" class="java.lang.String"/>
+	<parameter name="y" class="java.lang.String"/>
+	<parameter name="listKasir" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT        SUM(tunai) AS tunai, SUM(nontunai) AS nontunai, noregistrasi, tglsbm, nocm, namapasien, kelompokpasien, namaruangan, namalengkap, kasir, SUM(totaldibayar) AS totaldibayar, hutangPenjamin, SUM(totalharusdibayar)
+                         AS totalharusdibayar, namaLogin
+FROM            (SELECT        CASE WHEN cb.id = 1 THEN ((pp.hargajual - pp.hargadiscount) * pp.jumlah) + CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END ELSE 0 END AS tunai,
+                                                    CASE WHEN cb.id > 1 THEN ((pp.hargajual - pp.hargadiscount) * pp.jumlah) + CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END ELSE 0 END AS nontunai, pd.noregistrasi, sbm.tglsbm, ps.nocm,
+                                                    ps.namapasien, kp.kelompokpasien, CASE WHEN rude.namaruangan IS NULL THEN ru.namaruangan ELSE rude.namaruangan END AS namaruangan, pg.namalengkap, pg2.namaexternal AS kasir,
+                                                    (pp.hargajual - pp.hargadiscount) * pp.jumlah + CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS totaldibayar, CASE WHEN sp.totalprekanan IS NULL
+                                                    THEN 0 ELSE sp.totalprekanan END AS hutangPenjamin, (pp.hargajual - pp.hargadiscount) * pp.jumlah + CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS totalharusdibayar,
+                                                    lu.namaexternal AS namaLogin
+                          FROM            strukbuktipenerimaan_t as sbm inner join
+													strukpelayanan_t as sp on sbm.nostrukfk = sp.norec inner join
+													pasiendaftar_t as pd on pd.norec = sp.noregistrasifk inner join
+													pelayananpasien_t as pp on pp.strukfk = sp.norec inner join
+													antrianpasiendiperiksa_t as apd on apd.norec = pp.noregistrasifk inner JOIN
+                                                    strukbuktipenerimaancarabayar_t AS sbmc ON sbmc.nosbmfk = sbm.norec INNER JOIN
+                                                    carabayar_m AS cb ON cb.id = sbmc.objectcarabayarfk INNER JOIN
+                                                    loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk INNER JOIN
+                                                    pegawai_m AS pg2 ON pg2.id = lu.objectpegawaifk INNER JOIN
+                                                    pasien_m AS ps ON ps.id = sp.nocmfk  LEFT OUTER JOIN
+                                                    pegawai_m AS pg ON pg.id = pd.objectpegawaifk LEFT OUTER JOIN
+                                                    ruangan_m AS ru ON ru.id = apd.objectruanganfk LEFT OUTER JOIN
+                                                    kelompokpasien_m AS kp ON kp.id = pd.objectkelompokpasienlastfk LEFT OUTER JOIN
+                                                    strukresep_t AS str ON str.norec = pp.strukresepfk LEFT OUTER JOIN
+                                                    ruangan_m AS rude ON str.ruanganfk = rude.id
+                          WHERE       $P!{kondisi}) AS x
+                          where x.namaruangan='LABORATORIUM KLINIK'
+GROUP BY noregistrasi, tglsbm, nocm, namapasien, kelompokpasien, namaruangan, namalengkap, kasir, hutangPenjamin, namaLogin
+UNION ALL
+SELECT        CASE WHEN cb.id = 1 THEN sbm.totaldibayar ELSE 0 END AS tunai, CASE WHEN cb.id > 1 THEN sbm.totaldibayar ELSE 0 END AS nontunai, sp.nostruk AS noregistrasi, sbm.tglsbm, '-' AS nocm,
+                         sp.namapasien_klien AS namapasien, 'Non Layanan' AS kelompokpasien, '-' AS namaruangan, '-' AS namalengkap, pg2.namaexternal AS kasir, sbm.totaldibayar, CASE WHEN sp.totalprekanan IS NULL
+                         THEN 0 ELSE sp.totalprekanan END AS hutangPenjamin, sp.totalharusdibayar, lu.namaexternal AS namaLogin
+FROM            strukpelayanan_t AS sp INNER JOIN
+                         strukbuktipenerimaan_t AS sbm ON sbm.norec = sp.nosbmlastfk LEFT OUTER JOIN
+                         strukbuktipenerimaancarabayar_t AS sbmc ON sbmc.nosbmfk = sbm.norec LEFT OUTER JOIN
+                         carabayar_m AS cb ON cb.id = sbmc.objectcarabayarfk LEFT OUTER JOIN
+                         loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk LEFT OUTER JOIN
+                         pegawai_m AS pg2 ON pg2.id = lu.objectpegawaifk
+WHERE        (sp.noregistrasifk IS NULL) AND $P!{kondisi}
+order by namaruangan, tglsbm]]>
+	</queryString>
+	<field name="noregistrasi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tglsbm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="totalharusdibayar" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="hutangPenjamin" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tunai" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namaruangan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="kelompokpasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namaLogin" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nontunai" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="kasir" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<variable name="nourut" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{nourut}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<variable name="totalperunit" class="java.math.BigDecimal" resetType="Group" resetGroup="judul" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalharusdibayar}]]></variableExpression>
+	</variable>
+	<variable name="totalperunittunai" class="java.math.BigDecimal" resetType="Group" resetGroup="judul" calculation="Sum">
+		<variableExpression><![CDATA[$F{tunai}]]></variableExpression>
+	</variable>
+	<variable name="totalnontunai" class="java.math.BigDecimal" resetType="Group" resetGroup="judul" calculation="Sum">
+		<variableExpression><![CDATA[$F{nontunai}]]></variableExpression>
+	</variable>
+	<variable name="totalperunit_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{totalharusdibayar}]]></variableExpression>
+	</variable>
+	<variable name="totalperunittunai_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{tunai}]]></variableExpression>
+	</variable>
+	<variable name="totalnontunai_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{nontunai}]]></variableExpression>
+	</variable>
+	<variable name="totaldiskon" class="java.math.BigDecimal" resetType="Group" resetGroup="judul" calculation="Sum">
+		<variableExpression><![CDATA[$V{totaldiskon}]]></variableExpression>
+	</variable>
+	<variable name="totaldiskon_1" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$V{totaldiskon}]]></variableExpression>
+	</variable>
+	<group name="poli dan kelompok">
+		<groupExpression><![CDATA[$F{namaruangan}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="2" y="0" width="99" height="15" forecolor="#0A0101" uuid="8a36e646-581e-4b67-a6d2-b348203e1b7d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Poli/Unit Layanan ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="92" y="0" width="5" height="15" forecolor="#0A0101" uuid="61357101-c09a-4723-8659-eb915cb8e445"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="107" y="1" width="114" height="14" uuid="1bf41ef2-d33c-4438-a7f0-3015f3c5a89f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="DejaVu Sans" size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{namaruangan}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="3" y="-1" width="551" height="1" uuid="f0f289c9-51c4-4e1a-84a9-188716a20740"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="KelompokPasien">
+		<groupExpression><![CDATA[$F{kelompokpasien}]]></groupExpression>
+		<groupHeader>
+			<band height="18">
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="2" y="-7" width="90" height="15" forecolor="#0A0101" uuid="195255ea-319f-4db6-8832-c19d41a47ce8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kelompok pasien]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="92" y="-7" width="5" height="15" forecolor="#0A0101" uuid="6c99f2f6-2348-411b-9990-89b1c273422c"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="106" y="-7" width="106" height="15" uuid="3e68376b-388a-4170-a7d4-e976e444b600">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{kelompokpasien}]]></textFieldExpression>
+				</textField>
+				<line>
+					<reportElement x="3" y="12" width="551" height="1" uuid="69f80a08-447d-49dc-bd04-42e772f19629"/>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="judul">
+		<groupHeader>
+			<band height="25">
+				<staticText>
+					<reportElement x="1" y="0" width="28" height="16" uuid="1e04b792-4dfd-4ba3-9408-aa4fc0ea5811">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="21" y="0" width="38" height="16" uuid="5137a640-1df8-4a56-9189-e586b6db1ba6">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No.Reg]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="61" y="0" width="58" height="16" uuid="70e29a68-f7d0-453c-b7cb-b08620020b1a">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tgl.Bayar]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="113" y="0" width="46" height="16" uuid="271627b3-8e08-4ec3-b600-ccfc94c7ce48">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No. CM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="156" y="0" width="70" height="16" uuid="2ed67af3-ebed-4913-bdc3-f5c4401df128">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pasien]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="268" y="0" width="64" height="16" uuid="ccd9dfd3-2131-48d3-bde3-7e3e255faf76">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Biaya]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="332" y="0" width="45" height="16" uuid="1f067d8e-8510-4240-a6b1-43f2308df42b">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Hutang]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="379" y="0" width="45" height="16" uuid="d1592a7c-ad6a-4eeb-ba16-37928d1f3aa2">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Discount]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="431" y="0" width="45" height="16" uuid="a84603b0-09d5-41c5-ad73-c975ed27489f">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tunai]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="485" y="0" width="45" height="16" uuid="41f5eb15-e20e-4c06-96d5-f979ac0b8e91">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Card/CC]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<staticText>
+					<reportElement x="7" y="-2" width="96" height="16" uuid="38c0ac6a-e1f4-49fb-9814-545f6ff40371"/>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sub Total Per Unit]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="279" y="0" width="78" height="16" uuid="54816e99-c325-476e-885d-2df3745e9725"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalperunit} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalperunit})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="420" y="0" width="83" height="16" uuid="9e82c5b3-9916-48ef-87b5-f9e498786cba"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalperunittunai} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalperunittunai})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="489" y="0" width="82" height="16" uuid="7b2f40ab-f4dd-4498-831f-95d3522a41e7"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totalnontunai} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalnontunai})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="350" y="1" width="72" height="16" uuid="06cd6f08-b274-4899-8879-c69c078bd427"/>
+					<textElement>
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($V{totaldiskon} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totaldiskon})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="398" y="1" width="31" height="12" uuid="739951c6-4f9a-427b-bbdb-8d1d315c5232">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="false"/>
+					</textElement>
+					<text><![CDATA[-]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="12" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="110" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="207" y="81" width="69" height="15" forecolor="#0A0101" uuid="7a2f3caf-43ab-4208-a671-0eb135b750a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periode :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="237" y="95" width="80" height="15" forecolor="#0A0101" uuid="15bb3f56-ae88-4c62-b2f3-3de0d69915bd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Kasir :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="81" width="551" height="1" uuid="933049b6-27f9-4368-909c-109b041f744d"/>
+			</line>
+			<frame>
+				<reportElement mode="Transparent" x="106" y="15" width="451" height="46" forecolor="#000000" backcolor="#000000" uuid="3cf5eb03-6f38-43d9-aa86-241b1ad415b3"/>
+				<line>
+					<reportElement x="-102" y="47" width="551" height="1" uuid="75a342fe-0e22-4010-a6c9-905608e62667"/>
+				</line>
+			</frame>
+			<textField>
+				<reportElement x="105" y="17" width="420" height="20" forecolor="#0A0101" uuid="45062755-be22-4acf-bc84-c2bab9bf2dc3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="5" y="15" width="100" height="46" uuid="bba97b0a-df09-431c-b718-838584339a9c"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="105" y="32" width="443" height="35" forecolor="#0A0101" uuid="34079c9a-8115-49ae-a849-1a93163d1ab5"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="173" y="65" width="260" height="15" forecolor="#0A0101" uuid="b99ee7b0-0157-4e63-a990-01ab71788e56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN PENERIMAAN KASIR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="268" y="82" width="146" height="18" uuid="bbeff535-5c48-403d-972c-17c27d2eeefd"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{x} + "   s/d   " + $P{y}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="96" width="114" height="14" uuid="28047bf0-0d41-4d18-a78e-e2463b87b441">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kasir}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="15" y="-2" width="71" height="12" uuid="504a9a54-c936-4e86-b188-20a7954af6f6"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noregistrasi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="-2" width="44" height="12" uuid="e95300ef-bb19-491c-a6e3-3d8b3710c629">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglsbm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="-2" width="59" height="12" uuid="bdd074b6-9118-44d8-9b43-57f1a5298c38"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="278" y="-2" width="82" height="12" uuid="3fe1dd5f-f800-4221-b743-9b2bcce27df9"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{totalharusdibayar} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{totalharusdibayar})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="-2" width="28" height="12" uuid="d1cec40b-9819-4137-bf45-929b752e0db2"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hutangPenjamin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="-2" width="62" height="12" uuid="ba44f1f7-80a8-4143-9acb-584244f63044"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{tunai} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{tunai})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="-2" width="11" height="12" uuid="61cd1eff-9467-49e7-917a-5e31b6624312"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{nourut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="-1" width="62" height="12" uuid="b3c413d9-ea4c-492a-9b15-98320e1b7830"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{nontunai} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{nontunai})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="397" y="-4" width="31" height="12" uuid="97fb55f8-c8e2-4f86-8321-52c093aefa8c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="157" y="-2" width="106" height="12" uuid="2af587f1-fc25-4f17-939b-15cd950d2362"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="120">
+			<textField>
+				<reportElement x="278" y="0" width="78" height="16" uuid="1cbae734-e43f-488f-8fb1-811f0770f055"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{totalperunit_1} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalperunit_1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="67" height="16" uuid="8d8b745c-702e-4255-9594-bff4a51c7bf3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{totalperunittunai_1} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalperunittunai_1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="489" y="0" width="67" height="16" uuid="cc9fec29-428e-4458-8566-efc69857be00">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{totalnontunai_1} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totalnontunai_1})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="12" y="2" width="96" height="16" uuid="a7320bd4-a42a-45fb-8ea7-5ebd448e7654"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="30" width="130" height="20" uuid="bbceb7e8-e653-455c-a113-9bb03e8003b6"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Petugas Kasir,]]></text>
+			</staticText>
+			<line>
+				<reportElement x="9" y="92" width="150" height="1" uuid="0bc9580f-4f45-4b37-9d1b-69bb858de547">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement x="352" y="0" width="78" height="16" uuid="5909654a-dc11-4bd2-acc1-761d0479279c"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($V{totaldiskon_1} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{totaldiskon_1})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="28" y="80" width="114" height="14" uuid="928b2c19-0027-4a53-8845-9bf152f1af77">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kasir}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="427" y="30" width="130" height="20" uuid="176b144e-ecff-4fa9-9584-2951e2b9b6c4"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kasubag Keuangan]]></text>
+			</staticText>
+			<line>
+				<reportElement x="409" y="92" width="150" height="1" uuid="0b4cd290-7db5-43ca-8fd8-b43ac7c158ac">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="424" y="79" width="130" height="20" uuid="a3ebb4f1-47cb-4a0b-8463-f0bef16110c4"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SRIE PUJI ASTUTI, AMK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="428" y="20" width="130" height="20" uuid="d0eeb8a2-eb5b-465f-bf8e-d9637594f6e9"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mengetahui,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="429" y="92" width="130" height="20" uuid="b3437ec6-cb7a-497f-8a8d-477e89db1214"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AKBP NRP. 74070764]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="398" y="1" width="31" height="12" uuid="40fef8fc-e736-4739-95d3-f4afd89a7bbb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

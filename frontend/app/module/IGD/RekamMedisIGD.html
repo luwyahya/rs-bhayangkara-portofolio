@@ -1,0 +1,93 @@
+<div class="grid_12">
+    <div class="grid_12">
+        <div class=' grid_12 panel panel-default'>
+            <div class='panel-heading'>
+                <span c-translate>Data Pasien</span>
+            </div>
+            <div class='panel-body animated'>
+                <div class='grid_12'>
+                    <div class="grid_12 animated" ng-show="header.nocm!==undefined">
+                        <div class="grid_12">
+                            <div class="grid_6">
+                                <div class="grid_3">
+                                    <div class="grid_12">
+                                        <label c-label item="item">No.MR</label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.nocm" ng-disabled="true" />
+                                    </div>
+                                </div>
+                                <div class="grid_3">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Nama Pasien"></label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.namapasien" ng-disabled="true" />
+                                    </div>
+                                </div>
+                                <div class="grid_3">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Tgl. Lahir</label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.tgllahir" ng-disabled="true" />
+                                    </div>
+                                </div>
+                                <div class="grid_3">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Umur"></label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.umur" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid_6">
+                                <div class="grid_4">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Jenis Kelamin"></label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.jeniskelamin" ng-disabled="true" />
+                                    </div>
+                                </div>
+                                <div class="grid_4">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Alamat</label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.alamatlengkap" ng-disabled="true" />
+                                    </div>
+                                </div>
+                                <div class="grid_4">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Telepon</label>
+                                    </div>
+
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="header.notelepon" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div ui-view></div>
+</div>

@@ -1,0 +1,80 @@
+<c-panel item="item" header="'Pengemasan'">
+	<div class="grid_12">
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Nomor Order</label>
+		</div>
+		<div class="grid_4">
+			<input style="width: 50%" c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.noorder" disabled/>
+		</div>
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Tanggal</label>
+		</div>
+		<div class="grid_4">
+			<input style="width: 50%" kendo-date-picker k-ng-model="item.tanggal" k-format="'yyyy-MM-dd'"/>
+		</div>
+	</div>
+	<div class="grid_12">
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Ruangan</label>
+		</div>
+		<div class="grid_4">
+			<input style="width: 50%" c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.ruangan" disabled/>
+		</div>
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Jam Mulai</label>
+		</div>
+		<div class="grid_2">
+			<input style="width: 100%" k-ng-model="item.jamMulai" kendo-timepicker placeholer="HH:mm" k-format="'HH:mm'" />
+			<!-- <input style="width: 50%" kendo-date-picker k-ng-model="item.tanggal" k-format="'yyyy-MM-dd'"/> -->
+		</div>
+		<!-- <div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Petugas</label>
+		</div>
+		<div class="grid_4">
+			<input style="width: 50%" c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.operator" disabled/>
+		</div> -->
+
+	</div>
+	<div class="grid_12">
+		<!-- <div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">No Bundle</label>
+		</div>
+		<div class="grid_4">
+			<input style="width: 50%" c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.noBundle" />
+		</div> -->
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Petugas</label>
+		</div>
+		<div class="grid_2">
+			<input style="" kendo-combo-box k-ng-model="item.namaPegawai" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPegawai" />
+		</div>
+		<div class="grid_2"></div>
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Jam Akhir</label>
+		</div>
+		<div class="grid_2">
+			<input style="width: 100%" k-ng-model="item.jamAkhir" kendo-timepicker placeholer="HH:mm" k-format="'HH:mm'" />
+		</div>
+	</div>
+	<div class="grid_12">
+		<div class="grid_2">
+			<label c-label item="item" style="margin-top: 10px">Nama Alat</label>
+		</div>
+		<div class="grid_10">
+			<kendo-grid options="gridDistribusiInternal" k-data-source="dataSource"></kendo-grid>
+		</div>
+	</div>
+	<div class="grid_12">
+		<div class="grid_2"></div>
+		<div class="grid_2"></div>
+		<div class="grid_2"></div>
+		<div class="grid_2"></div>
+		<div class="grid_2">
+			<button class="c-button success" ng-click="simpanInternal()">Simpan</button>
+		</div>
+		<div class="grid_2">
+			<button class="c-button cancel" ng-click="batal()">Tutup</button>
+		</div>
+	</div>
+
+</c-panel>

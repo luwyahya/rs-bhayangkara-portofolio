@@ -1,0 +1,80 @@
+<div ng-show="dataVOloaded">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Laporan Sensus Harian Rawat Inap</b></h1>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_4">
+            <label c-label item="item" c-label-text="Periode"></label>
+            <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+                k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_4">
+            <label c-label item="item" c-label-text="Periode"></label>
+            <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+                k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_2" style="margin-top: 28px;">
+            <button class="btnTemplate1" style="margin-top:-20px;margin-left: 0;" ng-click="cetakLap()"><i
+                    class="fa fa-print"></i>Cetak</button>
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label>&nbsp;</label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <button class="btnTemplate1" style="margin-left: 0;" ng-show="! isLoading"
+                    ng-click="CariSensus()">Cari</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_12 headerBox">
+            <p>Data Laporan</p>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12 borderBox">
+            <kendo-grid data-source="dataSensusHarian" options="columnSensusHarian" k-ng-model="dataPasienSelected"
+                ng-click="click(dataPasienSelected)" k-groupable="true"></kendo-grid>
+        </div>
+    </div>
+    <!-- <div class="grid_12" style="margin-top:10px; width: 570px;">
+        <div class="grid_12 headerBox">
+            <p>Data Ruangan</p>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12 borderBox">
+            <kendo-grid data-source="dataRuangan" options="columnRuangan" k-ng-model="dataPasienSelected"
+                ng-click="click(dataPasienSelected)" k-groupable="true" style="width: 570px;"></kendo-grid>
+        </div>
+    </div> -->
+    <div kendo-window="popUpDetail" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+        <div class="grid_12">
+            <div class="grid_12" style="margin-top:10px">
+                <div class="grid_12 headerBox">
+                    <p>Detail Laporan</p>
+                </div>
+                <div class="clear"></div>
+        
+                <div class="grid_12 borderBox">
+                    <kendo-grid data-source="dataPasienDetail" options="columnPasienDetail"
+                        k-groupable="true"></kendo-grid>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+        .custom-button {
+           margin: 0 0 10px;
+           background: none;
+           color: black;
+           border-radius: 0.8em;
+           border: none;
+           background-color: white;
+       }
+   </style>

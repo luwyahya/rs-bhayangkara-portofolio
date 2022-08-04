@@ -1,0 +1,137 @@
+<style>
+    .spongebob {
+        background-color: #f7df2d;
+        color: #000000;
+    }
+    .shrek {
+        background-color: #98FB98;
+        color: #000000;
+    }
+    .biru {
+        background-color: #3aadf0;
+        color: #000000;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Teridentifikasi Jenazah</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="label">Jenis Bencana</label>
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisbencana"
+                    k-data-text-field="'jenisbencana'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listJenisBencana" />
+            </div>
+            <div class="grid_2" style="margin-top: 0.7%;">
+                <button class="btnTemplate1" ng-click="cari()">Cari</button>
+            </div>
+        </div>
+    </div>
+    <div class="clear" style="margin-top: 3%;"></div>
+    <div class="grid_12 borderBox">
+        <kendo-grid id="kGrid" data-source="sourceLaporanIdentifikasi" options="columnLaporanIdentifikasi"
+            k-selectable="'row'" k-sortable="'true'" k-ng-model="dataSelectedIdentifikasi"
+            ng-click="klik(dataSelectedIdentifikasi)"> <!-- k-resizable="'true'"  -->
+        </kendo-grid>
+    </div>
+    <div class="grid_2">
+        <button class="btnTemplate1" ng-click="release()">Release</button>
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_12" style="margin-bottom: 0.8%;">
+        <label c-label item="label">Keterangan</label>
+    </div>
+    <div class="grid_1">
+        <span class="spongebob">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="grid_1" style="margin-left: -7%;">
+        <label c-label item="label">Data Antemortem</label>
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_12" style="margin-bottom: 0.8%;">
+        <label c-label item="label"> </label>
+    </div>
+    <div class="grid_1">
+        <span class="shrek">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+    </div>
+    <div class="grid_1" style="margin-left:-7%;">
+        <label c-label item="label">Data Postmortem</label>
+    </div>
+</div>
+<div kendo-window="popUpFotoSidikJariAm" k-title="'Foto Sidik Jari Antemortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images1" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL1}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoSidikJariAm" k-title="'Foto Jari Antemortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images1" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL1}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoGigiAm" k-title="'Foto Gigi Antemortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images2" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL2}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoDnaAm" k-title="'Foto Dna Antemortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images3" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL3}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoSidikJariPm" k-title="'Foto Sidik Jari Postmortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images4" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL4}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoGigiPm" k-title="'Foto Gigi Postmortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images5" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL5}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpFotoDnaPm" k-title="'Foto Dna Postmortem'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="clear"></div>
+            <div data-ng-repeat="image in images6" style="margin-top: 20px;">
+                <img data-ng-src="{{image.dataURL6}}"/>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px;z-index:100000">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

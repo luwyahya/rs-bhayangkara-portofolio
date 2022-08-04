@@ -1,0 +1,937 @@
+<style>
+    .selected {
+        background-color: brown;
+        color: #FFF;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .k-multiselect-wrap {
+        position: relative;
+        /* border-width: 0; */
+        /* border-style: solid; */
+        border-radius: 4px;
+        /* border-color: #C5C5C5; */
+        background-color: #FFF;
+        min-height: 2.04em;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #228be6;
+    }
+
+    #customers {
+        /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #customers td,
+    #customers th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customers tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customers tr:hover {
+        background-color: #ddd;
+    }
+
+    #customers th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #41abf2;
+        color: white;
+    }
+
+    #customersDiagnosa td,
+    #customersDiagnosa th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #customersDiagnosa tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #customersDiagnosa tr:hover {
+        background-color: #ddd;
+    }
+
+    #customersDiagnosa th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        /* background-color: black; */
+        color: black;
+    }
+
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    .blue {
+        background-color: #1E90FF;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .hejo {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .card .card-content .card-title {
+        color: #0D8080 !important;
+        line-height: 18px;
+    }
+
+    .card-action {
+        vertical-align: text-bottom;
+        font-size: 21px;
+    }
+</style>
+
+<div ng-show="dataVOloaded">
+    <div ng-cloak>
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+
+                <md-tab label="Klaim " md-on-select="onTabChanges(0)">
+                    <md-content class="md-padding">
+                        <div class="grid_12" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <div class="grid_12 headerBox">
+                                    <h1 style="color: white;"><b>InaCbg E-Klaim</b></h1>
+                                </div>
+                                <div class="clear"></div>
+
+                                <br />
+                                <br>
+                                <div class="grid_12" ng-show='formCari'>
+                                    <div class="grid_12"
+                                        style="background-color: darksalmon;border:1px solid #bbb;border-spacing:10px;border-radius:5px;">
+                                        <div class="grid_4" style="margin-top:10px">
+                                            <label c-label real>Cari No. RM / No. SEP / No Pendaftaran</label>
+                                        </div>
+                                        <div class="grid_4">
+                                            <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                                ng-model="item.nocari"
+                                                ng-keypress="($event.which == 13)? SearchEnter():item.nocari" />
+                                        </div>
+                                        <div class="grid_4">
+                                            <em style="margin-top:6px;" ng-click='findData()' id="iconButton"
+                                                data-role="button" class="k-button k-button-icon" role="button"
+                                                aria-disabled="false" tabindex="0"><span
+                                                    class="k-sprite k-icon k-i-search">Cari</span></em>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <div class="grid_4"></div>
+                                        <div class="grid_4">
+                                            <section ng-class="cardView ? 'show' : 'hide'">
+                                                <div ng-repeat="card in cards" class="row">
+                                                    <div class="col s12 m6 l4">
+                                                        <!-- Card 1 -->
+                                                        <div class="card">
+                                                            <div class="card-action">
+                                                                <div class="grid_8" style="text-align: left;">
+                                                                    <label c-label real>{{card.nama}}</label>
+                                                                </div>
+                                                                <!-- <div class="grid_8">{{card.nama}}</div> -->
+                                                                <div class="grid_4" style="text-align: left;"><button
+                                                                        class="c-button cancel"
+                                                                        ng-click="clickCard(card)"
+                                                                        style="float:left;width:120px">{{card.norm}}</button>
+                                                                </div>
+                                                                <!-- <div class="grid_4" style="text-align: left;"><label c-label real>{{card.norm}}</label></div> -->
+                                                                <div class="grid_12" style="text-align: left;">
+                                                                    <label c-label real>{{card.nokartu}}</label>
+                                                                </div>
+                                                                <!-- <div class="grid_4"></div> -->
+                                                                <span>{{card.lahir}}</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <!-- End of card -->
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="grid_4"></div>
+                                    </div>
+                                </div>
+                                <div class="grid_12" ng-show="formGrid">
+                                    <div class="grid_12"
+                                        style="background-color: darksalmon;border:1px solid #bbb;border-spacing:10px;border-radius:5px;">
+                                        <div class="grid_4" style="margin-top:10px">
+                                            <label c-label real>{{judulPasien}}</label>
+                                        </div>
+                                        <div class="grid_4" style="margin-top:10px">
+                                            <label c-label real ng-show="formGridDetail">{{judulPasienKlaim}}</label>
+                                        </div>
+                                        <div class="grid_4" style="margin-top:10px" ng-show="formGridDetailKembali">
+                                            <button class="c-button cancel" ng-click="clickKembali()"
+                                                style="float:left;width:120px">Kembali</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12 borderBox" ng-show="formGridHistory">
+                                        <kendo-grid id="kGrid" data-source="dataGrid" options="columnGrid"
+                                            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                            k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
+                                            <!-- <div k-detail-template>
+                                                <kendo-tabstrip>
+                                                    <div class="grid_6">
+                                                        <div class="grid_2">
+                                                            <div class="grid_12">
+                                                                <label c-label class="label-aja" item="item">No.
+                                                                    PO</label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <input c-text-box type="input" filter=""
+                                                                    class="k-textbox" ng-model="item.noSppb" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_3">
+                                                            <div class="grid_12">
+                                                                <label c-label class="label-aja" item="item"
+                                                                    c-label-text="namaBarang"></label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.namaBarang"
+                                                                    k-data-text-field="'namaproduk'"
+                                                                    k-data-value-field="'id'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listNamaBarang" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_12">
+                                                            <button class="c-button"
+                                                                ng-click="cariFilter()">Cari</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_6">
+
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <button class="c-button" ng-click="cariFilter()">Cari</button>
+                                                    </div>
+                                                </kendo-tabstrip>
+                                            </div> -->
+                                        </kendo-grid>
+                                    </div>
+                                </div>
+                                <div class="grid_12" ng-show="formGridDetail">
+                                    <div class="panel panel-default container_12" style="margin-top:10px">
+                                        <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                            <legend id="filterData">
+                                                <a ng-click="showAndHide()">{{judulPasienKlaim}}</a>
+                                            </legend>
+                                            <div class="grid_12">
+                                                <div class="grid_3">
+                                                    <label c-label c-label-text="Jaminan / Cara Bayar"></label>
+                                                    <input c-text-box type="input " style="text-align: center "
+                                                        filter=" " class="k-textbox " ng-model="item.jaminan "
+                                                        ng-disabled="true" />
+                                                </div>
+                                                <div class="grid_3">
+                                                    <label c-label c-label-text="No Peserta"></label>
+                                                    <input c-text-box type="input " style="text-align: center "
+                                                        filter=" " class="k-textbox " ng-model="item.nokartu "
+                                                        ng-disabled="true" />
+                                                </div>
+                                                <div class="grid_3">
+                                                    <label c-label c-label-text="No SEP"></label>
+                                                    <input c-text-box type="input " style="text-align: center "
+                                                        filter=" " class="k-textbox " ng-model="item.nosep "
+                                                        ng-disabled="true" />
+                                                </div>
+                                                <div class="grid_3">
+                                                    <label c-label c-label-text="COB"></label>
+                                                    <input c-text-box type="input " style="text-align: center "
+                                                        filter=" " class="k-textbox " ng-model="item.cob "
+                                                        ng-disabled="true" />
+                                                </div>
+                                                <hr>
+                                            </div>
+                                            <div class="grid_12">
+                                                <table style="width:100%;color: #4c5356;" id="customers">
+                                                    <tr>
+                                                        <th style="width: 10%"> Jenis Rawat</th>
+                                                        <th style="width: 60%"> {{paramInacbg}}</th>
+                                                        <th style="width: 10%"> Hak Kelas</th>
+                                                        <th style="width: 20%"> {{targetkelas_rawat}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 10%"> Tanggal Rawat</th>
+                                                        <th style="width: 60%">Masuk : {{targettgl_masuk}} Pulang:
+                                                            {{targettgl_pulang}}</th>
+                                                        <th style="width: 10%"> Umur</th>
+                                                        <th style="width: 20%"> {{targetumur}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 10%"> Kelas Tertinggi</th>
+                                                        <th style="width: 60%">{{target_kelaspelayanan}}</th>
+                                                        <th style="width: 10%"> Status Naik Kelas</th>
+                                                        <th style="width: 20%"> {{target_statusnaikkelas}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 10%"> Cara Pulang</th>
+                                                        <th style="width: 60%">
+                                                            <button class="c-button cancel"
+                                                                ng-click="clickStatusPulang()"
+                                                                style="float:left;width:120px">{{targetdischarge_status}}</button>
+                                                        </th>
+                                                        <th style="width: 10%"> DPJP</th>
+                                                        <th style="width: 20%"> {{targetnama_dokter}}</th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="grid_12">
+                                                <table style="width:100%;color: #4c5356;" id="customers">
+                                                    <tr>
+                                                        <th style="width: 70%">Nama </th>
+                                                        <th style="width: 30%">Tarif</th>
+                                                    </tr>
+                                                    <tr ng-repeat="list in listTarifRS | orderBy:'id'"
+                                                        ng-init="jawabIndex = $index">
+                                                        <td>
+                                                            <div class="keterangan">{{list.namatarif}} </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="keterangan"> {{list.tarifx}} </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="grid_12">
+                                                <table style="width:100%;color: #4c5356;" id="customersDiagnosa">
+                                                    <tr>
+                                                        <th>
+                                                            <div class="grid_12">
+                                                                <div class="grid_4">
+                                                                    <div class="grid_12">
+                                                                        <div class="grid_12">
+                                                                            <label c-label item="item">Berat
+                                                                                Badan</label>
+                                                                        </div>
+
+                                                                        <div class="grid_5">
+                                                                            <input c-text-box type="input" filter=""
+                                                                                class="k-textbox"
+                                                                                ng-model="item.beratBadan" />
+                                                                        </div>
+                                                                        <div class="grid_4">
+                                                                            <label c-label item="item">gram</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_4" style="margin-top: 16px">
+                                                                    <button class="primary c-button "
+                                                                        ng-click="simpanBeratBadanBayi()">Simpan</button>
+                                                                </div>
+                                                            </div>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="grid_12">
+                                                <div ng-cloak>
+                                                    <md-content>
+                                                        <md-tabs md-dynamic-height md-border-bottom>
+                                                            <md-tab label="Coding E-Klaim 5 ">
+                                                                <md-content class="md-padding ">
+                                                                    <div class="panel panel-default container_12 ">
+                                                                        <div class="panel-body ">
+                                                                            <div class="grid_12">
+                                                                                <table
+                                                                                    style="width:100%;color: #4c5356;"
+                                                                                    id="customers">
+                                                                                    <tr>
+                                                                                        <td colspan="7">
+                                                                                            <div class="grid_12">
+                                                                                                <div class="grid_4">
+                                                                                                    <div
+                                                                                                        class="grid_12">
+                                                                                                        <label c-label
+                                                                                                            item="item"
+                                                                                                            c-label-text="Diagnosa (ICD-10)"></label>
+                                                                                                    </div>
+                                                                                                    <div class="clear">
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="grid_12">
+                                                                                                        <input
+                                                                                                            kendo-combo-box
+                                                                                                            style="width:100%"
+                                                                                                            k-ng-model="item.diagnosisPrimer"
+                                                                                                            k-data-text-field="'kodeNama'"
+                                                                                                            k-data-value-field="'id'"
+                                                                                                            k-filter="'contains'"
+                                                                                                            k-auto-bind="false"
+                                                                                                            k-data-source="sourceDiagnosisPrimer"
+                                                                                                            ng-disabled="findBy=='1'" />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="grid_4"
+                                                                                                    style="margin-top: 16px">
+                                                                                                    <button
+                                                                                                        class="primary c-button "
+                                                                                                        ng-click="simpanDiagnosaTarget()">Simpan</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th>Tgl. Input </th>
+                                                                                        <th>Jenis Diagnosa</th>
+                                                                                        <th>Kode Diagnosa</th>
+                                                                                        <th>Nama Diagnosa</th>
+                                                                                        <th>Ruangan</th>
+                                                                                        <th>Keterangan</th>
+                                                                                        <th>Action</th>
+                                                                                    </tr>
+                                                                                    <tbody>
+                                                                                        <tr ng-repeat="list in listDiagnosa10 | orderBy:'jenisdiagnosa'"
+                                                                                            ng-init="jawabIndex = $index"
+                                                                                            ng-click="go(list)">
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.tglinputdiagnosa}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.jenisdiagnosa}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.kddiagnosa}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.namadiagnosa}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.namaruangan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{list.keterangan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    <button
+                                                                                                        class="c-button success"
+                                                                                                        ng-click="clickHapus(list)"
+                                                                                                        style="float:left;width:120px">Hapus</button>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
+                                                                            <div class="grid_12">
+                                                                                <table
+                                                                                    style="width:100%;color: #4c5356;"
+                                                                                    id="customers">
+                                                                                    <tr>
+                                                                                        <td colspan="6">
+                                                                                            <div class="grid_12">
+                                                                                                <div class="grid_4">
+                                                                                                    <div
+                                                                                                        class="grid_12">
+                                                                                                        <label c-label
+                                                                                                            item="item"
+                                                                                                            c-label-text="Diagnosa (ICD-9)"></label>
+                                                                                                    </div>
+                                                                                                    <div class="clear">
+                                                                                                    </div>
+
+                                                                                                    <div
+                                                                                                        class="grid_12">
+                                                                                                        <input
+                                                                                                            kendo-combo-box
+                                                                                                            style="width:100%"
+                                                                                                            k-ng-model="item.diagnosisPrimer1"
+                                                                                                            k-data-text-field="'kodeNama'"
+                                                                                                            k-data-value-field="'id'"
+                                                                                                            k-filter="'contains'"
+                                                                                                            k-auto-bind="false"
+                                                                                                            k-data-source="sourceDiagnosisPrimer1"
+                                                                                                            ng-disabled="findBy1=='1'"
+                                                                                                            k-on-change="isiNamaDiagnosaT()" />
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="grid_4"
+                                                                                                    style="margin-top: 16px">
+                                                                                                    <button
+                                                                                                        class="primary c-button "
+                                                                                                        ng-click="simpanDiagnosaTarget1()">Simpan</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <th>Tgl. Input </th>
+                                                                                        <th>Kode Diagnosa</th>
+                                                                                        <th>Nama Diagnosa</th>
+                                                                                        <th>Ruangan</th>
+                                                                                        <th>Keterangan</th>
+                                                                                        <th>Action</th>
+                                                                                    </tr>
+                                                                                    <tbody>
+                                                                                        <tr ng-repeat="listx in listDiagnosa9 | orderBy:'id'"
+                                                                                            ng-init="jawabIndex = $index"
+                                                                                            ng-click="go9(listx)">
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{listx.tglinputdiagnosa}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{listx.kddiagnosatindakan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{listx.diagnosatindakan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{listx.namaruangan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    {{listx.keterangan}}
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                <div class="keterangan">
+                                                                                                    <button
+                                                                                                        class="c-button success"
+                                                                                                        ng-click="clickHapus9(listx)"
+                                                                                                        style="float:left;width:120px">Hapus</button>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </md-content>
+                                                            </md-tab>
+                                                            <md-tab label="Coding E-Klaim 6">
+                                                                <md-content class="md-padding">
+
+                                                                    <div class="panel panel-default container_12">
+                                                                        <div class="grid_12">
+                                                                            <table style="width:100%;color: #4c5356;"
+                                                                                id="customers">
+                                                                                <tr>
+                                                                                    <td colspan="6">
+                                                                                        <div class="grid_12">
+                                                                                            <div class="grid_4">
+                                                                                                <div class="grid_12">
+                                                                                                    <label c-label
+                                                                                                        item="item"
+                                                                                                        c-label-text="Diagnosa (ICD-10)"></label>
+                                                                                                </div>
+                                                                                                <div class="clear">
+                                                                                                </div>
+
+                                                                                                <div class="grid_12">
+                                                                                                    <input c-text-box
+                                                                                                        type="input"
+                                                                                                        filter=""
+                                                                                                        class="k-textbox"
+                                                                                                        ng-model="item.diagnosisPrimerEklaim" />
+                                                                                                    <section
+                                                                                                        ng-class="cardViewEklaim ? 'show' : 'hide'">
+                                                                                                        <div ng-repeat="card in cardsEklaim"
+                                                                                                            class="row">
+                                                                                                            <div
+                                                                                                                class="col s12 m6 l4">
+                                                                                                                <div
+                                                                                                                    class="card">
+                                                                                                                    <div
+                                                                                                                        class="card-action">
+                                                                                                                        <div class="grid_8"
+                                                                                                                            style="text-align: left;">
+                                                                                                                            <label
+                                                                                                                                c-label
+                                                                                                                                real>{{card.description}}</label>
+                                                                                                                        </div>
+                                                                                                                        <div class="grid_4"
+                                                                                                                            style="text-align: left;">
+                                                                                                                            <button
+                                                                                                                                class="c-button cancel"
+                                                                                                                                ng-click="clickCard(card)"
+                                                                                                                                style="float:left;width:120px">{{card.code}}</button>
+                                                                                                                        </div>
+                                                                                                                        <!-- <div class="grid_12"
+                                                                                                                            style="text-align: left;">
+                                                                                                                            <label
+                                                                                                                                c-label
+                                                                                                                                real>{{card.code}}</label>
+                                                                                                                        </div> -->
+                                                                                                                        <span>{{card.code}}</span>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="grid_4"
+                                                                                                style="margin-top: 16px">
+                                                                                                <button
+                                                                                                    class="primary c-button "
+                                                                                                    ng-click="simpanDiagnosaTarget1()">Simpan</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Tgl. Input </th>
+                                                                                    <th>Kode Diagnosa</th>
+                                                                                    <th>Nama Diagnosa</th>
+                                                                                    <th>Ruangan</th>
+                                                                                    <th>Keterangan</th>
+                                                                                    <th>Action</th>
+                                                                                </tr>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="listx in listDiagnosa9 | orderBy:'id'"
+                                                                                        ng-init="jawabIndex = $index"
+                                                                                        ng-click="go9(listx)">
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.tglinputdiagnosa}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.kddiagnosatindakan}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.diagnosatindakan}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.namaruangan}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.keterangan}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                <button
+                                                                                                    class="c-button success"
+                                                                                                    ng-click="clickHapus9(listx)"
+                                                                                                    style="float:left;width:120px">Hapus</button>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </md-content>
+                                                            </md-tab>
+                                                        </md-tabs>
+                                                    </md-content>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="grid_12" ng-show='tabelTopup'>
+                                                <table style="width:100%;color: #4c5356;" id="customers">
+                                                    <tr>
+                                                        <th>Special </th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                    <tbody>
+                                                        <tr ng-show='specialProcedure'>
+                                                            <td>
+                                                                Special Procedure
+                                                            </td>
+                                                            <td>
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.specialprocedure"
+                                                                    k-data-text-field="'description'"
+                                                                    k-data-value-field="'code'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listspecialprocedure" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-show="specialProsthesis">
+                                                            <td>
+                                                                Special Prosthesis
+                                                            </td>
+                                                            <td>
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.specialprosthesis"
+                                                                    k-data-text-field="'description'"
+                                                                    k-data-value-field="'code'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listspecialprosthesis" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-show="specialInvestigation">
+                                                            <td>
+                                                                Special Investigation
+                                                            </td>
+                                                            <td>
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.specialinvestigation"
+                                                                    k-data-text-field="'description'"
+                                                                    k-data-value-field="'code'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listspecialinvestigation" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr ng-show="specialDrug">
+                                                            <td>
+                                                                Special Drug
+                                                            </td>
+                                                            <td>
+                                                                <input style="width: 100%;" kendo-combo-box
+                                                                    k-ng-model="item.specialdrug"
+                                                                    k-data-text-field="'description'"
+                                                                    k-data-value-field="'code'" k-filter="'contains'"
+                                                                    k-auto-bind="false"
+                                                                    k-data-source="listspecialdrug" />
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                            <div class="grid_12">
+                                                <table style="width:100%;color: #4c5356;" id="customers">
+                                                    <tr>
+                                                        <th style="width: 10%;font-size: x-large;">
+                                                            Tarif RS :
+                                                        </th>
+                                                        <th style="width: 30%;font-size: x-large;">
+                                                            {{totalTarifRS}}
+                                                        </th>
+                                                        <th style="width: 10%;font-size: x-large;">
+                                                            Tarif INACBG :
+                                                        </th>
+                                                        <th style="width: 20%;font-size: x-large;">
+                                                            {{totalInacbg}}
+                                                        </th>
+                                                        <th style="width: 10%;font-size: x-large;">
+                                                            Tarif NAIK KELAS :
+                                                        </th>
+                                                        <th style="width: 20%;font-size: x-large;">
+                                                            {{totalTarifNaikKelas}}
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 10%;font-size: x-large;">
+                                                            GROUP :
+                                                        </th>
+                                                        <th style="width: 30%;font-size: x-large;">
+                                                            {{cbgcode}}
+                                                        </th>
+                                                        <th colspan="4" style="width: 60%;font-size: x-large;">
+                                                            {{cbgdescription}}
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="grid_12">
+                                                <table style="width:100%;color: #4c5356;" id="customersDiagnosa">
+                                                    <tr>
+                                                        <th style="width: 10%" ng-show="showGrouping">
+                                                            <button class="c-button success" ng-click="clickGrouping()"
+                                                                style="float:left;width:120px">Grouping</button>
+                                                        </th>
+                                                        <th style="width: 10%" ng-hide="showGrouping">
+                                                            <button class="c-button error" ng-click="clickTopup()"
+                                                                style="float:left;width:120px">Top Up</button>
+                                                        </th>
+                                                        <th style="width: 10%">
+                                                            <button class="c-button success" ng-click="clickFinal()"
+                                                                style="float:left;width:120px">Claim Final</button>
+                                                        </th>
+                                                        <th style="width: 10%">
+                                                            <button class="c-button success" ng-click="clickSendClaim()"
+                                                                style="float:left;width:120px">Send Claim
+                                                                Individual</button>
+                                                        </th>
+                                                        <th style="width: 10%">
+                                                            <button class="c-button success"
+                                                                ng-click="clickCetakClaim()"
+                                                                style="float:left;width:120px">Cetak Claim</button>
+                                                        </th>
+                                                        <th style="width: 10%">
+                                                            <button class="c-button success" ng-click="clickEditClaim()"
+                                                                style="float:left;width:120px">Edit Claim</button>
+                                                        </th>
+                                                        <th style="width: 10%">
+                                                            <button class="c-button error" ng-click="clickKembali()"
+                                                                style="float:left;width:120px">Hapus Claim</button>
+                                                        </th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+                                <!-- <table class="patient_banner"
+                                    style="border:1px solid #bbb;border-spacing:10px;border-radius:5px;">
+                                    <tbody>
+                                        <tr id="trsimple">
+                                            <td>Cari No. RM / No. SEP / Nama</td>
+                                            <td><input type="text" style="width:300px;margin-left:-0.4em;" id="qpat"
+                                                    class="searchBox" autocomplete="off"></td>
+                                            <td><button class="primary c-button "
+                                                    ng-click="search_patient()">Cari</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                <div id="card-container" class="row">
+
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table> -->
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+
+
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+
+
+
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div kendo-window="popupEditStatusPulang" k-title="'Edit Status Pulang Rawat Inap'" k-width="600" k-height="200"
+    k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Edit Status Pulang Rawat Inap</a>
+            </legend>
+            <div class="grid_12">
+                <div class="grid_3">
+                    <label c-label item="item" c-label-text="statusKeluar"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.statusKeluar"
+                        k-data-text-field="'statuskeluar'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listStatusKeluar" k-on-change="loadKelas()"
+                        ng-disabled="disabledStatus" />
+                </div>
+                <div class="grid_3" ng-hide="item.statusKeluar.id === 2">
+                    <label c-label item="item" c-label-text="kondisiKeluar"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.kondisiKeluar"
+                        k-data-text-field="'kondisipasien'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listKondisiPasien" />
+                </div>
+                <div class="grid_3" ng-hide="item.statusKeluar.id === 2">
+                    <label c-label item="item" c-label-text="statusPulang"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.statusPulang"
+                        k-data-text-field="'statuspulang'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listStatusPulang" />
+                </div>
+                <div class="grid_3">
+                    <!-- Tanggal Keluar -->
+                    <label c-label item="item" c-label-text="tanggalKeluar"></label>
+                    <input style="width: 100%" k-ng-model="item.tglKeluar" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div>
+            </div>
+            <div class="grid_12" ng-show="item.statusKeluar.id === 5">
+                <div class="grid_6">
+                    <label c-label item="item" c-label-text="tanggalMeninggal"></label>
+                    <input style="width: 100%" kendo-date-time-picker k-ng-model="item.tglMeninggal" k-max="now"
+                        k-options="formatJam24" />
+                </div>
+                <div class="grid_6">
+                    <label c-label item="item" c-label-text="PenyebabKematian"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.penyebabKematian"
+                        k-data-text-field="'penyebabkematian'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listPenyebabKematian" k-on-change="IsiPenyebab()" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <button class="k-button" ng-click="saveStatusPulang()" style="float:right;margin-top:4%">Simpan</button>
+            </div>
+        </fieldset>
+    </div>
+</div>

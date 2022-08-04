@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="selisihfaktur" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select nofaktur,tglfaktur,totalharusdibayar,totalfisikdifaktur,selisih from strukpelayanan_t
+where tglfaktur between $P{tglawal} and $P{tglakhir} and selisih is not null ]]>
+	</queryString>
+	<field name="nofaktur" class="java.lang.String"/>
+	<field name="tglfaktur" class="java.lang.String"/>
+	<field name="totalharusdibayar" class="java.math.BigDecimal"/>
+	<field name="totalfisikdifaktur" class="java.math.BigDecimal"/>
+	<field name="selisih" class="java.math.BigDecimal"/>
+	<variable name="totalfaktur" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalharusdibayar}]]></variableExpression>
+	</variable>
+	<variable name="totalfisik" class="java.lang.String">
+		<variableExpression><![CDATA[$F{totalfisikdifaktur}]]></variableExpression>
+	</variable>
+	<variable name="selisih" class="java.lang.String">
+		<variableExpression><![CDATA[$F{selisih}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="84" splitType="Stretch">
+			<image>
+				<reportElement x="-1" y="0" width="87" height="58" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="59" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="60" width="548" height="16" uuid="db6984fb-eef5-44cb-9c0c-1db53a1ef42a"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Selisih Faktur]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="69" width="551" height="15" uuid="e8b75b11-829c-43cc-8f26-adf9216960b7"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Periode " + $P{tglawal} + "s/d" + $P{tglakhir}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement key="" x="26" y="7" width="100" height="15" forecolor="#030303" uuid="828dc590-d6b8-439d-944a-166231492029">
+					<property name="com.jaspersoft.studio.element.name" value="Komponen"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal Faktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="7" width="100" height="14" uuid="4180e797-2794-402c-9eb0-61b5be50291b"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nilai Faktur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="134" y="7" width="100" height="14" uuid="5467ff6c-4ecb-4a72-b0a8-fc3ef49be248"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomor Faktur]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="555" height="1" uuid="8860eade-bcb3-4f58-b173-9ad761b7f534"/>
+			</line>
+			<line>
+				<reportElement x="0" y="6" width="555" height="1" uuid="bc63285c-642e-4b7f-894b-08337585451a"/>
+			</line>
+			<staticText>
+				<reportElement key="" x="4" y="7" width="100" height="15" forecolor="#030303" uuid="758ef7b3-ccf7-44ea-962f-709f6c0b3d21">
+					<property name="com.jaspersoft.studio.element.name" value="Komponen"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="7" width="100" height="14" uuid="8c00884b-4506-4eaf-8c11-8ef404b5cad8"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nilai Faktur Fisik]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="480" y="7" width="100" height="14" uuid="88cc9a63-006a-4498-8268-6fccbb2c0ea1"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Selisih]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="26" y="0" width="100" height="13" uuid="de71bd8d-68a6-48c5-b7fc-18fdddae12d3"/>
+				<textElement>
+					<font size="10"/>
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglfaktur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="134" y="0" width="106" height="13" uuid="53cd0187-9113-40bc-be6d-77010212fdd2"/>
+				<textElement verticalAlignment="Bottom">
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nofaktur}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="246" y="0" width="112" height="13" uuid="56cda6dc-9924-4b48-819c-6b650bffa267"/>
+				<textFieldExpression><![CDATA[($F{totalharusdibayar} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{totalharusdibayar})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-21" width="1" height="37" uuid="d7ff89b5-f6a0-4a2d-9816-f16eb2b731f0"/>
+			</line>
+			<line>
+				<reportElement x="0" y="16" width="554" height="1" uuid="64280e55-8334-451a-9d8e-94ea6451c682"/>
+			</line>
+			<line>
+				<reportElement x="127" y="-20" width="1" height="37" uuid="d44ba2d1-71c5-4748-895e-964ca5f610e0"/>
+			</line>
+			<line>
+				<reportElement x="20" y="-20" width="1" height="37" uuid="3d2577d6-4934-4afd-8465-ffa941091a63"/>
+			</line>
+			<line>
+				<reportElement x="242" y="-20" width="1" height="37" uuid="b86ee9b3-1766-4b1e-8b37-e619bcdc8b63"/>
+			</line>
+			<line>
+				<reportElement x="554" y="-20" width="1" height="37" uuid="962373ab-6936-4f6a-865f-9c960bcdf417"/>
+			</line>
+			<textField>
+				<reportElement x="1" y="0" width="20" height="13" uuid="f1ad1b9b-8202-4387-91cd-2989e571a57e"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="361" y="-21" width="1" height="37" uuid="be5e0c86-1af9-40ae-95c4-9aa3a3ed8637"/>
+			</line>
+			<textField>
+				<reportElement x="365" y="0" width="105" height="17" uuid="d9c57c80-03e9-4a20-8798-a45bc4c2cd40"/>
+				<textFieldExpression><![CDATA[($F{totalfisikdifaktur} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{totalfisikdifaktur})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="475" y="-21" width="1" height="37" uuid="9a78e73d-0b59-4f50-ab66-6e0c249136cf"/>
+			</line>
+			<textField>
+				<reportElement x="480" y="0" width="70" height="17" uuid="86fd5a0a-6d46-486b-90d7-aadcab157e34"/>
+				<textFieldExpression><![CDATA[($F{selisih} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{selisih} )]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="100">
+			<staticText>
+				<reportElement x="38" y="20" width="212" height="30" uuid="8dcaf53d-ea55-479a-a567-6e711ff764c4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Menyetujui,
+KARUMKIT BHAYANGKARA TK. 1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="20" width="212" height="30" uuid="765fbbe3-1ad4-422f-93f0-9c3d49de2546"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[KA. INSTALASI FARMASI,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="68" width="212" height="20" uuid="4a67f930-58e7-4e20-96b6-bced159153df"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[dr. ASEP HENDRADIANA Sp.An,KIC,M.kes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="80" width="212" height="20" uuid="6d144d65-b368-499d-b2f1-9fd9d38b1729"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[BRIGADIR JENDRAL POLISI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="68" width="196" height="20" uuid="537f30f0-6e02-4689-8eb3-443cf768c0b6"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[LAILUL HIDAYATI, S.Farm,Apt]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="322" y="80" width="196" height="20" uuid="2ca28b45-614e-4083-b720-aeacb16c0b6a"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[PENDA TK.I 198007092005012010]]></text>
+			</staticText>
+			<line>
+				<reportElement x="40" y="81" width="210" height="1" uuid="d202fe49-a9bc-4044-94b3-864acedb86ce"/>
+			</line>
+			<line>
+				<reportElement x="322" y="81" width="196" height="1" uuid="59d0de8d-75c9-4b0b-9f6b-38d54aaa786f"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

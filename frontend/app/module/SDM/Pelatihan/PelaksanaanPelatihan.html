@@ -1,0 +1,107 @@
+<div class="panel panel-default container_12">
+	<div class="panel-heading" c-translate>Pelaksanaan Pelatihan</div>
+	<div class="panel-body">
+		<div class="grid_12">
+			<div class="grid_8">
+				<div class="grid_12">
+					<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+						<p>Pencarin</p>
+					</div>
+					<div class="grid_12 borderBox containerBorderBox">
+						<div class="grid_3" style="margin-top: 15px">
+							<div class="grid_12">
+								<label c-label item="item">Jenis Pelatihan</label>
+							</div>
+							<div class="grid_12">
+								<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisPelatihan"
+									k-data-text-field="'jenispelatihan'" k-data-value-field="'id'" k-filter="'contains'"
+									k-auto-bind="false" k-data-source="listJenisPelatihan" />
+							</div>
+						</div>
+						<div class="grid_3" style="margin-top: 15px">
+							<div class="grid_12">
+								<label c-label item="item">Narasumber</label>
+							</div>
+							<div class="grid_12">
+								<input style="width: 100%;" kendo-combo-box k-ng-model="item.Narasumber"
+									k-data-text-field="'namalengkap'" k-data-value-field="'noplanning'"
+									k-filter="'contains'" k-auto-bind="false" k-data-source="listNarasumber" />
+							</div>
+						</div>
+						<div class="grid_3" style="margin-top: 15px">
+							<div class="grid_12">
+								<label c-label item="item">Pelatihan</label>
+							</div>
+							<div class="grid_12">
+								<input style="width: 100%;" kendo-combo-box k-ng-model="item.Pelatihan"
+									k-data-text-field="'namaplanning'" k-data-value-field="'noplanning'"
+									k-filter="'contains'" k-auto-bind="false" k-data-source="listPelatihan" />
+							</div>
+						</div>
+						<div class="grid_3 k-edit-buttons  k-state-default " style="margin-top:37px">
+							<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SearchData()"
+								style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+							<button class="k-button  k-button-icontext" ng-click="ClearData()" style="width:100px"><span
+									class="k-sprite k-icon k-delete"></span>Clear</button>
+						</div>
+						<div class="grid_12"></div>
+					</div>
+				</div>
+			</div>
+			<div class="grid_4">
+				<div class="grid_12">
+					<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+						<p>Pelatihan</p>
+					</div>
+					<div class="grid_12 borderBox containerBorderBox">
+						<div class="grid_6" style="margin-top: 5px">
+							<div class="grid_12">
+								<label c-label item="item" style="margin-top: 10px">Nama Paket Pelatihan</label>
+							</div>
+							<div class="grid_12">
+								<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+									ng-model="item.namaPaketPelatihan" disabled />
+							</div>
+						</div>
+						<div class="grid_6" style="margin-top: 5px">
+							<div class="grid_12">
+								<label c-label item="item" style="margin-top: 10px">Total Peserta</label>
+							</div>
+							<div class="grid_12">
+								<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+									ng-model="item.totalPeserta" disabled />
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid_12">
+			<div class="grid_12" style="padding: 5px 5px 0 5px;">
+				<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+					<p>Detail Pelatihan</p>
+				</div>
+				<div class="grid_12 borderBox containerBorderBox">
+					<kendo-grid id="kGrid" k-data-source="dataSource" options="mainGridOptions"
+						k-ng-model="dataSelected" k-selectable="'row'"></kendo-grid>
+				</div>
+			</div>
+		</div>
+		<div class="grid_12">
+			<div class="grid_8"></div>
+			<div class="grid_2">
+				<button class="c-button" ng-click="EvaluasiNarasumber()">Evaluasi Narasumber</button>
+			</div>
+			<div class="grid_2">
+				<button class="c-button" ng-click="EvaluasiPenyelenggara()">Evaluasi Penyelenggara</button>
+			</div>
+			<!-- <div class="grid_2">
+				<button class="c-button" ng-click="()">Cetak Daftar Hadir</button>
+			</div> -->
+		</div>
+		<div class="grid_12" style="margin-top:60px">
+			<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+		</div>
+	</div>
+</div>

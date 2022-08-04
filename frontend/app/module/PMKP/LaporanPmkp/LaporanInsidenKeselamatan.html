@@ -1,0 +1,89 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+<div class="grid_12">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Laporan Sensus Keselamatan Pasien</b></h1>
+    </div>
+    <div class="grid_12">
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label class="label-aja" item="item" c-label-text="Ruangan"></label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.dataRuangan" k-data-text-field="'namaruangan'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listdataRuangan" />
+            </div>
+        </div>
+        <div class="grid_4">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Periode Tanggal"></label>
+            </div>
+            <div class="grid_12">
+                <!-- AwalPeriode -->
+                <div class="grid_5 padDatePicker">
+                    <div class="grid_12">
+                        <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker k-max="now"
+                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                </div>
+
+                <!-- AkhirPeriode -->
+                <div class="grid_5 padDatePicker">
+                    <div class="grid_12">
+                        <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker
+                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                </div>
+                <div class="grid_2">
+                    <button class="c-button" ng-click="cariFilter()">Cari</button>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12 borderBox">
+                <div id="kGrid" kendo-grid k-data-source="dataGrid" k-selectable="'row'" options="columnGrid"
+                    k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelected">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6"></div>
+        <div class="grid_2">
+            <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakTahunan()">
+                <span class="title">Cetak Laporan Tahunan</span>
+            </button>
+        </div>
+        <div class="grid_2">
+            <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="Cetak()">
+                <span class="title">Cetak Laporan Bulanan</span>
+            </button>
+        </div>
+        <div class="grid_2">
+            <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakHarian()">
+                <span class="title">Cetak Laporan Harian</span>
+            </button>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>

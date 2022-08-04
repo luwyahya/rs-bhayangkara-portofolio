@@ -1,0 +1,36 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+</style>
+<div class="panel panel-default container_12" style="background-color:transparant">
+    <div class="panel-heading"><label class='title' c-label item="item" c-label-text="Master Target Kinerja" real></label>
+    </div>
+    <div class="panel-body">
+        <div class="panel-body">
+                <div class="grid_2">
+                    <label c-label item="item" c-label-text="Pelayanan"></label>
+                    <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="items.Pelayanan" />
+                </div>
+                <div class="grid_1">
+                    <label c-label c-label-text=""></label>
+                    <em style="margin-top:6px;" ng-click='resetFilters()' id="iconButton" data-role="button"
+                        class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+                            class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div id="gridDaftarShift" kendo-grid options="mainGridOptions"></div>
+        </div>
+       
+    </div>
+</div>

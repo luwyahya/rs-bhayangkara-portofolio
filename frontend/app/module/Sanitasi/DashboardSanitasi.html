@@ -1,0 +1,382 @@
+<style>
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    textarea {
+        font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+    }
+
+    .carousel-inner>.item>a>img,
+    .carousel-inner>.item>img,
+    .img-responsive,
+    .thumbnail a>img,
+    .thumbnail>img {
+        display: block;
+        max-width: 80%;
+        height: auto;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    img {
+        border: 0;
+    }
+
+    .photo-pasien {
+        /* display: inline-block; */
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+
+    .k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    /* .notif{
+             background-color: #ff3860;
+              height: 25px;
+              width: 25px;
+              border-radius: 50%;
+              display: inline-block;
+    } */
+    .notif {
+        background-color: #ff3860;
+        height: 15px;
+        margin-left: 20px;
+        width: 15px;
+        color: white;
+        border-radius: 50%;
+        display: inline-block;
+        margin-top: -10px;
+    }
+
+    .notif-badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 3px 7px;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        background-color: #f50909;
+        border-radius: 10px
+    }   
+
+    .green {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    .blue {
+        background-color: #1E90FF;
+        color: #ffffff;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .k-multiselect-wrap {
+        position: relative;
+        /* border-width: 0; */
+        /* border-style: solid; */
+        border-radius: 4px;
+        /* border-color: #C5C5C5; */
+        background-color: #FFF;
+        min-height: 2.04em;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #228be6;
+    }
+</style>
+
+
+<div class="panel panel-default container_12">
+    <div class="panel-heading"><label class='title' c-label item="item">Dashboard Evaluasi Ruangan</label>
+    </div>
+    <div class="panel-place">
+        <a ng-click="add()" style="    margin-left: 0;
+            width: 100px;
+            height: 1.2em;
+            font-size: 20px;
+            /* left: 5px; */
+            position: absolute;
+            top: 20px;
+            right: -50px;">
+            <div class="cd-timeline-img cd-picture add animated">
+                <md-tooltip>
+                    Tambah Baru
+                </md-tooltip>
+                <!-- <img src="stylesheets/cetak.png" alt="Picture"> -->
+                <i class="fa fa-plus-circle fa-2x" style=" margin-left: 13px;
+                margin-top: 10px;"></i>
+            </div>
+        </a>
+    </div>
+    <div class="grid_12">
+
+        <!-- <div ng-cloak?> -->
+        <md-content>
+            <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                <md-tab label="Riwayat">
+                    <md-content class="md-padding">
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <md-input-container class="md-block" flex-gt-sm>
+                                    <label>Cari Judul</label>
+                                    <md-icon md-svg-src="../app/images/svg/search-24px.svg" class="name"></md-icon>
+                                    <input ng-model="item.cariJudul">
+                                </md-input-container>
+                                <!-- <i class="fa fa-search"></i> -->
+                            </div>
+
+                        </div>
+                        <div class="grid_3" ng-repeat="itemData in dataSource">
+                            <md-card>
+                                <md-card-header>
+                                    <md-card-avatar>
+                                        <md-icon class="md-avatar-icon" md-svg-icon="../app/images/svg/menu.svg">
+                                        </md-icon>
+                                    </md-card-avatar>
+                                    <md-card-header-text>
+                                        <span class="md-title">{{itemData.judul}}</span>
+                                        <span class="md-subhead">{{itemData.keterangan}}</span>
+                                    </md-card-header-text>
+                                </md-card-header>
+                                <img ng-src="{{itemData.image!=null ? itemData.image: item.image}}"
+                                    class="md-card-image" alt="Cover" style="object-fit: cover;
+                                object-position: center;
+                                height: 177px;
+                                display: block;
+                                max-width: 100%;
+                                ">
+                                <!-- <md-card-title>
+                                    <md-card-title-text>
+                                        <span class="md-headline">In-card actions</span>
+                                        <span class="md-subhead">Description</span>
+                                    </md-card-title-text>
+                                </md-card-title> -->
+
+                                <md-card-content style="height: 200px; overflow-y: auto">
+                                    <p>
+                                        {{itemData.isi}}
+                                    </p>
+                                </md-card-content>
+                                <md-card-actions layout="row" layout-align="start center">
+                                    <md-button class="md-icon-button" aria-label="Detail" ng-click="show(itemData)">
+                                        <md-tooltip>
+                                            Lihat Detail
+                                        </md-tooltip>
+                                        <md-icon md-svg-icon="../app/images/svg/slideshow-24px.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Edit" ng-click="edit(itemData)">
+                                        <md-tooltip>
+                                            Edit
+                                        </md-tooltip>
+                                        <md-icon md-svg-icon="../app/images/svg/edit-24px.svg"></md-icon>
+                                    </md-button>
+                                    <md-button class="md-icon-button" aria-label="Hapus" ng-click="hapus(itemData)">
+                                        <md-tooltip>
+                                            Hapus
+                                        </md-tooltip>
+                                        <md-icon md-svg-icon="../app/images/svg/delete_sweep-24px.svg"></md-icon>
+                                    </md-button>
+                                    <!-- <md-button><i class="fa fa-edit-circle"></i>Edit</md-button>
+                                    <md-button><i class="fa fa-trash"></i>Hapus</md-button> -->
+                                </md-card-actions>
+                            </md-card>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Tambah Baru">
+                    <md-content class="md-padding">
+                        <div class="panel panel-default container_12">
+                            <fieldset style="padding:20px;border-radius: 20px;">
+                                <div class="grid_12">
+                                    <div class="grid_4">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Judul</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input c-text-box type="input" filter="" class="k-textbox"
+                                                ng-model="item.judul" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_4">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Ruangan</label>                   
+                                        </div>
+                                        <div class="grid_12">
+                                            <select 
+                                            kendo-multi-select 
+                                            k-options="selectOptionsRuangan" 
+                                            k-data-source="listRuangan"
+                                            k-data-text-field="'ruangan'" 
+                                            k-data-value-field="'id'" 
+                                            k-ng-model="selectedRuangan"
+                                            \>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid_4">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Unggah File Laporan</label>
+                                            <br>
+                                        </div>
+                                        <form class="grid_12" method="post" enctype="multipart/form-data" id="coba">                                            
+                                            <div class="grid_12">
+                                                <input type="file" name="fileLaporan" id="files" class="myLaporan" />                                                
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="grid_6">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Sumber</label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" filter="" class="k-textbox"
+                                            ng-model="item.sumber" />
+                                    </div>
+                                </div>
+                                <div class="grid_12" style="margin-top: 10px;">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Isi</label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <textarea style="width: 99%; height: 200px;border-radius: 20px;"
+                                            ng-model="item.isi"></textarea>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="grid_3" style="margin-top: 10px;">
+                                    <div class="grid_12">
+                                        <label c-label item="item">Cover</label>
+                                    </div>
+                                    <fieldset class="effect-shadow"
+                                        style="border-radius: 10px;margin-top:20px; cursor: pointer;">
+                                        <div class="profile_img" ng-click="showPopUp()">
+                                            <div id="crop-avatar" style="padding-right: 15px">
+                                                <img style="margin-left: 40px;margin-top: 5px;   
+                                                width: 350px;
+                                                height: 300px;
+                                                object-fit: contain;" class="img-responsive avatar-view"
+                                                    src="{{item.image}}" alt="Avatar" title="Ubah avatar">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div> -->
+
+                            </fieldset>
+                            </fieldset>
+                            <div class="grid_12">
+                                <div class="grid_10"></div>
+                                <div class="grid_1" style="margin-top: 22px">
+                                    <button class="btnTemplate1 success" ng-click="Save()"><i
+                                            class="fa fa-save"></i>Simpan</button>
+                                </div>
+                                <div class="grid_1" style="margin-top: 22px">
+                                    <button class="btnTemplate1" ng-click="Batal()"><i
+                                            class="fa fa-refresh"></i>Batal</button>
+                                </div>
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+            </md-tabs>
+        </md-content>
+    </div>
+</div>
+<div kendo-window="popUpUpload" k-title="'Upload '" k-width="500" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <input type="file" id="photo">
+        </div>
+
+
+        <div class="grid_12">
+
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button  k-button-icontext" ng-click="UploadPhoto()"><i class="fa fa-upload"></i> &nbsp;
+                    Upload</button>
+                <button class="k-button  k-button-icontext" ng-click="TutupPopUp()"><i
+                        class="fa fa-times-circle"></i>&nbsp;Tutup</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

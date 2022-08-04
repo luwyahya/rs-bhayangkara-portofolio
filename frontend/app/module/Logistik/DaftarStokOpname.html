@@ -1,0 +1,119 @@
+<style>
+.k-multiselect-wrap {
+    position: relative;
+    /* border-width: 0; */
+    /* border-style: solid; */
+    border-radius: 4px;
+    /* border-color: #C5C5C5; */
+    background-color: #FFF;
+    min-height: 2.04em;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #228be6;
+}
+</style>
+<div class="panel panel-default container_12">
+    <div class="panel-heading" c-translate>Daftar Stok Opname</div>
+    <div class="panel-body">
+        <div class="grid_12">
+
+            <div class="grid_12">
+                <div class="grid_2">
+                    <label c-label item="item" c-label-text="Ruangan"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+
+                <div class="grid_2" style="margin-bottom:5px">
+                    <label c-label item="item"> Jenis Produk</label>
+                    <select kendo-multi-select k-options="selectOptJenisProduk" k-data-source="listJenisProduk"
+                        k-data-text-field="'jenisproduk'" k-data-value-field="'id'" k-ng-model="selectedJenisProduk" \>
+                    </select>
+                </div>
+                <div class="grid_2" style="margin-bottom:5px">
+                    <label c-label item="item">Detail Jenis Produk</label>
+                    <select kendo-multi-select k-options="selectOptionsDetailJenis" k-data-source="listDetailJenis"
+                        k-data-text-field="'detailjenisproduk'" k-data-value-field="'id'"
+                        k-ng-model="selectedDetailJenis" \>
+                    </select>
+                </div>
+
+                <div class="grid_4">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Periode Registrasi"></label>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="grid_12">
+                        <!-- AwalPeriode -->
+                        <div class="grid_6 padDatePicker">
+                            <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" />
+                        </div>
+
+                        <!-- AkhirPeriode -->
+                        <div class="grid_6 padDatePicker">
+                            <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+
+                <!-- Button Search -->
+                <div class="grid_1" style="margin-top:8px">
+                    <div class="grid_12">
+                        <label>&nbsp;</label>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="grid_12">
+                        <button class="c-button" style="margin-left: 0;" ng-click="cari()">Cari</button>
+                    </div>
+                </div>
+
+                <!-- </fieldset> -->
+                <!-- </form> -->
+            </div>
+        </div>
+        <div class="grid_12" style="margin: 5px 0 10px 0;">
+            <kendo-grid k-data-source="dataStokOpname" k-selectable="'row'" k-options="optionsDataStokOpname"
+                k-ng-model="current" ng-click="kl(current)">
+            </kendo-grid>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <label c-label item="item" c-label-text="namaProduk"></label>
+
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaproduk" />
+                </div>
+            </div>
+            <div class="grid_9">
+                <div class="grid_9"></div>
+                <div class="grid_3 ">
+                    <button class="c-button" ng-show="!isLoading" item="item" is-validate
+                        ng-click="LaporanStokOpname()">
+                        <span class="title">Cetak</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div kendo-window="popup_Laporan" k-title="'Laporan Stok Opname'" k-visible="false" k-width="1350">
+        <div class="panel panel-default container_12">
+            <div class="grid_12">
+                <div class="grid_12 headerBox"></div>
+                <div class="grid_12 borderBox">
+                    <kendo-grid k-data-source="sourceLaporan" k-selectable="'row'" k-groupable="'false'"
+                        k-options="columnLaporan" k-ng-model="current" ng-click="click(dataSelected)">
+                    </kendo-grid>
+                </div>
+            </div>
+        </div>
+    </div>

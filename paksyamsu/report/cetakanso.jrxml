@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporankasirdetailjasper" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.1000000000000005"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="namaruangan" class="java.lang.String"/>
+	<parameter name="objectruanganfk" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT        stokprodukdetail_t.objectprodukfk, produk_m.statusenabled, produk_m.namaproduk, ruangan_m.namaruangan,upper(bentukproduk_m.namabentukproduk) as namabentukproduk, SUM(stokprodukdetail_t.qtyproduk) AS stok,
+                         satuanstandar_m.satuanstandar
+FROM            stokprodukdetail_t INNER JOIN
+                         ruangan_m ON stokprodukdetail_t.objectruanganfk = ruangan_m.id INNER JOIN
+                         produk_m ON stokprodukdetail_t.objectprodukfk = produk_m.id INNER JOIN
+                         bentukproduk_m ON produk_m.objectbentukprodukfk = bentukproduk_m.id INNER JOIN
+                         satuanstandar_m ON produk_m.objectsatuanstandarfk = satuanstandar_m.id
+WHERE        (stokprodukdetail_t.objectruanganfk = $P{objectruanganfk} ) and produk_m.statusenabled= true and qtyproduk>0
+GROUP BY stokprodukdetail_t.objectprodukfk, produk_m.statusenabled, produk_m.namaproduk, ruangan_m.namaruangan, bentukproduk_m.namabentukproduk, satuanstandar_m.satuanstandar
+ORDER BY bentukproduk_m.namabentukproduk, produk_m.namaproduk]]>
+	</queryString>
+	<field name="namaproduk" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namabentukproduk" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="stok" class="java.lang.Integer">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="satuanstandar" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namaruangan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<variable name="nourut" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{nourut}]]></variableExpression>
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<group name="poli dan kelompok" isResetPageNumber="true">
+		<groupExpression><![CDATA[$F{namabentukproduk}]]></groupExpression>
+		<groupHeader>
+			<band height="19">
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="3" y="0" width="71" height="15" forecolor="#0A0101" uuid="8a36e646-581e-4b67-a6d2-b348203e1b7d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Obat :]]></text>
+				</staticText>
+				<line>
+					<reportElement x="2" y="17" width="551" height="1" uuid="6829e2fc-8e85-4816-9492-12acbf428f4d"/>
+				</line>
+				<textField>
+					<reportElement x="70" y="1" width="130" height="18" uuid="cba8904f-8749-46b1-abc2-5d08ab1ab807"/>
+					<textElement>
+						<font fontName="DejaVu Sans" size="8"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{namabentukproduk}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="judul">
+		<groupHeader>
+			<band height="25">
+				<staticText>
+					<reportElement x="1" y="0" width="28" height="16" uuid="1e04b792-4dfd-4ba3-9408-aa4fc0ea5811">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No.]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="30" y="0" width="79" height="16" uuid="5137a640-1df8-4a56-9189-e586b6db1ba6">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Obat]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="231" y="0" width="58" height="16" uuid="70e29a68-f7d0-453c-b7cb-b08620020b1a">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Satuan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="331" y="0" width="109" height="16" uuid="271627b3-8e08-4ec3-b600-ccfc94c7ce48">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Stok Sistem]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="475" y="0" width="70" height="16" uuid="2ed67af3-ebed-4913-bdc3-f5c4401df128">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="9" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Stok Fisik]]></text>
+				</staticText>
+				<line>
+					<reportElement x="2" y="18" width="551" height="1" uuid="c7e7fdb4-ceec-483f-b2ba-79cbf59bcd74"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band height="12" splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="44" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="86" y="22" width="80" height="15" forecolor="#0A0101" uuid="15bb3f56-ae88-4c62-b2f3-3de0d69915bd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Depo :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="5" y="21" width="551" height="1" uuid="933049b6-27f9-4368-909c-109b041f744d"/>
+			</line>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="101" y="4" width="369" height="15" forecolor="#0A0101" uuid="b99ee7b0-0157-4e63-a990-01ab71788e56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DAFTAR BARANG PER DEPO UNTUK STOK OPNAME]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="166" y="22" width="106" height="15" uuid="76be5b33-e5e2-449d-97ea-19ff04886c30">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namaruangan}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="7" y="-1" width="551" height="1" uuid="4606fdfb-ac83-476d-bb06-c8bb9d22123d"/>
+			</line>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="270" y="20" width="100" height="21" uuid="74a0ff82-e10e-42e3-b7ab-0df6c1dc3414"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField pattern="HH:mm">
+				<reportElement x="370" y="19" width="100" height="22" uuid="e039f1c9-8ca6-4d63-952d-bb5e0cfe47cc"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="41" width="551" height="1" uuid="f0f289c9-51c4-4e1a-84a9-188716a20740"/>
+			</line>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="30" y="0" width="180" height="12" uuid="504a9a54-c936-4e86-b188-20a7954af6f6"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namaproduk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="0" width="48" height="12" uuid="e95300ef-bb19-491c-a6e3-3d8b3710c629">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{satuanstandar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="0" width="67" height="12" uuid="bdd074b6-9118-44d8-9b43-57f1a5298c38"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stok}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="2" y="0" width="11" height="12" uuid="61cd1eff-9467-49e7-917a-5e31b6624312"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{nourut}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="15" width="551" height="1" uuid="68248e5b-476c-45c5-8f65-f12ee8ccdd6e"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+</jasperReport>

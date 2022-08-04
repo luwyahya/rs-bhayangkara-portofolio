@@ -1,0 +1,152 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .warnaa {
+        color: black
+    }
+
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    .k-multiselect-wrap {
+        position: relative;
+        /* border-width: 0; */
+        /* border-style: solid; */
+        border-radius: 4px;
+        /* border-color: #C5C5C5; */
+        background-color: #FFF;
+        min-height: 2.04em;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #228be6;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Detail Penerimaan Kasir</div>
+    </div>
+    <div class="panel panel-default panel-white" ng-hide="isMasuk">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">
+                    <h2><span class="fa fa-plus warnaa">
+                        </span> &nbsp;Pencarian</h2>
+                </a>
+            </legend>
+            <div class="grid_12" id="contentPencarian">
+                <div class="grid_4">
+                    <div class="grid_6">
+                        <label c-label item="item" c-label-text="Tanggal awal"></label>
+                        <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker
+                            placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                    <div class="grid_6">
+                        <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                        <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker
+                            placeholer="yyyy-mm-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    </div>
+                </div>
+                <div class="grid_4" style="margin-top: 3px;">
+                    <label c-label item="item">Ruangan</label>
+                    <select kendo-multi-select k-options="selectRuanganPelayanan" k-data-source="listRuangan"
+                        k-data-text-field="'namaruangan'" k-data-value-field="'id'"
+                        k-ng-model="selectedRuanganPelayanan" \>
+                    </select>
+                </div>
+                <div class="grid_2" style="margin-top: 2px;">
+                    <div class="grid_12" style="margin-top:23px">
+                        <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SearchData()"
+                            style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+                        <button class="k-button  k-button-icontext" ng-click="ClearData()" style="width:100px"><span
+                                class="k-sprite k-icon k-delete"></span>Clear</button>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div class="grid_12">
+    <md-content>
+        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+            <md-tab label="Laporan Penerimaan Kasir">
+                <md-content class="md-padding">
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12 borderBox">
+                            <div id="kGrid" kendo-grid k-data-source="sourceLaporan" k-selectable="'row'"
+                                options="columnLaporan" k-resizable="'true'" k-sortable="'true'"
+                                k-ng-model="dataSbnSelected" ng-click="klik(dataSbnSelected)">
+                            </div>
+                        </div>
+                    </div>
+                </md-content>
+            </md-tab>
+            <!-- <md-tab label="Pendapatan Perpasien">
+                <md-content class="md-padding">
+                </md-content>
+            </md-tab>
+            <md-tab label="Pendapatan Perjenis Pasien">
+                <md-content class="md-padding">
+                </md-content>
+            </md-tab>
+            <md-tab label="Pendapatan Perjenis Layanan">
+                <md-content class="md-padding">
+                </md-content>
+            </md-tab> -->
+        </md-tabs>
+    </md-content>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

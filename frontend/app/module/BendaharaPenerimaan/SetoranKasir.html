@@ -1,0 +1,466 @@
+<style>
+	.style-center {
+		display: inline-block;
+		text-align: center;
+		width: 100%;
+	}
+
+	.style-right {
+		display: inline-block;
+		text-align: right;
+		width: 100%;
+	}
+
+	.style-left {
+		display: inline-block;
+		text-align: left;
+		width: 100%;
+	}
+
+	.k-grid .k-grid-header .k-header .k-link {
+		height: auto;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		white-space: normal;
+	}
+
+	.k-grid .k-grid-header .k-header {
+		text-align: center;
+	}
+	#myProgress {
+	  width: 100%;
+	  background-color: #ddd;
+	}
+	
+	#myBar {
+	  width: 0%;
+	  height: 30px;
+	  background-color: yellow;
+	  text-align: center;
+	}
+
+	.koneng {
+		background-color: #FFFF00;
+		color: #191970;
+		/*font-weight: bold;*/
+	}
+
+	.red {
+		background-color: #ff3860;
+		color: #FFFFFF;
+		/*font-weight: bold;*/
+	}
+</style>
+
+<div class="grid_12 headerBox">
+	<h1 style="color: white;"><b>Penerimaan Kasir</b></h1>
+</div>
+<div class="panel-body">
+	<div class="grid_12">
+		<!-- NamaKasir -->
+		<div class="grid_3">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="NamaKasir"></label>
+			</div>
+			<div class="grid_12">
+				<input kendo-combo-box k-ng-model="item.namaKasir" k-data-text-field="'namalengkap'"
+					k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listNamaKasir" />
+			</div>
+		</div>
+		<div class="grid_4">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="Periode "></label>
+			</div>
+			<div class="clear"></div>
+			<div class="grid_12">
+				<!-- AwalPeriode -->
+				<div class="grid_6 padDatePicker">
+					<input style="width: 100%" k-ng-model="item.tanggalAwal" kendo-datetimepicker k-max="now"
+						placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+				</div>
+
+				<!-- AkhirPeriode -->
+				<div class="grid_6 padDatePicker">
+					<input style="width: 100%" k-ng-model="item.tanggalAkhir" kendo-datetimepicker
+						placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="grid_2">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="Setor"></label>
+			</div>
+			<div class="grid_12">
+				<input kendo-combo-box k-ng-model="item.KetSetor" k-data-text-field="'status'" k-data-value-field="'id'"
+					k-filter="'contains'" k-auto-bind="false" k-data-source="listKetSetoran" />
+			</div>
+		</div>
+		<div class="grid_2">
+			<div class="grid_12">
+				<label c-label item="item" c-label-text="CaraBayar"></label>
+			</div>
+			<div class="grid_12">
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar" k-data-text-field="'carabayar'"
+					k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listCaraBayarMain" />
+			</div>
+		</div>
+		<!-- <div class="grid_1" style="margin-top:27px">
+			<div class="grid_12">
+				<input type="checkbox" class="k-checkbox" id="isNotDeposit" ng-model="item.isNotDeposit"
+				value="true">
+				<label class="k-checkbox-label" for="isNotDeposit"><b>Bukan Deposit</b></label>				
+			</div>
+		</div> -->
+		<div class="grid_1 k-edit-buttons  k-state-default " style="margin-top:20px">
+			<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SearchData1()"
+				style="width:100px"><span class="k-sprite k-icon k-i-search"></span>Cari </button>
+		</div>
+	</div>
+</div>
+<div ng-cloak>
+	<md-content>
+		<md-tabs md-dynamic-height md-border-bottom>
+			<md-tab label="Setoran Harian">
+				<md-content class="md-padding">
+					<div class="grid_6">
+						<div class="grid_12">
+							<div class="grid_12 headerBox">
+								<p>Rincian Transaksi</p>
+								<kendo-grid data-source="dataSetoranKasir" options="columnSetoranKasir"></kendo-grid>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_9"></div>
+							<div class="grid_3">
+								<div class="grid_12" style="margin-top: 10px">
+									<label c-label item="item">Sub Total</label>
+								</div>
+								<div class="grid_12">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSubTotal2" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_10"></div>
+							<div class="grid_2">
+								<button class="btnTemplate1 cancel" ng-click="BatalSetor()"><i
+										class="fa fa-refresh"></i>Batal
+									Setor</button>
+							</div>
+						</div>
+					</div>
+					<div class="grid_6">
+						<div class="grid_12">
+							<div class="grid_12 headerBox">
+								<p>Rincian Deposit</p>
+								<kendo-grid data-source="dataSetoranKasirD" options="columnSetoranKasirD"></kendo-grid>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_9"></div>
+							<div class="grid_3">
+								<div class="grid_12" style="margin-top: 10px">
+									<label c-label item="item">Sub Total</label>
+								</div>
+								<div class="grid_12">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSubTotal2D" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_10"></div>
+							<div class="grid_2">
+								<button class="btnTemplate1 cancel" ng-click="BatalSetorD()"><i
+										class="fa fa-refresh"></i>Batal
+									Setor</button>
+							</div>
+						</div>
+					</div>
+					<div class="grid_12">
+						<div class="grid_3"></div>
+						<div class="grid_3">
+							<button class="btnTemplate1" ng-click="CetakLaporanPenerimaanHarianMondok()"><i
+									class="fa fa-print"></i>Laporan Penerimaan Kasir Rawat Mondok</button>
+						</div>
+						<div class="grid_3">
+							<button class="btnTemplate1" ng-click="CetakLaporanPenerimaanHarian()"><i
+									class="fa fa-print"></i>Laporan Penerimaan Kasir Harian</button>
+						</div>
+						<div class="grid_3">
+							<button class="btnTemplate1" ng-click="CetaklapPenerimaanPertransaksi()"><i
+									class="fa fa-print"></i>Laporan Penerimaan Kasir PerTransaksi</button>
+						</div>						
+					</div>					
+				</md-content>
+			</md-tab>
+			<md-tab label="Detail Penerimaan">
+				<md-content class="md-padding">
+					<div class="grid_12"></div>
+					<div class="grid_12">
+						<div class="grid_12 headerBox">
+							<p>Detail Penerimaan</p>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Cara Bayar</label>
+							</div>
+							<div class="grid_12">
+								<input kendo-combo-box k-ng-model="item.caraBayar" k-data-text-field="'namaLengkap'"
+									k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+									k-data-source="listCaraBayar" ng-disabled="disabledCaraBayar" />
+							</div>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Cara Setor</label>
+							</div>
+							<div class="grid_12">
+								<input kendo-combo-box k-ng-model="item.caraSetor" k-data-text-field="'carasetor'"
+									k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+									k-data-source="listCaraSetor" />
+							</div>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Jumlah</label>
+							</div>
+							<div class="grid_12">
+								<input c-text-box type="text" style="text-align: right" filter="'numeric'"
+									class="k-textbox" ng-model="item.jumlah" />
+							</div>
+						</div>
+						<div class="grid_1" style="margin-top: 25px">
+							<input type="checkbox" class="k-checkbox" name="setorAll" id="setorAll"
+								ng-model="item.cekSetorAll">
+							<label class="k-checkbox-label" for="setorAll">100 % Per-item</label>
+						</div>
+						<div class="grid_2 k-edit-buttons  k-state-default " style="margin-top:23px">
+							<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="add()"><span
+									class="k-sprite k-icon k-i-plus"></span>Tambah </button>
+							<button class="k-button  k-button-icontext" ng-click="delete()"><span
+									class="k-sprite k-icon k-delete"></span>Hapus</button>
+						</div>
+						<div class="grid_12 borderBox">
+							<div id="kGrid" kendo-grid k-data-source="dataCaraBayar" k-selectable="'row'"
+								k-columns="columnCaraBayar" k-pageable="'true'" k-sortable="'true'"
+								ng-click="klikGridHead(dataSelectedCaraBayar)" k-ng-model="dataSelectedCaraBayar">
+								<div k-detail-template>
+									<kendo-tabstrip>
+										<div>
+											<div id="kGridDetail" kendo-grid class="max-height
+												k-options=" dataCaraBayar2(dataItem)" k-sortable="'true'" k-selectable="'row'"
+												k-ng-model="dataSelectedCaraBayar2"
+												ng-click="klikDetail(dataSelectedCaraBayar2)">
+											</div>
+										</div>
+									</kendo-tabstrip>
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4">
+								<div class="grid_3">
+									<label c-label item="item" c-label-text="Tgl Setor "></label>
+								</div>
+								<div class="grid_8 padDatePicker">
+									<input style="width: 100%" k-ng-model="item.tglsetor" kendo-datetimepicker
+										k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+										parsedate="yyyy-MM-dd HH:mm" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sub Total Penerimaan</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSubTotal" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8">
+							</div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sub Total Setoran</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSetoran" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8">
+							</div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sisa</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.sisa" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4 k-edit-buttons  k-state-default " style="margin-top:23px">
+								<button class="k-button k-button-icontext k-primary k-grid-update" style="width:100px"
+									ng-click="Simpan()"><span class="k-sprite k-icon k-update"></span>Simpan </button>
+								<button class="k-button k-primary  k-button-icontext" ng-click="Cetak()"
+									style="width:100px"><span class="k-sprite k-icon k-print"></span>Cetak</button>
+								<!-- <button class="k-button  k-button-icontext" ng-click="BatalSetor()"
+									style="width:100px"><span class="k-sprite k-icon k-cancel"></span>Batal
+									</button> -->
+							</div>
+						</div>
+						<div class="grid_12" id="myProgress">
+							<div id="myBa2r"></div>
+						</div>
+						<div class="grid_12" id="myProgress">
+							<div id="myBar"></div>
+						</div>
+				</md-content>
+			</md-tab>
+			<md-tab label="Detail Penerimaan Deposit">
+				<md-content class="md-padding">
+					<div class="grid_12"></div>
+					<div class="grid_12">
+						<div class="grid_12 headerBox">
+							<p>Detail Penerimaan Deposit</p>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Cara Bayar</label>
+							</div>
+							<div class="grid_12">
+								<input kendo-combo-box k-ng-model="item.caraBayarD" k-data-text-field="'namaLengkap'"
+									k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+									k-data-source="listCaraBayarD" ng-disabled="disabledCaraBayarD" />
+							</div>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Cara Setor</label>
+							</div>
+							<div class="grid_12">
+								<input kendo-combo-box k-ng-model="item.caraSetorD" k-data-text-field="'carasetor'"
+									k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+									k-data-source="listCaraSetor" />
+							</div>
+						</div>
+						<div class="grid_3">
+							<div class="grid_12">
+								<label c-label item="item">Jumlah</label>
+							</div>
+							<div class="grid_12">
+								<input c-text-box type="text" style="text-align: right" filter="'numeric'"
+									class="k-textbox" ng-model="item.jumlahD" />
+							</div>
+						</div>
+						<div class="grid_1" style="margin-top: 25px">
+							<input type="checkbox" class="k-checkbox" name="setorAllD" id="setorAllD"
+								ng-model="item.cekSetorAllD">
+							<label class="k-checkbox-label" for="setorAllD">100 % Per-item</label>
+						</div>
+						<div class="grid_2 k-edit-buttons  k-state-default " style="margin-top:23px">
+							<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="addD()"><span
+									class="k-sprite k-icon k-i-plus"></span>Tambah </button>
+							<button class="k-button  k-button-icontext" ng-click="deleteD()"><span
+									class="k-sprite k-icon k-delete"></span>Hapus</button>
+						</div>
+						<div class="grid_12 borderBox">
+							<div id="kGrid" kendo-grid k-data-source="dataCaraBayarD" k-selectable="'row'"
+								k-columns="columnCaraBayarD" k-pageable="'true'" k-sortable="'true'"
+								ng-click="klikGridHeadD(dataSelectedCaraBayarD)" k-ng-model="dataSelectedCaraBayarD">
+								<div k-detail-template>
+									<kendo-tabstrip>
+										<div>
+											<div id="kGridDetailD" kendo-grid class="max-height
+												k-options=" dataCaraBayar2(dataItem)" k-sortable="'true'" k-selectable="'row'"
+												k-ng-model="dataSelectedCaraBayar2D"
+												ng-click="klikDetailD(dataSelectedCaraBayar2D)">
+											</div>
+										</div>
+									</kendo-tabstrip>
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4">
+								<div class="grid_3">
+									<label c-label item="item" c-label-text="Tgl Setor "></label>
+								</div>
+								<div class="grid_8 padDatePicker">
+									<input style="width: 100%" k-ng-model="item.tglsetorD" kendo-datetimepicker
+										k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+										parsedate="yyyy-MM-dd HH:mm" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sub Total Penerimaan</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSubTotalD" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8">
+							</div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sub Total Setoran</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.totalSetoranD" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8">
+							</div>
+							<div class="grid_4">
+								<div class="grid_3" style="margin-top: 10px">
+									<label c-label item="item">Sisa</label>
+								</div>
+								<div class="grid_8">
+									<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
+										ng-model="item.sisaD" ng-disabled="true" />
+								</div>
+							</div>
+						</div>
+						<div class="grid_12">
+							<div class="grid_8"></div>
+							<div class="grid_4 k-edit-buttons  k-state-default " style="margin-top:23px">
+								<button class="k-button k-button-icontext k-primary k-grid-update" style="width:100px"
+									ng-click="SimpanD()"><span class="k-sprite k-icon k-update"></span>Simpan </button>
+								<button class="k-button k-primary  k-button-icontext" ng-click="CetakD()"
+									style="width:100px"><span class="k-sprite k-icon k-print"></span>Cetak</button>
+								<!-- <button class="k-button  k-button-icontext" ng-click="BatalSetor()"
+									style="width:100px"><span class="k-sprite k-icon k-cancel"></span>Batal
+									</button> -->
+							</div>
+						</div>
+				</md-content>
+			</md-tab>
+		</md-tabs>
+	</md-content>
+</div>

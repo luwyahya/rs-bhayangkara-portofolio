@@ -1,0 +1,372 @@
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    /* table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 40px;
+
+    }
+
+    td,
+    th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    } */
+</style>
+<div class="panel panel-default container_12" style="background-color:transparant">
+    <div class="panel-heading"><label class='title' c-label item="item" real>Risk Register</label></div>
+    <div class="panel-body">
+        <div class="md-padding">
+            <div class="grid_12" style="margin-top: 20px;margin-bottom: 20px;">
+                <table style="width:100%;color: #4c5356;">
+                    <tr>
+                        <td>Obyek Penilaian Risiko</td>
+                        <td colspan="2">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="item.ObyekPenilaianRisiko" />
+                            </div>
+                        </td>
+                        <td>Penilaian</td>
+                        <td colspan="2">Tanggal</td>
+                        <td colspan="2">Penanggung Jawab</td>
+                    </tr>
+                    <tr>
+                        <td>Tujuan</td>
+                        <td colspan="2">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.Tujuan" />
+                            </div>
+                        </td>
+                        <td>Dinilai Oleh</td>
+                        <td colspan="2">
+                            <input style="width: 100%" k-ng-model="item.tglPenilai" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" />
+                        </td>
+                        <td colspan="2">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PegawaiPenilai"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Lokasi</td>
+                        <td colspan="2">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.Lokasi" />
+                            </div>
+                        </td>
+                        <td>Dievaluasi</td>
+                        <td colspan="2">
+                            <input style="width: 100%" k-ng-model="item.tglEvaluasi" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" />
+                        </td>
+                        <td colspan="2">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PegawaiEvaluasi"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pemilik Risiko</td>
+                        <td colspan="2">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="item.PemilikRisiko" />
+                            </div>
+                        </td>
+                        <td>Disetui Oleh</td>
+                        <td colspan="2">
+                            <input style="width: 100%" k-ng-model="item.tglPenyetujui" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" />
+                        </td>
+                        <td colspan="2">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PegawaiPenyetujui"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <center><b>IDENTIFIKASI RISIKO</b></center>
+                        </td>
+                        <td colspan="4">
+                            <center><b>ANALISIS RISIKO</b></center>
+                        </td>
+                        <td rowspan="2">
+                            <center><b>EVALUASI RISIKO</b></center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>Deskripsi Risiko</center>
+                        </td>
+                        <td>
+                            <center>Dampak</center>
+                        </td>
+                        <td>
+                            <center>Penyebab</center>
+                        </td>
+                        <td>
+                            <center>Upaya Kontrol yang saat ini dilakukan</center>
+                        </td>
+                        <td>
+                            <center>Efektifitas</center>
+                        </td>
+                        <td colspan="2">
+                            <center>Tingkat Risiko</center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="5">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.DeskRisiko"></textarea>
+                        </td>
+                        <td rowspan="5">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.DampakRisiko"></textarea>
+                        </td>
+                        <td rowspan="5">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.PenyRisiko"></textarea>
+                        </td>
+                        <td rowspan="5">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Upaya"></textarea>
+                        </td>
+                        <td rowspan="5">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Efektifitas"></textarea>
+                        </td>
+
+
+                        <td rowspan="2">
+                            Dampak
+                        </td>
+                        <td rowspan="2">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Dampak"></textarea>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="isAvoidRisk" ng-model="item.AvoidRisk"
+                                value="true" ng-click="cekAvoidRisk(item.AvoidRisk)">
+                            <label class="k-checkbox-label" for="isAvoidRisk"><b>Avoid Risk</b></label>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="isAcceptRisk" ng-model="item.AcceptRisk"
+                                value="true" ng-click="cekAcceptRisk(item.AcceptRisk)">
+                            <label class="k-checkbox-label" for="isAcceptRisk"><b>Accept Risk</b></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            Kemungkian
+                        </td>
+
+                        <td rowspan="2">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Kemungkinan"></textarea>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="isMitigateRisk" ng-model="item.MitigateRisk"
+                                value="true" ng-click="cekMitigateRisk(item.MitigateRisk)">
+                            <label class="k-checkbox-label" for="isMitigateRisk"><b>Mitigate Risk</b></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            <input type="checkbox" class="k-checkbox" id="isTransferRisk" ng-model="item.TransferRisk"
+                                value="true" ng-click="cekTransferRisk(item.TransferRisk)">
+                            <label class="k-checkbox-label" for="isTransferRisk"><b>Transfer Risk</b></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Level
+                        </td>
+                        <td>
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Level"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <center><b>MANAJEMEN RISIKO</b></center>
+                        </td>
+                        <td rowspan="2">
+                            <center>Status Jaminan</center>
+                        </td>
+                        <td colspan="3">
+                            <center><b>MONITORING dan EVALUASI</b></center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>Tujuan Sasaran</center>
+                        </td>
+                        <td>
+                            <center>Rencana Kegiatan</center>
+                        </td>
+                        <td>
+                            <center>Penanggung Jawab</center>
+                        </td>
+                        <td>
+                            <center>Jadwal</center>
+                        </td>
+                        <!-- <td></td> -->
+                        <td>
+                            <center>Tanggal</center>
+                        </td>
+                        <td colspan="2">
+                            <center>Laporan Singkat</center>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>Dampak / Kemungkinan</center>
+                        </td>
+                        <td>
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.RencanaKegiatan"></textarea>
+                        </td>
+                        <td>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PgwJawab"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" />
+                        </td>
+                        <td>
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Jadwal"></textarea>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="isInsurable" ng-model="item.Insurable"
+                                value="true" ng-click="cekInsurable(item.Insurable)">
+                            <label class="k-checkbox-label" for="isInsurable"><b>Insurable</b></label>
+                        </td>
+                        <td rowspan="2">
+                            <input style="width: 100%" k-ng-model="item.Tanggal" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" />
+                        </td>
+                        <td colspan="2" rowspan="2">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.LapSingkat"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Level</td>
+                        <td colspan="3">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.LevelAkhir" />
+                            </div>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="isInsured" ng-model="item.Insured"
+                                value="true" ng-click="cekInsured(item.Insured)">
+                            <label class="k-checkbox-label" for="isInsured"><b>Insured</b></label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="grid_12">
+                <div class="grid_6"></div>
+                <div class="grid_6">
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+                    </div>
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1" ng-click="Batal()"><i class="fa fa-refresh"></i>Batal</button>
+                    </div>
+                    <div class="grid_4" style="margin-top: 22px">
+                        <button class="btnTemplate1 cancel" ng-click="kembali()"><i
+                                class="fa fa-arrow-left"></i>Kembali</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

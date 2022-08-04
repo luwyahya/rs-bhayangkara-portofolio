@@ -1,0 +1,64 @@
+#!/usr/bin/env node
+
+require("amd-loader");
+var express = require('express');
+
+var debug = require('debug')('my-application');
+//var amqp = require('amqplib');
+//var HashMap = require('hashmap');
+//var config = require('../app/javascripts/SettingRabbit');
+
+var app = require('../app');
+//var RabbitHole = require('../rabbitHole');
+//var Storage = require('node-storage');
+
+//console.log('RabbitMQ Server Host : %s', config.rabbitMQHost);
+
+// START Alter Syamsu, biar difix-kan portnya
+
+// app.set('port', process.env.PORT || 5555);
+
+// var server = app.listen(app.get('port'), function() {
+//     console.log('Express server listening on port ' + server.address().port);
+// });
+// var io = require('socket.io').listen(server);
+
+
+// SYAMSU - NAMBAH PORT 443;
+
+app.set('port', 2222);
+
+var server = app.listen(app.get('port'), function() {
+    console.log('Express Server for HTPP Server & Notification Server, listening on port ' + server.address().port);
+});
+
+/*
+
+app.set('portHttp', 2222);
+app.set('portHttps', 443);
+
+
+var http = require('http');
+server = http.createServer(app);
+
+server.listen(app.get('portHttp'), function() {
+    console.log('Express Server for HTPP / HTTPS Server & Notification Server, listening on port ' + server.address().port);
+});
+
+var serverHttps = null
+
+var privateKey  = fs.readFileSync('D:/Certified-RSB-Polri/POLRI/rsbpusatpolri_com.pem', 'utf8');
+var certificate = fs.readFileSync('D:/Certified-RSB-Polri/POLRI/rsbpusatpolri_com.key', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
+var https = require('https');
+serverHttps = https.createServer(credentials,app);
+
+server.listen(app.get('portHttps'), function() {
+    console.log('Express Server for HTPP / HTTPS Server & Notification Server, listening on port ' + server.address().port);
+});
+*/
+
+
+
+

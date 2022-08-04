@@ -1,0 +1,70 @@
+<div class="panel panel-default panel-white">
+    <div class="panel-heading text-center btn"><span class="title">BIOS Tools</span></div>
+</div>
+<div class="grid_2">
+    <div class="breadcrum">
+        <div class="grid_12">
+
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.Kesehatan'}"
+                    ng-click="nav('BIOSTools.Kesehatan')">KESEHATAN</a>
+            </div>
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.Keuangan'}"
+                    ng-click="nav('BIOSTools.Keuangan')">KEUANGAN</a>
+            </div>
+            <!-- <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.MenuSEP'}"
+                    ng-click="nav('BIOSTools.MenuSEP')">SEP</a>
+            </div>
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.MenuRujukan'}"
+                    ng-click="nav('BIOSTools.MenuRujukan')">Rujukan</a>
+            </div>
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.MenuLPK'}"
+                    ng-click="nav('BIOSTools.MenuLPK')">Lembar
+                    Pengajuan Klaim</a>
+            </div>
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.MenuMonitoring'}"
+                    ng-click="nav('BIOSTools.MenuMonitoring')">Monitoring</a>
+            </div>
+            <div class="grid_12">
+                <a class="n1" ng-class="{'active': currentState == 'BIOSTools.MenuAplicare'}" ng-click="nav('BIOSTools.MenuAplicare')">Ketersediaan Kamar</a>
+            </div> -->
+        </div>
+    </div>
+
+</div>
+<div class="grid_10">
+
+
+    <div ui-view></div>
+</div>
+
+
+<style type="text/css">
+    .k-button {
+        width: 100%;
+        font-weight: 600;
+        font-size: 100%;
+    }
+
+    .text-center {
+        text-align: center
+    }
+
+    .active {
+        background: blue;
+        color: #f6f6f6;
+        display: block;
+        padding: 10px;
+        font-size: 120%;
+    }
+
+    .btn {
+        display: block;
+        padding: 10px;
+    }
+</style>

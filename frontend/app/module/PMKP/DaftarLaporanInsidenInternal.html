@@ -1,0 +1,200 @@
+<style>
+    k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .notif {
+        background-color: #ff3860;
+        height: 15px;
+        margin-left: 20px;
+        width: 15px;
+        color: white;
+        border-radius: 50%;
+        display: inline-block;
+        margin-top: -10px;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .photo-pasiens {
+        /* display: inline-block; */
+        width: 400px;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+
+    fieldset {
+        border: 1px solid #c8c8c8;
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    img.photo-pasien {
+        width: 300px;
+        height: 100%;
+        object-fit: contain;
+    }
+    .green {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+</style>
+<c-panel item="item" header="'Daftar Laporan Insiden (Internal)'" disabled>
+</c-panel>
+<div class="grid_12">
+    <div class="grid_4" style="margin-top: 5px;">
+        <div class="grid_12">
+            <label c-label item="item" c-label-text="Ruangan"></label>
+        </div>
+        <div class="clear"></div>
+        <div class="grid_12">
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'"
+                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+        </div>
+    </div>
+    <div class="grid_4" style="margin-top:5px">
+        <div class="grid_12">
+            <label c-label item="item" c-label-text="Periode Insiden Internal"></label>
+        </div>
+        <div class="grid_12">
+            <!-- AwalPeriode -->
+            <div class="grid_6 padDatePicker">
+                <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+
+            <!-- AkhirPeriode -->
+            <div class="grid_6 padDatePicker">
+                <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="grid_1" style="margin-top:5px">
+        <div class="grid_12">
+            <label>&nbsp;</label>
+        </div>
+        <div class="clear"></div>
+        <div class="grid_12">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()"> <i
+                    class="fa fa-search"></i>Cari</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 headerBox">
+            <p>Daftar</p>
+        </div>
+        <div class="clear"></div>
+        <div class="grid_12 borderBox">
+            <div id="kGrid" kendo-grid k-data-source="dataSourceGrid" k-selectable="'row'" k-groupable="'true'"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" options="columnGrid" k-resizable="'true'"
+                k-sortable="'true'" k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2"></div>
+        <div class="grid_10">
+            <!-- <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="tambahData()">Tambah</button>
+            </div>  ng-hide="showFilter" -->
+            <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="Cetak()">Cetak</button>
+            </div>
+            <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="editData()">Edit</button>
+            </div>
+            <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="hapusData()">Hapus</button>
+            </div>
+            <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="Lanjut()">TindakLanjut</button>
+            </div>
+            <div class="grid_3" style="margin-top: 22px">
+                <button class="c-button" ng-click="Lihat()">Lihat Detail Insiden</button>
+            </div>
+            <div class="grid_3" style="margin-top: 15px" ng-show="showFilter">
+                <button class="btnTemplate1" style="margin-left: 0;" ng-click="InsidenBaru()"><i
+                        class="fa fa-arrow-right"></i>Insiden Baru<a style="font-color:white" ng-show="showNotif"><span
+                            class="notif">{{lengthInsiden}}</span> </a></button>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:40px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>
+<div kendo-window="winKonsul" k-title="'Daftar Insiden Internal Baru'" k-width="1700" k-height="450" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Daftar Insiden Baru</a>
+            </legend>            
+            <div class="grid_12" style="margin-top: 10px">
+                <div id="gridKonsul" kendo-grid k-data-source="sourceKonsul" options="konsulOpt" k-selectable="'row'" k-groupable="'true'"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" options="columnGrid" k-resizable="'true'"
+                k-sortable="'true'" k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+            </div>
+            </div>
+        </fieldset>
+    </div>
+</div>

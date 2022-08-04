@@ -1,0 +1,156 @@
+<style>
+    .k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .warnaa {
+        color: black
+    }
+
+    .green {
+        background-color: #00FFFF;
+		color: #FFFFFF;
+    }
+
+    .dark-green {
+        background-color: #7ef6ff;
+		color: #000000;
+    }
+
+	.red {
+		background-color: #ff0095;
+		color: #000000;
+		/*font-weight: bold;*/
+	}
+
+	.dark-red {
+		background-color: #ff5ebc;
+		color: #000000;
+		/*font-weight: bold;*/
+	}
+
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    .button-details {
+    background: none;
+    color: black;
+    border-radius: 15px;
+    border: 1px solid;
+    padding: 2px 7px 2px;
+    font-family: inherit;
+    line-height: 1.72em;
+    text-align: center;
+    /* cursor: pointer; */
+    text-decoration: none;
+    background-color: rgb(0, 255, 221);
+    display: inline-block;
+    min-width: 78px;
+    vertical-align: middle;
+    margin-top: 5px;
+    }
+</style>
+<div ng-show="dataVOloaded">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Surveilans</div>
+        <div class="panel-body">
+            <div class="grid_12">
+                <div ng-cloak>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                            <md-tab label="History EMR">
+                                <md-content class="md-padding">
+                                    <div class="grid_12">
+                                        <!--  <div class="grid_12">
+                                    <div kendo-grid k-data-source="sourcePAP" k-selectable="'row'" options="mainGridOptions" k-ng-model="current"
+                                        ng-click="kl(current)"></div>
+                                </div> -->
+                                        <div class="grid_12 borderBox">
+                                            <!-- <kendo-grid id="kGrid" data-source="dataDaftar" options="columnDaftar"
+                                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                                k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
+                                            </kendo-grid> -->
+                                            
+                                            <kendo-grid id="kGrid" data-source="dataDaftar" options="columnDaftar"
+                                                k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+                                                k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)">
+                                                <!-- <div k-detail-template>
+                                                    <kendo-tabstrip>
+                                                        <div>
+                                                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
+                                                                >
+                                                            </div>
+                                                        </div>
+                                                    </kendo-tabstrip>
+                                                </div> -->
+                                            </kendo-grid>
+                                        </div>
+                                        <!-- <div class="grid_12">
+                                            <div class="grid_3"></div>
+                                            <div class="grid_3">
+                                                <button class="btnTemplate1" ng-click="Lihat()"><i
+                                                        class="fa fa-search"></i>Lihat</button>
+                                            </div>
+                                            <div class="grid_3">
+                                                <button class="btnTemplate1" ng-click="createNewSurveilans()"><i
+                                                        class="fa fa-plus"></i>Buat Baru</button>
+                                            </div>
+                                            <div class="grid_3">
+                                                <button class="btnTemplate1 cancel" ng-click="hapusSurveilans()"><i
+                                                        class="fa fa-trash"></i>Hapus</button>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="showBilling">
+	<object id="pageBilling" type="application/pdf" data="{{urlBilling}}"
+		style="width:100%; min-height: 700px;height: 200%" />
+</div>
+
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

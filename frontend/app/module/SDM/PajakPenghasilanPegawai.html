@@ -1,0 +1,782 @@
+<div class="grid_12">
+	<div class="panel panel-default container_12" style="background-color:transparant">
+		<div class="panel-heading"><label class='title' c-label item="item" real>E-Pajak Pegawai</label></div>
+		<div class="panel-body">
+			<div class="grid_12">
+				<div class="grid_12"><div class="panel panel-default panel-white">
+					<!-- <div class="panel-heading-white"><span class="title" c-translate>A. Identitas Penerima Penghasilan Yang Dipotong</span></div> -->
+						<div class="panel-body">
+							<div class="grid_12">
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>Nomor Surat</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="Nomor Surat" filter="'varchar'"
+											class="k-textbox" ng-model="item.nomorsurat" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>Masa Perolehan Penghasilan [mm-mm]</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.masapp" placeholder="Masa Perolehan Penghasilan [mm-mm]" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>Nomor</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.nomor" placeholder="Nomor" readonly/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-default panel-white">
+						<div class="panel-heading-white"><span class="title" c-translate>A. Identitas Penerima Penghasilan Yang Dipotong</span></div>
+						<div class="panel-body">
+							<div class="grid_12">
+								<div class="grid_4" ng-hide="true">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Id"></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="" class="k-textbox"
+											ng-model="item.idPegawai" placeholder="ID" readonly />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label><b>NPWP</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NPWP" filter="'varchar'"
+											class="k-textbox" ng-model="item.npwp" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>NIP</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.nip" placeholder="NIP" />
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>NRP</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.nrp" placeholder="NRP" />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="NamaPegawai"></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.namaLengkap" placeholder="Nama Lengkap" readonly />
+									</div>
+								</div>
+							</div>
+							</div>
+							<div class="grid_12">
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Pangkat/Golongan"></label>
+									</div>
+									<div class="grid_12">
+										<div class="grid_10">
+											<input style="width: 100%;" kendo-combo-box k-ng-model="item.detailPangkatPegawai"
+												k-data-text-field="'namapangkat'" k-data-value-field="'id'"
+												k-filter="'contains'" k-auto-bind="false" k-data-source="ListDetilPangkatPegawai" 
+                                                k-on-change="getGradeJbtn(item.detailPangkatPegawai)" />
+										</div>
+										<div class="grid_2">
+											<input style="width: 100%;" kendo-combo-box k-ng-model="item.eselon"
+												k-data-text-field="'eselon'" k-data-value-field="'id'"
+												k-filter="'contains'" k-auto-bind="false" k-data-source="ListGolonganPegawai" 
+                                                k-on-change="getGradeJbtn(item.eselon)" />
+										</div>
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label><b>Alamat</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" filter="'varchar'" class="k-textbox"
+											ng-model="item.alamat" placeholder="Alamat" />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="JenisKelamin"></label>
+									</div>
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisKelamin"
+											k-data-text-field="'jeniskelamin'" k-data-value-field="'id'"
+											k-filter="'contains'" k-auto-bind="false"
+											k-data-source="ListJenisKelamin" />
+									</div>
+								</div>
+							<div class="grid_12">
+								<div class="grid_4">
+									<div class="grid_12">
+										<label><b>NIK</b></label>
+									</div>
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NIK" filter="'varchar'"
+											class="k-textbox" ng-model="item.noidentitas" />
+									</div>
+								</div>
+								<div class="grid_3">
+									<div class="grid_12">
+										<label><b>Status/Jumlah Tanggungan Keluarga Untuk PTKP</b></label>
+									</div>
+									<div class="grid_1">
+										<p>K/</p>
+									</div>
+									<div class="grid_2">
+										<input c-text-box type="input" placeholder="K" filter="'varchar'"
+											class="k-textbox" ng-model="item.sk" />
+									</div>
+									<div class="grid_1"></div>
+									<div class="grid_1">
+										<p>TK/</p>
+									</div>
+									<div class="grid_2">
+										<input c-text-box type="input" placeholder="TK" filter="'varchar'"
+											class="k-textbox" ng-model="item.skt" />
+									</div>
+									<div class="grid_1"></div>
+									<div class="grid_1">
+										<p>HB/</p>
+									</div>
+									<div class="grid_2">
+										<input c-text-box type="input" placeholder="HK" filter="'varchar'"
+											class="k-textbox" ng-model="item.shb" />
+									</div>
+								</div>
+								<div class="grid_3">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Jabatan"></label>
+									</div>
+									<div class="grid_12">
+										<div class="grid_12">
+											<input style="width: 100%;" kendo-combo-box k-ng-model="item.detailKelompokJabatan"
+												k-data-text-field="'detailkelompokjabatan'" k-data-value-field="'id'"
+												k-filter="'contains'" k-auto-bind="false" k-data-source="ListDetilKelompokJabatan" 
+                                                k-on-change="getGradeJbtn(item.detailKelompokJabatan)" />
+										</div>
+									</div>
+								</div>
+								<div class="grid_2">
+									<div class="grid_12">
+										<label><b>Kode Objek Pajak</b></label>
+									</div>
+									<div class="grid_12">
+										<div class="grid_6" style="margin-top: 10px">
+											<input type="checkbox" class="k-checkbox" ng-model="model.kodeop"
+												id="kodeop" ng-click="ceklispilihManual(model.kodeop)">
+											<label class="c-label k-checkbox-label" for="kodeop" required>21-100-01</label>
+										</div>
+										<div class="grid_6" style="margin-top: 10px">
+											<input type="checkbox" class="k-checkbox" ng-model="model.kodeop1"
+												id="kodeop1" ng-click="ceklispilihManual1(model.kodeop1)">
+											<label class="c-label k-checkbox-label" for="kodeop1" required>21-100-02</label>
+										</div>
+									</div>
+									<!-- <div class="grid_12">
+										<input c-text-box type="input" placeholder="Kode Objek Pajak" filter="'varchar'"
+											class="k-textbox" ng-model="item.kodeop" />
+									</div> -->
+								</div>
+								<!-- <div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="JenisKelamin"></label>
+									</div>
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisKelamin"
+											k-data-text-field="'jeniskelamin'" k-data-value-field="'id'"
+											k-filter="'contains'" k-auto-bind="false"
+											k-data-source="ListJenisKelamin" />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Pendidikan Terakhir"></label>
+									</div>
+									<div class="grid_12">
+										<input kendo-combo-box k-ng-model="item.pendidikan"
+											k-data-text-field="'pendidikan'" k-data-value-field="'id'"
+											k-filter="'contains'" k-data-source="ListPendidikan" style="width: 100%;" />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Status Kawin"></label>
+									</div>
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box
+											k-ng-model="item.statusPerkawinanPegawai"
+											k-data-text-field="'statusperkawinan'" k-data-value-field="'id'"
+											k-filter="'contains'" k-auto-bind="false" k-data-source="ListStatusKawin" />
+									</div>
+								</div> -->
+							</div>
+							<!-- <div class="grid_12">
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Agama"></label>
+									</div>
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.agama"
+											k-data-text-field="'agama'" k-data-value-field="'id'" k-filter="'contains'"
+											k-data-source="ListAgama" />
+									</div>
+								</div>
+								<div class="grid_4">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="Tanggal Meninggal"></label>
+									</div>
+									<div class="grid_12">
+										<input kendo-date-picker k-ng-model="item.tglMeninggal" k-format="'dd-MM-yyyy'"
+											style="width: 100%" />
+									</div>
+								</div>
+							</div> -->
+						</div>
+					</div>
+                    <div class="panel panel-default panel-white">
+						<div class="panel-heading-white"><span class="title" c-translate>B. Rincian Penghasilan Dan Penginputan PPh Pasal 21</span></div>
+                        <div class="grid_12"><p style="font-size: 20px; margin-top: -3px; margin-bottom: -3px;"><b>Penghasilan Bruto</b></p></div>
+						<div class="panel-body" style="margin-left: 15px">
+							<div class="grid_12" style="margin-top: -5px;">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>1. Gaji Pokok/Pensiun</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="Gaji Pokok/Pensiun" filter="'varchar'"
+										class="k-textbox" ng-model="item.gpp" ng-keypress="($event.which == 13)? CariFiltergpp():item.gpp" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>2. Tunjangan Isteri</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ti' placeholder="Tunjangan Istri" filter="'varchar'"
+											class="k-textbox" ng-model="item.ti" ng-keypress="($event.which == 13)? CariFilterti():item.ti"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>3. Tunjangan Anak</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ta' placeholder="Tunjangan Anak" filter="'varchar'"
+											class="k-textbox" ng-model="item.ta" ng-keypress="($event.which == 13)? CariFilterta():item.ta"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>4. Jumlah Gaji Dan Tunjangan Keluarga (1 S.D. 3)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jgtk' placeholder="Jumlah Gaji Dan Tunjangan Keluarga (1 S.D. 3)" filter="'varchar'"
+											class="k-textbox" ng-model="item.jgtk" ng-keypress="($event.which == 13)? CariFilterjgtk():item.jgtk"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>5. Tunjangan Perbaikan Penghasilan</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='tpp' placeholder="Tunjangan Perbaikan Penghasilan" filter="'varchar'"
+											class="k-textbox" ng-model="item.tpp" ng-keypress="($event.which == 13)? CariFiltertpp():item.tpp"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>6. Tunjangan Struktural/Fungsional</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='tsf' placeholder="Tunjangan Struktural/Fungsional" filter="'varchar'"
+											class="k-textbox" ng-model="item.tsf" ng-keypress="($event.which == 13)? CariFiltertsf():item.tsf" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>7. Tunjangan Beras</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='tb' placeholder="Tunjangan Beras" filter="'varchar'"
+											class="k-textbox" ng-model="item.tb" ng-keypress="($event.which == 13)? CariFiltertb():item.tb" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>8. Tunjangan Khusus</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='tk' placeholder="Tunjangan Khusus" filter="'varchar'"
+											class="k-textbox" ng-model="item.tk" ng-keypress="($event.which == 13)? CariFiltertk():item.tk" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>9. Tunjangan Lain-Lain</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='tll' placeholder="Tunjangan Lain-Lain" filter="'varchar'"
+											class="k-textbox" ng-model="item.tll" ng-keypress="($event.which == 13)? CariFiltertll():item.tll" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>10. Penghasilan Tetap Dan Teratur lainnya Yang Pembayarannya Terpisah Dari Pembayaran Gaji</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='pttlyptdpg' placeholder="Penghasilan Tetap Dan Teratur lainnya Yang Pembayarannya Terpisah Dari Pembayaran Gaji" filter="'varchar'"
+											class="k-textbox" ng-model="item.pttlyptdpg" ng-keypress="($event.which == 13)? CariFilterpttlyptdpg():item.pttlyptdpg" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>11. Jumlah Penghasilan Bruto (4 S.D. 10)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jpb' placeholder="Jumlah Penghasilan Bruto (4 S.D. 10)" filter="'varchar'"
+											class="k-textbox" ng-model="item.jpb"  ng-keypress="($event.which == 13)? CariFilterjpb():item.jpb"/>
+									</div>
+                                </div>
+							</div>
+                        </div>
+                        <div class="grid_12"><p style="font-size: 20px; margin-top: -3px; margin-bottom: -3px;"><b>Pengurangan</b></p></div>
+						<div class="panel-body" style="margin-left: 15px">
+							<div class="grid_12" style="margin-top: -5px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>12. Biaya Jabatan/Biaya Pensiun</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='bjbp' placeholder="Biaya Jabatan/Biaya Pensiun" filter="'varchar'"
+											class="k-textbox" ng-model="item.bjbp" ng-keypress="($event.which == 13)? CariFilterbjbp():item.bjbp" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>13. Iuran Pensiun Atau Iuran THT</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ipai' placeholder="Iuran Pensiun Atau Iuran THT" filter="'varchar'"
+											class="k-textbox" ng-model="item.ipai"  ng-keypress="($event.which == 13)? CariFilteripai():item.ipai"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>14. Jumlah Pengurangan (12 S.D. 14)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jp' placeholder="Jumlah Pengurangan (12 S.D. 14)" filter="'varchar'"
+											class="k-textbox" ng-model="item.jp" ng-keypress="($event.which == 13)? CariFilterjp():item.jp" />
+									</div>
+                                </div>
+							</div>
+                        </div>
+                        <div class="grid_12"><p style="font-size: 20px; margin-top: -3px; margin-bottom: -3px;"><b>Penghitungan PPh Pasal 21</b></p></div>
+						<div class="panel-body" style="margin-left: 15px">
+							<div class="grid_12" style="margin-top: -5px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>15. Jumlah Penghasilan Neto (11 -14)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jpn' placeholder="Jumlah Penghasilan Neto (11 -14)" filter="'varchar'"
+											class="k-textbox" ng-model="item.jpn" ng-keypress="($event.which == 13)? CariFilterjpn():item.jpn" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>16. Jumlah Penghasilan Neto Masa Sebelumnya</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jpnms' placeholder="Jumlah Penghasilan Neto Masa Sebelumnya" filter="'varchar'"
+											class="k-textbox" ng-model="item.jpnms" ng-keypress="($event.which == 13)? CariFilterjpnms():item.jpnms" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>17. Jumlah Penghasilan Neto Untuk Penghitungan PPh Pasal 21 (Setahun/Disetahunkan)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='jpnuppp' placeholder="Jumlah Penghasilan Neto Untuk Penghitungan PPh Pasal 21 (Setahun/Disetahunkan)" filter="'varchar'"
+											class="k-textbox" ng-model="item.jpnuppp" ng-keypress="($event.which == 13)? CariFilterjpnuppp():item.jpnuppp" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>18. Penghasilan Tidak Kena Pajak (PTKP)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ptkp' placeholder="Penghasilan Tidak Kena Pajak (PTKP)" filter="'varchar'"
+											class="k-textbox" ng-model="item.ptkp" ng-keypress="($event.which == 13)? CariFilterptkp():item.ptkp" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>19. Penghasilan Kena Pajak Setahun/Disetahunkan(17/18)</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='pkpsd' placeholder="Penghasilan Kena Pajak Setahun/Disetahunkan(17/18)" filter="'varchar'"
+											class="k-textbox" ng-model="item.pkpsd" ng-keypress="($event.which == 13)? CariFilterpkpsd():item.pkpsd" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>20. PPh Pasal 21 Atas Penghasilan Kena Pajak Setahun/Disetahunkan</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ppapkpsd' placeholder="PPh Pasal 21 Atas Penghasilan Kena Pajak Setahun/Disetahunkan" filter="'varchar'"
+											class="k-textbox" ng-model="item.ppapkpsd" ng-keypress="($event.which == 13)? CariFilterppapkpsd():item.ppapkpsd"  />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>21. PPh Pasal 21 Yang Telah Dipotong Masa Sebelumnya</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ppytdms' placeholder="PPh Pasal 21 Yang Telah Dipototng Masa Sebelumnya" filter="'varchar'"
+											class="k-textbox" ng-model="item.ppytdms" ng-keypress="($event.which == 13)? CariFilterppytdms():item.ppytdms"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>22. PPh Pasal 21 Terutang</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ppt' placeholder="PPh Pasal 21 Terutang" filter="'varchar'"
+											class="k-textbox" ng-model="item.ppt"  ng-keypress="($event.which == 13)? CariFilterppt():item.ppt"/>
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>23. PPh Pasal 21 Yang Telah Dipotong Dan Dilunasi</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='ppytdd' placeholder="PPh Pasal 21 Yang Telah Dipotong Dan Dilunasi" filter="'varchar'"
+											class="k-textbox" ng-model="item.ppytdd" ng-keypress="($event.which == 13)? CariFilterppytdd():item.ppytdd" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px; margin-left: 15px;">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>23A. Atas Gaji Dan Tunjangan</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='agt' placeholder="Atas Gaji Dan Tunjangan" filter="'varchar'"
+											class="k-textbox" ng-model="item.agt" ng-keypress="($event.which == 13)? CariFilteragt():item.agt" />
+									</div>
+                                </div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px; margin-left: 15px;">
+								<div class="grid_5">
+									<div class="grid_12">
+										<p><b>23B. Atas Penghasilan Tetap Dan Teratur Lainnya Yang Pembayarannya Terpisah Dari Pembayaran Gaji</b></p>
+									</div>
+								</div>
+                                <div class="grid_5">
+									<div class="grid_12">
+										<input c-text-box type="input" id='apttlyptdpg' placeholder="Atas Penghasilan Tetap Dan Teratur Lainnya Yang Pembayarannya Terpisah Dari Pembayaran Gaji" filter="'varchar'"
+											class="k-textbox" ng-model="item.apttlyptdpg"  ng-keypress="($event.which == 13)? CariFilterapttlyptdpg():item.apttlyptdpg" />
+									</div>
+                                </div>
+							</div>
+                        </div>
+						<div class="panel-heading-white"><span class="title" c-translate>C. Pegawai Tersebut</span></div>
+						<div class="panel-body" style="margin-left: 15px">
+							<div class="grid_12" style="margin-top: -5px">
+								<div class="grid_1" style="margin-top: 10px">
+									<input type="checkbox" class="k-checkbox" ng-model="model.pegawaitersebut"
+										id="pegawaitersebut" ng-click="ceklispilihManualpt(model.pegawaitersebut)">
+									<label class="c-label k-checkbox-label" for="pegawaitersebut" required>Dipindahkan</label>
+								</div>
+								<div class="grid_1" style="margin-top: 10px">
+									<input type="checkbox" class="k-checkbox" ng-model="model.pegawaitersebut1"
+										id="pegawaitersebut1" ng-click="ceklispilihManualpt1(model.pegawaitersebut1)">
+									<label class="c-label k-checkbox-label" for="pegawaitersebut1" required>Pindahan</label>
+								</div>
+								<div class="grid_1" style="margin-top: 10px">
+									<input type="checkbox" class="k-checkbox" ng-model="model.pegawaitersebut2"
+										id="pegawaitersebut2" ng-click="ceklispilihManualpt2(model.pegawaitersebut2)">
+									<label class="c-label k-checkbox-label" for="pegawaitersebut2" required>Baru</label>
+								</div>
+								<div class="grid_1" style="margin-top: 10px">
+									<input type="checkbox" class="k-checkbox" ng-model="model.pegawaitersebut3"
+										id="pegawaitersebut3" ng-click="ceklispilihManualpt3(model.pegawaitersebut3)">
+									<label class="c-label k-checkbox-label" for="pegawaitersebut3" required>Pensiun</label>
+								</div>
+								<div class="grid_1" style="margin-top: 10px">
+									<input type="checkbox" class="k-checkbox" ng-model="model.pegawaitersebut4"
+										id="pegawaitersebut4" ng-click="ceklispilihManualpt4(model.pegawaitersebut4)">
+									<label class="c-label k-checkbox-label" for="pegawaitersebut4" required>-</label>
+								</div>
+                                <!-- <div class="grid_2">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NPWP" filter="'varchar'"
+											class="k-textbox" ng-model="item.npwpbendahara" readonly/>
+									</div>
+                                </div>
+                                <div class="grid_1"></div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<p><b>3. NIP/NRP</b></p>
+									</div>
+								</div>
+                                <div class="grid_2">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NIP/NRP" filter="'varchar'"
+											class="k-textbox" ng-model="item.nipnrpbendahara" readonly/>
+									</div>
+                                </div>
+                                <div class="grid_5"></div> -->
+							</div>
+                        </div>
+                        <!-- <div class="grid_12"><p style="font-size: 20px; margin-top: -3px; margin-bottom: -3px;"><b>C. Pegawai Tersebut : </b></p></div> -->
+						<div class="panel-heading-white"><span class="title" c-translate>D. Tanda Tangan Bendahara</span></div>
+                        <!-- <div class="grid_12"><p style="font-size: 20px; margin-top: -3px; margin-bottom: -3px;"><b>D. Tanda Tangan Bendahara </b></p></div> -->
+						<div class="panel-body" style="margin-left: 15px">
+							<div class="grid_12" style="margin-top: -5px">
+								<div class="grid_1">
+									<div class="grid_12">
+										<p><b>1. NPWP</b></p>
+									</div>
+								</div>
+                                <div class="grid_2">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NPWP" filter="'varchar'"
+											class="k-textbox" ng-model="item.npwpbendahara" readonly/>
+									</div>
+                                </div>
+                                <div class="grid_1"></div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<p><b>3. NIP/NRP</b></p>
+									</div>
+								</div>
+                                <div class="grid_2">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="NIP/NRP" filter="'varchar'"
+											class="k-textbox" ng-model="item.nipnrpbendahara" readonly/>
+									</div>
+                                </div>
+                                <div class="grid_5"></div>
+							</div>
+							<div class="grid_12" style="margin-top: -15px">
+								<div class="grid_1">
+									<div class="grid_12">
+										<p><b>2. Nama</b></p>
+									</div>
+								</div>
+                                <div class="grid_2">
+									<div class="grid_12">
+										<input c-text-box type="input" placeholder="Nama" filter="'varchar'"
+											class="k-textbox" ng-model="item.namabendahara" readonly/>
+									</div>
+                                </div>
+                                <div class="grid_1"></div>
+								<div class="grid_1">
+									<div class="grid_12">
+										<p><b>4. Tanggal & Tanda Tangan</b></p>
+									</div>
+								</div>
+                                <div class="grid_2">
+									<div class="grid_12">
+                                        <input kendo-date-picker k-ng-model="item.ttd" k-format="'dd-MM-yyyy'"
+										style="width: 100%" />
+										<!-- <input c-text-box type="input" placeholder="Tanggal & Tanda Tangan" filter="'varchar'"
+											class="k-textbox" ng-model="item.tgltandatanganbendahara" /> -->
+									</div>
+                                </div>
+                                <div class="grid_5"></div>
+							</div>
+                        </div>
+				    </div>
+				
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- <div class="grid_12">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;text-align: left;font-size: 12;margin-left: 10px">  Hasil Laboratorium</h1>
+    </div>
+    <div class=" grid_12">
+        <div class=" grid_12">
+            <div class="grid_12">
+                <kendo-grid k-data-source="resultGrids" id="gridId" k-selectable="'row'" k-options="ColumnResult"
+                    k-ng-model="dataSelected" ng-click="kl(dataSelected)" ng-dblclick="gridDblKlik(dataSelected)">
+                </kendo-grid>
+            </div>
+      <fieldset>
+            <legend></legend>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="grid_2" style="margin-top: 10px">
+                        <button class="btnTemplate1" ng-click="simpan()" ng-show="IsSave"><i class="fa fa-save"></i>Simpan</button>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12" >
+                <label c-label item="item" c-label-text="Catatan"></label>
+            
+             <textarea kendo-editor k-options="optionEdit"
+                placeholder=""
+                class="k-textbox"
+                ng-model="item.catatan"
+                maxlength="8000"
+               style="height: 100px; width: 100%;"></textarea>
+        
+                1000/{{item.catatan ? item.catatan.length : 0}}
+          </div>
+
+
+          
+            
+  </fieldset>
+        </div>
+            
+    </div>
+</div> -->
+<div id="tempatLaporan" ng-hide="true"></div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+<div class="grid_12">
+	<div class="grid_6"></div>
+	<div class="grid_2">
+		<button class="c-button" ng-click="simpan()">Simpan</button>
+	</div>
+	<div class="grid_2">
+		<button class="cancel c-button" ng-click="kembali()">Kembali</button>
+	</div>
+	<div class="grid_2">
+		<button class="cancel c-button" ng-click="cetak()">Cetak</button>
+	</div>
+</div>
+
+<!-- <style>
+	.image-preview {
+		position: relative;
+		vertical-align: top;
+		height: 45px;
+	}
+</style>
+<script>
+	$('input.uang').on('blur', function() {
+				const value = this.value.replace(/,/g, '');
+				this.value = parseFloat(value).toLocaleString('en-US', {
+				  style: 'decimal',
+				  maximumFractionDigits: 2,
+				  minimumFractionDigits: 2
+				});
+			  });
+</script> -->

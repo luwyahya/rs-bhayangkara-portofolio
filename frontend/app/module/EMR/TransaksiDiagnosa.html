@@ -1,0 +1,92 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+    
+    .dark-red {
+        background-color: #e8a88b;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+    
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+</style>
+
+<div ng-show="dataVOloaded">
+    <!-- <div ng-include='"../app/module/pasien/RegistrasiPelayananNew/HeaderRekamMedis"'></div> -->
+    <div class="grid_12">
+        <div class="panel panel-default">
+
+
+            <div class="grid_12">
+                <div class="grid_12 headerBox">
+                    <div class="panel-heading" style="font-size: 18px;font-weight: bold;color: white" c-translate>DIAGNOSA</div>
+                    <!-- <p>Hasil Radiologi</p> -->
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+                    <kendo-grid data-source="dataGridRadio" options="columnGridRadio" style="width: auto;" k-sortable="'true'" k-groupable="true"></kendo-grid>
+                    <!-- <div id="kGrid" kendo-grid k-data-source="dataGridRadio" k-selectable="'row'"
+                            k-columns="columnGridRadio" k-pageable="'true'" k-sortable="'true'"> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<style type="text/css">
+    .custom-button {
+        margin: 0 0 10px;
+        background: none;
+        color: black;
+        border-radius: 0.8em;
+        border: 1px solid;
+        background-color: white;
+    }
+    
+    .k-edit,
+    .k-i-download {
+        background-position: -313px -221px;
+    }
+    
+    a.k-button.k-button-icontext {
+        min-width: 84px;
+        background-color: #e0360b;
+        border: none;
+        margin: .1em;
+    }
+    
+    k-button.k-button-icontext.k-grid-Cetak {
+        min-width: 84px;
+        background-color: #e0360b;
+        border: none;
+        margin: .1em;
+    }
+    
+    .duplicateDate {
+        background-color: red;
+        border: 2px solid red !important;
+    }
+    
+    span.errorCuti {
+        text-align: center;
+        width: 100%;
+        padding: 10px 20px;
+        color: red;
+        font: italic 14px/30px arial, sans-serif;
+    }
+</style>

@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="permohonanpersetujuanpembayaranobat2" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="norec" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select op.jumlah,op.hargasatuan*op.hasilkonversi as hargasatuan ,so.tglorder,so.nokontrakspk,cast(so.tglkontrak as date) as tglkontrak,so.keteranganlainnya,so.noorderhps,so.tglvalidasi,so.nourutlogin,so.keterangankeperluan,so.noorder, so.keterangankeperluan,so.noorderintern, cast(so.tglorder as date) as tglorder, so.keteranganorder, so.nokontrakspk,so.noorderrfq,so.namarekanansales,so.alamat,so.alamattempattujuan,pr.namaproduk,so.totalbiayakirim,ssx.satuanstandar, op.qtyproduk, op.hargadiscount,op.hargappn, case when op.hargadiscount <> 0 then (op.hargasatuan * op.qtyproduk) / op.hargadiscount else 0 end as persenDisc, 
+case when op.hargappn <> 0 then (op.hargasatuan * op.qtyproduk) / op.hargappn else 0 end as persenPpn, (op.hargasatuan * op.qtyproduk)-(hargadiscount+hargappn)as total,pg.namalengkap,pg1.namalengkap as pegawaispk, case when pg.nippns is null then '-' ELSE pg.nippns end as nippns, case when pg1.nippns is null then '-' ELSE pg1.nippns end AS nippns_spk, rk.namarekanan,rk.alamatlengkap,op.deskripsiprodukquo, mp.objectjabatanppkfk, case when jb.namajabatan is null then '-' ELSE jb.namajabatan end AS jabatanppk, case when jb1.namajabatan is null then '-' ELSE jb1.namajabatan end AS namajabatan , so.keteranganorder    
+from strukorder_t so left join orderpelayanan_t op on op.strukorderfk=so.norec left join produk_m pr on pr.id=op.objectprodukfk left join satuanstandar_m ss on ss.id=op.objectsatuanstandarfk left join satuanstandar_m ssx on ssx.id=op.satuanviewfk left join pegawai_m as pg on pg.id = so.objectpegawaiorderfk left join pegawai_m as pg1 on pg1.id = so.objectpegawaispkfk left join mapjabatanppktopegawai_m as mp on mp.objectpegawaifk=pg1.id left join jabatanppk_m as jb on jb.id = mp.objectjabatanppkfk left join jabatan_m as jb1 on jb1.id = pg1.objectjabatanstrukturalfk left join rekanan_m as rk on rk.id = so.objectrekananfk 
+
+where so.norec=$P{norec}]]>
+	</queryString>
+	<field name="noorder" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namarekanan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tglkontrak" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="keteranganorder" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tglorder" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namaproduk" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="satuanstandar" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jumlah" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="hargasatuan" class="java.math.BigDecimal">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="238" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="1" y="0" width="79" height="53" uuid="f922c0bf-813d-4fe2-892f-50beac56e199">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="62" y="1" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="82" width="69" height="15" forecolor="#0A0101" uuid="df0ad734-b8eb-4c7a-a364-d08eb3c1a928"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Pesanan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="90" y="69" width="5" height="15" forecolor="#0A0101" uuid="58cf71a9-3989-40ef-8f70-ef0ed035f49a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="206" width="69" height="15" forecolor="#0A0101" uuid="741b069f-5c6d-47ce-b5e2-8659f8f29aa2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Catatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="191" width="90" height="15" forecolor="#FFFFFF" uuid="5e352ac4-be47-45a5-9787-6fafa22422fb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Batas Pengiriman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="-1" y="70" width="86" height="15" forecolor="#0A0101" uuid="2318927e-cd75-431b-88e1-4f167dc66a9c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kirim Ke Gudang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="90" y="83" width="5" height="15" forecolor="#0A0101" uuid="783a634d-a709-492e-8d9c-8df0a2c2e336"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="90" y="207" width="5" height="15" forecolor="#0A0101" uuid="fb34b653-4c5b-438b-8c41-1ed66263c313"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="54" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="55" width="548" height="16" uuid="db6984fb-eef5-44cb-9c0c-1db53a1ef42a"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SURAT PESANAN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="98" y="207" width="345" height="14" uuid="f7d457a9-2abb-4412-8012-c823400ff856"/>
+				<textFieldExpression><![CDATA[$F{keteranganorder}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="190" y="68" width="170" height="1" uuid="d0939a33-6b25-45b2-8f74-599472522678"/>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="175" width="69" height="15" forecolor="#0A0101" uuid="4e573b53-533c-4b79-8709-fc99352e66f0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Penyedia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="90" y="175" width="5" height="15" forecolor="#0A0101" uuid="418d31d5-a7c4-45e8-bdd3-3f52ab3671bd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="98" y="221" width="345" height="13" forecolor="#FFFFFF" uuid="d489dbac-a3c9-4f92-913f-cc28b99622b9"/>
+				<textFieldExpression><![CDATA[$F{tglkontrak}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="266" y="82" width="60" height="15" forecolor="#0A0101" uuid="c32671a9-9a69-4bea-9716-494218f07ea4"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="327" y="82" width="5" height="15" forecolor="#0A0101" uuid="b90467e9-91d7-4d50-9252-de445e074646"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="335" y="83" width="65" height="13" uuid="70884a0c-11b2-4378-b610-65de1ff0f268">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{tglorder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="83" width="113" height="16" uuid="023a1a7c-dab7-4cb1-9356-34a426c3bc3d"/>
+				<textFieldExpression><![CDATA[$F{noorder}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="177" width="302" height="18" uuid="eec7306a-9a51-4569-bfbc-300093581412">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{namarekanan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="100" y="69" width="95" height="15" forecolor="#0A0101" uuid="8c930c5f-21d9-4ef5-9faa-6f5044afdd46"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gudang Farmasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="100" width="189" height="15" forecolor="#0A0101" uuid="6fb9a9da-60d5-4b45-8d7a-a572921ee941"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Yang bertanda tangan di bawah ini :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="114" width="60" height="15" forecolor="#0A0101" uuid="931393fe-c0e6-4659-9c51-8bac99c2db55">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="128" width="60" height="15" forecolor="#0A0101" uuid="ac07df95-2f03-4c3d-94ee-a5fa1ee2182b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jabatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="142" width="60" height="15" forecolor="#0A0101" uuid="e5d5bb74-81fd-4820-8b68-cb86200992d7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomor SIPA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="163" width="189" height="15" forecolor="#0A0101" uuid="7d8ed54e-f0d6-492a-9a3e-9d92a799c23f"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mengajukan Pesanan Obat Kepada :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="65" y="114" width="5" height="15" forecolor="#0A0101" uuid="ccd65eb2-f23a-44a2-9fcc-f9bc007d08bc">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="65" y="128" width="5" height="15" forecolor="#0A0101" uuid="008a840a-25b0-4b7c-962a-df94ee5b8496">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="65" y="142" width="5" height="15" forecolor="#0A0101" uuid="ffca67f9-fd95-4384-8884-f56805cc3ed8">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="114" width="182" height="15" uuid="684516c7-f13c-4da4-b809-b335c83f920b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[apt. Mardatillah, M.Farm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="128" width="182" height="15" uuid="a23cded4-d776-434c-abf8-1e72c47b473f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plt. Kepala Instalasi RS Unand]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="73" y="142" width="182" height="15" uuid="87a909bb-57f2-4fe5-86f8-f3c06a6dfecd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[19840706/SIPA_13.71/2021/2.215]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement key="" x="100" y="0" width="100" height="15" forecolor="#030303" uuid="828dc590-d6b8-439d-944a-166231492029">
+					<property name="com.jaspersoft.studio.element.name" value="Komponen"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Barang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="0" width="52" height="14" uuid="5467ff6c-4ecb-4a72-b0a8-fc3ef49be248"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Satuan]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="17" width="420" height="1" uuid="8860eade-bcb3-4f58-b173-9ad761b7f534"/>
+			</line>
+			<line>
+				<reportElement x="0" y="-1" width="420" height="1" uuid="bc63285c-642e-4b7f-894b-08337585451a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement key="" x="4" y="0" width="26" height="15" forecolor="#030303" uuid="758ef7b3-ccf7-44ea-962f-709f6c0b3d21">
+					<property name="com.jaspersoft.studio.element.name" value="Komponen"/>
+				</reportElement>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="384" y="0" width="26" height="14" uuid="19764c6a-ff29-4cba-9dc8-51cab6b42044"/>
+				<textElement verticalAlignment="Top">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Qty]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="23" y="0" width="267" height="12" uuid="de71bd8d-68a6-48c5-b7fc-18fdddae12d3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="9"/>
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namaproduk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="0" width="98" height="12" uuid="53cd0187-9113-40bc-be6d-77010212fdd2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Bottom">
+					<font size="9"/>
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{satuanstandar}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="-20" width="1" height="38" uuid="d7ff89b5-f6a0-4a2d-9816-f16eb2b731f0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="18" width="420" height="1" uuid="64280e55-8334-451a-9d8e-94ea6451c682">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="290" y="-20" width="1" height="38" uuid="d44ba2d1-71c5-4748-895e-964ca5f610e0"/>
+			</line>
+			<line>
+				<reportElement x="21" y="-20" width="1" height="38" uuid="3d2577d6-4934-4afd-8465-ffa941091a63">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="419" y="-20" width="1" height="38" uuid="b86ee9b3-1766-4b1e-8b37-e619bcdc8b63"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="0" width="20" height="13" uuid="f1ad1b9b-8202-4387-91cd-2989e571a57e"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="358" y="0" width="67" height="12" uuid="cfe3d5ea-bb10-4cab-bca4-a867471258f4"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font size="9"/>
+					<paragraph lineSpacingSize="0.0"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jumlah}.intValue()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="370" y="-20" width="1" height="38" uuid="1940a0a0-3dd1-49c1-8805-68fa73c4cb9d"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="156">
+			<staticText>
+				<reportElement x="0" y="77" width="172" height="15" uuid="8dcaf53d-ea55-479a-a567-6e711ff764c4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Pejabat Pembuat Komitmen]]></text>
+			</staticText>
+			<line>
+				<reportElement x="8" y="138" width="110" height="1" uuid="d202fe49-a9bc-4044-94b3-864acedb86ce">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="1" width="550" height="14" uuid="2145ca6e-c2ea-4016-b311-a507516cb141"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATATAN: MOHON KONFIRMASI JIKA TOTAL FAKTUR KURANG DARI Rp 2.200.00]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="77" width="156" height="15" uuid="87e37466-bddc-4702-a4e0-f02c450e54a4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kepala Instalasi Farmasi]]></text>
+			</staticText>
+			<line>
+				<reportElement x="269" y="138" width="150" height="1" uuid="6d1b71e5-39ff-4420-98f6-d6025ae7421b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="250" y="125" width="182" height="13" uuid="1686a89b-1381-4a34-9f77-442985e563c0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[apt. Mardatillah, M.Farm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="236" y="139" width="214" height="13" uuid="18b941a4-0ff0-420d-a79a-6a21c042f7bd">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SIPA : 19840706/SIPA_13.71/2021/2.215]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-7" y="125" width="134" height="13" uuid="656fba31-89a5-4ac3-b01e-2c6233d43d01">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dr. Eng Jon Affi, MT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-18" y="139" width="158" height="13" uuid="a2aaf20a-4ecd-4ad5-8aaa-8fe181d83c8c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NIP : 197101071988021001]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="14" width="550" height="14" uuid="7c85bf7b-41e9-4be6-9459-ca3c4eca1d8c"/>
+				<textElement textAlignment="Left">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Obat-obat tersebut akan dipergunakan untuk memenuhi kebutuhan :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="27" width="68" height="15" forecolor="#0A0101" uuid="fd7028fa-1194-42a1-b815-0452c4ce197c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Sarana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="41" width="68" height="15" forecolor="#0A0101" uuid="d5502e8b-24f6-420c-8f7c-815e11c2196a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alamat Sarana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="1" y="55" width="68" height="15" forecolor="#0A0101" uuid="b387da25-1601-4e81-8fb3-ad786564dacf">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No. Ijin Sarana]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="71" y="27" width="5" height="15" forecolor="#0A0101" uuid="1b570d15-21ce-48e1-8904-fb4cc51b2706">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="71" y="41" width="5" height="15" forecolor="#0A0101" uuid="83e99b76-255b-4cda-98d7-9a9e3a2ae0e4">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="71" y="55" width="5" height="15" forecolor="#0A0101" uuid="6e177bae-2edc-4799-af6c-db2d71d59aba">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="81" y="27" width="194" height="15" forecolor="#0A0101" uuid="65f60d89-768e-4a6c-9dc4-5ad5a2429adf">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rumah Sakit Universitas Andalas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="81" y="41" width="194" height="15" forecolor="#0A0101" uuid="163fdb35-5fa5-4fdd-9ee5-730ce52b8a74">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kampus Unand Limau Manis Padang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="81" y="55" width="194" height="15" forecolor="#0A0101" uuid="8baaa6e7-5a42-4404-a78c-ced91d4dd38f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[02/IORS/DPMPTSP/VII-2021]]></text>
+			</staticText>
+		</band>
+	</columnFooter>
+</jasperReport>

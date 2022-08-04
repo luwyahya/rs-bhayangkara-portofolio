@@ -1,0 +1,84 @@
+<div ng-show="dataVOloaded1">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Edit Diagnosa</b></h1>
+    </div>
+   <!--  <div class="grid_12">
+            <kendo-grid id="kGrid" data-source="dataSourceGrid" options="columnGrid"
+                k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+                k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"></kendo-grid>
+        </div> -->
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div class="grid_12">   
+    <div class="grid_12" style="margin-top: 10px;">
+        <!-- <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="dataSourceGridLrtt" options="columnGridLrtt">
+            </kendo-grid>
+        </div> -->
+        
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Kode Diagnosa"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.diagnosa"
+                    k-data-text-field="'kddiagnosa'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDiagnosa" />
+            </div>
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label>&nbsp;</label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()"> <i
+                        class="fa fa-search"></i>Cari</button>
+            </div>
+        </div>
+        <!-- <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="No Dtd"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.nodtd"
+                    k-data-text-field="'nodtd'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listNoDtd" />
+            </div>
+        </div> -->
+        <div class="grid_1">
+            <label c-label item="item" c-label-text="NoDtd"></label>
+            <input c-text-box type="input" filter="'integer'" class="k-textbox" ng-model="item.nodtd" />
+        </div>
+        <div class="grid_4">
+            <label c-label item="item" c-label-text="GolonganSebabPenyakit"></label>
+            <input c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.gsp" />
+        </div>
+        <!-- <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Golongan Sebab Penyakit"></label>
+            </div>
+            <div class="grid_12">
+                <textarea required class="k-textbox" style="    height: 76px;
+                width: 100%;
+                margin-top: 5px;
+                margin-left: 5px;
+                resize: none;" ng-model="item.gsp" k-data-source="sourceGolsp" options="golsp"></textarea>
+            </div>
+        </div> -->
+        <div class="grid_12">
+            <div class="grid_4"></div>
+            <div class="grid_8">
+                <div ng-include=' "../app/template/Shared/TemplateButtonSimpanNotFixed" '></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

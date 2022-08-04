@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketeranganmedis" pageWidth="612" pageHeight="842" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="0.8467108950806659"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{flag}.equals("Y")]]></conditionExpression>
+			<style forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="nocm" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ruanganfk" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="gambarKaki" class="java.awt.Image"/>
+	<parameter name="nomorEMR" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="printedBy" class="java.lang.String"/>
+	<parameter name="dataLoad" class="java.util.List"/>
+	<queryString>
+		<![CDATA[SELECT        nilaiintra, tanggalintra, jenisintra, labelintra, nilaipasca, tanggalpasca, jenispasca, labelpasca
+FROM            emranestesi_t]]>
+	</queryString>
+	<field name="nilaiintra" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tanggalintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jenisintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="labelintra" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nilaipasca" class="java.lang.Double">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tanggalpasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jenispasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="labelpasca" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<group name="halaman1">
+		<groupFooter>
+			<band height="798">
+				<staticText>
+					<reportElement x="0" y="105" width="555" height="19" uuid="86ddfa31-68d0-4b68-b390-2573e353d765">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="15" isBold="true"/>
+					</textElement>
+					<text><![CDATA[LAPORAN ANESTESI/SEDASI MODERAT DAN DALAM]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="125" width="555" height="1" uuid="2818a3a5-b311-4d75-b854-ba9f386abcba">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="365" y="27" width="46" height="14" uuid="0c115ee3-2c9c-4def-bc56-e95a7fef6762"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[TTL/JK]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="1" y="61" width="260" height="12" uuid="1be7a441-fb10-4aa3-9c5a-3d11d1cdaec9"/>
+					<textElement>
+						<font fontName="Tahoma" size="8.85" isBold="false" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[Jl. Raya Bogor, Kramat Jati. Telp. 021-8093288 Jakarta Timur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="-1" y="40" width="244" height="21" uuid="c8d66e65-7989-4f2a-9973-fe0c110de42c"/>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="10.5" isBold="true"/>
+					</textElement>
+					<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="365" y="3" width="46" height="14" uuid="7d016de6-0bdf-48f4-b78e-8f92b6fb5869"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[Nama]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="365" y="15" width="46" height="14" uuid="14d367f0-dbf7-4fcc-8b9a-c6d755241965"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[RM/Reg]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="-1" y="51" width="245" height="21" uuid="47b52fbc-daa4-442f-8cf5-b245111d33d4"/>
+					<box>
+						<pen lineStyle="Dotted"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font fontName="Tahoma" size="9" isBold="true" isUnderline="false"/>
+					</textElement>
+					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK.I R.SAID SUKANTO]]></text>
+				</staticText>
+				<line>
+					<reportElement x="0" y="72" width="243" height="1" uuid="03ea0518-dab0-4c44-bb11-2cb6778d2c97"/>
+				</line>
+				<staticText>
+					<reportElement x="411" y="27" width="6" height="14" uuid="1655e872-dc6d-4193-8533-2729e06c6327"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="411" y="3" width="6" height="14" uuid="c020733e-c1ea-4f70-bd50-d4470c8b6945"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="411" y="15" width="6" height="14" uuid="b1e045fc-acc3-429a-9014-0db0bc709b6b"/>
+					<textElement>
+						<font fontName="Tahoma"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<image vAlign="Top">
+					<reportElement stretchType="ElementGroupHeight" x="113" y="-1" width="28" height="40" uuid="3742cc95-54c7-4b35-b28b-e7beef7a0bb6"/>
+					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+				</image>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</columnFooter>
+	<lastPageFooter>
+		<band height="1">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+</jasperReport>

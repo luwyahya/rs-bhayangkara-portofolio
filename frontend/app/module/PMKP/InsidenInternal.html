@@ -1,0 +1,443 @@
+<style>
+    button:disabled {
+        background: #B5B2B1;
+    }
+
+    .k-checkbox:checked + .k-checkbox-label:before {
+        border-color: red;
+        color: yellow;
+        background-color: red;
+    }
+</style>
+<div class="panel panel-default container_12" style="background-color:transparant">
+    <div class="panel-heading"><label class='title' c-label item="item" real>INSIDEN (INTERNAL)</label>
+    </div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <!-- DATA PELANGGAN -->
+            <div class="grid_12">
+                <div class="panel panel-default panel-white">
+                    <div class="panel-heading-white"><span class="title" c-translate>I. DATA PASIEN</span></div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">Nama</label>
+                            </div>
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                        ng-model="item.NamaPasien" ng-disabled='disabledText'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">No MR</label>
+                            </div>
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                        ng-model="item.NoRM"
+                                        ng-keypress="($event.which == 13)? CariPasien():item.NoRM" ng-disabled='disabledText'/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">Tgl Lahir</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TglLahir" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">Jenis Kelamin</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.JenisKelamin"
+                                    k-data-text-field="'jeniskelamin'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataJenisKelamin" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">Ruangan</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.Ruangan"
+                                    k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataRuangan" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                        <div class="grid_4">
+                            <div class="grid_12">
+                                <label c-label item="item">Tgl Masuk</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 99.5%" k-ng-model="item.TglMasuk" kendo-datetimepicker
+                                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                    parsedate="yyyy-MM-dd HH:mm" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item">Penanggung Jawab Biaya Pasien</label>
+                            </div>
+                            <div class="grid_12">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.KelompokPasien"
+                                    k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listDataKelompokPasien" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_12" ng-repeat="list in listUmur | orderBy:'id'" style="margin-top: 10px;">
+                            <b>{{list.nama}}</b>
+                            <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                                <div class="grid_4">
+                                    <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                        name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                        ng-click="addListUmur(bool,opsi)" ng-disabled='disabledText'>
+                                    <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default panel-white">
+                <div class="panel-heading-white"><span class="title" c-translate>II. RINCIAN KEJADIAN</span></div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_4" style="margin-top: 10px;">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">1. Tanggal dan Waktu Insiden</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 99.5%" k-ng-model="item.TglInsiden" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" ng-disabled='disabledText'/>
+                        </div>
+                    </div>
+                    <div class="grid_4" style="margin-top: 12px;">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Jenis Keselamatan"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.JenisKeselamatanInput"
+                                k-data-text-field="'jeniskeselamatan'" k-data-value-field="'jeniskesalamatanfk'"
+                                k-filter="'contains'" k-auto-bind="false" k-data-source="listKeselamatanInput"
+                                disabled />
+                        </div>
+                    </div>
+                    <div class="grid_4" style="margin-top: 12px;">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Keselamatan"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.KeselamatanInput"
+                                k-data-text-field="'keselamatan'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listKeselamatanInput" k-on-change='getJenisKelamatan()' ng-disabled='disabledText'/>
+                        </div>
+                    </div>
+                     <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">2. Insiden</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 30px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.Insiden" ng-disabled='disabledText'></textarea>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">3. Kronologi Insiden</label>
+                        </div>
+                        <div class="grid_12">
+                            <textarea required class="k-textbox"
+                                style="height: 150px; width: 100%; resize: none; margin-top: 5px"
+                                ng-model="item.KronologiInsiden"></textarea>
+                        </div>
+                    </div> 
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listJenisInsiden | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListJenisInsiden(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listPelapor | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListPelapor(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.lain5" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listInsidenTerjadiPada | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListInsidenTerjadiPada(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.lain6" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_7">
+                                Misal: karyawan / pengunjung / pendamping / keluarga pasien, lapor ke K3 RS
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listInsidenPasien | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListInsidenPasien(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.lain7" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12">
+                        <label c-label item="item" style="margin-top: 5px">8. Tempat Insiden</label>
+                    </div>
+                    <div class="grid_12">
+                        <label c-label item="item" style="margin-top: 5px">Lokasi Kejadian</label>
+                    </div>
+                    <div class="grid_12">
+                        <textarea required class="k-textbox"
+                            style="height: 70px; width: 100%; resize: none; margin-top: 5px"
+                            ng-model="item.lokasiInsiden" ng-disabled='disabledText'></textarea>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listJiwa | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListJiwa(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.lain9" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12">
+                        <label c-label item="item" style="margin-top: 5px">10. Unit / Departemen terkait yang menyebabkan insiden</label>
+                    </div>
+                    <div class="grid_12">
+                        <label c-label item="item" style="margin-top: 5px">Unit Kerja Penyebab</label>
+                    </div>
+                    <div class="grid_12">
+                        <textarea required class="k-textbox"
+                            style="height: 70px; width: 100%; resize: none; margin-top: 5px"
+                            ng-model="item.UnitKerja" ng-disabled='disabledText'></textarea>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listAkibatInsiden | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListAkibatInsiden(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12">
+                        <label c-label item="item" style="margin-top: 5px">12. Tindakan yang Dilakukan Segera Setelah
+                            Kejadian, dan hasilnya</label>
+                    </div>
+                    <div class="grid_12">
+                        <textarea required class="k-textbox"
+                            style="height: 70px; width: 100%; resize: none; margin-top: 5px"
+                            ng-model="item.Tindakan" ng-disabled='disabledText'></textarea>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listTindakan | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_12" style="margin-top: 10px; margin-left: 8px;">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListTindakan(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_1" style="margin-top: 10px">
+                                Tim: terdiri dari
+                            </div>
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.tim13" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="grid_12">
+                            <div class="grid_1" style="margin-top: 10px">
+                                Petugas lainnya
+                            </div>
+                            <div class="grid_7">
+                                <input c-text-box type="input" filter="'text'" class="k-textbox"
+                                    ng-model="item.petugas13" ng-disabled='disabledText'/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12" ng-repeat="list in listKejadianSama | orderBy:'id'" style="margin-top: 10px;">
+                        <b>{{list.nama}}</b>
+                        <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                            <div class="grid_6">
+                                <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                    name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                    ng-click="addListKejadianSama(bool,opsi)" ng-disabled='disabledText'>
+                                <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_12">
+                        <p><b>Apabila YA, isi bagian di bawah ini:</b></p>
+                        <label c-label item="item" style="margin-top: 5px">Kapan dan langkah/tindakan apa yang telah diambil pada Unit kerja Tersebut untuk mencegah terulangnya kejadiannya yang sama?</label>
+                    </div>
+                    <div class="grid_12">
+                        <textarea required class="k-textbox"
+                            style="height: 70px; width: 100%; resize: none; margin-top: 5px"
+                            ng-model="item.Penanggulangan" ng-disabled='disabledText'></textarea>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-top: 10px;">
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">Pembuat Laporan</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PembuatLaporan"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" ng-disabled='disabledText'/>
+                        </div>
+                        <!-- <div class="grid_12">
+                            <input c-text-box type="input" class="k-textbox" ng-model="item.PembuatLaporan" />
+                        </div> -->
+                    </div>
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">Tgl. Laporan</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 99.5%" k-ng-model="item.TglLaporan" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" ng-disabled='disabledText'/>
+                        </div>
+                    </div>
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">Penerima Laporan (Ka.Ru/Ka.Ins)</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.PenerimaLaporan"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataPegawai" ng-disabled='disabledText'/>
+                        </div>                       
+                    </div>
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" style="margin-top: 5px">Tgl. Terima</label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 99.5%" k-ng-model="item.TglTerimaLaporan" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                parsedate="yyyy-MM-dd HH:mm" ng-disabled='disabledText'/>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
+                        <div class="grid_12" ng-repeat="list in listGrading | orderBy:'id'" style="margin-top: 10px;">
+                            <b>{{list.nama}}</b>
+                            <div ng-repeat="opsi in list.detail | orderBy:'id'" style="margin-top: 5px;">
+                                <div class="grid_6">
+                                    <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox"
+                                        name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"
+                                        ng-click="addListGrading(bool,opsi)" ng-disabled='disabledText'>
+                                    <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_8"></div>
+        <div class="grid_2" style="margin-top: 22px">
+            <button class="c-button" ng-click="Save()">Simpan</button>
+        </div>
+        <div class="grid_2" style="margin-top: 22px">
+            <button class="c-button" ng-click="reset()">Batal</button>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>
+</div>

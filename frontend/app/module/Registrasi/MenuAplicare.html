@@ -1,0 +1,194 @@
+<style type="text/css">
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+</style>
+
+<div class="grid_12">
+    <div class="panel panel-default panel-white">
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_12">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading " style="font-size: 18px; "><span c-translate>Ketersediaan
+                                Kamar</span>
+                            <span class="icon fa fa-chevron-circle-down " ng-show="!isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+                            <span class="icon fa fa-chevron-circle-up " ng-show="isShowPotensi " style="right:10px
+                                                                                " ng-click="showPotensi() "></span>
+                        </div>
+                        <div class="panel-body " ng-show="isShowPotensi ">
+                            <div class="grid_12 animated no-padding ">
+                                <div ng-cloak>
+                                    <md-content>
+                                        <md-tabs md-dynamic-height md-border-bottom>
+                                            <md-tab label="Update Ketersediaan Kamar">
+                                                <md-content class="md-padding">
+
+                                                    <div class="panel panel-default container_12">
+                                                        <div class="panel-body">
+                                                            <div class="grid_12">
+                                                                <div class="grid_2" style="margin-top:5px">
+                                                                    <div class="grid_12">
+                                                                        <label c-label> Ruangan</label>
+                                                                    </div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box type="input" filter=""
+                                                                            class="k-textbox"
+                                                                            ng-model="item.namaRuangan" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_2" style="margin-top:5px">
+                                                                    <div class="grid_12">
+                                                                        <label c-label>Kelas</label>
+                                                                    </div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box type="input" filter=""
+                                                                            class="k-textbox" ng-model="item.kelas" />
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="grid_1" style="margin-top:20px">
+                                                                    <!-- <label c-label c-label-text=""></label>
+                                                                    <em ng-click='cari()' id="iconButton"
+                                                                        data-role="button"
+                                                                        class="k-button k-button-icon" role="button"
+                                                                        aria-disabled="false" tabindex="0"><span
+                                                                            class="k-sprite k-icon k-i-refresh">Refresh</span></em> -->
+                                                                    <button class="primary c-button"
+                                                                        ng-click="cari()">Cari</button>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <div id="kGrid" kendo-grid
+                                                                        k-data-source="dataSource" k-selectable="'row'"
+                                                                        k-columns="columnGrid" k-pageable="'true'"
+                                                                        k-groupable="'true'" k-sortable="'true'">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+
+                                                                    <div class="grid_1">
+                                                                        <button class="primary c-button"
+                                                                            ng-click="create()">Create</button>
+                                                                    </div>
+
+                                                                    <div class="grid_1">
+                                                                        <button class="primary c-button"
+                                                                            ng-click="update()">Update</button>
+                                                                    </div>
+                                                                    <!-- <div class="grid_2">
+                                                                        <button class="primary c-button"
+                                                                            ng-click="hapus()">Hapus</button>
+                                                                    </div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Ketersediaan Kamar RS"  md-on-select="onTabChanges(2)">
+                                                <md-content class="md-padding">
+                                                    <div class="panel panel-default container_12">
+                                                        <div class="panel-body">
+                                                            <div class="grid_12">
+
+                                                                <div class="grid_1" style="margin-top:5px">
+                                                                    <div class="grid_12">
+                                                                        <label c-label>Start</label>
+                                                                    </div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box type="input" filter=""
+                                                                            class="k-textbox" ng-model="item.start" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_1" style="margin-top:5px">
+                                                                    <div class="grid_12">
+                                                                        <label c-label>Limit</label>
+                                                                    </div>
+                                                                    <div class="grid_12">
+                                                                        <input c-text-box type="input" filter=""
+                                                                            class="k-textbox" ng-model="item.limit" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_1" style="margin-top:20px">
+                                                                    <button class="primary c-button"
+                                                                        ng-click="cariBrid()">Cari</button>
+                                                                    <!-- <label c-label c-label-text=""></label>
+                                                                    <em ng-click='cariBrid()' id="iconButton"
+                                                                        data-role="button"
+                                                                        class="k-button k-button-icon" role="button"
+                                                                        aria-disabled="false" tabindex="0"><span
+                                                                            class="k-sprite k-icon k-i-refresh">Refresh</span></em> -->
+                                                                </div>
+                                                                <div class="grid_3" style="margin-top:25px">
+                                                                    <a style="color:#3ea9d9;font-style: italic;"
+                                                                        href="https://faskes.bpjs-kesehatan.go.id/aplicares/#/app/pnama/byname">Lihat
+                                                                        Data Di Website Aplicare</a>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <div id="kGrid" kendo-grid
+                                                                        k-data-source="dataSourceBrid"
+                                                                        k-selectable="'row'" k-columns="columnGridBrid"
+                                                                        k-pageable="'true'" k-groupable="'true'"
+                                                                        k-sortable="'true'" k-ng-model="dataSelected"
+                                                                        ng-click="klikGrid(dataSelected)">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+
+                                                                    <div class="grid_1">
+                                                                        <button class="primary c-button"
+                                                                            ng-click="hapus()">Hapus</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Referensi Kamar" md-on-select="onTabChanges(3)">
+                                                <md-content class="md-padding">
+                                                    <div class="panel panel-default container_12">
+                                                        <div class="panel-body">
+                                                            <div class="grid_12">
+                                                                <div class="grid_12 ">
+                                                                   
+                                                                    <div class="grid_12 ">
+                                                                        <div class="grid_12 ">
+                                                                            <label c-label>Results :</label>
+                                                                        </div>
+                                                                        <pre id="jsonKamar" class="json-viewer "></pre>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                        </md-tabs>
+                                    </md-content>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-include=' "../app/template/Shared/TemplateLoading" '></div>

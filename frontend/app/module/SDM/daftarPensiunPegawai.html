@@ -1,0 +1,127 @@
+<div class="panel panel-default">
+    <div class="panel-heading"><label class='title' c-label item="item">Daftar Jadwal Pensiun Pegawai</label></div>
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="item" c-label-text="Nama"></label>
+                <input id="category" c-text-box type="input" filter="'varchar'" class="k-textbox"
+                    ng-model="item.namaPegawai" />
+            </div>
+            <div class="grid_2">
+                <label c-label c-label-text="periodeAwal"></label>
+                <input style="width: 100%" kendo-date-picker k-ng-model="item.periodeAwal" k-options="yearSelected" />
+            </div>
+            <div class="grid_2">
+                <label c-label c-label-text="periodeAkhir"></label>
+                <input style="width: 100%" kendo-date-picker k-ng-model="item.periodeAkhir" k-options="yearSelected" />
+            </div>
+            <div class="grid_1">
+                <label c-label c-label-text=""></label>               
+                <em style="margin-top:6px;" ng-click='resetFilter("#gridPensiun")' id="iconButton" data-role="button"
+                    class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+                        class="k-sprite k-icon k-i-refresh">Refresh</span></em>
+            </div>
+        </div>       
+        <div class="grid_12">
+            <kendo-grid id="gridPensiun" k-data-source="dataPensiun" options="opsiDataPensiun" k-selectable="'row'"
+                k-ng-model="dataSelected" ng-click="klik(dataSelected)"></kendo-grid>
+        </div>
+
+    </div>
+    <div kendo-window="popUpPensiun" k-title="'Data Pensiun'" k-width="900" k-height="200" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 20px 10px;">
+            <div class="grid_12">                
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label><b>NIP</b></label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                                ng-model="itemPensiun.nipPns" placeholder="NIP" readonly />
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="NamaPegawai"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                                ng-model="itemPensiun.namaLengkap" placeholder="Nama Lengkap" readonly />
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Golongan"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="itemPensiun.golonganPeg"
+                                k-data-text-field="'name'" k-data-value-field="'id'" k-auto-bind="true"
+                                k-data-source="ListGolonganPegawai" />
+                        </div>
+                    </div>
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="TglLahir"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input kendo-date-picker k-ng-model="itemPensiun.tglLahir" k-format="'dd-MM-yyyy'"
+                                style="width: 100%" />
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Unit Kerja"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input kendo-combo-box k-ng-model="itemPensiun.unitKerja" k-data-text-field="'name'"
+                                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                                k-data-source="ListUnitKerja" />
+                        </div>
+                    </div>
+                    <div class="grid_3">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Sub Unit Kerja"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input kendo-combo-box k-ng-model="itemPensiun.subUnitKerja" k-data-text-field="'name'"
+                                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                                k-data-source="ListSubUnitKerja" />
+                        </div>
+                    </div>
+
+                    <div class="grid_6">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Pensiun"></label>
+                        </div>
+                        <div class="grid_12" style="margin-top: -6px;">
+                            <div class="grid_6">
+                                <input c-text-box type="number" filter="" class="k-textbox"
+                                    ng-model="itemPensiun.pensiun" />
+                                <label class="keteranganFieldTambahan"
+                                    style="margin-top: 12px;margin-right: 30px">Tahun</label>
+                            </div>
+                            <div class="grid_6">
+                                <input kendo-date-picker k-ng-model="itemPensiun.tglPensiun" k-format="'dd-MM-yyyy'"
+                                    style="width: 100%" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="grid_12">
+                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                    <button class="k-button k-button-icontext k-primary k-grid-update" ng-click="saveData()"><span
+                            class="k-icon k-update"></span>Simpan</button>
+                    <button class="k-button  k-button-icontext" ng-click="batal()"><span
+                            class="k-icon k-cancel"></span>Batal</button>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>

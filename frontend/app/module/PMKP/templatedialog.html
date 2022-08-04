@@ -1,0 +1,87 @@
+<style>
+    .dialogdemoBasicUsage #popupContainer {
+        position: relative;
+    }
+
+    .dialogdemoBasicUsage .footer {
+        width: 100%;
+        text-align: center;
+        margin-left: 20px;
+    }
+
+    .dialogdemoBasicUsage .footer,
+    .dialogdemoBasicUsage .footer>code {
+        font-size: 0.8em;
+        margin-top: 50px;
+    }
+
+    .dialogdemoBasicUsage button {
+        width: 200px;
+    }
+
+    .dialogdemoBasicUsage div#status {
+        color: #c60008;
+    }
+
+    .dialogdemoBasicUsage .dialog-demo-prerendered md-checkbox {
+        margin-bottom: 0;
+    }
+
+    h2 {
+        text-align: left;
+
+    }
+
+    md-toolbar:not(.md-menu-toolbar) {
+        background-color: #41abf2 !important;
+
+    }
+
+    .md-dialog-container,
+    md-dialog {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: flex;
+        border-radius: 15px;
+    }
+</style>
+<md-dialog aria-label="{{mdDialogData.judul}}">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2 style="  color: #ffffff;"> {{mdDialogData.judul}}</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content" style="height: 200px; overflow-y: auto">
+                <h2>{{mdDialogData.judul}}</h2>
+                <p>
+                    Oleh : &nbsp;&nbsp; {{mdDialogData.keterangan}}
+                </p>
+
+                <img style="margin: auto; max-width: 100%;" alt="Lush mango tree" src="img/mangues.jpg">
+
+                <p>
+                    {{mdDialogData.isi}}
+                </p>
+
+            </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+
+            <span flex></span>
+            <!-- <md-button ng-click="answer('not useful')">
+                Not Useful
+            </md-button> -->
+            <md-button ng-click="cancel()">
+                Tutup
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

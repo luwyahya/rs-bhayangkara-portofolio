@@ -1,0 +1,36 @@
+### 1. cek seq number ###########################################################################
+
+select left(seqnumber,3),max(seqnumber) from seqnumber_t
+group by left(seqnumber,3);
+
+select max(nokirim) from strukkirim_t where left(nokirim,3)='AMP' union all
+select max(nokirim) from strukkirim_t where left(nokirim,3)='TRF' union all
+select max(noresep) from strukresep_t where left(noresep,3)='OA/' union all
+select max(noresep) from strukresep_t where left(noresep,2)='O/' union all
+select max(nostruk) from strukpelayanan_t where left(nostruk,2)='OB' union all
+select max(noregistrasi) from pasiendaftar_t where left(noregistrasi,4)='1812';
+
+select * from (select noregistrasi as no,count(noregistrasi) from pasiendaftar_t
+where tglregistrasi > '2018-12-11 00:00'
+group by noregistrasi) as x where x.count>1 union all
+select * from (select noresep as no,count(noresep) from strukresep_t
+where  tglresep > '2018-12-11 00:00' group by noresep)
+as x where x.count >1 union all
+select * from (select nokirim as no,count(nokirim) from strukkirim_t
+where  tglkirim > '2018-12-11 00:00' group by nokirim)
+as x where x.count >1;
+
+### -END - ###########################################################################
+
+#### RSAB_HK ####
+ip2:
+ssh : 182.23.26.34:20222
+https://smart.rsabhk.co.id:2222
+db : 182.23.26.34:15432
+
+ip3:
+publish : 182.23.26.34:22222
+ssh : 182.23.26.34:20022
+db : 182.23.26.34:35432
+
+##### -END- ##########################################

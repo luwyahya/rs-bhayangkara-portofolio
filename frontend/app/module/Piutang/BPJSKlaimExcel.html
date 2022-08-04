@@ -1,0 +1,117 @@
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Data Klaim BPJS</div>
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_12">
+                    
+                    <div class="grid_2">
+                        <label c-label item="item" c-label-text="DPJP"></label>
+                         <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.dpjp" />
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <label c-label item="item" c-label-text="No Kartu"></label>
+                         <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nokartu" />
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <label c-label item="item" c-label-text="No SEP"></label>
+                         <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nosep" />
+                        </div>
+                    </div>
+                    <div class="grid_2">
+                        <label c-label item="item" c-label-text="Nama Pasien"></label>
+                         <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namapasien" />
+                        </div>
+                    </div>
+                    <div class="grid_1 pull-right" style="margin-top: 15px">
+                        <div class="grid_12" style="margin-top:6px">
+                            <button class="c-button" ng-click="cari()">Cari</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="grid_12" style="margin-top: 10px;">
+                <fieldset style="min-height:50px !important" align="left">
+                    <legend><h2>UMPAN BALIK HASIL VERIFIKASI</h2></legend>           
+                        <div class="grid_6">
+                            <label c-label item="item">Nama RS</label>
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.NamaRs" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item">Tingkat Pelayanan</label>
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.TingkatPelayanan" />
+                        </div>
+                        <div class="grid_7"></div>
+                         <div class="grid_3"></div> -->
+                        <!-- <div class="grid_6">
+                            <label c-label item="item" c-label-text="Periode"></label>
+                            <input style="width: 100%" k-ng-model="item.tglawal" kendo-datepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd'" />
+                        </div>
+                        <div class="grid_6" style="margin-top: 16px;">
+                            <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd'" />
+                        </div>
+                        <div class="grid_7"></div>      
+                </fieldset>
+            </div>  -->
+            <div class="grid_12" style="margin-top: 22px;">
+                 <div class="grid_12 borderBox">
+                    <div id="kGrid" 
+                    kendo-grid k-data-source="dataGrid" 
+                    k-selectable="'row'" 
+                    k-columns="columnGrid" 
+                    k-pageable="'true'" 
+                    class="max-height"
+                    k-sortable="'true'" 
+                    k-ng-model="dataSelected"
+                    ng-click="klikGrid(dataSelected)">
+                    </div>
+                </div>             
+            </div>
+             <div class="grid_12" style="margin-top:60px" >
+                <div ng-include='"../app/module/Shared/TemplateLoading"'></div>
+            </div> 
+           <!--  <div class="grid_3">
+                <label c-label item="item" c-label-text="tglPenutupan"></label>
+                <input style="width: 100%" kendo-date-picker k-ng-model="item.tanggal" placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+            </div> -->
+            <!-- <div class="grid_2" style="margin-top:22px">
+                <button class="c-button" ng-click="uploadFile()">Upload File</button>
+            </div> -->
+           <!--  <div class="grid_3" style="margin-top:6px">
+                <input type="file" id="file-input" kendo-upload 
+                k-multiple="false"  k-select="onUploadTxt" />
+            </div> -->
+            <div  class="grid_3" style="margin-top:6px">
+                <input id="upload"
+                    type="file"
+                    kendo-upload
+                    k-async="{ saveUrl: 'save', removeUrl: 'remove', autoUpload: true }"
+                    k-multiple="false"
+                    k-select="onUploadExcel"
+                />
+            </div>
+            <div class="grid_2"></div>
+                <!-- <div class="grid_3" style="float:right;">
+                    <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" class="cancel" is-back>
+                        <span class="title">Batal</span>
+                    </c-button>
+                </div> -->  
+             <div class="grid_4" style="float:right;margin-top: 6px;" >
+                 <div class="grid_6">
+                    <c-button class="success" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" is-validate     click="Save">
+                        <span class="title">Simpan</span>
+                    </c-button>
+                </div>
+                <div class="grid_6">
+                    <c-button class="success" style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position=" 'right'" is-validate     click="Collect">
+                        <span class="title">Collecting</span>
+                    </c-button>
+                </div>
+            </div>                         
+        </div>

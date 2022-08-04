@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perencanaan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="kolom1" uuid="1bc53932-a790-4f3a-8c69-70969c83646f">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<parameter name="noemr" class="java.lang.String"/>
+		<parameter name="emrfk" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct * from (
+                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
+                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=1 and  emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
+                    union all
+
+                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
+                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
+                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr}) and style is not null and type='label' and emraskep_t.emrfk=  $P{emrfk} and emraskep_t.kolom=1 ) as x
+                    order by kolom,nourut]]>
+		</queryString>
+		<field name="captionemr" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="kolom2" uuid="4f97378f-97c1-4590-8f65-17c326c90e34">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<parameter name="noemr" class="java.lang.String"/>
+		<parameter name="emrfk" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct * from (
+                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
+                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=2 and emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
+                    union all
+
+                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
+                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
+                    WHERE        (emrpasiend_t.emrpasienfk =$P{noemr})   and style is not null and type='label' and emraskep_t.emrfk='527' and emraskep_t.kolom=2  and emraskep_t.emrfk=  $P{emrfk}) as x
+                    order by kolom,nourut]]>
+		</queryString>
+		<field name="captionemr" class="java.lang.String"/>
+	</subDataset>
+	<subDataset name="kolom3" uuid="955d4bae-76e3-4814-a350-74a97d7ee5ea">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<parameter name="noemr" class="java.lang.String"/>
+		<parameter name="emrfk" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct * from (
+                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
+                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=3 and emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
+                    union all
+
+                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
+                    FROM            emrpasiend_t INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
+                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
+                    WHERE        (emrpasiend_t.emrpasienfk =$P{noemr})   and style is not null and type='label' and emraskep_t.emrfk='527' and emraskep_t.kolom=3  and emraskep_t.emrfk=  $P{emrfk})as x
+                    order by kolom,nourut]]>
+		</queryString>
+		<field name="captionemr" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="noemr" class="java.lang.String"/>
+	<parameter name="defaultValue" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new Integer("1")]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT      distinct emrpasiend_t.emrfk
+                    FROM            emrpasiend_t INNER JOIN
+                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
+                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
+                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr} )]]>
+	</queryString>
+	<field name="emrfk" class="java.lang.String"/>
+	<variable name="Variable_1" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{Variable_1}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="65" splitType="Stretch">
+			<image>
+				<reportElement x="-1" y="0" width="87" height="58" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="56">
+			<staticText>
+				<reportElement x="170" y="0" width="240" height="14" uuid="280226b6-d2fb-4b52-a913-07cc833bb096"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RENCANA ASUHAN KEPERAWATAN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="231" y="42" width="239" height="1" uuid="a077a697-6d34-4b7c-953e-e6aab8f55269"/>
+			</line>
+			<staticText>
+				<reportElement x="6" y="30" width="111" height="22" uuid="e864a0c7-793c-41d9-ae2c-d364613496f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAGNOSA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="42" width="116" height="14" uuid="add93186-44b1-403f-9a0e-4e6fa8c8f062"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LUARAN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="28" width="550" height="1" uuid="1284a8d9-25ca-42ae-8aef-a698e86234b9"/>
+			</line>
+			<staticText>
+				<reportElement x="133" y="30" width="96" height="24" uuid="f260a649-cedf-4dd8-ab42-20e31708b90d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL DITEGAKAN 
+& NAMA PERAWAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="28" width="238" height="14" uuid="dcdc701c-71d6-4b82-b5e8-6ff7deaed3c6"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PERENCANAAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="470" y="28" width="78" height="28" uuid="8635fc06-ccf0-472b-a595-10b82d22956a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TGL TERATASI
+& NAMA PERAWAT]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-1" y="55" width="550" height="1" uuid="4ef4fcc0-a557-4edd-8cf2-259e7c9471a5"/>
+			</line>
+			<staticText>
+				<reportElement x="349" y="42" width="118" height="14" uuid="38d92909-56a8-4a85-89e3-6d6c6b9c60bb"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INTERVENSI]]></text>
+			</staticText>
+			<line>
+				<reportElement x="548" y="28" width="1" height="27" uuid="13d661d4-19ee-433f-970a-2cfdf2a240af"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="28" width="1" height="27" uuid="80391b60-a42f-403e-9825-93f257ac8844"/>
+			</line>
+			<line>
+				<reportElement x="132" y="29" width="1" height="27" uuid="88fb6eab-afdd-40cf-804e-169091b03b68"/>
+			</line>
+			<line>
+				<reportElement x="349" y="42" width="1" height="13" uuid="bae3bf94-49bb-4c23-a28b-c697075b45ca"/>
+			</line>
+			<line>
+				<reportElement x="230" y="28" width="1" height="27" uuid="a59c48ac-5ac7-47fd-80d7-42d34549c02e"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="-1" y="-1" width="1" height="21" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="8ea2ab40-1fd4-4c22-825e-67b0d0c569ba"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="548" y="-1" width="1" height="21" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="5301b719-f81b-46d0-bf69-b83f32db355f"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="132" y="0" width="1" height="20" isPrintInFirstWholeBand="true" uuid="950aae5f-7c1d-4f9e-b0fb-d7b5f2756a75"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="230" y="0" width="1" height="20" isPrintInFirstWholeBand="true" uuid="c14946f8-fef8-45aa-88c8-61501cc1dc07"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="349" y="0" width="1" height="20" isPrintInFirstWholeBand="true" uuid="30a3de5a-8da1-4694-ada4-788e30f62603"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="469" y="-1" width="1" height="21" isPrintInFirstWholeBand="true" uuid="9afb76f5-6842-4a83-a936-6fa9d6ec5565"/>
+			</line>
+			<componentElement>
+				<reportElement x="6" y="0" width="125" height="19" uuid="aad0c3cc-0429-490b-b8ca-270bf0d4ed92"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="kolom1" uuid="b3c7c787-6441-4d72-a108-5faf8f7888bc">
+						<datasetParameter name="noemr">
+							<datasetParameterExpression><![CDATA[$P{noemr}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="emrfk">
+							<datasetParameterExpression><![CDATA[$F{emrfk}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="19" width="125">
+						<textField>
+							<reportElement x="7" y="0" width="108" height="19" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="aa95ccfb-eb1c-4275-ac33-2a6c8af75e3f"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{captionemr}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<line>
+				<reportElement x="469" y="-28" width="1" height="27" uuid="bcf470b7-77c3-4816-b141-1f10bf8f7894"/>
+			</line>
+			<componentElement>
+				<reportElement x="232" y="0" width="115" height="19" uuid="fe83988a-4a65-4843-8251-87ae2de30e15"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="kolom2" uuid="64427c40-9691-4f62-bdbc-eb6996215456">
+						<datasetParameter name="noemr">
+							<datasetParameterExpression><![CDATA[$P{noemr}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="emrfk">
+							<datasetParameterExpression><![CDATA[$F{emrfk}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="19" width="115">
+						<textField>
+							<reportElement x="7" y="0" width="108" height="19" uuid="119283d4-7f32-4a89-8e94-46f8ac9f9c15"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{captionemr}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<componentElement>
+				<reportElement x="351" y="0" width="115" height="19" uuid="625993de-f5e7-4ff3-a1bd-b68c2ebe67ee"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="kolom3" uuid="efee54bb-253c-4401-aa6d-42d266d3ba8b">
+						<datasetParameter name="noemr">
+							<datasetParameterExpression><![CDATA[$P{noemr}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="emrfk">
+							<datasetParameterExpression><![CDATA[$F{emrfk}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:listContents height="19" width="115">
+						<textField>
+							<reportElement x="7" y="0" width="108" height="19" uuid="e55581d9-098c-497e-8c57-983932f0127b"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$F{captionemr}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="-1" y="19" width="550" height="1" uuid="02310619-fdf0-429b-b37b-75c9d97d9163"/>
+			</line>
+		</band>
+	</detail>
+	<summary>
+		<band height="43">
+			<staticText>
+				<reportElement x="383" y="5" width="169" height="38" uuid="71c58f3e-ac25-4a40-9385-4cbea2d751da"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TANDA TANGAN
+KATIM]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

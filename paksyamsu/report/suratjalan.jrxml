@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perencanaanttd" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="printedBy" class="java.lang.String"/>
+	<parameter name="noregistrasi" class="java.lang.String"/>
+	<parameter name="defaultValue" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[new Integer("1")]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT    CASE
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '1' THEN 'MINGGU'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '2' THEN 'SENIN'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '3' THEN 'SELASA'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '4' THEN 'RABU'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '5' THEN 'KAMIS'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '6' THEN 'JUMAT'
+WHEN to_char (suratjalanambulance.tanggalberangkat,'d') = '7' THEN 'SABTU'
+END hari,  suratjalanambulance.norec, suratjalanambulance.noregistrasi, cast(suratjalanambulance.tanggalberangkat as date) as tanggalberangkat, suratjalanambulance.nopol, suratjalanambulance.tujuan, suratjalanambulance.keperluan, suratjalanambulance.petugas, suratjalanambulance.keluargapasien, pegawai_m.namalengkap
+FROM suratjalanambulance INNER JOIN pegawai_m ON suratjalanambulance.petugas = pegawai_m.id
+where suratjalanambulance.noregistrasi=$P{noregistrasi}]]>
+	</queryString>
+	<field name="nopol" class="java.lang.String"/>
+	<field name="tujuan" class="java.lang.String"/>
+	<field name="keperluan" class="java.lang.String"/>
+	<field name="namalengkap" class="java.lang.String"/>
+	<field name="keluargapasien" class="java.lang.String"/>
+	<field name="hari" class="java.lang.String"/>
+	<field name="tanggalberangkat" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="8" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="100" splitType="Stretch">
+			<image>
+				<reportElement x="-1" y="0" width="87" height="58" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="59" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="63" width="551" height="30" uuid="2fbd68bb-93e6-4178-9be5-7d9dd1cf7598"/>
+				<textElement textAlignment="Center">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SURAT JALAN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="460" y="-28" width="100" height="30" uuid="6a2f7bbf-0164-46e9-97f1-f7bfff62912a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$P{printedBy}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="662" splitType="Stretch">
+			<textField>
+				<reportElement x="389" y="477" width="160" height="30" uuid="f5575845-3639-4580-a1c2-f75fc52ec587"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA["JAKARTA, "+$F{tanggalberangkat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="8" width="550" height="30" uuid="2affe883-338e-4f69-a53d-869edf70cb3f"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[K.A Instalasi Ambulance Rumah Sakit RS. POLRI menugaskan kepada:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="70f5fe3e-c6e1-43e6-86ef-cca0228c09fb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="40" width="6" height="20" uuid="de15ae87-3f4c-480b-a06c-9391d36e5035"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="38" width="420" height="21" uuid="eb96b103-e95f-4cb8-a40a-1b446d6483b0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namalengkap}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="60" width="100" height="20" uuid="446f0432-877c-42e0-b685-4591d3a4f64a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Jabatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="60" width="6" height="20" uuid="dee2392f-2a04-446e-b92c-2ab43e305531"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="82" width="100" height="20" uuid="71e2f8f7-9fec-43b1-ae3d-5dc55f1d0ee0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Hari/Tanggal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="82" width="6" height="20" uuid="724c6413-145d-4ac3-9ca2-ac6680670a28"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="80" width="420" height="21" uuid="6da0b687-8a9d-4930-8dcc-3bfd84766aa7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hari}+'/'+$F{tanggalberangkat}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="103" width="100" height="20" uuid="a0194fc6-bd7a-4e3a-b7cc-4ab67b74aee1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[No.Polisi / Kendaraan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="103" width="6" height="20" uuid="ba9f1b45-8989-4d38-9b1f-57f11d9e9ccb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="101" width="420" height="21" uuid="6b11d0df-664d-48eb-ac9a-8ab38d95c1bb"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nopol}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="124" width="100" height="20" uuid="7e87abd3-553c-4f30-b452-37fd78c2bdb7"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Tujuan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="124" width="6" height="20" uuid="9a155853-54e7-4da5-8dad-1a1c0ac15947"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="122" width="420" height="21" uuid="24ae02ef-bf51-4776-9d0d-379c19e2738a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tujuan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="144" width="100" height="20" uuid="b00c24d2-fe75-4eaf-9292-d8e5099055b1"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Keperluan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="104" y="144" width="6" height="20" uuid="3b45e7ca-f2c1-435d-8123-931fad3dcc0a"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="111" y="142" width="420" height="21" uuid="acc6fe03-51ce-413f-87db-eee2e6181e77"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keperluan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="209" width="548" height="30" uuid="2df90eef-3bdc-4dd8-b198-9dc2f3d2b9da"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Demikian surat jalan ini dibuat, semoga dapat dipergunakan sebagaimana mestinya.
+Atas perhatian dan kerjasamanya, kami ucapkan terima kasih.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="2" y="477" width="170" height="30" uuid="a9d3e912-8ce5-4e98-99a6-c836b54b5390"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Driver]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="558" width="174" height="21" uuid="9238f368-46fb-4cad-af11-39efcc34d49f"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namalengkap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="558" width="160" height="21" uuid="84317c64-e341-4f60-83f3-808a71ace543"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keluargapasien}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="110" y="60" width="100" height="20" uuid="e4ca171f-69a0-4941-a08d-f98b58e518ac"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Driver Ambulance]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,112 @@
+<!-- <div ng-controller="LaporanKematianRsCtrl"> -->
+
+    <style>
+        .k-grid .k-grid-header .k-header .k-link {
+            height: auto;
+        }
+    
+        .k-grid .k-grid-header .k-header {
+            white-space: normal;
+        }
+    
+        .k-grid .k-grid-header .k-header {
+            text-align: center;
+        }
+    </style>
+    <div ng-show="dataVOloaded">
+        <!-- <c-panel item="item" header="'Daftar Tagihan Rekanan'" disabled> -->
+        <div class="grid_12 headerBox">
+            <h2 style="color: white;">
+                <p>Formulir RL 1.2</p>
+                <p>INDIKATOR PELAYANAN RUMAH SAKIT</p>
+            </h2>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <label c-label item="item" c-label-text="Bulan"></label>
+                <input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd HH:mm'"
+                />
+            </div>
+            <div class="grid_3">
+                <div class="grid_3" >
+                    <input type="radio" name="bulan" id="1" class="k-radio" ng-model="item.jenis"
+                        value="1">
+                    <label class="k-radio-label" for="1">Bulan</label>
+                </div>
+                <div class="grid_3">
+                    <input type="radio" name="tahun" id="2" class="k-radio" ng-model="item.jenis"
+                        value="2">
+                    <label class="k-radio-label" for="2">Tahun</label>
+                </div> 
+            </div> 
+            <!-- <div class="grid_3">
+                <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                <input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd HH:mm'"
+                />
+            </div> -->
+            <div class="grid_1">
+                <div class="grid_12">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="grid_12">
+                    <button class="primary c-button" style="margin-top: 6px" ng-click="CariData()">Cari</button>
+                </div>
+            </div>
+            <div class="grid_1">
+                <div class="grid_12">
+                    <label>&nbsp;</label>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12">
+                    <button class="cancel c-button" style="margin-top: 6px" ng-click="ClearSearch()">Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Data </p>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12 borderBox">
+                <div id="kGrid" kendo-grid k-groupable="'true'" k-aggregate='aggregate' k-data-source="sourceLaporan" k-selectable="'row'"
+                    k-columns="columnLaporan" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)">
+                </div>
+            </div>
+            
+            <div class="clear"></div>
+            <div class="grid_12"  ng-show="isBulan">
+                <div class="grid_12 headerBox">
+                    <p>Detail Jumlah Bed </p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+                    <div id="kGridBed" kendo-grid k-groupable="'true'" k-aggregate='aggregate' k-data-source="sourceBed" k-selectable="'row'"
+                        k-columns="columnBed" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelectedBed" ng-click="click(dataPasienSelectedBed)">
+                    </div>
+                </div>
+                
+                <div class="clear"></div>
+                <div class="grid_12 headerBox">
+                    <p>Detail Pasien Pulang </p>
+                </div>
+                <div class="clear"></div>
+                <div class="grid_12 borderBox">
+                    <div id="kGridPasienPulang" kendo-grid k-groupable="'true'" k-aggregate='aggregate' k-data-source="sourcePasienPulang" k-selectable="'row'"
+                        k-columns="columnPasienPulang" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelectedPasienPulang" ng-click="click(dataPasienSelectedPasienPulang)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12" style="float:right">
+                <div class="grid_10"></div>
+            </div>
+        </div>
+    
+        <br/>
+    </div>
+    <br/>
+    </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
