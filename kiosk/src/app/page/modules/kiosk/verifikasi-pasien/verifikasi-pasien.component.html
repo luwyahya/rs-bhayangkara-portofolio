@@ -1,0 +1,138 @@
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
+      <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+    </a>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
+      Registration - Pasien {{url}}</h1>
+  </div>
+
+</div>
+
+<form [formGroup]="formGroup">
+  <div class="centers" *ngIf="!isInfoPasien  && !isInfoPasienBaru">
+
+    <div>
+      <h1 style="text-align:center">Masukkan No RM / No Identitas</h1>
+      <input class="input-no-cm " type="text" placeholder="Nomor RM / No Identitas" formControlName="noCm"    [matKeyboard]="'Azərbaycanca'">
+      <!-- <div class="ui-g-12">
+        <div class="ui-g-4"></div>
+        <div class="ui-g-2">
+          <p-radioButton name="group1" value="baru" label="Pasien Baru" formControlName="jenisPasien"
+            inputId="opt1">
+          </p-radioButton>
+        </div>
+        <div class="ui-g-2">
+          <p-radioButton name="group1" value="lama" label="Pasien Lama" formControlName="jenisPasien"
+            inputId="opt2">
+          </p-radioButton>
+        </div>
+      </div> -->
+      <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
+    </div>
+    <div style="text-align:center">
+      <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+        (click)="getPasienByNoCM()">Selanjutnya
+      </button>
+  
+    </div>
+    <img *ngIf="loading" style="margin-top:10px"
+    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+  </div>
+
+  <div class="centers" *ngIf="isInfoPasien">
+    <div class="ui-g-12" style="margin-top:-50px">
+      <h1 class="no-cm">No. CM : {{noCm}}</h1>
+    </div>
+
+
+    <div class="row">
+      <div class="ui-g-12"  style="margin-top:-70px">
+        <div class="ui-g-12 ui-md-12 ui-lg-4 ui-g-offset-2">
+          <div class="detail-pasien">
+            <p class="text-regular">Nama Pasien</p>
+            <p class="text-bold"> {{namaPasien}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Jenis Kelamin</p>
+            <p class="text-bold">{{jenisKelamin}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Identitas</p>
+            <p class="text-bold">{{noIdentitas}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tempat / Tanggal Lahir</p>
+            <p class="text-bold">{{tempatTglLahir}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Alamat</p>
+            <p class="text-bold">{{alamat}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Telpon</p>
+            <p class="text-bold">{{noTelpon}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div style="text-align:center">
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+            (click)="pilihPoli()">Selanjutnya
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="centers" *ngIf="isInfoPasienBaru">
+    <div class="ui-g-12" style="margin-top:-50px">
+      <h1 class="no-cm">NIK : {{noIdentitas}}</h1>
+    </div>
+
+
+    <div class="row">
+      <div class="ui-g-12"  style="margin-top:-70px">
+        <div class="ui-g-12 ui-md-12 ui-lg-4 ui-g-offset-2">
+          <div class="detail-pasien">
+            <p class="text-regular">Nama Pasien</p>
+            <p class="text-bold"> {{namaPasien}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Jenis Kelamin</p>
+            <p class="text-bold">{{jenisKelamin}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">StatusKawin</p>
+            <p class="text-bold">{{statusKawin}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tempat / Tanggal Lahir</p>
+            <p class="text-bold">{{tempatTglLahir}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Alamat</p>
+            <p class="text-bold">{{alamat}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Telpon</p>
+            <p class="text-bold">{{noTelpon}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div style="text-align:center">
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+            (click)="pilihPoli()">Selanjutnya
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

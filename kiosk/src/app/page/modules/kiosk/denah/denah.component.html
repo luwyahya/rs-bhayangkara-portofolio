@@ -1,0 +1,42 @@
+<div class="ui-g content">
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-denah.png">Denah Rumah
+        Sakit</h1>
+
+    </div>
+
+  </div>
+  <div class="center-position">
+    <div class="ui-g-12 ui-md-6 ui-lg-12">
+      <!-- <div class="ui-g-12 ui-md-6 ui-lg-4"> -->
+      <!-- </div> -->
+      <!-- <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center"> -->
+          <ngx-image-viewer [src]="images"
+            [(config)]="config"
+            [(index)]="imageIndexOne"
+            (customEvent)="handleEvent($event)">
+  </ngx-image-viewer>
+     <!--  <a id="link-kios" (click)="changePage($event,'umum')">
+        <img style="text-align: center;
+        height: 700px;
+        width: 1200px;
+        max-width: 100%;" src="assets/img/denah/denah_rs.jpg">
+      </a> -->
+      <!-- </div> -->
+    </div>
+  </div>
+  <!-- <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4" style="text-align: center">
+      <button mat-raised-button color="primary" class="btnTemplate" (click)="goTo('antrian')">Petunjuk Lokasi </button>
+    </div>
+  </div> -->
+</div>

@@ -1,0 +1,326 @@
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
+      <span style="font-size:35px;" class="fa fa-arrow-left">KEMBALI KE MENU SEBELUMNYA</span>
+    </a>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <!-- <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
+      Registration - Pasien {{url}}</h1> -->
+  </div>
+
+</div>
+
+<form [formGroup]="formGroup">
+  <div class="centers" *ngIf="!isInfoPasien">
+
+    <div>
+      <h1 style="text-align:center" style="color: brown;">SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA </h1>
+      <input class="input-no-cm " type="text" placeholder="SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA"
+        formControlName="noRujukan" [matKeyboard]="'LOCALE_ID'">
+      <h1 style="text-align:center" style="color: brown;">SILAHKAN PILIH ASAL RUJUKAN ANDA DARI :</h1>
+      <div class="ui-g-12">
+        <div class="ui-g-3"></div>
+        <div class="ui-g-2">
+          <p-radioButton name="group1" value="Option 1" label=" Puskesmas " formControlName="pCare"
+            (click)="setradio('Male')" inputId="opt1">
+          </p-radioButton>
+        </div>
+        <div class="ui-g-2">
+          <p-radioButton name="group1" value="Option 2" label=" Rumah Sakit" formControlName="rumahSakit"
+            (click)="setradio2('Male')" inputId="opt2">
+          </p-radioButton>
+        </div>
+        <div class="ui-g-2">
+          <p-radioButton name="group1" value="Option 3" label=" PASCA RAWAT INAP" formControlName="pascaRanap"
+            (click)="setradio3('Male')" inputId="opt3">
+          </p-radioButton>
+        </div>
+      </div>
+      <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
+    </div>
+    <div style="text-align:center">
+      <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+        (click)="getNoRujukan()">Selanjutnya
+      </button>
+      <div style="text-align:center">
+        <button mat-raised-button color="primary" class="btnTemplates" (click)="goTo('antrian')">Jika No Rujukan Tidak
+          Ditemukan Klik Disini </button>
+      </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <h1 style="text-align:center" style="color: brown;">*NO KARTU AKAN MENCARI NOMOR RUJUKAN TERBARU</h1>
+  </div>
+
+  <div class="centers" *ngIf="isInfoPasien">
+    <div class="ui-g-12">
+      <h1 class="no-cm" *ngIf="!isSuksesSEP">No. Rujukan : {{item.noKunjungan}}</h1>
+      <h1 class="no-cm" *ngIf="isSuksesSEP">No. SEP : {{dataSEP.nosep}}</h1>
+    </div>
+
+
+    <div class="row">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+          <p-dropdown formControlName="multiRujukan" (onChange)="changeNoRujukan($event)" [options]="listRujukan"
+            [filter]="true" [autoWidth]="false">
+          </p-dropdown>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">No RM</p>
+            <p class="text-bold"> {{item.peserta.mr.noMR}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Nama Pasien</p>
+            <p class="text-bold"> {{item.peserta.nama}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Jenis Kelamin</p>
+            <p class="text-bold"> {{item.peserta.sex}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Identitas</p>
+            <p class="text-bold"> {{item.peserta.nik}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tanggal Lahir</p>
+            <p class="text-bold"> {{item.peserta.tglLahir}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Umur</p>
+            <p class="text-bold"> {{item.peserta.umur.umurSekarang}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Jenis Peserta</p>
+            <p class="text-bold">{{item.peserta.jenisPeserta.keterangan}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Telpon</p>
+            <p class="text-bold"> {{item.peserta.mr.noTelepon}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tanggal Kunjungan</p>
+            <p class="text-bold"> {{item.tglKunjungan}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No Kartu</p>
+            <p class="text-bold">{{item.peserta.noKartu}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Asal Rujukan</p>
+            <p class="text-bold"> {{item.provPerujuk.nama}}</p>
+          </div>
+
+          <div class="detail-pasien">
+            <p class="text-regular">Diagnosa</p>
+            <p class="text-bold"> {{item.diagnosa.kode}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <p class="text-regular"></p>
+        </div>
+        <div class="ui-g-4">
+          <p class="text-regular">Anda Dirujuk Ke:</p>
+          <p class="text-warna"> {{item.poliRujukan.nama}}</p>
+        </div>
+        <div class="ui-g-4">
+          <p class="text-regular"></p>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-4">
+          <p-dropdown *ngIf="showPasca" formControlName="poliTujuan" (onChange)="changePoli($event)"
+            [options]="listPoli" [filter]="true" [autoWidth]="false">
+          </p-dropdown>
+          <!-- <div class="ui-g-4"> -->
+          <button *ngIf="!showPasca" pButton type="button" class="btnTemplate" icon="fa fa-angle-left"
+            (click)="showGantiPoli = true">{{ tests }}</button>
+          <!-- </div> -->
+        </div>
+        <!-- <div class="ui-g-3">
+            <p-dropdown formControlName="multiRujukan" (onChange)="changeNoRujukan($event)" [options]="listRujukan" [filter]="true" [autoWidth]="false">
+            </p-dropdown>
+          </div> -->
+        <div class="ui-g-4">
+          <p-dropdown *ngIf="showDPJP" formControlName="dokterDPJP" [options]="listDokter" [filter]="true"
+            [autoWidth]="false">
+          </p-dropdown>
+        </div>
+        <div class="ui-g-4" *ngIf="showDPJP">
+          <p-dropdown formControlName="dokterDPJPMelayani" [options]="listDokterMelayani" [filter]="true"
+            [autoWidth]="false">
+          </p-dropdown>
+        </div>
+        <div class="ui-g-4">
+          <button pButton type="button" class="btnTemplate" icon="fa fa-angle-left" (click)="showGantiDokter = true">{{
+            test }}</button>
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div style="text-align:center" *ngIf="!showCetaks">
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="insertSep()"
+            pTooltip="Pilih Simpan untuk generate No.SEP "> Simpan
+          </button>
+        </div>
+
+        <!-- <div style="text-align:center">
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+            (click)="showGantiDokter = true" pTooltip="Pilih Simpan untuk generate No.SEP "> Test
+          </button>
+        </div> -->
+
+        <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="showCetak">
+          <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white" (click)="cetakSep()"
+              pTooltip="Pilih Simpan untuk generate No.SEP "> Cetak SEP
+            </button>
+          </div>
+          <!--<div class="ui-g-12 ui-md-12 ui-lg-12">
+            <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="cetakAntrian()"
+              pTooltip="Pilih Simpan untuk generate No.SEP "> Cetak Nomor Antrian
+            </button>
+          </div>-->
+          <!-- <div class="ui-g-12 ui-md-12 ui-lg-12">
+            <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="cetaksjprs()"
+              pTooltip="Pilih Simpan untuk generate No.SEP "> Cetak SJPRS
+            </button>
+          </div> -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-dialog header="RS Universitas Andalas" [(visible)]="showPilihan" [responsive]="true" showEffect="fade"
+    [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+    appendTo="body">
+    <div class="ui-g-12">
+      <div>
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12" *ngIf="showTujuanKunj">
+            <p-panel header="Pilih Tujuan Kunjungan" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of listtujuanKunj" (click)="ChangeTujuan(button)"
+                    [class.selected]="CurrentPage == button.name">
+                    {{ button.name }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+          <div class="ui-g-12" *ngIf="showFlag">
+            <p-panel header="Pilih Prosedur" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of listflagProcedure" (click)="ChangeFlag(button)"
+                    [class.selected]="CurrentPage == button.name">
+                    {{ button.name }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+          <div class="ui-g-12" *ngIf="showassesmentPel">
+            <p-panel header="Pilih Asesment Pelayanan" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-4">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of listassesmentPel" (click)="ChangeAsesment(button)"
+                    [class.selected]="CurrentPage == button.name">
+                    {{ button.name }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+          <div class="ui-g-12" *ngIf="showakdPenunjang">
+            <p-panel header="Pilih Penunjang" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of listkdPenunjang" (click)="ChangePenunjang(button)"
+                    [class.selected]="CurrentPage == button.name">
+                    {{ button.name }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+
+</form>
+
+<p-dialog header="RS Universitas Andalas" [(visible)]="showGantiDokter" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+  appendTo="body">
+  <div class="ui-g-12">
+    <div>
+      <form [formGroup]="formGroupSep">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-panel header="Pilih Dokter" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of buttons" (click)="ChangeScreen(button)"
+                    [class.selected]="CurrentPage == button.label">
+                    {{ button.label }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>
+
+
+<p-dialog header="RS Universitas Andalas" [(visible)]="showGantiPoli" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+  appendTo="body">
+  <div class="ui-g-12">
+    <div>
+      <form [formGroup]="formGroupSep">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-panel header="Pilih Poli" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of buttonss" (click)="ChangeScreens(button)"
+                    [class.selected]="CurrentPages == button.label">
+                    {{ button.label }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

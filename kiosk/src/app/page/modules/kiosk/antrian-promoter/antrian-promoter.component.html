@@ -1,0 +1,97 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+        Pasien Promoter {{url}}</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+  
+  <div class="centers" *ngIf="!isInfoPasien">
+    <div class="row">
+      <div class="ui-g" style="margin-top:-50px">
+        <div class="ui-g-12 ui-md-6">
+
+          <!-- <a id="link-kios" (click)="print('A')"> -->
+          <a id="link-kios" (click)="poli('F')">
+            <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+              <h1> 1</h1>
+            </div>
+            <div class="ui-g-11">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-umum.png">
+              <h1> Umum</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-6  ">
+          <!-- <a id="link-kios" (click)="print('B')"> -->
+          <a id="link-kios" (click)="poli('G')">
+            <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+              <h1> 2</h1>
+            </div>
+            <div class="ui-g-11">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-bpjs_2.png">
+              <!--src="assets/humastemplate/images/bantuan-pengaduan.png">-->
+              <h1> BPJS BARU</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-6 ">
+          <!-- <a id="link-kios" (click)="print('C')"> -->
+          <a id="link-kios" (click)="poli('H')">
+            <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+              <h1> 3</h1>
+            </div>
+            <div class="ui-g-11">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-bpjs_pol.png">
+              <!-- src="assets/humastemplate/images/antrian-asuransi.png"> -->
+              <!--src="assets/humastemplate/images/kamar-perawatan-3.png">-->
+              <h1> BPJS POLRI </h1>
+            </div>
+          </a>
+        </div>
+
+        <div class="ui-g-12 ui-md-6  ">
+          <!-- <a id="link-kios" (click)="print('D')"> -->
+          <a id="link-kios" (click)="poli('I')">
+            <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+              <h1> 4</h1>
+            </div>
+            <div class="ui-g-11">
+              <img class="img-responsive img-thumbnail-humas"
+                src="assets/humastemplate/images/antrian-bpjs_nonpol_new.png">
+              <!-- src="assets/humastemplate/images/antrian-perusahaan.png"> -->
+              <!--src="assets/humastemplate/images/bantuan-kritik-saran.png">-->
+              <h1> BPJS NON POLRI</h1>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="ui-g" style="margin-top:-50px">
+      </div>
+    </div>
+  </div>
+  <div class="centers" *ngIf="isInfoPasien">
+    <div class="row">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-left:100px;">
+          <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Paru Promoter')">Poli Paru Promoter
+            </button>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+
+</div>

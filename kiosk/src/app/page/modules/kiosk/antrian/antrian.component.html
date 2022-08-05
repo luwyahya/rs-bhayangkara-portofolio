@@ -1,0 +1,516 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+        Pasien {{url}}</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+
+  <div class="centers" *ngIf="!isInfoPasien">
+    <div class="row">
+      <div class="ui-g" style="margin-top:-50px">
+        <div class="ui-g-12 ui-md-12">
+          <div class="ui-g-12 ui-md-3">
+            <a id="link-kios" (click)="poli('A')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> A</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pasien-baru.png">
+                <h1> UMUM BARU</h1>
+              </div>
+            </a>
+          </div>
+          <div class="ui-g-12 ui-md-3  ">
+            <a id="link-kios" (click)="poli('B')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> B</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pasien-baru1.png">
+                <h1> BPJS BARU</h1>
+              </div>
+            </a>
+          </div>
+          <div class="ui-g-12 ui-md-3 ">
+            <a id="link-kios" (click)="poli('C')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> C</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-umum.png">
+                <h1> UMUM LAMA </h1>
+              </div>
+            </a>
+          </div>
+
+          <div class="ui-g-12 ui-md-3  ">
+            <a id="link-kios" (click)="poli('D')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> D</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-bpjs_2.png">
+                <h1> BPJS LAMA</h1>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12">
+          <div class="ui-g-12 ui-md-3"></div>
+          <div class="ui-g-12 ui-md-3">
+            <a id="link-kios" (click)="poli('E')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> E</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pasien-lama.png">
+                <h1> FINGER PRINT</h1>
+              </div>
+            </a>
+          </div>
+          <div class="ui-g-12 ui-md-3">
+            <a id="link-kios" (click)="poli('F')">
+              <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+                <h1> F</h1>
+              </div>
+              <div class="ui-g-11">
+                <img class="img-responsive img-thumbnail-humas"
+                  src="assets/humastemplate/images/antrian-perusahaan.png">
+                <h1> LAIN-LAIN</h1>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-4  ">
+
+        </div>
+        <div class="ui-g-12 ui-md-4 ">
+          <a id="link-kios" (click)="poli('E')">
+            <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+              <h1> 5</h1>
+            </div>
+            <div class="ui-g-11">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-asuransi.png">
+              <h1> ASURANSI </h1>
+            </div>
+          </a>
+        </div> -->
+      </div>
+      <div class="ui-g" style="margin-top:-50px">
+        <!-- start -->
+        <!--       
+      <div class="ui-g-12 ui-md-2  ui-g-offset-3">
+        <a id="link-kios" (click)="print('E')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 5</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pelayanan-prosedur.png">
+            <h1>Poli Bedah, Urologi</h1>
+          </div>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ">
+        <a id="link-kios" (click)="print('F')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 6</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/bantuan-faq.png">
+            <h1>Poli Geriatri</h1>
+          </div>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2  ">
+        <a id="link-kios" (click)="print('G')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 7</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pelayanan-fasilitas.png">
+            <h1>Umum, Asuransi</h1>
+          </div>
+        </a>
+      </div>
+      -->
+        <!-- stop -->
+      </div>
+    </div>
+  </div>
+  <div class="centers" *ngIf="isInfoPasien">
+    <div class="row">
+      <div class="ui-g">
+        <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-left:100px;">
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Hemodialisa')">Hemodialisa
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <!-- <a id="link-kios" (click)="print('Poli Gigi')">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-tujuan.png">
+              <h1>Poli Gigi</h1>
+            </a> -->
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Instalasi Narkoba')">Instalasi Narkoba
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <!-- <a id="link-kios" (click)="print('Poli Jantung')">
+              <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-sejarah.png">
+              <h1>Poli Jantung</h1>
+            </a> -->
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Anak')">Poli Anak
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <!-- <a id="link-kios" (click)="print('Poli Kulit Kelamin')">
+              <img class="img-responsive img-thumbnail-humas"
+                src="assets/humastemplate/images/profil-struktur-organisasi.png">
+              <h1>Poli Kulit Kelamin</h1>
+            </a> -->
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Andrologi')">Poli Andrologi
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <!-- <a id="link-kios" (click)="print('Poli Kulit Kelamin')">
+              <img class="img-responsive img-thumbnail-humas"
+                src="assets/humastemplate/images/profil-struktur-organisasi.png">
+              <h1>Poli Kulit Kelamin</h1>
+            </a> -->
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Anestesi')">Poli Anestesi
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Anak')">Poli Bedah Anak
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Mulut')">Poli Bedah Mulut
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Plastik')">Poli Bedah Plastik
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Saraf')">Poli Bedah Saraf
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Thorax Kardio Vaskuler')">Poli Bedah Thorax Kardio Vaskuler
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Tulang')">Poli Bedah Tulang
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Umum')">Poli Bedah Umum
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Vaskuler')">Poli Bedah Vaskuler
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Bedah Tumor')">Poli Bedah Tumor
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli DOTS')">Poli DOTS
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Eksekutif')">Poli Eksekutif
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Eksekutif2')">Poli Eksekutif 2
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Gigi dan Mulut')">Poli Gigi dan Mulut
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Gizi')">Poli Gizi
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Jantung')">Poli Jantung
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Jiwa')">Poli Jiwa
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Kebidanan')">Poli Kebidanan
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Kedokteran Olahraga')">Poli Kedokteran Olahraga
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Kulit dan Kelamin')">Poli Kulit dan Kelamin
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Mata')">Poli Mata
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Paru')">Poli Paru
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Penyakit Dalam')">Poli Penyakit Dalam
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Rekam Medis')">Poli Rekam Medis
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli Saraf')">Poli Saraf
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Poli THT')">Poli THT
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Rikes (Medical Check Up)')">Rikes (Medical Check Up)
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Tindakan Keperawatan (Rawat Jalan)')">Tindakan Keperawatan (Rawat Jalan)
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Rehabilitasi Medis')">Rehabilitasi Medis
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Matahari')">Matahari
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Digestip')">Digestip
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Psikologi')">Psikologi
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Urologi')">Urologi
+            </button>
+          </div>
+          <div class="ui-g-12 ui-md-6 ui-lg-3">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="print('Thalasemi')">Thalasemi
+            </button>
+          </div>
+        </div>
+        <!-- <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Anak</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Umum</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Jantung</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Gigi</h1>
+            </div>
+          </a>
+        </div> -->
+        <!-- <div class="ui-g-12 ui-md-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Dalam</h1>
+            </div>
+          </a>
+        </div>
+        <div class="ui-g-12 ui-md-3">
+          <a id="link-kios" (click)="print('A')">
+            <div class="ui-g-12">
+              <h1> Poli Mata</h1>
+            </div>
+          </a>
+        </div> -->
+
+
+      </div>
+      <!-- <div class="ui-g" style="margin-top:-50px">
+       
+      </div> -->
+    </div>
+  </div>
+
+</div>
+
+
+<!-- <div class="ui-g content">
+ 
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+        Pasien</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="ui-g" style="margin-top:-50px">
+      <div class="ui-g-12 ui-md-2 ui-g-offset-2 ">
+        <a id="link-kios" (click)="print('A')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pelayanan-jadwal-dokter.png">
+          <h1> <span style="color: #494949">1. </span>Rehabilitasi Medik</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2  ">
+        <a id="link-kios" (click)="print('B')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/bantuan-pengaduan.png">
+          <h1> <span style="color: #494949">2. </span>Poli Dalam, THT, Paru</h1>
+
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ">
+        <a id="link-kios" (click)="print('C')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/kamar-perawatan-3.png">
+          <h1><span style="color: #494949">3. </span>Poli Obgyn, Anak, Jantung, Kulit </h1>
+
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2  ">
+        <a id="link-kios" (click)="print('D')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/bantuan-kritik-saran.png">
+          <h1><span style="color: #494949">4. </span>Poli Saraf, Jiwa, Gigi, Mata</h1>
+        </a>
+      </div>
+    </div>
+    <div class="ui-g" style="margin-top:-50px">
+      <div class="ui-g-12 ui-md-2  ui-g-offset-3">
+        <a id="link-kios" (click)="print('E')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pelayanan-prosedur.png">
+          <h1><span style="color: #494949">5. </span>Poli Bedah, Urologi</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ">
+        <a id="link-kios" (click)="print('F')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/bantuan-faq.png">
+          <h1><span style="color: #494949">6. </span>Poli Geriatri</h1>
+
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2  ">
+        <a id="link-kios" (click)="print('G')">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/pelayanan-fasilitas.png">
+          <h1><span style="color: #494949">7. </span>Umum, Asuransi</h1>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+</div> -->
+
+<p-dialog header="RS PUSAT POLRI SAID SUKANTO" [(visible)]="showTerbaru" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+  appendTo="body">
+  <div class="ui-g-12">
+    <div>
+      <form [formGroup]="formGroupSep">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-panel header="Pilih Dokter" [toggleable]="true">
+              <div class="ui-g" style="height:500px;">
+                <div class="ui-g-12 ui-lg-12 ui-md-2">
+                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                    *ngFor="let button of buttons" (click)="ChangeScreen(button)"
+                    [class.selected]="CurrentPage == button.label">
+                    {{ button.label }}
+                  </button>
+                </div>
+              </div>
+            </p-panel>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

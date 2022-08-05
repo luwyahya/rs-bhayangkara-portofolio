@@ -1,0 +1,38 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-informasi.png">
+        Gallery</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 ">
+    <div class="ui-g-12 ui-md-12 ui-lg-6">
+      <p-panel header="Events" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12 ui-lg-12" style="margin-left: 100px;">
+            <p-galleria [images]="images" panelWidth="500" panelHeight="313" showCaption="true"></p-galleria>
+          </div>
+
+        </div>
+      </p-panel>
+    </div>
+    <div class="ui-g-12 ui-md-12 ui-lg-6 ">
+      <p-panel header="Fasilitas & Pelayanan" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+        <div class="ui-g">
+          <div class="ui-g-12 ui-md-12 ui-lg-12" style="margin-left: 100px;">
+            <p-galleria [images]="images2" panelWidth="500" panelHeight="313" showCaption="true"></p-galleria>
+          </div>
+        </div>
+      </p-panel>
+    </div>
+  </div>
+</div>

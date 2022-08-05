@@ -1,0 +1,78 @@
+<!-- <div class="login-bg">
+    <img src="../../../../assets/img/bg.jpg" />
+</div> -->
+<div class="login-body">
+    <div class="login-panel ui-fluid">
+        <p-progressBar *ngIf="loading" mode="indeterminate" [style]="{'height': '6px'}"></p-progressBar>
+        <div class="ui-g">
+            <div class="ui-g-12 login-header">
+                <h1>RSUD MATARAM</h1>
+                <h2>Login Untuk Reservasi Online</h2>
+                <!-- <img src="../../../../assets/img/logo.png"> -->
+            </div>
+            <div class="example-container" *ngIf="isLoginEuy">
+
+                <mat-form-field>
+                    <input matInput placeholder="No RM" [(ngModel)]="model.nocmSignIn">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input type="password" matInput placeholder="Kata Sandi" (keyup.enter)="loginUser()"
+                        [(ngModel)]="model.kataSandi">
+                </mat-form-field>
+                <!-- <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Tgl lahir" [(ngModel)]="model.tglLahirSignIn">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field> -->
+                <button style="margin-top: 20px" pButton type="submit" label="Sign In" (click)="loginUser()"
+                    icon="fa fa-check-circle"></button>
+                <h2 class="create-account" style="margin-top: 10px">Belum punya Akun ? <a (click)="signUp()" href="#"
+                        style="	color: #634b89;">Buat
+                        Baru</a></h2>
+            </div>
+
+            <div class="example-container" *ngIf="isSignUp">
+                <mat-form-field>
+                    <input matInput placeholder="No RM" [(ngModel)]="model.nocmSignOut">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Tgl lahir"
+                        [(ngModel)]="model.tglLahirSignOut">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="email" placeholder="Email" [(ngModel)]="model.email">
+                </mat-form-field>
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label translate="ea6.design.menu.header.search"></mat-label>
+                    <input matInput [(ngModel)]="searchText"
+                           (ngModelChange)="searchChange()">
+        
+                </mat-form-field> -->
+
+                
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Outline form field</mat-label>
+                    <input matInput placeholder="Placeholder">
+
+                </mat-form-field> -->
+                <mat-form-field>
+                    <input matInput type="password" placeholder="Kata Sandi" [(ngModel)]="model.password">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="No Telpon" [(ngModel)]="model.noTelpon">
+                </mat-form-field>
+                <button style="margin-top: 20px" pButton type="submit" label="Sign Up" (click)="save()"
+                    icon="fa fa-user-plus"></button>
+                <h2 class="create-account" style="margin-top: 10px">Sudah punya Akun ? <a (click)="cancelSignUp()"
+                        href="#" style="color: #634b89;">Sign In
+                    </a></h2>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>

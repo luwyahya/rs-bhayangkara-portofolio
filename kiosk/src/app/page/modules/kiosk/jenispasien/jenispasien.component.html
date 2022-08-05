@@ -1,0 +1,33 @@
+<div class="ui-g content">
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+        Pasien {{url}} - Pilih Jenis Pasien</h1>
+    </div>
+
+  </div>
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-2 ui-g-offset-4">
+      <a id="link-kios" (click)="changePage('baru')">
+        <img class="img-responsive img-thumbnail-humas"
+          src="assets/humastemplate/images/pasien-baru.png">
+        <h1>Baru</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-2">
+      <a id="link-kios" (click)="changePage('lama')">
+        <img class="img-responsive img-thumbnail-humas"
+          src="assets/humastemplate/images/pasien-lama.png">
+        <h1>Lama</h1>
+      </a>
+    </div>
+
+  </div>
+
+</div>

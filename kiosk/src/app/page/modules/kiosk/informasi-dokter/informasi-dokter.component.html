@@ -1,0 +1,256 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12" style="margin-top:-30px">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center;"><img src="assets/humastemplate/images/icon-informasi.png">
+        Informasi DPJP </h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+  <!-- <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-top: -50px;">
+      <div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-offset-1  thumb-background-1">
+        <a id="link-kios">
+  
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/icon-kamar-perawatan-available.png">
+          <h1>Ketersediaan</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ui-lg-2 thumb-background-2">
+        <a id="link-kios">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/icon-kamar-perawatan-1.png">
+          <h1>Kelas I</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ui-lg-2 thumb-background-3">
+        <a id="link-kios">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/icon-kamar-perawatan-2.png">
+          <h1>Kelas II</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ui-lg-2 thumb-background-4">
+        <a id="link-kios">
+          <img class="img-responsive img-thumbnail-humas"
+            src="assets/humastemplate/images/icon-kamar-perawatan-3.png">
+          <h1>Kelas III</h1>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-2 ui-lg-2 thumb-background-5">
+        <a id="link-kios">
+          <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/icon-kamar-perawatan-vip.png">
+          <h1>Kelas VIP</h1>
+        </a>
+      </div>
+  
+    </div> -->
+
+  <!-- <section class="content">
+      <div class="layout-dashboard" style="margin-top: -65px;">
+        <div class="full-width">
+          <div class=" home full-width">
+    
+            <div class="row tile_count ui-g " >
+              <div class="ui-g-12 ui-md-12 ui-lg-4 tile_stats_count overview-box home">
+                <div class="left"></div>
+                <div class="right">
+                  <span class="count_top"><i style="margin: 15px 15px 0 0;" class="glyphicon glyphicon-bed"></i>Total Tempat
+                    Tidur</span>
+                  <div class="count white" style="margin-bottom: 15px;">{{jumlahTempatTidur}}</div>
+                </div>
+              </div>
+    
+              <div class="ui-g-12 ui-md-12 ui-lg-4 tile_stats_count overview-box home">
+                <div class="left"></div>
+                <div class="right">
+                  <span class="count_top"><i style="margin: 15px 15px 0 0;" class="glyphicon glyphicon-bed"></i>Total Tempat Tidur Isi</span>
+                  <div class="count white" style="margin-bottom: 15px;">{{JumlahIsi}}</div>
+                </div>
+              </div>
+    
+              <div class="ui-g-12 ui-md-12 ui-lg-4 tile_stats_count overview-box home">
+                <div class="left"></div>
+                <div class="right">
+                  <span class="count_top"><i style="margin: 15px 15px 0 0;" class="glyphicon glyphicon-bed"></i>Total Tempat Tidur Kosong</span>
+                  <div class="count white" style="margin-bottom: 15px;">{{JumlahKosong}}</div>
+                </div>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+    </section> -->  
+  <div class="ui-g-12">
+    <div class="ui-g-12 ui-lg-3 col-md-6" *ngFor="let item of dataKamar">
+      <!-- small box -->
+      <div class="small-box {{item.bg}}">
+        <div class="inner">
+          <h3>{{item.namalengkap}} ({{item.qtyPasien}})</h3>
+          <div class="ui-g-12 ui-lg-12 ui-md-12" >
+          <span class="info-box-icon bg-green" style="margin-top:10px" *ngFor="let subitem of item.dpr">
+            <h3>{{subitem.jumlah}}</h3>
+            <p style="margin-top: -70px;">{{subitem.namaruangan}}</p>
+          </span>
+       
+         <!--  <span class="info-box-icon bg-red" style="margin-top:10px">
+            
+            <p style="margin-top: -70px;">Terisi</p>
+          </span>
+        
+          <span class="info-box-icon bg-yellow" style="margin-top:10px">
+            
+            <p style="margin-top: -70px;">Tersedia</p>
+          </span> -->
+        </div>
+        </div>
+        <div class="icon">
+          <i class="fa fa-user-md"></i>
+        </div>
+        <a (click)="lookDetail(item.iddpjp,item.namalengkap)" class="small-box-footer">Detail <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="ui-g-12 ui-md-12 ui-lg-4 " style="margin-top:-40px">
+    <div class="card card-w-title">
+      <div class="card card-form-header">
+        <h3>Total Tempat Tidur</h3>
+      </div>
+
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <h1>{{jumlahTempatTidur}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-md-12 ui-lg-4 "  style="margin-top:-40px">
+    <div class="card card-w-title">
+      <div class="card card-form-header">
+        <h3>Total Tempat Tidur Isi</h3>
+      </div>
+
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <h1> {{JumlahIsi}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui-g-12 ui-md-12 ui-lg-4 "  style="margin-top:-40px">
+    <div class="card card-w-title">
+      <div class="card card-form-header">
+        <h3>Total Tempat Tidur Kosong</h3>
+      </div>
+
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <h1> {{JumlahKosong}}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <section class="content">
+    <div class="row">
+      <div class="layout-dashboard vert-move" style="position: absolute;
+            left: 0px;
+            top: 0px;
+            z-index: -1; 
+            margin-top: 150px;">
+
+        <div class="ui-g-12 ui-md-6 ui-lg-6" *ngFor="let item of dataKamar" style="margin-top:5px">
+          <div class="overview-box {{item.warna}}"><i class="overview-icon fa fa-bed"></i>
+            <span class="overview-title">{{item.namaruangan}}</span>
+            <div class="overview-subinfo" *ngFor="let data of item.kamar">
+          
+              <table class="class-table" bgcolor="white">
+                <tr style="text-align:left">
+                  <th style="font-size: 18px;color:#a0a0a0;width: 50%;padding: 0.571em 0.857em;">
+                    {{data.namakelas}}
+                  </th>
+                  <th style="font-size: 18px;color:#a0a0a0;width: 50%;padding: 0.571em 0.857em;">
+                    Tersedia {{data.kosong}} Dari {{data.qtyBed}}
+                  </th>
+                </tr>
+              </table>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
+</div>
+
+
+<div style="  position: fixed;
+top: 50%;
+left: 47.5%;
+">
+  <p-progressSpinner *ngIf="isShowKamar"></p-progressSpinner>
+</div>
+
+<p-dialog header="Dokter {{ruangans}}" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [width]="1280" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+    <div class="ui-g-12">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <p-fieldset legend="Daftar Pasien Masih Dirawat" [toggleable]="true">
+            <div class="example-container mat-elevation-z8">
+        
+              <mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="tglregistrasi">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Tgl Registrasi </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.tglregistrasi}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="noregistrasi">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> No Registrasi </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.noregistrasi}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="nocm">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> No RM </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.nocm}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namapasien">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Nama Pasien </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namapasien}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namaruangan">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ruangan </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namaruangan}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namakelas">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Kelas </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namakelas}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namakamar">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Kamar </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namakamar}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namabed">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Bed </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namabed}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+        
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+

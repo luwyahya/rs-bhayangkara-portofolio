@@ -1,0 +1,229 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-informasi.png">
+        Informasi Profil</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-top: -50px;">
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-offset-1 ">
+      <a id="link-kios" (click)="showPopUp('Visi & Misi')">
+        <!-- <a href="" data-toggle="modal" data-target="#myModal"> -->
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-visi-misi.png">
+        <h1>Visi & Misi</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-tujuan.png">
+        <h1>Tujuan</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" (click)="showPopUp('Sejarah')">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-sejarah.png">
+        <h1>Sejarah</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" (click)="showPopUp2('Struktur Organisasi')">
+        <img class="img-responsive img-thumbnail-humas"
+          src="assets/humastemplate/images/profil-struktur-organisasi.png">
+        <h1>Struktur Organisasi</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" (click)="showPopUp2('Struktur Organisasi')">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-direksi.png">
+        <h1>Direksi</h1>
+      </a>
+    </div>
+
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-top: -50px;">
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-offset-1 ">
+      <a id="link-kios" (click)="showPopUp('Slogan')">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-slogan.png">
+        <h1>Slogan / Tagline / Motto / Semboyan</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" [routerLink]="['/gallery']">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-event-gallery.png">
+        <h1>Event & Gallery</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-rekanan.png">
+        <h1>Rekanan / Partners</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" (click)="showPopUp('Prestasi')">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-prestasi.png">
+        <h1>Prestasi / Awards</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios" (click)="showPopUp('Alamat / Kontak / Map')">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/profil-alamat.png">
+        <h1>Alamat / Kontak / Map</h1>
+      </a>
+    </div>
+  </div>
+
+  <p-dialog header="RSJD SURAKARTA" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+    [width]="750" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+    <div class="ui-g-12">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <p-fieldset legend="{{title}}" [toggleable]="true">
+            <div class="ui-g-12" style="font-size:17px" *ngIf="isVisi">
+              <h3>Visi</h3>
+              <p>Rumah Sakit Pilihan Masyarakat Dalam Bidang Pelayanan Kesehatan, Pendidikan Dan Penelitian Yang
+                Berstandar
+                Internasional.</p>
+              <h3>Misi</h3>
+              <ul>
+                <li>Memberikan Pelayanan Kesehatan yang komprehensif, berkualitas dan profesinal</li>
+                <li>Melaksanakan pendidikan dan penelitian kesehatan yang berkelanjutan dan berkualitas</li>
+                <li>Meningkatkan kompetensi SDM yang berdaya saing</li>
+                <li>Meningkatkan Kesejahteraan Karyawan/karyawati</li>
+                <li>Meningkatkan sarana prasarana sesuai standard RS pendidikan dan kemajuan IPTEKDOK</li>
+              </ul>
+            </div>
+            <div class="ui-g-12" style="font-size:17px" *ngIf="isSejarah">
+              <h3>Sejarah Singkat</h3>
+              <ul>
+                <li> Rumah Sakit Umum Daerah Kota Mataram merupakan Rumah Sakit milik Pemerintah Kota Mataram.</li>
+                <li> Luas lahan 20.473 m2.</li>
+                <li> Mulai operasional sejak Maret 2010 berdasarkan Surat Keputusan Walikota Nomor : 163/II/2010 tentang
+                  Izin Penyelenggaraan Operasional Pelayanan.</li>
+                <li> Sejak 1 Desember 2010, RSJD SURAKARTA menerapkan pola pengelolaan keuangan Badan Layanan Umum
+                  Daerah (BLUD), berdasarkan SK Walikota Mataram No 565/XII/2010
+                </li>
+              </ul>
+            </div>
+
+            <div class="ui-g-12" style="font-size:17px" *ngIf="isSlogan">
+              <h3>MOTTO RSJD SURAKARTA</h3>
+              <p>Melayani dengan SMILE : Senyum, Mutu, Inovatif, Lengkap, Efisien.</p>
+            </div>
+            <div class="ui-g-12" style="font-size:17px" *ngIf="isPrestasi">
+              <h3>Prestasi yang dicapai</h3>
+              <ul>
+                <li>27 Juni 2012 RSJD SURAKARTA lulus Akreditasi 5 (lima) pelayanan dasar</li>
+                <li>18 Desember 2012 Juara I RSSIB tingkat Provinsi NTB</li>
+                <li>Tahun 2013 Menjadi Rumah Sakit Kelas B</li>
+                <li>Tahun 2014 menjadi juara I RSSIB tingkat Kota Mataram dan Tingkat Provinsi NTB</li>
+                <li>Tahun 2015 diresmikan gedung 3 lantai (VK, NICU, ICU, PICU, dan OK) </li>
+                <li> Tahun 2015, diresmikan pelayanan Mataram Emergency Medical Service (MEMS)</li>
+                <li> Tahun 2015 menjadi juara I RSSIB tingkat Provinsi NTB</li>
+                <li> Tahun 2016 diresmikan Pelayanan Hyperbarick Chamber</li>
+                <li> Tahun 2016 diresmikan Pelayanan Cathlab RSJD SURAKARTA</li>
+                <li> Tahun 2016 diresmikan pelayanan gedung VIP Graha Mentaram</li>
+                <li> Tahun 2016 RSJD SURAKARTA Lulus Akreditasi versi 2012 </li>
+                <li> Tahun 2017 RSJD SURAKARTA meraih peringkat 6 dalam lomba Pra SPGDT-RS yang diselenggarakan oleh
+                  IndoHCF</li>
+                <li> Tahun 2017 RSJD SURAKARTA meraih penghargaan ROLE MODEL Pelayanan Publik kategori “A” Sesuai
+                  dengan KepMenPAN Nomor 191 Tahun 2016 tentang penetapan 59 Kabupaten/Kota Sebagai Role Model
+                  Penyelenggaraan Pelayanan Publik</li>
+                <li> Tahun 2017 RSJD SURAKARTA ditunjuk melalui Kementrian Kesehatan sebagai Call Center 119
+                  Terintergrasi Nasional untuk wilayah Nusa Tenggara</li>
+                <li> Tahun 2017 RSJD SURAKARTA meresmikan Gedung Hemodialisa Center</li>
+                <li> Tahun 2017 RSJD SURAKARTA meresmikan pelayanan HOME CARE</li>
+                <li> Tahun 2017 RSJD SURAKARTA ditunjuk sebagai Rumah Sakit WISATA MEDIS oleh Kementrian Kesehatan
+                  berdasarkan PERMENKES No 76 Tahun 2015 Tentang Penyelenggaraan Wisata Medis </li>
+                <li> Tahun 2018 RSJD SURAKARTA mendapatkan penghargaan TOP 10 INOVASI dalam ajang eNTeBeNovik untuk
+                  Inovasi Layanan PSC 119 MEMS dan Home Care.</li>
+                <li> 13 Maret 2019 diresmikan Gedung PSC 119 MEMS dan Launching Aplikasi Emergency Button oleh Menteri
+                  Kesehatan RI.</li>
+
+
+              </ul>
+            </div>
+            <div class="ui-g-12" style="font-size:17px" *ngIf="isMaps">
+              <div style="margin-left: 15px">
+                <div class="contact-info row">
+                  <span class=" icon"><i class="fa fa-road"></i></span>
+                  <span class="text">
+                    Jl. Ki Hajar Dewantara No.80, Jebres, Kec. Jebres, Kota Surakarta, Jawa Tengah 57126
+                  </span>
+                </div>
+                <div class="contact-info row">
+                  <span class=" icon"><i class="fa fa-phone"></i></span> &nbsp;
+                  <span class="text"> (0271) 641442</span>
+                </div>
+
+                <div class="contact-info row">
+                  <span class=" icon"><i class="fa fa-fax"></i></span> &nbsp;
+                  <span class="text"> (0370) 646928</span>
+                </div>
+                <div class="contact-info row">
+                  <span class="icon"><i class="fa fa-envelope"></i></span> &nbsp;
+                  <span class=" text">-@yahoo.com</span>
+                </div>
+              </div>
+              <p-panel header="Maps" [toggleable]="true" [style]="{'margin-top':'10px'}">
+                <div class="ui-g">
+                  <!-- <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.9591472266434!2d116.11196755068605!3d-8.599920889679591!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dcdbf4240a7ae15%3A0x7c96adfc5edd7c11!2sRumah+Sakit+Umum+Daerah+Kota+Mataram!5e0!3m2!1sid!2sid!4v1558690580041!5m2!1sid!2sid"
+                    width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe> -->
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15820.521298966609!2d110.8550957770763!3d-7.560766512757746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a1704ea75e343%3A0x3da2d2a673fc780a!2sRumah%20Sakit%20Jiwa%20Daerah%20Surakarta!5e0!3m2!1sid!2sid!4v1570094067708!5m2!1sid!2sid" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                </div>
+              </p-panel>
+
+              <!-- </div> -->
+            </div>
+          </p-fieldset>
+        </div>
+      </div>
+    </div>
+  </p-dialog>
+
+  <p-dialog header="RSJD SURAKARTA" [(visible)]="displayDialog2" [responsive]="true" showEffect="fade" [modal]="true"
+    [width]="1500" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+    <div class="ui-g-12">
+      <div class="ui-g ui-fluid">
+        <div class="ui-g-12">
+          <p-fieldset legend="{{title}}" [toggleable]="true">
+            <div class="ui-g-12" style="font-size:17px">
+              <p-organizationChart [value]="strukTurOrg" selectionMode="single" [(selection)]="selectedNode"
+                (onNodeSelect)="onNodeSelect($event)" styleClass="company">
+                <ng-template let-node pTemplate="person">
+                  <div class="node-header ui-corner-top">{{node.label}}</div>
+                  <div class="node-content">
+                    <!-- <img src="assets/showcase/images/demo/organization/{node.data.avatar}" width="32"> -->
+                    <div>{{node.data.name}}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-node pTemplate="department">
+                  {{node.label}}
+                </ng-template>
+              </p-organizationChart>
+              <!-- <p-tree [value]="strukTurOrg" layout="vertical" selectionMode="single" [(selection)]="selectedFile3">
+              </p-tree> -->
+            </div>
+          </p-fieldset>
+        </div>
+        <div class="ui-g-12">
+         
+          <div class="ui-g-1">
+            <button pButton type="button" (click)="displayDialog2 = false" label="Tutup"
+              icon="fa fa-angle-left"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-dialog>

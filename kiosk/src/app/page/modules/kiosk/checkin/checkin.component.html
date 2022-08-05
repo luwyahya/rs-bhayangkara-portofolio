@@ -1,0 +1,96 @@
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
+      <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+    </a>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-informasi.png">Check-In
+      Reservasi Online</h1>
+  </div>
+
+</div>
+
+<form [formGroup]="formGroup">
+  <div class="centers" *ngIf="!isInfoPasien">
+
+    <div>
+      <h1 style="text-align:center">Masukkan No Reservasi</h1>
+      <input class="input-no-cm "  placeholder="Nomor Reservasi" formControlName="noReservasi"    [matKeyboard]="'LOCALE_ID'">
+      <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
+    </div>
+    <div style="text-align:center">
+      <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+        (click)="getInfoByNoReservasi()">Selanjutnya
+      </button>
+    </div>
+
+  </div>
+
+  <div class="centers" *ngIf="isInfoPasien" >
+    <div class="ui-g-12" style="margin-top:-60px">
+      <h1 class="no-cm">No. Reservasi : {{item.noreservasi}}</h1>
+    </div>
+
+
+    <div class="row" >
+      <div class="ui-g-12" style="margin-top: -60px;">
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien" *ngIf="item.nocm==null">
+            <p class="text-regular">Tipe Pasien</p>
+            <p class="text-bold">{{item.type}}</p>
+          </div>
+          <div class="detail-pasien" *ngIf="item.nocm!=null">
+            <p class="text-regular">No. RM</p>
+            <p class="text-bold">{{item.nocm}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Nama Pasien</p>
+            <p class="text-bold"> {{item.namapasien}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Jenis Kelamin</p>
+            <p class="text-bold">{{item.jeniskelamin}}</p>
+          </div>
+
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tanggal Lahir</p>
+            <p class="text-bold">{{item.tgllahir}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Alamat</p>
+            <p class="text-bold">{{item.alamatlengkap}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Telpon</p>
+            <p class="text-bold">{{item.notelepon}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tgl Reservasi</p>
+            <p class="text-bold">{{item.tanggalreservasi}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Poliklinik</p>
+            <p class="text-bold">{{item.namaruangan}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Dokter</p>
+            <!-- <p class="text-bold">{{item.dokter}}</p> -->
+            <p class="text-bold">-</p>
+          </div>
+
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div style="text-align:center">
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="checkIn()">Check-In
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,120 @@
+{
+    "metaData": {
+        "code": "200",
+        "message": "Sukses"
+    },
+    "response": [
+        {
+            "sep": {
+                "catatan": "test",
+                "diagnosa": "R62.0 - Delayed milestone",
+                "jnsPelayanan": "R.Jalan",
+                "kelasRawat": "2",
+                "noSep": "0301R0011117V000008",
+                "penjamin": "-",
+                "peserta": {
+                    "asuransi": "-",
+                    "hakKelas": "Kelas 2",
+                    "jnsPeserta": "PEGAWAI SWASTA",
+                    "kelamin": "Laki-Laki",
+                    "nama": "EGIE RAMDHAN",
+                    "noKartu": "0002739487015",
+                    "noMr": "010234",
+                    "tglLahir": "1995-03-01"
+                },
+                "informasi:": {
+                    "Dinsos": null,
+                    "prolanisPRB": null,
+                    "noSKTM": null
+                },
+                "poli": "-",
+                "poliEksekutif": "-",
+                "tglSep": "2019-04-11"
+            }
+        },
+        {
+            "sep": {
+                "catatan": "test",
+                "diagnosa": "A15.3 - Tuberculosis of lung, confirmed by unspecified means",
+                "jnsPelayanan": "R.Jalan",
+                "kelasRawat": "2",
+                "noSep": "0401R0011117V000008",
+                "penjamin": "-",
+                "peserta": {
+                    "asuransi": "-",
+                    "hakKelas": "Kelas 2",
+                    "jnsPeserta": "PEGAWAI SWASTA",
+                    "kelamin": "Laki-Laki",
+                    "nama": "BIMA ADIPUTRA",
+                    "noKartu": "0001777859583",
+                    "noMr": "010235",
+                    "tglLahir": "1993-05-29"
+                },
+                "informasi:": {
+                    "Dinsos": null,
+                    "prolanisPRB": null,
+                    "noSKTM": null
+                },
+                "poli": "-",
+                "poliEksekutif": "-",
+                "tglSep": "2019-04-11"
+            }
+        },
+        {
+            "sep": {
+                "catatan": "test",
+                "diagnosa": "F80 - Specific developmental disorders of speech and language",
+                "jnsPelayanan": "R.Jalan",
+                "kelasRawat": "2",
+                "noSep": "0401R0011117V000008",
+                "penjamin": "-",
+                "peserta": {
+                    "asuransi": "-",
+                    "hakKelas": "Kelas 2",
+                    "jnsPeserta": "PEGAWAI SWASTA",
+                    "kelamin": "Laki-Laki",
+                    "nama": "EFAN ANDRIAN",
+                    "noKartu": "0001778694682",
+                    "noMr": "010236",
+                    "tglLahir": "1994-09-05"
+                },
+                "informasi:": {
+                    "Dinsos": null,
+                    "prolanisPRB": null,
+                    "noSKTM": null
+                },
+                "poli": "-",
+                "poliEksekutif": "-",
+                "tglSep": "2019-04-11"
+            }
+        },
+		 {
+            "sep": {
+                "catatan": "test",
+                "diagnosa": "A15.3 - Tuberculosis of lung, confirmed by unspecified means",
+                "jnsPelayanan": "R.Jalan",
+                "kelasRawat": "2",
+                "noSep": "0401R0011117V000008",
+                "penjamin": "-",
+                "peserta": {
+                    "asuransi": "-",
+                    "hakKelas": "Kelas 2",
+                    "jnsPeserta": "PNS DAERAH",
+                    "kelamin": "Perempuan",
+                    "nama": "IMAS RIZKY NOVITASARI",
+                    "noKartu": "0000172381691",
+                    "noMr": "341938",
+                    "tglLahir": "1994-09-05"
+                },
+                "informasi:": {
+                    "Dinsos": null,
+                    "prolanisPRB": null,
+                    "noSKTM": null
+                },
+                "poli": "-",
+                "poliEksekutif": "-",
+                "tglSep": "2020-04-02"
+            }
+        }
+    ]
+}

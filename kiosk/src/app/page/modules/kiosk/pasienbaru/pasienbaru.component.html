@@ -1,0 +1,28 @@
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <a id="link-kios" (click)="app.goBack()">
+      <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+    </a>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+      Pasien {{url}} - Pasien Baru</h1>
+  </div>
+
+</div>
+<!-- <div class="row"> -->
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <h1 style="text-align:center">Masukkan Nomor KTP Anda</h1>
+  <input class="input-no-cm jQKeyboard" [matKeyboard]="'Azərbaycanca'" type="text" placeholder="Nomor KTP">
+  <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP">  -->
+</div>
+<!-- </div> -->
+<div style="text-align:center">
+  <div class="ui-g-12 ui-md-6 ui-lg-3 ui-g-offset-3">
+    <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="goTo('denah')">Data
+      KTP</button>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-3">
+    <button mat-raised-button color="warn" class="btnTemplate" (click)="goTo('informasi')">Cetak Nomor Antrian</button>
+  </div>
+</div>

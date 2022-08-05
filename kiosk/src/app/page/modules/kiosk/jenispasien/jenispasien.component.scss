@@ -1,0 +1,39 @@
+.img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+img {
+    vertical-align: middle;
+    border: 0;
+}
+.btnTemplate{
+    width: 450px;
+    height: 80px;
+    /* color: #ffffff; */
+    margin: 10px 0;
+    font-size: 30px;
+    font-family: 'neotericregular';
+  }
+  .content h1{
+    text-align: center;
+    // color: #fff;
+    font-size: 25px;
+  }
+  .humas-title{
+      float: center;
+  }
+  .humas-title h1{
+    // font-family: 'neotericbold';
+    text-align: center;
+    // color: #fff;
+    font-size: 50px;
+}
+.pull-right{
+    float: right;
+}
+.pull-center{
+    margin-left: auto;
+    margin-right: auto;
+}
+

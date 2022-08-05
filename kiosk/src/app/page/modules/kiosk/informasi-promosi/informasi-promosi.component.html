@@ -1,0 +1,78 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-informasi.png">
+        Informasi - Promosi & Kegiatan</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-top: -50px;">
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-offset-1  ">
+      <a id="link-kios">
+
+        <img class="img-responsive img-thumbnail-humas" (click)="showTerbaru = true"
+          src="assets/humastemplate/images/promosi-kegiatan-terbaru.png">
+        <h1>Terbaru</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/promosi-kegiatan-berita.png">
+        <h1>Berita</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/promosi-kegiatan-promosi.png">
+        <h1>Promosi</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas"
+          src="assets/humastemplate/images/promosi-kegiatan-penyuluhan.png">
+        <h1>Penyuluhan</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas"
+          src="assets/humastemplate/images/promosi-kegiatan-pendidikan.png">
+        <h1>Pendidikan & Pelatihan</h1>
+      </a>
+    </div>
+
+  </div>
+
+</div>
+<p-dialog header="RSJD SURAKARTA" [(visible)]="showTerbaru" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="900" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+  <div class="ui-g-12">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" style="font-size:15px">
+        <h3>Kini Tersedia Aplikasi <strong>Reservasi Online RSJD SURAKARTA</strong>, bisa di download 
+          <a href="https://play.google.com/store/apps/details?id=com.inhuman.ereservasi&hl=in">di Play Store</a> </h3>
+        <div class="ui-g-12 ui-md-6 ui-lg-6 ">
+          <img class="img-responsive img-thumbnail-humas" src="assets/img/get-google-play.png">
+        </div>
+        <div class="ui-g-12 ui-md-6 ui-lg-6 ">
+          <img class="img-responsive img-thumbnail-humas" src="assets/img/ss.png">
+        </div>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3 ui-g-offset-9">
+          <button pButton type="button" (click)="showTerbaru = false" label="Tutup" icon="fa fa-angle-left"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

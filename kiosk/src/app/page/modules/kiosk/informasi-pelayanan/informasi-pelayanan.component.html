@@ -1,0 +1,716 @@
+<div class="ui-g content">
+
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-informasi.png">
+        Informasi Pelayanan</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+  <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-top: -50px;" *ngIf="!showTarif">
+    <div class="ui-g-12 ui-md-2 ui-lg-2 ui-g-offset-1 ">
+      <a id="link-kios">
+
+        <img class="img-responsive img-thumbnail-humas" (click)="showFasilitasLayanan = true"
+          src="assets/humastemplate/images/pelayanan-fasilitas.png">
+        <h1>Layanan</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" (click)="showPenunjang = true"
+          src="assets/humastemplate/images/pelayanan-prosedur.png">
+        <h1>Penunjang</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" (click)="getTarif()"
+          src="assets/humastemplate/images/pelayanan-tarif.png">
+        <h1>Tarif Pelayanan</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" (click)="getJadwalPelayanan()"
+          src="assets/humastemplate/images/pelayanan-jadwal-pelayanan.png">
+        <h1>Poliklinik</h1>
+      </a>
+    </div>
+    <div class="ui-g-12 ui-md-2 ui-lg-2">
+      <a id="link-kios">
+        <img class="img-responsive img-thumbnail-humas" (click)="showDokter = true"
+          src="assets/humastemplate/images/pelayanan-jadwal-dokter.png">
+        <h1>Dokter Spesialis</h1>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="ui-g-12 ui-md-12 ui-lg-12 " *ngIf="showTarif">
+    <div class="card card-w-title">
+      <div class="card card-form-header">
+        <h1>Tarif Layanan</h1>
+      </div>
+      <form [formGroup]="formGroup">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12">
+            <p-fieldset legend="Pencarian" [toggleable]="true">
+              <div class="ui-g-12 ui-md-3">
+                <mat-form-field>
+                  <input matInput placeholder="Pelayanan" formControlName="namaProduk">
+                </mat-form-field>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <mat-form-field>
+                  <mat-label>Kelas </mat-label>
+                  <mat-select formControlName="kelas">
+                    <mat-option *ngFor="let items of listKelas" [value]="items">
+                      {{items.namakelas}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="ui-g-12 ui-md-2">
+                <mat-form-field>
+                  <mat-label>Jenis Pelayanan </mat-label>
+                  <mat-select formControlName="jenisPelayanan">
+                    <mat-option *ngFor="let items1 of listJenisPel" [value]="items1">
+                      {{items1.jenispelayanan}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="ui-g-12 ui-md-3">
+                <mat-form-field>
+                  <mat-label>Ruangan</mat-label>
+                  <mat-select formControlName="ruangan">
+                    <mat-option *ngFor="let items2 of listRuangan" [value]="items2">
+                      {{items2.namaruangan}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="ui-g-12 ui-md-1" style="margin-top:15px">
+                <button pButton type="submit" label="Cari" icon="fa-search" (click)="cariTarif()"></button>
+              </div>
+              <div class="ui-g-12 ui-md-1" style="margin-top:15px">
+                <button pButton type="submit" label="Clear" icon="fa-refresh" (click)="clearTarif()"></button>
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="ui-g-12">
+            <p-fieldset legend="Daftar Tarif" [toggleable]="true">
+              <div class="example-container mat-elevation-z8">
+
+                <mat-table [dataSource]="dataSource" matSort>
+                  <ng-container matColumnDef="namaproduk">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nama Pelayanan </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.namaproduk}} </mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="namakelas">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Kelas </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.namakelas}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="jenispelayanan">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Jenis Pelayanan </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.jenispelayanan}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="namaruangan">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Ruangan </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.namaruangan}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="hargalayanan">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Tarif </mat-header-cell>
+                    <mat-cell *matCellDef="let row"> {{row.hargalayanan}}</mat-cell>
+                  </ng-container>
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+
+                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+              </div>
+            </p-fieldset>
+          </div>
+          <div class="ui-g-12">
+            <div class="ui-g-1 ui-g-offset-11">
+              <button pButton type="button" (click)="showTarif = false" label="Tutup" icon="fa fa-angle-left"></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+<p-dialog header="RSJD SURAKARTA" [(visible)]="showFasilitasLayanan" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="750" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+  <div class="ui-g-12">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" style="font-size:15px">
+        <p-accordion>
+          <p-accordionTab header="IGD" [selected]="true">
+            <p> Instalasi Gawat Darurat (IGD) RSJD SURAKARTA dilengkapi dengan tenaga medis yang handal
+              serta peralatan medis berstandar nasional yang siap selama 24 jam untuk menangani kasus gawat darurat.
+              Selain itu, IGD RSJD SURAKARTA juga menyediakan ambulans emergency dan non-emergency yang responsif
+              berikut dengan tim yang mencakup dokter,
+              perawat dan paramedik guna memudahkan transportasi pasien.
+            </p>
+            <p>Fasilitas-fasilitas penunjang IGD RSJD SURAKARTA yang beroperasi 24 jam meliputi : </p>
+            <ul>
+              <li>Radiologi</li>
+              <li>CT-Scan</li>
+              <li>Laboratorium</li>
+              <li>MRI</li>
+
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="ICU">
+            <p>ICU adalah ruang rawat di rumah sakit dengan staf dan perlengkapan khusus ditunjukan untuk mengelola
+              pasien dengan penyakit, trauma atau komplikasi yang mengancam jiwa akibat kegagalan disfungsi satu organ
+              atau lebih akibat penyakit, bencan atau komplikasi yang masih ada harapan hidup.</p>
+            <p>Pada ruang ICU, terdapat 10 tempat tidur</p>
+          </p-accordionTab>
+          <p-accordionTab header="PICU">
+            <p>PICU adalah suatu unit perawatan yang merawat klien anak (29 hari – 14 tahun) dengan keadaan gawat atau
+              berat yang sewaktu-waktu dapat meninggal, dan mempunyai harapan untuk sembuh apabila dirawat secara
+              intensif. Tujuannya adalah untuk memberikan pelayanan perawatan yang optimal untuk bayi dimana keadaannya
+              sewaktu-waktu dapat meninggal.</p>
+            <p>
+              Pada ruang PICU, terdapat 5 tempat tidur
+            </p>
+          </p-accordionTab>
+          <p-accordionTab header="NICU">
+            <p>
+              NICU adalah unit perawatan intensif untuk bayi baru lahir yang memerlukan perawatan khusus misalnya berat
+              badan rendah, fungsi pernafasan kurang sempurna, prematur, mengalami kesulitan dalam persalinan,
+              menunjukkan tanda tanda mengkuatirkan dalam beberapa hari pertama kehidupan.
+            </p>
+            <p>
+              Berikut ini kelengkapan NICU pada RSJD SURAKARTA:
+            </p>
+            <ul>
+              <li>5 BOX Bayi</li>
+              <li>7 INKUBATOR</li>
+              <li>3 INFANT WARMER</li>
+              <li>5 OBSERVASI</li>
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="Ruang Operasi">
+            <p>Kamar operasi adalah suatu unit khusus di rumah sakit, tempat untuk melakukan tindakan pembedahan, baik
+              elektif maupun akut, yang membutuhkan keadaan suci hama (steril).</p>
+          </p-accordionTab>
+          <p-accordionTab header="Rawat Jalan">
+            <h3>PELAYANAN RAWAT JALAN </h3>
+            <ul>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Bedah</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Bedah</strong>&nbsp;<strong>Tulang</strong></li>
+              <li>
+                <strong>Poliklinik</strong>&nbsp;<strong>Kandungan</strong><strong>&nbsp;&amp;&nbsp;</strong><strong>Kebidanan</strong>
+              </li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Penyakit</strong>&nbsp;<strong>Dalam</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Anak</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Bedah</strong>&nbsp;<strong>Anak</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Saraf</strong></li>
+              <li>
+                <strong>Poliklinik</strong>&nbsp;<strong>Kulit</strong><strong>&nbsp;&amp;&nbsp;</strong><strong>Kelamin</strong>
+              </li>
+              <li><strong>Poliklinik</strong><strong>&nbsp;Mata</strong></li>
+              <li><strong>Poliklinik</strong><strong>&nbsp;THT</strong></li>
+              <li>
+                <strong>Poliklinik</strong>&nbsp;<strong>Gigi</strong>&nbsp;<strong>Umum</strong>&nbsp;<strong>dan</strong>&nbsp;<strong>Spesialis</strong><strong>&nbsp;(</strong><strong>orthodentis</strong><strong>,
+                  periodentia</strong><strong>&nbsp;&amp;&nbsp;</strong><strong>Penyakit</strong>&nbsp;<strong>Mulut</strong><strong>)</strong>
+              </li>
+              <li>
+                <strong>Poliklinik</strong>&nbsp;<strong>Rehabilitasi</strong>&nbsp;<strong>Medik</strong><strong>&nbsp;&amp;&nbsp;</strong><strong>Fisioterapi</strong>
+              </li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Gizi</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Jantung</strong></li>
+              <li><strong>Poliklinik Urologi</strong></li>
+            </ul>
+
+            <h3>PELAYANAN POLI SPESIALIS SORE</h3>
+            <ul>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Bedah</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Penyakit</strong>&nbsp;<strong>Dalam</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Anak</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Saraf</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Bedah</strong>&nbsp;<strong>Anak</strong></li>
+              <li><strong>Poliklinik</strong>&nbsp;<strong>Jantung</strong></li>
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="Ruang Bersalin dan Nifas">
+            <p>Kamar operasi adalah suatu unit khusus di rumah sakit, tempat untuk melakukan tindakan pembedahan, baik
+              elektif maupun akut, yang membutuhkan keadaan suci hama (steril).</p>
+          </p-accordionTab>
+
+        </p-accordion>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3 ui-g-offset-9">
+          <button pButton type="button" (click)="showFasilitasLayanan = false" label="Tutup"
+            icon="fa fa-angle-left"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog header="RSJD SURAKARTA" [(visible)]="showPenunjang" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="750" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+  <div class="ui-g-12">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" style="font-size:15px">
+        <p-accordion>
+          <p-accordionTab header="Farmasi" [selected]="true">
+            <p>Instalasi Farmasi Rumah Sakit adalah suatu departemen atau sistem pelayanan Farmasi dalam suatu rumah
+              sakit yang berada dibawah pimpinan seorang apoteker yang kompeten dalam hal:</p>
+            <ul>
+              <li>Menyediakan obat-obatan untuk unit perawatan dan bidang–bidang lain.</li>
+              <li>Mengarsipkan resep-resep baik untuk pasien rawat jalan maupun pasien rawat inap.</li>
+              <li>Membuat obat-obatan.</li>
+              <li>Menyalurkan, membagikan obat-obatan narkotika dan obat yang diresepkan.</li>
+              <li>Menyimpan dan membagikan preparat-preparat biologis.</li>
+              <li>Membuat, menyiapkan, mensterilkan preparat parenteral.</li>
+              <li>Menyediakan serta membagikan keperluan-keperluan tersebut secara profesional.</li>
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="Laboratorium">
+            <p>Instalasi laboratorium adalah salah satu instalasi di rumah sakit yang merupakan pelayanan penunjang yang
+              bertujuan :</p>
+            <ul>
+              <li>Membantu diagnose suatu penyakit sehingga dokt<strong>er da</strong>pat menangani suatu penyakit
+                dengan tepat, cepat, dan akurat.</li>
+              <li>Menentukan resiko terhadap suatu penyakit dengan harapan suatu penyakit dapat terdeteksi secara dini.
+              </li>
+              <li>Menentukan prognosis/perjalanan penyakit sehingga dapat digunakan sebagai pemantau perkembangan dan
+                keberhasilan pengobatan suatu penyakit.</li>
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="Radiologi">
+            <p>Instalasi Radiologi adalah salah satu instalasi penunjang medis di suatu rumah sakit. Keberadaan
+              instalasi radiologi ini mempunyai peranan yang sangat penting dalam membantu menegakkan diagnosa.</p>
+            <p>
+              Pada ruang PICU, terdapat 5 tempat tidur
+            </p>
+          </p-accordionTab>
+          <p-accordionTab header="Gizi">
+            <p style="text-align: justify;">Instalasi gizi merupakan bagian atau unit kerja di Rumah Sakit yang tidak
+              kalah pentingnya dengan pelayanan lain di rumah sakit, karena merupakan bagian yang memberikan pelayanan
+              langsung kepada pasien melalui makanan yang disajikan dan asuhan gizi.</p>
+            <p style="text-align: justify;">Masalah gizi klinis adalah masalah gizi yang ditinjau secara individu
+              mengenai apa yang terjadi dalam tubuh seseorang, yang seharusnya ditanggulangi secara individu. Demikian
+              pula masalah gizi pada berbagai keadaan sakit yang secara langsung ataupun tidak langsung mempengaruhi
+              proses penyembuhan, harus diperhatikan secara individu asupan makannya.</p>
+          </p-accordionTab>
+          <p-accordionTab header="Kesehatan Lingkungan">
+            <p>Instalasi kesehatan lingkungan merupakan salah satu Instalasi Penunjang Medis yang mempunyai tugas pokok
+              melaksanakan pengelolaan aspek lingkungan fisik, kimia, dan biologis rumah sakit sehinggga tercipta
+              kondisi lingkungan rumah sakit yang memenuhi standar sanitasi, baku mutu lingkungan serta mencegah
+              terjadinya pencemaran lingkungan. Untuk melaksanakan tugas pokok tersebut Instalasi Penyehatan Lingkungan
+              mempunyai fungsi :</p>
+            <ul>
+              <li>Melakukan kegiatan pengawasan dan pengendalian terhadap sumber pencemaran.</li>
+              <li>Melakukan kegiatan pengawasan terhadap faktor lingkungan fisik, kimia, dan biologis serta radiasi
+                rumah sakit.</li>
+              <li>Melaksanakan ketentuan peraturan perundang-undangan di bidang sanitasi / kesehatan lingkungan, dan
+                lingkungan hidup.</li>
+              <li>Mengkaji, merencanakan dan mengembangkan sanitasi dan kesehatan lingkungan rumah sakit.</li>
+              <li>Pengawasan pengelolaan kebersihan umum rumah sakit ( House Keping ).</li>
+              <li>Pengelolaan upaya kesehatan dan keselamatan kerja.</li>
+            </ul>
+          </p-accordionTab>
+          <p-accordionTab header="Perawatan Sarana">
+            Instalasi perawatan sarana adalah Instalasi yang melaksanakan tugas pemeliharaan bangunan instalasi air
+            minum,intalasi listrik,instalasi gas medis, telepon, alat elektro medik, peralatan listirk, kendaraan, mesin
+            atau sarana-sarana lain yang terdapat pada suatu rumah sakit. Pada beberapa rumah sakit, ada yang
+            menyebutnya dengan UPSRS (unit Pemeliharaan Sarana Rumah sakit, Unit Maintenance, ataupun Mekanikal
+            Electrical. semua bergantung kepada aturan dan kebijakan nya masing-masing rumah sakit.
+          </p-accordionTab>
+          <p-accordionTab header="Rekam Medis">
+            <p>Rekam Medis adalah berkas yang berisikan catatan dan dokumen tentang identitas pasien, pemeriksaan,
+              pengobatan, tindakan dan pelayanan lain yang diberikan kepada pasien yang dikelola oleh Instalasi rekam
+              medis.</p>
+            <p>Dan Instalasi Rekam Medis sendiri adalah suatu unit yang mempunyai tugas menyelenggarakan dan
+              mengkoordinasikan pelayanan rekam medis dan pemantauan mutu rekam medis di seluruh unit pelayanan serta
+              menyelenggarakan dan mengkoordinasikan pelayanan admisi pasien rawat jalan maupun pasien rawat inap di
+              Rumah Sakit.</p>
+          </p-accordionTab>
+          <p-accordionTab header="CSSD">
+
+
+            <p>Konsep dan peranan Central Sterile Supply Department (CSSD) telah berkembang dari hanya suatu
+              departemen di rumah sakit menjadi koordinator dari suatu sistem kerja supply dan alat alat steril, hal
+              ini dapat dianalogikan seperti satu unit autoclave untuk sterilisasi menjadi sistem infection control di
+              rumah sakit. Secara ideal, CSSD adalah satu departemen yang independen dengan fasilitas untuk
+              menerima,men desinfect, membersihkan, mengemas, men-steril, menyimpan dan mendistribusikan alat alat
+              (baik yang dapat dipakai berulang kali dan alat sekali pakai), sesuai dengan standar prosedur. Beban
+              kerja untuk CSSD berbeda antara rumah sakit satu dibandingkan dengan rumah sakit lainnya.</p>
+
+            <p>Dengan CSSD independent yang terpisah, kita dapat menghemat pengeluaran pembelian alat sterilisasi
+              dengan memusatan alat-alat di satu departemen. Hal ini juga memastikan bahwa proses steril akan diawasi
+              oleh staff khusus dan berjalan sesuai dengan standar prosedur operasi (SOP).</p>
+
+            <p>CSSD memerlukan kemampuan teknis khusus, hal ini dapat diartikan bahwa departemen ini mengontrol semua
+              kegiatan dan manajemen aset yang secara tidak langsung juga memengaruhi pembelian alat-alat operasi umum
+              dan khusus serta inventaris lainnya. CSSD di satu rumah sakit mencerminkan satu layanan berkualitas yang
+              langka. Bertambahnya jumlah penderita yang mengalami infeksi di rumah sakit (nosocomial infection),
+              telah membuka mata akan pentingnya CSSD. Jika CSSD tidak ada, maka ada kemungkinan peningkatan
+              terjadinya infeksi nosocomial. Kemungkinan terjadinya infeksi nosocomial yang menyebabkan peningkatan
+              angka kematian, peningkatan jangka waktu rawat inap dan pengeluaran dapat diturunkan dengan membangun
+              CSSD yang baik.</p>
+
+            <p>Secara umum CSSD dilihat sebagai bagian penting dari sebuah Operating Theatre (OT) karena pengguna
+              terbanyak dari alat-alat steril adalah OT. Tetap hal ini telah berubah, CSSD adalah bagian tak
+              terpisahkan dari berbagai departemen seperti Out Patient Departemen, Dental, dan lain lain.</p>
+
+            <p>Salah satu faktor penting dalam menjalankan CSSD adalah sistem kerja yang baik. Untuk memiliki sistem
+              kerja yang baik, proses sterilisasi membutuhkan fungsional dan kordinasi yang baik dari 3 area: area
+              kotor (soiled zone), yang juga dikenal sebagai area pencucian, area bersih (clean zone) yang juga
+              dikenal sebagai area assembly atau area packing, dan area steril (sterile zone) yang juga berfungsi
+              sebagai tempat penyimpanan alat alat steril. Rumah sakit yang dibangun tanpa CSSD pada awalnya, akan
+              mengalami kesulitan untuk design dan perencanaan di tahap selanjutnya untuk mengintegrasikan CSSD
+              departemen.</p>
+
+          </p-accordionTab>
+          <p-accordionTab header="Kamar Jenazah">
+            Kamar jenazah digunakan untuk penyimpanan mayat manusia menunggu identifikasi, atau pemindahan untuk otopsi
+            atau pelepasan dengan penguburan, kremasi atau sebaliknya.
+          </p-accordionTab>
+        </p-accordion>
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3 ui-g-offset-9">
+          <button pButton type="button" (click)="showPenunjang = false" label="Tutup" icon="fa fa-angle-left"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog header="RSJD SURAKARTA" [(visible)]="showDokter" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="1250" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+  <div class="ui-g-12">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-3" style="font-size:15px">
+        <p-panel header="Spesialis Kandungan" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              dr. Hj. Eka Nurhayati, Sp.OG, M.Kes., HumReprod
+            </p>
+            <p>
+              dr. Gede Hendrawan, Sp.OG
+            </p>
+            <p>
+              dr.Kadek Pramarta, Sp.OG
+            </p>
+            <p>
+              dr. Vidyanan Ikhtiari Syahdan, Sp.OG
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Anak" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              dr. Reza Kurnia, Sp.A, M.Kes
+            </p>
+            <p>
+              dr. I Nyoman Budastra, Sp.A
+            </p>
+            <p>
+              dr. H. Tatang A. Hidayat, Sp.a
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Bedah" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              dr. I Nyoman DwijaPutra, Sp.B
+            </p>
+            <p>
+              dr. Made Agus Suanjaya, Sp.B
+            </p>
+            <p>
+              dr. Adi Madethen, Sp.B
+            </p>
+            <p>
+              dr. Ahan Gifhari, Sp.B
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Bedah Tulang" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              dr. Arifandi Wijaya, Sp.OT
+            </p>
+            <p>
+              dr. Ferdiansis, Sp.OT
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Anastesi " [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. Sherliyanah, Sp.An
+            </p>
+            <p>
+              dr. Anak Agung Gde Krisnayana, Sp.An
+            </p>
+            <p>
+              dr. Khaerunnisai, T, Sp.An
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Patologi Anatomi " [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. IGM Sanies Ermawan, Sp.PA
+            </p>
+          </div>
+        </p-panel>
+      </div>
+
+      <div class="ui-g-3" style="font-size:15px">
+        <p-panel header="Spesialis Patologi Klinis" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. Sri Kartika Sari, Sp.PK
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Penyakit Mulut" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              drg. Dian Paramita, Sp.PM
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Orthodontia" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              drg. Ida Ayu Arnawati, Sp.Ort
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Bedah Mulut" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              drg. Ahmed Setia Bakti, Sp.BM
+            </p>
+            <p>
+              drg. Made Widya Utami, Sp.BM
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Periodentia" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              drg. Rahmidian Safitri, Sp.Perio
+            </p>
+
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Bedah Anak" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. Sugianto Prajitno, Sp.BA
+            </p>
+
+          </div>
+        </p-panel>
+      </div>
+      <div class="ui-g-3" style="font-size:15px">
+        <p-panel header="Spesialis Penyakit Dalam" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. Hj. Amanukarti Resi Oetomo, Sp.PD
+            </p>
+            <p>
+              dr. I Made Sujaya, Sp.PD FINASIM
+            </p>
+            <p>
+              dr. IGN. Eddy Adyana, Sp.PD
+            </p>
+            <p>
+              dr. Yuni Rahmawati, Sp.PD
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Saraf" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              dr. Setiawati Asih Putri, Sp.S, M.kes
+            </p>
+            <p>
+              dr. I Wayan Tunjung, Sp.S
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Mata" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              Dr. Samsul Rizal Ziaulhaq, Sp.M
+            </p>
+            <p>
+              Dr. I Ketut Ngurah Geradanta, Sp.M
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Rehabilitasi Medik" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+
+              Dr. Verra, Sp. KFR
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Emergency Medicine" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              Dr. Eko Widya Nugroho, Sp.EM
+            </p>
+
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Kulit dan Kelamin" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              Dr. Wiwin Mulianingsih, Sp.KK
+            </p>
+            <p>
+              Dr. Angelica Vanini, Sp.KK
+            </p>
+          </div>
+        </p-panel>
+
+      </div>
+      <div class="ui-g-3" style="font-size:15px">
+        <p-panel header="Spesialis THT" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+
+              Dr. Nurul Endah Hardianti, Sp.THT
+            </p>
+
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Jantung" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+              Dr. Basuki,Sp.JP
+            </p>
+            <p>
+              Dr. AA S Mas Meiswaryasti, M. Biomed, Sp. JP. FIHA
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Radiologi" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+	
+                Dr. Frasisca Ika Mahardhika, Sp.,Rad
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Urologi" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+	
+                Dr. Pandu Ishaq, Sp.U
+            </p>
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Forensik" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+                Dr. Arfi Syamsun, Sp.KF, Msi, Med
+            </p>
+
+          </div>
+        </p-panel>
+        <p-panel header="Spesialis Paru" [toggleable]="true" [style]="{'margin-bottom':'20px'}">
+          <div style="height:150px">
+            <p>
+                Dr. Dina
+            </p>
+          </div>
+        </p-panel>
+
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+
+<p-dialog header="Poliklinik RSJD SURAKARTA" [(visible)]="showPoli" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="750" [minWidth]="100" [minHeight]="80" [baseZIndex]="8000" [positionTop]="80" appendTo="body"
+  [contentStyle]="{'height': '600px'}" >
+  <div class="ui-g-12">
+    <div class="ui-g ui-fluid">
+      <div class="ui-g-12" style="font-size:15px">
+        <p-accordion *ngFor="let items of listPoli">
+          <p-accordionTab header="{{items.namaruangan}}" [selected]="false">
+            
+          </p-accordionTab>
+        </p-accordion>
+        <!-- <p-fieldset legend="Daftar Poliklinik" [toggleable]="true">
+            <div class="example-container mat-elevation-z8">
+
+              <mat-table [dataSource]="dataSourcePoli" matSort>
+                <ng-container matColumnDef="namaproduk">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nama Pelayanan </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namaproduk}} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namakelas">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Kelas </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namakelas}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="jenispelayanan">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Jenis Pelayanan </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.jenispelayanan}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="namaruangan">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Ruangan </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.namaruangan}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="hargalayanan">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tarif </mat-header-cell>
+                  <mat-cell *matCellDef="let row"> {{row.hargalayanan}}</mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+            </div>
+          </p-fieldset> -->
+      </div>
+      <div class="ui-g-12">
+        <div class="ui-g-3 ui-g-offset-9">
+          <button pButton type="button" (click)="showPoli = false" label="Tutup"
+            icon="fa fa-angle-left"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

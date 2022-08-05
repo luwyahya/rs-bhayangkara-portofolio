@@ -1,0 +1,202 @@
+<div class="ui-g content">
+  <div class="ui-g-12 ui-md-6 ui-lg-12">
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <a id="link-kios" (click)="app.goBack()">
+        <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+      </a>
+
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+      <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Antrian
+        Pasien {{url}}</h1>
+    </div>
+    <div class="ui-g-12 ui-md-6 ui-lg-4">
+
+    </div>
+  </div>
+</div>
+
+<div class="centers" *ngIf="!isInfoPasien">
+  <div class="row">
+    <div class="ui-g" style="margin-top:-50px">
+      <div class="ui-g-12 ui-md-6">
+        <a id="link-kios" (click)="poli('A')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 1</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-umum.png">
+            <h1> NON JKN BARU</h1>
+          </div>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <a id="link-kios" (click)="poli('B')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 2</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-bpjs_2.png">
+            <h1> JKN BARU</h1>
+          </div>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+
+        <!-- <a id="link-kios" (click)="print('A')"> -->
+        <a id="link-kios" (click)="poli('C')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 1</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-umum.png">
+            <h1> NON JKN LAMA</h1>
+          </div>
+        </a>
+      </div>
+      <div class="ui-g-12 ui-md-6  ">
+        <!-- <a id="link-kios" (click)="print('D')"> -->
+        <a id="link-kios" (click)="poli('D')">
+          <div class="ui-g-1" style="text-align: center; margin-top: 40%; ">
+            <h1> 4</h1>
+          </div>
+          <div class="ui-g-11">
+            <img class="img-responsive img-thumbnail-humas" src="assets/humastemplate/images/antrian-bpjs_2.png">
+            <!-- src="assets/humastemplate/images/antrian-perusahaan.png"> -->
+            <!--src="assets/humastemplate/images/bantuan-kritik-saran.png">-->
+            <h1> JKN LAMA</h1>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="ui-g" style="margin-top:-50px">
+    </div>
+  </div>
+</div>
+<!--  -->
+<div class="centers" *ngIf="isInfoPoli">
+  <div class="row">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-left:100px;">
+        <div class="ui-g" style="height:500px;">
+          <div class="ui-g-12 ui-lg-12 ui-md-4">
+            <button pButton type="button" class="btnTemplatex" style="margin-left: 10%;"
+              *ngFor="let button of buttonsPoli" (click)="ChangeScreensButtonPoli(button)"
+              [class.selected]="CurrentPage == button.label">
+              {{ button.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="centers" *ngIf="isInfoDokter">
+  <div class="row">
+    <div class="ui-g">
+      <div class="ui-g-12 ui-md-12 ui-lg-12 " style="margin-left:100px;">
+        <div class="ui-g" style="height:500px;">
+          <div class="ui-g-12 ui-lg-12 ui-md-4">
+            <button pButton type="button" class="btnTemplatex" style="margin-left: 10%;"
+              *ngFor="let button of buttonsDokter" (click)="ChangeScreensButtonDokter(button)"
+              [class.selected]="CurrentPage == button.label">
+              {{ button.label }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="formGroupAntrol">
+  <div class="centers" *ngIf="isInfoPasienSave">
+    <div class="row">
+      <div class="ui-g-12" style="margin-left:600px;text-align: center;">
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">No RM </p>
+            <p class="text-bold">NON JKN BARU</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Poliklinik Tujuan x</p>
+            <p-dropdown formControlName="idRuangan" class="text-bold" [options]="listRuangan" [filter]="true"
+              [autoWidth]="false">
+            </p-dropdown>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Dokter Tujuan</p>
+            <p-dropdown formControlName="idDokter" class="text-bold" [options]="listDokter" [filter]="true"
+              [autoWidth]="false">
+            </p-dropdown>
+          </div>
+          <div style="text-align:center">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="simpanAntrol()">Simpan
+              Antrian
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="centers" *ngIf="isInfoPasienSaveJKN">
+    <div class="centers">
+
+      <div>
+        <input class="input-no-cm " type="text" placeholder="SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA"
+          formControlName="noRujukan" [matKeyboard]="'LOCALE_ID'">
+        <div class="ui-g-12">
+          <div class="ui-g-3"></div>
+          <div class="ui-g-2">
+            <p-radioButton name="group1" value="Option 1" label=" Puskesmas " formControlName="pCare"
+              (click)="setradio('Male')" inputId="opt1">
+            </p-radioButton>
+          </div>
+          <div class="ui-g-2">
+            <p-radioButton name="group1" value="Option 2" label=" Rumah Sakit" formControlName="rumahSakit"
+              (click)="setradio2('Male')" inputId="opt2">
+            </p-radioButton>
+          </div>
+        </div>
+        <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
+      </div>
+      <div style="text-align:center">
+        <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+          (click)="getNoRujukan()">Selanjutnya
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="ui-g-12" style="margin-left:600px;text-align: center;">
+        <div class="ui-g-4">
+          <div class="detail-pasien">
+            <p class="text-regular">No RM</p>
+            <p class="text-bold">JKN BARU</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Poliklinik Tujuan</p>
+            <p-dropdown formControlName="idRuangan" class="text-bold" [options]="listRuangan" [filter]="true"
+              [autoWidth]="false">
+            </p-dropdown>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Dokter Tujuan</p>
+            <p-dropdown formControlName="idDokter" class="text-bold" [options]="listDokter" [filter]="true"
+              [autoWidth]="false">
+            </p-dropdown>
+          </div>
+          <div style="text-align:center">
+            <button mat-raised-button color="primary" class="btnTemplate" style="color:white"
+              (click)="simpanAntrolJKN()">Simpan
+              Antrian
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

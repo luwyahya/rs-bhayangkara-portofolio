@@ -1,0 +1,168 @@
+<div class="ui-g-12 ui-md-6 ui-lg-12">
+  <div class="ui-g-12 ui-md-6 ui-lg-4">
+    <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
+      <span style="font-size:35px;" class="fa fa-arrow-left"></span>
+    </a>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4" *ngIf="!isInfoPasien">
+    <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
+      Registration - Pilih Poli & Dokter </h1>
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-4" *ngIf="isInfoPasien">
+    <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
+      Registration - Resume</h1>
+  </div>
+</div>
+
+<form [formGroup]="formGroup">
+  <div class="centers" *ngIf="!isInfoPasien">
+    <div class="row">
+      <div class="ui-g-12 ">
+
+        <!-- <div class="ui-g-3">
+          <h1 style="text-align:center">Tanggal Registrasi</h1>
+        </div>
+        <div class="ui-g-9">
+          <p-calendar formControlName="tglRegis" [defaultDate]="now" [showIcon]="true" [monthNavigator]="false"
+            [yearNavigator]="false" yearRange="2000:2030" [showTime]="true">
+          </p-calendar>
+        </div>
+      </div> -->
+        <div class="ui-g-12">
+          <p-dropdown formControlName="idRuangan" (onChange)="changeRuangan($event)" class="btnUing" [options]="listRuangan" [filter]="true"
+            [autoWidth]="false">
+          </p-dropdown>
+
+        </div>
+        <div class="ui-g-12">
+
+          <p-dropdown formControlName="idDokter" [options]="listDokter" [filter]="true" [autoWidth]="false">
+          </p-dropdown>
+        </div>
+
+
+      </div>
+      <div style="text-align:center">
+        <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+          (click)="viewResume()">Selanjutnya
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="centers" *ngIf="isInfoPasien">
+    <div class="row">
+      <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">No RM</p>
+            <p class="text-bold"> {{item.nocm }}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Nama Pasien</p>
+            <p class="text-bold">{{item.namapasien}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Identitas</p>
+            <p class="text-bold">{{item.noidentitas}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tempat / Tanggal Lahir</p>
+            <p class="text-bold">{{item.tempatTglLahir}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Alamat</p>
+            <p class="text-bold">{{item.alamatlengkap}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">No. Telpon</p>
+            <p class="text-bold">{{item.notelepon}}</p>
+          </div>
+        </div>
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+          <div class="detail-pasien">
+            <p class="text-regular">Tanggal Pendaftaran</p>
+            <p class="text-bold"> {{item.tglregistrasi}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Poli Tujuan</p>
+            <p class="text-bold">{{item.namaruangan}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Dokter</p>
+            <p class="text-bold">{{item.dokter}}</p>
+            <p class="text-bold">-</p>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="ui-g-12">
+        <div class="ui-g-12 ui-md-12 ui-lg-4 ui-g-offset-2">
+          <div class="detail-pasien">
+            <p class="text-regular">Tanggal Pendaftaran</p>
+            <p class="text-bold"> {{item.tglregistrasi}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Poli Tujuan</p>
+            <p class="text-bold">{{item.namaruangan}}</p>
+          </div>
+          <div class="detail-pasien">
+            <p class="text-regular">Dokter</p>
+            <p class="text-bold">{{item.dokter}}</p>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="ui-g-12">
+      <div style="text-align:center" *ngIf="!showNoAntrian">
+        <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="save()">Simpan
+        </button>
+      </div>
+      <img *ngIf="loading" style="margin-top:10px"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+      <div style="text-align:center" *ngIf="showNoAntrian">
+        <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="nomorAntrian()">Cetak
+          Antrian Poliklinik
+        </button>
+      </div>
+      <div style="text-align:center" *ngIf="showNoAntrian">
+        <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="print('K')">
+          Cetak Antrian Kasir LT-Satu
+        </button>
+      </div>
+      <div style="text-align:center" *ngIf="showNoAntrian">
+        <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="print('L')">
+          Cetak Antrian Kasir LT-Dua
+        </button>
+      </div>
+    </div>
+  </div>
+
+</form>
+
+<p-dialog header="RS PUSAT POLRI SAID SUKANTO" [(visible)]="showNotip" [responsive]="true" showEffect="fade" [modal]="true"
+  [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80" appendTo="body">
+  <div class="ui-g-12">
+    <div>
+      <form [formGroup]="formGroupSep">
+        <div class="ui-g ui-fluid">
+          <div class="ui-g-12" class="h1.no-cm">
+            <h1 style="text-align: center">Pasien Telah Terdaptar di {{catatan}} dan Penjamin {{catatanRekanan}}</h1>
+          </div>
+          
+          <div class="ui-g-12">
+            <div class="ui-g-4">
+              <button pButton type="button" class="btnTemplate" (click)="lanjutkan()" label="Lanjutkan Pendaftaran" icon="fa fa-save"></button>
+            </div>
+            <div class="ui-g-4">
+              <button pButton type="button" class="btnTemplate" (click)="showNotip = false" label="Tutup"
+                icon="fa fa-angle-left"></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

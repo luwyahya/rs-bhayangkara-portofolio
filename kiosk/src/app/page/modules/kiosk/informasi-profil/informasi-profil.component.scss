@@ -1,0 +1,137 @@
+.img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+img {
+    vertical-align: middle;
+    border: 0;
+}
+.btnTemplate{
+    width: 450px;
+    height: 80px;
+    /* color: #ffffff; */
+    margin: 10px 0;
+    font-size: 30px;
+    font-family: 'neotericregular';
+  }
+  .content h1{
+    text-align: center;
+    // color: #fff;
+    font-size: 25px;
+  }
+  .humas-title{
+      float: center;
+  }
+  .humas-title h1{
+    // font-family: 'neotericbold';
+    text-align: center;
+    // color: #fff;
+    font-size: 50px;
+}
+.pull-right{
+    float: right;
+}
+.pull-center{
+    margin-left: auto;
+    margin-right: auto;
+}
+.informasi-subscribe{
+    margin-top: 100px;
+}
+.input-no-cm{
+    margin-top: 130px;
+    display: table;
+    margin: 0 auto;
+    height: 80px;
+    width: 50%;
+    padding: 0 20px;
+    font-size: 30px;
+    color: #444444;
+    border: 5px solid #466179;
+}
+
+.company.ui-organizationchart .ui-organizationchart-node-content.ui-person {
+    padding: 0;
+    border: 0 none;
+}
+
+.node-header,.node-content {
+    padding: .5em .7em;
+}
+
+.node-header {
+    background-color: #495ebb;
+    color: #ffffff;
+}
+
+.node-content {
+    text-align: center;
+    border: 1px solid #495ebb;
+}
+
+.node-content img {
+    border-radius: 50%;
+}
+
+.department-cfo {
+    background-color: #7247bc;
+    color: #ffffff;
+}
+
+.department-coo {
+    background-color: #a534b6;
+    color: #ffffff;
+}
+
+.department-cto {
+    background-color: #e9286f;
+    color: #ffffff;
+}
+
+.ui-person .ui-node-toggler {
+    color: #495ebb !important;
+}
+
+.department-cto .ui-node-toggler {
+    color: #8a0a39 !important;
+}
+.contact-info {
+    margin-bottom: 3px;
+    margin-left: 5px;
+  }
+
+  .contact-info>.icon {
+    font-size: 21px;
+    width: 34px;
+    ;
+  }
+
+  .contact-info>.text {
+    padding-top: 4px;
+  }
+
+  .contact-info>.icon {
+    font-size: 21px;
+    width: 34px;
+  }
+
+  .icon {
+    width: 84px;
+    height: 84px;
+    -webkit-order: 0;
+    -ms-flex-order: 0;
+    order: 0;
+    -webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+    overflow: visible;
+  }
+
+  .row {
+    margin-right: -15px;
+    margin-left: -15px;
+  }

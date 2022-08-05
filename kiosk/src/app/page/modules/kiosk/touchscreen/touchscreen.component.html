@@ -1,0 +1,98 @@
+<!-- <i class="fa fa-power-off" style="float:right" ></i> -->
+<!-- <div class="ui-g content-landing-page">
+  <div class="ui-g-12 ui-md-6 ui-lg-6">
+
+  </div>
+  <div class="ui-g-12 ui-md-6 ui-lg-6 content-landing-page-right" style="margin-top:100px">
+    <div class="example-button-row">
+      
+      <img class="img-responsive img-logo-home" src="assets/humastemplate/images/logo-home.png">
+
+      <div class="clearfix"></div>
+      <h1 >RSJD SURAKARTA</h1>
+      <p>Rumah sakit pilihan masyarakat dalam bidang pelayanan kesehatan, Pendidikan dan penelitian yang berstandar
+        internasional
+      </p>
+      <div class="ui-g-12 ui-md-6 ui-lg-12">
+        <button mat-raised-button color="primary" class="btnTemplate" (click)="goTo('antrian')">Antrian </button>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-12">
+        <button mat-raised-button color="accent" class="btnTemplate" style="color:white"  (click)="goTo('denah')">Denah Rumah Sakit</button>
+      </div>
+      <div class="ui-g-12 ui-md-6 ui-lg-12">
+        <button mat-raised-button color="warn" class="btnTemplate"  (click)="goTo('informasi')">Informasi</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+  <div class="center-position">
+    <div class="ui-g-12 ui-md-12 ui-lg-12">
+      <img src="assets/humastemplate/images/logo-home.png">
+      <!-- <span class="border-vert"></span> -->
+      <img src="assets/img/logo-title.png">
+      <div class="clearfix"></div>
+      <!-- <h1>RSJD SURAKARTA</h1> -->
+      <p style="font-size: 20px;">Rumah sakit pilihan masyarakat dalam bidang pelayanan kesehatan, Pendidikan dan
+        penelitian yang berstandar
+        internasional
+      </p>
+    </div>
+
+  </div>
+</div>
+<!-- <div class="ui-g ui-fluid"> -->
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+  <div class="ui-g-12 ui-md-1 ui-lg-1" style="margin-left:70px">
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="primary" class="btnTemplate" (click)="print('A')">Umum </button>
+  </div>
+    <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="print('B')">BPJS
+      </button>
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="goTo('self-regis')">Self
+      Registration
+    </button>
+  </div>
+  <!-- <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="goTo('denah')">Denah
+      Rumah Sakit</button>
+  </div> -->
+  <div class="ui-g-12 ui-md-3 ui-lg-4">
+    <button mat-raised-button color="warn" class="btnTemplate" (click)="goTo('checkin')">Check-In</button>
+  </div>
+</div>
+<!-- <form [formGroup]="formGroup"> -->
+<div class="ui-g-1" style="margin-top:-1000px" >
+  <mat-form-field class="example-full-width">
+    <!-- <input #name matInput> -->
+    <input #name type="text" matInput placeholder="No Reservasi" (input)="onChangeNoreservasi($event.target.value)"
+      [(ngModel)]="model">
+  </mat-form-field>
+</div>
+<!-- <input  type="text" pInputText formControlName="noReservasi" autofocus (input)="onChangeNoreservasi($event.target.value)" /> -->
+<!-- </form> -->
+<!-- </div> -->
+<!-- <div class="ui-g-12 ui-md-12 ui-lg-12">
+    <div class="ui-g-12 ui-md-12 ui-lg-4">
+
+    </div>
+    
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="primary" class="btnTemplate" (click)="goTo('antrian')">Antrian </button>
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="goTo('denah')">Denah
+      Rumah Sakit</button>
+  </div>
+  <div class="ui-g-12 ui-md-4 ui-lg-4">
+    <button mat-raised-button color="warn" class="btnTemplate" (click)="goTo('informasi')">Informasi</button>
+  </div> -->
+<!-- </div> -->

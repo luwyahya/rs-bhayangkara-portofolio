@@ -1,0 +1,284 @@
+{
+    "metaData": {
+        "code": "200",
+        "message": "OK"
+    },
+    "response": [
+        {
+            "rujukan": {
+                "diagnosa": {
+                    "kode": "R62.0",
+                    "nama": "Delayed milestone"
+                },
+                "keluhan": null,
+                "noKunjungan": "0115R0360319B000221",
+                "pelayanan": {
+                    "kode": "2",
+                    "nama": "Rawat Jalan"
+                },
+                "peserta": {
+                    "cob": {
+                        "nmAsuransi": null,
+                        "noAsuransi": null,
+                        "tglTAT": null,
+                        "tglTMT": null
+                    },
+                    "hakKelas": {
+                        "keterangan": "KELAS II",
+                        "kode": "2"
+                    },
+                    "informasi": {
+                        "dinsos": null,
+                        "noSKTM": null,
+                        "prolanisPRB": null
+                    },
+                    "jenisPeserta": {
+                        "keterangan": "PEGAWAI SWASTA",
+                        "kode": "13"
+                    },
+                    "mr": {
+                        "noMR": null,
+                        "noTelepon": "-"
+                    },
+                    "nama": "EGIE RAMDAN ",
+                    "nik": "3207070103940001",
+                    "noKartu": "0000173388813",
+                    "pisa": "2",
+                    "provUmum": {
+                        "kdProvider": "0380B003",
+                        "nmProvider": "Klinik Vita Medika"
+                    },
+                    "sex": "L",
+                    "statusPeserta": {
+                        "keterangan": "AKTIF",
+                        "kode": "0"
+                    },
+                    "tglCetakKartu": "2019-01-11",
+                    "tglLahir": "1995-03-01",
+                    "tglTAT": "2050-12-31",
+                    "tglTMT": "2019-01-11",
+                    "umur": {
+                        "umurSaatPelayanan": "24 tahun ,1 bulan ,10 hari",
+                        "umurSekarang": "24 tahun ,1 bulan ,10 hari"
+                    }
+                },
+                "poliRujukan": {
+                    "kode": "ANA",
+                    "nama": "ANAK"
+                },
+                "provPerujuk": {
+                    "kode": "0115R036",
+                    "nama": "RSUD KEMBANGAN"
+                },
+                "tglKunjungan": "2019-03-22"
+            }
+        },
+        {
+            "rujukan": {
+                "diagnosa": {
+                    "kode": "A15.3",
+                    "nama": "A15.3 - Tuberculosis of lung, confirmed by unspecified means"
+                },
+                "keluhan": null,
+                "noKunjungan": "0114R0520319B000311",
+                "pelayanan": {
+                    "kode": "2",
+                    "nama": "Rawat Jalan"
+                },
+                "peserta": {
+                    "cob": {
+                        "nmAsuransi": null,
+                        "noAsuransi": null,
+                        "tglTAT": null,
+                        "tglTMT": null
+                    },
+                    "hakKelas": {
+                        "keterangan": "KELAS II",
+                        "kode": "2"
+                    },
+                    "informasi": {
+                        "dinsos": null,
+                        "noSKTM": null,
+                        "prolanisPRB": null
+                    },
+                    "jenisPeserta": {
+                        "keterangan": "PEGAWAI SWASTA",
+                        "kode": "13"
+                    },
+                    "mr": {
+                        "noMR": null,
+                        "noTelepon": "-"
+                    },
+                    "nama": "BIMA ADIPUTRA",
+                    "nik": "3214012905930005",
+                    "noKartu": "0001777859583",
+                    "pisa": "1",
+                    "provUmum": {
+                        "kdProvider": "0130U063",
+                        "nmProvider": "KLINIK WALUYA"
+                    },
+                    "sex": "L",
+                    "statusPeserta": {
+                        "keterangan": "AKTIF",
+                        "kode": "0"
+                    },
+                    "tglCetakKartu": "2017-12-12",
+                    "tglLahir": "1993-05-29",
+                    "tglTAT": "2050-12-31",
+                    "tglTMT": "2017-03-01",
+                    "umur": {
+                        "umurSaatPelayanan": "25 tahun ,11 bulan ,18 hari",
+                        "umurSekarang": "25 tahun ,11 bulan ,18 hari"
+                    }
+                },
+                "poliRujukan": {
+                    "kode": "ANA",
+                    "nama": "ANAK"
+                },
+                "provPerujuk": {
+                    "kode": "0114R052",
+                    "nama": "RSUD KEMAYORAN"
+                },
+                "tglKunjungan": "2019-03-26"
+            }
+        },
+        {
+            "rujukan": {
+                "diagnosa": {
+                    "kode": "F80",
+                    "nama": "Specific developmental disorders of speech and language"
+                },
+                "keluhan": null,
+                "noKunjungan": "0116R0360119B000102",
+                "pelayanan": {
+                    "kode": "2",
+                    "nama": "Rawat Jalan"
+                },
+                "peserta": {
+                    "cob": {
+                        "nmAsuransi": null,
+                        "noAsuransi": null,
+                        "tglTAT": null,
+                        "tglTMT": null
+                    },
+                    "hakKelas": {
+                        "keterangan": "KELAS II",
+                        "kode": "2"
+                    },
+                    "informasi": {
+                        "dinsos": null,
+                        "noSKTM": null,
+                        "prolanisPRB": null
+                    },
+                    "jenisPeserta": {
+                        "keterangan": "PEGAWAI SWASTA",
+                        "kode": "13"
+                    },
+                    "mr": {
+                        "noMR": null,
+                        "noTelepon": "-"
+                    },
+                    "nama": "EFAN ANDRIAN",
+                    "nik": "3213030509940006",
+                    "noKartu": "0001778694682",
+                    "pisa": "1",
+                    "provUmum": {
+                        "kdProvider": "10010902",
+                        "nmProvider": "NEGLASARI"
+                    },
+                    "sex": "L",
+                    "statusPeserta": {
+                        "keterangan": "AKTIF",
+                        "kode": "0"
+                    },
+                    "tglCetakKartu": "2017-12-12",
+                    "tglLahir": "1994-09-05",
+                    "tglTAT": "2050-12-31",
+                    "tglTMT": "2017-05-01",
+                    "umur": {
+                        "umurSaatPelayanan": "24 tahun ,7 bulan ,6 hari",
+                        "umurSekarang": "24 tahun ,7 bulan ,6 hari"
+                    }
+                },
+                "poliRujukan": {
+                    "kode": "040",
+                    "nama": "TUMBUH KEMBANG PED. SOSIAL"
+                },
+                "provPerujuk": {
+                    "kode": "0116R036",
+                    "nama": "RS DUTA INDAH"
+                },
+                "tglKunjungan": "2019-01-04"
+            }
+        },
+        {
+            "rujukan": {
+                "diagnosa": {
+                    "kode": "A15.3",
+                    "nama": "A15.3 - Tuberculosis of lung, confirmed by unspecified means"
+                },
+                "keluhan": null,
+                "noKunjungan": "0114R0520319B000321",
+                "pelayanan": {
+                    "kode": "2",
+                    "nama": "Rawat Jalan"
+                },
+                "peserta": {
+                    "cob": {
+                        "nmAsuransi": null,
+                        "noAsuransi": null,
+                        "tglTAT": null,
+                        "tglTMT": null
+                    },
+                    "hakKelas": {
+                        "keterangan": "KELAS II",
+                        "kode": "2"
+                    },
+                    "informasi": {
+                        "dinsos": null,
+                        "noSKTM": null,
+                        "prolanisPRB": null
+                    },
+                    "jenisPeserta": {
+                        "keterangan": "PNS DAERAH",
+                        "kode": "3"
+                    },
+                    "mr": {
+                        "noMR": "341938",
+                        "noTelepon": "-"
+                    },
+                    "nama": "IMAS RIZKY NOVITASARI",
+                    "nik": "3314106411960003",
+                    "noKartu": "0000172381691",
+                    "pisa": "4",
+                    "provUmum": {
+                        "kdProvider": "0154U019",
+                        "nmProvider": "Klinik Narwastu/dr. Y Agus Sud"
+                    },
+                    "sex": "P",
+                    "statusPeserta": {
+                        "keterangan": "MASA BERLAKU SUDAH BERAKHIR (ANAK UMUR > 21)",
+                        "kode": "6"
+                    },
+                    "tglCetakKartu": "2019-10-24",
+                    "tglLahir": "1996-11-24",
+                    "tglTAT": "2096-11-24",
+                    "tglTMT": "2010-06-03",
+                    "umur": {
+                        "umurSaatPelayanan": "22 tahun ,11 bulan ,0 hari",
+                        "umurSekarang": "22 tahun ,11 bulan ,0 hari"
+                    }
+                },
+                "poliRujukan": {
+                    "kode": "JIW",
+                    "nama": "JIWA"
+                },
+                "provPerujuk": {
+                    "kode": "0114R052",
+                    "nama": "RSUD SURAKARTA"
+                },
+                "tglKunjungan": "2020-04-02"
+            }
+        }
+    ]
+}

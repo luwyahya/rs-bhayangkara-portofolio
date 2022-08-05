@@ -1,0 +1,52 @@
+.img-responsive {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
+img {
+    vertical-align: middle;
+    border: 0;
+}
+.btnTemplate{
+    width: 250px;
+    height: 80px;
+    /* color: #ffffff; */
+    margin: 10px 0;
+    font-size: 30px;
+    font-family: 'neotericregular';
+  }
+  .content h1{
+    margin-top: 0px;
+    text-align: center;
+    // color: #fff;
+    font-size: 25px;
+  }
+  .humas-title{
+      float: center;
+  }
+  .humas-title h1{
+    // font-family: 'neotericbold';
+    text-align: center;
+    // color: #fff;
+    font-size: 50px;
+}
+.pull-right{
+    float: right;
+}
+.pull-center{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// h2{
+//     text-align: center;
+//     margin-top: -15px;
+// }
+.mydiv{
+    position:relative
+}
+.mydiv img{
+    position:absolute;
+    top:0;
+    left:0;
+}
