@@ -3760,12 +3760,11 @@ define(['initialize'], function(initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                if (window.location.hostname.indexOf('localhost') > -1) {
+                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rmales.pdf');
+                   
+                }  else {
                     xhr.open('POST', '/jasper1/generic/report/rmales.pdf');
-                } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
-                    xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/rmales.pdf');
-                } else {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rmales.pdf');
                 }
                 // set `Content-Type` header
                 xhr.setRequestHeader('Content-Type', 'application/json');
