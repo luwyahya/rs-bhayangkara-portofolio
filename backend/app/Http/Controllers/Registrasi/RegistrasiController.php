@@ -4358,6 +4358,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         //            $tgl = $request['tglAkhir'];
         //            $data = $data->where('ps.tgldaftar', '<=', $tgl);
         //        }
+        
         if (isset($request['tglLahir']) && $request['tglLahir'] != "" && $request['tglLahir'] != "undefined") {
             $data = $data->where('ps.tgllahir', '>=', $request['tglLahir'] . ' 00:00');
         };
