@@ -228,6 +228,25 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('post-saldo', 'Bridging\BridgingBiosController@simpansaldoawal');
                 Route::get('get-saldo', 'Bridging\BridgingBiosController@getSaldo');
             });
+            Route::group(['prefix' => 'phs'], function () {
+                Route::post('tools', 'Bridging\PHSController@ihsTools');
+                Route::post('generate-token', 'Bridging\PHSController@generateToken');
+                Route::post('Organization', 'Bridging\PHSController@Organization');
+                Route::post('Location', 'Bridging\PHSController@Location');
+                Route::post('Encounter', 'Bridging\PHSController@Encounter');
+                Route::post('Condition', 'Bridging\PHSController@Condition');
+                Route::post('Practitioner', 'Bridging\PHSController@Practitioner');
+                Route::post('update-ihs-pasien', 'Bridging\PHSController@updateIHSPasien');
+                Route::post('Location-bed', 'Bridging\PHSController@LocationBed');
+                Route::post('map-fhir-room', 'Bridging\PHSController@MapRoom');
+                Route::post('map-fhir-bed', 'Bridging\PHSController@MapBed');
+                Route::post('post-all-patient-inap', 'Bridging\PHSController@PostAllPatientInap');
+                Route::post('post-all-diagnosa', 'Bridging\PHSController@PostAllDiagnosa');
+                Route::post('post-all-patient-lab', 'Bridging\PHSController@PostAllPatientLab');
+                Route::post('post-all-patient-inap-pulang', 'Bridging\PHSController@PostAllPatientInapPulang');
+                Route::post('post-all-patient-igd', 'Bridging\PHSController@PostAllPatientIGD');
+                Route::post('post-all-patient-rj', 'Bridging\PHSController@PostAllPatientRJ');
+            });
             Route::group(['prefix' => 'radiologi'], function () {
                 Route::post('post-order', 'Bridging\BridgingRadiologiController@postorderradiologi');
                 Route::post('post-expertise', 'Bridging\BridgingRadiologiController@postexpertiseradiologi');
