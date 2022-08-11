@@ -47,7 +47,29 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-      
+        try {
+            \DB::connection()->getPdo();
+            if(\DB::connection()->getDatabaseName()){
+//                return "Yes! Successfully connected to the DB: " . DB::connection()->getDatabaseName();
+            }else {
+                $result = array(
+                    'data' => [],
+                    'messages' => 'Database tidak ditemukan. Silahkan periksa konfigurasi Anda ',
+                    'status'=> 400,
+                    'as'=> 'er@epic'
+                );
+                return $this->setStatusCode($result['status'])->respond($result);
+            }
+
+        } catch (\Exception $e) {
+            $result = array(
+                'data' => [],
+                'messages' => 'Tidak dapat membuka koneksi ke server database. Silahkan periksa konfigurasi Anda ',
+                'status'=> 400,
+                'as'=> 'er@epic'
+            );
+            return $this->setStatusCode($result['status'])->respond($result);
+        }
         if ($e instanceof DataNotFoundException) {
             return $this->respondNotFound($e->getMessage());
         }
