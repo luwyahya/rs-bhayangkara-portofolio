@@ -1,5 +1,5 @@
 SendEmail = 184, 335, 1056, 760, C, 25, 25, 897, 450, C
-Connection = 196, 342, 1068, 767, Z
+Connection = 95, -12, 967, 413, 
 modAPI = 0, 0, 0, 0, C
 modUtility = 125, 125, 997, 550, C
 modVar = 75, 75, 947, 500, C

@@ -155,7 +155,7 @@ On Error Resume Next
         Printer.Print "                       RUMAH SAKIT"
         Printer.fontSize = 18
         Printer.FontBold = True
-        Printer.Print "    Universitas Andalas"
+        Printer.Print "Bhayangkara TK.IV Cianjur"
         Printer.FontBold = False
         Printer.fontSize = 10
 '        Printer.Print "Komp Kampus Unand Jalan Universitas Andalas,"

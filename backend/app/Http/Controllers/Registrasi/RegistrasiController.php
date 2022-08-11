@@ -13516,7 +13516,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
     {
 
         DB::beginTransaction();
-        $newPD =  PasienDaftar::where('noregistrasi', $request['noRecPasienDaftar'])->first();
+        $newPD =  PasienDaftar::where('norec', $request['noRecPasienDaftar'])->first();
         $cekUdahDaftar = PasienDaftar::where('nocmfk', $request['pasien']['id'])
             ->wherenull('tglpulang')
             ->count();
@@ -13671,6 +13671,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'status' => 201,
                 'message' => $transMessage,
                 'data' => $dataAPD,
+                'ihs'=> isset($ihs)? $ihs :null,
                 'as' => 'mythicramdan',
             );
         } else {

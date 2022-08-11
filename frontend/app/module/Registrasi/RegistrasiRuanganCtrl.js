@@ -41,8 +41,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.bpjs = true;
             $scope.penjagaanTidakDitanggung = false;
             $scope.penjagaanBedaInstalasi = false;
-            var ppkRumahSakit = "0050R058"
-            var namappkRumahSakit = "Rumah Sakit Unand"
+            var ppkRumahSakit = "0119R004"
+            var namappkRumahSakit = "RS BHAYANGKARA TK IV CIANJUR"
             var namafield = "kodePPKRujukan"
             $scope.listDPJP = []
             $scope.listDPJP2 = []
@@ -3161,7 +3161,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 }
                             } else {
                                 kdJenisPelayanan = "1";
-                                kdPpkRujukan = "0050R058";
+                                kdPpkRujukan = "0119R004";
                             }
                         }
                     } else {
@@ -4809,7 +4809,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
                 if (window.location.hostname.indexOf('localhost') > -1) {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rmales.pdf');
-                }else{
+                } else {
                     xhr.open('POST', '/jasper1/generic/report/rmales.pdf');
                 }
                 // set `Content-Type` header

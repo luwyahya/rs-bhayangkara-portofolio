@@ -5711,7 +5711,7 @@ class TagihanController  extends ApiController
             $dataAPD->statuspasien = 1;
             $dataAPD->statuskunjungan = 'LAMA';
             $dataAPD->statuspenyakit = 'BARU';
-            $dataAPD->objectruanganasalfk = $request['objectruanganasalfk'];;
+            $dataAPD->objectruanganasalfk = $request['objectruanganasalfk'];
             $dataAPD->tglregistrasi = $pd->tglregistrasi; //date('Y-m-d H:i:s');
             $dataAPD->tglkeluar = date('Y-m-d H:i:s');
             $dataAPD->tglmasuk = date('Y-m-d H:i:s');
