@@ -386,6 +386,9 @@ class PindahPulangController extends ApiController
         if ($transStatus == 'true') {
             DB::commit();
             $transMessage = 'SUKSES';
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest ['noregistrasi']= $r_NewPD['noregistrasi'];
+            $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,

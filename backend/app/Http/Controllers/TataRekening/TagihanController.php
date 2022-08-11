@@ -5716,6 +5716,7 @@ class TagihanController  extends ApiController
             $dataAPD->tglkeluar = date('Y-m-d H:i:s');
             $dataAPD->tglmasuk = date('Y-m-d H:i:s');
             $dataAPD->save();
+            $rua =  Ruangan::where('id', $dataAPD->objectruanganfk)->first();
 
             $dataAPDnorec = $dataAPD->norec;
             $transStatus = 'true';
@@ -5727,9 +5728,18 @@ class TagihanController  extends ApiController
 
         if ($transStatus != 'false') {
             DB::commit();
+            $ihs=[];
+            if($rua->objectdepartemenfk==3){
+                if($dataAPD->objectruanganfk !='251' && $dataAPD->objectruanganfk != '453'){
+                    $objetoRequest = new \Illuminate\Http\Request();
+                    $objetoRequest ['noregistrasi']= $dataAPD->norec;
+                    $ihs = app('App\Http\Controllers\Bridging\PHSController')->EncounterLab($objetoRequest,true);
+                }
+            }
             $result = array(
                 "status" => 201,
                 "data" => $dataAPD,
+                "ihs" =>$ihs,
                 "message" => $transMessage,
             );
         } else {

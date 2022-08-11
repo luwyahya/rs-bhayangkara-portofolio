@@ -7920,6 +7920,14 @@ class EMRController  extends ApiController
                 'idLoginUser' => $dataLogin['userData']['id'],
             )
         );
+        $q = DB::select(
+            DB::raw("select pd.noregistrasi from pasiendaftar_t as pd
+            join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+            where apd.norec=:norecapd"),
+            array(
+                'norecapd' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
 
         if ($request['detaildiagnosapasien']['norec_dp'] == '') {
             $dataDiagnosa = new DiagnosaPasien();
@@ -7996,6 +8004,9 @@ class EMRController  extends ApiController
         } else {
             $transMessage = "Data Gagal Disimpan";
             DB::rollBack();
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest ['noregistrasi']= $q[0]->noregistrasi;
+            $ihs = app('App\Http\Controllers\Bridging\PHSController')->Condition($objetoRequest,true);
             $result = array(
                 'status' => 400,
                 'message' => $transMessage,
