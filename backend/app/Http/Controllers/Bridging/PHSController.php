@@ -621,7 +621,7 @@ SELECT antrianpasiendiperiksa_t.norec FROM antrianpasiendiperiksa_t
         $q =  collect(DB::select("select ru.id,ru.phs_id from ruangan_m as ru
         where objectdepartemenfk in (3,16,18,24,28)
         and ru.phs_id is null
-        and ru.statusenabled = 1"));
+        and ru.statusenabled = true"));
         if (count($q) == 0) {
             $response = array(
                 "issue" => 'Ruangan tidak termaping',
@@ -642,7 +642,7 @@ SELECT antrianpasiendiperiksa_t.norec FROM antrianpasiendiperiksa_t
     public function MapBed(Request $request)
     {
         $q =  collect(DB::select("select tt.id,tt.phs_id from tempattidur_m as tt
-                where tt.statusenabled=1
+                where tt.statusenabled=true
                 and tt.phs_id is null"));
         if (count($q) == 0) {
             $response = array(
@@ -669,20 +669,6 @@ SELECT antrianpasiendiperiksa_t.norec FROM antrianpasiendiperiksa_t
         $q =  collect(DB::select(" 
         SELECT
         kd.phs_id as phs_ruangan,
-        pr.phs_id AS phs_profile,
-        pr.phs_province,
-        pr.phs_city,
-        pr.phs_district,
-        pr.phs_village,
-        pr.kodepos,
-        pr.alamatlengkap,
-        pr.namakota,
-        pr.alamatemail,
-        pr.website,
-        pr.fixedphone ,
-        pr.namalengkap as namaprofile,
-        pr.lat,
-        pr.lng,
         dep.phs_id as phs_dep,
         tt.phs_id as phs_tt,
         tt.id,
@@ -694,14 +680,14 @@ SELECT antrianpasiendiperiksa_t.norec FROM antrianpasiendiperiksa_t
 		kl.namakelas
     FROM
         ruangan_m AS kd
-        LEFT JOIN profile_m AS pr ON pr.ID = kd.kdprofile 
+        --LEFT JOIN profile_m AS pr ON pr.ID = kd.kdprofile 
         LEFT JOIN departemen_m AS dep ON dep.ID = kd.objectdepartemenfk
         left join kamar_m as km on km.objectruanganfk=kd.id
 		LEFT JOIN tempattidur_m as tt on tt.objectkamarfk=km.id
         left join kelas_m as kl on kl.id=km.objectkelasfk
     WHERE
         --kd.kdprofile = $kdProfile AND 
-        kd.statusenabled = 1
+        kd.statusenabled = true
         AND tt.id = $request[id_tt]"))->first();
 
         // dd($q->phs_profile);
