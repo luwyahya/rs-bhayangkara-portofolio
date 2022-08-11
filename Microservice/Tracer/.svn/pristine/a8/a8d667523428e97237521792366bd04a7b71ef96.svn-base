@@ -1,0 +1,43 @@
+Attribute VB_Name = "Connection"
+
+Sub bukaKoneksi()
+    Set konek = New ADODB.Connection
+    konek.CursorLocation = adUseClient
+'    konek.ConnectionString = "" _
+'    & "Provider=SQLNCLI10.1;" _
+'    & "Integrated Security=SSPI;" _
+'    & "Password=@dbRSUDp41n4n@;" _
+'    & "DataTypeCompatibility=80;" _
+'    & "Persist Security Info=False;" _
+'    & "User ID=sa;" _
+'    & "Initial Catalog=Painan2;" _
+'    & "Data Source=192.168.0.12\ss2008R2"
+Dim strPassword As String
+Dim strUserName As String
+Dim strDatabaseName As String
+Dim strServerName As String
+strPassword = "Jhorl1nD1d1"
+strUserName = "sa"
+strDatabaseName = "rsud_tasikmalaya"
+strServerName = "192.168.0.1\ss2008R2"
+
+    
+    konek.ConnectionString = "Provider=SQLNCLI10.1;Password=" & strPassword & ";DataTypeCompatibility=80;Persist Security Info=True;User ID=" & strUserName & ";Initial Catalog=" & strDatabaseName & ";Data Source=" & strServerName
+    
+    
+On Error Resume Next
+ 
+If konek.State = adStateOpen Then
+    konek.Close
+    Set konek = New ADODB.Connection
+    konek.Open
+Else
+    konek.Open
+End If
+ 
+If Err.Number <> 0 Then
+    MsgBox "Koneksi gagal"
+End If
+ 
+End Sub
+

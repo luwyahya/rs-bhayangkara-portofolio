@@ -1,0 +1,492 @@
+VERSION 5.00
+Object = "{248DD890-BB45-11CF-9ABC-0080C7E7B78D}#1.0#0"; "mswinsck.ocx"
+Begin VB.Form SendEmail 
+   Caption         =   "Service Tracer"
+   ClientHeight    =   1560
+   ClientLeft      =   120
+   ClientTop       =   450
+   ClientWidth     =   7515
+   LinkTopic       =   "Form1"
+   ScaleHeight     =   1560
+   ScaleWidth      =   7515
+   StartUpPosition =   3  'Windows Default
+   Begin VB.ComboBox cbPrinterBlangko 
+      Height          =   315
+      Left            =   1320
+      TabIndex        =   3
+      Text            =   "Combo1"
+      Top             =   960
+      Width           =   4215
+   End
+   Begin VB.CommandButton cmdSaveReg 
+      Caption         =   "&Simpan"
+      Height          =   855
+      Left            =   5640
+      TabIndex        =   2
+      Top             =   480
+      Width           =   1575
+   End
+   Begin VB.ComboBox cbPrinterBarcode 
+      Height          =   315
+      Left            =   1320
+      TabIndex        =   0
+      Text            =   "Combo1"
+      Top             =   525
+      Width           =   4215
+   End
+   Begin VB.Timer Timer2 
+      Interval        =   50000
+      Left            =   4200
+      Top             =   120
+   End
+   Begin MSWinsockLib.Winsock Winsock1 
+      Left            =   4800
+      Top             =   0
+      _ExtentX        =   741
+      _ExtentY        =   741
+      _Version        =   393216
+   End
+   Begin VB.Timer Timer1 
+      Interval        =   5000
+      Left            =   3120
+      Top             =   0
+   End
+   Begin VB.Label Label3 
+      Caption         =   "v go live4"
+      Height          =   255
+      Left            =   360
+      TabIndex        =   5
+      Top             =   120
+      Width           =   1335
+   End
+   Begin VB.Label Label2 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000000&
+      BackStyle       =   0  'Transparent
+      Caption         =   "Printer Blangko"
+      ForeColor       =   &H80000008&
+      Height          =   195
+      Left            =   240
+      TabIndex        =   4
+      Top             =   960
+      Width           =   1080
+   End
+   Begin VB.Label Label1 
+      Appearance      =   0  'Flat
+      AutoSize        =   -1  'True
+      BackColor       =   &H80000000&
+      BackStyle       =   0  'Transparent
+      Caption         =   "Printer Tracer"
+      ForeColor       =   &H80000008&
+      Height          =   195
+      Left            =   240
+      TabIndex        =   1
+      Top             =   600
+      Width           =   960
+   End
+End
+Attribute VB_Name = "SendEmail"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+Public strNoPendaftaran As String
+Dim a As String
+Dim b As String
+
+
+Private Sub cmdSaveReg_Click()
+    On Error GoTo errorLanjut
+    mstrServerPrinterBarcode = cbPrinterBarcode.Text
+    mstrServerPrinterBarcode2 = cbPrinterBlangko.Text
+'    Call CreateKey("HKEY_CURRENT_USER\Software\Medifirst2000")
+    Call CreateKey("HKEY_CURRENT_USER\Software\Medifirst2000\Tracer")
+    Call CreateKey("HKEY_CURRENT_USER\Software\Medifirst2000\Blangko")
+    Call SetStringValue("HKEY_CURRENT_USER\Software\Medifirst2000\Tracer", "Tracer", mstrServerPrinterBarcode)
+    Call SetStringValue("HKEY_CURRENT_USER\Software\Medifirst2000\Blangko", "Blangko", mstrServerPrinterBarcode2)
+    
+    MsgBox "Penyimpanan Berhasil", vbOKOnly
+'    WriteIniValue "C:\SettingPrinter.ini", "Default Printer", "PrinterBarcode", mstrServerPrinterBarcode
+'    Unload Me
+    Screen.MousePointer = vbDefault
+    Exit Sub
+errorLanjut:
+End Sub
+
+Private Sub Form_Load()
+    strNamaHostLocal = Winsock1.LocalHostName
+    Call bukaKoneksi
+    Call inisialisasiObjekContext
+    For Each prn In Printers
+        cbPrinterBarcode.AddItem prn.DeviceName
+        cbPrinterBlangko.AddItem prn.DeviceName
+    Next
+    Call cmdLoadReg_Click
+
+End Sub
+Private Sub cmdLoadReg_Click()
+    mstrServerPrinterBarcode = GetStringValue("HKEY_CURRENT_USER\Software\Medifirst2000\Tracer", "Tracer")
+    mstrServerPrinterBarcode2 = GetStringValue("HKEY_CURRENT_USER\Software\Medifirst2000\Blangko", "Blangko")
+'    mstrServerPrinterBarcode = ReadINI("Default Printer", "PrinterBarcode", "", "C:\SettingPrinter.ini")
+    cbPrinterBarcode.Text = mstrServerPrinterBarcode
+    cbPrinterBlangko.Text = mstrServerPrinterBarcode2
+End Sub
+
+'Function SendEmail()
+'Dim oSmtp As New EASendMailObjLib.Mail
+'Dim email As String
+'
+''    a = "Laporan Pasien Soekardjo Akan Melebihi Estimasi Tanggungan BPJS"
+''    b = "Pasien Atas Nama Soekardjo akan melebihi estimasi Tanggungan BPJS"
+'
+'    strSQL10 = "Select Email From DataPegawaiEmail Where IdPegawai ='" & rs4("IdPegawai").value & "'"
+'    Call eksekusiQuery(rs10, strSQL10)
+'    If rs10.RecordCount > 0 Then
+'        email = rs10("Email")
+'    Else
+'        Exit Function
+'    End If
+'    oSmtp.LicenseCode = "TryIt"
+'
+'    ' Set acount email
+'    oSmtp.FromAddr = "tukangkomputer664@gmail.com"
+'
+'    ' Add email tujuan
+'    oSmtp.AddRecipientEx email, 0
+''    oSmtp.AddRecipientEx "jhorlin_sitinjak@yahoo.com", 0
+'
+'
+'    ' Set email subject
+'    oSmtp.Subject = a
+'
+'    ' Set email body
+'    oSmtp.BodyText = b
+'
+'    ' Gmail SMTP server address
+'    oSmtp.ServerAddr = "smtp.gmail.com" ' Untuk Gmail
+'
+'
+'
+'    oSmtp.ServerPort = 587
+'
+'    oSmtp.SSL_init
+'
+'    oSmtp.UserName = "tukangkomputer664@gmail.com"
+'    oSmtp.Password = "arnesgesta"
+'
+''    MsgBox "start to send email ..."
+'
+'    If oSmtp.SendMail() = 0 Then
+''        MsgBox "email was sent successfully!"
+''    Else
+''        MsgBox "failed to send email with the following error:" & oSmtp.GetLastErrDescription()
+'    End If
+'End Function
+'Function SendEmailAll()
+'Dim oSmtp As New EASendMailObjLib.Mail
+'
+'
+''    a = "Laporan Pasien Soekardjo Akan Melebihi Estimasi Tanggungan BPJS"
+''    b = "Pasien Atas Nama Soekardjo akan melebihi estimasi Tanggungan BPJS"
+'
+'    oSmtp.LicenseCode = "TryIt"
+'
+'    ' Set acount email
+'    oSmtp.FromAddr = "tukangkomputer664@gmail.com"
+'
+'    ' Add email tujuan
+'    oSmtp.AddRecipientEx "apepyosa@gmail.com", 0
+''    oSmtp.AddRecipientEx "jhorlin_sitinjak@yahoo.com", 0
+'
+'
+'    ' Set email subject
+'    oSmtp.Subject = a
+'
+'    ' Set email body
+'    oSmtp.BodyText = b
+'
+'    ' Gmail SMTP server address
+'    oSmtp.ServerAddr = "smtp.gmail.com" ' Untuk Gmail
+'
+'
+'
+'    oSmtp.ServerPort = 587
+'
+'    oSmtp.SSL_init
+'
+'    oSmtp.UserName = "tukangkomputer664@gmail.com"
+'    oSmtp.Password = "arnesgesta"
+'
+''    MsgBox "start to send email ..."
+'
+'    If oSmtp.SendMail() = 0 Then
+''        MsgBox "email was sent successfully!"
+''    Else
+''        MsgBox "failed to send email with the following error:" & oSmtp.GetLastErrDescription()
+'    End If
+'End Function
+'
+'Private Sub Timer2_Timer()
+''Dim jamOn As String
+''jamOn = 4
+''If jamOn = Format(Now, "hh") Then
+''    Timer1.Enabled = True
+''End If
+'End Sub
+Private Sub Timer1_Timer()
+On Error GoTo errLoad
+    MousePointer = vbHourglass
+    Dim i As Integer
+    Dim jam As String
+    
+'    jam = "08"
+'    strSQL2 = "SELECT a.noregistrasi, ruangan_m.objectdepartemenfk,a.nocmfk,ruangan_m.namaruangan " & _
+'                " FROM pasiendaftar_t AS a INNER JOIN ruangan_m ON a.objectruanganlastfk = ruangan_m.id " & _
+'                " WHERE (a.statuspasien='Lama' or a.statuspasien='') and (CAST(a.tglregistrasi AS date) = CAST(GETDATE() AS date)) AND (a.noregistrasi not IN" & _
+'                " (SELECT        noregistrasi From Tracer_t WHERE (noregistrasi = a.noregistrasi))) AND (ruangan_m.objectdepartemenfk in ('18','28'))" & _
+'                " ORDER BY a.tglregistrasi DESC"
+'    Call msubRecFO(rs1, strSQL2)
+'    If rs1.EOF = False Then
+'        For i = 1 To rs1.RecordCount
+'        strSQL10 = "select nocmfk from pasiendaftar_t inner join ruangan_m on pasiendaftar_t.objectruanganlastfk = ruangan_m.id " & _
+'                  " where nocmfk='" & rs1(2).value & "' and ruangan_m.objectdepartemenfk in ('18','28')"
+'        Call msubRecFO(rs10, strSQL10)
+'        If rs10.RecordCount > 1 Then
+'            mstrNoPen = rs1(0).value
+'            frm_cetak_label_viewer1.Cetaklangsung
+'        Else
+'            mstrNoPen = rs1(2).value
+'            ruangan = rs1(3).value
+'            frm_cetak_label_viewer2.Cetaklangsung
+'        End If
+'        konek.Execute "insert into tracer_t values ('" & rs1(0).value & "')"
+'        rs1.MoveNext
+'        Next i
+'    End If
+    strSQL2 = "SELECT a.noregistrasi, ruangan_m.objectdepartemenfk " & _
+                " FROM pasiendaftar_t AS a INNER JOIN ruangan_m ON a.objectruanganlastfk = ruangan_m.id " & _
+                " WHERE (a.statuspasien='Lama' or a.statuspasien='' or statuspasien is null) and (CAST(a.tglregistrasi AS date) = CAST(GETDATE() AS date)) AND (a.noregistrasi not IN" & _
+                " (SELECT        noregistrasi From Tracer_t WHERE (noregistrasi = a.noregistrasi))) AND (ruangan_m.objectdepartemenfk in ('18','28'))" & _
+                " ORDER BY a.tglregistrasi DESC"
+    Call msubRecFO(rs1, strSQL2)
+    If rs1.EOF = False Then
+        For i = 1 To rs1.RecordCount
+        mstrNoPen = rs1(0).value
+        
+        frm_cetak_label_viewer1.Cetaklangsung
+        konek.Execute "insert into tracer_t values ('" & rs1(0).value & "')"
+        rs1.MoveNext
+        Next i
+    End If
+    
+    
+    strSQL2 = "SELECT a.noregistrasi, ruangan_m.objectdepartemenfk ,pasien_m.id, pasien_m.nocm,ruangan_m.namaruangan" & _
+                " FROM pasiendaftar_t AS a INNER JOIN ruangan_m ON a.objectruanganlastfk = ruangan_m.id INNER JOIN  pasien_m ON a.nocmfk = pasien_m.id " & _
+                " WHERE a.statuspasien='Baru' and (CAST(a.tglregistrasi AS date) = CAST(GETDATE() AS date)) AND (a.noregistrasi not IN" & _
+                " (SELECT        noregistrasi From Tracer_t WHERE (noregistrasi = a.noregistrasi))) AND (ruangan_m.objectdepartemenfk in ('18','28'))" & _
+                " ORDER BY a.tglregistrasi DESC"
+    Call msubRecFO(rs2, strSQL2)
+    If rs2.EOF = False Then
+        For i = 1 To rs2.RecordCount
+            mstrNoPen = rs2(2).value
+            ruangan = rs2(4).value
+            frm_cetak_label_viewer2.Cetaklangsung
+            konek.Execute "insert into tracer_t values ('" & rs2(0).value & "')"
+            rs2.MoveNext
+        Next i
+    End If
+    
+    strSQL2 = "SELECT batalregistrasi_t.norec, pasien_m.nocm, pasien_m.namapasien, ruangan_m.namaruangan" & _
+            " FROM batalregistrasi_t INNER JOIN pasiendaftar_t ON batalregistrasi_t.pasiendaftarfk = pasiendaftar_t.norec INNER JOIN" & _
+            " pasien_m ON pasiendaftar_t.nocmfk = pasien_m.id INNER JOIN" & _
+            " ruangan_m ON pasiendaftar_t.objectruanganlastfk = ruangan_m.id WHERE ruangan_m.objectdepartemenfk in ('18','28') and (CAST(batalregistrasi_t.tanggalpembatalan AS date) = CAST(GETDATE() AS date))" & _
+            " and batalregistrasi_t.norec not in (SELECT noregistrasi From Tracer_t WHERE (noregistrasi = batalregistrasi_t.norec))"
+    Call msubRecFO(rs2, strSQL2)
+    If rs2.EOF = False Then
+        For i = 1 To rs2.RecordCount
+            mstrNoPen = rs2(0).value
+            frm_cetak_label_viewer3.Cetaklangsung
+            konek.Execute "insert into tracer_t values ('" & rs2(0).value & "')"
+            rs2.MoveNext
+        Next i
+    End If
+
+   MousePointer = vbDefault
+Exit Sub
+errLoad:
+    Call pesanError
+'    Resume 0
+    MousePointer = vbDefault
+End Sub
+
+Private Sub hitungPerkiraanTanggunganPenjamin(ParamNoPendaftaran As String, ParamTotalBiaya As Currency)
+    
+On Error GoTo hell
+
+Dim strKoefisienTambahanBiayaKeVIP As String
+Dim tmpBalikanDariWebServiceINACBGS As String
+Dim strHasilSyncron As String
+Dim arrHasilSimulasiTarifGrouper() As String
+Dim currTmpTotalBiaya As Currency
+Dim i As Long
+Dim boolSudahGrouping As Boolean
+Dim boolStatusSpecialCMGOption As Boolean
+Dim ccurTambahanBiaya  As Currency
+Dim ccurPerkiraanTanggunganPenjamin  As Currency
+Dim strKeteranganNaikKelas As String
+
+    boolSudahGrouping = False
+    strSQL3 = "Select NoPendaftaran From TotalBiayaKlaimBPJS Where NoPendaftaran='" & strNoPendaftaran & "'"
+    Call eksekusiQuery(rs3, strSQL3)
+    If rs3.RecordCount > 0 Then
+        boolSudahGrouping = True
+    End If
+    
+    If (Dir(strGlobalPathReferenceBridgingINACBG) <> "") And boolSudahGrouping = False Then
+        
+        
+        If (strGlobalUrlINACBG <> "") Then
+                        
+            strTypeGlobalICD.ICD10 = ""
+            strTypeGlobalICD.ICD9 = ""
+            
+            strHasilSyncron = SyncronINACBGPerPasien(ParamNoPendaftaran, ParamTotalBiaya)
+            If strHasilSyncron <> "Sukses" Then Exit Sub
+            
+            currGlobalTmpTotalDetailTarif = 0
+            ReDim globalSpecialCMGOption(0)
+            
+            'Set context = New BridgingInaCbg.context
+            arrHasilSimulasiTarifGrouper = context.SimulasiTarifGrouper(Replace(rs("NoSJP"), vbNewLine, "", , , vbTextCompare))
+            tmpBalikanDariWebServiceINACBGS = context.HapusClaim(rs("NoSJP"), strGlobalINACBGNIKPegawai)
+            Call InsertValueDariArrayHasilGrouperKeVariabel(arrHasilSimulasiTarifGrouper)
+                        
+                        
+            If globalSpecialCMGOption(0).Code <> "" Then
+                boolStatusSpecialCMGOption = True
+            End If
+            
+            
+            If strGlobalAdaKenaikanKelas = "1" Then
+                
+                    
+                If strGlobalNamaKelasTertinggiNaikKelas = "vip" Then
+                        
+                    Dim currSelisihTarifRSDenganKelasHaknya, currSelisihTarifINACBGKelas1DenganKelasHaknya, currPenguranganSelisih, currBatasMaksimalTambahanBiaya As Currency
+                    Dim dblKoefisienTambahanBiayaKeVIP As Double
+                    
+                    strsqlx5 = "Select Value From SettingGlobal Where Prefix='KdKelasVIPMadya'"
+                    Call eksekusiQuery(rsJ, strsqlx5)
+                    If rsJ.RecordCount > 0 Then
+                        If rsJ("Value") = strGlobalKdKelasNaikKelas Then
+                            Dim currBatasMinimalTambahanBiaya As Currency
+                            
+                            currBatasMaksimalTambahanBiaya = (75 * currGlobalTarifINACBGKelas1) / 100
+                            currBatasMinimalTambahanBiaya = (30 * currGlobalTarifINACBGKelas1) / 100
+                            currSelisihTarifRSDenganKelasHaknya = CCur(ParamTotalBiaya) - CCur(currGlobalTarifCBG)
+                            currSelisihTarifINACBGKelas1DenganKelasHaknya = currGlobalTarifINACBGKelas1 - CCur(currGlobalTarifCBG)
+                            currPenguranganSelisih = currSelisihTarifRSDenganKelasHaknya - currSelisihTarifINACBGKelas1DenganKelasHaknya
+                                
+                            If Trim(UCase(strGlobalKelasPerawatan)) = "1" Then
+    
+                                If currSelisihTarifRSDenganKelasHaknya < currBatasMinimalTambahanBiaya Then
+                                    dblKoefisienTambahanBiayaKeVIP = 30
+                                ElseIf currSelisihTarifRSDenganKelasHaknya > currBatasMaksimalTambahanBiaya Then
+                                    dblKoefisienTambahanBiayaKeVIP = 75
+                                Else
+                                    dblKoefisienTambahanBiayaKeVIP = (currPenguranganSelisih / currGlobalTarifINACBGKelas1) * 100
+                                End If
+
+                            Else
+                                If currSelisihTarifRSDenganKelasHaknya < (currBatasMinimalTambahanBiaya - currSelisihTarifINACBGKelas1DenganKelasHaknya) Then
+                                    dblKoefisienTambahanBiayaKeVIP = ((currBatasMinimalTambahanBiaya - currSelisihTarifINACBGKelas1DenganKelasHaknya) / currGlobalTarifINACBGKelas1) * 100
+                                ElseIf currSelisihTarifRSDenganKelasHaknya > (currBatasMaksimalTambahanBiaya - currSelisihTarifINACBGKelas1DenganKelasHaknya) Then
+                                    dblKoefisienTambahanBiayaKeVIP = ((currBatasMaksimalTambahanBiaya - currSelisihTarifINACBGKelas1DenganKelasHaknya) / currGlobalTarifINACBGKelas1) * 100
+                                Else
+                                    dblKoefisienTambahanBiayaKeVIP = (currPenguranganSelisih / currGlobalTarifINACBGKelas1) * 100
+                                End If
+                            End If
+                            
+                        Else 'Kalau salah seting masuk ke sini
+                            dblKoefisienTambahanBiayaKeVIP = 75
+                            
+                        End If
+                    Else 'Kalau tidak ada setingan masuk kesini
+                    
+                        dblKoefisienTambahanBiayaKeVIP = 75
+                        
+                    End If
+                    
+                    '2+2=5, Replace dengan nilai ini jika koefisien kenaikan kelas mengambil dari setting global
+                    Dim tmp As String
+                    tmp = cariSettingGlobal("INACBGKoefisienBiayaTambahanNaikKelas")
+                    If tmp <> "" Then
+                        If UCase(tmp) <> "FALSE" Then
+                            dblKoefisienTambahanBiayaKeVIP = tmp
+                        End If
+                    End If
+                    
+                    'Pembulatan koefisien
+                    dblKoefisienTambahanBiayaKeVIP = Round(dblKoefisienTambahanBiayaKeVIP, 0)
+                    
+                    Call SyncronINACBGPerPasien(mstrNoPen, ParamTotalBiaya, dblKoefisienTambahanBiayaKeVIP)
+                    arrHasilSimulasiTarifGrouper = context.SimulasiTarifGrouper(rs("NoSJP"))
+                    Call InsertValueDariArrayHasilGrouperKeVariabel(arrHasilSimulasiTarifGrouper)
+                    tmpBalikanDariWebServiceINACBGS = context.HapusClaim(rs("NoSJP"), strGlobalINACBGNIKPegawai)
+            
+                    
+                End If
+
+                ccurTambahanBiaya = currGlobalBiayaTambahan
+
+            End If
+            
+            
+            ccurPerkiraanTanggunganPenjamin = currGlobalTarifCBG + currGlobalTarifChronic + currGlobalTarifSubAcute
+
+            
+                        
+            If strGlobalAdaKenaikanKelas = 1 Then
+                strKeteranganNaikKelas = "No SEP " & strGlobalNoSJP & ", NAIK KELAS  dari kelas " & strGlobalKelasPerawatan & " ke kelas " & strGlobalNamaKelasTertinggiNaikKelas & "(" & strGlobalNamaRuanganNaikKelas & ")"
+            Else
+                strKeteranganNaikKelas = "No SEP " & strGlobalNoSJP & ", kelas perawatan kelas " & strGlobalKelasPerawatan & " TIDAK NAIK KELAS "
+            End If
+            
+            
+            
+        End If
+        
+    Else
+         
+         strSQL5 = "Select KdPelayananRS From ListPelayananRS Where NamaPelayanan='Biaya Naik Kelas'"
+         Call eksekusiQuery(rsE, strSQL5)
+         strSQL5 = "Select Tarif From DetailBiayaPelayanan Where NoPendaftaran='" & strNoPendaftaran & "' And KdPelayananRS='" & rsE("KdPelayananRS") & "'"
+         Call eksekusiQuery(rsE, strSQL5)
+         If rsE.EOF = False Then
+            ccurTambahanBiaya = rsE("Tarif")
+         End If
+    End If
+
+    strSQL5 = "Delete TmpBridgingINACBG Where NoPendaftaran='" & ParamNoPendaftaran & "'"
+    Call eksekusiQuery(rsE, strSQL5)
+    
+    ParamTotalBiaya = Format(ParamTotalBiaya, "#,##")
+    strSQL5 = "Insert Into TmpBridgingINACBG Values('" & ParamNoPendaftaran & "','" & IIf(boolStatusSpecialCMGOption = True, "1", "0") & "','" & strGlobalAdaKenaikanKelas & "','" & strGlobalNamaKelasTertinggiNaikKelas & "','" & dblKoefisienTambahanBiayaKeVIP & "','" & ccurTambahanBiaya & "','" & strKeteranganNaikKelas & "','" & ccurPerkiraanTanggunganPenjamin & "','" & strNamaHostLocal & "','" & ParamTotalBiaya & "','" & strTypeGlobalICD.ICD10 & "','" & strTypeGlobalICD.ICD9 & "')"
+    Call eksekusiQuery(rsE, strSQL5)
+    
+    strGlobalAdaKenaikanKelas = ""
+    strGlobalNamaKelasTertinggiNaikKelas = ""
+
+
+    
+Exit Sub
+
+hell:
+
+Call pesanError
+'Resume 0
+
+End Sub
+

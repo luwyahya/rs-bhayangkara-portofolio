@@ -1,0 +1,13 @@
+SendEmail = 184, 335, 1056, 760, C, 25, 25, 897, 450, C
+Connection = 196, 342, 1068, 767, Z
+modAPI = 0, 0, 0, 0, C
+modUtility = 125, 125, 997, 550, C
+modVar = 75, 75, 947, 500, C
+WheelHook = 200, 200, 1072, 625, C
+Cr_cetakLabel2 = 78, 78, 850, 512, C, 0, 0, 1095, 472, C
+modRegistry = 78, 78, 850, 512, C
+frm_cetak_label_viewer3 = 104, 104, 1051, 465, C, 208, 208, 980, 642, C
+Cr_cetakLabel3 = 130, 130, 903, 563, C, 0, 0, 1095, 472, C
+frm_cetak_label_viewer2 = 52, 52, 914, 412, C, 156, 156, 895, 516, C
+frm_cetak_label_viewer1 = 78, 78, 1050, 451, C, 0, 0, 739, 360, C
+Cr_cetakLabel1 = 104, 104, 983, 538, C, -189, 88, 906, 560, C

@@ -1,0 +1,7 @@
+SendEmail = 175, 175, 1047, 600, Z, 25, 25, 897, 450, C
+Connection = 150, 150, 1022, 575, C
+modAPI = 0, 0, 0, 0, C
+modUtility = 125, 125, 997, 550, 
+modVar = 75, 75, 947, 500, C
+WheelHook = 200, 200, 1072, 625, C
+modBridging = 100, 100, 972, 525, 
