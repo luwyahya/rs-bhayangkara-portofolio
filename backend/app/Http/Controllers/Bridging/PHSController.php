@@ -339,20 +339,13 @@ class PHSController extends ApiController
         $q =  collect(DB::select(" 
         SELECT
         kd.*,
-        pr.phs_id AS phs_profile,
-        pr.phs_province,
-        pr.phs_city,
-        pr.phs_district,
-        pr.phs_village,
         pr.kodepos,
         pr.alamatlengkap,
-        pr.namakota,
         pr.alamatemail,
         pr.website,
         pr.fixedphone ,
         pr.namalengkap as namaprofile,
-        pr.lat,
-        pr.lng,
+
         dep.phs_id as phs_dep
     FROM
         ruangan_m AS kd
@@ -360,7 +353,7 @@ class PHSController extends ApiController
         LEFT JOIN departemen_m AS dep ON dep.ID = kd.objectdepartemenfk 
     WHERE
         -- kd.kdprofile = $kdProfile AND 
-        kd.statusenabled = 1
+        kd.statusenabled = true
         AND kd.ID = $request[id_ru]"))->first();
 
         // dd($q->phs_profile);
@@ -867,6 +860,7 @@ SELECT antrianpasiendiperiksa_t.norec FROM antrianpasiendiperiksa_t
                 $objetoRequest['data'] = null;
                 
                 $response2 =  $this->ihsTools($objetoRequest, true);
+                // dd($response2);
                 if ($response2->resourceType != 'OperationOutcome' && $response2->resourceType == 'Bundle'  &&  $response2->total != 0) {
                     $id_IHS = null;
                     foreach ($response2->entry  as $dd) {

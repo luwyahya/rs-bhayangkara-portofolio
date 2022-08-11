@@ -2156,7 +2156,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     $catatan = $catatan . ' Pasien ini belum pernah daftar di aplikasi TM';
                 }
             }
-
+            
             if ($r_NewPD['norec_pd'] == '') {
                  $noRegistrasiSeq = $this->generateCodeBySeqTable(new PasienDaftar, 'noregistrasi', 10, date('ym'));
                 if ($noRegistrasiSeq == '') {
@@ -2312,7 +2312,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             //endregion
             //region Save AntrianPasienDiperiksa
 
-
+            $rua =  Ruangan::where('id', $dataPD->objectruanganlastfk)->first();
             if ($r_NewAPD['norec_apd'] == '') {
                 if ($isRawatInap == 'true') {
                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
@@ -2877,13 +2877,14 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         } else if ($transStatus == 'true') {
             $transMessage = 'SUKSES';
             DB::commit();
-            //            $cek = DB::table('pasiendaftar_t')->where('noregistrasi',$dataPD->noregistrasi)->get();
-            //            if (count($cek) > 1){
-            //                $noRegistrasis = $this->generateNoReg(new PasienDaftar, 'noregistrasi', 10, date('ym'));
-            //                PasienDaftar::where('norec', $dataPD->norec)->update([
-            //                        'noregistrasi' => $noRegistrasis]
-            //                );
-            //            }
+           if($rua->objectdepartemenfk!=3){
+                if($dataPD->objectruanganlastfk !='251' && $dataPD->objectruanganlastfk != '453' && $dataPD->objectruanganlastfk != '20'
+                && $dataPD->objectruanganlastfk != '322' && $dataPD->objectruanganlastfk != '12'){
+                    $objetoRequest = new \Illuminate\Http\Request();
+                    $objetoRequest ['noregistrasi']= $dataPD->noregistrasi;
+                    $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
+                }
+            }
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
@@ -2894,6 +2895,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 // 'updateWaktuTask2'=>$updateWaktuTask2,
                 'kirimMjk' =>$kirimMjk,
                 //                "double" => count($cek),
+                'ihs'=> isset($ihs)? $ihs :null,
                 'as' => 'ramdanegie',
             );
         } else {
@@ -11221,6 +11223,13 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'idLoginUser' => $dataLogin['userData']['id'],
             )
         );
+        $dataNoregistrasi = DB::select(
+            DB::raw("select pd.noregistrasi from pasiendaftar_t as pd
+                where pd.norec=:norecPD"),
+            array(
+                'norecPD' => $request['norec'],
+            )
+        );
         $transStatus = 'true';
         try {
             if ($request['norec_br'] == '') {
@@ -11288,6 +11297,9 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         if ($transStatus != 'false') {
             DB::commit();
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest ['noregistrasi']= $dataNoregistrasi[0]->noregistrasi;
+            $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
             $result = array(
                 "status" => 201,
                 "message" => $transMessage,
@@ -13504,6 +13516,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
     {
 
         DB::beginTransaction();
+        $newPD =  PasienDaftar::where('noregistrasi', $request['noRecPasienDaftar'])->first();
         $cekUdahDaftar = PasienDaftar::where('nocmfk', $request['pasien']['id'])
             ->wherenull('tglpulang')
             ->count();
@@ -13651,6 +13664,9 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         if ($transStatus == 'true') {
             $transMessage = "SUCCESS";
             DB::commit();
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest ['noregistrasi']= $newPD['noregistrasi'];
+            $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
