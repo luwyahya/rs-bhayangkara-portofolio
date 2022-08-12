@@ -475,7 +475,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
                                     "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD", "pembayaran"],
-                                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", pegawai, noTransaksi.toString(), spjgn.data[0].keterangan.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString(), untukPembayaran.toString()],
+                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", pegawai, noTransaksi.toString(), spjgn.data[0].keterangan.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString(), untukPembayaran.toString()],
                                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                                 };
                             } else {
@@ -484,7 +484,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
                                     "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD"],
-                                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", pegawai, noTransaksi.toString(), spjgn.data[0].keterangan.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString()],
+                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", pegawai, noTransaksi.toString(), spjgn.data[0].keterangan.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString()],
                                     "paramType": ["", "", "", "", "", "", "", "", "", "", ""]
                                 };
                             }
@@ -494,7 +494,7 @@ define(['initialize'], function (initialize) {
                             var data = {
                                 "gambarLogo": "logodokkes.jpg",
                                 "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD"],
-                                "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", pegawai, noTransaksi.toString(), spjgn.data[0].namapasien_klien.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString()],
+                                "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", pegawai, noTransaksi.toString(), spjgn.data[0].namapasien_klien.toString(), totalUang.toString(), terbilang.toString(), spjgn.data[0].noSbm.toString(), spjgn.data[0].namaPenerima.toString(), spjgn.data[0].keterangan.toString(), keteranganD.toString()],
                                 "paramType": ["", "", "", "", "", "", "", "", "", "", ""]
                             };
                         }

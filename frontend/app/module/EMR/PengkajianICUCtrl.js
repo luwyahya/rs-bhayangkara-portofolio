@@ -5569,7 +5569,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         "gambarLogo": "logo_rs.jpg",
                         "paramKey": ["namaRS", "alamatRS", "norecemricu", "dataLoad", "namapasien", "noregistrasi", "umur", "sex", "jaminan", "kelas", "nocm", "golongandarah", "test"],
-                        "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", norec_Emr, arrPush,
+                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", norec_Emr, arrPush,
                             namapasien, noregistrasi, umur, sex, jaminan, kelas, nocm, golongandarah, base64
                         ],
                         "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]

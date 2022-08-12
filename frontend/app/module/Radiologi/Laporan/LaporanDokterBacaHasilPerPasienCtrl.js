@@ -1098,7 +1098,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176"],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211"],
                     "paramType": ["", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();

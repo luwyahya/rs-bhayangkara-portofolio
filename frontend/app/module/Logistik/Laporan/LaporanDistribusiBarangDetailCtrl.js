@@ -352,7 +352,7 @@ define(['initialize'], function (initialize) {
                     sheet.name = "Report";
 
                     var myHeaders = [{
-                        value: " RUMAH SAKIT UNIVERSITAS ANDALAS Jl. Raya Bogor, Kramat Jati, Jakarta Timur - 13510 Telp. 021-8465000 / 8090559",
+                        value: " RS BHAYANGKARA TK IV CIANJUR Jl. Raya Bogor, Kramat Jati, Jakarta Timur - 13510 Telp. 021-8465000 / 8090559",
                         // value: "Jl. Raya Bogor, Kramat Jati, Jakarta Timur - 13510 Telp. 021-8465000 / 8090559",
                         fontSize: 18,
                         textAlign: "center",
@@ -487,7 +487,7 @@ define(['initialize'], function (initialize) {
                         var data = {
                             "gambarLogo": "logo_rs.jpg",
                             "paramKey": ["namaRS", "alamatRS", "tglAwal", "tglAkhir", "grandTotal", "ruangan", "ruanganAsal", "terbilang"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",
                                 tglAwal, tglAkhir, totalUang, tempRuanganId, tempRuanganIdAsal, terbilang
                             ],
                             "paramType": ["", "", "", "", "", "", "", ""]

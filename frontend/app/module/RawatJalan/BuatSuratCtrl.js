@@ -536,7 +536,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         "paramKey": ["namaPasien", "jenisKelamin", "alamat", "umur", "norechpm", "tglcetak", "tahun", "hasillab1"],
                         // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                         "paramValue": [$scope.item.namapasien, $scope.item.jeniskelamin, $scope.item.alamat, $scope.item.umur, norec, tanggal, tahun, hasillab],
-                        // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                        // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                         // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                         "paramType": ["", "", "", "", "", "", "", ""]
                         // ,"","","date","","","","","","","","","","","","",""]
@@ -659,7 +659,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         "paramKey": ["namaPasien", "jenisKelamin", "alamat", "umur", "norechpm", "tglcetak", "tahun", "hasillab1"],
                         // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                         "paramValue": [$scope.item.namapasien, $scope.item.jeniskelamin, $scope.item.alamat, $scope.item.umur, norec, tanggal, tahun, hasillab],
-                        // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                        // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                         // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                         "paramType": ["", "", "", "", "", "", "", ""]
                         // ,"","","date","","","","","","","","","","","","",""]
@@ -807,7 +807,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "paramKey": ["namaPasien", "jenisKelamin", "alamat", "umur", "tglcetak", "norec", "tglregistrasi", "tahun"],
                     // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                     "paramValue": [$scope.item.namapasien, $scope.item.jeniskelamin, $scope.item.alamat, $scope.item.umur, tanggal, norec, tglregistrasi, tahun],
-                    // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                    // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", "", "", "", ""]
                     // ,"","","date","","","","","","","","","","","","",""]

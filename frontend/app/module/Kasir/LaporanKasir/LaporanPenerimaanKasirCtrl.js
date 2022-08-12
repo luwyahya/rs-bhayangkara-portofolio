@@ -401,7 +401,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", $scope.dataLogin.namaLengkap, kondisi],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.dataLogin.namaLengkap, kondisi],
                     "paramType": ["", "date", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();

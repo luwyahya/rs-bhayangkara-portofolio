@@ -283,7 +283,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -349,7 +349,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "poto", "poto2", "poto3", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.cc.nocm, base64, base642, base643, nomorEMR, arrPush],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, base642, base643, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -406,7 +406,7 @@ define(['initialize'], function (initialize) {
                     { "id": 1119, "nama": "Permintaan visumet Reprtum ", "type": "textbox" },
                     { "id": 1120, "nama": "2. Pemeriksaan dulakukan oleh ", "type": "textbox" },
                     { "id": 1121, "nama": "Dokter pada ", "type": "textbox" },
-                    { "id": 1122, "nama": "RUMAH SAKIT UNIVERSITAS ANDALAS R.Said Sukanto Kramat Jati Jakarta atas nama: :", "type": "captionfull" },
+                    { "id": 1122, "nama": "RS BHAYANGKARA TK IV CIANJUR R.Said Sukanto Kramat Jati Jakarta atas nama: :", "type": "captionfull" },
                     { "id": 1123, "nama": "nama ", "type": "textbox" },
                     { "id": 1124, "nama": "Jenis Kelamin ", "type": "textbox" },
                     { "id": 1125, "nama": "Umur ", "type": "textbox" },

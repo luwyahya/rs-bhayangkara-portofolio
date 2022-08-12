@@ -673,7 +673,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "norm", "umur", "jeniskelamin", "namapasien", "test", "nomorEMR", "dataLoad", "namaruangan", "tglregistrasi", "tglsekarang"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush, $scope.cc.namaruangan, $scope.cc.tglregistrasi, $scope.now],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush, $scope.cc.namaruangan, $scope.cc.tglregistrasi, $scope.now],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -743,7 +743,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();

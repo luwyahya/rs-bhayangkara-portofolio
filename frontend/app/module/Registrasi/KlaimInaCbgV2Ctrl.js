@@ -1460,7 +1460,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "norec"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", dataPasienSelected.norec_resep],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataPasienSelected.norec_resep],
                     "paramType": ["", "date", "", ""]
                 };
 
@@ -2336,14 +2336,14 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 //     "gambarLogo": "logodokkes.jpg",
 
                 //     "paramKey": ["namaRS","tgllahir","alamatRS","printedBy","nocm","test","nomorEMR","dataLoad"],
-                //     "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",user.namaLengkap,$scope.dataPasienSelected.noregistrasi,base64,$scope.dataPasienSelected.emrigd,arrPush],
+                //     "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",user.namaLengkap,$scope.dataPasienSelected.noregistrasi,base64,$scope.dataPasienSelected.emrigd,arrPush],
                 //     "paramType" : ["","","","","","","",""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 // };
 
                 let data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printBy", "namaPasien", "noemr_cpt", "norm", "jenisKelamin", "umur", "ruangan", "noregistrasi", "noemr_cppt", "noemr_igd", "base64_emrIgd", "arrPush_emrIgd"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, namaPasien, noemr_cpt, norm, jenisKelamin, umur, ruangan, noregistrasi, noemr_cppt, noemr_igd, base64_emrIgd, arrPush_emrIgd],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, namaPasien, noemr_cpt, norm, jenisKelamin, umur, ruangan, noregistrasi, noemr_cppt, noemr_igd, base64_emrIgd, arrPush_emrIgd],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
 
@@ -2502,7 +2502,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "gambarLogo": "logodokkes.jpg",
 
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.dataPasienSelected.noregistrasi, base64, $scope.dataPasienSelected.emrigd, arrPush],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.dataPasienSelected.noregistrasi, base64, $scope.dataPasienSelected.emrigd, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -3059,7 +3059,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "umur", "norec", "nopa", "dokLu", "top", "mof"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", umur,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", umur,
                                 norecPA, nopa, dokLu, top, mof
                             ],
                             "paramType": ["", "", "", "date", "", "", "", "", "", "", ""]
@@ -3620,7 +3620,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap,
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
                         x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
                     ],
                     "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -3745,7 +3745,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                        "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap,
+                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
                             x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
                         ],
                         "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -3936,7 +3936,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, dat.data.noRegistrasi,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, dat.data.noRegistrasi,
                                 dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -4088,7 +4088,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 // 			var data = {
                 // 				"gambarLogo": "logodokkes.jpg",
                 // 				"paramKey": ["namaRS", "tgllahir","alamatRS","printedBy","noregistrasi","nocm","namapasien","lastruangan","namakamar","kelas","jmlbiaya","deposit","sisa","isi","terbilang","bayar","nosep"],
-                // 				"paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",e.data[0].namalengkap,$scope.dataPasienSelected.noregistrasi,
+                // 				"paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",e.data[0].namalengkap,$scope.dataPasienSelected.noregistrasi,
                 // 						$scope.dataPasienSelected.nocm,$scope.dataPasienSelected.namapasien,$scope.dataPasienSelected.namaruangan,$scope.dataPasienSelected.tarif_rs.namakamar,kelas,billing,deposit,sisa,$scope.dataPasienSelected.tarif_rs.isi,$scope.dataPasienSelected.tarif_rs.terbilang,bayar,nosep],
                 // 				"paramType" : ["","date","","","","","","","","","","","","","","",""]
                 // 			};
@@ -4258,7 +4258,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 // 	var data = {
                 // 		"gambarLogo": "logodokkes.jpg",
                 // 		"paramKey": ["namaRS", "tgllahirRS","alamatRS","noregistrasi","nocm","namapasien","namaruangan","jeniskelamin","tgllahir","tglregistrasi","tglpulang","kelompokpasien","diagnosisawal","alergi","hasillab","diet","instruksianjuran","kondisiwaktukeluar","pengobatandilanjutkan","tglkontrolpoli","ringkasanriwayatpenyakit","pemeriksaanfisik","pemeriksaanpenunjang","alasanrawat","kondisiklinis","terapi","hasilkonsultasi","norec","namadiagnosaprimary","kddiagnosaprimary","namadiagnosasecondary","kddiagnosasecondary","namadiagnosatindakan","kddiagnosatindakan","qrcodedokter","qrcodepasien"],
-                // 		"paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",$scope.dataPasienSelected.noregistrasi,
+                // 		"paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",$scope.dataPasienSelected.noregistrasi,
                 // 				$scope.dataPasienSelected.nocm,$scope.dataPasienSelected.namapasien,$scope.dataPasienSelected.namaruangan,dataItem.jeniskelamin,dataItem.tgllahir,dataItem.tglregistrasi,dataItem.tglpulang,dataItem.kelompokpasien,dataItem.diagnosisawal,dataItem.alergi,dataItem.hasillab,dataItem.diet,dataItem.instruksianjuran,dataItem.kondisiwaktukeluar,dataItem.pengobatandilanjutkan,dataItem.tglkontrolpoli,dataItem.ringkasanriwayatpenyakit,dataItem.pemeriksaanfisik,dataItem.pemeriksaanpenunjang,dataItem.alasanrawat,dataItem.kondisiklinis,dataItem.terapi,dataItem.hasilkonsultasi,dataItem.norec,dataItem.namadiagnosaprimary,dataItem.kddiagnosaprimary,dataItem.namadiagnosasecondary,dataItem.kddiagnosasecondary,dataItem.namadiagnosatindakan,dataItem.kddiagnosatindakan,qrcodedokter,qrcodepasien],
                 // 		"paramType" : ["","date","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","",""]
                 // 	};
@@ -4274,7 +4274,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahirRS", "alamatRS", "noregistrasi", "nocm", "namapasien", "namaruangan", "jeniskelamin", "tgllahir", "tglregistrasi", "tglpulang", "kelompokpasien", "diagnosisawal", "alergi", "hasillab", "diet", "instruksianjuran", "kondisiwaktukeluar", "pengobatandilanjutkan", "tglkontrolpoli", "ringkasanriwayatpenyakit", "pemeriksaanfisik", "pemeriksaanpenunjang", "alasanrawat", "kondisiklinis", "terapi", "hasilkonsultasi", "norec", "namadiagnosaprimary", "kddiagnosaprimary", "namadiagnosasecondary", "kddiagnosasecondary", "namadiagnosatindakan", "kddiagnosatindakan", "qrcodedokter", "qrcodepasien", "namadokter", "obatobat", "tglresume", "noresep"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", dataItem.noregistrasi,
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataItem.noregistrasi,
                         dataItem.nocm, dataItem.namapasien, dataItem.namaruangan, dataItem.jeniskelamin, dataItem.tgllahir, dataItem.tglregistrasi, dataItem.tglpulang, dataItem.kelompokpasien, dataItem.diagnosisawal, dataItem.alergi, dataItem.hasillab, dataItem.diet, dataItem.instruksianjuran, dataItem.kondisiwaktukeluar, dataItem.pengobatandilanjutkan, dataItem.tglkontrolpoli, dataItem.ringkasanriwayatpenyakit, dataItem.pemeriksaanfisik, dataItem.pemeriksaanpenunjangaddlab, dataItem.alasanrawat, dataItem.kondisiklinis, dataItem.terapi, dataItem.hasillab, dataItem.norec, dataItem.namadiagnosaprimary, dataItem.kddiagnosaprimary, dataItem.namadiagnosasecondary, dataItem.kddiagnosasecondary, dataItem.namadiagnosatindakan, dataItem.kddiagnosatindakan, qrcodedokter, qrcodepasien, namadokter, dataItem.obatobat, tglresume, noresep
                     ],
                     "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -4465,7 +4465,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap,
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
                         x, umur, $scope.dataPasienSelected.objectjeniskelaminfk, tgl, tglhasil, dokter.namalengkap, ruangan, y, diagnosa.toString(), dokterPeriksa.toString(), catatan
                     ],
                     "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -4609,7 +4609,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logo_rs.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", namauser, noreg,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noreg,
                                 ruanganLast, total, kelas, namakamar
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", ""]
@@ -4705,7 +4705,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap.toString(), $scope.dataPasienSelected.noregistrasi,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap.toString(), $scope.dataPasienSelected.noregistrasi,
                                 dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, x
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]

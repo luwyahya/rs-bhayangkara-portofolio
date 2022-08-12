@@ -693,7 +693,7 @@ define(['initialize'], function (initialize) {
                                     var data = {
                                         "gambarLogo": "logo_rs.jpg",
                                         "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar", "norec", "totalAkhir", "discount", "umur"],
-                                        "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", namauser, noregistrasi,
+                                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noregistrasi,
                                             ruangan, total, kelas, namakamar, norecobat, totalBayar, totalDiscount, umur
                                         ],
                                         "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", ""]
@@ -759,7 +759,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logo_rs.jpg",
                                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar"],
-                                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", namauser, noregistrasi,
+                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noregistrasi,
                                         ruanganLast, total, kelas, namakamar
                                     ],
                                     "paramType": ["", "date", "", "", "", "", "", "", ""]

@@ -180,7 +180,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logo_rs.jpg",
                     "paramKey": ["namaRS", "alamatRS", "printedBy", "nofaktur"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",
                         pegawaiUser.userData.namauser, $scope.dataSelected.nofaktur
                     ],
                     "paramType": ["", "", "", "", ""]

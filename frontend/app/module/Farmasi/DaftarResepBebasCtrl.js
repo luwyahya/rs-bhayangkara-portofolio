@@ -358,7 +358,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRS", "alamatRS", "norec", "total", "totalAkhir", "discount", "printedBy"],
-                        "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",
+                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",
                             $scope.dataSelected.norec.toString(), total, totalBayar, totalDiscount, namauser
                         ],
                         "paramType": ["", "", "", "", "", "", ""]
@@ -434,7 +434,7 @@ define(['initialize'], function (initialize) {
             //                 var data = {
             //                     "gambarLogo": "logo_rs.jpg",
             //                     "paramKey": ["namaRS", "tgllahir","alamatRS","printedBy","noregistrasi","lastruangan","total","kelas","namakamar","norec","totalAkhir","discount","umur"],
-            //                     "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",namauser,$scope.item.noregistrasi,
+            //                     "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",namauser,$scope.item.noregistrasi,
             //                     ruanganLast,total,kelas,namakamar,$scope.dataSelected.norec.tostring(),totalBayar,totalDiscount,umur],
             //                     "paramType" : ["","date","","","","","","","","","","",""]
             //                 };

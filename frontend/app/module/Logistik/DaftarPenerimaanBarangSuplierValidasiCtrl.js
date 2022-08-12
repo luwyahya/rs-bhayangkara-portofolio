@@ -93,7 +93,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logo_rs.jpg",
                     "paramKey": ["namaRS", "alamatRS", "nobukti", "supplier", "catatan", "notukarfaktur", "grandtotal"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176 Telp. 021-8465000 / 8090559", nobukti.toString(), $scope.dataSelected11.namarekanan.toString(), catatan.toString(), $scope.dataSelected11.notukarfaktur.toString(), bayar.toString()],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211 Telp. 021-8465000 / 8090559", nobukti.toString(), $scope.dataSelected11.namarekanan.toString(), catatan.toString(), $scope.dataSelected11.notukarfaktur.toString(), bayar.toString()],
                     "paramType": ["", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -149,7 +149,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logo_rs.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176 Telp. 021-8465000 / 8090559", tglAwal.toString(), tglAkhir.toString()],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211 Telp. 021-8465000 / 8090559", tglAwal.toString(), tglAkhir.toString()],
                     "paramType": ["", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -203,7 +203,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logo_rs.jpg",
                     "paramKey": ["namaRS", "alamatRS", "nobukti", "supplier", "catatan", "notukarfaktur", "grandtotal"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176 Telp. 021-8465000 / 8090559", nobukti.toString(), $scope.dataSelected11.namarekanan.toString(), catatan.toString(), $scope.dataSelected11.notukarfaktur.toString(), bayar.toString()],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211 Telp. 021-8465000 / 8090559", nobukti.toString(), $scope.dataSelected11.namarekanan.toString(), catatan.toString(), $scope.dataSelected11.notukarfaktur.toString(), bayar.toString()],
                     "paramType": ["", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();

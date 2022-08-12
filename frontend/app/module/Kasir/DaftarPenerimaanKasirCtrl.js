@@ -883,7 +883,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
                                     "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD", "pembayaran"],
-                                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.keterangan.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString(), untukPembayaran.toString()],
+                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.keterangan.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString(), untukPembayaran.toString()],
                                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                                 };
                             } else {
@@ -892,7 +892,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
                                     "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD"],
-                                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.keterangan.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString()],
+                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.keterangan.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString()],
                                     "paramType": ["", "", "", "", "", "", "", "", "", "", ""]
                                 };
                             }
@@ -902,7 +902,7 @@ define(['initialize'], function (initialize) {
                             var data = {
                                 "gambarLogo": "logodokkes.jpg",
                                 "paramKey": ["namaRS", "alamatRS", "printedBy", "noRegistrasi", "terimaDari", "nominal", "terbilang", "noKwitansi", "petugas", "tujuan", "keteranganD"],
-                                "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.namapasien_klien.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString()],
+                                "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.pegawai.namaLengkap.toString(), noTransaksi.toString(), $scope.dataSbnSelected.namapasien_klien.toString(), totalUang.toString(), terbilang.toString(), $scope.dataSbnSelected.noSbm.toString(), $scope.dataSbnSelected.namaPenerima.toString(), $scope.dataSbnSelected.keterangan.toString(), keteranganD.toString()],
                                 "paramType": ["", "", "", "", "", "", "", "", "", "", ""]
                             };
                         }
@@ -1422,7 +1422,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(), tglAkhir.toString(), x.toString(), y.toString(), kondisi],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal.toString(), tglAkhir.toString(), x.toString(), y.toString(), kondisi],
                     "paramType": ["", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -1539,7 +1539,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "listKasir", "Sins", "idRuangan", "kondisi", "listKasirnama"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(),
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal.toString(),
                         tglAkhir.toString(), x.toString(), y.toString(), listKasir.toString(), Sins, ruanganId, kondisi, listKasirnama
                     ],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", ""]
@@ -1652,7 +1652,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "listKasir", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal,
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal,
                         tglAkhir, x.toString(), y.toString(), listKasir.toString(), kondisi.toString()
                     ],
                     "paramType": ["", "", "", "", "", "", "", ""]
@@ -1762,7 +1762,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "listKasir", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(),
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal.toString(),
                         tglAkhir.toString(), x.toString(), y.toString(), listKasir.toString(), kondisi
                     ],
                     "paramType": ["", "", "", "", "", "", "", ""]
@@ -1872,7 +1872,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "listKasir", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(),
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal.toString(),
                         tglAkhir.toString(), x.toString(), y.toString(), listKasir.toString(), kondisi
                     ],
                     "paramType": ["", "", "", "", "", "", "", ""]
@@ -1982,7 +1982,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir", "x", "y", "listKasir", "kondisi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(),
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", tglAwal.toString(),
                         tglAkhir.toString(), x.toString(), y.toString(), listKasir.toString(), kondisi
                     ],
                     "paramType": ["", "", "", "", "", "", "", ""]
@@ -2076,7 +2076,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", user.namaLengkap, $scope.item.noregistrasi],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.item.noregistrasi],
                     "paramType": ["", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();

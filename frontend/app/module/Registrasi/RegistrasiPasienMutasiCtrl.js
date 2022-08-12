@@ -275,7 +275,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "noregistrasi", "pegawai"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", noRegistrasis, pegawai.namaLengkap], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", noRegistrasis, pegawai.namaLengkap], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                     "paramType": ["", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -1712,9 +1712,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "nocms", "noregistrasi", "jk", "norecapd", "umur", "dirawat", "kunjungan"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS",
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR",
                         "1980-12-25 00:00:00",
-                        "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", $scope.item.pasien.nocm, noRegistrasis, $scope.item.pasien.jeniskelamin, $scope.model.norec_apd, $scope.item.pasien.umur, dirawat.toString(), kunjungan.toString()
+                        "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.item.pasien.nocm, noRegistrasis, $scope.item.pasien.jeniskelamin, $scope.model.norec_apd, $scope.item.pasien.umur, dirawat.toString(), kunjungan.toString()
                     ], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                     "paramType": ["", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };

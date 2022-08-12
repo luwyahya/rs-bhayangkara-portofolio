@@ -245,7 +245,7 @@ define(['initialize'], function (initialize) {
                     "paramKey": ["jumlah", "personil", "tanggal", "bulan", "tahun"],
                     // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                     "paramValue": [jumlah, personil, tanggal, bulan, tahun],
-                    // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                    // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", ""]
                     // ,"","","date","","","","","","","","","","","","",""]
@@ -371,7 +371,7 @@ define(['initialize'], function (initialize) {
                     "paramKey": ["ruangan", "jumlah", "tanggal", "idruangan", "bulan", "tahun"],
                     // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                     "paramValue": [$scope.item.ruangan.namaruangan.toString(), jumlah, tanggal, idruangan, bulan, tahun],
-                    // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                    // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", "", ""]
                     // ,"","","date","","","","","","","","","","","","",""]
@@ -496,7 +496,7 @@ define(['initialize'], function (initialize) {
                     "paramKey": ["jumlah", "tanggal", "idkelompokjabatan", "bulan", "tahun"],
                     // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
                     "paramValue": [jumlah, tanggal, idkelompokjabatan, bulan, tahun],
-                    // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
+                    // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", ""]
                     // ,"","","date","","","","","","","","","","","","",""]

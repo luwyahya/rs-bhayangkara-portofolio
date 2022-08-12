@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('PengkajianAwalMedisPasienCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService) {
+        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService) {
             var isNotClick = true;
             $scope.item = {}
             loadData()
@@ -46,18 +46,18 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.showPopUp = function() {
-                    $scope.popUpUpload.center().open()
-                }
-                // $(document).ready(function(){
-                //     $('.profile_img').hover(function() {
-                //         $(this).addClass('transisi');
-                //     }, function() {
-                //         $(this).removeClass('transisi');
-                //     });
-                // });
+            $scope.showPopUp = function () {
+                $scope.popUpUpload.center().open()
+            }
+            // $(document).ready(function(){
+            //     $('.profile_img').hover(function() {
+            //         $(this).addClass('transisi');
+            //     }, function() {
+            //         $(this).removeClass('transisi');
+            //     });
+            // });
 
-            $scope.UploadPhoto = function() {
+            $scope.UploadPhoto = function () {
                 if ($scope.urlImage != undefined) {
                     // saveImageToDirsaveImageToDir($scope.urlImage,'0182781')
                     $scope.item.image = $scope.urlImage
@@ -68,7 +68,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.UploadPhoto = function() {
+            $scope.UploadPhoto = function () {
                 if ($scope.urlImage != undefined) {
                     // saveImageToDirsaveImageToDir($scope.urlImage,'0182781')
                     $scope.item.image = $scope.urlImage
@@ -79,7 +79,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.TutupPopUp = function() {
+            $scope.TutupPopUp = function () {
 
                 if ($scope.urlImage != undefined)
                     $scope.item.image = "../app/images/svg/no-image.svg"
@@ -97,7 +97,7 @@ define(['initialize'], function(initialize) {
                     autoUpload: false
                 },
                 multiple: false,
-                select: function(e) {
+                select: function (e) {
                     var ALLOWED_EXTENSIONS = [".jpeg", ".jpg", ".png"];
                     var extension = e.files[0].extension.toLowerCase();
                     if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
@@ -109,7 +109,7 @@ define(['initialize'], function(initialize) {
                     var wrapper = this.wrapper;
                     // debugger
                     $scope.ImageUrlData = wrapper.context.value;
-                    setTimeout(function() {
+                    setTimeout(function () {
                         addPreview(fileInfo, wrapper);
                         compress(e);
 
@@ -121,7 +121,7 @@ define(['initialize'], function(initialize) {
                 var raw = file.rawFile;
                 var reader = new FileReader();
                 if (raw) {
-                    reader.onloadend = function() {
+                    reader.onloadend = function () {
                         var preview = $("<img class='img-responsive'>").attr("src", this.result);
                         wrapper.find(".k-file[data-uid='" + file.uid + "'] .k-file-extension-wrapper")
                             .replaceWith(preview);
@@ -142,29 +142,29 @@ define(['initialize'], function(initialize) {
                     var img = new Image();
                     img.src = event.target.result;
                     img.onload = () => {
-                            var elem = document.createElement('canvas');
-                            elem.width = img.width; //width;
-                            elem.height = img.height; //height;
-                            var ctx = elem.getContext('2d');
-                            // ctx.drawImage(img, 0, 0, width, height);                        
-                            ctx.drawImage(img, 0, 0, img.width, img.height);
-                            $scope.urlImage = ctx.canvas.toDataURL('image/jpeg', 1);
-                        },
+                        var elem = document.createElement('canvas');
+                        elem.width = img.width; //width;
+                        elem.height = img.height; //height;
+                        var ctx = elem.getContext('2d');
+                        // ctx.drawImage(img, 0, 0, width, height);                        
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        $scope.urlImage = ctx.canvas.toDataURL('image/jpeg', 1);
+                    },
                         reader.onerror = error => console.log(error);
                 };
             }
 
-            $scope.add = function() {
+            $scope.add = function () {
                 $scope.item = {}
                 $scope.item.image = "../app/images/svg/no-image.svg"
-                    // $scope.myVar = 1
+                // $scope.myVar = 1
             }
 
-            medifirstService.getPart('emr/get-datacombo-part-diagnosa', true, true, 20).then(function(data) {
+            medifirstService.getPart('emr/get-datacombo-part-diagnosa', true, true, 20).then(function (data) {
                 $scope.listDiagnosa = data
             })
 
-            medifirstService.getPart('emr/get-datacombo-part-dokter', true, true, 20).then(function(data) {
+            medifirstService.getPart('emr/get-datacombo-part-dokter', true, true, 20).then(function (data) {
                 $scope.listPegawai = data
             })
 
@@ -201,11 +201,11 @@ define(['initialize'], function(initialize) {
             if (chacePeriode != undefined) {
                 nomorEMR = chacePeriode[0]
                 $scope.cc.norec_emr = nomorEMR
-                    // medifirstService.get("emr/get-info-emr-pasien?noregistrasi=" + $scope.cc.noregistrasi, true).then(function (a) {
-                    //     $scope.cc.notelepon = a.data.data[0].notelepon
-                    //     $scope.item.obj[80914]=$scope.cc.notelepon
-                    // });
-                medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function(dat) {
+                // medifirstService.get("emr/get-info-emr-pasien?noregistrasi=" + $scope.cc.noregistrasi, true).then(function (a) {
+                //     $scope.cc.notelepon = a.data.data[0].notelepon
+                //     $scope.item.obj[80914]=$scope.cc.notelepon
+                // });
+                medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
 
                     // $scope.item.obj[80909]=$scope.now
                     // $scope.item.obj[80906]=$scope.cc.norec_emr
@@ -215,10 +215,10 @@ define(['initialize'], function(initialize) {
                     // $scope.item.obj[80911]=$scope.cc.umur
                     // $scope.item.obj[80913]=$scope.cc.alamat
                     setData(dat.data.data)
-                        // dataLoad = dat.data.data   
+                    // dataLoad = dat.data.data   
                 })
 
-                medifirstService.get("emr/get-emr-transaksi-detail-polri-umum?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function(dat) {
+                medifirstService.get("emr/get-emr-transaksi-detail-polri-umum?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
                     setData(dat.data.data)
                 })
             }
@@ -235,10 +235,10 @@ define(['initialize'], function(initialize) {
                                 chekedd = true
                             }
                             $scope.item.obj[dataLoad[i].emrdfk] = chekedd
-                                // if (dataLoad[i].emrdfk >= 3122 && dataLoad[i].emrdfk <= 3148) {
-                                //     var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
-                                //     $scope.getSkor2(datass)
-                                // }
+                            // if (dataLoad[i].emrdfk >= 3122 && dataLoad[i].emrdfk <= 3148) {
+                            //     var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
+                            //     $scope.getSkor2(datass)
+                            // }
                             if (dataLoad[i].reportdisplay != null) {
                                 var datass = { id: dataLoad[i].emrdfk, skor: dataLoad[i].reportdisplay }
                                 $scope.getSkor(datass)
@@ -279,11 +279,11 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 $rootScope.showRiwayat()
             }
 
-            $scope.Save = function() {
+            $scope.Save = function () {
 
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
@@ -301,14 +301,14 @@ define(['initialize'], function(initialize) {
                     data: arrSave,
                     image: $scope.item.image != undefined && $scope.item.image != "../app/images/svg/no-image.svg" ? $scope.item.image : null
                 }
-                medifirstService.post('emr/save-emr-dinamis-new', jsonSave).then(function(e) {
+                medifirstService.post('emr/save-emr-dinamis-new', jsonSave).then(function (e) {
                     // $state.go("RekamMedis.OrderJadwalBedah.ProsedurKeselamatan", {
                     //     namaEMR : $scope.cc.emrfk,
                     //     nomorEMR : e.data.data.noemr 
                     medifirstService.postLogging('TMS', 'norec emrpasien_t', e.data.data.norec,
-                            'Lembar Hasil Tindakan Uji Fungsi Prosedur KFR ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
-                            $scope.cc.noregistrasi).then(function(res) {})
-                        // });
+                        'Lembar Hasil Tindakan Uji Fungsi Prosedur KFR ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
+                        $scope.cc.noregistrasi).then(function (res) { })
+                    // });
 
                     var arrStr = {
                         0: e.data.data.noemr
@@ -319,7 +319,7 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.cetakPdf = function() {
+            $scope.cetakPdf = function () {
 
                 debugger
                 // var signature = $scope.modelGrid.signature.substring(22);
@@ -334,14 +334,14 @@ define(['initialize'], function(initialize) {
                     "gambarLogo": "logodokkes.jpg",
                     "gambarTtd": "logodokkes.jpg",
                     "paramKey": ["gambarTtd", "namaRS", "tgllahirRS", "alamatRS", "noregistrasi", "nocm", "namapasien", "namaruangan", "jeniskelamin", "tgllahir", "1238", "1239", "1240", "1241", "1242", "1243", "1244", "1245", "1246", "1247", "1248", "1249", "1250", "1251", "1252", "1253", "1254", "1255", "1256", "1257", "1258", "1168", "1169", "1170", "1172", "1173", "1174", "1175"],
-                    "paramValue": ["logodokkes.jpg", "RUMAH SAKIT UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Jl. Raya Bogor No.1, RT.1/RW.5, Kramat Jati, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13510", $scope.cc.noregistrasi,
+                    "paramValue": ["logodokkes.jpg", "RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Raya Bogor No.1, RT.1/RW.5, Kramat Jati, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13510", $scope.cc.noregistrasi,
                         $scope.cc.nocm, $scope.cc.namapasien, $scope.cc.namaruangan, $scope.cc.jeniskelamin, $scope.cc.tgllahir, $scope.item.obj[1238], $scope.item.obj[1239], $scope.item.obj[1240], $scope.item.obj[1241], $scope.item.obj[1242], $scope.item.obj[1243], $scope.item.obj[1244], $scope.item.obj[1245], $scope.item.obj[1246], $scope.item.obj[1247], $scope.item.obj[1248], $scope.item.obj[1249], $scope.item.obj[1250], $scope.item.obj[1251], $scope.item.obj[1252], $scope.item.obj[1253], $scope.item.obj[1254], $scope.item.obj[1255], $scope.item.obj[1256], $scope.item.obj[1257].text, $scope.item.obj[1258].text, $scope.item.obj[1168].text, $scope.item.obj[1169], $scope.item.obj[1170], $scope.item.obj[1172], $scope.item.obj[1173], $scope.item.obj[1174], $scope.item.obj[1175]
                     ],
                     "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         console.log(this.response, typeof this.response);
                         var url = window.URL.createObjectURL(this.response)

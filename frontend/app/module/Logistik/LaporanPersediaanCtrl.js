@@ -304,7 +304,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglAwal", "tglAkhir", "objectruanganfk", "instalasi", "penjamin"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS".toString(), "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176".toString(), tglAwal, tglAkhir, ruanganPilih.toString(), departpilih.toString(), penjaminpilih.toString()],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR".toString(), "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211".toString(), tglAwal, tglAkhir, ruanganPilih.toString(), departpilih.toString(), penjaminpilih.toString()],
                     "paramType": ["", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -590,7 +590,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "objectruanganfk", "tglawal", "tglakhir", "x", "y", "kondisi", "namaruangan", "kondisi2", "kondisi3"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", ruanganPilih, tglAwal.toString(), tglAkhir.toString(), x.toString(), y.toString(), kondisi, namaruangan, kondisi2, kondisi3],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", ruanganPilih, tglAwal.toString(), tglAkhir.toString(), x.toString(), y.toString(), kondisi, namaruangan, kondisi2, kondisi3],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -682,7 +682,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "objectruanganfk", "instalasi", "penjamin", "rekanan", "tglawal", "tglakhir"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", ruanganPilih, departpilih.toString(), penjaminpilih.toString(), rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString()],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", ruanganPilih, departpilih.toString(), penjaminpilih.toString(), rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString()],
                     "paramType": ["", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
@@ -777,7 +777,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "objectruanganfk", "instalasi", "penjamin", "rekanan", "tglawal", "tglakhir", "kondisi", "kondisi2", "ruanganapotik"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", ruanganPilih, departpilih.toString(), penjaminpilih.toString(), rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString(), kondisi1, kondisi2, namaruanganPilih],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", ruanganPilih, departpilih.toString(), penjaminpilih.toString(), rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString(), kondisi1, kondisi2, namaruanganPilih],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();

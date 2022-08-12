@@ -216,7 +216,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "umur", "norec", "nopa", "dokLu", "top", "mof"],
-                    "paramValue": ["", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177", umur,
+                    "paramValue": ["", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177", umur,
                         norecPA, nopa, dokLu, top, mof
                     ],
                     "paramType": ["", "", "", "date", "", "", "", "", "", "", ""]
@@ -298,7 +298,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "norec"],
-                    "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "RUMAH SAKIT UNIVERSITAS ANDALAS", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176",
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211",
                         norecGDT],
                     "paramType": ["", "", "", "date", "", ""]
                 };
@@ -1581,7 +1581,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "alamatRS", "norec_pp", "terbilang", "pegawai", "total"],
-                            "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", norec_pp, terbilang, pegawai, total], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", norec_pp, terbilang, pegawai, total], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                             "paramType": ["", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                         };
                         debugger
@@ -2836,7 +2836,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             var data = {
                                 "gambarLogo": "logodokkes.jpg",
                                 "paramKey": ["namaRS", "alamatRS", "norec_pp", "terbilang", "pegawai", "total"],
-                                "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Jl. Raya Bogor No.1, RT.1/RW.5, Kramat Jati, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13510", norec_pp, terbilang, pegawai, total], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                                "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Raya Bogor No.1, RT.1/RW.5, Kramat Jati, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13510", norec_pp, terbilang, pegawai, total], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                                 "paramType": ["", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                             };
                             debugger
