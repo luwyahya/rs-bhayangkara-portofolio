@@ -874,7 +874,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
             ).subscribe(data => {
               if (data.metaData.code == "200") {
                 for (let i = 0; i < data.response.list.length; i++) {
-                  if (data.response.list[i].terbitSEP == 'Belum' && data.response.list[i].jnsKontrol == '2') {
+                  if (data.response.list[i].terbitSEP == 'Belum' && data.response.list[i].jnsKontrol == '2' && data.response.list[i].jnsPelayanan == 'Rawat Jalan') {
                     if (moment(new Date()).format('YYYY-MM-DD') == data.response.list[i].tglRencanaKontrol) {
                       this.isCekSuratKontrol = true
                       this.noSKDP = data.response.list[i].noSuratKontrol
@@ -1161,6 +1161,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     })
   }
   getHistoriPelayananPesesta1(noKartu) {
+
     this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + noKartu).subscribe(data => {
       if (data.metaData.code == 200) {
         this.listHistori = data.response.histori;
@@ -1169,7 +1170,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
             if (this.listHistori[i].jnsPelayanan == "1") {
               this.noPascaRanap = this.listHistori[i].noSep
               var a = {
-                'nama': "RS PUSAT POLRI SAID SUKANTO",
+                'nama': "RS BHAYANGKARA TK IV CIANJUR",
                 'kode': this.ppkPelayananRS
               }
               var b = {
@@ -1225,14 +1226,26 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
                   }
                 });
-
+              let noSepTerakhir = ''
+              let updateSurkon = ''
+              let updateSurkonDokter = ''
+              let updateSurkonKodePoli = ''
               this.httpService.get("medifirst2000/bridging/bpjs2/listsuratkontrol-berdasarkan/NoKartu/" + this.item.peserta.noKartu
               ).subscribe(data => {
                 for (let i = 0; i < data.response.list.length; i++) {
-                  if (moment(new Date()).format('YYYY-MM-DD') == data.response.list[i].tglRencanaKontrol) {
-                    this.isCekSuratKontrol = true
-                    this.noSKDP = data.response.list[i].noSuratKontrol
-                    break;
+                  if (data.response.list[i].terbitSEP == 'Belum' && data.response.list[i].jnsKontrol == '2' && data.response.list[i].jnsPelayanan == 'Rawat Inap') {
+                    if (moment(new Date()).format('YYYY-MM-DD') == data.response.list[i].tglRencanaKontrol) {
+                      this.isCekSuratKontrol = true
+                      this.noSKDP = data.response.list[i].noSuratKontrol
+                      break;
+                    } else {
+                      debugger
+                      updateSurkon = 'true'
+                      this.noSKDP = data.response.list[i].noSuratKontrol
+                      updateSurkonDokter = data.response.list[i].kodeDokter
+                      updateSurkonKodePoli = data.response.list[i].poliTujuan
+                      noSepTerakhir = data.response.list[i].noSepAsalKontrol
+                    }
                   }
                 }
                 if (this.isCekSuratKontrol == true) {
@@ -1250,6 +1263,39 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                       })
                     }
                   })
+                } else if (updateSurkon == 'true') {
+                  let dataSend = {
+                    "data": {
+                      "request": {
+                        "noSuratKontrol": this.noSKDP,
+                        "noSEP": noSepTerakhir,
+                        "kodeDokter": updateSurkonDokter,
+                        "poliKontrol": updateSurkonKodePoli,
+                        "tglRencanaKontrol": moment(new Date()).format('YYYY-MM-DD'),
+                        "user": 'trans'
+                      }
+                    }
+                  }
+                  this.httpService.update("medifirst2000/bridging/bpjs2/update-rencana-kontrol-v2", dataSend).subscribe(e => {
+                    if (e.metaData.code == 200) {
+                      this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + this.noSKDP
+                      ).subscribe(data => {
+                        if (data.metaData.code == 200) {
+                          this.test = data.response.namaDokter
+                          this.formGroup.get('dokterDPJPMelayani').setValue({
+                            "kode": data.response.kodeDokter,
+                            "nama": data.response.namaDokter
+                          })
+                          this.formGroup.get('dokterDPJP').setValue({
+                            "kode": data.response.kodeDokterPembuat,
+                            "nama": data.response.namaDokterPembuat
+                          })
+                        }
+                      })
+                    } else {
+                      alert(e.metaData.message)
+                    }
+                  });
                 } else {
                   this.alertService.info('Nomor Rujukan ' + this.item.noKunjungan + ' Tidak Mempunyai Surat Kontrol', 'Info')
                 }
