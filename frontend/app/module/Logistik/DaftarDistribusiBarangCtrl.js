@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarDistribusiBarangCtrl', ['$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($scope, $state, cacheHelper, dateHelper, medifirstService) {
+        function ($scope, $state, cacheHelper, dateHelper, medifirstService) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -31,7 +31,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.cetakJasper = function() {
+            $scope.cetakJasper = function () {
                 if ($scope.dataSelected == undefined) {
                     toastr.error('pilih Datanya Terlebihdahulu				 !')
                     return
@@ -46,7 +46,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -70,7 +70,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakBuktiTeransfer.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/cetakBuktiTeransfer.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakBuktiTeransfer.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakBuktiTeransfer.pdf');
@@ -93,21 +93,21 @@ define(['initialize'], function(initialize) {
             function loadCombo() {
                 $scope.listJenisKirim = [{ id: 1, jenis: 'Amprahan' }, { id: 2, jenis: 'Transfer' }]
                 $scope.dataLogin = medifirstService.getPegawaiLogin();
-                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function (data) {
                     $scope.listNamaBarang = data;
                 });
 
-                medifirstService.get("logistik/get-combo-logistik", true).then(function(dat) {
+                medifirstService.get("logistik/get-combo-logistik", true).then(function (dat) {
                     var dataCombo = dat.data;
                     $scope.listDataJabatan = dataCombo.jabatan;
                 });
 
-                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function (data) {
                     $scope.ListDataPegawai = data;
                 });
             }
 
-            $scope.BatalCetak = function() {
+            $scope.BatalCetak = function () {
                 $scope.popUp.close();
             }
 
@@ -134,25 +134,25 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("logistik/get-daftar-distribusi-barang?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    "&nokirim=" + $scope.item.struk + rg + produkfk + jenisPengirim, true).then(function(dat) {
-                    $scope.isRouteLoading = false;
-                    var data2 = dat.data.daftar
-                    for (var i = 0; i < dat.data.daftar.length; i++) {
-                        dat.data.daftar[i].no = i + 1
-                    }
-                    $scope.dataGrid = new kendo.data.DataSource({
-                        data: data2,
-                        group: $scope.group,
-                        pageSize: 100,
-                        total: data2.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {}
+                    "&nokirim=" + $scope.item.struk + rg + produkfk + jenisPengirim, true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        var data2 = dat.data.daftar
+                        for (var i = 0; i < dat.data.daftar.length; i++) {
+                            dat.data.daftar[i].no = i + 1
                         }
-                    });
+                        $scope.dataGrid = new kendo.data.DataSource({
+                            data: data2,
+                            group: $scope.group,
+                            pageSize: 100,
+                            total: data2.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {}
+                            }
+                        });
 
-                    pegawaiUser = dat.data.datalogin
-                });
+                        pegawaiUser = dat.data.datalogin
+                    });
 
                 var chacePeriode = {
                     0: tglAwal,
@@ -166,31 +166,31 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('DaftarDistribusiBarangCtrl', chacePeriode);
                 var jenispermintaanfk = '';
                 var objSave = {
-                        jenispermintaanfk: jenispermintaanfk,
-                        tglAwal: tglAwal,
-                        tglAkhir: tglAkhir
-                    }
-                    // medifirstService.post('sysadmin/general/save-jurnal-amprahan-barang-all',objSave).then(function (data) {
-                    // });
+                    jenispermintaanfk: jenispermintaanfk,
+                    tglAwal: tglAwal,
+                    tglAkhir: tglAkhir
+                }
+                // medifirstService.post('sysadmin/general/save-jurnal-amprahan-barang-all',objSave).then(function (data) {
+                // });
 
             }
 
-            $scope.klikGrid = function(data) {
+            $scope.klikGrid = function (data) {
                 if (data != undefined) {
                     etos = data.details;
                 }
 
             }
 
-            $scope.getRuangan = function() {
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
 
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
                 init();
             }
 
-            $scope.CetakBuktiLayanan = function() {
+            $scope.CetakBuktiLayanan = function () {
                 var stt = 'false'
                 if (confirm('View resep? ')) {
                     // Save it!
@@ -200,16 +200,16 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/farmasiApotik?cetak-strukresep=1&nores=NonLayanan' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/farmasiApotik?cetak-strukresep=1&nores=NonLayanan' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.NewKirim = function() {
+            $scope.NewKirim = function () {
                 $state.go('KirimBarangLogistik')
             }
 
-            $scope.EditKirim = function() {
+            $scope.EditKirim = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di ubah!!")
                     return;
@@ -251,10 +251,10 @@ define(['initialize'], function(initialize) {
                         detail: etos
                     }
 
-                    medifirstService.post('logistik/batal-kirim-terima-barang', objSave).then(function(e) {
-                        medifirstService.post('sysadmin/general/hapus-jurnal-amprahan-barang', objSave).then(function(e) {
+                    medifirstService.post('logistik/batal-kirim-terima-barang', objSave).then(function (e) {
+                        medifirstService.post('sysadmin/general/hapus-jurnal-amprahan-barang', objSave).then(function (e) {
                             init();
-                        }, function(error) {
+                        }, function (error) {
                             init();
                         });
                     });
@@ -267,62 +267,62 @@ define(['initialize'], function(initialize) {
                         noorderfk = $scope.dataSelected.noorderfk;
                     }
                     medifirstService.get("logistik/get-daftar-barang-batal?nokirimfk=" + $scope.dataSelected.norec +
-                        "&ruanganfk=" + $scope.dataSelected.rutujuanid, true).then(function(dat) {
+                        "&ruanganfk=" + $scope.dataSelected.rutujuanid, true).then(function (dat) {
 
-                        datas = dat.data;
-                        var jumlah = 0;
-                        for (var i = 0; i < datas.length; i++) {
-                            for (var j = 0; j < etos.length; j++) {
-                                if (etos[j].objectprodukfk == datas[i].kdeproduk) {
-                                    if (etos[j].qtyproduk <= datas[i].qtyproduk) {
-                                        jumlah = i + 1;
+                            datas = dat.data;
+                            var jumlah = 0;
+                            for (var i = 0; i < datas.length; i++) {
+                                for (var j = 0; j < etos.length; j++) {
+                                    if (etos[j].objectprodukfk == datas[i].kdeproduk) {
+                                        if (etos[j].qtyproduk <= datas[i].qtyproduk) {
+                                            jumlah = i + 1;
+                                        }
                                     }
                                 }
                             }
-                        }
-                        if (etos.length <= jumlah) {
+                            if (etos.length <= jumlah) {
 
-                            var strukkirim = {
+                                var strukkirim = {
 
-                                nokrim: $scope.dataSelected.nostruk,
-                                noreckirim: $scope.dataSelected.norec,
-                                tglpelayanan: $scope.dataSelected.tglstruk,
-                                ruanganasal: $scope.dataSelected.namaruanganasal,
-                                objectruanganasal: $scope.dataSelected.ruasalid,
-                                ruangantujuan: $scope.dataSelected.namaruangantujuan,
-                                obejectruangantujuan: $scope.dataSelected.rutujuanid,
-                                noorderfk: noorderfk,
-                                jenispermintaanfk: $scope.dataSelected.jenispermintaanfk,
-                                keterangan: $scope.item.alasanBatal
+                                    nokrim: $scope.dataSelected.nostruk,
+                                    noreckirim: $scope.dataSelected.norec,
+                                    tglpelayanan: $scope.dataSelected.tglstruk,
+                                    ruanganasal: $scope.dataSelected.namaruanganasal,
+                                    objectruanganasal: $scope.dataSelected.ruasalid,
+                                    ruangantujuan: $scope.dataSelected.namaruangantujuan,
+                                    obejectruangantujuan: $scope.dataSelected.rutujuanid,
+                                    noorderfk: noorderfk,
+                                    jenispermintaanfk: $scope.dataSelected.jenispermintaanfk,
+                                    keterangan: $scope.item.alasanBatal
 
-                            }
-                            var objSave = {
-                                strukkirim: strukkirim,
-                                detail: etos
-                            }
+                                }
+                                var objSave = {
+                                    strukkirim: strukkirim,
+                                    detail: etos
+                                }
 
-                            medifirstService.post('logistik/batal-kirim-terima-barang', objSave).then(function(e) {
-                                medifirstService.post('sysadmin/general/hapus-jurnal-amprahan-barang', objSave).then(function(e) {
-                                    init();
-                                }, function(error) {
-                                    init();
+                                medifirstService.post('logistik/batal-kirim-terima-barang', objSave).then(function (e) {
+                                    medifirstService.post('sysadmin/general/hapus-jurnal-amprahan-barang', objSave).then(function (e) {
+                                        init();
+                                    }, function (error) {
+                                        init();
+                                    });
                                 });
-                            });
 
-                            $scope.item.alasanBatal = "";
-                            $scope.winDialog.close();
+                                $scope.item.alasanBatal = "";
+                                $scope.winDialog.close();
 
-                        } else {
-                            alert("Stok Telah Terpakai, Tidak Bisa Dibatalkan!!!")
-                            $scope.winDialog.close();
-                            return;
-                        }
+                            } else {
+                                alert("Stok Telah Terpakai, Tidak Bisa Dibatalkan!!!")
+                                $scope.winDialog.close();
+                                return;
+                            }
 
-                    });
+                        });
                 }
             }
 
-            $scope.lanjutBatal = function() {
+            $scope.lanjutBatal = function () {
                 if ($scope.item.alasanBatal == undefined) {
                     alert("Alasan Batal Belum Diisi!!")
                     return;
@@ -331,7 +331,7 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.lanjutBatal1 = function() {
+            $scope.lanjutBatal1 = function () {
                 if ($scope.item.alasanBatal1 == undefined) {
                     alert("Alasan Batal Belum Diisi!!")
                     $scope.item.alasanBatal = "";
@@ -393,10 +393,10 @@ define(['initialize'], function(initialize) {
                         detail: data3
                     }
 
-                    medifirstService.post('logistik/batal-kirim-terima-barang-peritem', objSave).then(function(e) {
-                        medifirstService.post('sysadmin/general/update-jurnal-batalkirim-peritem', objSave).then(function(e) {
+                    medifirstService.post('logistik/batal-kirim-terima-barang-peritem', objSave).then(function (e) {
+                        medifirstService.post('sysadmin/general/update-jurnal-batalkirim-peritem', objSave).then(function (e) {
                             init();
-                        }, function(error) {
+                        }, function (error) {
                             init();
                         });
                     });
@@ -407,84 +407,84 @@ define(['initialize'], function(initialize) {
                 } else {
                     medifirstService.get("logistik/get-daftar-barang-batal?nokirimfk=" + $scope.dataGrid._data[0].norec +
                         "&ruanganfk=" + $scope.dataGrid._data[0].rutujuanid +
-                        "&objectprodukfk=" + dataOn, true).then(function(dat) {
+                        "&objectprodukfk=" + dataOn, true).then(function (dat) {
 
-                        datas = dat.data;
-                        var datBatal = [];
-                        datBatal = $scope.dataGrid._data[0].details;
-                        var jumlah = 0;
-                        var Cek = 0
-                        var ceklis = 0
-                        for (var i = 0; i < datas.length; i++) {
-                            for (var j = 0; j < datBatal.length; j++) {
-                                if (datBatal[j].statCheckbox === true) {
-                                    ceklis = j + 1
-                                    if (datBatal[j].objectprodukfk == datas[i].kdeproduk) {
-                                        if (datBatal[j].qtyproduk <= datas[i].qtyproduk || datBatal[j].qtyproduk == 0) {
-                                            jumlah = i + 1;
-                                            Cek = j + 1;
+                            datas = dat.data;
+                            var datBatal = [];
+                            datBatal = $scope.dataGrid._data[0].details;
+                            var jumlah = 0;
+                            var Cek = 0
+                            var ceklis = 0
+                            for (var i = 0; i < datas.length; i++) {
+                                for (var j = 0; j < datBatal.length; j++) {
+                                    if (datBatal[j].statCheckbox === true) {
+                                        ceklis = j + 1
+                                        if (datBatal[j].objectprodukfk == datas[i].kdeproduk) {
+                                            if (datBatal[j].qtyproduk <= datas[i].qtyproduk || datBatal[j].qtyproduk == 0) {
+                                                jumlah = i + 1;
+                                                Cek = j + 1;
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
-                        if (ceklis = jumlah) {
-                            data3 = [];
-                            for (var i = 0; i < $scope.dataGrid._data[0].details.length; i++) {
-                                if ($scope.dataGrid._data[0].details[i].statCheckbox == true) {
-                                    data3.push({
-                                        "objectprodukfk": $scope.dataGrid._data[0].details[i].objectprodukfk,
-                                        "namaproduk": $scope.dataGrid._data[0].details[i].namaproduk,
-                                        "satuanstandar": $scope.dataGrid._data[0].details[i].satuanstandar,
-                                        "qtyproduk": $scope.dataGrid._data[0].details[i].qtyproduk,
-                                    })
+                            if (ceklis = jumlah) {
+                                data3 = [];
+                                for (var i = 0; i < $scope.dataGrid._data[0].details.length; i++) {
+                                    if ($scope.dataGrid._data[0].details[i].statCheckbox == true) {
+                                        data3.push({
+                                            "objectprodukfk": $scope.dataGrid._data[0].details[i].objectprodukfk,
+                                            "namaproduk": $scope.dataGrid._data[0].details[i].namaproduk,
+                                            "satuanstandar": $scope.dataGrid._data[0].details[i].satuanstandar,
+                                            "qtyproduk": $scope.dataGrid._data[0].details[i].qtyproduk,
+                                        })
+                                    }
                                 }
-                            }
 
-                            var strukkirim = {
+                                var strukkirim = {
 
-                                nokrim: $scope.dataGrid._data[0].nostruk,
-                                noreckirim: $scope.dataGrid._data[0].norec,
-                                tglpelayanan: $scope.dataGrid._data[0].tglstruk,
-                                ruanganasal: $scope.dataGrid._data[0].namaruanganasal,
-                                objectruanganasal: $scope.dataGrid._data[0].ruasalid,
-                                ruangantujuan: $scope.dataGrid._data[0].namaruangantujuan,
-                                obejectruangantujuan: $scope.dataGrid._data[0].rutujuanid,
-                                noorderfk: noorderfk,
-                                jenispermintaanfk: $scope.dataGrid._data[0].jenispermintaanfk,
-                                keterangan: $scope.item.alasanBatal1,
-                                dataproduk: dataOn,
-                            }
+                                    nokrim: $scope.dataGrid._data[0].nostruk,
+                                    noreckirim: $scope.dataGrid._data[0].norec,
+                                    tglpelayanan: $scope.dataGrid._data[0].tglstruk,
+                                    ruanganasal: $scope.dataGrid._data[0].namaruanganasal,
+                                    objectruanganasal: $scope.dataGrid._data[0].ruasalid,
+                                    ruangantujuan: $scope.dataGrid._data[0].namaruangantujuan,
+                                    obejectruangantujuan: $scope.dataGrid._data[0].rutujuanid,
+                                    noorderfk: noorderfk,
+                                    jenispermintaanfk: $scope.dataGrid._data[0].jenispermintaanfk,
+                                    keterangan: $scope.item.alasanBatal1,
+                                    dataproduk: dataOn,
+                                }
 
-                            var objSave = {
-                                strukkirim: strukkirim,
-                                // norec:e.data.nokirim.norec,
-                                detail: data3
-                            }
+                                var objSave = {
+                                    strukkirim: strukkirim,
+                                    // norec:e.data.nokirim.norec,
+                                    detail: data3
+                                }
 
-                            medifirstService.post('logistik/batal-kirim-terima-barang-peritem', objSave).then(function(e) {
-                                medifirstService.post('sysadmin/general/update-jurnal-batalkirim-peritem', objSave).then(function(e) {
-                                    init();
-                                }, function(error) {
-                                    init();
+                                medifirstService.post('logistik/batal-kirim-terima-barang-peritem', objSave).then(function (e) {
+                                    medifirstService.post('sysadmin/general/update-jurnal-batalkirim-peritem', objSave).then(function (e) {
+                                        init();
+                                    }, function (error) {
+                                        init();
+                                    });
                                 });
-                            });
 
-                            $scope.item.alasanBatal1 = "";
-                            $scope.winDialogBatalPerItem.close();
+                                $scope.item.alasanBatal1 = "";
+                                $scope.winDialogBatalPerItem.close();
 
-                        } else {
-                            alert("Stok Telah Terpakai, Tidak Bisa Dibatalkan!!!")
-                            $scope.winDialogBatalPerItem.close();
-                            $scope.item.alasanBatal1 = "";
-                            return;
-                        }
-                    });
+                            } else {
+                                alert("Stok Telah Terpakai, Tidak Bisa Dibatalkan!!!")
+                                $scope.winDialogBatalPerItem.close();
+                                $scope.item.alasanBatal1 = "";
+                                return;
+                            }
+                        });
 
                 }
             }
 
-            $scope.BatalKirim = function() {
+            $scope.BatalKirim = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -492,7 +492,7 @@ define(['initialize'], function(initialize) {
                 $scope.winDialog.center().open();
             }
 
-            $scope.BatalPeritem = function() {
+            $scope.BatalPeritem = function () {
                 if ($scope.dataGrid == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -500,21 +500,21 @@ define(['initialize'], function(initialize) {
                 $scope.winDialogBatalPerItem.center().open();
             }
 
-            $scope.batalBatal = function() {
+            $scope.batalBatal = function () {
                 $scope.item.alasanBatal = "";
                 $scope.winDialog.close();
             }
 
-            $scope.batalBatal1 = function() {
+            $scope.batalBatal1 = function () {
                 $scope.item.alasanBatal1 = "";
                 $scope.winDialogBatalPerItem.close();
             }
 
-            $scope.Cetak = function() {
+            $scope.Cetak = function () {
                 $scope.popUp.center().open();
             }
 
-            $scope.CetakAh = function() {
+            $scope.CetakAh = function () {
                 var jabatan1 = ''
                 if ($scope.item.DataJabatan != undefined) {
                     jabatan1 = $scope.item.DataJabatan.namajabatan;
@@ -556,73 +556,73 @@ define(['initialize'], function(initialize) {
                 var client = new HttpClient();
                 client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-pengeluaran=1&nores=' + $scope.dataSelected.norec + '&pegawaiPenyerah=' + pegawai + '&pegawaiPenerima=' + pegawai1 + '&pegawaiMegetahui=' + pegawai2 +
                     '&JabatanPenyerah=' + jabatan1 + '&JabatanPenerima=' + jabatan2 + '&jabatanMengetahui=' + jabatan3 + '&view=' + stt + '&user=' + pegawaiUser[0].namalengkap,
-                    function(response) {
+                    function (response) {
                         //aadc=response; 
 
                     });
                 $scope.popUp.close();
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
             $scope.columnGrid = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "status",
-                    "title": "Status",
-                    "width": "60px"
-                },
-                {
-                    "field": "tglstruk",
-                    "title": "Tgl Struk",
-                    "width": "50px",
-                    "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
-                },
-                {
-                    "field": "nostruk",
-                    "title": "NoTerima",
-                    "width": "80px",
-                },
-                {
-                    "field": "jeniskirim",
-                    "title": "Jenis Kirim",
-                    "width": "80px",
-                },
-                {
-                    "field": "jmlitem",
-                    "title": "Item",
-                    "width": "35px",
-                    "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
-                },
-                {
-                    "field": "namaruanganasal",
-                    "title": "Nama Ruangan Asal",
-                    "width": "100px",
-                },
-                {
-                    "field": "namaruangantujuan",
-                    "title": "Nama Ruangan Tujuan",
-                    "width": "100px",
-                },
-                {
-                    "field": "petugas",
-                    "title": "Petugas",
-                    "width": "100px",
-                },
-                {
-                    "field": "keterangan",
-                    "title": "Keterangan",
-                    "width": "100px",
-                }
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "60px"
+            },
+            {
+                "field": "tglstruk",
+                "title": "Tgl Struk",
+                "width": "50px",
+                "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
+            },
+            {
+                "field": "nostruk",
+                "title": "NoTerima",
+                "width": "80px",
+            },
+            {
+                "field": "jeniskirim",
+                "title": "Jenis Kirim",
+                "width": "80px",
+            },
+            {
+                "field": "jmlitem",
+                "title": "Item",
+                "width": "35px",
+                "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
+            },
+            {
+                "field": "namaruanganasal",
+                "title": "Nama Ruangan Asal",
+                "width": "100px",
+            },
+            {
+                "field": "namaruangantujuan",
+                "title": "Nama Ruangan Tujuan",
+                "width": "100px",
+            },
+            {
+                "field": "petugas",
+                "title": "Petugas",
+                "width": "100px",
+            },
+            {
+                "field": "keterangan",
+                "title": "Keterangan",
+                "width": "100px",
+            }
             ];
 
-            $scope.selectRow = function(dataItem) {
-                var dataSelect = _.find($scope.dataGrid._data[0].details, function(data) {
+            $scope.selectRow = function (dataItem) {
+                var dataSelect = _.find($scope.dataGrid._data[0].details, function (data) {
                     return data.no == dataItem.no;
                 });
 
@@ -639,7 +639,7 @@ define(['initialize'], function(initialize) {
             }
 
             var isCheckAll = false
-            $scope.selectUnselectAllRow = function() {
+            $scope.selectUnselectAllRow = function () {
                 var tempData = $scope.dataGrid._data[0].details;
                 if (isCheckAll) {
                     isCheckAll = false;
@@ -655,7 +655,7 @@ define(['initialize'], function(initialize) {
                 reloadDataGrid(tempData);
             }
 
-            $scope.cekData = function() {
+            $scope.cekData = function () {
                 var tempData = $scope.dataGrid._data[0].details;
 
                 if (isCheckAll) {
@@ -694,7 +694,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 for (var i = 0; i < dataItem.details.length; i++) {
                     dataItem.details[i].statCheckbox = false;
                     dataItem.details[i].no = i + 1
@@ -707,73 +707,73 @@ define(['initialize'], function(initialize) {
                         data: dataItem.details
                     }),
                     columns: [{
-                            "title": "<input type='checkbox' class='checkbox' ng-click='selectUnselectAllRow()' />",
-                            "template": "# if (statCheckbox) { #" +
-                                "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' checked />" +
-                                "# } else { #" +
-                                "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' />" +
-                                "# } #",
-                            "width": "20px"
-                        },
-                        {
-                            "field": "no",
-                            "title": "No",
-                            "width": "45px",
-                        },
-                        {
-                            "field": "kdproduk",
-                            "title": "Kd Produk",
-                            "width": "100px",
-                        },
-                        {
-                            "field": "kdsirs",
-                            "title": "Kd Sirs",
-                            "width": "100px",
-                        },
-                        {
-                            "field": "namaproduk",
-                            "title": "Nama Produk",
-                            "width": "100px",
-                        },
-                        {
-                            "field": "satuanstandar",
-                            "title": "Satuan",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "qtyproduk",
-                            "title": "Qty",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "qtyprodukretur",
-                            "title": "Qty Retur",
-                            "width": "30px",
-                        }
+                        "title": "<input type='checkbox' class='checkbox' ng-click='selectUnselectAllRow()' />",
+                        "template": "# if (statCheckbox) { #" +
+                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' checked />" +
+                            "# } else { #" +
+                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' />" +
+                            "# } #",
+                        "width": "20px"
+                    },
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "45px",
+                    },
+                    {
+                        "field": "kdproduk",
+                        "title": "Kd Produk",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "kdsirs",
+                        "title": "Kd Sirs",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Nama Produk",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "satuanstandar",
+                        "title": "Satuan",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "qtyproduk",
+                        "title": "Qty",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "qtyprodukretur",
+                        "title": "Qty Retur",
+                        "width": "30px",
+                    }
                     ]
                 }
             };
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD/MM/YYYY');
             }
 
-            var HttpClient = function() {
-                    this.get = function(aUrl, aCallback) {
-                        var anHttpRequest = new XMLHttpRequest();
-                        anHttpRequest.onreadystatechange = function() {
-                            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                                aCallback(anHttpRequest.responseText);
-                        }
-
-                        anHttpRequest.open("GET", aUrl, true);
-                        anHttpRequest.send(null);
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
+                    var anHttpRequest = new XMLHttpRequest();
+                    anHttpRequest.onreadystatechange = function () {
+                        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                            aCallback(anHttpRequest.responseText);
                     }
+
+                    anHttpRequest.open("GET", aUrl, true);
+                    anHttpRequest.send(null);
                 }
-                //***********************************
+            }
+            //***********************************
         }
     ]);
 });

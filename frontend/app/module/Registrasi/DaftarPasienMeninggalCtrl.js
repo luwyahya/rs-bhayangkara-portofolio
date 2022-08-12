@@ -1,8 +1,8 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
 
     'use strict';
     initialize.controller('DaftarPasienMeninggalCtrl', ['MedifirstService', '$scope', '$state', 'CacheHelper',
-        function(medifirstService, $scope, $state, cacheHelper) {
+        function (medifirstService, $scope, $state, cacheHelper) {
             $scope.title = "Daftar Pasien Meninggal";
             $scope.dataVOloaded = false;
             $scope.isRouteLoading = false;
@@ -14,7 +14,7 @@ define(['initialize'], function(initialize) {
                 from: $scope.now,
                 until: $scope.now
             };
-            $scope.findData = function() {
+            $scope.findData = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.from).format('YYYY-MM-DD');
                 var tglAkhir = moment($scope.item.until).format('YYYY-MM-DD');
@@ -36,30 +36,30 @@ define(['initialize'], function(initialize) {
                     "&tglAkhir=" + tglAkhir +
                     reg +
                     rm +
-                    nama).then(function(e) {
-                    $scope.isRouteLoading = false;
+                    nama).then(function (e) {
+                        $scope.isRouteLoading = false;
 
-                    $scope.dataPasienBatal = new kendo.data.DataSource({
-                        data: e.data.data,
-                        pageable: true,
-                        pageSize: 1000,
-                        total: e.data.data.length,
-                        serverPaging: false,
-                        // group: {
-                        //     field: "tglmeninggal",
-                        //     aggregates: [{
-                        //         field: "noregistrasi",
-                        //         aggregate: "count"
-                        //     }, {
-                        //         field: "namapasien",
-                        //         aggregate: "count"
-                        //     }]
-                        // }
-                    });
-                })
+                        $scope.dataPasienBatal = new kendo.data.DataSource({
+                            data: e.data.data,
+                            pageable: true,
+                            pageSize: 1000,
+                            total: e.data.data.length,
+                            serverPaging: false,
+                            // group: {
+                            //     field: "tglmeninggal",
+                            //     aggregates: [{
+                            //         field: "noregistrasi",
+                            //         aggregate: "count"
+                            //     }, {
+                            //         field: "namapasien",
+                            //         aggregate: "count"
+                            //     }]
+                            // }
+                        });
+                    })
 
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm');
             }
             $scope.findData();
@@ -72,7 +72,7 @@ define(['initialize'], function(initialize) {
                     fileName: "DaftarPasienMeninggal.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:F1"];
@@ -91,63 +91,63 @@ define(['initialize'], function(initialize) {
                 selectable: 'row',
                 pageable: true,
                 columns: [{
-                        field: "tglmeninggal",
-                        title: "Tgl Meninggal",
-                        template: "<span class='style-left'>{{formatTanggal('#: tglmeninggal #')}}</span>"
+                    field: "tglmeninggal",
+                    title: "Tgl Meninggal",
+                    template: "<span class='style-left'>{{formatTanggal('#: tglmeninggal #')}}</span>"
 
-                    },
-                    {
-                        field: "tglmasuk",
-                        title: "Tgl Masuk Pemulasaran",
-                        template: "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>"
+                },
+                {
+                    field: "tglmasuk",
+                    title: "Tgl Masuk Pemulasaran",
+                    template: "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>"
 
-                    },
-                    {
-                        field: "noregistrasi",
-                        title: "No Reg",
-                        hidden: false
-                    },
-                    {
-                        field: "nocm",
-                        title: "No Rm",
-                        hidden: false
-                    },
-                    {
-                        field: "namapasien",
-                        title: "Nama Pasien"
-                    },
-                    {
-                        field: "penyebabkematian",
-                        title: "Penyebab Kematian"
-                    },
-                    {
-                        field: "namaruangan",
-                        title: "Ruangan Terakhir"
-                    },
-                    {
-                        "field": "namadokter",
-                        "title": "Nama Dokter",
-                        "width": "150px",
-                        "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
-                    },
-                    {
-                        "field": "kelompokpasien",
-                        "title": "Kelompok Pasien",
-                        "width": "100px",
-                        "template": "<span class='style-left'>#: kelompokpasien #</span>"
-                    },
-                    {
-                        "field": "namarekanan",
-                        "title": "Penjamin",
-                        "width": "100px",
-                        "template": '# if( namarekanan==null) {# - # } else {# #= namarekanan # #} #'
-                    }
+                },
+                {
+                    field: "noregistrasi",
+                    title: "No Reg",
+                    hidden: false
+                },
+                {
+                    field: "nocm",
+                    title: "No Rm",
+                    hidden: false
+                },
+                {
+                    field: "namapasien",
+                    title: "Nama Pasien"
+                },
+                {
+                    field: "penyebabkematian",
+                    title: "Penyebab Kematian"
+                },
+                {
+                    field: "namaruangan",
+                    title: "Ruangan Terakhir"
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Nama Dokter",
+                    "width": "150px",
+                    "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Kelompok Pasien",
+                    "width": "100px",
+                    "template": "<span class='style-left'>#: kelompokpasien #</span>"
+                },
+                {
+                    "field": "namarekanan",
+                    "title": "Penjamin",
+                    "width": "100px",
+                    "template": '# if( namarekanan==null) {# - # } else {# #= namarekanan # #} #'
+                }
                 ],
                 selectable: "row",
                 sortable: true
             }
 
-            $scope.inputTindakan = function() {
+            $scope.inputTindakan = function () {
                 debugger;
                 if ($scope.data) {
                     $state.go('InputTindakan', {
@@ -159,36 +159,36 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.detailTagihan = function() {
-                    if ($scope.data.noregistrasi != undefined) {
-                        var obj = {
-                            noRegistrasi: $scope.data.noregistrasi
-                        }
-
-                        $state.go('RincianTagihan', {
-                            dataPasien: JSON.stringify(obj)
-                        });
+            $scope.detailTagihan = function () {
+                if ($scope.data.noregistrasi != undefined) {
+                    var obj = {
+                        noRegistrasi: $scope.data.noregistrasi
                     }
+
+                    $state.go('RincianTagihan', {
+                        dataPasien: JSON.stringify(obj)
+                    });
                 }
-                // $scope.pemeriksaanDokterForensik = function () {
-                //     debugger;
-                //     if ($scope.data == undefined){
-                //         toastr.error('Pilih Data Dahulu !')
-                //         return;
-                //     }
-                // else if ($scope.data.norec_pd != undefined) {
-                //     var arrStr = {
-                //         0: $scope.data.norec_pd
-                //     }
-                //     cacheHelper.set('PemeriksaanDokterForensik', arrStr);
-                //     $state.go('PemeriksaanDokterForensik')
-                // }
-                //     else {
-                //         toastr.error('Pilih Data Dahulu !')
-                //         return;
-                //     }
-                // }
-            $scope.pemeriksaanDokterForensik = function() {
+            }
+            // $scope.pemeriksaanDokterForensik = function () {
+            //     debugger;
+            //     if ($scope.data == undefined){
+            //         toastr.error('Pilih Data Dahulu !')
+            //         return;
+            //     }
+            // else if ($scope.data.norec_pd != undefined) {
+            //     var arrStr = {
+            //         0: $scope.data.norec_pd
+            //     }
+            //     cacheHelper.set('PemeriksaanDokterForensik', arrStr);
+            //     $state.go('PemeriksaanDokterForensik')
+            // }
+            //     else {
+            //         toastr.error('Pilih Data Dahulu !')
+            //         return;
+            //     }
+            // }
+            $scope.pemeriksaanDokterForensik = function () {
                 if ($scope.data == undefined) {
                     toastr.error('Pilih Data Dahulu !')
                     return;
@@ -196,7 +196,7 @@ define(['initialize'], function(initialize) {
                     $scope.popupPassword.center().open()
                 }
             }
-            $scope.gas = function() {
+            $scope.gas = function () {
                 debugger
                 if ($scope.item.password != "forensik") {
                     toastr.error('Password Salah !')
@@ -209,7 +209,7 @@ define(['initialize'], function(initialize) {
                     $state.go('PemeriksaanDokterForensik')
                 }
             }
-            $scope.simpansuratjalan = function() {
+            $scope.simpansuratjalan = function () {
                 var objSave = {
                     noregistrasi: $scope.item.noregistrasi,
                     petugasfk: $scope.item.petugas.id,
@@ -219,24 +219,24 @@ define(['initialize'], function(initialize) {
                     tujuan: $scope.item.tujuan,
                     keluargapasien: $scope.item.keluargapasien,
                 }
-                medifirstService.post('ambulance/save-suratjalan', objSave).then(function(e) {
+                medifirstService.post('ambulance/save-suratjalan', objSave).then(function (e) {
 
                 });
             }
-            $scope.kembalirekanan = function() {
+            $scope.kembalirekanan = function () {
                 $scope.popup_editor.close();
             }
-            $scope.suratjalan = function() {
+            $scope.suratjalan = function () {
                 $scope.item.noregistrasi = $scope.data.noregistrasi;
                 if ($scope.data.noregistrasi != undefined) {
-                    medifirstService.get("ambulance/get-data-for-combo", true).then(function(dat) {
+                    medifirstService.get("ambulance/get-data-for-combo", true).then(function (dat) {
                         $scope.listRuangan = dat.data.ruanganambulan;
                         debugger;
                         $scope.ListDataPegawai = dat.data.pegawai;
                         $scope.item.caridatajenazahbyruangan = { id: dat.data.ruanganambulan[0].id, namaruangan: dat.data.ruanganambulan[0].namaruangan }
                         LoadCache();
                     })
-                    medifirstService.get("ambulance/get-suratjalan?noregistrasi=" + $scope.data.noregistrasi).then(function(dat) {
+                    medifirstService.get("ambulance/get-suratjalan?noregistrasi=" + $scope.data.noregistrasi).then(function (dat) {
                         $scope.item.nopol = dat.data.data.nopol
                         $scope.item.tujuan = dat.data.data.tujuan
                         $scope.item.keperluan = dat.data.data.keperluan
@@ -249,7 +249,7 @@ define(['initialize'], function(initialize) {
                 $scope.popup_editor.center().open();
             }
 
-            $scope.cetaksuratjalan = function() {
+            $scope.cetaksuratjalan = function () {
 
                 var user = medifirstService.getPegawaiLogin();
                 var data = {
@@ -259,7 +259,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -278,7 +278,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:8797/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratjalan.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratjalan.pdf');
@@ -293,7 +293,7 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
             }
 
-            $scope.BatalPeriksa = function() {
+            $scope.BatalPeriksa = function () {
                 if ($scope.data == undefined) {
                     toastr.error('Pilih Data Dahulu !', 'Peringatan !')
                     return;
@@ -302,7 +302,7 @@ define(['initialize'], function(initialize) {
                 if ($scope.data.norec_pd != undefined) {
                     norecpd = "norecpd=" + $scope.data.norec_pd;
                 }
-                medifirstService.get("jenazah/get-pelayanan-pasien?" + norecpd).then(function(dat) {
+                medifirstService.get("jenazah/get-pelayanan-pasien?" + norecpd).then(function (dat) {
                     var mumet = dat.data
                     debugger;
                     if (mumet.length > 0) {
@@ -315,10 +315,10 @@ define(['initialize'], function(initialize) {
                     var Logging = {
                         noregistrasi: $scope.data.noregistrasi,
                     }
-                    medifirstService.post('jenazah/simpan-batal-periksa', Batal).then(function(a) {
+                    medifirstService.post('jenazah/simpan-batal-periksa', Batal).then(function (a) {
 
                     })
-                    medifirstService.post('jenazah/save-logging-batal-periksa', Logging).then(function(q) {
+                    medifirstService.post('jenazah/save-logging-batal-periksa', Logging).then(function (q) {
 
                     })
                     $scope.isRouteLoading = true;
@@ -342,27 +342,27 @@ define(['initialize'], function(initialize) {
                         "&tglAkhir=" + tglAkhir +
                         reg +
                         rm +
-                        nama).then(function(e) {
-                        $scope.isRouteLoading = false;
+                        nama).then(function (e) {
+                            $scope.isRouteLoading = false;
 
-                        $scope.dataPasienBatal = new kendo.data.DataSource({
-                            data: e.data.data,
-                            pageable: true,
-                            pageSize: 1000,
-                            total: e.data.data.length,
-                            serverPaging: false,
-                            // group: {
-                            //     field: "tglmeninggal",
-                            //     aggregates: [{
-                            //         field: "noregistrasi",
-                            //         aggregate: "count"
-                            //     }, {
-                            //         field: "namapasien",
-                            //         aggregate: "count"
-                            //     }]
-                            // }
-                        });
-                    })
+                            $scope.dataPasienBatal = new kendo.data.DataSource({
+                                data: e.data.data,
+                                pageable: true,
+                                pageSize: 1000,
+                                total: e.data.data.length,
+                                serverPaging: false,
+                                // group: {
+                                //     field: "tglmeninggal",
+                                //     aggregates: [{
+                                //         field: "noregistrasi",
+                                //         aggregate: "count"
+                                //     }, {
+                                //         field: "namapasien",
+                                //         aggregate: "count"
+                                //     }]
+                                // }
+                            });
+                        })
 
                 })
             }

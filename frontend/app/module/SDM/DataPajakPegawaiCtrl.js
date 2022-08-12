@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DataPajakPegawaiCtrl', ['CacheHelper', '$scope', 'ModelItem', '$state', 'DateHelper', '$timeout', 'CetakHelper', 'MedifirstService',
-        function(cacheHelper, $scope, ModelItem, $state, dateHelper, $timeout, cetakHelper, medifirstService) {
+        function (cacheHelper, $scope, ModelItem, $state, dateHelper, $timeout, cetakHelper, medifirstService) {
             $scope.title = "Data Pegawai";
             $scope.now = new Date();
             $scope.item = {
@@ -36,9 +36,9 @@ define(['initialize'], function(initialize) {
                     serverFiltering: false
                 });
 
-                medifirstService.get("sdm/get-data-combo-sdm?", true).then(function(dat) {
+                medifirstService.get("sdm/get-data-combo-sdm?", true).then(function (dat) {
                     var dataCombo = dat.data
-                        // var dataLogin = dat.datalogin[0];
+                    // var dataLogin = dat.datalogin[0];
                     $scope.listUnitKerja = dataCombo.dataunitkerja;
                     $scope.ListKedudukanPegawai = dataCombo.statuspegawai;
                     $scope.ListStatusPegawai = dataCombo.kategorypegawai;
@@ -57,7 +57,7 @@ define(['initialize'], function(initialize) {
 
                 });
 
-                medifirstService.getPart("sysadmin/general/get-combo-pegawai", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/general/get-combo-pegawai", true, true, 20).then(function (data) {
                     $scope.dropDownPegawai = data;
                     LoadDataGrid();
                 });
@@ -67,7 +67,7 @@ define(['initialize'], function(initialize) {
                 debugger
                 $scope.isRouteLoading = true;
                 var user = medifirstService.getPegawaiLogin();
-                medifirstService.get("sdm/get-data-pegawai-all-sdm?idPegawai=" + user.id, true).then(function(dat) {
+                medifirstService.get("sdm/get-data-pegawai-all-sdm?idPegawai=" + user.id, true).then(function (dat) {
                     var dataForGrid = dat.data
                     $scope.daftarPegawai = new kendo.data.DataSource({
                         data: dataForGrid,
@@ -79,13 +79,13 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.getIsiComboSubUnit = function() {
+            $scope.getIsiComboSubUnit = function () {
                 if ($scope.item.qunitKerja != undefined || $scope.item.qunitKerja != "") {
                     $scope.listSubUnit = $scope.item.qunitKerja.subunit
                 }
             }
 
-            $scope.exportDetail = function(e) {
+            $scope.exportDetail = function (e) {
                 var tempDataExport = [];
                 var rows = [{
                     cells: [
@@ -136,7 +136,7 @@ define(['initialize'], function(initialize) {
                 } else {
                     tempDataExport = $scope.daftarPegawai;
                 }
-                tempDataExport.fetch(function() {
+                tempDataExport.fetch(function () {
                     var data = this.data();
                     for (var i = 0; i < data.length; i++) {
                         //push single row for every record
@@ -225,7 +225,7 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
@@ -247,7 +247,7 @@ define(['initialize'], function(initialize) {
                     fileName: "Pegawai.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:L1"];
@@ -293,14 +293,14 @@ define(['initialize'], function(initialize) {
                     // { field: "tglmasuk", title: "TglMasuk", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>" }
                 ],
                 // set column width to auto
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var columns = e.workbook.sheets[0].columns;
-                    columns.forEach(function(column) {
+                    columns.forEach(function (column) {
                         delete column.width;
                         column.autoWidth = true;
                     });
                 },
-                change: function(e) {
+                change: function (e) {
                     // debugger;
                     var grid = $("#gridDataPegawai").data("kendoGrid");
                     var selectedRows = grid.dataItem(grid.select());
@@ -315,11 +315,11 @@ define(['initialize'], function(initialize) {
                 }
             };
 
-            $scope.klik = function(data) {
+            $scope.klik = function (data) {
                 $scope.dataItem = data;
             }
 
-            $scope.ubah = function() {
+            $scope.ubah = function () {
                 if ($scope.dataItem) {
                     var chacePeriode = {
                         0: $scope.dataItem.id,
@@ -337,7 +337,7 @@ define(['initialize'], function(initialize) {
                 };
             }
 
-            $scope.pajakPenghasilan = function() {
+            $scope.pajakPenghasilan = function () {
                 if ($scope.dataItem) {
                     var chacePeriode = {
                         0: $scope.dataItem.id,
@@ -354,7 +354,7 @@ define(['initialize'], function(initialize) {
                     messageContainer.error('Pegawai belum di pilih')
                 };
             }
-            $scope.InputBaru = function() {
+            $scope.InputBaru = function () {
                 var chacePeriode = {
                     0: '',
                     1: '',
@@ -368,7 +368,7 @@ define(['initialize'], function(initialize) {
                 $state.go('MasterPegawai')
             }
 
-            $scope.idFinger = function() {
+            $scope.idFinger = function () {
                 if ($scope.dataItem) {
                     $scope.itemF.idFinger = $scope.dataItem.fingerprintid;
                     $scope.itemF.tglInput = moment($scope.now).format('YYYY-MM-DD HH:mm');
@@ -383,18 +383,18 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.pajakPenghasilanTahun = function(item, data) {
+            $scope.pajakPenghasilanTahun = function (item, data) {
                 // $scope.item.tahunPajak = '';
                 debugger
                 var idPegawai = $scope.dataItem.id;
-                medifirstService.get("registrasi/daftar-registrasi/get-daftar-tahun-pajak?idPegawai=" + idPegawai).then(function(dat) {
+                medifirstService.get("registrasi/daftar-registrasi/get-daftar-tahun-pajak?idPegawai=" + idPegawai).then(function (dat) {
                     var dataList = dat.data
                     $scope.ListTahunPajak = dataList.data;
                 });
                 $scope.winDialogss.center().open();
             }
 
-            $scope.cetak = function() {
+            $scope.cetak = function () {
 
                 var user = medifirstService.getPegawaiLogin();
 
@@ -449,7 +449,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -474,7 +474,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/pemotonganpajak.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/pemotonganpajak.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/pemotonganpajak.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/pemotonganpajak.pdf');
@@ -491,8 +491,8 @@ define(['initialize'], function(initialize) {
                 // })
             }
 
-            $scope.listPetugasPelaksana = function() {
-                medifirstService.get("sdm/get-data-pegawai-all-pp?idPegawai=" + $scope.dataItem.id, true).then(function(dat) {
+            $scope.listPetugasPelaksana = function () {
+                medifirstService.get("sdm/get-data-pegawai-all-pp?idPegawai=" + $scope.dataItem.id, true).then(function (dat) {
                     var dataForGrid = dat.data
                     $scope.daftarPegawaiPp = new kendo.data.DataSource({
                         data: dataForGrid,
@@ -535,7 +535,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.petugasPelaksana = function() {
+            $scope.petugasPelaksana = function () {
                 $scope.statusenabled = true
                 $scope.flag = false;
                 if ($scope.dataSelected.idkpb != undefined) {
@@ -547,7 +547,7 @@ define(['initialize'], function(initialize) {
                 };
 
             }
-            $scope.petugasPelaksanaHapus = function() {
+            $scope.petugasPelaksanaHapus = function () {
                 if ($scope.dataSelected.idkpb != undefined) {
                     var stt = 'false'
                     if (confirm('Hapus Data? ')) {
@@ -578,7 +578,7 @@ define(['initialize'], function(initialize) {
                 // };
 
             }
-            $scope.petugasPelaksanaTam = function() {
+            $scope.petugasPelaksanaTam = function () {
                 $scope.dataSelected.id = undefined;
                 $scope.flag = true;
                 $scope.statusenabled = true
@@ -587,7 +587,7 @@ define(['initialize'], function(initialize) {
                 $scope.popUpPelP.center().open()
             }
 
-            $scope.simpanPetugas = function() {
+            $scope.simpanPetugas = function () {
                 debugger;
                 // $flag = false 
                 // if($scope.item.namakpbs.idkpb === $scope.item.namakpbs.id && $scope.item.namajpps.idjpp === $scope.item.namajpps.id)
@@ -602,11 +602,11 @@ define(['initialize'], function(initialize) {
                 } else {
                     if ($scope.item.namakpbs.idkpb === undefined) {
                         $scope.item.namakpbs.idkpb = $scope.item.namakpbs.id
-                            // $flag = true
+                        // $flag = true
                     }
                     if ($scope.item.namajpps.idjpp === undefined) {
                         $scope.item.namajpps.idjpp = $scope.item.namajpps.id
-                            // $flag = true
+                        // $flag = true
                     }
                     if ($scope.dataSelected.id === undefined) {
                         $scope.dataSelected.id = null
@@ -620,19 +620,19 @@ define(['initialize'], function(initialize) {
                     }
                 }
                 if ($scope.flag === true) {
-                    medifirstService.post('tatarekening/save-petugas-pelaksana', json).then(function(e) {})
+                    medifirstService.post('tatarekening/save-petugas-pelaksana', json).then(function (e) { })
                 } else {
-                    medifirstService.post('tatarekening/update-petugas-pelaksana', json).then(function(e) {})
+                    medifirstService.post('tatarekening/update-petugas-pelaksana', json).then(function (e) { })
                 }
                 $scope.popUpPelP.close()
                 $scope.popUpPp.close()
             }
 
-            $scope.TutupPopUpPp = function() {
+            $scope.TutupPopUpPp = function () {
                 $scope.popUpPp.center().close();
             }
 
-            $scope.simpanIdFinger = function() {
+            $scope.simpanIdFinger = function () {
                 if ($scope.itemF.idFinger == undefined) {
                     alert("Id Finger Tidak Boleh Kosong!")
                     return;
@@ -644,7 +644,7 @@ define(['initialize'], function(initialize) {
                     idfinger: $scope.itemF.idFinger
                 }
 
-                medifirstService.post('sdm/update-idfinger-pegawai', objSave).then(function(e) {
+                medifirstService.post('sdm/update-idfinger-pegawai', objSave).then(function (e) {
                     $scope.itemF.idFinger = undefined;
                     $scope.itemF.tglInput = undefined;
                     $scope.itemF.idPegawai = undefined
@@ -653,12 +653,12 @@ define(['initialize'], function(initialize) {
                     $scope.itemF.namaJabatan = undefined;
                     $scope.popUpIdFinger.close();
                     formLoad();
-                }, function(error) {
+                }, function (error) {
                     toastr.error(JSON.stringify(error.message), 'Error')
                 });
             }
 
-            $scope.batalFinger = function() {
+            $scope.batalFinger = function () {
                 $scope.itemF.idFinger = undefined;
                 $scope.itemF.tglInput = undefined;
                 $scope.itemF.idPegawai = undefined
@@ -668,7 +668,7 @@ define(['initialize'], function(initialize) {
                 // $scope.popUpIdFinger.close();
             }
 
-            $scope.mutasi = function() {
+            $scope.mutasi = function () {
                 if ($scope.dataItem) {
                     $state.go("MutasiPegawai", { idPegawai: $scope.dataItem.id });
                 } else {
@@ -676,7 +676,7 @@ define(['initialize'], function(initialize) {
                 };
             }
 
-            $scope.keluarga = function() {
+            $scope.keluarga = function () {
                 if ($scope.dataItem) {
                     $state.go("DataKeluarga", { idPegawai: $scope.dataItem.id });
                 } else {
@@ -684,7 +684,7 @@ define(['initialize'], function(initialize) {
                 };
             }
 
-            $scope.mappingAtasan = function(e) {
+            $scope.mappingAtasan = function (e) {
                 if ($scope.dataItem) {
                     $state.go("MappingAtasanPegawai", {
                         idPegawai: $scope.dataItem.id,
@@ -695,7 +695,7 @@ define(['initialize'], function(initialize) {
                 };
             };
 
-            $scope.riwayatPendidikan = function(e) {
+            $scope.riwayatPendidikan = function (e) {
                 if ($scope.dataItem) {
                     $state.go("RiwayatPendidikan", {
                         idPegawai: $scope.dataItem.id,
@@ -706,7 +706,7 @@ define(['initialize'], function(initialize) {
                     messageContainer.error('Pegawai belum di pilih')
                 };
             };
-            $scope.riwayatJabatan = function(e) {
+            $scope.riwayatJabatan = function (e) {
                 if ($scope.dataItem) {
                     $state.go("RiwayatJabatan", {
                         idPegawai: $scope.dataItem.id,
@@ -717,11 +717,11 @@ define(['initialize'], function(initialize) {
                     messageContainer.error('Pegawai belum di pilih')
                 };
             };
-            $scope.goToUrl = function() {
+            $scope.goToUrl = function () {
                 $scope.dialogPopup.close();
                 $state.go('MasaBerlakuSipStr');
             };
-            $scope.goToUrlReport = function(data) {
+            $scope.goToUrlReport = function (data) {
                 var listRawRequired = [
                     "report.statusPegawai|k-ng-model|Status pegawai"
                 ];
@@ -734,7 +734,7 @@ define(['initialize'], function(initialize) {
                     ModelItem.showMessages(isValid.messages);
                 }
             };
-            $scope.goToUrlReportAll = function() {
+            $scope.goToUrlReportAll = function () {
                 $scope.dialogReport.close();
                 var fixUrlLaporan = cetakHelper.openURLReporting("reporting/data-pegawai-berdasarkan-kategori-pegawai?kategoryPegawaiId=");
                 window.open(fixUrlLaporan, "Report Pegawai RSABHK", "width=800, height=600");
@@ -748,28 +748,28 @@ define(['initialize'], function(initialize) {
                 return false;
             }
             var timeoutPromise;
-            $scope.$watch('item.qnamaPegawai', function(newVal, oldVal) {
+            $scope.$watch('item.qnamaPegawai', function (newVal, oldVal) {
                 if (!newVal) return;
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal && newVal !== oldVal) {
                         applyFilter("namalengkap", newVal);
                     }
                 }, 500)
             });
-            $scope.$watch('item.qkedudukanPegawai', function(newVal, oldVal) {
+            $scope.$watch('item.qkedudukanPegawai', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
                     applyFilter("statuspegawai", newVal)
                 }
             });
-            $scope.$watch('item.qjabatanInternal', function(newVal, oldVal) {
+            $scope.$watch('item.qjabatanInternal', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
                     applyFilter("objectjabatanstrukturalfk", newVal)
                 }
             });
-            $scope.$watch('item.qunitKerja', function(newVal, oldVal) {
+            $scope.$watch('item.qunitKerja', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
                     // var filteredSubUnit = $scope.listUnitKerja.filter(filterSubunit);
@@ -783,14 +783,14 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.qstatusPegawai', function(newVal, oldVal) {
+            $scope.$watch('item.qstatusPegawai', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
                     applyFilter("namakategorypegawai", newVal)
                 }
             }, true);
 
-            $scope.$watch('item.tglMasuk', function(newVal, oldVal) {
+            $scope.$watch('item.tglMasuk', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
                     applyFilter("tglmasuk", newVal)
@@ -856,7 +856,7 @@ define(['initialize'], function(initialize) {
                         // operator: "contains",
                         // value: filterValue,
                         field: "namakategorypegawai",
-                        operator: function(namakategorypegawai, value) {
+                        operator: function (namakategorypegawai, value) {
                             // debugger
                             for (var i = 0; i < $scope.item.qstatusPegawai.length; i++) {
                                 var tag = $scope.item.qstatusPegawai[i].kategorypegawai;
@@ -875,7 +875,7 @@ define(['initialize'], function(initialize) {
                         // operator: "contains",
                         // value: filterValue,
                         field: "namakategorypegawai",
-                        operator: function(namakategorypegawai, value) {
+                        operator: function (namakategorypegawai, value) {
                             // debugger
                             // for (var i = 0; i < $scope.item.qstatusPegawaiNot.length; i++) {
                             //     var tag = $scope.item.qstatusPegawaiNot[i].kategorypegawai;
@@ -921,7 +921,7 @@ define(['initialize'], function(initialize) {
                 $scope.filteredData = query.filter(params).data;
             }
             $scope.item.qstatusPegawaiNot = []
-            $scope.cekisNotPNS = function(bool) {
+            $scope.cekisNotPNS = function (bool) {
                 $scope.item.qstatusPegawaiNot = []
                 if (bool) {
                     for (var i = 0; i < $scope.ListStatusPegawai.length; i++) {
@@ -940,13 +940,13 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.resetFilters = function() {
+            $scope.resetFilters = function () {
                 var gridData = $("#gridDataPegawai").data("kendoGrid");
                 gridData.dataSource.filter({});
                 $scope.item = {};
                 $scope.filteredData = [];
             };
-            $scope.riwayat = function(data) {
+            $scope.riwayat = function (data) {
                 if (!data) {
                     messageContainer.error('Pegawai belum di pilih');
                     return;
@@ -958,14 +958,14 @@ define(['initialize'], function(initialize) {
                 var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
             }
 
-            $scope.closeHistory = function() {
+            $scope.closeHistory = function () {
                 $scope.title = "Data Pegawai";
                 $scope.klikRiwayat = false;
             }
 
 
 
-            $scope.simpanAtasan = function(data) {
+            $scope.simpanAtasan = function (data) {
                 var listRawRequired = [
                     "dataItem.atasanPejabatPenilai|k-ng-model|Atasan pejabat penilai",
                     "dataItem.atasanLangsung|k-ng-model|Atasan langsung",
@@ -991,7 +991,7 @@ define(['initialize'], function(initialize) {
                         }
                     }
                     dataModel.push(itemSend);
-                    ManageSdmNew.saveData(dataModel, "sdm/save-mapping-pegawai-to-atasan").then(function(e) {
+                    ManageSdmNew.saveData(dataModel, "sdm/save-mapping-pegawai-to-atasan").then(function (e) {
                         // grid.dataSource.add($scope.item);
                         init();
                     });
@@ -1000,7 +1000,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.cetakReport = function() {
+            $scope.cetakReport = function () {
                 $scope.report = {};
                 $scope.dialogReport.setOptions({
                     width: 400,
@@ -1010,18 +1010,18 @@ define(['initialize'], function(initialize) {
                 $scope.dialogReport.open();
             }
 
-            $scope.toogleClick = function() {
-                    var grid = $("#gridDataPegawai").data("kendoGrid");
-                    if ($scope.username == "Show") {
-                        grid.showColumn(2);
-                        $scope.username = "Hide"
-                    } else if ($scope.username == "Hide") {
-                        grid.hideColumn(2);
-                        $scope.username = "Show"
-                    }
-
+            $scope.toogleClick = function () {
+                var grid = $("#gridDataPegawai").data("kendoGrid");
+                if ($scope.username == "Show") {
+                    grid.showColumn(2);
+                    $scope.username = "Hide"
+                } else if ($scope.username == "Hide") {
+                    grid.hideColumn(2);
+                    $scope.username = "Show"
                 }
-                // * BATAS SUCI *//
+
+            }
+            // * BATAS SUCI *//
         }
     ]);
 });

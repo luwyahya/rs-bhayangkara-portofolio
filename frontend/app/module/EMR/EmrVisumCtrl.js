@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('EmrVisumCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService) {
+        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService) {
 
 
             $scope.noCM = $state.params.noCM;
@@ -26,7 +26,7 @@ define(['initialize'], function(initialize) {
             LoadCacheHelper();
             LoadCombo();
 
-            $scope.onTabChanges = function(value) {
+            $scope.onTabChanges = function (value) {
                 if (value == 1) {
                     $scope.cetakan = '1'
                 } else {
@@ -59,7 +59,7 @@ define(['initialize'], function(initialize) {
             }
 
             function LoadCombo() {
-                medifirstService.get('emr/get-combo').then(function(dat) {
+                medifirstService.get('emr/get-combo').then(function (dat) {
                     $scope.listPerawat = dat.data.perawatBidan
                     $scope.listDokter = dat.data.dokter
                 })
@@ -76,7 +76,7 @@ define(['initialize'], function(initialize) {
                 }
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=emrvisum", true).then(function(dat) {
+                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=emrvisum", true).then(function (dat) {
                     debugger
                     $scope.isRouteLoading = false
                     var nomorEMRSS = ''
@@ -99,7 +99,7 @@ define(['initialize'], function(initialize) {
                 });
 
                 function setobjectToModel(nomorEMRSS, emrfk) {
-                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function(dat) {
+                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
                         $scope.isLoading = false
                         var chekedd = false
                         $scope.item.obj = []
@@ -206,7 +206,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 $scope.treeSourceRuangan = [];
-                medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=navigasi").then(function(e) {
+                medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=navigasi").then(function (e) {
                     var inlineDefault = new kendo.data.HierarchicalDataSource({
                         data: e.data.data,
                         schema: {
@@ -218,21 +218,21 @@ define(['initialize'], function(initialize) {
                     });
                     $scope.treeSourceBedah = inlineDefault
                     $scope.mainTreeViewBedahOption = {
-                            dataTextField: ["caption"],
-                            datakKeyField: ["id"],
-                            select: onSelect,
-                            dragAndDrop: true,
-                            checkboxes: false
-                        }
-                        // var treeview = $("#treeview").data("kendoTreeView");
-                        // .expandPath([2, 5])
+                        dataTextField: ["caption"],
+                        datakKeyField: ["id"],
+                        select: onSelect,
+                        dragAndDrop: true,
+                        checkboxes: false
+                    }
+                    // var treeview = $("#treeview").data("kendoTreeView");
+                    // .expandPath([2, 5])
                 })
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -241,15 +241,15 @@ define(['initialize'], function(initialize) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.cetakPdfold = function() {
+            $scope.cetakPdfold = function () {
                 if (norecEMR == '') return
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/e-rekammedis?cetak-emr-traseprimer&id=' + $scope.cc.nocm + '&emr=' + norecEMR + '&view=true', function(response) {
+                client.get('http://127.0.0.1:1237/printvb/e-rekammedis?cetak-emr-traseprimer&id=' + $scope.cc.nocm + '&emr=' + norecEMR + '&view=true', function (response) {
                     // do something with response
                 });
             }
 
-            $scope.cetakPdf = function() {
+            $scope.cetakPdf = function () {
                 if ($scope.cetakan == 1) {
                     cetakpdf2();
                 } else {
@@ -287,7 +287,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -306,7 +306,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/visum.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/visum.pdf');
@@ -330,9 +330,9 @@ define(['initialize'], function(initialize) {
                 // var base643 = '';
                 var user = medifirstService.getPegawaiLogin();
                 var arrPush = []
-                    // for (var i = 0; i <= 150 - 1; i++) {
-                    //     arrPush.push({ emrdfk: i.toString(), value: "" })
-                    // }
+                // for (var i = 0; i <= 150 - 1; i++) {
+                //     arrPush.push({ emrdfk: i.toString(), value: "" })
+                // }
                 for (var i = 1115; i <= 1141 - 1; i++) {
                     arrPush.push({ emrdfk: i.toString(), value: "" })
                 }
@@ -353,7 +353,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         console.log(this.response, typeof this.response);
 
@@ -368,7 +368,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum2x.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/visum2x.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum2x.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/visum2x.pdf');
@@ -383,47 +383,47 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
             }
 
-            medifirstService.getPart('emr/get-datacombo-part-pegawai', true, true, 20).then(function(data) {
+            medifirstService.getPart('emr/get-datacombo-part-pegawai', true, true, 20).then(function (data) {
                 $scope.listPegawai = data
             })
             $scope.listCaraMasuk2 = [{
-                    "id": 1,
-                    "nama": " ",
-                    "detail": [
-                        { "id": 1140, "nama": "Tanggal ", "type": "textbox" },
-                        { "id": 1141, "nama": "Jam ", "type": "textbox" },
+                "id": 1,
+                "nama": " ",
+                "detail": [
+                    { "id": 1140, "nama": "Tanggal ", "type": "textbox" },
+                    { "id": 1141, "nama": "Jam ", "type": "textbox" },
 
-                    ]
-                },
-                {
-                    "id": 2,
-                    "nama": "HANYA UNTUK PASIEN",
-                    "detail": [
-                        { "id": 1115, "nama": "Rujukan :", "type": "captionfull" },
-                        { "id": 1116, "nama": "Surat dari :", "type": "textbox" },
-                        { "id": 1117, "nama": "No.Pol : ", "type": "textbox" },
-                        { "id": 1118, "nama": "Tanggal :", "type": "textbox" },
-                        { "id": 1119, "nama": "Permintaan visumet Reprtum ", "type": "textbox" },
-                        { "id": 1120, "nama": "2. Pemeriksaan dulakukan oleh ", "type": "textbox" },
-                        { "id": 1121, "nama": "Dokter pada ", "type": "textbox" },
-                        { "id": 1122, "nama": "RUMAH SAKIT UNIVERSITAS ANDALAS R.Said Sukanto Kramat Jati Jakarta atas nama: :", "type": "captionfull" },
-                        { "id": 1123, "nama": "nama ", "type": "textbox" },
-                        { "id": 1124, "nama": "Jenis Kelamin ", "type": "textbox" },
-                        { "id": 1125, "nama": "Umur ", "type": "textbox" },
-                        { "id": 1126, "nama": "Warga Negara ", "type": "textbox" },
-                        { "id": 1127, "nama": "Agama ", "type": "textbox" },
-                        { "id": 1128, "nama": "Pekerjaan ", "type": "textbox" },
-                        { "id": 1129, "nama": "Alamat ", "type": "textbox" },
-                        { "id": 1130, "nama": "3. Riwayat Kejadian ", "type": "textbox" },
-                        { "id": 1131, "nama": "4. Hasil Pemeriksaan ", "type": "textbox" },
-                        { "id": 1132, "nama": "Pendamping Dokter Pemeriksa 1 ", "type": "textbox" },
-                        { "id": 1133, "nama": "Pendamping Dokter Pemeriksa 2 ", "type": "textbox" },
-                        { "id": 1134, "nama": "Pendamping Dokter Pemeriksa 3 ", "type": "textbox" },
-                        { "id": 1135, "nama": "Pendamping Dokter Pemeriksa 4 ", "type": "textbox" },
-                        { "id": 1136, "nama": "Pendamping Dokter Pemeriksa 5 ", "type": "textbox" },
-                        // { "id": 11, "nama": "Tamtama ", "type": "checkbox" },
-                    ]
-                }
+                ]
+            },
+            {
+                "id": 2,
+                "nama": "HANYA UNTUK PASIEN",
+                "detail": [
+                    { "id": 1115, "nama": "Rujukan :", "type": "captionfull" },
+                    { "id": 1116, "nama": "Surat dari :", "type": "textbox" },
+                    { "id": 1117, "nama": "No.Pol : ", "type": "textbox" },
+                    { "id": 1118, "nama": "Tanggal :", "type": "textbox" },
+                    { "id": 1119, "nama": "Permintaan visumet Reprtum ", "type": "textbox" },
+                    { "id": 1120, "nama": "2. Pemeriksaan dulakukan oleh ", "type": "textbox" },
+                    { "id": 1121, "nama": "Dokter pada ", "type": "textbox" },
+                    { "id": 1122, "nama": "RUMAH SAKIT UNIVERSITAS ANDALAS R.Said Sukanto Kramat Jati Jakarta atas nama: :", "type": "captionfull" },
+                    { "id": 1123, "nama": "nama ", "type": "textbox" },
+                    { "id": 1124, "nama": "Jenis Kelamin ", "type": "textbox" },
+                    { "id": 1125, "nama": "Umur ", "type": "textbox" },
+                    { "id": 1126, "nama": "Warga Negara ", "type": "textbox" },
+                    { "id": 1127, "nama": "Agama ", "type": "textbox" },
+                    { "id": 1128, "nama": "Pekerjaan ", "type": "textbox" },
+                    { "id": 1129, "nama": "Alamat ", "type": "textbox" },
+                    { "id": 1130, "nama": "3. Riwayat Kejadian ", "type": "textbox" },
+                    { "id": 1131, "nama": "4. Hasil Pemeriksaan ", "type": "textbox" },
+                    { "id": 1132, "nama": "Pendamping Dokter Pemeriksa 1 ", "type": "textbox" },
+                    { "id": 1133, "nama": "Pendamping Dokter Pemeriksa 2 ", "type": "textbox" },
+                    { "id": 1134, "nama": "Pendamping Dokter Pemeriksa 3 ", "type": "textbox" },
+                    { "id": 1135, "nama": "Pendamping Dokter Pemeriksa 4 ", "type": "textbox" },
+                    { "id": 1136, "nama": "Pendamping Dokter Pemeriksa 5 ", "type": "textbox" },
+                    // { "id": 11, "nama": "Tamtama ", "type": "checkbox" },
+                ]
+            }
             ]
             $scope.listCaraMasuk = [
                 // {
@@ -799,7 +799,7 @@ define(['initialize'], function(initialize) {
 
 
 
-            $scope.$watch('item.obj[69]', function(nilai) {
+            $scope.$watch('item.obj[69]', function (nilai) {
 
                 if (nilai == undefined) return
                 nilai = parseInt(nilai)
@@ -831,7 +831,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.getSkalaNyeri = function(data, stat) {
+            $scope.getSkalaNyeri = function (data, stat) {
                 $scope.activeStatus = stat.descNilai
                 var nilai = stat.descNilai
                 if (nilai >= 0 && nilai <= 1) {
@@ -885,7 +885,7 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.getSkor = function(stat) {
+            $scope.getSkor = function (stat) {
 
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
@@ -908,7 +908,7 @@ define(['initialize'], function(initialize) {
                 setSkorAkhir($scope.item.obj[3152])
             }
             $scope.totalSkorAses = 0
-            $scope.getSkorAsesmen = function(stat, skor) {
+            $scope.getSkorAsesmen = function (stat, skor) {
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
@@ -926,7 +926,7 @@ define(['initialize'], function(initialize) {
                 }
                 $scope.item.obj[5194] = $scope.totalSkorAses
             }
-            $scope.getSkor2 = function(stat) {
+            $scope.getSkor2 = function (stat) {
 
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
@@ -946,10 +946,10 @@ define(['initialize'], function(initialize) {
                     }
                 }
                 $scope.item.obj[5084] = $scope.totalSkor + $scope.totalSkor2
-                    // setSkorAkhir($scope.item.obj[3152])
+                // setSkorAkhir($scope.item.obj[3152])
             }
             $scope.skorNutrisi = 0
-            $scope.getSkorNutrisi = function(stat) {
+            $scope.getSkorNutrisi = function (stat) {
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
@@ -961,7 +961,7 @@ define(['initialize'], function(initialize) {
                             $scope.skorNutrisi = $scope.skorNutrisi - parseFloat(stat.descNilai)
                             break
                         }
-                    } else {}
+                    } else { }
                 }
                 $scope.item.obj[5094] = $scope.skorNutrisi
             }
@@ -989,7 +989,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.cc.norec,
@@ -997,34 +997,34 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.Save = function() {
+            $scope.Save = function () {
                 var photo = ""
                 var photo2 = ""
                 var photo3 = ""
                 kendo.drawing.drawDOM($(".surface"))
-                    .then(function(group) {
+                    .then(function (group) {
 
                         // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
-                    }).done(function(data) {
+                    }).done(function (data) {
                         photo = data
 
                     })
                 kendo.drawing.drawDOM($(".surface2"))
-                    .then(function(group) {
+                    .then(function (group) {
 
                         // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
-                    }).done(function(data) {
+                    }).done(function (data) {
                         photo2 = data
 
                     })
                 kendo.drawing.drawDOM($(".surface3"))
-                    .then(function(group) {
+                    .then(function (group) {
 
                         // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
-                    }).done(function(data) {
+                    }).done(function (data) {
                         photo3 = data
 
                     })
@@ -1053,15 +1053,15 @@ define(['initialize'], function(initialize) {
                     head: $scope.cc,
                     data: arrSave
                 }
-                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function(e) {
+                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr visum ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
-                        $scope.cc.noregistrasi).then(function(res) {})
+                        $scope.cc.noregistrasi).then(function (res) { })
 
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr visum' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
-                        $scope.cc.noregistrasi).then(function(res) {})
+                        $scope.cc.noregistrasi).then(function (res) { })
                     init()
                     var arrStr = {
                         0: e.data.data.noemr

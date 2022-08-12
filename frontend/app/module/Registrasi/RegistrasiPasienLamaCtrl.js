@@ -1252,7 +1252,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1000/generic/report/kartupasien2.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1000/generic/report/kartupasien2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/kartupasien2.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1000/generic/report/kartupasien2.pdf');

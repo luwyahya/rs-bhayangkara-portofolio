@@ -1,8 +1,8 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
 
     'use strict';
     initialize.controller('IndikatoPMKPCtrl', ['$state', 'MedifirstService', '$rootScope', '$scope', 'DateHelper', '$timeout',
-        function($state, medifirstService, $rootScope, $scope, dateHelper, $timeout) {
+        function ($state, medifirstService, $rootScope, $scope, dateHelper, $timeout) {
             $scope.titleButton = 'Input Edukasi'
             $scope.isRouteLoading = false;
             $scope.now = new Date();
@@ -17,7 +17,7 @@ define(['initialize'], function(initialize) {
             var dataTea = [];
             $scope.istempatLaporan = true;
             $scope.item2 = {}
-            $scope.monthSelectorOptions = function() {
+            $scope.monthSelectorOptions = function () {
                 return {
                     start: "year",
                     depth: "year",
@@ -42,7 +42,7 @@ define(['initialize'], function(initialize) {
                 //     $scope.listRuangan = e;
                 // });
 
-                medifirstService.get('sysadmin/general/get-combo-pegawai').then(function(e) {
+                medifirstService.get('sysadmin/general/get-combo-pegawai').then(function (e) {
                     $scope.listPegawai = e.data
                 });
 
@@ -50,13 +50,13 @@ define(['initialize'], function(initialize) {
                 //     $scope.listDepartemen = data;
                 // });
 
-                medifirstService.get("pmkp/get-data-combo-pmkp").then(function(data) {
+                medifirstService.get("pmkp/get-data-combo-pmkp").then(function (data) {
                     var datas = data.data
                     $scope.listDepartemen = datas.listdept;
                 })
             }
 
-            $scope.getIsiComboRuangan = function() {
+            $scope.getIsiComboRuangan = function () {
                 if ($scope.item.departemen == undefined) {
                     $scope.listRuangan = $scope.item2.departemen.ruangan
                 } else {
@@ -65,14 +65,14 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.cekAll = function(bool) {
+            $scope.cekAll = function (bool) {
                 if (bool) {
-                    $scope.listDokter.forEach(function(e) {
+                    $scope.listDokter.forEach(function (e) {
                         e.isChecked = true
                         $scope.arrDokter.push(e)
                     })
                 } else {
-                    $scope.listDokter.forEach(function(e) {
+                    $scope.listDokter.forEach(function (e) {
                         e.isChecked = false
                         $scope.arrDokter = []
                     })
@@ -82,7 +82,7 @@ define(['initialize'], function(initialize) {
 
             $("#calendar").kendoCalendar();
             var isCheckAll = false
-            $scope.selectUnselectAllRow = function() {
+            $scope.selectUnselectAllRow = function () {
                 var tempData = $scope.dataSourceGrid._data;
 
                 if (isCheckAll) {
@@ -121,8 +121,8 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.selectRow = function(dataItem) {
-                var dataSelect = _.find($scope.dataSourceGrid._data, function(data) {
+            $scope.selectRow = function (dataItem) {
+                var dataSelect = _.find($scope.dataSourceGrid._data, function (data) {
                     return data.id == dataItem.id;
                 });
 
@@ -142,14 +142,14 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 if (tanggal != "null")
                     return moment(tanggal).format('DD-MMM-YYYY HH:mm');
                 else
                     return '-'
             }
 
-            $scope.cariDokter = function() {
+            $scope.cariDokter = function () {
                 $scope.listTempDokter = []
                 if ($scope.item.cariDokter != undefined) {
                     var textbox = $scope.item.cariDokter.toLowerCase()
@@ -166,7 +166,7 @@ define(['initialize'], function(initialize) {
                     $scope.listDokter = $scope.listDokterCari
             }
 
-            $scope.cariLaporan = function() {
+            $scope.cariLaporan = function () {
 
                 if ($scope.item2.bulan == undefined) {
                     toastr.error('Bulan Belum di pilih ')
@@ -182,12 +182,12 @@ define(['initialize'], function(initialize) {
                 }
 
                 if ($scope.item2.departemen == undefined) {
-                    medifirstService.get('pmkp/get-lap-indikator-mutu-pmkp?bln=' + bln).then(function(e) {
+                    medifirstService.get('pmkp/get-lap-indikator-mutu-pmkp?bln=' + bln).then(function (e) {
                         $scope.isRouteLoading = false;
                         debugger;
                         $scope.generateTable2(e)
                     })
-                    medifirstService.get('pmkp/get-capaian-indikator-pmkp?bln=' + bln).then(function(res) {
+                    medifirstService.get('pmkp/get-capaian-indikator-pmkp?bln=' + bln).then(function (res) {
                         $scope.isRouteLoading = false;
                         if (res.statResponse) {
                             var data = res.data
@@ -225,13 +225,13 @@ define(['initialize'], function(initialize) {
                     //'pmkp/get-data-sasaran-mutu-pmkp?bulan=' + bln + idDept
                     //pmkp/get-data-indikator-departemen-pmkp?" + "idDept=" + $scope.item.Departemen.value        
 
-                    medifirstService.get('pmkp/get-lap-indikator-mutu-pmkp?departemenfk=' + idDept + '&bln=' + bln + '&idRuangan=' + idRuangan).then(function(e) {
+                    medifirstService.get('pmkp/get-lap-indikator-mutu-pmkp?departemenfk=' + idDept + '&bln=' + bln + '&idRuangan=' + idRuangan).then(function (e) {
                         $scope.isRouteLoading = false;
                         debugger;
                         $scope.generateTable2(e)
                     })
 
-                    medifirstService.get('pmkp/get-capaian-indikator-pmkp?departemenfk=' + idDept + '&bln=' + bln + '&idRuangan=' + idRuangan).then(function(res) {
+                    medifirstService.get('pmkp/get-capaian-indikator-pmkp?departemenfk=' + idDept + '&bln=' + bln + '&idRuangan=' + idRuangan).then(function (res) {
                         $scope.isRouteLoading = false;
                         if (res.statResponse) {
                             var data = res.data
@@ -253,69 +253,69 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.generateTable2 = function(e) {
+            $scope.generateTable2 = function (e) {
 
                 $scope.columnnss = [{
-                        "field": "no",
-                        "title": "<h3 align=center>No.<h3>",
-                        "width": "48px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
+                    "field": "no",
+                    "title": "<h3 align=center>No.<h3>",
+                    "width": "48px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
+                    }
+                },
+                {
+                    "field": "indikator",
+                    "title": "<h3 align=center>Indikator<h3>",
+                    "width": "210px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "field": "keteranganinput",
+                    "title": "<h3 align=center>Keterangan<h3>",
+                    "width": "250px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "field": "keterangan",
+                    "title": "<h3 align=center>Numerator Dan Denominator<h3>",
+                    "width": "210px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
+                    "columns": $scope.createColumn222(),
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
+                    }
+                    // title: $scope.getBulan(),
+                    // columns: $scope.createColumn(),
+                },
+                {
+                    "field": "total",
+                    "title": "<h3 align=center>Total<h3>",
+                    "width": "410px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
                     },
-                    {
-                        "field": "indikator",
-                        "title": "<h3 align=center>Indikator<h3>",
-                        "width": "210px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "field": "keteranganinput",
-                        "title": "<h3 align=center>Keterangan<h3>",
-                        "width": "250px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "field": "keterangan",
-                        "title": "<h3 align=center>Numerator Dan Denominator<h3>",
-                        "width": "210px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
-                        "columns": $scope.createColumn222(),
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
-                        // title: $scope.getBulan(),
-                        // columns: $scope.createColumn(),
-                    },
-                    {
-                        "field": "total",
-                        "title": "<h3 align=center>Total<h3>",
-                        "width": "410px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        },
-                    },
+                },
                     // {
                     //     "field": "denum",
                     //     "title": "<h3 align=center>Denum (B)<h3>",
@@ -352,7 +352,7 @@ define(['initialize'], function(initialize) {
                     for (let x = 0; x < arrGroup.length; x++) {
                         if (arrGroup[x].indikator == result[i].indikator && arrGroup[x].keterangan == result[i].keterangan) {
                             arrGroup[x].keterangan = result[i].keterangan
-                                // arrGroup[x].total = parseFloat(result[i].nilai) + parseFloat(arrGroup[x].nilai)
+                            // arrGroup[x].total = parseFloat(result[i].nilai) + parseFloat(arrGroup[x].nilai)
                             var tgls = new Date(result[i].tgl).getDate().toString()
                             arrGroup[x]['date' + tgls] = result[i].nilai
                             sama = true;
@@ -418,11 +418,11 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.inputJadwal = function() {
+            $scope.inputJadwal = function () {
                 $scope.isInput = !$scope.isInput
-                    // if ($scope.isInput) {
-                    //     $scope.titleButton = 'Hide Input Edukasi'                    
-                    // } else { $scope.titleButton = 'Input Edukasi' }     
+                // if ($scope.isInput) {
+                //     $scope.titleButton = 'Hide Input Edukasi'                    
+                // } else { $scope.titleButton = 'Input Edukasi' }     
                 var deptID = ""
                 if ($scope.item.departemen != undefined) {
                     deptID = $scope.item.departemen.id
@@ -438,7 +438,7 @@ define(['initialize'], function(initialize) {
                 //     window.messageContainer.error("Departemen Masih Kosong");
                 // }
                 datana = [];
-                medifirstService.get("pmkp/get-data-indikator-departemen-pmkp?idDept=" + deptID + "&idRuangan=" + idRuangan).then(function(e) {
+                medifirstService.get("pmkp/get-data-indikator-departemen-pmkp?idDept=" + deptID + "&idRuangan=" + idRuangan).then(function (e) {
                     var datas = e.data.data
                     for (let i = 0; i < datas.length; i++) {
                         datas[i].no = i + 1;
@@ -448,7 +448,7 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.Hide = function() {
+            $scope.Hide = function () {
                 $scope.isInput = false;
                 $scope.sourceJadwalBulanan = new kendo.data.DataSource({
                     data: [],
@@ -456,59 +456,59 @@ define(['initialize'], function(initialize) {
                 $scope.item.departemen = undefined;
             }
 
-            $scope.generateTable = function() {
+            $scope.generateTable = function () {
                 $scope.column = [{
-                        "field": "no",
-                        "title": "<h3 align=center>No.<h3>",
-                        "width": "48px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
-                    },
-                    {
-                        "field": "indikator",
-                        "title": "<h3 align=center>Indikator<h3>",
-                        "width": "210px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "field": "keteranganinput",
-                        "title": "<h3 align=center>Keterangan<h3>",
-                        "width": "250px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "field": "keterangan",
-                        "title": "<h3 align=center>Numerator Dan Denominator<h3>",
-                        "width": "210px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        // numeratordenominator
-                        "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
-                        "columns": $scope.createColumn(),
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
-                        // title: $scope.getBulan(),
-                        // columns: $scope.createColumn(),
-                    },
+                    "field": "no",
+                    "title": "<h3 align=center>No.<h3>",
+                    "width": "48px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
+                    }
+                },
+                {
+                    "field": "indikator",
+                    "title": "<h3 align=center>Indikator<h3>",
+                    "width": "210px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "field": "keteranganinput",
+                    "title": "<h3 align=center>Keterangan<h3>",
+                    "width": "250px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "field": "keterangan",
+                    "title": "<h3 align=center>Numerator Dan Denominator<h3>",
+                    "width": "210px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    // numeratordenominator
+                    "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
+                    "columns": $scope.createColumn(),
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
+                    }
+                    // title: $scope.getBulan(),
+                    // columns: $scope.createColumn(),
+                },
                     // {
                     //     "field": "num",
                     //     "title": "<h3 align=center>NUM (A)<h3>",
@@ -577,7 +577,7 @@ define(['initialize'], function(initialize) {
 
             $scope.bulanSelected = moment($scope.item.bulan).format("MMMM YYYY")
 
-            $scope.getBulan = function() {
+            $scope.getBulan = function () {
                 $scope.bulanString = moment($scope.item.bulan).format("MMMM YYYY")
                 return "<center>" + $scope.bulanString + "</center>";
             }
@@ -587,7 +587,7 @@ define(['initialize'], function(initialize) {
                 return kolomTitle;
             }
 
-            $scope.createColumn = function() {
+            $scope.createColumn = function () {
                 var year = parseInt(moment($scope.item.bulan).format("Y"))
                 var month = parseInt(moment($scope.item.bulan).format("M"))
                 var tempDate = new Date(year, month, 0);
@@ -607,7 +607,7 @@ define(['initialize'], function(initialize) {
 
                 return list;
             }
-            $scope.createColumn222 = function() {
+            $scope.createColumn222 = function () {
                 var year = parseInt(moment($scope.item2.bulan).format("Y"))
                 var month = parseInt(moment($scope.item2.bulan).format("M"))
                 var tempDate = new Date(year, month, 0);
@@ -629,11 +629,11 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.addDokter = function(bool, data) {
+            $scope.addDokter = function (bool, data) {
                 var index = $scope.arrDokter.indexOf(data);
                 if (_.filter($scope.arrDokter, {
-                        id: data.id
-                    }).length === 0 && bool)
+                    id: data.id
+                }).length === 0 && bool)
 
                     $scope.arrDokter.push(data);
                 else
@@ -641,10 +641,10 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.onDataBound = function(e) {
+            $scope.onDataBound = function (e) {
                 data_head = [];
                 var grid = $("#gridBulan").data("kendoGrid");
-                $(grid.tbody).on("click", "td", function(e) {
+                $(grid.tbody).on("click", "td", function (e) {
                     var row = $(this).closest("tr");
                     var colIdx = $("td", row).index(this);
                     var num = 0;
@@ -709,11 +709,11 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.batal = function() {
+            $scope.batal = function () {
                 $scope.item.jumlahPengunjung = undefined;
             }
 
-            $scope.pushKeArray = function(no, norec, id, indikator, list, date, isi, num, denum, capaian, keterangan, ND) {
+            $scope.pushKeArray = function (no, norec, id, indikator, list, date, isi, num, denum, capaian, keterangan, ND) {
                 // debugger
 
                 for (let i = 0; i < dataARR.length; i++) {
@@ -771,24 +771,24 @@ define(['initialize'], function(initialize) {
                 console.log(dataTea)
             }
 
-            $scope.save = function() {
+            $scope.save = function () {
                 if ($scope.item.departemen == undefined) {
                     toastr.error('Departemen Tidak Boleh Kosong')
                     return
                 }
                 var data2 = []
-                    // var isi = ' ';                
-                    // for (let i = 0; i < dataARR.length; i++) {
-                    //     for (let j = 0; j < dataARR[i].listTgl.length; j++) {
-                    //         for (let k = 0; k < dataARR[i].detail.length; j++) {
-                    //             data2.push({
-                    //                 'tgl': dataARR[i].listTgl[j],
-                    //                 'detail': dataARR[i].detail[k],
-                    //                 'indikatorfk': dataARR[i].id,
-                    //             })
-                    //         }
-                    //     }
-                    // }
+                // var isi = ' ';                
+                // for (let i = 0; i < dataARR.length; i++) {
+                //     for (let j = 0; j < dataARR[i].listTgl.length; j++) {
+                //         for (let k = 0; k < dataARR[i].detail.length; j++) {
+                //             data2.push({
+                //                 'tgl': dataARR[i].listTgl[j],
+                //                 'detail': dataARR[i].detail[k],
+                //                 'indikatorfk': dataARR[i].id,
+                //             })
+                //         }
+                //     }
+                // }
                 if (dataTea == undefined) {
                     // data2.push(dataTea);
                     toastr.error('Data Tidak Boleh Kosong')
@@ -802,7 +802,7 @@ define(['initialize'], function(initialize) {
                     'numerator': $scope.numerator != undefined ? $scope.numerator : 0,
                     'data': dataTea
                 }
-                medifirstService.post('pmkp/save-data-sasaran-mutu', objSave).then(function(e) {
+                medifirstService.post('pmkp/save-data-sasaran-mutu', objSave).then(function (e) {
                     searchData()
                 })
             }
@@ -821,7 +821,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = true;
                 //'pmkp/get-data-sasaran-mutu-pmkp?bulan=' + bln + idDept
                 //pmkp/get-data-indikator-departemen-pmkp?" + "idDept=" + $scope.item.Departemen.value             
-                medifirstService.get('pmkp/get-data-indikator-departemen-pmkp?' + idDept).then(function(e) {
+                medifirstService.get('pmkp/get-data-indikator-departemen-pmkp?' + idDept).then(function (e) {
                     $scope.isRouteLoading = false;
                     dataGrid = e.data.data;
                     for (let i = 0; i < dataGrid.length; i++) {
@@ -839,79 +839,79 @@ define(['initialize'], function(initialize) {
                             fileName: "sensushariansasaranmutu.xlsx",
                             allPages: true,
                         },
-                        excelExport: function(e) {},
+                        excelExport: function (e) { },
                         editable: false,
                         scrollable: true,
                         selectable: "row",
                         columns: [{
-                                "field": "no",
-                                "title": "<h3 align=center>NO<h3>",
-                                "width": "50px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "indikator",
-                                "title": "<h3 align=center>Indikator<h3>",
-                                "width": "600px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "keterangan",
-                                "title": "<h3 align=center>Keterangan<h3>",
-                                "width": "600px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "title": "<h3 align=center>Tanggal<h3>",
-                                "columns": $scope.createColumn(),
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: center;"
-                                }
-                            },
-                            {
-                                "field": "num",
-                                "title": "<h3 align=center>NUM (A)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                },
-                            },
-                            {
-                                "field": "denum",
-                                "title": "<h3 align=center>Denum (B)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "capaian",
-                                "title": "<h3 align=center>Capaian (%)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
+                            "field": "no",
+                            "title": "<h3 align=center>NO<h3>",
+                            "width": "50px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
                             }
+                        },
+                        {
+                            "field": "indikator",
+                            "title": "<h3 align=center>Indikator<h3>",
+                            "width": "600px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        },
+                        {
+                            "field": "keterangan",
+                            "title": "<h3 align=center>Keterangan<h3>",
+                            "width": "600px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        },
+                        {
+                            "title": "<h3 align=center>Tanggal<h3>",
+                            "columns": $scope.createColumn(),
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center;"
+                            }
+                        },
+                        {
+                            "field": "num",
+                            "title": "<h3 align=center>NUM (A)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            },
+                        },
+                        {
+                            "field": "denum",
+                            "title": "<h3 align=center>Denum (B)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        },
+                        {
+                            "field": "capaian",
+                            "title": "<h3 align=center>Capaian (%)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        }
                         ]
                     })
 
@@ -940,7 +940,7 @@ define(['initialize'], function(initialize) {
                     }
                 }
                 $scope.isRouteLoading = false;
-                medifirstService.get('pmkp/get-data-sasaran-mutu-pmkp?bulan=' + bln + idDept).then(function(e) {
+                medifirstService.get('pmkp/get-data-sasaran-mutu-pmkp?bulan=' + bln + idDept).then(function (e) {
                     $scope.datasSearch = e.data
                     for (var i = $scope.datasSearch.length - 1; i >= 0; i--) {
                         $scope.datasSearch[i].no = i + 1
@@ -957,7 +957,7 @@ define(['initialize'], function(initialize) {
 
                     var Data = e.data.data;
                     var Datas = $scope.dataSource._data
-                    $scope.datasSearch.forEach(function(element) {
+                    $scope.datasSearch.forEach(function (element) {
                         var customData = {};
                         for (var key in element) {
                             switch (key) {
@@ -991,71 +991,71 @@ define(['initialize'], function(initialize) {
                             fileName: "sensushariansasaranmutu.xlsx",
                             allPages: true,
                         },
-                        excelExport: function(e) {},
+                        excelExport: function (e) { },
                         editable: false,
                         scrollable: true,
                         selectable: "row",
                         // sortable: true,
                         columns: [{
-                                "field": "no",
-                                "title": "<h3 align=center>NO<h3>",
-                                "width": "50px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "keselamatan",
-                                "title": "<h3 align=center>Insiden Keselamatan Pasien<h3>",
-                                "width": "600px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "isian",
-                                "title": "<h3 align=center>Tanggal<h3>",
-                                "columns": $scope.createColumn(),
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: center;"
-                                }
-                            }, ,
-                            {
-                                "field": "num",
-                                "title": "<h3 align=center>NUM (A)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                },
-                            },
-                            {
-                                "field": "denum",
-                                "title": "<h3 align=center>Denum (B)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
-                            },
-                            {
-                                "field": "capaian",
-                                "title": "<h3 align=center>Capaian (%)<h3>",
-                                "width": "410px",
-                                "filterable": false,
-                                attributes: {
-                                    "class": "table-cell",
-                                    style: "text-align: left;"
-                                }
+                            "field": "no",
+                            "title": "<h3 align=center>NO<h3>",
+                            "width": "50px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
                             }
+                        },
+                        {
+                            "field": "keselamatan",
+                            "title": "<h3 align=center>Insiden Keselamatan Pasien<h3>",
+                            "width": "600px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        },
+                        {
+                            "field": "isian",
+                            "title": "<h3 align=center>Tanggal<h3>",
+                            "columns": $scope.createColumn(),
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: center;"
+                            }
+                        }, ,
+                        {
+                            "field": "num",
+                            "title": "<h3 align=center>NUM (A)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            },
+                        },
+                        {
+                            "field": "denum",
+                            "title": "<h3 align=center>Denum (B)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        },
+                        {
+                            "field": "capaian",
+                            "title": "<h3 align=center>Capaian (%)<h3>",
+                            "width": "410px",
+                            "filterable": false,
+                            attributes: {
+                                "class": "table-cell",
+                                style: "text-align: left;"
+                            }
+                        }
                         ]
                     }
                     $scope.dataSource = new kendo.data.DataSource({
@@ -1065,16 +1065,16 @@ define(['initialize'], function(initialize) {
             }
 
             var timeoutPromise;
-            $scope.$watch('item.cariDokters', function(newVal, oldVal) {
+            $scope.$watch('item.cariDokters', function (newVal, oldVal) {
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal && newVal !== oldVal) {
                         applyFilter("namalengkap", newVal)
                     }
                 }, 500)
             })
 
-            $scope.cariDokterGrid = function() {
+            $scope.cariDokterGrid = function () {
                 applyFilter("namalengkap", $scope.item.cariDokters)
             }
 
@@ -1112,13 +1112,13 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.resetFilter = function() {
+            $scope.resetFilter = function () {
                 var dataGrid = $("#kGrid").data("kendoGrid");
                 dataGrid.dataSource.filter({});
                 delete $scope.item.cariDokters;
             }
 
-            $scope.hapusJadwal = function() {
+            $scope.hapusJadwal = function () {
                 if ($scope.selectedData.length == 0) {
                     toastr.error('Ceklis data yang mau dihapus')
                     return
@@ -1126,54 +1126,54 @@ define(['initialize'], function(initialize) {
                 var json = {
                     'data': $scope.selectedData
                 }
-                medifirstService.post('rawatinap/hapus-jadwal-perbulan-pegawai', json).then(function(e) {
+                medifirstService.post('rawatinap/hapus-jadwal-perbulan-pegawai', json).then(function (e) {
                     searchData()
                 }, function error() {
 
                 })
             }
 
-            $scope.cari = function() {
+            $scope.cari = function () {
                 searchData();
             }
 
-            $scope.generateTables = function() {
+            $scope.generateTables = function () {
                 $scope.columns = [{
-                        "field": "no",
-                        "title": "<h3 align=center>No.<h3>",
-                        "width": "48px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
-                    },
-                    {
-                        "field": "jeniskegiatan",
-                        "title": "<h3 align=center>Jenis Kegiatan<h3>",
-                        "width": "410px",
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: left;"
-                        }
-                    },
-                    {
-                        "field": "isian",
-                        "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
-                        "columns": $scope.createColumn(),
-                        "filterable": false,
-                        attributes: {
-                            "class": "table-cell",
-                            style: "text-align: center;"
-                        }
-                        // title: $scope.getBulan(),
-                        // columns: $scope.createColumn(),
+                    "field": "no",
+                    "title": "<h3 align=center>No.<h3>",
+                    "width": "48px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
                     }
+                },
+                {
+                    "field": "jeniskegiatan",
+                    "title": "<h3 align=center>Jenis Kegiatan<h3>",
+                    "width": "410px",
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: left;"
+                    }
+                },
+                {
+                    "field": "isian",
+                    "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
+                    "columns": $scope.createColumn(),
+                    "filterable": false,
+                    attributes: {
+                        "class": "table-cell",
+                        style: "text-align: center;"
+                    }
+                    // title: $scope.getBulan(),
+                    // columns: $scope.createColumn(),
+                }
                 ]
             }
 
-            $scope.generateGridColumn = function() {
+            $scope.generateGridColumn = function () {
                 var year = $scope.item.bulan.getYear();
                 var month = $scope.item.bulan.getMonth();
                 var dateInMonth = new Date(year, month + 1, 0);
@@ -1200,10 +1200,10 @@ define(['initialize'], function(initialize) {
                 ],
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -1213,7 +1213,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.Cetak = function() {
+            $scope.Cetak = function () {
                 var bln = ''
                 if ($scope.item2.bulan != undefined) {
                     bln = moment($scope.item2.bulan).format('YYYY-MM')
@@ -1238,89 +1238,89 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/pmkp?cetak-lap-sensus-indikator-mutu&tgl=' + bln + '&dept=' + idDept + '&idruangan=' + idRuangan + '&view=' + stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/pmkp?cetak-lap-sensus-indikator-mutu&tgl=' + bln + '&dept=' + idDept + '&idruangan=' + idRuangan + '&view=' + stt, function (response) {
                     // do something with response
                 });
             }
 
-            $scope.cetakJasper = function() {
-                    debugger
+            $scope.cetakJasper = function () {
+                debugger
 
 
-                    if ($scope.item2.bulan == undefined) {
-                        toastr.error('Bulan Belum di pilih ')
-                        return
-                    }
-                    if ($scope.item2.departemen == undefined) {
-                        toastr.error('Departemen Belum di pilih ')
-                        return
-                    }
-                    var bln = ''
-                    if ($scope.item2.bulan != undefined) {
-                        bln = moment($scope.item2.bulan).format('YYYY-MM')
-                    }
-
-
-                    var idDept = ''
-                    if ($scope.item2.departemen != undefined) {
-                        idDept = $scope.item2.departemen.id
-                    }
-                    var idRuangan = ''
-                    var Ruangan = ''
-                    if ($scope.item2.ruangan != undefined) {
-                        idRuangan = $scope.item2.ruangan.id
-                        Ruangan = $scope.item2.ruangan.namaruangan
-                    } else {
-                        if ($scope.item2.departemen != undefined) {
-                            Ruangan = $scope.item2.departemen.departemen;
-                        }
-                    }
-
-                    var data = {
-                        "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRS", "alamatRS", "departemenfk", "tglnilai", "idRuangan", "namaRuangan"],
-                        "paramValue": ["", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000", idDept, bln, idRuangan, Ruangan],
-                        "paramType": ["", "", "", "", "", ""]
-                    };
-                    var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
-                        if (this.readyState == 4 && this.status == 200) {
-                            //this.response is what you're looking for
-                            // handler(this.response);
-                            console.log(this.response, typeof this.response);
-                            //var res = this.response
-                            //var file = new Blob( [res], {type: 'application/pdf'});
-                            debugger;
-                            var url = window.URL.createObjectURL(this.response)
-                            var pdf = document.getElementById('tempatLaporan');
-                            pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
-                            var win = window.open(url, '_blank');
-                            win.focus();
-                        }
-                    }
-                    if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                        xhr.open('POST', 'http://192.168.88.56:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                        xhr.open('POST', 'http://10.10.20.167:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                        xhr.open('POST', 'http://202.51.105.98:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    } else {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
-                    }
-                    // set `Content-Type` header
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                    xhr.responseType = 'blob';
-                    // send rquest with JSON payload
-                    xhr.send(JSON.stringify(data));
-
-
+                if ($scope.item2.bulan == undefined) {
+                    toastr.error('Bulan Belum di pilih ')
+                    return
                 }
-                //** BATAS SUCI */
+                if ($scope.item2.departemen == undefined) {
+                    toastr.error('Departemen Belum di pilih ')
+                    return
+                }
+                var bln = ''
+                if ($scope.item2.bulan != undefined) {
+                    bln = moment($scope.item2.bulan).format('YYYY-MM')
+                }
+
+
+                var idDept = ''
+                if ($scope.item2.departemen != undefined) {
+                    idDept = $scope.item2.departemen.id
+                }
+                var idRuangan = ''
+                var Ruangan = ''
+                if ($scope.item2.ruangan != undefined) {
+                    idRuangan = $scope.item2.ruangan.id
+                    Ruangan = $scope.item2.ruangan.namaruangan
+                } else {
+                    if ($scope.item2.departemen != undefined) {
+                        Ruangan = $scope.item2.departemen.departemen;
+                    }
+                }
+
+                var data = {
+                    "gambarLogo": "logodokkes.jpg",
+                    "paramKey": ["namaRS", "alamatRS", "departemenfk", "tglnilai", "idRuangan", "namaRuangan"],
+                    "paramValue": ["", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000", idDept, bln, idRuangan, Ruangan],
+                    "paramType": ["", "", "", "", "", ""]
+                };
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        //this.response is what you're looking for
+                        // handler(this.response);
+                        console.log(this.response, typeof this.response);
+                        //var res = this.response
+                        //var file = new Blob( [res], {type: 'application/pdf'});
+                        debugger;
+                        var url = window.URL.createObjectURL(this.response)
+                        var pdf = document.getElementById('tempatLaporan');
+                        pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                        var win = window.open(url, '_blank');
+                        win.focus();
+                    }
+                }
+                if (window.location.hostname.indexOf('192.168.0.62') > -1) {
+                    xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                    xhr.open('POST', 'http://192.168.88.56:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                    xhr.open('POST', 'http://10.10.20.167:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                    xhr.open('POST', 'http://202.51.105.98:1003/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                } else {
+                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakSensusHarianSasaranMutuPMKP.pdf');
+                }
+                // set `Content-Type` header
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.responseType = 'blob';
+                // send rquest with JSON payload
+                xhr.send(JSON.stringify(data));
+
+
+            }
+            //** BATAS SUCI */
         }
     ]);
 

@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarPenerimaanBarangSuplierValidasiCtrl', ['$scope', '$state', '$q', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($scope, $state, $q, cacheHelper, dateHelper, medifirstService) {
+        function ($scope, $state, $q, cacheHelper, dateHelper, medifirstService) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -31,28 +31,28 @@ define(['initialize'], function(initialize) {
 
             function ComboLoad() {
 
-                medifirstService.get('logistik/get-combo-logistik').then(function(dat) {
+                medifirstService.get('logistik/get-combo-logistik').then(function (dat) {
                     $scope.listDataJabatan = dat.data.jabatan;
                     $scope.ruanganUser = dat.data.ruangan[0].namaruangan;
                     init();
                 });
 
 
-                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function (data) {
                     $scope.ListDataPegawai = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function (data) {
                     $scope.listNamaBarang = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-rekanan-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-rekanan-logistik", true, true, 20).then(function (data) {
                     $scope.listRekanan = data;
                 });
                 init();
             }
 
-            $scope.BatalCetak = function() {
+            $scope.BatalCetak = function () {
                 $scope.popUp.close();
                 // $scope.item.DataJabatan1 = undefined;                 
                 // $scope.item.DataPegawai1 = undefined;
@@ -61,25 +61,25 @@ define(['initialize'], function(initialize) {
                 // $scope.item.DataJabatan3 = undefined;
                 // $scope.item.DataPegawai3 = undefined
             }
-            $scope.klikGrid = function(dataSelected) {
+            $scope.klikGrid = function (dataSelected) {
 
                 $scope.item.totalubahfaktur = parseFloat(dataSelected.totalharusdibayar)
                 tempnorecfaktur = dataSelected.norec
             }
-            $scope.ubah = function() {
+            $scope.ubah = function () {
                 $scope.popUpubahtotal.center().open();
 
             }
 
-            var onDataBound = function() {
-                $('td').each(function() {
+            var onDataBound = function () {
+                $('td').each(function () {
                     //   if ($(this).text() == 'Belum') {$(this).addClass('red')}
                     //   if ($(this).text() == 'Sudah') {$(this).addClass('green')}
                     // if ($(this).text() == 'Online') {$(this).addClass('koneng')}
 
                 })
             }
-            $scope.cetakpengajuan = function() {
+            $scope.cetakpengajuan = function () {
                 $scope.isRouteLoading = true;
                 // medifirstService.get("bedah/get-data-rinciankomponen?" + 'norecapd=' + $scope.item.norec_apd).then(function (e) {
                 var bayar = "Rp. " + parseFloat($scope.dataSelected11.total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
@@ -97,7 +97,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -118,7 +118,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1001/generic/report/permohonanpersetujuanpembayaranobat.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1001/generic/report/permohonanpersetujuanpembayaranobat.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/permohonanpersetujuanpembayaranobat.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1001/generic/report/permohonanpersetujuanpembayaranobat.pdf');
@@ -133,7 +133,7 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
                 $scope.isRouteLoading = false;
             }
-            $scope.cetakpengajuan2 = function() {
+            $scope.cetakpengajuan2 = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 $scope.isRouteLoading = true;
@@ -153,7 +153,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -174,7 +174,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1001/generic/report/selisihfaktur.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1001/generic/report/selisihfaktur.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/selisihfaktur.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1001/generic/report/selisihfaktur.pdf');
@@ -189,7 +189,7 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
                 $scope.isRouteLoading = false;
             }
-            $scope.cetakpengajuan3 = function() {
+            $scope.cetakpengajuan3 = function () {
                 $scope.isRouteLoading = true;
                 // medifirstService.get("bedah/get-data-rinciankomponen?" + 'norecapd=' + $scope.item.norec_apd).then(function (e) {
                 var bayar = "Rp. " + parseFloat($scope.dataSelected11.total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
@@ -207,7 +207,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -228,7 +228,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/permohonanpersetujuanpembayaranobat2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/permohonanpersetujuanpembayaranobat2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
 
                     xhr.open('POST', '/jasper1/generic/report/permohonanpersetujuanpembayaranobat2.pdf');
 
@@ -248,7 +248,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
             }
 
-            $scope.CetakAh = function() {
+            $scope.CetakAh = function () {
                 var jabatan1 = ''
                 if ($scope.item.DataJabatan1 != undefined) {
                     jabatan1 = $scope.item.DataJabatan1.namajabatan;
@@ -292,18 +292,18 @@ define(['initialize'], function(initialize) {
                 var client = new HttpClient();
                 client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&pegawaiPenerima=' + pegawai2 + '&pegawaiPenyerahan=' + pegawai1 + '&pegawaiMengetahui=' + pegawai3 +
                     '&jabatanPenerima=' + jabatan2 + '&jabatanPenyerahan=' + jabatan1 + '&jabatanMengetahui=' + jabatan3 + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser,
-                    function(response) {
+                    function (response) {
                         //aadc=response; 
 
                     });
                 $scope.popUp.close();
             }
 
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 $state.go('PenerimaanBarangSuplier')
             }
 
-            $scope.BatalTerima = function() {
+            $scope.BatalTerima = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -325,11 +325,11 @@ define(['initialize'], function(initialize) {
                     nostruk: $scope.dataSelected.norec,
                     noorderfk: $scope.dataSelected.noorderfk
                 }
-                medifirstService.post('logistik/delete-data-penerimaan', objSave).then(function(e) {
+                medifirstService.post('logistik/delete-data-penerimaan', objSave).then(function (e) {
                     var forsave = {
                         nostruk: $scope.dataSelected.nostruk,
                     }
-                    medifirstService.post('sysadmin/general/hapus-jurnal-penerimaan-barang', forsave).then(function(e) {
+                    medifirstService.post('sysadmin/general/hapus-jurnal-penerimaan-barang', forsave).then(function (e) {
                         init();
                     });
                 });
@@ -374,7 +374,7 @@ define(['initialize'], function(initialize) {
                         produkfk +
                         noSppb +
                         namaruangan, true),
-                ]).then(function(dat) {
+                ]).then(function (dat) {
                     $scope.isRouteLoading = false;
                     var data2 = dat[0].data.daftar;
                     for (var i = 0; i < data2.length; i++) {
@@ -408,8 +408,8 @@ define(['initialize'], function(initialize) {
                         }
                     }
 
-                    var onDataBound = function() {
-                        $('td').each(function() {
+                    var onDataBound = function () {
+                        $('td').each(function () {
                             //   if ($(this).text() == 'Belum') {$(this).addClass('red')}
                             //   if ($(this).text() == 'Sudah') {$(this).addClass('green')}
                             // if ($(this).text() == '-') {$(this).addClass('green')}
@@ -435,7 +435,7 @@ define(['initialize'], function(initialize) {
                         "tglAwal=" + tglAwal +
                         "&tglAkhir=" + tglAkhir +
                         rek, true),
-                ]).then(function(dat) {
+                ]).then(function (dat) {
                     $scope.isRouteLoading = false;
                     var data2 = dat[0].data.daftar;
                     for (var i = 0; i < data2.length; i++) {
@@ -477,15 +477,15 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('DaftarPenerimaanBarangSuplierValidasiCtrl', chacePeriode);
             }
 
-            $scope.getRuangan = function() {
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
 
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
                 init();
             }
 
-            $scope.CetakRincian = function() {
+            $scope.CetakRincian = function () {
                 var stt = 'false'
                 if (confirm('View resep? ')) {
                     // Save it!
@@ -495,21 +495,21 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.CetakBukti = function() {
+            $scope.CetakBukti = function () {
                 $scope.popUp.center().open();
             }
-            $scope.buatfaktur = function() {
+            $scope.buatfaktur = function () {
                 $scope.popUpTukarfaktur.center().open();
                 Kosongkan();
                 $scope.disabledsimpan = true;
             }
 
-            $scope.EditTerima = function() {
+            $scope.EditTerima = function () {
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
                     1: 'EditTerima',
@@ -521,11 +521,11 @@ define(['initialize'], function(initialize) {
                 }
                 cacheHelper.set('PenerimaanBarangSuplierCtrl', chacePeriode);
                 $state.go('PenerimaanBarangSuplier')
-                    // cacheHelper.set('UbahPenerimaanBarangSuplierCtrl', chacePeriode);
-                    // $state.go('UbahPenerimaanBarangSuplier')
+                // cacheHelper.set('UbahPenerimaanBarangSuplierCtrl', chacePeriode);
+                // $state.go('UbahPenerimaanBarangSuplier')
             }
 
-            $scope.RegisAset = function() {
+            $scope.RegisAset = function () {
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
                     1: 'RegisAset',
@@ -539,7 +539,7 @@ define(['initialize'], function(initialize) {
                 $state.go('RegisterAset')
             }
 
-            $scope.HapusPenerimaan = function() {
+            $scope.HapusPenerimaan = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -556,31 +556,31 @@ define(['initialize'], function(initialize) {
                     // Do nothing!
                     return;
                 }
-                manageLogistikPhp.getDataTableTransaksi("penerimaan-suplier/delete-terima-barang-suplier?" + "norec_sp=" + $scope.dataSelected.norec, true).then(function(dat) {
+                manageLogistikPhp.getDataTableTransaksi("penerimaan-suplier/delete-terima-barang-suplier?" + "norec_sp=" + $scope.dataSelected.norec, true).then(function (dat) {
                     init()
                 });
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
-            $scope.getFaktur = function() {
+            $scope.getFaktur = function () {
                 medifirstService.get("logistik/get-combo-nofaktur?" +
-                    "objectrekananfk=" + $scope.item.namarekanan.id, true).then(function(dat) {
-                    $scope.listFaktur = dat.data;
-                });
+                    "objectrekananfk=" + $scope.item.namarekanan.id, true).then(function (dat) {
+                        $scope.listFaktur = dat.data;
+                    });
             }
-            $scope.getTotal = function() {
+            $scope.getTotal = function () {
                 medifirstService.get("logistik/get-combo-totalfaktur?" +
-                    "norec=" + $scope.item.faktur.norec, true).then(function(dat) {
-                    debugger;
-                    $scope.item.totalfaktur = parseFloat(dat.data[0].totalfisikdifaktur);
-                    $scope.item.qty = parseFloat(dat.data[0].qtyproduk);
-                    $scope.item.catatanfaktur = dat.data[0].keteranganambil;
-                    $scope.item.tglfaktur = moment(dat.data[0].tglfaktur).format('DD/MM/YYYY');
-                });
+                    "norec=" + $scope.item.faktur.norec, true).then(function (dat) {
+                        debugger;
+                        $scope.item.totalfaktur = parseFloat(dat.data[0].totalfisikdifaktur);
+                        $scope.item.qty = parseFloat(dat.data[0].qtyproduk);
+                        $scope.item.catatanfaktur = dat.data[0].keteranganambil;
+                        $scope.item.tglfaktur = moment(dat.data[0].tglfaktur).format('DD/MM/YYYY');
+                    });
             }
-            $scope.tambah = function() {
+            $scope.tambah = function () {
                 $scope.disabledRuangan = true;
                 var nomor = 0
                 if ($scope.dataGrid == undefined) {
@@ -664,7 +664,7 @@ define(['initialize'], function(initialize) {
                 $scope.dataSelected = undefined
 
             }
-            $scope.bataltukar = function() {
+            $scope.bataltukar = function () {
                 // $scope.item.produk = ''
                 Kosongkan()
                 data3 = [];
@@ -682,7 +682,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.klikGrid2 = function(dataSelected) {
+            $scope.klikGrid2 = function (dataSelected) {
                 var dataProduk = [];
                 //no:no,                
                 debugger
@@ -692,7 +692,7 @@ define(['initialize'], function(initialize) {
                 $scope.item.totalfaktur = dataSelected.totalfaktur
                 $scope.item.totalubahfaktur = dataSelected.totalfaktur
             }
-            $scope.hapus = function() {
+            $scope.hapus = function () {
                 if ($scope.item.no == undefined) {
                     alert("Jumlah harus di isi!")
                     return;
@@ -735,26 +735,26 @@ define(['initialize'], function(initialize) {
                 Kosongkan()
             }
 
-            $scope.verifikasi = function() {
+            $scope.verifikasi = function () {
                 var objSave = {
                     norec: $scope.dataSelected.norec
-                        // noorderfk: $scope.dataSelected.noorderfk
+                    // noorderfk: $scope.dataSelected.noorderfk
                 }
-                medifirstService.post('logistik/save-validasi-faktur', objSave).then(function(e) {
+                medifirstService.post('logistik/save-validasi-faktur', objSave).then(function (e) {
                     init();
                 });
             }
-            $scope.unverifikasi = function() {
+            $scope.unverifikasi = function () {
                 var objSave = {
                     norec: $scope.dataSelected.norec
-                        // noorderfk: $scope.dataSelected.noorderfk
+                    // noorderfk: $scope.dataSelected.noorderfk
                 }
-                medifirstService.post('logistik/save-unvalidasi-faktur', objSave).then(function(e) {
+                medifirstService.post('logistik/save-unvalidasi-faktur', objSave).then(function (e) {
                     init();
                 });
             }
 
-            $scope.simpantukarfaktur = function() {
+            $scope.simpantukarfaktur = function () {
                 var totalall = 0;
                 for (var i = 0; i < data3.length; i++) {
                     totalall = parseFloat(totalall) + parseFloat(data3[i].totalfaktur);
@@ -766,10 +766,10 @@ define(['initialize'], function(initialize) {
                     total: parseFloat(totalall),
                     catatan: $scope.item.Catatan,
                     detail: data3
-                        // noorderfk: $scope.dataSelected.noorderfk
+                    // noorderfk: $scope.dataSelected.noorderfk
                 }
                 debugger;
-                medifirstService.post('logistik/save-tukfarfaktur', objSave).then(function(e) {
+                medifirstService.post('logistik/save-tukfarfaktur', objSave).then(function (e) {
                     init();
                     Kosongkan();
                     $scope.disabledsimpan = false;
@@ -787,7 +787,7 @@ define(['initialize'], function(initialize) {
                 });
 
             }
-            $scope.simpanubahtotal = function() {
+            $scope.simpanubahtotal = function () {
 
                 var objSave = {
                     norec: tempnorecfaktur,
@@ -797,14 +797,14 @@ define(['initialize'], function(initialize) {
                     // noorderfk: $scope.dataSelected.noorderfk
                 }
                 debugger;
-                medifirstService.post('logistik/save-ubah-total', objSave).then(function(e) {
+                medifirstService.post('logistik/save-ubah-total', objSave).then(function (e) {
                     init();
                     Kosongkan();
 
                 });
 
             }
-            $scope.hapustukarfaktur = function() {
+            $scope.hapustukarfaktur = function () {
 
                 if ($scope.dataSelected11.statuspengajuan == 'Sudah') {
                     alert("data sudah di ajukan");
@@ -814,11 +814,11 @@ define(['initialize'], function(initialize) {
                     norec: $scope.dataSelected11.norec,
                     notukarfaktur: $scope.dataSelected11.notukarfaktur
                 }
-                medifirstService.post('logistik/hapus-tukfarfaktur', objSave).then(function(e) {
+                medifirstService.post('logistik/hapus-tukfarfaktur', objSave).then(function (e) {
                     init();
                 });
             }
-            $scope.verifikasipengajuan = function() {
+            $scope.verifikasipengajuan = function () {
 
                 if ($scope.dataSelected11.statuspengajuan == 'Sudah') {
                     alert("data sudah di ajukan");
@@ -828,11 +828,11 @@ define(['initialize'], function(initialize) {
                     norec: $scope.dataSelected11.norec,
                     notukarfaktur: $scope.dataSelected11.notukarfaktur
                 }
-                medifirstService.post('logistik/save-verifikasipengajuanfaktur', objSave).then(function(e) {
+                medifirstService.post('logistik/save-verifikasipengajuanfaktur', objSave).then(function (e) {
                     init();
                 });
             }
-            $scope.unverifikasipengajuan = function() {
+            $scope.unverifikasipengajuan = function () {
 
                 if ($scope.dataSelected11.statuspengajuan == 'Belum') {
                     alert("data belum di ajukan");
@@ -842,7 +842,7 @@ define(['initialize'], function(initialize) {
                     norec: $scope.dataSelected11.norec,
                     notukarfaktur: $scope.dataSelected11.notukarfaktur
                 }
-                medifirstService.post('logistik/save-unverifikasipengajuanfaktur', objSave).then(function(e) {
+                medifirstService.post('logistik/save-unverifikasipengajuanfaktur', objSave).then(function (e) {
                     init();
                 });
             }
@@ -920,7 +920,7 @@ define(['initialize'], function(initialize) {
                     fileName: "DaftarRegistrasiPasien.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:M1"];
@@ -940,81 +940,6 @@ define(['initialize'], function(initialize) {
                 pageable: true,
                 dataBound: onDataBound,
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "35px",
-                    },
-                    {
-                        "field": "nofaktur",
-                        "title": "No Dokumen",
-                        "width": "250px",
-                    },
-                    {
-                        "field": "verifikasifaktur",
-                        "title": "Verifikasi",
-                        "width": "100px",
-                    },
-                    {
-                        "field": "tukarfaktur",
-                        "title": "Tukar Faktur",
-                        "width": "100px",
-                    },
-                    {
-                        "field": "pengajuanbayar",
-                        "title": "pengajuanbayar",
-                        "width": "100px",
-                    },
-
-                    {
-                        "field": "nosppb",
-                        "title": "No PO",
-                        "width": "100px",
-                        "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
-                    },
-                    {
-                        "field": "tglfaktur",
-                        "title": "Tanggal Faktur",
-                        "width": "100px",
-                        "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
-                    },
-                    {
-                        "field": "namarekanan",
-                        "title": "Supplier",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "jmlitem",
-                        "title": "Item",
-                        "width": "35px",
-                        "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
-                    },
-                    {
-                        "field": "totalharusdibayar",
-                        "title": "Total Tagihan",
-                        "width": "100px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', '')}}</span>"
-                    },
-                    {
-                        "field": "totalfisikdifaktur",
-                        "title": "Total Fisik",
-                        "width": "100px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: totalfisikdifaktur #', '')}}</span>"
-                    },
-                    {
-                        "field": "selisih",
-                        "title": "Selisih",
-                        "width": "100px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: selisih #', '')}}</span>"
-                    },
-                    {
-                        "field": "catatan",
-                        "title": "Catatan",
-                        "width": "120px",
-                    },
-                ]
-            };
-
-            $scope.columnGrid2 = [{
                     "field": "no",
                     "title": "No",
                     "width": "35px",
@@ -1022,21 +947,96 @@ define(['initialize'], function(initialize) {
                 {
                     "field": "nofaktur",
                     "title": "No Dokumen",
+                    "width": "250px",
+                },
+                {
+                    "field": "verifikasifaktur",
+                    "title": "Verifikasi",
+                    "width": "100px",
+                },
+                {
+                    "field": "tukarfaktur",
+                    "title": "Tukar Faktur",
+                    "width": "100px",
+                },
+                {
+                    "field": "pengajuanbayar",
+                    "title": "pengajuanbayar",
                     "width": "100px",
                 },
 
                 {
-                    "field": "item",
-                    "title": "Item",
-                    "width": "35px",
-                    "template": "<span class='style-right'>#= kendo.toString(item) #</span>",
+                    "field": "nosppb",
+                    "title": "No PO",
+                    "width": "100px",
+                    "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
                 },
                 {
-                    "field": "totalfaktur",
+                    "field": "tglfaktur",
+                    "title": "Tanggal Faktur",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
+                },
+                {
+                    "field": "namarekanan",
+                    "title": "Supplier",
+                    "width": "120px",
+                },
+                {
+                    "field": "jmlitem",
+                    "title": "Item",
+                    "width": "35px",
+                    "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
+                },
+                {
+                    "field": "totalharusdibayar",
                     "title": "Total Tagihan",
                     "width": "100px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: totalfaktur #', '')}}</span>"
-                }
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', '')}}</span>"
+                },
+                {
+                    "field": "totalfisikdifaktur",
+                    "title": "Total Fisik",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalfisikdifaktur #', '')}}</span>"
+                },
+                {
+                    "field": "selisih",
+                    "title": "Selisih",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: selisih #', '')}}</span>"
+                },
+                {
+                    "field": "catatan",
+                    "title": "Catatan",
+                    "width": "120px",
+                },
+                ]
+            };
+
+            $scope.columnGrid2 = [{
+                "field": "no",
+                "title": "No",
+                "width": "35px",
+            },
+            {
+                "field": "nofaktur",
+                "title": "No Dokumen",
+                "width": "100px",
+            },
+
+            {
+                "field": "item",
+                "title": "Item",
+                "width": "35px",
+                "template": "<span class='style-right'>#= kendo.toString(item) #</span>",
+            },
+            {
+                "field": "totalfaktur",
+                "title": "Total Tagihan",
+                "width": "100px",
+                "template": "<span class='style-right'>{{formatRupiah('#: totalfaktur #', '')}}</span>"
+            }
             ];
             $scope.columnGrid11 = [
                 // {
@@ -1087,124 +1087,124 @@ define(['initialize'], function(initialize) {
                 },
 
             ];
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 return {
                     dataSource: new kendo.data.DataSource({
                         data: dataItem.details
                     }),
                     columns: [{
-                            "field": "no",
-                            "title": "No",
-                            "width": "45px",
-                        },
-                        {
-                            "field": "namaproduk",
-                            "title": "Nama Produk",
-                            "width": "100px",
-                        },
-                        {
-                            "field": "satuanstandar",
-                            "title": "Satuan",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "qtyproduk",
-                            "title": "Qty",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "hargasatuan",
-                            "title": "Harga Satuan",
-                            "width": "50px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp')}}</span>"
-                        },
-                        {
-                            "field": "hargadiscount",
-                            "title": "Discount",
-                            "width": "50px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
-                        },
-                        {
-                            "field": "hargappn",
-                            "title": "PPn",
-                            "width": "50px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
-                        },
-                        {
-                            "field": "total",
-                            "title": "Total",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp')}}</span>"
-                        },
-                        {
-                            "field": "tglkadaluarsa",
-                            "title": "Tgl Kadaluarsa",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                        },
-                        {
-                            "field": "nobatch",
-                            "title": "nobatch",
-                            "width": "50px"
-                        }
+                        "field": "no",
+                        "title": "No",
+                        "width": "45px",
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Nama Produk",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "satuanstandar",
+                        "title": "Satuan",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "qtyproduk",
+                        "title": "Qty",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "50px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp')}}</span>"
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Discount",
+                        "width": "50px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                    },
+                    {
+                        "field": "hargappn",
+                        "title": "PPn",
+                        "width": "50px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp')}}</span>"
+                    },
+                    {
+                        "field": "tglkadaluarsa",
+                        "title": "Tgl Kadaluarsa",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                    },
+                    {
+                        "field": "nobatch",
+                        "title": "nobatch",
+                        "width": "50px"
+                    }
                     ]
                 }
             };
-            $scope.data11 = function(dataItem) {
+            $scope.data11 = function (dataItem) {
                 return {
                     dataSource: new kendo.data.DataSource({
                         data: dataItem.details
                     }),
                     columns: [{
-                            "field": "no",
-                            "title": "No",
-                            "width": "45px",
-                        },
-                        {
-                            "field": "nofaktur",
-                            "title": "No Faktur",
-                            "width": "100px",
-                        },
+                        "field": "no",
+                        "title": "No",
+                        "width": "45px",
+                    },
+                    {
+                        "field": "nofaktur",
+                        "title": "No Faktur",
+                        "width": "100px",
+                    },
 
-                        {
-                            "field": "tglfaktur",
-                            "title": "Tgl Faktur",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
-                        },
-                        {
-                            "field": "tgljatuhtempo",
-                            "title": "Tgl Jatuh Tempo",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatTanggal('#: tgljatuhtempo #', '')}}</span>"
-                        },
-                        {
-                            "field": "tglstruk",
-                            "title": "Tgl Terima",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
-                        },
+                    {
+                        "field": "tglfaktur",
+                        "title": "Tgl Faktur",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
+                    },
+                    {
+                        "field": "tgljatuhtempo",
+                        "title": "Tgl Jatuh Tempo",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tgljatuhtempo #', '')}}</span>"
+                    },
+                    {
+                        "field": "tglstruk",
+                        "title": "Tgl Terima",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
+                    },
 
 
-                        {
-                            "field": "totalharusdibayar",
-                            "title": "Total",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', 'Rp')}}</span>"
-                        }
+                    {
+                        "field": "totalharusdibayar",
+                        "title": "Total",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', 'Rp')}}</span>"
+                    }
                     ]
                 }
             };
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.formatNumber = function(value, currency) {
+            $scope.formatNumber = function (value, currency) {
                 return number + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "1,");
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD/MM/YYYY');
             }
 
@@ -1216,10 +1216,10 @@ define(['initialize'], function(initialize) {
                 return thn + ' thn ' // + bln + ' bln'
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -1228,7 +1228,7 @@ define(['initialize'], function(initialize) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.$watch('item.totaldifaktur', function(newValue, oldValue) {
+            $scope.$watch('item.totaldifaktur', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     var faktur = parseFloat($scope.item.totalubahfaktur)

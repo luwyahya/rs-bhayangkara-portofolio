@@ -1,8 +1,8 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('LaporanAnestesi4Ctrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state',
         'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
+        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
             $scope.noCM = $state.params.noCM;
             $scope.tombolSimpanVis = true
             $scope.noRecPap = cacheHelper.get('noRecPap');
@@ -44,7 +44,7 @@ define(['initialize'], function(initialize) {
 
             function LoadCombo() {
                 debugger;
-                medifirstService.get("emr/get-combo").then(function(dat) {
+                medifirstService.get("emr/get-combo").then(function (dat) {
                     $scope.listDokterBedah = dat.data.dokter
                     $scope.listAsistenBedah = dat.data.pegawaiAll
                     $scope.listDokterAnestesi = dat.data.dokter
@@ -139,7 +139,7 @@ define(['initialize'], function(initialize) {
             function init() {
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=laporananestesi", true).then(function(dat) {
+                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=laporananestesi", true).then(function (dat) {
                     debugger
                     $scope.isRouteLoading = false
                     if (dat.data.data.length > 0) {
@@ -158,7 +158,7 @@ define(['initialize'], function(initialize) {
                     } else {
                         debugger
                         var grid = $("#kGrid").data("kendoGrid");
-                        $(grid.tbody).on("click", "td", function(e) {
+                        $(grid.tbody).on("click", "td", function (e) {
                             var row = $(this).closest("tr");
                             var colIdx = $("td", row).index(this);
                             $scope.selectedData = grid.dataItem(row);
@@ -186,7 +186,7 @@ define(['initialize'], function(initialize) {
 
                         debugger
                         var grid2 = $("#kGrid2").data("kendoGrid");
-                        $(grid2.tbody).on("click", "td", function(e) {
+                        $(grid2.tbody).on("click", "td", function (e) {
                             var row2 = $(this).closest("tr");
                             var colIdx2 = $("td", row2).index(this);
                             $scope.selectedData2 = grid2.dataItem(row2);
@@ -215,222 +215,222 @@ define(['initialize'], function(initialize) {
                 });
 
                 function setobjectToModel(nomorEMRSS, emrfk) {
-                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function(dat) {
-                            debugger
-                            $scope.isLoading = false
-                            var chekedd = false
-                            $scope.item.obj = []
-                            $scope.item.obj2 = []
-                                // $scope.item.obj[68] = $scope.now
-                            dataLoad = dat.data.data
-                            for (var i = 0; i <= dataLoad.length - 1; i++) {
-                                if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
+                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
+                        debugger
+                        $scope.isLoading = false
+                        var chekedd = false
+                        $scope.item.obj = []
+                        $scope.item.obj2 = []
+                        // $scope.item.obj[68] = $scope.now
+                        dataLoad = dat.data.data
+                        for (var i = 0; i <= dataLoad.length - 1; i++) {
+                            if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
 
-                                    if (dataLoad[i].type == "textbox") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                if (dataLoad[i].type == "textbox") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "checkbox") {
+                                    chekedd = false
+                                    if (dataLoad[i].value == '1') {
+                                        chekedd = true
                                     }
-                                    if (dataLoad[i].type == "checkbox") {
-                                        chekedd = false
-                                        if (dataLoad[i].value == '1') {
-                                            chekedd = true
-                                        }
-                                        $scope.item.obj[dataLoad[i].emrdfk] = chekedd
-                                        if (dataLoad[i].emrdfk >= 74 && dataLoad[i].emrdfk <= 78 && chekedd) {
-                                            $scope.getSkalaNyeri(1, { descNilai: dataLoad[i].reportdisplay })
-                                        }
-                                        if (dataLoad[i].emrdfk >= 5053 && dataLoad[i].emrdfk <= 5084 && dataLoad[i].reportdisplay != null) {
-                                            var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
-                                            $scope.getSkor2(datass)
-                                        }
-                                        if (dataLoad[i].emrdfk >= 5085 && dataLoad[i].emrdfk <= 5093 && dataLoad[i].reportdisplay != null) {
-                                            var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
-                                            $scope.getSkorNutrisi(datass)
-                                        }
-
-
+                                    $scope.item.obj[dataLoad[i].emrdfk] = chekedd
+                                    if (dataLoad[i].emrdfk >= 74 && dataLoad[i].emrdfk <= 78 && chekedd) {
+                                        $scope.getSkalaNyeri(1, { descNilai: dataLoad[i].reportdisplay })
+                                    }
+                                    if (dataLoad[i].emrdfk >= 5053 && dataLoad[i].emrdfk <= 5084 && dataLoad[i].reportdisplay != null) {
+                                        var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
+                                        $scope.getSkor2(datass)
+                                    }
+                                    if (dataLoad[i].emrdfk >= 5085 && dataLoad[i].emrdfk <= 5093 && dataLoad[i].reportdisplay != null) {
+                                        var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
+                                        $scope.getSkorNutrisi(datass)
                                     }
 
-                                    if (dataLoad[i].type == "datetime") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "time") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "date") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
 
-                                    if (dataLoad[i].type == "checkboxtextbox") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
-                                        $scope.item.obj2[dataLoad[i].emrdfk] = true
-                                    }
-                                    if (dataLoad[i].type == "textarea") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "405") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], anestesi: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "404") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], sedasi: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "378") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "377") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "376") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "375") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "374") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "373") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "368") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "367") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "366") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "365") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "460") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], teknik: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "465") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], yatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "468") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], yatidak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "470") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], letak: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "471") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], airway: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "472") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], keadaan: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "473") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], jeniskelamin: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "478") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], kesadaran: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "682") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                    }
-                                    if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "784") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], dibantu: str }
-
-                                    }
                                 }
 
+                                if (dataLoad[i].type == "datetime") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "time") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "date") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+
+                                if (dataLoad[i].type == "checkboxtextbox") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                    $scope.item.obj2[dataLoad[i].emrdfk] = true
+                                }
+                                if (dataLoad[i].type == "textarea") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "405") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], anestesi: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "404") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], sedasi: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "378") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "377") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "376") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "375") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "374") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "373") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], adatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "368") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "367") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "366") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "365") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "460") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], teknik: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "465") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], yatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "468") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], yatidak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "470") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], letak: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "471") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], airway: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "472") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], keadaan: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "473") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], jeniskelamin: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "478") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], kesadaran: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "682") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "784") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], dibantu: str }
+
+                                }
                             }
 
-                        })
-                        //disini
-                        // $scope.onDataBound = function (e) {
+                        }
+
+                    })
+                    //disini
+                    // $scope.onDataBound = function (e) {
                     debugger
                     var grid = $("#kGrid").data("kendoGrid");
-                    $(grid.tbody).on("click", "td", function(e) {
+                    $(grid.tbody).on("click", "td", function (e) {
                         var row = $(this).closest("tr");
                         var colIdx = $("td", row).index(this);
                         $scope.selectedData = grid.dataItem(row);
@@ -458,7 +458,7 @@ define(['initialize'], function(initialize) {
 
                     debugger
                     var grid2 = $("#kGrid2").data("kendoGrid");
-                    $(grid2.tbody).on("click", "td", function(e) {
+                    $(grid2.tbody).on("click", "td", function (e) {
                         var row2 = $(this).closest("tr");
                         var colIdx2 = $("td", row2).index(this);
                         $scope.selectedData2 = grid2.dataItem(row2);
@@ -585,1328 +585,1328 @@ define(['initialize'], function(initialize) {
             // }
             function init2() {
                 datana = [{
-                        'group': '1. SUHU',
-                        'desc': '33',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '34',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '35',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '36',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '37',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '38',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '39',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '41',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '42',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '43',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    // {
-                    //     'group': 'SUHU', 'desc': '170', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '160', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '150', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '140', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '130', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '120', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '110', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '100', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '90', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '80', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '70', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '60', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '50', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '40', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '30', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '20', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '10', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    // {
-                    //     'group': 'SUHU', 'desc': '0', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
-                    //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
-                    //     'c400': '', 'c500': '', 'c600': ''
-                    // },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '6',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
+                    'group': '1. SUHU',
+                    'desc': '33',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '34',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '35',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '36',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '37',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '38',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '39',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '41',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '42',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '43',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                // {
+                //     'group': 'SUHU', 'desc': '170', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '160', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '150', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '140', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '130', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '120', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '110', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '100', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '90', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '80', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '70', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '60', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '50', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '40', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '30', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '20', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '10', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                // {
+                //     'group': 'SUHU', 'desc': '0', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
+                //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
+                //     'c400': '', 'c500': '', 'c600': ''
+                // },
+                {
+                    'group': '2. TENSI',
+                    'desc': '6',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
 
-                    {
-                        'group': '2. TENSI',
-                        'desc': '12',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '18',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '24',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '30',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '36',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '42',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '48',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '54',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '66',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '20',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '80',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '100',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '120',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '140',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '160',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '180',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '200',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '220',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '20',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '80',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '100',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '120',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '140',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '160',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '180',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '200',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '220',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
+                {
+                    'group': '2. TENSI',
+                    'desc': '12',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '18',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '24',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '30',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '36',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '42',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '48',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '54',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '66',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '20',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '80',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '100',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '120',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '140',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '160',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '180',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '200',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '220',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '20',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '80',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '100',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '120',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '140',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '160',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '180',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '200',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '220',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
                     // {
                     //     'group': '5. INTAKE', 'desc': 'MAKAN MINUM', 'c700': '', 'c800': '', 'c900': '', 'c1000': '', 'c1100': '', 'c1200': '', 'c1300': '', 'c1400': '', 'c1500': '', 'c1600': '',
                     //     'c1700': '', 'c1800': '', 'c1900': '', 'c2000': '', 'c2100': '', 'c2200': '', 'c2300': '', 'c2400': '', 'c100': '', 'c200': '', 'c300': '',
@@ -2113,1239 +2113,1239 @@ define(['initialize'], function(initialize) {
 
             function init3() {
                 datana2 = [{
-                        'group': '1. SUHU',
-                        'desc': '33',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '34',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '35',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '36',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '37',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '38',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '39',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '41',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '42',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '1. SUHU',
-                        'desc': '43',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
+                    'group': '1. SUHU',
+                    'desc': '33',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '34',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '35',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '36',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '37',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '38',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '39',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '41',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '42',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '1. SUHU',
+                    'desc': '43',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
 
-                    {
-                        'group': '2. TENSI',
-                        'desc': '6',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
+                {
+                    'group': '2. TENSI',
+                    'desc': '6',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
 
-                    {
-                        'group': '2. TENSI',
-                        'desc': '12',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '18',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '24',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '30',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '36',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '42',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '48',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '54',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '2. TENSI',
-                        'desc': '66',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '20',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '80',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '100',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '120',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '140',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '160',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '180',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '200',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '3. PERNAFASAN',
-                        'desc': '220',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '20',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '40',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '60',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '80',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '100',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '120',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '140',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '160',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '180',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '200',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
-                    {
-                        'group': '4. NADI',
-                        'desc': '220',
-                        'c700': '',
-                        'c800': '',
-                        'c900': '',
-                        'c1000': '',
-                        'c1100': '',
-                        'c1200': '',
-                        'c1300': '',
-                        'c1400': '',
-                        'c1500': '',
-                        'c1600': '',
-                        'c1700': '',
-                        'c1800': '',
-                        'c1900': '',
-                        'c2000': '',
-                        'c2100': '',
-                        'c2200': '',
-                        'c2300': '',
-                        'c2400': '',
-                        'c100': '',
-                        'c200': '',
-                        'c300': '',
-                        'c400': '',
-                        'c500': '',
-                        'c600': ''
-                    },
+                {
+                    'group': '2. TENSI',
+                    'desc': '12',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '18',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '24',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '30',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '36',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '42',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '48',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '54',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '2. TENSI',
+                    'desc': '66',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '20',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '80',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '100',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '120',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '140',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '160',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '180',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '200',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '3. PERNAFASAN',
+                    'desc': '220',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '20',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '40',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '60',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '80',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '100',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '120',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '140',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '160',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '180',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '200',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. NADI',
+                    'desc': '220',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
 
                 ];
 
@@ -3370,136 +3370,136 @@ define(['initialize'], function(initialize) {
                     pageable: true,
                     dataBound: $scope.onDataBound,
                     columns: [{
-                            hidden: true,
-                            field: "group",
-                            title: "."
-                        },
-                        {
-                            "field": "desc",
-                            "title": "Description",
-                            "width": "200px",
-                            "template": "<span class='style-rigth'>#: desc #</span>"
-                        },
-                        {
-                            "field": "c700",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c800",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c900",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1000",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1500",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1600",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1700",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1800",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1900",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2000",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c500",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c600",
-                            "title": " ",
-                            "width": "50px"
-                        }
+                        hidden: true,
+                        field: "group",
+                        title: "."
+                    },
+                    {
+                        "field": "desc",
+                        "title": "Description",
+                        "width": "200px",
+                        "template": "<span class='style-rigth'>#: desc #</span>"
+                    },
+                    {
+                        "field": "c700",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c800",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c900",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1000",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1500",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1600",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1700",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1800",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1900",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2000",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c500",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c600",
+                        "title": " ",
+                        "width": "50px"
+                    }
                     ]
                 };
             }
@@ -3514,136 +3514,136 @@ define(['initialize'], function(initialize) {
                     pageable: true,
                     // dataBound: $scope.onDataBound,
                     columns: [{
-                            hidden: true,
-                            field: "group",
-                            title: "."
-                        },
-                        {
-                            "field": "desc",
-                            "title": "Description",
-                            "width": "200px",
-                            "template": "<span class='style-rigth'>#: desc #</span>"
-                        },
-                        {
-                            "field": "c700",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c800",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c900",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1000",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1500",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1600",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1700",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1800",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c1900",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2000",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c2400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c100",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c200",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c300",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c400",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c500",
-                            "title": " ",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "c600",
-                            "title": " ",
-                            "width": "50px"
-                        }
+                        hidden: true,
+                        field: "group",
+                        title: "."
+                    },
+                    {
+                        "field": "desc",
+                        "title": "Description",
+                        "width": "200px",
+                        "template": "<span class='style-rigth'>#: desc #</span>"
+                    },
+                    {
+                        "field": "c700",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c800",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c900",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1000",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1500",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1600",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1700",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1800",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c1900",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2000",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c2400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c100",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c200",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c300",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c400",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c500",
+                        "title": " ",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "c600",
+                        "title": " ",
+                        "width": "50px"
+                    }
                     ]
                 };
             }
@@ -3675,7 +3675,7 @@ define(['initialize'], function(initialize) {
             //         }
             //     });
             // }
-            $scope.showDetail = function(data_head, selectedData) {
+            $scope.showDetail = function (data_head, selectedData) {
                 debugger;
                 if (data_head.length > 0) {
                     var getlastdata = data_head.length - 1
@@ -3691,7 +3691,7 @@ define(['initialize'], function(initialize) {
                                     if ($scope.selectedData[Object.keys($scope.selectedData)[i]] != "") {
                                         var isi = $scope.selectedData[Object.keys($scope.selectedData)[i]].split(" ");
                                         // var isiCombo = isi[1].split(" ");
-                                        medifirstService.get("emr/get-data-riwayat-emr-icu-detail?NoRegistrasi=" + $scope.cc.noregistrasi, true).then(function(dat) {
+                                        medifirstService.get("emr/get-data-riwayat-emr-icu-detail?NoRegistrasi=" + $scope.cc.noregistrasi, true).then(function (dat) {
                                             debugger
                                             var datas = dat.data.data_riwayat;
                                             for (var i = 0; i < datas.length; i++) {
@@ -3729,7 +3729,7 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.showDetail2 = function(data_head2, selectedData2) {
+            $scope.showDetail2 = function (data_head2, selectedData2) {
                 debugger;
                 if (data_head2.length > 0) {
                     var getdataterakhir = data_head2.length - 1
@@ -3745,7 +3745,7 @@ define(['initialize'], function(initialize) {
                                     if ($scope.selectedData2[Object.keys($scope.selectedData2)[i]] != "") {
                                         var isi = $scope.selectedData2[Object.keys($scope.selectedData2)[i]].split(" ");
                                         // var isiCombo = isi[1].split(" ");
-                                        medifirstService.get("emr/get-data-riwayat-emr-icu-detail?NoRegistrasi=" + $scope.cc.noregistrasi, true).then(function(dat) {
+                                        medifirstService.get("emr/get-data-riwayat-emr-icu-detail?NoRegistrasi=" + $scope.cc.noregistrasi, true).then(function (dat) {
                                             debugger
                                             var datas = dat.data.data_riwayat;
                                             for (var i = 0; i < datas.length; i++) {
@@ -3783,7 +3783,7 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.tambah = function() {
+            $scope.tambah = function () {
                 if (data_head.length == 0) {
                     toastr.warning('Data Belum Terambil, Peringatan!')
                     return;
@@ -3852,7 +3852,7 @@ define(['initialize'], function(initialize) {
                 kosongkeun()
                 $scope.PopUpDetailPeserta.close();
             }
-            $scope.tambah2 = function() {
+            $scope.tambah2 = function () {
                 if (data_head2.length == 0) {
                     toastr.warning('Data Belum Terambil, Peringatan!')
                     return;
@@ -3921,7 +3921,7 @@ define(['initialize'], function(initialize) {
                 $scope.PopUpDetailPeserta2.close();
             }
 
-            $scope.batal2 = function() {
+            $scope.batal2 = function () {
                 kosongkeun2()
                 $scope.PopUpDetailPeserta2.close();
             }
@@ -3941,7 +3941,7 @@ define(['initialize'], function(initialize) {
             }
 
             function getApd() {
-                medifirstService.get('emr/get-apd?' + "norec_pd=" + $scope.cc.norec_pd + "&ruangan=" + $scope.cc.objectruanganfk).then(function(dat) {
+                medifirstService.get('emr/get-apd?' + "norec_pd=" + $scope.cc.norec_pd + "&ruangan=" + $scope.cc.objectruanganfk).then(function (dat) {
                     debugger;
                     norec_apd = dat.data[0].norec
                     getRmi();
@@ -3951,7 +3951,7 @@ define(['initialize'], function(initialize) {
 
             function getRmi() {
                 // debugger;
-                medifirstService.get('emr/get-rmi?' + "norec_pd=" + $scope.cc.norec_pd + "&jenisemr=intra").then(function(dat) {
+                medifirstService.get('emr/get-rmi?' + "norec_pd=" + $scope.cc.norec_pd + "&jenisemr=intra").then(function (dat) {
                     debugger;
                     if (dat.data.Data.length > 0) {
                         norec_Emr = dat.data.Data[0].norec
@@ -3966,7 +3966,7 @@ define(['initialize'], function(initialize) {
 
             function getRmi2() {
                 // debugger;
-                medifirstService.get('emr/get-rmi?' + "norec_pd=" + $scope.cc.norec_pd + "&jenisemr=pasca").then(function(dat) {
+                medifirstService.get('emr/get-rmi?' + "norec_pd=" + $scope.cc.norec_pd + "&jenisemr=pasca").then(function (dat) {
                     debugger;
                     if (dat.data.Data.length > 0) {
                         norec_Emr2 = dat.data.Data[0].norec
@@ -3980,9 +3980,9 @@ define(['initialize'], function(initialize) {
 
             function getHistoryRmi() {
                 $scope.visible = true
-                    // norec_Emr = $scope.dataSelected.norec;
+                // norec_Emr = $scope.dataSelected.norec;
                 GridColumnLoad();
-                medifirstService.get("emr/get-data-detail-emr-icu?NorecRmi=" + norec_Emr, true).then(function(dat) {
+                medifirstService.get("emr/get-data-detail-emr-icu?NorecRmi=" + norec_Emr, true).then(function (dat) {
                     debugger
                     var Data = dat.data.Details;
                     debugger;
@@ -4025,9 +4025,9 @@ define(['initialize'], function(initialize) {
 
             function getHistoryRmi2() {
                 $scope.visible = true
-                    // norec_Emr = $scope.dataSelected.norec;
+                // norec_Emr = $scope.dataSelected.norec;
                 GridColumnLoad2();
-                medifirstService.get("emr/get-data-detail-emr-icu?NorecRmi=" + norec_Emr2, true).then(function(dat) {
+                medifirstService.get("emr/get-data-detail-emr-icu?NorecRmi=" + norec_Emr2, true).then(function (dat) {
                     debugger
                     var Data = dat.data.Details;
                     debugger;
@@ -4069,7 +4069,7 @@ define(['initialize'], function(initialize) {
             }
 
             function getIntraAnestesi() {
-                medifirstService.get('emr/get-history-intra-anestesi?' + "noregistrasifk=" + norec_Emr).then(function(dat) {
+                medifirstService.get('emr/get-history-intra-anestesi?' + "noregistrasifk=" + norec_Emr).then(function (dat) {
                     debugger
                     var isi = dat.data
                     if (isi.length > 0) {
@@ -4093,7 +4093,7 @@ define(['initialize'], function(initialize) {
             }
 
             function getPascaAnestesi() {
-                medifirstService.get('emr/get-history-pasca-anestesi?' + "norecemr=" + norec_Emr2).then(function(dat) {
+                medifirstService.get('emr/get-history-pasca-anestesi?' + "norecemr=" + norec_Emr2).then(function (dat) {
                     debugger
                     var isi = dat.data
                     if (isi.length > 0) {
@@ -4115,7 +4115,7 @@ define(['initialize'], function(initialize) {
                     }
                 })
             }
-            $scope.Simpan = function() {
+            $scope.Simpan = function () {
                 debugger;
                 if (data_Save.length == 0) {
                     toastr.warning('Data Belum Terambil, Peringatan!')
@@ -4132,7 +4132,7 @@ define(['initialize'], function(initialize) {
                     jenisemr: "intra"
                 }
                 console.log(objSave);
-                medifirstService.post('emr/save-data-emr-intra-anestesi', objSave).then(function(e) {
+                medifirstService.post('emr/save-data-emr-intra-anestesi', objSave).then(function (e) {
                     // init();
                     // $scope.BatalOrder();
                     // managePhp.postLogging('Simpan EMR ICU', 'Norec strukorder_t',e.data.strukorder.norec, 'Menu Dokter').then(function (res) {
@@ -4142,7 +4142,7 @@ define(['initialize'], function(initialize) {
                     $scope.myVar = 1;
                 })
             }
-            $scope.Simpan2 = function() {
+            $scope.Simpan2 = function () {
                 debugger;
                 if (data_Save2.length == 0) {
                     toastr.warning('Data Belum Terambil, Peringatan!')
@@ -4150,16 +4150,16 @@ define(['initialize'], function(initialize) {
                 }
 
                 var objSave = {
-                        norec: norec_Emr2,
-                        norec_apd: norec_apd,
-                        noregistrasi: $scope.cc.noregistrasi,
-                        tglinput: moment($scope.now).format('YYYY-MM-DD hh:mm'),
-                        details: data_Save2, //$scope.data1._data
-                        jenisemr: "pasca",
-                        pasca: data_Pasca
-                    }
-                    // console.log(objSave);
-                medifirstService.post('emr/save-data-emr-pasca-anestesi', objSave).then(function(e) {
+                    norec: norec_Emr2,
+                    norec_apd: norec_apd,
+                    noregistrasi: $scope.cc.noregistrasi,
+                    tglinput: moment($scope.now).format('YYYY-MM-DD hh:mm'),
+                    details: data_Save2, //$scope.data1._data
+                    jenisemr: "pasca",
+                    pasca: data_Pasca
+                }
+                // console.log(objSave);
+                medifirstService.post('emr/save-data-emr-pasca-anestesi', objSave).then(function (e) {
                     // init();
                     // $scope.BatalOrder();
                     // managePhp.postLogging('Simpan EMR ICU', 'Norec strukorder_t',e.data.strukorder.norec, 'Menu Dokter').then(function (res) {
@@ -4169,7 +4169,7 @@ define(['initialize'], function(initialize) {
                     $scope.myVar = 1;
                 })
             }
-            $scope.Save = function() {
+            $scope.Save = function () {
                 debugger
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
@@ -4285,19 +4285,19 @@ define(['initialize'], function(initialize) {
                     head: $scope.cc,
                     data: arrSave
                 }
-                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function(e) {
+                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
-                        $scope.cc.noregistrasi).then(function(res) {})
+                        $scope.cc.noregistrasi).then(function (res) { })
 
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi ' +
-                        $scope.cc.noregistrasi).then(function(res) {})
+                        $scope.cc.noregistrasi).then(function (res) { })
                     init()
                     init2()
                     init3()
-                        //     init()
+                    //     init()
                     var arrStr = {
                         0: e.data.data.noemr
                     }
@@ -4305,17 +4305,17 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.cc.norec,
                     emr: 'LaporanOperasi',
                 });
             }
 
-            $scope.cetakPdf = function() {
+            $scope.cetakPdf = function () {
                 debugger
                 if (nomorEMR == '') return
-                    // var base64 = $scope.user.poto.substring(22);
+                // var base64 = $scope.user.poto.substring(22);
                 var user = medifirstService.getPegawaiLogin();
                 var arrPush = []
                 for (var i = 358; i <= 701 - 1; i++) {
@@ -4362,7 +4362,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -4381,7 +4381,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/laporananestesi.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/laporananestesi.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporananestesi.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/laporananestesi.pdf');

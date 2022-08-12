@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarMenuGiziCtrl', ['$scope', 'ModelItem', '$state', 'DateHelper', 'MedifirstService', 'CacheHelper',
-        function($scope, ModelItem, $state, dateHelper, medifirstService, cacheHelper) {
+        function ($scope, ModelItem, $state, dateHelper, medifirstService, cacheHelper) {
             $scope.item = {};
             $scope.now = new Date();
             $scope.isRouteLoading = false;
@@ -25,12 +25,12 @@ define(['initialize'], function(initialize) {
             }
 
             function loadCombo() {
-                medifirstService.getPart("sysadmin/master/get-daftar-menu-gizi-transaksi", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/master/get-daftar-menu-gizi-transaksi", true, true, 20).then(function (data) {
                     $scope.listNamaBarang = data;
                     // $scope.listDetailJenisBrg = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-detail-jenis-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-detail-jenis-logistik", true, true, 20).then(function (data) {
 
                     // $scope.listNamaBarang = data;
                     $scope.listDetailJenisBrg = data;
@@ -48,7 +48,7 @@ define(['initialize'], function(initialize) {
             ]
 
 
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 $state.go('PenerimaanBarangSuplier')
             }
 
@@ -83,41 +83,41 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("sysadmin/master/get-daftar-transaksi?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    jenis, true).then(function(dat) {
+                    jenis, true).then(function (dat) {
 
-                    $scope.isRouteLoading = false;
-                    $scope.selectedOnCheck = [];
-                    for (var i = 0; i < dat.data.length; i++) {
-                        var y = 0
-                        dat.data[i].no = i + 1;
-                        dat.data[i].statCheckbox = false
-                    }
+                        $scope.isRouteLoading = false;
+                        $scope.selectedOnCheck = [];
+                        for (var i = 0; i < dat.data.length; i++) {
+                            var y = 0
+                            dat.data[i].no = i + 1;
+                            dat.data[i].statCheckbox = false
+                        }
 
-                    $scope.dataGrid = new kendo.data.DataSource({
-                        data: dat.data,
-                        group: $scope.group,
-                        pageSize: 100,
-                        total: dat.data.length,
-                        serverPaging: false,
-                        selectable: true,
-                        refresh: true,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    total: { type: "number" },
+                        $scope.dataGrid = new kendo.data.DataSource({
+                            data: dat.data,
+                            group: $scope.group,
+                            pageSize: 100,
+                            total: dat.data.length,
+                            serverPaging: false,
+                            selectable: true,
+                            refresh: true,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        total: { type: "number" },
+                                    }
                                 }
-                            }
-                        },
-                        aggregate: [
-                            { field: 'total', aggregate: 'sum' },
-                            { field: 'hargappn', aggregate: 'sum' }
-                            // scrollable: false,
-                            // pageSize: 5
-                        ],
-                    })
-                    pegawaiUser = dat.data.datalogin
-                });
+                            },
+                            aggregate: [
+                                { field: 'total', aggregate: 'sum' },
+                                { field: 'hargappn', aggregate: 'sum' }
+                                // scrollable: false,
+                                // pageSize: 5
+                            ],
+                        })
+                        pegawaiUser = dat.data.datalogin
+                    });
 
                 var chacePeriode = {
                     0: tglAwal,
@@ -132,27 +132,27 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.getRuangan = function() {
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
 
                 init();
             }
 
 
-            $scope.input = function() {
+            $scope.input = function () {
                 $state.go('InputMenuGizi')
-                    // $state.go('InputResepApotikRetur')
+                // $state.go('InputResepApotikRetur')
             }
 
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
-            $scope.selectRow = function(dataItem) {
+            $scope.selectRow = function (dataItem) {
                 debugger;
-                var dataSelect = _.find($scope.dataGrid._data, function(data) {
+                var dataSelect = _.find($scope.dataGrid._data, function (data) {
                     return data.norec == dataItem.norec;
                 });
                 if (dataSelect.statCheckbox) {
@@ -173,7 +173,7 @@ define(['initialize'], function(initialize) {
                 /*end Get */
             }
             var isCheckAll = false
-            $scope.selectUnselectAllRow = function() {
+            $scope.selectUnselectAllRow = function () {
                 var tempData = $scope.dataGrid._data;
                 if (isCheckAll) {
                     isCheckAll = false;
@@ -212,7 +212,7 @@ define(['initialize'], function(initialize) {
                 // console.log($scope.selectedOnCheck)
                 // reloaddataSourceGrid(tempData);
             }
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -220,13 +220,13 @@ define(['initialize'], function(initialize) {
 
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
-                    "paramKey": ["namaRS", "alamatRS", "tglAwal", "tglAkhir", ],
+                    "paramKey": ["namaRS", "alamatRS", "tglAwal", "tglAkhir",],
                     "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(), tglAkhir.toString()],
                     "paramType": ["", "", "", ""]
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -248,7 +248,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/menugizi.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/menugizi.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/menugizi.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/menugizi.pdf');
@@ -264,7 +264,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.cetaknota = function() {
+            $scope.cetaknota = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -279,7 +279,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -301,7 +301,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/bongizi.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/bongizi.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/bongizi.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bongizi.pdf');
@@ -317,7 +317,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.cetaknotabasah = function() {
+            $scope.cetaknotabasah = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -332,7 +332,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -354,7 +354,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/bongizi.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/bongizi.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/bongizi.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bongizi.pdf');
@@ -370,7 +370,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.cetaknota2 = function() {
+            $scope.cetaknota2 = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -385,7 +385,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -407,7 +407,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/bongizi2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/bongizi2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/bongizi2.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bongizi2.pdf');
@@ -423,7 +423,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.cetaknotabasah2 = function() {
+            $scope.cetaknotabasah2 = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -438,7 +438,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -460,7 +460,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/bongizi2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/bongizi2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/bongizi2.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bongizi2.pdf');
@@ -483,7 +483,7 @@ define(['initialize'], function(initialize) {
                         moment($scope.item.tglAkhir).format('DD/MMM/YYYY') + ".xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
 
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 1;
@@ -508,54 +508,54 @@ define(['initialize'], function(initialize) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "title": "<input type='checkbox' class='checkbox' ng-click='selectUnselectAllRow()' />",
-                        template: "# if (statCheckbox) { #" +
-                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' checked />" +
-                            "# } else { #" +
-                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' />" +
-                            "# } #",
-                        width: "30px"
-                    },
-                    {
-                        "field": "no",
-                        "title": "No",
-                        "width": "10px",
-                    },
-                    {
-                        "field": "namaproduk",
-                        "title": "Nama Menu",
-                        "width": "80px",
-                    }, {
-                        "field": "bahan",
-                        "title": "Nama Bahan",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "tglmenu",
-                        "title": "Tanggal Menu",
-                        "width": "60px",
-                        "template": "<span class='style-right'>{{formatTanggal('#: tglmenu #', '')}}</span>"
-                    },
-                    {
-                        "field": "jumlah",
-                        "title": "Jumlah Porsi",
-                        "width": "90px",
+                    "title": "<input type='checkbox' class='checkbox' ng-click='selectUnselectAllRow()' />",
+                    template: "# if (statCheckbox) { #" +
+                        "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' checked />" +
+                        "# } else { #" +
+                        "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' />" +
+                        "# } #",
+                    width: "30px"
+                },
+                {
+                    "field": "no",
+                    "title": "No",
+                    "width": "10px",
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Menu",
+                    "width": "80px",
+                }, {
+                    "field": "bahan",
+                    "title": "Nama Bahan",
+                    "width": "80px",
+                },
+                {
+                    "field": "tglmenu",
+                    "title": "Tanggal Menu",
+                    "width": "60px",
+                    "template": "<span class='style-right'>{{formatTanggal('#: tglmenu #', '')}}</span>"
+                },
+                {
+                    "field": "jumlah",
+                    "title": "Jumlah Porsi",
+                    "width": "90px",
 
-                        "template": "<span class='style-right'>#= kendo.toString(jumlah) #</span>",
-                    },
-                    {
-                        "field": "keterangan",
-                        "title": "keterangan",
-                        "width": "80px",
-                    }
+                    "template": "<span class='style-right'>#= kendo.toString(jumlah) #</span>",
+                },
+                {
+                    "field": "keterangan",
+                    "title": "keterangan",
+                    "width": "80px",
+                }
 
                 ]
             }
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD/MM/YYYY');
             }
 
@@ -566,10 +566,10 @@ define(['initialize'], function(initialize) {
                 var thn = Math.round(selisih / (1000 * 60 * 60 * 24 * 365));
                 return thn + ' thn ' // + bln + ' bln'
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -578,25 +578,25 @@ define(['initialize'], function(initialize) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.hapus = function() {
+            $scope.hapus = function () {
 
-                    if ($scope.selectedOnCheck.length == 0) {
-                        toastr.error('Ceklis Peritem dulu')
-                        return
-                    }
-
-                    var data = {
-                        'hapus': $scope.selectedOnCheck
-                    }
-                    debugger;
-                    medifirstService.post('gizi/hapus-peritem-menugizi', data).then(function(e) {
-                        $scope.selectedOnCheck = []
-                        init()
-
-                    })
-
+                if ($scope.selectedOnCheck.length == 0) {
+                    toastr.error('Ceklis Peritem dulu')
+                    return
                 }
-                //***********************************
+
+                var data = {
+                    'hapus': $scope.selectedOnCheck
+                }
+                debugger;
+                medifirstService.post('gizi/hapus-peritem-menugizi', data).then(function (e) {
+                    $scope.selectedOnCheck = []
+                    init()
+
+                })
+
+            }
+            //***********************************
         }
     ]);
 });

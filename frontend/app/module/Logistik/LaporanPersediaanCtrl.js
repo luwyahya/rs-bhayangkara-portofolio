@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('LaporanPersediaanCtrl', ['$scope', 'ModelItem', 'DateHelper', 'MedifirstService', '$q', '$rootScope',
-        function($scope, ModelItem, dateHelper, medifirstService, $q, $rootScope) {
+        function ($scope, ModelItem, dateHelper, medifirstService, $q, $rootScope) {
             //Inisial Variable 
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -11,10 +11,10 @@ define(['initialize'], function(initialize) {
             $scope.selectedNamaPenjamin = [];
             FormLoad();
             $scope.dataLogin = JSON.parse(window.localStorage.getItem('pegawai'));
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -40,7 +40,7 @@ define(['initialize'], function(initialize) {
 
                 ]
 
-                medifirstService.get('logistik/get-combo-logistik').then(function(data) {
+                medifirstService.get('logistik/get-combo-logistik').then(function (data) {
                     $scope.listRuangan = data.data.ruangan;
                     $scope.listRuangann = data.data.ruanganall;
                 });
@@ -51,33 +51,33 @@ define(['initialize'], function(initialize) {
                 $scope.item.tglakhir = tanggals + " 23:59";
                 $scope.pegawai = medifirstService.getPegawaiLogin();
             }
-            medifirstService.get("registrasi/laporan/get-data-combo-laporan", false).then(function(data) {
-                    $scope.sourceDataDepartemen = data.data.departemen;
-                    // $scope.kelompokPasiens = e.data.datarekanan
-                    debugger
-                    $scope.listKelompokPasien = data.data.kelompokpasien;
-                    $scope.sourceDataRekanan = data.data.rekanan;
-                })
-                // $scope.$watch('item.namaPenjamin', function (e) {
-                //     // debugger;
-                //     if (e === undefined) return;
-                //     findPasien.getDataRekanan(e.id).then(function (data) {
-                //         $scope.sourceDataRekanan = data.data.data.listData;
-                //         $scope.item.institusiAsalPasien = $scope.sourceDataRekanan;
-                //     });
-                //     if (e.id == 5 || e.id == 3) {
-                //         $scope.Perusahaan = true
-                //     } else {
-                //         $scope.Perusahaan = false
-                //         $scope.item.institusiAsalPasien = ""
-                //     }
-                // })
+            medifirstService.get("registrasi/laporan/get-data-combo-laporan", false).then(function (data) {
+                $scope.sourceDataDepartemen = data.data.departemen;
+                // $scope.kelompokPasiens = e.data.datarekanan
+                debugger
+                $scope.listKelompokPasien = data.data.kelompokpasien;
+                $scope.sourceDataRekanan = data.data.rekanan;
+            })
+            // $scope.$watch('item.namaPenjamin', function (e) {
+            //     // debugger;
+            //     if (e === undefined) return;
+            //     findPasien.getDataRekanan(e.id).then(function (data) {
+            //         $scope.sourceDataRekanan = data.data.data.listData;
+            //         $scope.item.institusiAsalPasien = $scope.sourceDataRekanan;
+            //     });
+            //     if (e.id == 5 || e.id == 3) {
+            //         $scope.Perusahaan = true
+            //     } else {
+            //         $scope.Perusahaan = false
+            //         $scope.item.institusiAsalPasien = ""
+            //     }
+            // })
             $scope.selectnamaPenjamin = {
                 dataTextField: "kelompokpasien",
                 dataValueField: "id",
                 filter: "contains"
             };
-            $scope.Cetak = function() {
+            $scope.Cetak = function () {
                 var tglawal = moment($scope.item.tglawal).format('YYYY-MM-DD');
                 var tglakhir = moment($scope.item.tglakhir).format('YYYY-MM-DD');
                 var stt = 'false'
@@ -89,10 +89,10 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/simakbmn?cetak-simak-txt=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&view=' + stt, function(response) {});
+                client.get('http://127.0.0.1:1237/printvb/simakbmn?cetak-simak-txt=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&view=' + stt, function (response) { });
             };
 
-            $scope.CetakRiwayatPersediaan = function() {
+            $scope.CetakRiwayatPersediaan = function () {
                 var tglawal = moment($scope.item.tglawal).format('YYYY-MM-DD 00:00');
                 var tglakhir = moment($scope.item.tglakhir).format('YYYY-MM-DD 23:59');
                 var ruangan = "";
@@ -108,9 +108,9 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rekappersediaan=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&view=' + stt + '&user=' + $scope.dataLogin.namaLengkap, function(response) {});
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rekappersediaan=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&view=' + stt + '&user=' + $scope.dataLogin.namaLengkap, function (response) { });
             };
-            $scope.cetakembalase = function() {
+            $scope.cetakembalase = function () {
                 var tglawal = moment($scope.item.tglawal).format('YYYY-MM-DD 00:00');
                 var tglakhir = moment($scope.item.tglakhir).format('YYYY-MM-DD 23:59');
                 var ruangan = "";
@@ -126,7 +126,7 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rekapjasaresep=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&view=' + stt + '&user=' + $scope.dataLogin.namaLengkap, function(response) {});
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rekapjasaresep=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&view=' + stt + '&user=' + $scope.dataLogin.namaLengkap, function (response) { });
             };
             // $scope.cetaklaporanobattap = function () {
             //     var tglawal = moment($scope.item.tglawal).format('YYYY-MM-DD 00:00');
@@ -151,7 +151,7 @@ define(['initialize'], function(initialize) {
 
             //     });
             // };
-            $scope.CetakLapDetail = function() {
+            $scope.CetakLapDetail = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -211,12 +211,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-DetailPenjualanObat=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&rekanan=' + tempRekanan + '&departement=' + tempDepart + '&view=' + stt,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.CetakLapRekapPerRuangan = function() {
+            $scope.CetakLapRekapPerRuangan = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -276,12 +276,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-RekapPenjualanObatPerRuangan=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&rekanan=' + tempRekanan + '&view=' + stt + '&depart=' + tempDepart,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.CetakJasaResep = function() {
+            $scope.CetakJasaResep = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
@@ -308,7 +308,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -329,7 +329,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/RekapPemberianResepDanJasa.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/RekapPemberianResepDanJasa.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/RekapPemberianResepDanJasa.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/RekapPemberianResepDanJasa.pdf');
@@ -347,7 +347,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.CetakLapRekap = function() {
+            $scope.CetakLapRekap = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -391,12 +391,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-RekapPenjualanObat=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&view=' + stt + '&rekanan=' + tempRekanan,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.CetakLapRekapJumlah = function() {
+            $scope.CetakLapRekapJumlah = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -440,12 +440,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-RekapPengeluaranObat=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&view=' + stt + '&rekanan=' + tempRekanan,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.CetakPasienpulang = function() {
+            $scope.CetakPasienpulang = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -494,12 +494,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-Laporanpasienpulangapotik=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&view=' + stt + '&rekanan=' + tempRekanan + '&depart=' + tempDepart,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.CetakPasienpulangBlok = function() {
+            $scope.CetakPasienpulangBlok = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
@@ -551,12 +551,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/farmasi?cetak-LaporanpasienpulangapotikBlok=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdRuangan=' + tempRuanganId + '&strIdKelompokPasien=' + tempKelompokPasienId +
                     '&strIdPegawai=' + tempDokterId + '&view=' + stt + '&rekanan=' + tempRekanan + '&depart=' + tempDepart,
-                    function(response) {
+                    function (response) {
                         // do something with response
 
                     });
             }
-            $scope.rekappengeluaranobat = function() {
+            $scope.rekappengeluaranobat = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
                 var x = moment($scope.item.periodeAwal).format('YYYY-MM-DD');
@@ -594,7 +594,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
                         // cetakttd();
@@ -620,7 +620,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekappengeluaranobat.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/rekappengeluaranobat.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rekappengeluaranobat.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekappengeluaranobat.pdf');
@@ -635,7 +635,7 @@ define(['initialize'], function(initialize) {
 
             }
             debugger
-            $scope.pasienpulangblok = function() {
+            $scope.pasienpulangblok = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
                 var ruanganPilih = "";
@@ -651,9 +651,9 @@ define(['initialize'], function(initialize) {
                 }
                 debugger
                 var penjaminpilih = ""
-                    // if ($scope.item.namaPenjamin != undefined) {
-                    //     penjaminpilih = $scope.item.namaPenjamin.kelompokpasien;
-                    // }
+                // if ($scope.item.namaPenjamin != undefined) {
+                //     penjaminpilih = $scope.item.namaPenjamin.kelompokpasien;
+                // }
                 if ($scope.selectedNamaPenjamin.length != 0) {
                     for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
                         var c = $scope.selectedNamaPenjamin[i].id
@@ -686,7 +686,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
                         // cetakttd();
@@ -712,7 +712,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/pasienpulangblok.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/pasienpulangblok.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/pasienpulangblok.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/pasienpulangblok.pdf');
@@ -726,7 +726,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
 
             }
-            $scope.laporandetailobatpernoresep = function() {
+            $scope.laporandetailobatpernoresep = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
                 var ruanganPilih = "";
@@ -744,9 +744,9 @@ define(['initialize'], function(initialize) {
                 }
                 debugger
                 var penjaminpilih = ""
-                    // if ($scope.item.namaPenjamin != undefined) {
-                    //     penjaminpilih = $scope.item.namaPenjamin.kelompokpasien;
-                    // }
+                // if ($scope.item.namaPenjamin != undefined) {
+                //     penjaminpilih = $scope.item.namaPenjamin.kelompokpasien;
+                // }
                 if ($scope.selectedNamaPenjamin.length != 0) {
                     for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
                         var c = $scope.selectedNamaPenjamin[i].id
@@ -781,7 +781,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
                         // cetakttd();
@@ -807,7 +807,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/laporandetailobatpernoresep.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/laporandetailobatpernoresep.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporandetailobatpernoresep.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/laporandetailobatpernoresep.pdf');
@@ -821,7 +821,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
 
             }
-            $scope.cetaklaporanobattap = function() {
+            $scope.cetaklaporanobattap = function () {
                 // $scope.popUpTap.center().open();
                 $scope.popUpTap = true;
                 $scope.isRouteLoading = true;
@@ -846,7 +846,7 @@ define(['initialize'], function(initialize) {
                     '&tglakhir=' + tglAkhir +
                     '&ruanganfk=' + tempRuanganId +
                     '&IdPegawai=' + tempDokterId
-                ).then(function(dat) {
+                ).then(function (dat) {
                     $scope.isRouteLoading = false;
                     $scope.dataSourceTap = new kendo.data.DataSource({
                         data: dat.data.result,
@@ -876,7 +876,7 @@ define(['initialize'], function(initialize) {
                             moment($scope.item.tglAwal).format('DD/MMM/YYYY') + ".xlsx",
                         allPages: true,
                     },
-                    excelExport: function(e) {
+                    excelExport: function (e) {
                         var sheet = e.workbook.sheets[0];
                         sheet.frozenRows = 2;
                         sheet.mergedCells = ["A1:H1"];

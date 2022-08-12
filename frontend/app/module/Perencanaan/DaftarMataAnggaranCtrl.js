@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarMataAnggaranCtrl', ['$scope', 'DateHelper', '$mdDialog', 'MedifirstService', '$q',
-        function($scope, dateHelper, $mdDialog, medifirstService, $q) {
+        function ($scope, dateHelper, $mdDialog, medifirstService, $q) {
             $scope.dataVOloaded = true;
             $scope.isRouteLoading = false;
             $scope.now = new Date();
@@ -15,17 +15,17 @@ define(['initialize'], function(initialize) {
             // $scope.item.saldoRms = 0;
             // $scope.item.saldoBlus = 0;
 
-            medifirstService.get("sysadmin/general/get-combo-pegawai", true, true, 20).then(function(data) {
+            medifirstService.get("sysadmin/general/get-combo-pegawai", true, true, 20).then(function (data) {
                 $scope.listPegawai = data.data;
             });
 
-            $scope.monthSelectorOptions = function() {
+            $scope.monthSelectorOptions = function () {
                 return {
                     start: "decade",
                     depth: "decade"
                 }
             }
-            $scope.monthSelectorOptions2 = function() {
+            $scope.monthSelectorOptions2 = function () {
                 return {
                     start: "year",
                     depth: "year"
@@ -53,93 +53,93 @@ define(['initialize'], function(initialize) {
 
             loadTreeview();
 
-            $scope.findData = function() {
+            $scope.findData = function () {
                 loadTreeview();
                 // $scope.popupDokter.center().open();
             }
-            $scope.findDataRealisasi = function() {
+            $scope.findDataRealisasi = function () {
                 $scope.popUpRealisasi.center().open();
             }
 
 
             $scope.listIsOperasional = [{ id: "0", namaoperasional: "I. BIAYA OPERASIONAL" },
-                { id: "1", namaoperasional: "II. BIAYA NON OPERASIONAL" }
+            { id: "1", namaoperasional: "II. BIAYA NON OPERASIONAL" }
             ]
             $scope.listJenisBiaya = [{ id: "1", namajenisbiaya: "A. BIAYA PEGAWAI" },
-                { id: "2", namajenisbiaya: "B. BIAYA UMUM DAN ADMINISTRASI" },
-                { id: "3", namajenisbiaya: "C. BIAYA MODAL" }
+            { id: "2", namajenisbiaya: "B. BIAYA UMUM DAN ADMINISTRASI" },
+            { id: "3", namajenisbiaya: "C. BIAYA MODAL" }
             ]
             $scope.listJenisAnggaran = [{ id: "1", namajenisanggaran: "BLU" },
-                { id: "2", namajenisanggaran: "RM" }
+            { id: "2", namajenisanggaran: "RM" }
             ]
-            medifirstService.get("perencanaan/get-data-combo").then(function(e) {
+            medifirstService.get("perencanaan/get-data-combo").then(function (e) {
                 $scope.listHead = e.data.kelompokhead
-                    //$scope.listPertama = e.data.kelompokpertama
-                    // $scope.listKedua=e.data.kelompokkedua
-                    // $scope.listKetiga=e.data.kelompokketiga
-                    // $scope.listKeempat = 
-                    // $scope.listKelima =
-                    // $scope.listKeenam = 
-                    // $scope.listKetujuh =
+                //$scope.listPertama = e.data.kelompokpertama
+                // $scope.listKedua=e.data.kelompokkedua
+                // $scope.listKetiga=e.data.kelompokketiga
+                // $scope.listKeempat = 
+                // $scope.listKelima =
+                // $scope.listKeenam = 
+                // $scope.listKetujuh =
                 $scope.listPengendali = e.data.pengendali
                 $scope.listPengendali1 = e.data.pengendali
-                    //$scope.listKeempat=e.data.kelompokkeempat
+                //$scope.listKeempat=e.data.kelompokkeempat
             });
 
-            $scope.getParentPertama = function() {
+            $scope.getParentPertama = function () {
                 var idparent1 = 'idparent1=' + $scope.item.kelompokHead.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-pertama?" +
-                    idparent1, true).then(function(dat) {
-                    $scope.listPertama = dat.data.kelompokpertama
-                });
+                    idparent1, true).then(function (dat) {
+                        $scope.listPertama = dat.data.kelompokpertama
+                    });
             }
 
-            $scope.getParentKedua = function() {
+            $scope.getParentKedua = function () {
                 var idparent2 = 'idparent2=' + $scope.item.kelompokPertama.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-kedua?" +
-                    idparent2, true).then(function(dat) {
-                    $scope.listKedua = dat.data.kelompokkedua
-                });
+                    idparent2, true).then(function (dat) {
+                        $scope.listKedua = dat.data.kelompokkedua
+                    });
             }
 
-            $scope.getParentKetiga = function() {
+            $scope.getParentKetiga = function () {
                 var idparent3 = 'idparent3=' + $scope.item.kelompokKedua.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-ketiga?" +
-                    idparent3, true).then(function(dat) {
-                    $scope.listKetiga = dat.data.kelompokketiga
-                });
+                    idparent3, true).then(function (dat) {
+                        $scope.listKetiga = dat.data.kelompokketiga
+                    });
             }
 
-            $scope.getParentKeempat = function() {
+            $scope.getParentKeempat = function () {
                 var idparent4 = 'idparent4=' + $scope.item.kelompokKetiga.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-keempat?" +
-                    idparent4, true).then(function(dat) {
-                    $scope.listKeempat = dat.data.kelompokkeempat
-                });
+                    idparent4, true).then(function (dat) {
+                        $scope.listKeempat = dat.data.kelompokkeempat
+                    });
             }
 
-            $scope.getParentKelima = function() {
+            $scope.getParentKelima = function () {
                 var idparent5 = 'idparent5=' + $scope.item.kelompokKeempat.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-kelima?" +
-                    idparent5, true).then(function(dat) {
-                    $scope.listKelima = dat.data.kelompokkelima
-                });
+                    idparent5, true).then(function (dat) {
+                        $scope.listKelima = dat.data.kelompokkelima
+                    });
             }
 
-            $scope.getParentKeenam = function() {
+            $scope.getParentKeenam = function () {
                 var idparent6 = 'idparent6=' + $scope.item.kelompokKelima.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-keenam?" +
-                    idparent6, true).then(function(dat) {
-                    $scope.listKeenam = dat.data.kelompokkeenam
-                });
+                    idparent6, true).then(function (dat) {
+                        $scope.listKeenam = dat.data.kelompokkeenam
+                    });
             }
 
-            $scope.getCekTurunanKetujuh = function() {
+            $scope.getCekTurunanKetujuh = function () {
                 var jumlah
                 var konfirmasi
-                medifirstService.get("perencanaan/get-cek-turunan-ketujuh?idturunanke6=" + $scope.item.kelompokKeenam.id, true).then(function(dat) {
+                medifirstService.get("perencanaan/get-cek-turunan-ketujuh?idturunanke6=" + $scope.item.kelompokKeenam.id, true).then(function (dat) {
                     jumlah = dat.data.data[0].jumlah
-                        // if (jumlah > 0) {//&& moment(x.data.tglregistrasi).format('YYYY-MM-DD') != moment($scope.now).format('YYYY-MM-DD')){
+                    // if (jumlah > 0) {//&& moment(x.data.tglregistrasi).format('YYYY-MM-DD') != moment($scope.now).format('YYYY-MM-DD')){
 
                     //     var confirm = $mdDialog.confirm()
                     //         .title('Peringatan')
@@ -153,22 +153,22 @@ define(['initialize'], function(initialize) {
 
                     // } else {
                     $scope.getParentKetujuh()
-                        // }
+                    // }
                 });
             }
 
-            $scope.getParentKetujuh = function() {
+            $scope.getParentKetujuh = function () {
                 var idparent7 = 'idparent7=' + $scope.item.kelompokKeenam.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-ketujuh?" +
-                    idparent7, true).then(function(dat) {
-                    $scope.listKetujuh = dat.data.kelompokketujuh
-                });
+                    idparent7, true).then(function (dat) {
+                        $scope.listKetujuh = dat.data.kelompokketujuh
+                    });
             }
 
-            $scope.getCekTurunanKedelapan = function() {
+            $scope.getCekTurunanKedelapan = function () {
                 var jumlah
                 var konfirmasi
-                medifirstService.get("perencanaan/get-cek-turunan-kedelapan?idturunanke7=" + $scope.item.kelompokKetujuh.id, true).then(function(dat) {
+                medifirstService.get("perencanaan/get-cek-turunan-kedelapan?idturunanke7=" + $scope.item.kelompokKetujuh.id, true).then(function (dat) {
                     jumlah = dat.data.data[0].jumlah
                     if (jumlah > 0) { //&& moment(x.data.tglregistrasi).format('YYYY-MM-DD') != moment($scope.now).format('YYYY-MM-DD')){
 
@@ -178,7 +178,7 @@ define(['initialize'], function(initialize) {
                             .ariaLabel('Lucky day')
                             .cancel('Tidak')
                             .ok('Ya')
-                        $mdDialog.show(confirm).then(function() {
+                        $mdDialog.show(confirm).then(function () {
                             //$scope.getParentKedelapan();
                         })
 
@@ -188,12 +188,12 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.getParentKedelapan = function() {
+            $scope.getParentKedelapan = function () {
                 var idparent7 = 'idparent7=' + $scope.item.kelompokKeenam.id
                 medifirstService.get("perencanaan/get-data-combo-by-parent-ketujuh?" +
-                    idparent7, true).then(function(dat) {
-                    $scope.listKetujuh = dat.data.kelompokketujuh
-                });
+                    idparent7, true).then(function (dat) {
+                        $scope.listKetujuh = dat.data.kelompokketujuh
+                    });
             }
 
 
@@ -206,13 +206,13 @@ define(['initialize'], function(initialize) {
             //     // $scope.listPengendali1 = e.data.pengendali
             //     // $scope.listKeempat=e.data.kelompokkeempat
             // });
-            medifirstService.get("sdm/get-data-combo-sdm?", true).then(function(dat) {
+            medifirstService.get("sdm/get-data-combo-sdm?", true).then(function (dat) {
                 var dataCombo = dat.data
                 $scope.listPengendali = dataCombo.jabatan;
                 $scope.listPengendali1 = dataCombo.jabatan;
             });
 
-            medifirstService.get("perencanaan/get-data-combo-satuan-anggaran?", true).then(function(dat) {
+            medifirstService.get("perencanaan/get-data-combo-satuan-anggaran?", true).then(function (dat) {
                 var dataCombo = dat.data
                 $scope.listSatuan = dataCombo
                 $scope.item.pengali = 1
@@ -238,7 +238,7 @@ define(['initialize'], function(initialize) {
             //     });
 
 
-            $scope.$watch('item.namaMataAnggaran', function(newValue, oldValue) {
+            $scope.$watch('item.namaMataAnggaran', function (newValue, oldValue) {
                 var layananFilter = [];
                 var txtnaonwelah = '';
                 // debugger
@@ -318,73 +318,73 @@ define(['initialize'], function(initialize) {
                     turunanKetiga +
                     turunanKeempat +
                     childTerakhir +
-                    Pengendali, true).then(function(dat) {
-                    $scope.isRouteLoading = false;
-                    $scope.maxchild = 0;
-                    for (var i = 0; i < dat.data.data.length; i++) {
-                        dat.data.data[i].nomor = i + 1
-                        dat.data.data[i].kdori = dat.data.data[i].kd
-                        if (dat.data.data[i].no == 1) {
-                            blu = blu + parseFloat(dat.data.data[i].totalblu)
-                            rm = rm + parseFloat(dat.data.data[i].totalrm)
+                    Pengendali, true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        $scope.maxchild = 0;
+                        for (var i = 0; i < dat.data.data.length; i++) {
+                            dat.data.data[i].nomor = i + 1
+                            dat.data.data[i].kdori = dat.data.data[i].kd
+                            if (dat.data.data[i].no == 1) {
+                                blu = blu + parseFloat(dat.data.data[i].totalblu)
+                                rm = rm + parseFloat(dat.data.data[i].totalrm)
+                            }
+                            if (dat.data.data[i].kd == '4.') {
+                                pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            if (dat.data.data[i].kd == '5.') {
+                                rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                                blu = blu + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            if (dat.data.data[i].no == 2) {
+                                dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 3) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 4) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 5) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 6) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 7) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 8) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no > $scope.maxchild) {
+                                $scope.maxchild = dat.data.data[i].no
+                            }
                         }
-                        if (dat.data.data[i].kd == '4.') {
-                            pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                        if (dat.data.data.length == 0) {
+                            $scope.totalRM = 0
+                            $scope.totalBLU = 0
+                            $scope.totalPendapatan = 0
+                            toastr.error('Data tidak ada', 'Informasi');
                         }
-                        if (dat.data.data[i].kd == '5.') {
-                            rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
-                            blu = blu + parseFloat(dat.data.data[i].totalblu)
-                        }
-                        if (dat.data.data[i].no == 2) {
-                            dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 3) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 4) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 5) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 6) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 7) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 8) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no > $scope.maxchild) {
-                            $scope.maxchild = dat.data.data[i].no
-                        }
-                    }
-                    if (dat.data.data.length == 0) {
-                        $scope.totalRM = 0
-                        $scope.totalBLU = 0
-                        $scope.totalPendapatan = 0
-                        toastr.error('Data tidak ada', 'Informasi');
-                    }
-                    $scope.totalRM = rm;
-                    $scope.totalBLU = blu;
-                    $scope.totalPendapatan = pendapatan;
+                        $scope.totalRM = rm;
+                        $scope.totalBLU = blu;
+                        $scope.totalPendapatan = pendapatan;
 
-                    $scope.dataSourceAnggaran = new kendo.data.DataSource({
-                        data: dat.data.data,
-                        // group: $scope.group,
-                        pageable: false,
-                        pagesize: 10,
+                        $scope.dataSourceAnggaran = new kendo.data.DataSource({
+                            data: dat.data.data,
+                            // group: $scope.group,
+                            pageable: false,
+                            pagesize: 10,
 
-                    })
+                        })
 
-                    $scope.treeSourceAnggaran.push(dat.data.data);
+                        $scope.treeSourceAnggaran.push(dat.data.data);
 
 
 
-                }, function(err) {
-                    $scope.isRouteLoading = false;
-                });
+                    }, function (err) {
+                        $scope.isRouteLoading = false;
+                    });
 
                 $scope.treeSourceAnggaranBLUD = [];
                 medifirstService.get("perencanaan/get-daftar-mataanggaran-new-blud?" +
@@ -395,69 +395,69 @@ define(['initialize'], function(initialize) {
                     turunanKetiga +
                     turunanKeempat +
                     childTerakhir +
-                    Pengendali, true).then(function(dat) {
-                    $scope.isRouteLoading = false;
-                    for (var i = 0; i < dat.data.data.length; i++) {
-                        dat.data.data[i].nomor = i + 1
-                        dat.data.data[i]._ = dat.data.data[i].isbiayaoperasional
-                        dat.data.data[i].__ = dat.data.data[i].jenisbiaya
-                        dat.data.data[i].___ = dat.data.data[i].turunankelima
-                        dat.data.data[i].____ = dat.data.data[i].turunankeenam
+                    Pengendali, true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        for (var i = 0; i < dat.data.data.length; i++) {
+                            dat.data.data[i].nomor = i + 1
+                            dat.data.data[i]._ = dat.data.data[i].isbiayaoperasional
+                            dat.data.data[i].__ = dat.data.data[i].jenisbiaya
+                            dat.data.data[i].___ = dat.data.data[i].turunankelima
+                            dat.data.data[i].____ = dat.data.data[i].turunankeenam
                             // blu = blu + parseFloat(dat.data.data[i].totalblu)
                             // rm = rm + parseFloat(dat.data.data[i].totalrm)
-                        if (dat.data.data[i].kd == '4.') {
-                            pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                            if (dat.data.data[i].kd == '4.') {
+                                pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            if (dat.data.data[i].kd == '5.') {
+                                rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                                blu = blu + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            // if (dat.data.data[i].no == 2){
+                            //     dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
+                            // if (dat.data.data[i].no == 3){
+                            //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
+                            // if (dat.data.data[i].no == 4){
+                            //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
+                            // if (dat.data.data[i].no == 5){
+                            //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
+                            // if (dat.data.data[i].no == 6){
+                            //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
+                            // if (dat.data.data[i].no == 7){
+                            //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            // }
                         }
-                        if (dat.data.data[i].kd == '5.') {
-                            rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
-                            blu = blu + parseFloat(dat.data.data[i].totalblu)
+                        if (dat.data.data.length == 0) {
+                            $scope.totalRM = 0
+                            $scope.totalBLU = 0
+                            $scope.totalPendapatan = 0
+                            toastr.error('Data tidak ada', 'Informasi');
                         }
-                        // if (dat.data.data[i].no == 2){
-                        //     dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                        // if (dat.data.data[i].no == 3){
-                        //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                        // if (dat.data.data[i].no == 4){
-                        //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                        // if (dat.data.data[i].no == 5){
-                        //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                        // if (dat.data.data[i].no == 6){
-                        //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                        // if (dat.data.data[i].no == 7){
-                        //     dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        // }
-                    }
-                    if (dat.data.data.length == 0) {
-                        $scope.totalRM = 0
-                        $scope.totalBLU = 0
-                        $scope.totalPendapatan = 0
-                        toastr.error('Data tidak ada', 'Informasi');
-                    }
-                    $scope.totalRM = rm;
-                    $scope.totalBLU = blu;
-                    $scope.totalPendapatan = pendapatan;
+                        $scope.totalRM = rm;
+                        $scope.totalBLU = blu;
+                        $scope.totalPendapatan = pendapatan;
 
-                    $scope.dataSourceAnggaranBLUD = new kendo.data.DataSource({
-                        data: dat.data.data,
-                        schema: $scope.schema,
-                        group: $scope.group,
-                        aggregate: $scope.aggregate,
-                        pageable: false,
-                        pagesize: 10,
+                        $scope.dataSourceAnggaranBLUD = new kendo.data.DataSource({
+                            data: dat.data.data,
+                            schema: $scope.schema,
+                            group: $scope.group,
+                            aggregate: $scope.aggregate,
+                            pageable: false,
+                            pagesize: 10,
 
-                    })
+                        })
 
-                    $scope.treeSourceAnggaran.push(dat.data.data);
+                        $scope.treeSourceAnggaran.push(dat.data.data);
 
 
 
-                }, function(err) {
-                    $scope.isRouteLoading = false;
-                });
+                    }, function (err) {
+                        $scope.isRouteLoading = false;
+                    });
 
             }
             //   $scope.group = {
@@ -490,7 +490,7 @@ define(['initialize'], function(initialize) {
 
                 }]
                 $scope.dataSourceAnggaran = dataSource
-                    // updateChecked($scope.treeData, e.sender.dataSource.data());
+                // updateChecked($scope.treeData, e.sender.dataSource.data());
 
             }
 
@@ -509,7 +509,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.simpan = function() {
+            $scope.simpan = function () {
                 var periodeTahuns = ""
                 if ($scope.item.periodeTahuns != undefined)
                     periodeTahuns = moment($scope.item.periodeTahuns).format('YYYY')
@@ -617,13 +617,13 @@ define(['initialize'], function(initialize) {
                     "satuan": satuan,
                     "hargasatuan": hargasatuan
                 }
-                medifirstService.post('perencanaan/save-child', jsonSave).then(function(e) {
+                medifirstService.post('perencanaan/save-child', jsonSave).then(function (e) {
                     kosongkan();
                     loadTreeview();
                 })
 
             }
-            $scope.edit = function() {
+            $scope.edit = function () {
                 var periodeTahuns = ""
                 if ($scope.item.periodeTahuns != undefined)
                     periodeTahuns = moment($scope.item.periodeTahuns).format('YYYY')
@@ -675,7 +675,7 @@ define(['initialize'], function(initialize) {
                     "tahun": periodeTahuns,
 
                 }
-                medifirstService.post('perencanaan/save-child', jsonSave).then(function(e) {
+                medifirstService.post('perencanaan/save-child', jsonSave).then(function (e) {
                     kosongkan();
                     loadTreeview();
                 })
@@ -685,12 +685,12 @@ define(['initialize'], function(initialize) {
             function kosongkan() {
                 $scope.item.saldoBlu = ""
                 $scope.item.saldoRm = ""
-                    // $scope.item.childMataAnggaran=""
-                    // $scope.item.kelompokHead=""
-                    // $scope.item.kelompokPertama=""
-                    // $scope.item.kelompokKedua=""
-                    // $scope.item.kelompokKetiga=""
-                    // $scope.item.kelompokKeempat=""
+                // $scope.item.childMataAnggaran=""
+                // $scope.item.kelompokHead=""
+                // $scope.item.kelompokPertama=""
+                // $scope.item.kelompokKedua=""
+                // $scope.item.kelompokKetiga=""
+                // $scope.item.kelompokKeempat=""
                 $scope.item.saldoBlus = 0
                 $scope.item.saldoRms = 0
                 $scope.item.mataAnggarans = ""
@@ -703,7 +703,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.hapusGridRealisasi = function(dataRealisasi) {
+            $scope.hapusGridRealisasi = function (dataRealisasi) {
                 var stt = 'false'
                 if (confirm('Hapus Realisasi ? ')) {
                     // Save it!
@@ -719,7 +719,7 @@ define(['initialize'], function(initialize) {
                     "norec": dataRealisasi.norec
                 };
                 $scope.tampil = false;
-                medifirstService.post('perencanaan/delete-realisasi', objverif).then(function(e) {
+                medifirstService.post('perencanaan/delete-realisasi', objverif).then(function (e) {
                     loadklikGrid2($scope.datadetailanggaran);
                     kosongkan();
 
@@ -727,7 +727,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.klikKomponen = function(dataRealisasi) {
+            $scope.klikKomponen = function (dataRealisasi) {
                 // debugger;
                 $scope.item.nox = dataRealisasi.no
                 $scope.item.realisasi = parseFloat(dataRealisasi.realisasi)
@@ -735,15 +735,15 @@ define(['initialize'], function(initialize) {
                 $scope.item.editketeranganx = dataRealisasi.keterangan
                 $scope.dataRealisasi = dataRealisasi
             }
-            $scope.klikGrid = function(dataAnggaranSelected) {
+            $scope.klikGrid = function (dataAnggaranSelected) {
                 if (dataAnggaranSelected != undefined) {
                     $scope.item.kodeAnggaran = dataAnggaranSelected.kode
-                        // $scope.item.namaMataAnggaran=dataAnggaranSelected.desc
-                        // $scope.popUpTreeView.center().open();
+                    // $scope.item.namaMataAnggaran=dataAnggaranSelected.desc
+                    // $scope.popUpTreeView.center().open();
                 }
             }
 
-            $scope.klikGrid2 = function(dataRealisasi) {
+            $scope.klikGrid2 = function (dataRealisasi) {
                 $scope.datadetailanggaran = dataRealisasi;
                 loadklikGrid2($scope.datadetailanggaran);
 
@@ -755,53 +755,53 @@ define(['initialize'], function(initialize) {
                 pageable: false,
                 selectable: "row",
                 columns: [{
-                            "field": "nomor",
-                            "title": "No. ",
-                            "template": "<span class='style-center'>#: nomor #</span>",
-                            "width": "15px"
-                        },
-                        {
-                            "field": "kd",
-                            "title": "Kode",
-                            "width": "80px",
-                            "template": "<span style='font-weight: bold;'>#: kd #</span>",
-                        },
-                        {
-                            "field": "desk",
-                            "title": "Mata Anggaran",
-                            "width": "200px"
-                        },
-                        {
-                            "field": "totalrm",
-                            "title": "Saldo Awal RM",
-                            "width": "80px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: totalrm #', 'Rp.')}}</span>"
-                        },
-                        {
-                            "field": "totalblu",
-                            "title": "Saldo Awal BLU",
-                            "width": "80px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                        },
-                        //  { 
-                        //     "command": ["edit"],
-                        //     title: " ",
-                        //     width: "80px" 
-                        // }
+                    "field": "nomor",
+                    "title": "No. ",
+                    "template": "<span class='style-center'>#: nomor #</span>",
+                    "width": "15px"
+                },
+                {
+                    "field": "kd",
+                    "title": "Kode",
+                    "width": "80px",
+                    "template": "<span style='font-weight: bold;'>#: kd #</span>",
+                },
+                {
+                    "field": "desk",
+                    "title": "Mata Anggaran",
+                    "width": "200px"
+                },
+                {
+                    "field": "totalrm",
+                    "title": "Saldo Awal RM",
+                    "width": "80px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalrm #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "totalblu",
+                    "title": "Saldo Awal BLU",
+                    "width": "80px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
+                    //  { 
+                    //     "command": ["edit"],
+                    //     title: " ",
+                    //     width: "80px" 
+                    // }
 
-                    ] //,
-                    // toolbar: [
-                    //     {
-                    //         "name": "edit",
-                    //         "text": "Edit Data",
-                    //         "template": '<a ng-click="editGrid()" class="k-button k-button-icontext k-grid-upload">Edit Data</a>'
-                    //     },
-                    //     {
-                    //         "name": "add",
-                    //         "text": "Hapus Data",
-                    //         "template": '<a ng-click="hapusGrid()" class="k-button k-button-icontext k-grid-upload">Hapus Data</a>'
-                    //     }
-                    // ]
+                ] //,
+                // toolbar: [
+                //     {
+                //         "name": "edit",
+                //         "text": "Edit Data",
+                //         "template": '<a ng-click="editGrid()" class="k-button k-button-icontext k-grid-upload">Edit Data</a>'
+                //     },
+                //     {
+                //         "name": "add",
+                //         "text": "Hapus Data",
+                //         "template": '<a ng-click="hapusGrid()" class="k-button k-button-icontext k-grid-upload">Hapus Data</a>'
+                //     }
+                // ]
             }
 
             $scope.columnDetailAnggaranAPBD = {
@@ -809,58 +809,58 @@ define(['initialize'], function(initialize) {
                 pageable: false,
                 selectable: "row",
                 columns: [{
-                        "field": "nomor",
-                        "title": "No. ",
-                        "template": "<span class='style-center'>#: nomor #</span>",
-                        "width": "30px"
-                    },
-                    {
-                        "field": "kd",
-                        "title": "Kode",
-                        "width": "80px",
-                        "template": "<span style='font-weight: bold;'>#: kd #</span>",
-                    },
-                    {
-                        "field": "desk",
-                        "title": "Mata Anggaran",
-                        "width": "180px"
-                    },
-                    {
-                        "field": "totalrm",
-                        "title": "Saldo Awal APBD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: totalrm #', 'Rp.')}}</span>"
-                    },
-                    {
-                        "field": "totalblu",
-                        "title": "Saldo Awal BLUD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                    },
-                    {
-                        //"field": "totalblu",
-                        "title": "Revisi ke",
-                        "width": "80px",
-                        //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                    },
-                    {
-                        //"field": "totalblu",
-                        "title": "Pengedit",
-                        "width": "80px",
-                        //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                    },
-                    {
-                        //"field": "totalblu",
-                        "title": "Tanggal edit",
-                        "width": "80px",
-                        //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                    },
-                    {
-                        //"field": "totalblu",
-                        "title": "Keterangan",
-                        "width": "80px",
-                        //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
-                    },
+                    "field": "nomor",
+                    "title": "No. ",
+                    "template": "<span class='style-center'>#: nomor #</span>",
+                    "width": "30px"
+                },
+                {
+                    "field": "kd",
+                    "title": "Kode",
+                    "width": "80px",
+                    "template": "<span style='font-weight: bold;'>#: kd #</span>",
+                },
+                {
+                    "field": "desk",
+                    "title": "Mata Anggaran",
+                    "width": "180px"
+                },
+                {
+                    "field": "totalrm",
+                    "title": "Saldo Awal APBD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalrm #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "totalblu",
+                    "title": "Saldo Awal BLUD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
+                {
+                    //"field": "totalblu",
+                    "title": "Revisi ke",
+                    "width": "80px",
+                    //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
+                {
+                    //"field": "totalblu",
+                    "title": "Pengedit",
+                    "width": "80px",
+                    //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
+                {
+                    //"field": "totalblu",
+                    "title": "Tanggal edit",
+                    "width": "80px",
+                    //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
+                {
+                    //"field": "totalblu",
+                    "title": "Keterangan",
+                    "width": "80px",
+                    //"template": "<span class='style-right'>{{formatRupiah('#: totalblu #', 'Rp.')}}</span>"
+                },
                     //  { 
                     //     "command": ["edit"],
                     //     title: " ",
@@ -869,15 +869,15 @@ define(['initialize'], function(initialize) {
 
                 ],
                 toolbar: [{
-                        "name": "edit",
-                        "text": "Edit Data",
-                        "template": '<a ng-click="editAnggaranAPBD()" class="k-button k-button-icontext k-grid-upload">Edit Data</a>'
-                    },
-                    {
-                        "name": "add",
-                        "text": "Hapus Data",
-                        "template": '<a ng-click="hapusAnggaranAPBD()" class="k-button k-button-icontext k-grid-upload">Hapus Data</a>'
-                    }
+                    "name": "edit",
+                    "text": "Edit Data",
+                    "template": '<a ng-click="editAnggaranAPBD()" class="k-button k-button-icontext k-grid-upload">Edit Data</a>'
+                },
+                {
+                    "name": "add",
+                    "text": "Hapus Data",
+                    "template": '<a ng-click="hapusAnggaranAPBD()" class="k-button k-button-icontext k-grid-upload">Hapus Data</a>'
+                }
                 ]
             }
             $scope.columnKomponens = {
@@ -885,34 +885,34 @@ define(['initialize'], function(initialize) {
                 pageable: false,
                 selectable: "row",
                 columns: [{
-                            "field": "tanggalrealisasi",
-                            "title": "Tanggal Realisasi",
-                            "template": "<span class='style-center'>#: tanggalrealisasi #</span>",
-                            "width": "50px"
-                        },
-                        {
-                            "field": "realisasi",
-                            "title": "Realisasi",
-                            "width": "80px",
-                            "template": "<span style='font-weight: bold;'>{{formatRupiah('#: realisasi #', 'Rp.')}}</span>",
-                        },
-                        {
-                            "field": "keterangan",
-                            "title": "keterangan",
-                            "width": "200px"
-                        },
-                        {
-                            "field": "status",
-                            "title": "Hapus",
-                            "width": "90px",
+                    "field": "tanggalrealisasi",
+                    "title": "Tanggal Realisasi",
+                    "template": "<span class='style-center'>#: tanggalrealisasi #</span>",
+                    "width": "50px"
+                },
+                {
+                    "field": "realisasi",
+                    "title": "Realisasi",
+                    "width": "80px",
+                    "template": "<span style='font-weight: bold;'>{{formatRupiah('#: realisasi #', 'Rp.')}}</span>",
+                },
+                {
+                    "field": "keterangan",
+                    "title": "keterangan",
+                    "width": "200px"
+                },
+                {
+                    "field": "status",
+                    "title": "Hapus",
+                    "width": "90px",
 
-                            "template": "<button class=\"k-button custom-button\" ng-click=\"hapusGridRealisasi(dataItem)\"  style=\"margin:0 0 5px\" >HAPUS</button> ",
-                        },
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"hapusGridRealisasi(dataItem)\"  style=\"margin:0 0 5px\" >HAPUS</button> ",
+                },
 
-                    ]
-                    // ]
+                ]
+                // ]
             }
-            $scope.hapusAnggaranAPBD = function() {
+            $scope.hapusAnggaranAPBD = function () {
                 //var arrNorec = $scope.dataAnggaranSelected.kode.split('~');
                 var arrNorec = $scope.dataDetailAnggaranSelected.norec;
                 $scope.popUpDetailAPBD.close()
@@ -926,11 +926,11 @@ define(['initialize'], function(initialize) {
                         .ariaLabel('Lucky day')
                         .cancel('Tidak')
                         .ok('Ya')
-                    $mdDialog.show(confirm).then(function() {
+                    $mdDialog.show(confirm).then(function () {
                         var itemDelete = {
                             "norec": arrNorec,
                         }
-                        medifirstService.post('perencanaan/delete-child', itemDelete).then(function(e) {
+                        medifirstService.post('perencanaan/delete-child', itemDelete).then(function (e) {
                             if (e.status === 201) {
                                 loadTreeview();
                             }
@@ -939,7 +939,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.editAnggaranAPBD = function() {
+            $scope.editAnggaranAPBD = function () {
                 if ($scope.dataDetailAnggaranSelected.no == undefined) {
                     toastr.error("Pilih data apbd terlebih dahulu!")
                     return
@@ -951,14 +951,14 @@ define(['initialize'], function(initialize) {
                 $scope.item.edithargasatuan = $scope.dataDetailAnggaranSelected.hargasatuan
                 $scope.item.editsaldoRms = parseInt($scope.dataDetailAnggaranSelected.totalrm)
                 $scope.item.editsaldoblu = parseInt($scope.dataDetailAnggaranSelected.totalblu)
-                medifirstService.get("tatarekening/get-data-login", true, true, 20).then(function(data) {
-                    medifirstService.get("emr/get-pegawai-parts?id=" + data.data.datalogin.userData.namauser, true, true, 20).then(function(data) {
+                medifirstService.get("tatarekening/get-data-login", true, true, 20).then(function (data) {
+                    medifirstService.get("emr/get-pegawai-parts?id=" + data.data.datalogin.userData.namauser, true, true, 20).then(function (data) {
                         $scope.item.editpegawai = data.data[0];
                     });
                 });
             }
 
-            $scope.simpanAnggaranPerubahanAPBD = function() {
+            $scope.simpanAnggaranPerubahanAPBD = function () {
                 var itemSave = {
                     "norec": $scope.dataDetailAnggaranSelected.norec,
                     "kode": $scope.dataDetailAnggaranSelected.kdori,
@@ -979,7 +979,7 @@ define(['initialize'], function(initialize) {
                     "saldobluawal": $scope.dataDetailAnggaranSelected.totalblu,
                     "saldobluakhir": $scope.item.editsaldoblu
                 }
-                medifirstService.post('perencanaan/save-edit-detail-mataanggaran', itemSave).then(function(e) {
+                medifirstService.post('perencanaan/save-edit-detail-mataanggaran', itemSave).then(function (e) {
                     if (e.data.status === 201) {
                         loadTreeview();
                         $scope.popUpEditDetailAPBD.close()
@@ -987,10 +987,10 @@ define(['initialize'], function(initialize) {
                     }
                 })
             }
-            $scope.batal = function() {
+            $scope.batal = function () {
                 kosongkan();
             }
-            $scope.tambah = function() {
+            $scope.tambah = function () {
                 var no = '-';
                 var norec = '';
                 if ($scope.datadetailanggaran == undefined) {
@@ -1012,7 +1012,7 @@ define(['initialize'], function(initialize) {
                     "keterangan": $scope.item.editketeranganx,
 
                 }
-                medifirstService.post('perencanaan/save-edit-realisasi', itemSave).then(function(e) {
+                medifirstService.post('perencanaan/save-edit-realisasi', itemSave).then(function (e) {
                     if (e.data.status === 201) {
                         kosongkan();
                         loadTreeview();
@@ -1024,7 +1024,7 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.hapusGrid = function() {
+            $scope.hapusGrid = function () {
                 //var arrNorec = $scope.dataAnggaranSelected.kode.split('~');
                 var arrNorec = $scope.dataAnggaranSelected.kd;
                 if (arrNorec[1] == undefined) {
@@ -1034,17 +1034,17 @@ define(['initialize'], function(initialize) {
                     var itemDelete = {
                         "norec": arrNorec[1],
                     }
-                    medifirstService.post('perencanaan/delete-child', itemDelete).then(function(e) {
+                    medifirstService.post('perencanaan/delete-child', itemDelete).then(function (e) {
                         if (e.status === 201) {
                             loadTreeview();
                         }
                     })
                 }
             }
-            $scope.editGrid = function() {
+            $scope.editGrid = function () {
                 //var arrNorec = $scope.dataAnggaranSelected.kode.split('~');
                 //var arrNorec = $scope.dataAnggaranSelected.no;
-                medifirstService.get("perencanaan/get-data-combo").then(function(e) {
+                medifirstService.get("perencanaan/get-data-combo").then(function (e) {
                     $scope.listHead = e.data.kelompokhead
                     $scope.listPertama = e.data.kelompokpertama
                     $scope.listKedua = e.data.kelompokkedua
@@ -1055,7 +1055,7 @@ define(['initialize'], function(initialize) {
                     $scope.listKetujuh = e.data.kelompokketujuh
                     $scope.listPengendali = e.data.pengendali
                     $scope.listPengendali1 = e.data.pengendali
-                        //$scope.listKeempat=e.data.kelompokkeempat
+                    //$scope.listKeempat=e.data.kelompokkeempat
                 });
 
                 // if ($scope.dataAnggaranSelected.no < $scope.maxchild) {
@@ -1064,9 +1064,9 @@ define(['initialize'], function(initialize) {
                 // } else {
                 //$scope.norecMA = arrNorec[1];
                 medifirstService.get("perencanaan/get-child-byNoName?no=" +
-                        $scope.dataAnggaranSelected.no + "&desk=" + $scope.dataAnggaranSelected.desk
-                    )
-                    .then(function(dat) {
+                    $scope.dataAnggaranSelected.no + "&desk=" + $scope.dataAnggaranSelected.desk
+                )
+                    .then(function (dat) {
                         // $scope.getParentPertama = function(){
                         //     var idparent1 = 'idparent1='+$scope.item.kelompokHead.id
                         //     medifirstService.get("perencanaan/get-data-combo-by-parent-pertama?"
@@ -1390,44 +1390,44 @@ define(['initialize'], function(initialize) {
             };
 
             $scope.ColumnPasien = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                // {
-                //     "field":"tglregistrasi",
-                //     "title":"Tgl Registrasi",
-                //     "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
-                //     "width":"80px"
-                // },
-                {
-                    "field": "kd",
-                    "title": "Kode",
-                    // "template": "#= new moment(new Date(tglmasuk)).format('DD-MM-YYYY HH:mm') #",
-                    "width": "80px"
-                },
-                {
-                    "field": "saldoawalblu",
-                    "title": "BLU",
-                    "width": "60px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: saldoawalblu #', 'Rp.')}}</span>"
-                },
-                {
-                    "field": "saldoawalrm",
-                    "title": "Rupiah Murni",
-                    "width": "60px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: saldoawalrm #', 'Rp.')}}</span>"
-                },
-                {
-                    "field": "namaanggaranfix",
-                    "title": "Anggaran",
-                    "width": "160px"
-                },
-                {
-                    "field": "tahun",
-                    "title": "Tahun",
-                    "width": "20px"
-                }
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            // {
+            //     "field":"tglregistrasi",
+            //     "title":"Tgl Registrasi",
+            //     "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
+            //     "width":"80px"
+            // },
+            {
+                "field": "kd",
+                "title": "Kode",
+                // "template": "#= new moment(new Date(tglmasuk)).format('DD-MM-YYYY HH:mm') #",
+                "width": "80px"
+            },
+            {
+                "field": "saldoawalblu",
+                "title": "BLU",
+                "width": "60px",
+                "template": "<span class='style-right'>{{formatRupiah('#: saldoawalblu #', 'Rp.')}}</span>"
+            },
+            {
+                "field": "saldoawalrm",
+                "title": "Rupiah Murni",
+                "width": "60px",
+                "template": "<span class='style-right'>{{formatRupiah('#: saldoawalrm #', 'Rp.')}}</span>"
+            },
+            {
+                "field": "namaanggaranfix",
+                "title": "Anggaran",
+                "width": "160px"
+            },
+            {
+                "field": "tahun",
+                "title": "Tahun",
+                "width": "20px"
+            }
 
             ];
 
@@ -1436,7 +1436,7 @@ define(['initialize'], function(initialize) {
                 pageSizes: true,
                 buttonCount: 5
             }
-            $scope.carianggaran = function() {
+            $scope.carianggaran = function () {
 
                 $scope.isRouteLoading = true;
                 var tahunAnggaran = '';
@@ -1458,15 +1458,15 @@ define(['initialize'], function(initialize) {
                         tahunAnggaran +
                         namaanggaran
                     ),
-                ]).then(function(data) {
+                ]).then(function (data) {
                     $scope.isRouteLoading = false;
                     var datas = data[0].data;
                     for (var i = 0; i < datas.data.length; i++) {
                         datas.data[i].no = i + 1
-                            // var tanggal = $scope.now;
-                            // var tanggalLahir = new Date(datas[i].tgllahir);
-                            // var umurzz = DateHelper.CountAge(tanggalLahir, tanggal);
-                            // datas[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
+                        // var tanggal = $scope.now;
+                        // var tanggalLahir = new Date(datas[i].tgllahir);
+                        // var umurzz = DateHelper.CountAge(tanggalLahir, tanggal);
+                        // datas[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
                     }
                     $scope.GridPasien = new kendo.data.DataSource({
                         data: datas.data,
@@ -1482,7 +1482,7 @@ define(['initialize'], function(initialize) {
                     });
                 });
             }
-            $scope.carianggaranlaporan = function() {
+            $scope.carianggaranlaporan = function () {
 
                 $scope.isRouteLoading = true;
                 var tahunAnggaran = '';
@@ -1509,7 +1509,7 @@ define(['initialize'], function(initialize) {
                         bulananggaran +
                         kelompok
                     ),
-                ]).then(function(dat) {
+                ]).then(function (dat) {
                     debugger;
                     $scope.isRouteLoading = false;
                     var total = 0;
@@ -1522,7 +1522,7 @@ define(['initialize'], function(initialize) {
                     };
 
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             //this.response is what you're looking for
                             // handler(this.response);
@@ -1544,7 +1544,7 @@ define(['initialize'], function(initialize) {
                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/anggaran.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/anggaran.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/anggaran.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:1002/generic/report/anggaran.pdf');
@@ -1582,13 +1582,13 @@ define(['initialize'], function(initialize) {
                     // });
                 });
             }
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 if (value == "null")
                     value = 0
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             };
 
-            $scope.$watch('item.edithargasatuan', function(newValue, oldValue) {
+            $scope.$watch('item.edithargasatuan', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     debugger;
                     if ($scope.item.editsaldoblu != 0) {
@@ -1599,7 +1599,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.editvolume', function(newValue, oldValue) {
+            $scope.$watch('item.editvolume', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     debugger;
                     if ($scope.item.editsaldoblu != 0) {
@@ -1610,7 +1610,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.editpengali', function(newValue, oldValue) {
+            $scope.$watch('item.editpengali', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     debugger;
                     if ($scope.item.editsaldoblu != 0) {
@@ -1622,7 +1622,7 @@ define(['initialize'], function(initialize) {
             });
 
             if ($scope.item.jenisanggaran == undefined) {
-                $scope.$watch("item.hargasatuan", function(xnewVal3, xoldVal3) {
+                $scope.$watch("item.hargasatuan", function (xnewVal3, xoldVal3) {
                     var newVal3 = xnewVal3.toString().replace(/\./g, "")
                     var oldVal3 = xoldVal3.toString().replace(/\./g, "")
                     if (newVal3 != oldVal3) {
@@ -1632,13 +1632,13 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.$watch("item.jenisanggaran", function(newVal, oldVal) {
+            $scope.$watch("item.jenisanggaran", function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if (newVal != undefined) {
-                        $scope.$watch("item.hargasatuan", function(xnewVal2, xoldVal2) {
+                        $scope.$watch("item.hargasatuan", function (xnewVal2, xoldVal2) {
                             var newVal2 = xnewVal2.toString().replace(/\./g, "")
                             var oldVal2 = xoldVal2.toString().replace(/\./g, "")
-                                // if (newVal2 != oldVal2) {
+                            // if (newVal2 != oldVal2) {
                             if ($scope.item.jenisanggaran.id == 1) {
                                 $scope.item.saldoRms = 0;
                                 $scope.item.saldoBlus = $scope.item.volume * $scope.item.pengali * newVal2;
@@ -1649,10 +1649,10 @@ define(['initialize'], function(initialize) {
                             // }
                         });
                     } else {
-                        $scope.$watch("item.hargasatuan", function(xnewVal3, xoldVal3) {
+                        $scope.$watch("item.hargasatuan", function (xnewVal3, xoldVal3) {
                             var newVal3 = xnewVal3.toString().replace(/\./g, "")
                             var oldVal3 = xoldVal3.toString().replace(/\./g, "")
-                                // if (newVal3 != oldVal3) {
+                            // if (newVal3 != oldVal3) {
                             if ($scope.item.jenisanggaran.id == 1) {
                                 $scope.item.saldoRms = 0;
                                 $scope.item.saldoBlus = $scope.item.volume * $scope.item.pengali * newVal2;
@@ -1716,71 +1716,71 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("perencanaan/get-detail-daftar-mataanggaran-new?" +
                     tahunAnggaran +
                     turunan +
-                    kd, true).then(function(dat) {
-                    $scope.isRouteLoading = false;
-                    $scope.maxchild = 0;
-                    for (var i = 0; i < dat.data.data.length; i++) {
-                        dat.data.data[i].nomor = i + 1
-                        dat.data.data[i].kdori = dat.data.data[i].kd
+                    kd, true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        $scope.maxchild = 0;
+                        for (var i = 0; i < dat.data.data.length; i++) {
+                            dat.data.data[i].nomor = i + 1
+                            dat.data.data[i].kdori = dat.data.data[i].kd
                             // blu = blu + parseFloat(dat.data.data[i].totalblu)
                             // rm = rm + parseFloat(dat.data.data[i].totalrm)
-                        if (dat.data.data[i].kd == '4.') {
-                            pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                            if (dat.data.data[i].kd == '4.') {
+                                pendapatan = pendapatan + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            if (dat.data.data[i].kd == '5.') {
+                                rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
+                                blu = blu + parseFloat(dat.data.data[i].totalblu)
+                            }
+                            if (dat.data.data[i].no == 2) {
+                                dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 3) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 4) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 5) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 6) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no == 7) {
+                                dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
+                            }
+                            if (dat.data.data[i].no > $scope.maxchild) {
+                                $scope.maxchild = dat.data.data[i].no
+                            }
                         }
-                        if (dat.data.data[i].kd == '5.') {
-                            rm = rm + parseFloat(dat.data.data[i].totalrm) + parseFloat(dat.data.data[i].totalblu)
-                            blu = blu + parseFloat(dat.data.data[i].totalblu)
+                        if (dat.data.data.length == 0) {
+                            $scope.totalRM = 0
+                            $scope.totalBLU = 0
+                            $scope.totalPendapatan = 0
+                            toastr.error('Data tidak ada', 'Informasi');
                         }
-                        if (dat.data.data[i].no == 2) {
-                            dat.data.data[i].kd = '\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 3) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 4) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 5) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 6) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no == 7) {
-                            dat.data.data[i].kd = '\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\u2666\xa0\xa0' + dat.data.data[i].kd
-                        }
-                        if (dat.data.data[i].no > $scope.maxchild) {
-                            $scope.maxchild = dat.data.data[i].no
-                        }
-                    }
-                    if (dat.data.data.length == 0) {
-                        $scope.totalRM = 0
-                        $scope.totalBLU = 0
-                        $scope.totalPendapatan = 0
-                        toastr.error('Data tidak ada', 'Informasi');
-                    }
-                    $scope.totalRM = rm;
-                    $scope.totalBLU = blu;
-                    $scope.totalPendapatan = pendapatan;
+                        $scope.totalRM = rm;
+                        $scope.totalBLU = blu;
+                        $scope.totalPendapatan = pendapatan;
 
-                    $scope.dataSourceDetailAnggaran = new kendo.data.DataSource({
-                        data: dat.data.data,
-                        // group: $scope.group,
-                        pageable: false,
-                        pagesize: 10,
+                        $scope.dataSourceDetailAnggaran = new kendo.data.DataSource({
+                            data: dat.data.data,
+                            // group: $scope.group,
+                            pageable: false,
+                            pagesize: 10,
 
-                    })
+                        })
 
-                    $scope.treeSourceAnggaran.push(dat.data.data);
+                        $scope.treeSourceAnggaran.push(dat.data.data);
 
 
 
-                }, function(err) {
-                    $scope.isRouteLoading = false;
-                });
+                    }, function (err) {
+                        $scope.isRouteLoading = false;
+                    });
             }
 
-            $scope.detailAnggaranAPBD = function() {
+            $scope.detailAnggaranAPBD = function () {
                 if ($scope.dataAnggaranSelected.no == undefined) {
                     toastr.error("Pilih data apbd terlebih dahulu!")
                     return
@@ -1793,7 +1793,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = true;
                 medifirstService.get("perencanaan/get-riwayat-detail-mataanggaran?kode=" +
                     $scope.dataAnggaranSelected.kdori + "&tahun=" + $scope.dataAnggaranSelected.tahun
-                ).then(function(dat) {
+                ).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.data.length; i++) {
                         dat.data.data[i].revisike = dat.data.data.length - i
@@ -1815,65 +1815,65 @@ define(['initialize'], function(initialize) {
                 pageable: false,
                 selectable: "row",
                 columns: [{
-                        "field": "revisike",
-                        "title": "Revisi ke",
-                        "template": "<span class='style-center'>#: revisike #</span>",
-                        "width": "50px"
-                    },
-                    {
-                        "field": "kode",
-                        "title": "Kode",
-                        "width": "80px",
-                        "template": "<span style='font-weight: bold;'>#: kode #</span>",
-                    },
-                    // {
-                    //     "field": "desk",
-                    //     "title": "Mata Anggaran",
-                    //     "width": "180px"
-                    // },
-                    {
-                        "field": "saldormawal",
-                        "title": "Saldo Awal APBD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: saldormawal #', 'Rp.')}}</span>"
-                    },
-                    {
-                        "field": "saldormakhir",
-                        "title": "Saldo Akhir APBD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: saldormakhir #', 'Rp.')}}</span>"
-                    },
-                    {
-                        "field": "saldobluawal",
-                        "title": "Saldo Awal BLUD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: saldobluawal #', 'Rp.')}}</span>"
-                    },
-                    {
-                        "field": "saldobluakhir",
-                        "title": "Saldo Akhir BLUD",
-                        "width": "90px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: saldobluakhir #', 'Rp.')}}</span>"
-                    },
-                    {
-                        "field": "namalengkap",
-                        "title": "Pengedit",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "tgledit",
-                        "title": "Tanggal edit",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "keterangan",
-                        "title": "Keterangan",
-                        "width": "80px",
-                    }
+                    "field": "revisike",
+                    "title": "Revisi ke",
+                    "template": "<span class='style-center'>#: revisike #</span>",
+                    "width": "50px"
+                },
+                {
+                    "field": "kode",
+                    "title": "Kode",
+                    "width": "80px",
+                    "template": "<span style='font-weight: bold;'>#: kode #</span>",
+                },
+                // {
+                //     "field": "desk",
+                //     "title": "Mata Anggaran",
+                //     "width": "180px"
+                // },
+                {
+                    "field": "saldormawal",
+                    "title": "Saldo Awal APBD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: saldormawal #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "saldormakhir",
+                    "title": "Saldo Akhir APBD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: saldormakhir #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "saldobluawal",
+                    "title": "Saldo Awal BLUD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: saldobluawal #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "saldobluakhir",
+                    "title": "Saldo Akhir BLUD",
+                    "width": "90px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: saldobluakhir #', 'Rp.')}}</span>"
+                },
+                {
+                    "field": "namalengkap",
+                    "title": "Pengedit",
+                    "width": "80px",
+                },
+                {
+                    "field": "tgledit",
+                    "title": "Tanggal edit",
+                    "width": "80px",
+                },
+                {
+                    "field": "keterangan",
+                    "title": "Keterangan",
+                    "width": "80px",
+                }
                 ]
             }
 
-            $scope.riwayatAnggaranAPBD = function() {
+            $scope.riwayatAnggaranAPBD = function () {
                 if ($scope.dataAnggaranSelected.no == undefined) {
                     toastr.error("Pilih data apbd terlebih dahulu!")
                     return
@@ -1888,26 +1888,26 @@ define(['initialize'], function(initialize) {
                 if (dataRealisasi != undefined) {
 
                     medifirstService.get("perencanaan/get-realsiasi?norecanggaran=" +
-                        dataRealisasi.norec, true).then(function(data) {
-                        var total = 0;
-                        for (var i = 0; i < data.data.data.length; i++) {
-                            total = total + parseFloat(data.data.data[i].realisasi);
-                        }
-                        $scope.item.totalrealisasix = total;
-                        $scope.sourceKomponens = new kendo.data.DataSource({
-                            data: data.data.data,
-                            // group: $scope.group,
-                            pageSize: 10,
-                            total: data.data.data.length,
-                            serverPaging: false,
-                            schema: {
-                                model: {
-                                    fields: {}
-                                }
+                        dataRealisasi.norec, true).then(function (data) {
+                            var total = 0;
+                            for (var i = 0; i < data.data.data.length; i++) {
+                                total = total + parseFloat(data.data.data[i].realisasi);
                             }
-                        });
+                            $scope.item.totalrealisasix = total;
+                            $scope.sourceKomponens = new kendo.data.DataSource({
+                                data: data.data.data,
+                                // group: $scope.group,
+                                pageSize: 10,
+                                total: data.data.data.length,
+                                serverPaging: false,
+                                schema: {
+                                    model: {
+                                        fields: {}
+                                    }
+                                }
+                            });
 
-                    });
+                        });
                     // $scope.datadetailanggaran = dataRealisasi;
                     $scope.item.anggaranx = dataRealisasi.namaanggaranfix
                     if (parseFloat(dataRealisasi.saldoawalblu) > 0) {
@@ -1917,8 +1917,8 @@ define(['initialize'], function(initialize) {
                     }
                     $scope.item.tahunx = dataRealisasi.tahun
                     $scope.item.nox = undefined
-                        // $scope.item.namaMataAnggaran=dataAnggaranSelected.desc
-                        // $scope.popUpTreeView.center().open();
+                    // $scope.item.namaMataAnggaran=dataAnggaranSelected.desc
+                    // $scope.popUpTreeView.center().open();
                 }
             }
 
@@ -1944,7 +1944,7 @@ define(['initialize'], function(initialize) {
                 this.value = [matches[1], spaceified, matches[3]].join('');
             }
 
-            $scope.$watch("item.hargasatuan", function(newVal, oldVal) {
+            $scope.$watch("item.hargasatuan", function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     $('#hargasatuan').on('keyup', formatNumberField);
                 }

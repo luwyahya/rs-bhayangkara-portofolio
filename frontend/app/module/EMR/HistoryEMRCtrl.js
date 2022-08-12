@@ -1,7 +1,7 @@
 define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('HistoryEMRCtrl', ['$q', '$rootScope', '$scope', '$state', '$window', 'CacheHelper', 'ModelItem', 'MedifirstService',
-        function ($q, $rootScope, $scope, $state, window, cacheHelper, ModelItem, medifirstService, ) {
+        function ($q, $rootScope, $scope, $state, window, cacheHelper, ModelItem, medifirstService,) {
             $scope.item = {};
             $scope.ItemFRD = {};
             $scope.ItemAnti = {};
@@ -292,25 +292,25 @@ define(['initialize'], function (initialize) {
                 "id": 1,
                 "nama": "Penyakit Penyerta",
                 "detail": [{
-                        "id": 1,
-                        "nama": "HIV"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "HCV"
-                    },
-                    {
-                        "id": 3,
-                        "nama": "HBV"
-                    },
+                    "id": 1,
+                    "nama": "HIV"
+                },
+                {
+                    "id": 2,
+                    "nama": "HCV"
+                },
+                {
+                    "id": 3,
+                    "nama": "HBV"
+                },
                 ]
             }]
 
             $scope.addListPenyakitPenyerta = function (bool, data) {
                 var index = $scope.currentPenyakitPenyerta.indexOf(data);
                 if (_.filter($scope.currentPenyakitPenyerta, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentPenyakitPenyerta.push(data);
                 else {
                     $scope.currentPenyakitPenyerta.splice(index, 1);
@@ -322,25 +322,25 @@ define(['initialize'], function (initialize) {
                 "id": 2,
                 "nama": "Status Gizi",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Baik"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Sedang"
-                    },
-                    {
-                        "id": 3,
-                        "nama": "Buruk"
-                    },
+                    "id": 1,
+                    "nama": "Baik"
+                },
+                {
+                    "id": 2,
+                    "nama": "Sedang"
+                },
+                {
+                    "id": 3,
+                    "nama": "Buruk"
+                },
                 ]
             }]
 
             $scope.addListStatusGizi = function (bool, data) {
                 var index = $scope.currentStatusGizi.indexOf(data);
                 if (_.filter($scope.currentStatusGizi, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentStatusGizi.push(data);
                 else {
                     $scope.currentStatusGizi.splice(index, 1);
@@ -351,21 +351,21 @@ define(['initialize'], function (initialize) {
                 "id": 3,
                 "nama": "DM",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Ya"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Tidak"
-                    }
+                    "id": 1,
+                    "nama": "Ya"
+                },
+                {
+                    "id": 2,
+                    "nama": "Tidak"
+                }
                 ]
             }]
 
             $scope.addListDM = function (bool, data) {
                 var index = $scope.currentDM.indexOf(data);
                 if (_.filter($scope.currentDM, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentDM.push(data);
                 else {
                     $scope.currentDM.splice(index, 1);
@@ -376,21 +376,21 @@ define(['initialize'], function (initialize) {
                 "id": 4,
                 "nama": "Gula Darah",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Normal"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Tinggi"
-                    }
+                    "id": 1,
+                    "nama": "Normal"
+                },
+                {
+                    "id": 2,
+                    "nama": "Tinggi"
+                }
                 ]
             }]
 
             $scope.addListGulaDarah = function (bool, data) {
                 var index = $scope.currentGulaDarah.indexOf(data);
                 if (_.filter($scope.currentGulaDarah, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentGulaDarah.push(data);
                 else {
                     $scope.currentGulaDarah.splice(index, 1);
@@ -401,21 +401,21 @@ define(['initialize'], function (initialize) {
                 "id": 5,
                 "nama": "Merokok",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Ya "
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Tidak "
-                    }
+                    "id": 1,
+                    "nama": "Ya "
+                },
+                {
+                    "id": 2,
+                    "nama": "Tidak "
+                }
                 ]
             }]
 
             $scope.addListMerokok = function (bool, data) {
                 var index = $scope.currentMerokok.indexOf(data);
                 if (_.filter($scope.currentMerokok, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentMerokok.push(data);
                 else {
                     $scope.currentMerokok.splice(index, 1);
@@ -426,21 +426,21 @@ define(['initialize'], function (initialize) {
                 "id": 6,
                 "nama": "Obesitas",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Ya  "
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Tidak  "
-                    }
+                    "id": 1,
+                    "nama": "Ya  "
+                },
+                {
+                    "id": 2,
+                    "nama": "Tidak  "
+                }
                 ]
             }]
 
             $scope.addListObesitas = function (bool, data) {
                 var index = $scope.currentObesitas.indexOf(data);
                 if (_.filter($scope.currentObesitas, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentObesitas.push(data);
                 else {
                     $scope.currentObesitas.splice(index, 1);
@@ -451,9 +451,9 @@ define(['initialize'], function (initialize) {
                 "id": 7,
                 "nama": "Pemeriksaan Kultur",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Pus Luka"
-                    },
+                    "id": 1,
+                    "nama": "Pus Luka"
+                },
                     // {"id":2,"nama":"Tidak"}                      
                 ]
             }]
@@ -461,8 +461,8 @@ define(['initialize'], function (initialize) {
             $scope.addListPemeriksaanKultur = function (bool, data) {
                 var index = $scope.currentPemeriksaanKultur.indexOf(data);
                 if (_.filter($scope.currentPemeriksaanKultur, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentPemeriksaanKultur.push(data);
                 else {
                     $scope.currentPemeriksaanKultur.splice(index, 1);
@@ -473,21 +473,21 @@ define(['initialize'], function (initialize) {
                 "id": 8,
                 "nama": "Pemasangan Implant",
                 "detail": [{
-                        "id": 1,
-                        "nama": " Ya "
-                    },
-                    {
-                        "id": 2,
-                        "nama": " Tidak  "
-                    }
+                    "id": 1,
+                    "nama": " Ya "
+                },
+                {
+                    "id": 2,
+                    "nama": " Tidak  "
+                }
                 ]
             }]
 
             $scope.addListlistImplant = function (bool, data) {
                 var index = $scope.currentImplant.indexOf(data);
                 if (_.filter($scope.currentImplant, {
-                        id: data.id
-                    }).length === 0)
+                    id: data.id
+                }).length === 0)
                     $scope.currentImplant.push(data);
                 else {
                     $scope.currentImplant.splice(index, 1);
@@ -553,20 +553,20 @@ define(['initialize'], function (initialize) {
 
                     }),
                     columns: [{
-                            "field": "details",
-                            "title": "Form yang sudah di isi",
+                        "field": "details",
+                        "title": "Form yang sudah di isi",
 
-                            "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details\" )\" >#= details[i].name #  <em class=\"k-button k-button-icon k-primary\"" +
-                                " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#', '#=data.nocm#', '#=data.namapasien#', '#=data.jeniskelamin#', '#=data.umur#', '#=data.kelompokpasien#', '#=data.tglregistrasi#', '#=data.norec#', '#=data.norec_pd#', '#=data.objectkelasfk#', '#=data.namakelas#', '#=data.objectruanganfk#', '#=data.namaruangan#', '#=data.noregistrasi#', '#=data.alamatlengkap#', '#=data.dokterdpjp#', '#=data.iddpjp#', '#=data.tgllahir#', '#=data.objectkelompokpasienlastfk#', '#=data.kelaspasien#', '#=data.kelaspenjamin#', '#=data.namakamar#') \" > <span class=\"k-sprite k-icon k-i-search\"  style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\" >Details</span></em></span> #}#",
+                        "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details\" )\" >#= details[i].name #  <em class=\"k-button k-button-icon k-primary\"" +
+                            " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#', '#=data.nocm#', '#=data.namapasien#', '#=data.jeniskelamin#', '#=data.umur#', '#=data.kelompokpasien#', '#=data.tglregistrasi#', '#=data.norec#', '#=data.norec_pd#', '#=data.objectkelasfk#', '#=data.namakelas#', '#=data.objectruanganfk#', '#=data.namaruangan#', '#=data.noregistrasi#', '#=data.alamatlengkap#', '#=data.dokterdpjp#', '#=data.iddpjp#', '#=data.tgllahir#', '#=data.objectkelompokpasienlastfk#', '#=data.kelaspasien#', '#=data.kelaspenjamin#', '#=data.namakamar#') \" > <span class=\"k-sprite k-icon k-i-search\"  style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\" >Details</span></em></span> #}#",
 
-                            // "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details\" )\" >#=details[i].name #  <em class=\"k-button k-button-icon k-primary\""
-                            // + " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#'"
-                            // + "'#=details[i].emrfk#','#=details[i].norec#')\" > <span class=\"k-sprite k-icon k-i-search\">Details</span></em> <em class=\"k-button k-button-icon  k-primary \""
-                            // + " style=\" margin: 3px;padding-left: .4em;padding-right: .4em; margin-left: -3px;\"  ng-click=\"hapusFormHiji('#=details[i].emrpasienfk#','#=details[i].reportdisplay#',"
-                            // + "'#=details[i].emrfk#','#=details[i].norec#')\" > <span class=\"k-sprite fa fa-trash\" style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\"</span></em></span> #}#",
+                        // "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details\" )\" >#=details[i].name #  <em class=\"k-button k-button-icon k-primary\""
+                        // + " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#'"
+                        // + "'#=details[i].emrfk#','#=details[i].norec#')\" > <span class=\"k-sprite k-icon k-i-search\">Details</span></em> <em class=\"k-button k-button-icon  k-primary \""
+                        // + " style=\" margin: 3px;padding-left: .4em;padding-right: .4em; margin-left: -3px;\"  ng-click=\"hapusFormHiji('#=details[i].emrpasienfk#','#=details[i].reportdisplay#',"
+                        // + "'#=details[i].emrfk#','#=details[i].norec#')\" > <span class=\"k-sprite fa fa-trash\" style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\"</span></em></span> #}#",
 
-                            // "template": "# for(var i=0; i < details.length;i++){# <button class=\"k-button custom-button\" style=\"margin:0 0 5px\"  ng-click=\"asupKaForm('#=details[i].path#')\" >#= details[i].name #</button> #}#",
-                        }
+                        // "template": "# for(var i=0; i < details.length;i++){# <button class=\"k-button custom-button\" style=\"margin:0 0 5px\"  ng-click=\"asupKaForm('#=details[i].path#')\" >#= details[i].name #</button> #}#",
+                    }
 
                     ]
                 }
@@ -717,7 +717,7 @@ define(['initialize'], function (initialize) {
                                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakResepRIncianRajal.pdf');
                                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakResepRIncianRajal.pdf');
-                                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                         xhr.open('POST', '/jasper1/generic/report/cetakResepRIncianRajal.pdf');
                                     } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                                         xhr.open('POST', 'http://202.51.105.98:1002/generic/report/cetakResepRIncianRajal.pdf');
@@ -786,7 +786,7 @@ define(['initialize'], function (initialize) {
                                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/rekapbillingApotik.pdf');
                                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rekapbillingApotik.pdf');
-                                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                     xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
                                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/rekapbillingApotik.pdf');
@@ -1153,78 +1153,78 @@ define(['initialize'], function (initialize) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "tindakan",
-                        "title": "Tindakan",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "hasilkultur",
-                        "title": "Hasil Kultur",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "tglmulai",
-                        "title": "Tgl Mulai",
-                        "width": "80px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
-                    },
-                    {
-                        "field": "tglakhir",
-                        "title": "Tgl Selesai",
-                        "width": "80px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
-                    },
-                    {
-                        "field": "lamapasang",
-                        "title": "Lama Pasang",
-                        "width": "80px",
+                    "field": "no",
+                    "title": "No",
+                    "width": "50px",
+                },
+                {
+                    "field": "tindakan",
+                    "title": "Tindakan",
+                    "width": "120px",
+                },
+                {
+                    "field": "hasilkultur",
+                    "title": "Hasil Kultur",
+                    "width": "120px",
+                },
+                {
+                    "field": "tglmulai",
+                    "title": "Tgl Mulai",
+                    "width": "80px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                },
+                {
+                    "field": "tglakhir",
+                    "title": "Tgl Selesai",
+                    "width": "80px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
+                },
+                {
+                    "field": "lamapasang",
+                    "title": "Lama Pasang",
+                    "width": "80px",
 
-                    },
-                    {
-                        "field": "tglinfeksi",
-                        "title": "Tanggal Infeksi",
-                        "width": "80px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglinfeksi #')}}</span>"
+                },
+                {
+                    "field": "tglinfeksi",
+                    "title": "Tanggal Infeksi",
+                    "width": "80px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglinfeksi #')}}</span>"
 
-                    },
-                    {
-                        "field": "infeksi",
-                        "title": "Infeksi",
-                        "width": "110px",
+                },
+                {
+                    "field": "infeksi",
+                    "title": "Infeksi",
+                    "width": "110px",
 
-                    },
-                    {
-                        "field": "score",
-                        "title": "Score",
-                        "width": "80px",
+                },
+                {
+                    "field": "score",
+                    "title": "Score",
+                    "width": "80px",
 
-                    },
-                    {
-                        "field": "status",
-                        "title": "Status",
-                        "width": "80px",
+                },
+                {
+                    "field": "status",
+                    "title": "Status",
+                    "width": "80px",
 
+                },
+                {
+                    "command": [{
+                        text: "Edit",
+                        click: Edit,
+                        imageClass: "k-icon k-i-pencil"
                     },
                     {
-                        "command": [{
-                                text: "Edit",
-                                click: Edit,
-                                imageClass: "k-icon k-i-pencil"
-                            },
-                            {
-                                text: "Hapus",
-                                click: Hapus,
-                                imageClass: "k-icon k-i-delete"
-                            },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                        text: "Hapus",
+                        click: Hapus,
+                        imageClass: "k-icon k-i-delete"
+                    },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -1459,60 +1459,60 @@ define(['initialize'], function (initialize) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "antibiotika",
-                        "title": "Tindakan",
-                        "width": "110px",
-                    },
-                    {
-                        "field": "tglmulai",
-                        "title": "Tgl Mulai",
-                        "width": "100px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
-                    },
-                    {
-                        "field": "tglakhir",
-                        "title": "Tgl Selesai",
-                        "width": "100px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
-                    },
-                    {
-                        "field": "dosis",
-                        "title": "Dosis",
-                        "width": "100px",
+                    "field": "no",
+                    "title": "No",
+                    "width": "50px",
+                },
+                {
+                    "field": "antibiotika",
+                    "title": "Tindakan",
+                    "width": "110px",
+                },
+                {
+                    "field": "tglmulai",
+                    "title": "Tgl Mulai",
+                    "width": "100px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                },
+                {
+                    "field": "tglakhir",
+                    "title": "Tgl Selesai",
+                    "width": "100px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
+                },
+                {
+                    "field": "dosis",
+                    "title": "Dosis",
+                    "width": "100px",
 
-                    },
-                    {
-                        "field": "metodepemberian",
-                        "title": "Metode Pemeberian",
-                        "width": "110px",
+                },
+                {
+                    "field": "metodepemberian",
+                    "title": "Metode Pemeberian",
+                    "width": "110px",
 
-                    },
-                    {
-                        "field": "status",
-                        "title": "Status",
-                        "width": "20%",
+                },
+                {
+                    "field": "status",
+                    "title": "Status",
+                    "width": "20%",
 
+                },
+                {
+                    "command": [{
+                        text: "Edit",
+                        click: EditAnti,
+                        imageClass: "k-icon k-i-pencil"
                     },
                     {
-                        "command": [{
-                                text: "Edit",
-                                click: EditAnti,
-                                imageClass: "k-icon k-i-pencil"
-                            },
-                            {
-                                text: "Hapus",
-                                click: HapusAnti,
-                                imageClass: "k-icon k-i-delete"
-                            },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                        text: "Hapus",
+                        click: HapusAnti,
+                        imageClass: "k-icon k-i-delete"
+                    },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -1717,27 +1717,27 @@ define(['initialize'], function (initialize) {
                 pageable: true,
                 scrollable: true,
                 columns: [{
-                        "field": "tglregistrasi",
-                        "title": "Tgl Registrasi",
-                        "width": "120px"
-                    },
-                    {
-                        "field": "noregistrasi",
-                        "title": "Noregistrasi",
-                        "width": "100px"
-                    },
-                    {
-                        "field": "namaruangan",
-                        "title": "Nama Ruangan",
-                        "width": "150px"
-                    },
-                    {
-                        "field": "details",
-                        "title": "Form yang sudah di isi",
+                    "field": "tglregistrasi",
+                    "title": "Tgl Registrasi",
+                    "width": "120px"
+                },
+                {
+                    "field": "noregistrasi",
+                    "title": "Noregistrasi",
+                    "width": "100px"
+                },
+                {
+                    "field": "namaruangan",
+                    "title": "Nama Ruangan",
+                    "width": "150px"
+                },
+                {
+                    "field": "details",
+                    "title": "Form yang sudah di isi",
 
-                        "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details custom-button='dark-green' \" )\" >#= details[i].name #  <em class=\"k-button k-button-icon k-cancle\"" +
-                            " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#', '#=data.nocm#', '#=data.namapasien#', '#=data.jeniskelamin#', '#=data.umur#', '#=data.kelompokpasien#', '#=data.tglregistrasi#', '#=data.norec#', '#=data.norec_pd#', '#=data.objectkelasfk#', '#=data.namakelas#', '#=data.objectruanganfk#', '#=data.namaruangan#', '#=data.noregistrasi#', '#=data.alamatlengkap#', '#=data.dokterdpjp#', '#=data.iddpjp#', '#=data.tgllahir#', '#=data.objectkelompokpasienlastfk#', '#=data.kelaspasien#', '#=data.kelaspenjamin#', '#=data.namakamar#') \" > <span class=\"k-sprite k-icon k-i-search\"  style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\" >Details</span></em></span> #}#",
-                    },
+                    "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details custom-button='dark-green' \" )\" >#= details[i].name #  <em class=\"k-button k-button-icon k-cancle\"" +
+                        " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#', '#=data.nocm#', '#=data.namapasien#', '#=data.jeniskelamin#', '#=data.umur#', '#=data.kelompokpasien#', '#=data.tglregistrasi#', '#=data.norec#', '#=data.norec_pd#', '#=data.objectkelasfk#', '#=data.namakelas#', '#=data.objectruanganfk#', '#=data.namaruangan#', '#=data.noregistrasi#', '#=data.alamatlengkap#', '#=data.dokterdpjp#', '#=data.iddpjp#', '#=data.tgllahir#', '#=data.objectkelompokpasienlastfk#', '#=data.kelaspasien#', '#=data.kelaspenjamin#', '#=data.namakamar#') \" > <span class=\"k-sprite k-icon k-i-search\"  style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\" >Details</span></em></span> #}#",
+                },
                 ]
             };
 
@@ -1995,13 +1995,13 @@ define(['initialize'], function (initialize) {
                 });
             }
 
-            function hapusData(e) {}
+            function hapusData(e) { }
 
             $scope.back = function () {
                 window.history.back();
             }
 
-            $scope.Batal = function () {}
+            $scope.Batal = function () { }
 
             $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");

@@ -1,7 +1,7 @@
-define(['initialize', 'Configuration'], function(initialize, config) {
+define(['initialize', 'Configuration'], function (initialize, config) {
     'use strict';
     initialize.controller('HasilSentraVisumCtrl', ['$mdDialog', 'CacheHelper', '$scope', 'MedifirstService', 'DateHelper',
-        function($mdDialog, cacheHelper, $scope, medifirstService, dateHelper) {
+        function ($mdDialog, cacheHelper, $scope, medifirstService, dateHelper) {
             $scope.dataVOloaded = true;
             $scope.item = {};
             $scope.isRouteLoading = false;
@@ -29,7 +29,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             getDiserahkanPasienSentraVisum()
             LoadCombo();
 
-            $scope.Cari = function() {
+            $scope.Cari = function () {
                 $scope.isRouteLoading = true;
                 getDraftPasienSentraVisum();
                 getKoreksiIPasienSentraVisum();
@@ -39,7 +39,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 getPrintPasienSentraVisum()
                 getDiserahkanPasienSentraVisum()
             }
-            $scope.ceklispilihManualdalam = function(bool) {
+            $scope.ceklispilihManualdalam = function (bool) {
                 if (bool) {
                     $scope.pegawaidalam2 = true
                     $scope.tambahpegawaidalam3 = true
@@ -48,7 +48,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.pegawaidalam2 = false
                 }
             }
-            $scope.ceklispilihManualdalam2 = function(bool) {
+            $scope.ceklispilihManualdalam2 = function (bool) {
                 if (bool) {
                     $scope.pegawaidalam3 = true
                     $scope.tambahpegawaidalam3 = false
@@ -56,7 +56,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.pegawaidalam3 = false
                 }
             }
-            $scope.ceklispilihManualdalam3 = function(bool) {
+            $scope.ceklispilihManualdalam3 = function (bool) {
                 if (bool) {
                     $scope.pegawaidalam = true
                     $scope.tambahpegawaidalam2 = true
@@ -69,7 +69,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
             function LoadCombo() {
-                medifirstService.get('registrasi/get-data-combo?').then(function(dat) {
+                medifirstService.get('registrasi/get-data-combo?').then(function (dat) {
                     $scope.listJenisKekerasan = dat.data.jeniskekerasan
                     $scope.listDokter = dat.data.dokter
                     $scope.listPegawai = dat.data.pegawai
@@ -103,34 +103,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceDraftVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceDraftVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnDraftVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnDraftVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -180,9 +180,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getKoreksiIPasienSentraVisum() {
@@ -212,34 +212,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceKoreksiVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceKoreksiVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnKoreksiVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnKoreksiVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -289,9 +289,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getKoreksiIIPasienSentraVisum() {
@@ -321,34 +321,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceKoreksiiVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceKoreksiiVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnKoreksiiVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnKoreksiiVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -398,9 +398,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getSpesialisPasienSentraVisum() {
@@ -430,34 +430,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceKonsultanVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceKonsultanVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnKonsultanVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnKonsultanVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -507,9 +507,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getKaInstalasiPasienSentraVisum() {
@@ -539,34 +539,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceInstalasiVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceInstalasiVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnInstalasiVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnInstalasiVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -616,9 +616,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getPrintPasienSentraVisum() {
@@ -648,34 +648,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourcePrintVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourcePrintVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnPrintVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnPrintVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "tglregistrasi",
                                 "title": "Tgl Registrasi",
                                 "width": "50px",
@@ -725,9 +725,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "title": "Rekanan",
                                 "width": "50px",
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
 
             function getDiserahkanPasienSentraVisum() {
@@ -757,34 +757,34 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "&tglAkhir=" + tglAkhir +
                     noreg +
                     nocm +
-                    nama).then(function(data) {
-                    debugger;
-                    $scope.isRouteLoading = false;
-                    var draft = data.data
-                    for (var i = 0; i < draft.length; i++) {
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(draft[i].tgllahir);
-                        var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
-                        draft[i].umurs = umurs.year + ' Tahun '
-                    }
-                    $scope.sourceDiserahkanVisum = new kendo.data.DataSource({
-                        data: draft,
-                        pageSize: 50,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
+                    nama).then(function (data) {
+                        debugger;
+                        $scope.isRouteLoading = false;
+                        var draft = data.data
+                        for (var i = 0; i < draft.length; i++) {
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(draft[i].tgllahir);
+                            var umurs = dateHelper.CountAge(tanggalLahir, tanggal);
+                            draft[i].umurs = umurs.year + ' Tahun '
+                        }
+                        $scope.sourceDiserahkanVisum = new kendo.data.DataSource({
+                            data: draft,
+                            pageSize: 50,
+                            total: data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
 
+                                    }
                                 }
                             }
-                        }
-                    });
-                    $scope.columnDiserahkanVisum = {
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        columns: [{
+                        });
+                        $scope.columnDiserahkanVisum = {
+                            scrollable: true,
+                            selectable: "row",
+                            pageable: true,
+                            columns: [{
                                 "field": "statusambil",
                                 "title": "Status Ambil",
                                 "width": "50px",
@@ -816,13 +816,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 "width": "50px",
                                 "template": "<span class='style-left'>{{formatTanggal('#: tglambil #')}}</span>"
                             },
-                        ]
-                    }
-                })
+                            ]
+                        }
+                    })
             }
-            $scope.cariTemplate = function() {
+            $scope.cariTemplate = function () {
                 if ($scope.item.jeniskekerasan.id == 8) {
-                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KFD').then(function(dat) {
+                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KFD').then(function (dat) {
                         debugger
                         // $scope.item.kllvisum = dat.data.data[0].template
                         $scope.item.riwayatkejadian = dat.data.data[0].template
@@ -832,7 +832,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.show1 = true;
                     $scope.buttonsearch = false;
                 } else if ($scope.item.jeniskekerasan.id == 4) {
-                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KLL').then(function(dat) {
+                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KLL').then(function (dat) {
                         debugger
                         // $scope.item.kllvisum = dat.data.data[0].template
                         $scope.item.riwayatkejadian = dat.data.data[0].template
@@ -842,7 +842,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.show1 = true;
                     $scope.buttonsearch = false;
                 } else if ($scope.item.jeniskekerasan.id == 2) {
-                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KDRT').then(function(dat) {
+                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=KDRT').then(function (dat) {
                         debugger
                         $scope.item.riwayatkejadian = dat.data.data[0].template
                         $scope.item.hasilpemeriksaan = dat.data.data[1].template
@@ -851,7 +851,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.show1 = true;
                     $scope.buttonsearch = false;
                 } else if ($scope.item.jeniskekerasan.id == 1) {
-                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=SEKSUAL').then(function(dat) {
+                    medifirstService.get('sysadmin/general/get-daftar-template?kodeexternal=SEKSUAL').then(function (dat) {
                         debugger
                         $scope.item.riwayatkejadian = dat.data.data[0].template
                         $scope.item.hasilpemeriksaan = dat.data.data[1].template
@@ -864,7 +864,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
             }
-            $scope.tulis = function() {
+            $scope.tulis = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -872,7 +872,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
                 debugger
                 if ($scope.dataSelectedVisum.catatani != null && $scope.dataSelectedVisum.catatanspesialis == null) {
-                    medifirstService.get("registrasi/get-hasil-i-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function(dat) {
+                    medifirstService.get("registrasi/get-hasil-i-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function (dat) {
                         debugger
                         var ea = dat.data[0]
 
@@ -890,7 +890,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         $scope.popUpHasilSatuPemeriksaan.center().open();
                     })
                 } else if ($scope.dataSelectedVisum.catatanspesialis != null) {
-                    medifirstService.get("registrasi/get-hasil-spesialis-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function(dat) {
+                    medifirstService.get("registrasi/get-hasil-spesialis-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function (dat) {
                         debugger
                         var ea = dat.data[0]
 
@@ -908,7 +908,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         $scope.popUpHasilSpeisalisPemeriksaan8.center().open();
                     })
                 } else if ($scope.dataSelectedVisum.draftriwayatkejadian != null) {
-                    medifirstService.get('registrasi/get-draft-visum?noregistrasi=' + $scope.dataSelectedVisum.noregistrasi).then(function(dat) {
+                    medifirstService.get('registrasi/get-draft-visum?noregistrasi=' + $scope.dataSelectedVisum.noregistrasi).then(function (dat) {
                         debugger
                         $scope.show1 = true;
                         $scope.buttonsearch = false;
@@ -935,7 +935,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         $scope.item.nosurat = dat.data[0].nosurat
                         $scope.item.permintaandari = dat.data[0].permintaan
                         $scope.item.nosuratpermintaan = dat.data[0].nosuratpermintaan
-                            // $scope.item.kllvisum = dat.data[0].draftvisum
+                        // $scope.item.kllvisum = dat.data[0].draftvisum
                         $scope.item.riwayatkejadian = dat.data[0].draftriwayatkejadian
                         $scope.item.hasilpemeriksaan = dat.data[0].drafthasilpemeriksaan
                         $scope.item.kesimpulan = dat.data[0].draftkesimpulan
@@ -951,7 +951,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpHasilPemeriksaan.center().open();
                 }
             }
-            $scope.tutupTulisHasilPemeriksaan = function() {
+            $scope.tutupTulisHasilPemeriksaan = function () {
                 $scope.show1 = false;
                 $scope.show2 = false;
                 $scope.pegawaidalam = false;
@@ -972,8 +972,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.kesimpulan = undefined;
                 $scope.popUpHasilPemeriksaan.close();
             }
-            $scope.lihatCatatanHasilPemeriksaan = function() {
-                medifirstService.get("registrasi/get-hasil-i-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function(dat) {
+            $scope.lihatCatatanHasilPemeriksaan = function () {
+                medifirstService.get("registrasi/get-hasil-i-pasien-sentra-visum?norec=" + $scope.dataSelectedVisum.norec).then(function (dat) {
                     debugger
                     var ea = dat.data[0]
 
@@ -981,14 +981,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpLihatCatatanHasilPemeriksaan.center().open();
                 })
             }
-            $scope.tutupCatatanHasilPemeriksaan = function() {
+            $scope.tutupCatatanHasilPemeriksaan = function () {
                 $scope.popUpLihatCatatanHasilPemeriksaan.close();
                 $scope.item.catatan2 = undefined
             }
-            $scope.tutupHasilPemeriksaan = function() {
+            $scope.tutupHasilPemeriksaan = function () {
                 $scope.popUpHasilSatuPemeriksaan.close();
             }
-            $scope.lihat = function() {
+            $scope.lihat = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
                     return
@@ -1006,10 +1006,10 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.kesimpulan2 = $scope.dataSelectedVisum.kesimpulani
                 $scope.item.hasilpemeriksaan = $scope.dataSelectedVisum.kllvisum
                 $scope.item.tglminta2 = $scope.dataSelectedVisum.tglpermintaan
-                    // $scope.item.tglminta2 = $scope.dataSelectedVisum.tglpermintaan
+                // $scope.item.tglminta2 = $scope.dataSelectedVisum.tglpermintaan
                 $scope.popUpLihatHasilPemeriksaan.center().open();
             }
-            $scope.preview = function() {
+            $scope.preview = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1047,7 +1047,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
                 }
             }
-            $scope.tutupLihatHasil = function() {
+            $scope.tutupLihatHasil = function () {
                 $scope.item.jeniskekerasan2 = undefined
                 $scope.item.penulis2 = undefined
                 $scope.item.tgltulis2 = undefined
@@ -1061,7 +1061,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.tglminta2 = undefined
                 $scope.popUpLihatHasilPemeriksaan.close();
             }
-            $scope.simpanDanKirimKeKoreksiII = function() {
+            $scope.simpanDanKirimKeKoreksiII = function () {
                 var save = {
                     norec: $scope.dataSelectedVisum.norec,
                     riwayatkejadian2: $scope.item.riwayatkejadian2,
@@ -1070,7 +1070,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     kllvisum: $scope.item.riwayatkejadian2 + $scope.item.hasilpemeriksaan2 + $scope.item.kesimpulan2,
                     noregistrasi: $scope.dataSelectedVisum.noregistrasi
                 }
-                medifirstService.post('registrasi/save-to-koreksi-ii', save).then(function(dat) {
+                medifirstService.post('registrasi/save-to-koreksi-ii', save).then(function (dat) {
                     getDraftPasienSentraVisum()
                     getKoreksiIPasienSentraVisum();
                     getKoreksiIIPasienSentraVisum();
@@ -1093,7 +1093,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.item.tglminta2 = undefined
                 })
             }
-            $scope.lihat2 = function() {
+            $scope.lihat2 = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
                     return
@@ -1106,14 +1106,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.nosurat4 = $scope.dataSelectedVisum.nosurat
                 $scope.item.permintaandari4 = $scope.dataSelectedVisum.permintaan
                 $scope.item.nosuratpermintaan4 = $scope.dataSelectedVisum.nosuratpermintaan
-                    // $scope.item.hasilpemeriksaan4 = $scope.dataSelectedVisum.kllvisum2
+                // $scope.item.hasilpemeriksaan4 = $scope.dataSelectedVisum.kllvisum2
                 $scope.item.riwayatkejadian3 = $scope.dataSelectedVisum.riwayatkejadianii
                 $scope.item.hasilpemeriksaan3 = $scope.dataSelectedVisum.hasilpemeriksaanii
                 $scope.item.kesimpulan3 = $scope.dataSelectedVisum.kesimpulanii
                 $scope.item.tglminta4 = $scope.dataSelectedVisum.tglpermintaan
                 $scope.popUpLihatHasilPemeriksaan2.center().open();
             }
-            $scope.tutupLihatHasil2 = function() {
+            $scope.tutupLihatHasil2 = function () {
                 $scope.item.jeniskekerasan4 = undefined
                 $scope.item.penulis4 = undefined
                 $scope.item.tgltulis4 = undefined
@@ -1130,9 +1130,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.tglminta4 = undefined
                 $scope.popUpLihatHasilPemeriksaan2.close();
             }
-            $scope.lihatKoreksiI = function() {
+            $scope.lihatKoreksiI = function () {
                 debugger
-                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function(dat) {
+                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function (dat) {
                     debugger
                     $scope.item.jeniskekerasan6 = { id: dat.data[0].jeniskekerasanfk, jeniskekerasan: dat.data[0].jeniskekerasan }
                     $scope.item.penulis6 = dat.data[0].penulis
@@ -1147,9 +1147,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpLihatKoreksiI.center().open();
                 })
             }
-            $scope.lihatKoreksiII = function() {
+            $scope.lihatKoreksiII = function () {
                 debugger
-                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function(dat) {
+                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function (dat) {
                     debugger
                     $scope.item.jeniskekerasan6 = { id: dat.data[0].jeniskekerasanfk, jeniskekerasan: dat.data[0].jeniskekerasan }
                     $scope.item.penulis6 = dat.data[0].penulis
@@ -1164,9 +1164,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpLihatKoreksiI.center().open();
                 })
             }
-            $scope.lihatKoreksiSpesialis = function() {
+            $scope.lihatKoreksiSpesialis = function () {
                 debugger
-                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function(dat) {
+                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function (dat) {
                     debugger
                     $scope.item.jeniskekerasan6 = { id: dat.data[0].jeniskekerasanfk, jeniskekerasan: dat.data[0].jeniskekerasan }
                     $scope.item.penulis6 = dat.data[0].penulis
@@ -1181,7 +1181,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpLihatKoreksiI.center().open();
                 })
             }
-            $scope.tutupKoreksiI = function() {
+            $scope.tutupKoreksiI = function () {
                 $scope.item.jeniskekerasan6 = undefined
                 $scope.item.penulis6 = undefined
                 $scope.item.tgltulis6 = undefined
@@ -1195,7 +1195,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.tglminta6 = undefined
                 $scope.popUpLihatKoreksiI.close();
             }
-            $scope.kirimspesialis = function() {
+            $scope.kirimspesialis = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
                     return;
@@ -1208,7 +1208,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     noregistrasi: $scope.dataSelectedVisum.noregistrasi,
                     kllvisum: $scope.item.riwayatkejadian3 + $scope.item.hasilpemeriksaan3 + $scope.item.kesimpulan3
                 }
-                medifirstService.post('registrasi/save-to-spesialis', save).then(function(e) {
+                medifirstService.post('registrasi/save-to-spesialis', save).then(function (e) {
                     getDraftPasienSentraVisum()
                     getKoreksiIPasienSentraVisum();
                     getKoreksiIIPasienSentraVisum();
@@ -1233,7 +1233,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.item.kesimpulan3 = undefined
                 })
             }
-            $scope.previewKoreksiII = function() {
+            $scope.previewKoreksiII = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1270,14 +1270,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
                 }
             }
-            $scope.catatanHasilPemeriksaan = function() {
+            $scope.catatanHasilPemeriksaan = function () {
                 $scope.popUpCatatanHasilPemeriksaan.center().open();
             }
-            $scope.batalCatatanHasilPemeriksaan = function() {
+            $scope.batalCatatanHasilPemeriksaan = function () {
                 $scope.popUpCatatanHasilPemeriksaan.close();
                 $scope.item.catatan = undefined
             }
-            $scope.saveHasilPemeriksaan = function() {
+            $scope.saveHasilPemeriksaan = function () {
                 debugger
                 if ($scope.item.konsulen == undefined) {
                     $scope.item.konsulen = {
@@ -1325,9 +1325,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                    medifirstService.post('registrasi/save-hasil-satu-visum', save).then(function(e) {
+                    medifirstService.post('registrasi/save-hasil-satu-visum', save).then(function (e) {
                         // loadData()
                         getDraftPasienSentraVisum()
                         getKoreksiIPasienSentraVisum();
@@ -1351,7 +1351,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.tglminta = undefined;
                 $scope.item.kllvisum = undefined;
             }
-            $scope.saveHasilPemeriksaan2 = function() {
+            $scope.saveHasilPemeriksaan2 = function () {
                 debugger
                 var save = {
                     norec: $scope.dataSelectedVisum.norec_pd,
@@ -1375,9 +1375,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                    medifirstService.post('registrasi/save-hasil-dua-visum', save).then(function(e) {
+                    medifirstService.post('registrasi/save-hasil-dua-visum', save).then(function (e) {
                         // loadData()
                         getDraftPasienSentraVisum()
                         getKoreksiIPasienSentraVisum();
@@ -1436,7 +1436,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
             };
-            $scope.simpanCatatanHasilPemeriksaan = function() {
+            $scope.simpanCatatanHasilPemeriksaan = function () {
                 var catatan = {
                     norec: $scope.dataSelectedVisum.norec,
                     catatan: $scope.item.catatan,
@@ -1450,27 +1450,27 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                        medifirstService.post('registrasi/save-catatan-visum', catatan).then(function(e) {
-                            // loadData()
-                            getDraftPasienSentraVisum()
-                            getKoreksiIPasienSentraVisum();
-                            getKoreksiIIPasienSentraVisum();
-                            getSpesialisPasienSentraVisum()
-                            getKaInstalasiPasienSentraVisum()
-                            getPrintPasienSentraVisum()
-                            getDiserahkanPasienSentraVisum()
-                        })
+                    medifirstService.post('registrasi/save-catatan-visum', catatan).then(function (e) {
+                        // loadData()
+                        getDraftPasienSentraVisum()
+                        getKoreksiIPasienSentraVisum();
+                        getKoreksiIIPasienSentraVisum();
+                        getSpesialisPasienSentraVisum()
+                        getKaInstalasiPasienSentraVisum()
+                        getPrintPasienSentraVisum()
+                        getDiserahkanPasienSentraVisum()
                     })
-                    // $mdDialog.show(!confirm).then(function () {
+                })
+                // $mdDialog.show(!confirm).then(function () {
 
                 //     $scope.popUpCatatanHasilPemeriksaan.center().open();
                 //     $scope.$scope.popUpLihatHasilPemeriksaan.center().open();
                 // })
             }
 
-            $scope.lihatSpesialis = function() {
+            $scope.lihatSpesialis = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1511,13 +1511,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.permintaandari7 = $scope.dataSelectedVisum.permintaan
                 $scope.item.nosuratpermintaan7 = $scope.dataSelectedVisum.nosuratpermintaan
                 $scope.item.tglminta7 = $scope.dataSelectedVisum.tglpermintaan
-                    // $scope.item.hasilpemeriksaan7 = $scope.dataSelectedVisum.kllvisum3
+                // $scope.item.hasilpemeriksaan7 = $scope.dataSelectedVisum.kllvisum3
                 $scope.item.riwayatkejadian4 = $scope.dataSelectedVisum.riwayatkejadianiii
                 $scope.item.hasilpemeriksaan4 = $scope.dataSelectedVisum.hasilpemeriksaaniii
                 $scope.item.kesimpulan4 = $scope.dataSelectedVisum.kesimpulaniii
                 $scope.popUpLihatHasilPemeriksaan3.center().open();
             }
-            $scope.previewKoreksiSpesialis = function() {
+            $scope.previewKoreksiSpesialis = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1554,7 +1554,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
                 }
             }
-            $scope.kiriminstalasi = function() {
+            $scope.kiriminstalasi = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
                     return;
@@ -1567,7 +1567,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     noregistrasi: $scope.dataSelectedVisum.noregistrasi,
                     kllvisum: $scope.item.riwayatkejadian4 + $scope.item.hasilpemeriksaan4 + $scope.item.kesimpulan4
                 }
-                medifirstService.post('registrasi/save-to-ka-instalasi?', save).then(function(dat) {
+                medifirstService.post('registrasi/save-to-ka-instalasi?', save).then(function (dat) {
                     getDraftPasienSentraVisum()
                     getKoreksiIPasienSentraVisum();
                     getKoreksiIIPasienSentraVisum();
@@ -1579,7 +1579,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
             }
 
-            $scope.tutupLihatHasil3 = function() {
+            $scope.tutupLihatHasil3 = function () {
                 $scope.item.jeniskekerasan7 = undefined
                 $scope.item.penulis7 = undefined
                 $scope.item.tgltulis7 = undefined
@@ -1596,10 +1596,10 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.kesimpulan4 = undefined
                 $scope.popUpLihatHasilPemeriksaan3.close();
             }
-            $scope.catatanHasilPemeriksaan3 = function() {
+            $scope.catatanHasilPemeriksaan3 = function () {
                 $scope.popUpCatatanHasilPemeriksaan3.center().open();
             }
-            $scope.simpanCatatanHasilPemeriksaan3 = function() {
+            $scope.simpanCatatanHasilPemeriksaan3 = function () {
                 var catatan = {
                     norec: $scope.dataSelectedVisum.norec,
                     catatan: $scope.item.catatan,
@@ -1613,29 +1613,29 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                        medifirstService.post('registrasi/save-spesialis-visum', catatan).then(function(e) {
-                            // loadData()
-                            getDraftPasienSentraVisum()
-                            getKoreksiIPasienSentraVisum();
-                            getKoreksiIIPasienSentraVisum();
-                            getSpesialisPasienSentraVisum()
-                            getKaInstalasiPasienSentraVisum()
-                            getPrintPasienSentraVisum()
-                            getDiserahkanPasienSentraVisum()
-                        })
+                    medifirstService.post('registrasi/save-spesialis-visum', catatan).then(function (e) {
+                        // loadData()
+                        getDraftPasienSentraVisum()
+                        getKoreksiIPasienSentraVisum();
+                        getKoreksiIIPasienSentraVisum();
+                        getSpesialisPasienSentraVisum()
+                        getKaInstalasiPasienSentraVisum()
+                        getPrintPasienSentraVisum()
+                        getDiserahkanPasienSentraVisum()
                     })
-                    // $mdDialog.show(!confirm).then(function () {
+                })
+                // $mdDialog.show(!confirm).then(function () {
 
                 //     $scope.popUpCatatanHasilPemeriksaan.center().open();
                 //     $scope.$scope.popUpLihatHasilPemeriksaan.center().open();
                 // })
             }
-            $scope.tutupHasilPemeriksaan8 = function() {
+            $scope.tutupHasilPemeriksaan8 = function () {
                 $scope.popUpHasilSpeisalisPemeriksaan8.close()
             }
-            $scope.saveHasilPemeriksaan8 = function() {
+            $scope.saveHasilPemeriksaan8 = function () {
                 debugger
                 var save = {
                     norec: $scope.dataSelectedVisum.norec_pd,
@@ -1660,9 +1660,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                    medifirstService.post('registrasi/save-hasil-spesialis-visum', save).then(function(e) {
+                    medifirstService.post('registrasi/save-hasil-spesialis-visum', save).then(function (e) {
                         // loadData()
                         getDraftPasienSentraVisum()
                         getKoreksiIPasienSentraVisum();
@@ -1674,18 +1674,18 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     })
                 })
             }
-            $scope.lihatHasilPemeriksaan8 = function() {
-                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function(dat) {
+            $scope.lihatHasilPemeriksaan8 = function () {
+                medifirstService.get('registrasi/get-koreksi-i?norec=' + $scope.dataSelectedVisum.norec).then(function (dat) {
                     debugger;
                     $scope.item.catatan8 = dat.data[0].catatanspesialis
                     $scope.popUpLihatCatatanSpesialis.center().open();
                 })
             }
-            $scope.tutupCatatanHasilPemeriksaanSpesialis = function() {
+            $scope.tutupCatatanHasilPemeriksaanSpesialis = function () {
                 $scope.popUpLihatCatatanSpesialis.close();
             }
 
-            $scope.koreksiIToKoreksiSpesialis = function() {
+            $scope.koreksiIToKoreksiSpesialis = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Pilih Data Dahulu', 'Peringatan !')
                     return;
@@ -1720,7 +1720,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     kesimpulan: $scope.item.kesimpulan2,
                     tglminta: $scope.item.tglminta2
                 }
-                medifirstService.post('registrasi/save-koreksi-i-to-spesialis?', save).then(function(dat) {
+                medifirstService.post('registrasi/save-koreksi-i-to-spesialis?', save).then(function (dat) {
                     getDraftPasienSentraVisum()
                     getKoreksiIPasienSentraVisum();
                     getKoreksiIIPasienSentraVisum();
@@ -1730,12 +1730,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     getDiserahkanPasienSentraVisum()
                 })
             }
-            $scope.lihatKoreksiInstalasi = function() {
+            $scope.lihatKoreksiInstalasi = function () {
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Pilih Data Dahulu', 'Peringatan !')
                     return;
                 }
-                medifirstService.get('registrasi/get-draft-visum?noregistrasi=' + $scope.dataSelectedVisum.noregistrasi).then(function(dat) {
+                medifirstService.get('registrasi/get-draft-visum?noregistrasi=' + $scope.dataSelectedVisum.noregistrasi).then(function (dat) {
                     debugger
                     $scope.show1 = true;
                     $scope.buttonsearch = false;
@@ -1764,13 +1764,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.permintaandari9 = $scope.dataSelectedVisum.permintaan
                 $scope.item.nosuratpermintaan9 = $scope.dataSelectedVisum.nosuratpermintaan
                 $scope.item.tglminta9 = $scope.dataSelectedVisum.tglpermintaan
-                    // $scope.item.hasilpemeriksaan9 = $scope.dataSelectedVisum.kllvisum4
+                // $scope.item.hasilpemeriksaan9 = $scope.dataSelectedVisum.kllvisum4
                 $scope.item.riwayatkejadian5 = $scope.dataSelectedVisum.riwayatkejadianiv
                 $scope.item.hasilpemeriksaan5 = $scope.dataSelectedVisum.hasilpemeriksaaniv
                 $scope.item.kesimpulan5 = $scope.dataSelectedVisum.kesimpulaniv
                 $scope.popUpLihatHasilPemeriksaan4.center().open();
             }
-            $scope.tutupLihatHasil4 = function() {
+            $scope.tutupLihatHasil4 = function () {
                 $scope.item.jeniskekerasan9 = undefined
                 $scope.item.penulis9 = undefined
                 $scope.item.tgltulis9 = undefined
@@ -1787,7 +1787,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.kesimpulan5 = undefined
                 $scope.popUpLihatHasilPemeriksaan4.close();
             }
-            $scope.previewKoreksiInstalasi = function() {
+            $scope.previewKoreksiInstalasi = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1824,7 +1824,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
                 }
             }
-            $scope.kirimprint = function() {
+            $scope.kirimprint = function () {
                 if ($scope.item.konsulen == undefined) {
                     $scope.item.konsulen = {
                         id: null
@@ -1858,7 +1858,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     nosuratpermintaan: $scope.item.nosuratpermintaan9,
                     tglsurat: $scope.item.tglminta9,
                 }
-                medifirstService.post('registrasi/save-to-print-admin', save).then(function(dat) {
+                medifirstService.post('registrasi/save-to-print-admin', save).then(function (dat) {
                     getDraftPasienSentraVisum()
                     getKoreksiIPasienSentraVisum();
                     getKoreksiIIPasienSentraVisum();
@@ -1873,7 +1873,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.popUpLihatHasilPemeriksaan4.close();
                 })
             }
-            $scope.cetakBlade = function() {
+            $scope.cetakBlade = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1910,7 +1910,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
                 }
             }
-            $scope.cetakHasilPemeriksaan = function() {
+            $scope.cetakHasilPemeriksaan = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -1921,7 +1921,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var arr = $scope.dataSelectedVisum.namapasien
                 var temp11 = '';
                 temp11 = arr.length;
-                medifirstService.get('registrasi/get-angka-titik?variabel=namapasien' + "&length=" + temp11).then(function(dat) {
+                medifirstService.get('registrasi/get-angka-titik?variabel=namapasien' + "&length=" + temp11).then(function (dat) {
                     debugger
                     var temp = '';
                     if (dat.data.length > 0) {
@@ -1931,7 +1931,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     }
 
                     // debugger
-                    medifirstService.get('registrasi/get-detail-pasien-sentra-visum?norec=' + $scope.dataSelectedVisum.norec_pd).then(function(dat) {
+                    medifirstService.get('registrasi/get-detail-pasien-sentra-visum?norec=' + $scope.dataSelectedVisum.norec_pd).then(function (dat) {
                         debugger;
                         var ea = dat.data[0]
 
@@ -1972,7 +1972,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         var tglpermintaan = ''
                         var tglnow = ''
                         var tglsekarang = "Jakarta, " + moment($scope.now).format('DD-MM-YYYY');
-                        medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tanggal).then(function(dat) {
+                        medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tanggal).then(function (dat) {
                             debugger;
                             tglpermintaan = dat.data.tglpermintaan;
                             tglnow = dat.data.tglsekarang;
@@ -1981,19 +1981,19 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
 
                             var title = ''
-                                //Title KFD
+                            //Title KFD
                             if ($scope.dataSelectedVisum.jeniskekerasanfk == '8') {
                                 title = "Saya yang bertanda tangan di bawah ini " + ea.dokter + ", dokter di Rumah Sakit Bhayangkara Tk. I. R. Said Sukanto" + konsultan +
                                     " berdasarkan permintaan tertulis dari " + ea.permintaan + " dengan surat nomor " + ea.nosuratpermintaan + " tertanggal " + tglpermintaan +
                                     " mengenai permintaan visum tersebut diatas, maka dengan ini menerangkan bahwa pada tanggal " + tglnow + " Waktu Indonesia bagian Barat, bertempat di Ruang Sentra Visum dan Medikolegal " +
                                     "Rumah Sakit Bhayangkara TK. I R Said Sukanto telah melakukan pemeriksaan seorang korban yang menurut surat permintaan visum tersebut adalah"
-                                    //Title KDRT dan Seksual
+                                //Title KDRT dan Seksual
                             } else if ($scope.dataSelectedVisum.jeniskekerasanfk == '2' || $scope.dataSelectedVisum.jeniskekerasanfk == '1') {
                                 title = "Saya yang bertanda tangan di bawah ini " + ea.dokter + ", dokter di Rumah Sakit Bhayangkara Tk. I. R. Said Sukanto" + konsultan +
                                     " berdasarkan permintaan tertulis dari " + ea.permintaan + " dengan surat nomor " + ea.nosuratpermintaan + " tertanggal " + tglpermintaan +
                                     " mengenai permintaan visum tersebut diatas, maka dengan ini menerangkan bahwa pada tanggal " + tglnow + " Waktu Indonesia bagian Barat, bertempat di Ruang Pemeriksaan Pusat Pelayanan Perempuan dan Anak Terpadu " +
                                     "Rumah Sakit Bhayangkara TK. I R Said Sukanto telah melakukan pemeriksaan seorang korban yang menurut surat permintaan visum tersebut adalah"
-                                    //Title KLL
+                                //Title KLL
                             } else if ($scope.dataSelectedVisum.jeniskekerasanfk == '4') {
                                 title = "Saya yang bertanda tangan di bawah ini " + ea.dokter + ", dokter di Rumah Sakit Bhayangkara Tk. I. R. Said Sukanto" + konsultan +
                                     " berdasarkan permintaan tertulis dari " + ea.permintaan + " dengan surat nomor " + ea.nosuratpermintaan + " tertanggal " + tglpermintaan +
@@ -2053,7 +2053,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                             //     "paramType" : ["",""] // "paramType" : ["","date"] selain date, isinya kosong saja
                             // };
                             var xhr = new XMLHttpRequest();
-                            xhr.onreadystatechange = function() {
+                            xhr.onreadystatechange = function () {
                                 if (this.readyState == 4 && this.status == 200) {
                                     //this.response is what you're looking for
                                     // handler(this.response);
@@ -2072,7 +2072,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                         norec: $scope.dataSelectedVisum.norec_pd,
                                         noregistrasi: $scope.dataSelectedVisum.noregistrasi
                                     }
-                                    medifirstService.post('registrasi/save-to-diserahkan', save).then(function(dat) {
+                                    medifirstService.post('registrasi/save-to-diserahkan', save).then(function (dat) {
                                         getDraftPasienSentraVisum()
                                         getKoreksiIPasienSentraVisum();
                                         getKoreksiIIPasienSentraVisum();
@@ -2087,7 +2087,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum2.pdf');
                             } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                                 xhr.open('POST', 'http://192.168.88.56:1002/generic/report/visum2.pdf');
-                            } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/visum2.pdf');
                             } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                                 xhr.open('POST', 'http://202.51.105.98:1002/generic/report/visum2.pdf');
@@ -2114,7 +2114,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     })
                 })
             }
-            $scope.statusambil = function(dataItem) {
+            $scope.statusambil = function (dataItem) {
                 debugger;
                 if (dataItem.statusambil == "Belum Diambil") {
                     $scope.item.nosurat11 = dataItem.nosurat
@@ -2127,7 +2127,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     return
                 }
             }
-            $scope.tutupambilsurat = function() {
+            $scope.tutupambilsurat = function () {
                 $scope.item.nosurat11 = undefined
                 $scope.item.penerima11 = undefined
                 $scope.item.pemberisurat11 = undefined
@@ -2135,7 +2135,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 $scope.popUpAmbilSurat.close();
             }
-            $scope.simpanambilsurat = function() {
+            $scope.simpanambilsurat = function () {
                 var save = {
                     norec: $scope.item.norec_pd11,
                     noregistrasi: $scope.item.noregistrasi11,
@@ -2143,7 +2143,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     pemberi: $scope.item.pemberisurat11.id,
                     tgldiambil: $scope.item.tgldiambil11
                 }
-                medifirstService.post('registrasi/save-data-diserahkan', save).then(function(dat) {
+                medifirstService.post('registrasi/save-data-diserahkan', save).then(function (dat) {
                     $scope.item.nosurat11 = undefined
                     $scope.item.penerima11 = undefined
                     $scope.item.pemberisurat11 = undefined
@@ -2159,10 +2159,10 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 })
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm');
             }
-            $scope.cetakBuktiAmbil = function() {
+            $scope.cetakBuktiAmbil = function () {
                 debugger
                 if ($scope.dataSelectedVisum.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !', 'Peringatan !')
@@ -2180,7 +2180,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     "paramType": [""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -2199,7 +2199,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     xhr.open('POST', 'http://192.168.0.62:8797/generic/report/buktiambil.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/buktiambil.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/buktiambil.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/buktiambil.pdf');
@@ -2215,7 +2215,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 // send rquest with JSON payload
                 xhr.send(JSON.stringify(data));
             }
-            $scope.saveDraft = function() {
+            $scope.saveDraft = function () {
                 if ($scope.item.konsulen == undefined) {
                     $scope.item.konsulen = {
                         id: null
@@ -2257,9 +2257,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
 
-                    medifirstService.post('registrasi/save-draft-visum', save).then(function(e) {
+                    medifirstService.post('registrasi/save-draft-visum', save).then(function (e) {
                         // loadData()
                         getDraftPasienSentraVisum()
                         getKoreksiIPasienSentraVisum();
@@ -2283,36 +2283,36 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.tglminta = undefined;
                 $scope.item.kllvisum = undefined;
             }
-            $scope.Catatan = function() {
+            $scope.Catatan = function () {
                 $scope.item.catatan44 = $scope.dataSelectedVisum.catatan
                 $scope.popUpCatatan.center().open();
             }
-            $scope.keluarCatatan = function() {
+            $scope.keluarCatatan = function () {
                 $scope.item.catatan44 = undefined
                 $scope.popUpCatatan.close()
             }
-            $scope.simpanCatatan = function() {
+            $scope.simpanCatatan = function () {
                 debugger
                 var save = {
                     norec: $scope.dataSelectedVisum.norec,
                     catatan: $scope.item.catatan44,
                     noregistrasi: $scope.dataSelectedVisum.noregistrasi
                 }
-                medifirstService.post('registrasi/save-catatan', save).then(function(e) {
+                medifirstService.post('registrasi/save-catatan', save).then(function (e) {
                     $scope.popUpCatatan.close()
                 })
             }
-            $scope.lihatCatatan2 = function() {
+            $scope.lihatCatatan2 = function () {
                 lihatCatatan()
                 $scope.popUpLihatCatatan.center().open()
             }
 
             function lihatCatatan() {
-                medifirstService.get('registrasi/get-catatan-visum?norec=' + $scope.dataSelectedVisum.norec).then(function(dat) {
+                medifirstService.get('registrasi/get-catatan-visum?norec=' + $scope.dataSelectedVisum.norec).then(function (dat) {
                     $scope.item.catatan45 = dat.data[0].catatan
                 })
             }
-            $scope.keluarCatatan2 = function() {
+            $scope.keluarCatatan2 = function () {
                 $scope.item.catatan45 = undefined
                 $scope.popUpLihatCatatan.close()
             }

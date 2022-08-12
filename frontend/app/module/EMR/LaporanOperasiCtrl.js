@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('LaporanOperasiCtrl', ['$rootScope', '$scope', '$state', 'CacheHelper', 'MedifirstService',
-        function($rootScope, $scope, $state, cacheHelper, medifirstService) {
+        function ($rootScope, $scope, $state, cacheHelper, medifirstService) {
 
             $scope.noCM = $state.params.noCM;
             $scope.tombolSimpanVis = true
@@ -48,7 +48,7 @@ define(['initialize'], function(initialize) {
             function init() {
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=dinamis", true).then(function(dat) {
+                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=dinamis", true).then(function (dat) {
                     debugger
                     $scope.isRouteLoading = false
                     var nomorEMRSS = ''
@@ -72,7 +72,7 @@ define(['initialize'], function(initialize) {
 
                 function setobjectToModel(nomorEMRSS, emrfk) {
                     if (nomorEMRSS == '-') {
-                        medifirstService.get("emr/get-rekam-medis-dynamic-polri?emrid=" + emrfk).then(function(e) {
+                        medifirstService.get("emr/get-rekam-medis-dynamic-polri?emrid=" + emrfk).then(function (e) {
                             $scope.listData = e.data
                             $scope.item.title = e.data.title
                             $scope.item.classgrid = e.data.classgrid
@@ -81,13 +81,13 @@ define(['initialize'], function(initialize) {
                             $scope.item.objcbo = []
                             for (var i = e.data.kolom1.length - 1; i >= 0; i--) {
                                 if (e.data.kolom1[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom1[i].id, e.data.kolom1[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom1[i].id, e.data.kolom1[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom1[i].child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom1[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom1[i].child[ii].id, e.data.kolom1[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom1[i].child[ii].id, e.data.kolom1[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
@@ -96,13 +96,13 @@ define(['initialize'], function(initialize) {
 
                             for (var i = e.data.kolom2.length - 1; i >= 0; i--) {
                                 if (e.data.kolom2[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom2[i].id, e.data.kolom2[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom2[i].id, e.data.kolom2[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom2[i].child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom2[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom2[i].child[ii].id, e.data.kolom2[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom2[i].child[ii].id, e.data.kolom2[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
@@ -110,13 +110,13 @@ define(['initialize'], function(initialize) {
                             }
                             for (var i = e.data.kolom3.length - 1; i >= 0; i--) {
                                 if (e.data.kolom3[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom3[i].id, e.data.kolom3[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom3[i].id, e.data.kolom3[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom3.child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom3[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom3[i].child[ii].id, e.data.kolom3[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom3[i].child[ii].id, e.data.kolom3[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
@@ -126,8 +126,8 @@ define(['initialize'], function(initialize) {
                         })
                     } else {
                         var chekedd = false
-                            //  medifirstService.get("emr/get-emr-transaksi-detail?noemr="+$state.params.nomorEMR, true).then(function(dat){
-                        medifirstService.get("emr/get-rekam-medis-dynamic-polri?emrid=" + emrfk).then(function(e) {
+                        //  medifirstService.get("emr/get-emr-transaksi-detail?noemr="+$state.params.nomorEMR, true).then(function(dat){
+                        medifirstService.get("emr/get-rekam-medis-dynamic-polri?emrid=" + emrfk).then(function (e) {
                             $scope.listData = e.data
                             $scope.item.title = e.data.title
                             $scope.item.classgrid = e.data.classgrid
@@ -137,13 +137,13 @@ define(['initialize'], function(initialize) {
                             $scope.item.objcbo = []
                             for (var i = e.data.kolom1.length - 1; i >= 0; i--) {
                                 if (e.data.kolom1[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom1[i].id, e.data.kolom1[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom1[i].id, e.data.kolom1[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom1[i].child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom1[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom1[i].child[ii].id, e.data.kolom1[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom1[i].child[ii].id, e.data.kolom1[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
@@ -151,13 +151,13 @@ define(['initialize'], function(initialize) {
                             }
                             for (var i = e.data.kolom2.length - 1; i >= 0; i--) {
                                 if (e.data.kolom2[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom2[i].id, e.data.kolom2[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom2[i].id, e.data.kolom2[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom2[i].child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom2[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom2[i].child[ii].id, e.data.kolom2[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom2[i].child[ii].id, e.data.kolom2[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
@@ -165,19 +165,19 @@ define(['initialize'], function(initialize) {
                             }
                             for (var i = e.data.kolom3.length - 1; i >= 0; i--) {
                                 if (e.data.kolom3[i].cbotable != null) {
-                                    medifirstService.getPart2(e.data.kolom3[i].id, e.data.kolom3[i].cbotable, true, true, 20).then(function(data) {
+                                    medifirstService.getPart2(e.data.kolom3[i].id, e.data.kolom3[i].cbotable, true, true, 20).then(function (data) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
                                 for (var ii = e.data.kolom3[i].child.length - 1; ii >= 0; ii--) {
                                     if (e.data.kolom3[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom3[i].child[ii].id, e.data.kolom3[i].child[ii].cbotable, true, true, 20).then(function(data) {
+                                        medifirstService.getPart2(e.data.kolom3[i].child[ii].id, e.data.kolom3[i].child[ii].cbotable, true, true, 20).then(function (data) {
                                             $scope.item.objcbo[data.options.idididid] = data
                                         })
                                     }
                                 }
                             }
-                            medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function(dat) {
+                            medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
                                 $scope.item.obj = []
                                 $scope.item.obj2 = []
                                 dataLoad = dat.data.data
@@ -247,7 +247,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 $scope.treeSourceRuangan = [];
-                medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=navigasi").then(function(e) {
+                medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=navigasi").then(function (e) {
                     var inlineDefault = new kendo.data.HierarchicalDataSource({
                         data: e.data.data,
                         schema: {
@@ -259,18 +259,18 @@ define(['initialize'], function(initialize) {
                     });
                     $scope.treeSourceBedah = inlineDefault
                     $scope.mainTreeViewBedahOption = {
-                            dataTextField: ["caption"],
-                            datakKeyField: ["id"],
-                            select: onSelect,
-                            dragAndDrop: true,
-                            checkboxes: false
-                        }
-                        // var treeview = $("#treeview").data("kendoTreeView");
-                        // .expandPath([2, 5])
+                        dataTextField: ["caption"],
+                        datakKeyField: ["id"],
+                        select: onSelect,
+                        dragAndDrop: true,
+                        checkboxes: false
+                    }
+                    // var treeview = $("#treeview").data("kendoTreeView");
+                    // .expandPath([2, 5])
                 })
             }
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.cc.norec,
@@ -278,7 +278,7 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.txt_change = function(index) {
+            $scope.txt_change = function (index) {
                 $scope.item.txt[index] = "asdasdad"
             };
             // $scope.kembali = function () {
@@ -286,14 +286,14 @@ define(['initialize'], function(initialize) {
             // }
 
 
-            $scope.checkClick = function(data) {
+            $scope.checkClick = function (data) {
 
             }
 
 
 
 
-            $scope.Save = function() {
+            $scope.Save = function () {
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
@@ -304,7 +304,7 @@ define(['initialize'], function(initialize) {
                     head: $scope.cc,
                     data: arrSave //$scope.item.obj
                 }
-                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function(e) {
+                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
                     // $state.go("RekamMedis.OrderJadwalBedah.ProsedurKeselamatan", {
                     //     namaEMR : $scope.cc.emrfk,
                     //     nomorEMR : e.data.data.noemr 
@@ -322,7 +322,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.cetakPdf = function() {
+            $scope.cetakPdf = function () {
                 debugger
                 if (nomorEMR == '') return
                 var user = medifirstService.getPegawaiLogin();
@@ -347,7 +347,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -368,7 +368,7 @@ define(['initialize'], function(initialize) {
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     // xhr.open('POST', 'http://192.168.88.56:8797/generic/report/bedah2.pdf');
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bedah2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     // xhr.open('POST', '/jasper1/generic/report/bedah2.pdf');
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bedah2.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {

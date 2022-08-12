@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('PermohonanCutiCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', 'DateHelper', '$mdDialog', 'CetakHelper', '$state', 'MedifirstService', '$timeout',
-        function($q, $rootScope, $scope, ModelItem, DateHelper, $mdDialog, cetakHelper, $state, medifirstService, $timeout) {
+        function ($q, $rootScope, $scope, ModelItem, DateHelper, $mdDialog, cetakHelper, $state, medifirstService, $timeout) {
 
             $scope.pegawai = JSON.parse(localStorage.getItem('pegawai'));
             $scope.isRouteLoading = false;
@@ -59,7 +59,7 @@ define(['initialize'], function(initialize) {
                 return yy + "-" + mm + "-" + dd;
             }
             loadData()
-            $scope.cari = function() {
+            $scope.cari = function () {
                 loadData()
             }
             $scope.next2days = new Date().setDate(new Date().getDate() + 2);
@@ -70,26 +70,26 @@ define(['initialize'], function(initialize) {
             $scope.datePickerOptions = {
                 format: 'dd-MM-yyyy',
                 change: onChangeDate
-                    // min: twoDaysAfter($scope.now)
+                // min: twoDaysAfter($scope.now)
             }
             $scope.datePickerOptions2 = {
                 format: 'dd-MM-yyyy',
                 change: onChangeDate2
-                    // min: twoDaysAfter($scope.now)
+                // min: twoDaysAfter($scope.now)
             }
-            medifirstService.get("sdm/get-data-combo-sdm?", true).then(function(dat) {
+            medifirstService.get("sdm/get-data-combo-sdm?", true).then(function (dat) {
                 var dataCombo = dat.data
-                    // var dataLogin = dat.datalogin[0];
+                // var dataLogin = dat.datalogin[0];
                 $scope.listUnitKerja = dataCombo.dataunitkerja;
                 $scope.ListKedudukanPegawai = dataCombo.statuspegawai;
                 $scope.ListStatusPegawai = dataCombo.kategorypegawai;
             });
-            medifirstService.get('sdm/get-pegawai-all').then(function(e) {
+            medifirstService.get('sdm/get-pegawai-all').then(function (e) {
                 $scope.listPegawai = e.data.pegawai
 
                 $scope.listStatusCuti = e.data.jeniscuti
             })
-            $scope.getDetailPegawai = function(data) {
+            $scope.getDetailPegawai = function (data) {
                 $scope.item.nip = data.nip
                 $scope.item.jabatan = data.namajabatan
                 $scope.item.ruangan = data.subunitkerja
@@ -99,16 +99,16 @@ define(['initialize'], function(initialize) {
                 pageable: true,
                 selectable: true,
                 toolbar: [{
-                        name: "add",
-                        text: "Tambah",
-                        template: '<button ng-click="tambahCutiBaru()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah</button>'
-                    },
-                    {
+                    name: "add",
+                    text: "Tambah",
+                    template: '<button ng-click="tambahCutiBaru()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah</button>'
+                },
+                {
 
-                        name: "add",
-                        text: "Cuti Bersama",
-                        template: '<button ng-click="tambahCutiBersama()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Cuti Bersama</button>'
-                    },
+                    name: "add",
+                    text: "Cuti Bersama",
+                    template: '<button ng-click="tambahCutiBersama()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Cuti Bersama</button>'
+                },
                 ],
                 columns: [
 
@@ -186,7 +186,7 @@ define(['initialize'], function(initialize) {
 
                 ]
             };
-            $scope.tambahCutiBersama = function() {
+            $scope.tambahCutiBersama = function () {
                 if (medifirstService.getKelompokUser() == 'sdm')
                     $scope.winCutiBersama.center().open()
                 else {
@@ -195,14 +195,14 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.saveCutiBersama = function() {
+            $scope.saveCutiBersama = function () {
                 var confirm = $mdDialog.confirm()
                     .title('Info')
                     .textContent('Peringatan, Yakin mau menyimpan Cuti Untuk Semua Pegawai?')
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Simpan')
-                $mdDialog.show(confirm).then(function() {
+                $mdDialog.show(confirm).then(function () {
                     var listDate = []
 
                     for (var i = 0; i < $scope.tanggalPermohonanBersama.length; i++) {
@@ -223,7 +223,7 @@ define(['initialize'], function(initialize) {
                         "listtanggal": listDate,
 
                     }
-                    medifirstService.post('sdm/save-permohonan-cuti-bersama', dataSend).then(function(e) {
+                    medifirstService.post('sdm/save-permohonan-cuti-bersama', dataSend).then(function (e) {
                         $scope.item = {}
                         $scope.tanggalPermohonanBersama = []
                         loadData()
@@ -239,20 +239,20 @@ define(['initialize'], function(initialize) {
                     return
                 }
                 $scope.listTglCekbox = [];
-                medifirstService.get('sdm/get-permohonan-cuti?pgId=' + dataItem.objectpegawaifk).then(function(e) {
+                medifirstService.get('sdm/get-permohonan-cuti?pgId=' + dataItem.objectpegawaifk).then(function (e) {
 
                 })
                 $scope.item.listtanggal = dataItem.listtanggal
-                $scope.item.listtanggal.forEach(function(tanggal) {
-                        for (var key in tanggal) {
-                            if (tanggal.hasOwnProperty(key)) {
-                                if (key === "tgl") {
-                                    tanggal[key] = DateHelper.getTanggalFormattedNew(new Date(tanggal[key]));
-                                }
+                $scope.item.listtanggal.forEach(function (tanggal) {
+                    for (var key in tanggal) {
+                        if (tanggal.hasOwnProperty(key)) {
+                            if (key === "tgl") {
+                                tanggal[key] = DateHelper.getTanggalFormattedNew(new Date(tanggal[key]));
                             }
                         }
-                    })
-                    // if ($scope.item.statusPegawaiId == 25 || $scope.item.statusPegawaiId == 24 ){
+                    }
+                })
+                // if ($scope.item.statusPegawaiId == 25 || $scope.item.statusPegawaiId == 24 ){
                 for (let index = 0; index < $scope.item.listtanggal.length; index++) {
                     $scope.listTglCekbox.push({
                         tgl: $scope.item.listtanggal[index].tgl,
@@ -269,25 +269,25 @@ define(['initialize'], function(initialize) {
                 // Set the new options
                 $scope.winDialogVerif.setOptions({ actions: actions });
             }
-            $scope.saveVerif = function() {
+            $scope.saveVerif = function () {
                 var data = {
                     'data': $scope.item.tglPermohonanVerif
                 }
-                medifirstService.post('sdm/verifkasi-cuti', data).then(function(e) {
+                medifirstService.post('sdm/verifkasi-cuti', data).then(function (e) {
                     loadData()
                     $scope.batalVerif()
                 })
             }
-            $scope.saveVerif1 = function() {
+            $scope.saveVerif1 = function () {
                 var data = {
                     'data': $scope.item.tglPermohonanVerif
                 }
-                medifirstService.post('sdm/verifkasi-cuti1', data).then(function(e) {
+                medifirstService.post('sdm/verifkasi-cuti1', data).then(function (e) {
                     loadData()
                     $scope.batalVerif()
                 })
             }
-            $scope.batalVerif = function() {
+            $scope.batalVerif = function () {
                 $scope.item.listtanggal = []
                 $scope.item.tglPermohonan = [];
                 $scope.winDialogVerif.close()
@@ -307,7 +307,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -331,7 +331,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/cetakPersetujuanCuti.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/cetakPersetujuanCuti.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakPersetujuanCuti.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakPersetujuanCuti.pdf');
@@ -403,7 +403,7 @@ define(['initialize'], function(initialize) {
             // }
 
             $scope.item.tglPermohonanVerif = [];
-            $scope.toogleCheckVerifikasi = function(current) {
+            $scope.toogleCheckVerifikasi = function (current) {
                 if (current.verif) {
                     $scope.item.tglPermohonanVerif.push(current);
                 } else {
@@ -414,7 +414,7 @@ define(['initialize'], function(initialize) {
                     }
                 }
             }
-            $scope.ceklisAllVerif = function(bool) {
+            $scope.ceklisAllVerif = function (bool) {
                 $scope.item.tglPermohonanVerif = [];
                 if (bool) {
                     for (let i = 0; i < $scope.listTglCekbox.length; i++) {
@@ -442,7 +442,7 @@ define(['initialize'], function(initialize) {
                 e.preventDefault();
                 var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
 
-                medifirstService.post('sdm/unverif-permohonan-cuti', { norec: dataItem.norec }).then(function(e) {
+                medifirstService.post('sdm/unverif-permohonan-cuti', { norec: dataItem.norec }).then(function (e) {
                     loadData()
                 })
             }
@@ -454,7 +454,7 @@ define(['initialize'], function(initialize) {
                     messageContainer.error("Data tidak dapat dihapus");
                     return;
                 } else {
-                    medifirstService.post('sdm/delete-permohonan-cuti', { norec: dataItem.norec }).then(function(e) {
+                    medifirstService.post('sdm/delete-permohonan-cuti', { norec: dataItem.norec }).then(function (e) {
                         loadData()
                     })
                 }
@@ -468,7 +468,7 @@ define(['initialize'], function(initialize) {
                     messageContainer.error("Data tidak dapat diubah");
                     return;
                 } else {
-                    medifirstService.get('sdm/get-permohonan-cuti?pgId=' + dataItem.objectpegawaifk).then(function(e) {
+                    medifirstService.get('sdm/get-permohonan-cuti?pgId=' + dataItem.objectpegawaifk).then(function (e) {
 
                     })
                     $scope.item.norecPlanning = dataItem.norec
@@ -495,14 +495,14 @@ define(['initialize'], function(initialize) {
                     $scope.item.keterangan = dataItem.keterangan
                     $scope.item.tglPengajuan = new Date(dataItem.tglpengajuan)
 
-                    dataItem.listtanggal.forEach(function(lisTgl) {
+                    dataItem.listtanggal.forEach(function (lisTgl) {
                         for (var subKeys in lisTgl) {
                             if (lisTgl.hasOwnProperty(subKeys)) {
                                 if (subKeys == "tgl") {
                                     lisTgl[subKeys] =
                                         // DateHelper.getTanggalFormattedNew(
                                         new Date(lisTgl[subKeys])
-                                        // );
+                                    // );
                                 }
                             }
                         }
@@ -511,9 +511,9 @@ define(['initialize'], function(initialize) {
 
                     // $scope.tanggalPermohonan = dataItem.listtanggal;
                     $scope.item.noUsulan = dataItem.noplanning
-                        // for (var i = 0; i < $scope.tanggalPermohonan.length; i++) {
-                        //     $scope.tanggalPermohonan[i].id = i + 1;
-                        // }
+                    // for (var i = 0; i < $scope.tanggalPermohonan.length; i++) {
+                    //     $scope.tanggalPermohonan[i].id = i + 1;
+                    // }
                     $scope.item.tglAwalCuti = dataItem.listtanggal[0].tgl
                     $scope.item.tglAkhirCuti = dataItem.listtanggal[dataItem.listtanggal.length].tgl
                     $scope.winDialogBaru.center().open()
@@ -522,7 +522,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.Batal = function() {
+            $scope.Batal = function () {
                 $scope.winDialogBaru.close()
                 $scope.item = {
                     tglPengajuan: new Date(),
@@ -540,7 +540,7 @@ define(['initialize'], function(initialize) {
                 }
                 return dateArray;
             }
-            $scope.Simpan = function() {
+            $scope.Simpan = function () {
                 var listRawRequired = [
                     "item.namaPegawai|k-ng-model|Pegawai",
                     "item.tglPengajuan|k-ng-model|Tanggal pengajuan",
@@ -554,8 +554,8 @@ define(['initialize'], function(initialize) {
 
                     var listDate = []
                     listDate = getDates($scope.item.tglAwalCuti, $scope.item.tglAkhirCuti)
-                        // console.log(listDate)
-                        // return
+                    // console.log(listDate)
+                    // return
                     if (listDate.length == 0) {
                         toastr.error('Belum ada tanggal yang di pilih')
                         return
@@ -587,7 +587,7 @@ define(['initialize'], function(initialize) {
                         "listtanggal": listDate,
                         "jumlah": listDate.length
                     }
-                    medifirstService.post('sdm/save-permohonan-cuti', dataSend).then(function(e) {
+                    medifirstService.post('sdm/save-permohonan-cuti', dataSend).then(function (e) {
                         $scope.item = {}
                         $scope.tanggalPermohonan = []
 
@@ -608,7 +608,7 @@ define(['initialize'], function(initialize) {
                     ModelItem.showMessages(isValid.messages);
                 }
             }
-            $scope.SearchEnter = function() {
+            $scope.SearchEnter = function () {
                 loadData()
             }
 
@@ -653,9 +653,9 @@ define(['initialize'], function(initialize) {
 
 
                 medifirstService.get('sdm/get-permohonan-cuti?' + namaPegawa + qunitKerja +
-                        qsubUnitKerja + qkedudukanPegawai + qstatusPegawai + tglMasuk + qstatusApprove +
-                        qPermohonan + qRows)
-                    .then(function(e) {
+                    qsubUnitKerja + qkedudukanPegawai + qstatusPegawai + tglMasuk + qstatusApprove +
+                    qPermohonan + qRows)
+                    .then(function (e) {
                         $scope.isRouteLoading = false
                         var data = e.data.data
                         $scope.dataSource = new kendo.data.DataSource({
@@ -685,7 +685,7 @@ define(['initialize'], function(initialize) {
                     }
                 }
             }
-            $scope.$watch('item.tglAwalCuti', function(newVal, oldVal) {
+            $scope.$watch('item.tglAwalCuti', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.item.tglAkhirCuti != undefined) {
                         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -698,7 +698,7 @@ define(['initialize'], function(initialize) {
                 }
 
             });
-            $scope.$watch('item.tglAkhirCuti', function(newVal, oldVal) {
+            $scope.$watch('item.tglAkhirCuti', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.item.tglAwalCuti != undefined) {
                         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
@@ -731,7 +731,7 @@ define(['initialize'], function(initialize) {
                     }
                 }
             }
-            $scope.addNewTgl = function() {
+            $scope.addNewTgl = function () {
                 // debugger
                 var listRawRequired = [
                     "item.namaPegawai|k-ng-model|Nama pegawai",
@@ -744,38 +744,38 @@ define(['initialize'], function(initialize) {
 
                         var newItemNo = $scope.tanggalPermohonan.length + 1;
                         $scope.tanggalPermohonan.push({
-                                id: newItemNo,
-                                tgl: "dd/MM/yyyy"
-                            })
-                            // if ($scope.item.statusPegawai.id == 27 || $scope.item.statusPegawai.id == 26 || $scope.item.statusPegawai.id == 28) {
-                            //     var newItemNo = $scope.tanggalPermohonan.length + 1;
-                            //     $scope.tanggalPermohonan.push({
-                            //         id: newItemNo,
-                            //         tgl: "dd/MM/yyyy"
-                            //     })
-                            // } else if ($scope.item.statusPegawai.id == 24 || $scope.item.statusPegawai.id == 25) {
-                            //     if ($scope.tanggalPermohonan.length < 2) {
-                            //         var newItemNo = $scope.tanggalPermohonan.length + 1;
-                            //         $scope.tanggalPermohonan.push({
-                            //             id: newItemNo,
-                            //             tgl: "dd/MM/yyyy"
-                            //         })
-                            //     } else {
-                            //         messageContainer.error('Tanggal terdiri dari tanggal awal dan tanggal akhir (periode)')
-                            //     }
-                            // //untuk sakit
-                            // } else if ($scope.item.statusPegawai.id == 29) {
-                            //     if ($scope.tanggalPermohonan.length < 2) {
-                            //         var newItemNo = $scope.tanggalPermohonan.length + 1;
-                            //         $scope.tanggalPermohonan.push({
-                            //             id: newItemNo,
-                            //             tgl: "dd/MM/yyyy"
-                            //         })
-                            //     }else {
-                            //         messageContainer.error('Tanggal terdiri dari tanggal awal dan tanggal akhir (periode)')
-                            //     }
-                            // //untuk cuti tahunan
-                            // } else if ($scope.item.statusPegawai.id == 1) {
+                            id: newItemNo,
+                            tgl: "dd/MM/yyyy"
+                        })
+                        // if ($scope.item.statusPegawai.id == 27 || $scope.item.statusPegawai.id == 26 || $scope.item.statusPegawai.id == 28) {
+                        //     var newItemNo = $scope.tanggalPermohonan.length + 1;
+                        //     $scope.tanggalPermohonan.push({
+                        //         id: newItemNo,
+                        //         tgl: "dd/MM/yyyy"
+                        //     })
+                        // } else if ($scope.item.statusPegawai.id == 24 || $scope.item.statusPegawai.id == 25) {
+                        //     if ($scope.tanggalPermohonan.length < 2) {
+                        //         var newItemNo = $scope.tanggalPermohonan.length + 1;
+                        //         $scope.tanggalPermohonan.push({
+                        //             id: newItemNo,
+                        //             tgl: "dd/MM/yyyy"
+                        //         })
+                        //     } else {
+                        //         messageContainer.error('Tanggal terdiri dari tanggal awal dan tanggal akhir (periode)')
+                        //     }
+                        // //untuk sakit
+                        // } else if ($scope.item.statusPegawai.id == 29) {
+                        //     if ($scope.tanggalPermohonan.length < 2) {
+                        //         var newItemNo = $scope.tanggalPermohonan.length + 1;
+                        //         $scope.tanggalPermohonan.push({
+                        //             id: newItemNo,
+                        //             tgl: "dd/MM/yyyy"
+                        //         })
+                        //     }else {
+                        //         messageContainer.error('Tanggal terdiri dari tanggal awal dan tanggal akhir (periode)')
+                        //     }
+                        // //untuk cuti tahunan
+                        // } else if ($scope.item.statusPegawai.id == 1) {
 
 
                         //     var jumlahCutiN3=12
@@ -846,7 +846,7 @@ define(['initialize'], function(initialize) {
                     ModelItem.showMessages(isValid.messages);
                 }
             }
-            $scope.addNewTglBersama = function() {
+            $scope.addNewTglBersama = function () {
                 // debugger
 
                 var lastDate = $scope.tanggalPermohonanBersama.length - 1;
@@ -866,13 +866,13 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.showAddTgl = function(current) {
+            $scope.showAddTgl = function (current) {
                 return current.id === $scope.tanggalPermohonan[$scope.tanggalPermohonan.length - 1].id;
             }
-            $scope.showAddTgl2 = function(current) {
+            $scope.showAddTgl2 = function (current) {
                 return current.id === $scope.tanggalPermohonanBersama[$scope.tanggalPermohonanBersama.length - 1].id;
             }
-            $scope.removeNewTglBersama = function(id) {
+            $scope.removeNewTglBersama = function (id) {
                 if (id == 1) return;
                 if ($scope.tanggalPermohonanBersama.length > 1) {
                     for (var i = 0; i < $scope.tanggalPermohonanBersama.length; i++) {
@@ -884,7 +884,7 @@ define(['initialize'], function(initialize) {
                 }
 
             }
-            $scope.removeNewTgl = function(id) {
+            $scope.removeNewTgl = function (id) {
                 if (id == 1) return;
 
                 if ($scope.item.statusPegawai.id == 24 || $scope.item.statusPegawai.id == 25 || $scope.item.statusPegawai.id == 29) {
@@ -905,7 +905,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.tambahCutiBaru = function() {
+            $scope.tambahCutiBaru = function () {
                 if ($scope.bukanLoginSDM == true) {
                     for (let x = 0; x < $scope.listPegawai.length; x++) {
                         const element = $scope.listPegawai[x];
@@ -1042,7 +1042,7 @@ define(['initialize'], function(initialize) {
             //         }
             //     })
             // }
-            $scope.getCuti = function() {
+            $scope.getCuti = function () {
                 // $scope.cutiHabis = false;
                 // ManageSdmNew.getListData("sdm/get-data-cuti?pegawaiId=" + $scope.item.namaPegawai.id + "&statusPegawaiId=" + $scope.item.statusPegawai.id, true).then(function (dat) {
                 //     // +$scope.item.kategoriPegawaiId
@@ -1116,10 +1116,10 @@ define(['initialize'], function(initialize) {
                 // });
             }
 
-            $scope.getIzin = function(e) {
+            $scope.getIzin = function (e) {
                 // debugger;
                 $scope.cutiHabis = false;
-                ManageSdmNew.getListData("sdm/get-data-cuti?pegawaiId=" + $scope.item.namaPegawai.id + "&statusPegawaiId=" + $scope.item.statusPegawai.id, true).then(function(dat) {
+                ManageSdmNew.getListData("sdm/get-data-cuti?pegawaiId=" + $scope.item.namaPegawai.id + "&statusPegawaiId=" + $scope.item.statusPegawai.id, true).then(function (dat) {
                     // +$scope.item.kategoriPegawaiId
 
                     $scope.item.jumlahIjin = dat.data.data.jatahCuti;
@@ -1136,7 +1136,7 @@ define(['initialize'], function(initialize) {
             $scope.disJumlahCuti = true;
             $scope.disSakit = true;
             $scope.hideJumlahCuti = false;
-            $scope.showJumlahCuti = function() {
+            $scope.showJumlahCuti = function () {
                 for (var i = 0; i < $scope.tanggalPermohonan.length; i++) {
                     if ($scope.tanggalPermohonan.length != 1) {
                         $scope.tanggalPermohonan.splice(i, 1);
@@ -1234,7 +1234,7 @@ define(['initialize'], function(initialize) {
                 "id": 2,
                 "sakit": "Rawat Inap"
             }]
-            $scope.loadGrid = function() {
+            $scope.loadGrid = function () {
                 $scope.isRouteLoading = true;
                 // get daftar permohonan cuti per ruangan
                 // var idSubUnitKerja = '';
@@ -1244,15 +1244,15 @@ define(['initialize'], function(initialize) {
 
                 // get daftar cuti per pegawai (berdasarkan hasil meeting dengan pihak SDM)
                 // ManageSdm.findPegawaiById(ModelItem.getPegawai().id).then(function(res) {
-                ManageSdmNew.getListData("pegawai/find-pegawai-by-id-custom/" + ModelItem.getPegawai().id).then(function(res) {
+                ManageSdmNew.getListData("pegawai/find-pegawai-by-id-custom/" + ModelItem.getPegawai().id).then(function (res) {
                     if (res.statResponse) {
                         var pegawaiLogin = res.data.data;
                         // get permohonan status by user login
-                        ManageSdmNew.getListData("sdm/get-list-approval-status?idPegawai=" + pegawaiLogin.idPegawai).then(function(e) {
+                        ManageSdmNew.getListData("sdm/get-list-approval-status?idPegawai=" + pegawaiLogin.idPegawai).then(function (e) {
                             //debugger;
                             var data = e.data.data.listData;
                             // filter data yang approvalStatusnya !== 3
-                            var filteredData = _.filter(e.data.data.listData, function(element) {
+                            var filteredData = _.filter(e.data.data.listData, function (element) {
                                 return element.approvalStatus !== 3;
                             });
 
@@ -1290,10 +1290,10 @@ define(['initialize'], function(initialize) {
             }
 
             var timeoutPromise;
-            $scope.$watch('item.cariDaftarPengajuanCuti', function(newVal, oldVal) {
+            $scope.$watch('item.cariDaftarPengajuanCuti', function (newVal, oldVal) {
                 if (!newVal) return;
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal && newVal !== oldVal) {
                         applyFilter("namaPegawai", newVal)
                     }
@@ -1377,19 +1377,19 @@ define(['initialize'], function(initialize) {
 
 
 
-            $scope.alertTgl = function(ev) {
+            $scope.alertTgl = function (ev) {
                 $mdDialog.show(
                     $mdDialog.alert()
-                    .parent(angular.element(document.querySelector('#popupContainer')))
-                    .clickOutsideToClose(false)
-                    .title('Peringatan')
-                    .textContent('Jumlah hari yang anda pilih melebihi sisa cuti')
-                    .ariaLabel('Alert Tgl')
-                    .ok('OK')
-                    .targetEvent(ev)
+                        .parent(angular.element(document.querySelector('#popupContainer')))
+                        .clickOutsideToClose(false)
+                        .title('Peringatan')
+                        .textContent('Jumlah hari yang anda pilih melebihi sisa cuti')
+                        .ariaLabel('Alert Tgl')
+                        .ok('OK')
+                        .targetEvent(ev)
                 );
             };
-            var days = function(date1, date2) {
+            var days = function (date1, date2) {
                 var timeDiff = Math.abs(date2.getTime() - date1.getTime());
                 var diff = Math.ceil(timeDiff / (1000 * 3600 * 24));
                 var _days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -1401,7 +1401,7 @@ define(['initialize'], function(initialize) {
                 return days;
             };
 
-            var removeA = function(arr) {
+            var removeA = function (arr) {
                 var what, a = arguments,
                     L = a.length,
                     ax;
@@ -1416,14 +1416,14 @@ define(['initialize'], function(initialize) {
 
 
 
-            $scope.cetakCutiAlasanPenting = function(data) {
+            $scope.cetakCutiAlasanPenting = function (data) {
                 var idKaRuangan = data.kepalaRuangan ? data.kepalaRuangan.id : "";
                 var urlLaporan = cetakHelper.openURLReporting("reporting/lapPermohonanCuti?noRecPlanning=" + data.noRec + "&idAtasan1=" + data.atasanLangsung.id + "&idAtasan2=" + data.pejabatPenilai.id + "&periode=" + DateHelper.formatDate(data.until, "YYYY-MM") + "&idKaRu=" + idKaRuangan + "&idJabatanAtasan1=" + data.jabatanAtasanLangsung.id + "&idJabatanAtasan2=" + data.jabatanPejabatPenilai.id);
                 window.open(urlLaporan, "halamanCetakDua");
             }
 
-            var holderCallback = function() {}
-            $scope.cetakPermohonan = function(data) {
+            var holderCallback = function () { }
+            $scope.cetakPermohonan = function (data) {
                 //debugger;
                 if (!data) {
                     messageContainer.error("Data Tidak Ditemukan");
@@ -1458,7 +1458,7 @@ define(['initialize'], function(initialize) {
                                 window.open(urlLaporan, "halamanCetakDua", "width=800, height=600, top=10, left=10");
                             }
                             var popUp = window.open(urlSuratIzinSementara, "halamanCetakSatu", "width=800, height=600, top=30, left=30");
-                            if (popUp == null || typeof(popUp) == 'undefined') {
+                            if (popUp == null || typeof (popUp) == 'undefined') {
                                 alert('Please disable your pop-up blocker and click "Cetak" button again.');
                             }
                         } else {
@@ -1488,7 +1488,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.cetakPelimpahan = function(data) {
+            $scope.cetakPelimpahan = function (data) {
                 if (!data) {
                     messageContainer.error("Data Tidak Ditemukan");
                     return;
@@ -1540,7 +1540,7 @@ define(['initialize'], function(initialize) {
                 }
 
 
-                ManageSdmNew.saveData(dataSend, "sdm/save-pegawai-status").then(function(e) {
+                ManageSdmNew.saveData(dataSend, "sdm/save-pegawai-status").then(function (e) {
                     // console.log(JSON.stringify(e.data));
 
                     $scope.loadGrid();
@@ -1604,7 +1604,7 @@ define(['initialize'], function(initialize) {
                 // }
             }
 
-            $scope.cetakPelimpahanTugas = function(data) {
+            $scope.cetakPelimpahanTugas = function (data) {
                 if (!data) {
                     messageContainer.error("Data Tidak Ditemukan");
                     return;
@@ -1613,7 +1613,7 @@ define(['initialize'], function(initialize) {
                 $scope.loadPelimpahan(dataItem);
             };
 
-            $scope.cancelData = function() {
+            $scope.cancelData = function () {
                 delete $scope.currentData.pegawai1;
                 delete $scope.currentData.pegawai2;
                 $scope.winDialog.close();
@@ -1623,40 +1623,40 @@ define(['initialize'], function(initialize) {
             //     load();
             // }
 
-            $scope.loadWindow = function(data) {
+            $scope.loadWindow = function (data) {
                 // debugger
                 data.until = $scope.now;
                 $scope.currentData = data;
                 $scope.winDialog.center().open();
             }
 
-            $scope.loadPelimpahan = function(data) {
+            $scope.loadPelimpahan = function (data) {
                 // debugger
                 data.until = $scope.now;
                 $scope.currentData = data;
-                manageSarprasPhp.getDataTableTransaksi("historypegawai/get-drop-down-riwayat-jabatan-registered?id=" + data.pegwaiId).then(function(res) {
+                manageSarprasPhp.getDataTableTransaksi("historypegawai/get-drop-down-riwayat-jabatan-registered?id=" + data.pegwaiId).then(function (res) {
                     $scope.listJabatan1 = res.data.dataJabatanInternal
                     $scope.currentData.jabatanPelimpah = $scope.listJabatan1[0]
                 })
                 $scope.winCetakPelimpahan.center().open();
             }
 
-            $scope.$watch('currentData.atasanLangsung', function(e) {
+            $scope.$watch('currentData.atasanLangsung', function (e) {
                 if (!e) return;
                 manageSarprasPhp.getDataTableTransaksi("historypegawai/get-drop-down-riwayat-jabatan-registered?id=" +
-                    e.id).then(function(res) {
-                    $scope.listJabatan1 = res.data.dataJabatanInternal
-                    $scope.currentData.jabatanAtasanLangsung = $scope.listJabatan1[0]
-                })
+                    e.id).then(function (res) {
+                        $scope.listJabatan1 = res.data.dataJabatanInternal
+                        $scope.currentData.jabatanAtasanLangsung = $scope.listJabatan1[0]
+                    })
             })
 
-            $scope.$watch('currentData.pejabatPenilai', function(e) {
+            $scope.$watch('currentData.pejabatPenilai', function (e) {
                 if (!e) return;
                 manageSarprasPhp.getDataTableTransaksi("historypegawai/get-drop-down-riwayat-jabatan-registered?id=" +
-                    e.id).then(function(res) {
-                    $scope.listJabatan2 = res.data.dataJabatanInternal
-                    $scope.currentData.jabatanPejabatPenilai = $scope.listJabatan2[0]
-                })
+                    e.id).then(function (res) {
+                        $scope.listJabatan2 = res.data.dataJabatanInternal
+                        $scope.currentData.jabatanPejabatPenilai = $scope.listJabatan2[0]
+                    })
             })
         }
     ]);

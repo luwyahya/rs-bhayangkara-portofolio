@@ -340,18 +340,16 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
     if (this.formGroup.get('noRujukan').value != null) {
       if (this.formGroup.get('noRujukan').value.length == 1) {
-        this.formGroup.get('noRujukan').setValue("0000000" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 2) {
         this.formGroup.get('noRujukan').setValue("000000" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 3) {
+      } else if (this.formGroup.get('noRujukan').value.length == 2) {
         this.formGroup.get('noRujukan').setValue("00000" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 4) {
+      } else if (this.formGroup.get('noRujukan').value.length == 3) {
         this.formGroup.get('noRujukan').setValue("0000" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 5) {
+      } else if (this.formGroup.get('noRujukan').value.length == 4) {
         this.formGroup.get('noRujukan').setValue("000" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 6) {
+      } else if (this.formGroup.get('noRujukan').value.length == 5) {
         this.formGroup.get('noRujukan').setValue("00" + this.formGroup.get('noRujukan').value)
-      } else if (this.formGroup.get('noRujukan').value.length == 7) {
+      } else if (this.formGroup.get('noRujukan').value.length == 6) {
         this.formGroup.get('noRujukan').setValue("0" + this.formGroup.get('noRujukan').value)
       }
     }
@@ -369,11 +367,11 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if (this.isTemporaryBrigding == true) {
       this.getNoKaTemporaryBrigding()
     } else {
-      if (nomor.toString().length < 8) {
-        this.alertService.warn('Peringatan', 'Nomor RM harus 8 digit. Tambahkan 0 di depan supaya 8 digit')
+      if (nomor.toString().length < 7) {
+        this.alertService.warn('Peringatan', 'Nomor RM harus 7 digit. Tambahkan 0 di depan supaya 7 digit')
         return;
       }
-      else if (nomor.toString().length == 8) {
+      else if (nomor.toString().length == 7) {
         this.getPasienByNoCM1(nomor)
       }
       else if (nomor.toString().length <= 14) {
@@ -488,18 +486,16 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
           this.getHistoriPelayananPesesta1(e.response.peserta.noKartu)
           if (e.response.peserta.mr.noMR != null) {
             if (e.response.peserta.mr.noMR.length == 1) {
-              e.response.peserta.mr.noMR = "0000000" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 2) {
               e.response.peserta.mr.noMR = "000000" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 3) {
+            } else if (e.response.peserta.mr.noMR.length == 2) {
               e.response.peserta.mr.noMR = "00000" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 4) {
+            } else if (e.response.peserta.mr.noMR.length == 3) {
               e.response.peserta.mr.noMR = "0000" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 5) {
+            } else if (e.response.peserta.mr.noMR.length == 4) {
               e.response.peserta.mr.noMR = "000" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 6) {
+            } else if (e.response.peserta.mr.noMR.length == 5) {
               e.response.peserta.mr.noMR = "00" + e.response.peserta.mr.noMR
-            } else if (e.response.peserta.mr.noMR.length == 7) {
+            } else if (e.response.peserta.mr.noMR.length == 6) {
               e.response.peserta.mr.noMR = "0" + e.response.peserta.mr.noMR
             }
           }
@@ -559,18 +555,16 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
           this.item = e.response.rujukan;
           if (e.response.rujukan.peserta.mr.noMR != null) {
             if (e.response.rujukan.peserta.mr.noMR.length == 1) {
-              e.response.rujukan.peserta.mr.noMR = "0000000" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 2) {
               e.response.rujukan.peserta.mr.noMR = "000000" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 3) {
+            } else if (e.response.rujukan.peserta.mr.noMR.length == 2) {
               e.response.rujukan.peserta.mr.noMR = "00000" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 4) {
+            } else if (e.response.rujukan.peserta.mr.noMR.length == 3) {
               e.response.rujukan.peserta.mr.noMR = "0000" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 5) {
+            } else if (e.response.rujukan.peserta.mr.noMR.length == 4) {
               e.response.rujukan.peserta.mr.noMR = "000" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 6) {
+            } else if (e.response.rujukan.peserta.mr.noMR.length == 5) {
               e.response.rujukan.peserta.mr.noMR = "00" + e.response.rujukan.peserta.mr.noMR
-            } else if (e.response.rujukan.peserta.mr.noMR.length == 7) {
+            } else if (e.response.rujukan.peserta.mr.noMR.length == 6) {
               e.response.rujukan.peserta.mr.noMR = "0" + e.response.rujukan.peserta.mr.noMR
             }
           }
@@ -644,18 +638,16 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
         this.item = e.response.rujukan;
         if (e.response.rujukan.peserta.mr.noMR != null) {
           if (e.response.rujukan.peserta.mr.noMR == 1) {
-            e.response.rujukan.peserta.mr.noMR = "0000000" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR == 2) {
             e.response.rujukan.peserta.mr.noMR = "000000" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR.length == 3) {
+          } else if (e.response.rujukan.peserta.mr.noMR == 2) {
             e.response.rujukan.peserta.mr.noMR = "00000" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR.length == 4) {
+          } else if (e.response.rujukan.peserta.mr.noMR.length == 3) {
             e.response.rujukan.peserta.mr.noMR = "0000" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR.length == 5) {
+          } else if (e.response.rujukan.peserta.mr.noMR.length == 4) {
             e.response.rujukan.peserta.mr.noMR = "000" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR.length == 6) {
+          } else if (e.response.rujukan.peserta.mr.noMR.length == 5) {
             e.response.rujukan.peserta.mr.noMR = "00" + e.response.rujukan.peserta.mr.noMR
-          } else if (e.response.rujukan.peserta.mr.noMR.length == 7) {
+          } else if (e.response.rujukan.peserta.mr.noMR.length == 6) {
             e.response.rujukan.peserta.mr.noMR = "0" + e.response.rujukan.peserta.mr.noMR
           }
         }
@@ -860,6 +852,10 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     // debugger
     let jenisPel = ''
     let kdSpesialis = ''
+    let noSepTerakhir = ''
+    let updateSurkon = ''
+    let updateSurkonDokter = ''
+    let updateSurkonKodePoli = ''
     this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + noKartu).subscribe(data => {
       if (data.metaData.code == 200) {
         this.listHistori = data.response.histori;
@@ -867,6 +863,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
           for (let i = 0; i < this.listHistori.length; i++) {
             if (this.item.noKunjungan == this.listHistori[i].noRujukan) {
               this.isKunjunganPertamaBPJS = false
+              noSepTerakhir = this.listHistori[i].noSep
               break;
             }
           }
@@ -877,10 +874,19 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
             ).subscribe(data => {
               if (data.metaData.code == "200") {
                 for (let i = 0; i < data.response.list.length; i++) {
-                  if (moment(new Date()).format('YYYY-MM-DD') == data.response.list[i].tglRencanaKontrol) {
-                    this.isCekSuratKontrol = true
-                    this.noSKDP = data.response.list[i].noSuratKontrol
-                    break;
+                  if (data.response.list[i].terbitSEP == 'Belum' && data.response.list[i].jnsKontrol == '2') {
+                    if (moment(new Date()).format('YYYY-MM-DD') == data.response.list[i].tglRencanaKontrol) {
+                      this.isCekSuratKontrol = true
+                      this.noSKDP = data.response.list[i].noSuratKontrol
+                      break;
+                    } else {
+                      debugger
+                      updateSurkon = 'true'
+                      this.noSKDP = data.response.list[i].noSuratKontrol
+                      updateSurkonDokter = data.response.list[i].kodeDokter
+                      updateSurkonKodePoli = data.response.list[i].poliTujuan
+                      noSepTerakhir = data.response.list[i].noSepAsalKontrol
+                    }
                   }
                 }
                 if (this.isCekSuratKontrol == true) {
@@ -898,6 +904,39 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                       })
                     }
                   })
+                } else if (updateSurkon == 'true') {
+                  let dataSend = {
+                    "data": {
+                      "request": {
+                        "noSuratKontrol": this.noSKDP,
+                        "noSEP": noSepTerakhir,
+                        "kodeDokter": updateSurkonDokter,
+                        "poliKontrol": updateSurkonKodePoli,
+                        "tglRencanaKontrol": moment(new Date()).format('YYYY-MM-DD'),
+                        "user": 'trans'
+                      }
+                    }
+                  }
+                  this.httpService.update("medifirst2000/bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).subscribe(e => {
+                    if (e.response) {
+                      this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + this.noSKDP
+                      ).subscribe(data => {
+                        if (data.metaData.code == 200) {
+                          this.test = data.response.namaDokter
+                          this.formGroup.get('dokterDPJPMelayani').setValue({
+                            "kode": data.response.kodeDokter,
+                            "nama": data.response.namaDokter
+                          })
+                          this.formGroup.get('dokterDPJP').setValue({
+                            "kode": data.response.kodeDokterPembuat,
+                            "nama": data.response.namaDokterPembuat
+                          })
+                        }
+                      })
+                    } else {
+                      alert(e.metaData.message)
+                    }
+                  });
                 } else {
                   this.alertService.error('Nomor Rujukan ' + this.item.noKunjungan + ' Tidak Mempunyai Surat Kontrol', 'Info')
                 }
@@ -1235,8 +1274,13 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       this.assesmentPel = ''
       this.insertLiveBridging()
     } else {
-      this.showPilihan = true
-      this.showTujuanKunj = true
+      // this.showPilihan = true
+      // this.showTujuanKunj = true
+      this.tujuanKunj = '2'
+      this.flagProcedure = '5'
+      this.kdPenunjang = ''
+      this.assesmentPel = ''
+      this.insertLiveBridging()
     }
   }
   insertLiveBridging() {

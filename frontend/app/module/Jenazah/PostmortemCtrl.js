@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('PostmortemCtrl', ['$mdDialog', 'CacheHelper', '$scope', 'MedifirstService', 'DateHelper', '$window',
-        function($mdDialog, cacheHelper, $scope, medifirstService, dateHelper, $window) {
+        function ($mdDialog, cacheHelper, $scope, medifirstService, dateHelper, $window) {
             $scope.dataVOloaded = true;
             $scope.item = {};
             $scope.now = new Date();
@@ -23,7 +23,7 @@ define(['initialize'], function(initialize) {
             $scope.model = {};
             $scope.istempatLaporan = true;
 
-            $scope.ceklispilihManual = function(bool) {
+            $scope.ceklispilihManual = function (bool) {
                 if (bool) {
                     $scope.dokter2 = true
                 } else {
@@ -31,7 +31,7 @@ define(['initialize'], function(initialize) {
                     $scope.item.dokter2 = undefined
                 }
             }
-            $scope.ceklispilihManual2 = function(bool) {
+            $scope.ceklispilihManual2 = function (bool) {
                 if (bool) {
                     $scope.dokter3 = true
                 } else {
@@ -39,7 +39,7 @@ define(['initialize'], function(initialize) {
                     $scope.item.dokter3 = undefined
                 }
             }
-            $scope.ceklispilihManual3 = function(bool) {
+            $scope.ceklispilihManual3 = function (bool) {
                 if (bool) {
                     $scope.dokter4 = true
                 } else {
@@ -47,7 +47,7 @@ define(['initialize'], function(initialize) {
                     $scope.item.dokter4 = undefined
                 }
             }
-            $scope.ceklispilihManual4 = function(bool) {
+            $scope.ceklispilihManual4 = function (bool) {
                 if (bool) {
                     $scope.dokter5 = true
                 } else {
@@ -57,7 +57,7 @@ define(['initialize'], function(initialize) {
             }
 
             function loadCombo() {
-                medifirstService.get('jenazah/get-data-for-combo').then(function(dat) {
+                medifirstService.get('jenazah/get-data-for-combo').then(function (dat) {
                     $scope.listJenisKelamin = dat.data.jenisKelaminPostmortem
                     $scope.listGolonganDarah = dat.data.golongandarah
                     $scope.listDokter = dat.data.dokter
@@ -66,7 +66,7 @@ define(['initialize'], function(initialize) {
                     $scope.listPemeriksaan = dat.data.pemeriksaan
                 })
             }
-            $scope.search = function() {
+            $scope.search = function () {
                 loadData()
             }
 
@@ -77,7 +77,7 @@ define(['initialize'], function(initialize) {
                 } else {
                     jenisbencana = ""
                 }
-                medifirstService.get("jenazah/dvi/get-postmortem?" + jenisbencana).then(function(data) {
+                medifirstService.get("jenazah/dvi/get-postmortem?" + jenisbencana).then(function (data) {
                     // debugger;
                     $scope.isRouteLoading = false;
                     var postmortem = data.data
@@ -96,184 +96,184 @@ define(['initialize'], function(initialize) {
                     });
                 })
                 $scope.columnPostmortem = {
-                        toolbar: [
-                            "excel",
-                        ],
-                        excel: {
-                            fileName: "Postmortem.xlsx",
-                            allPages: true,
-                        },
-                        excelExport: function(e) {
-                            var sheet = e.workbook.sheets[0];
-                            sheet.frozenRows = 2;
-                            sheet.mergedCells = ["A1:R1"];
-                            sheet.name = "Laporan";
+                    toolbar: [
+                        "excel",
+                    ],
+                    excel: {
+                        fileName: "Postmortem.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:R1"];
+                        sheet.name = "Laporan";
 
-                            var myHeaders = [{
-                                value: "LAPORAN POSTMORTEM",
-                                fontSize: 15,
-                                textAlign: "center",
-                                background: "#c1d2d2",
-                            }];
-                            sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 50 });
-                        },
-                        scrollable: true,
-                        selectable: "row",
-                        pageable: true,
-                        // $("#kGrid").kendoGrid({
-                        //     toolbar: ["excel"],
+                        var myHeaders = [{
+                            value: "LAPORAN POSTMORTEM",
+                            fontSize: 15,
+                            textAlign: "center",
+                            background: "#c1d2d2",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 50 });
+                    },
+                    scrollable: true,
+                    selectable: "row",
+                    pageable: true,
+                    // $("#kGrid").kendoGrid({
+                    //     toolbar: ["excel"],
 
-                        //     excel: {
-                        //         fileName: "PostMortem.xlsx",
-                        //         allPages: true,
+                    //     excel: {
+                    //         fileName: "PostMortem.xlsx",
+                    //         allPages: true,
 
-                        //     },
+                    //     },
 
-                        //     dataSource: $scope.dataExcel,
-                        //     // sortable: true,
-                        //     reorderable: true,
-                        //     filterable: true,
-                        //     pageable: true,
-                        //     groupable: true,
-                        //     columnMenu: true,
-                        //     resizable: true,
-                        //     selectable: true,
-                        //     excelExport: function (e) {
-                        //         var sheet = e.workbook.sheets[0];
-                        //             sheet.frozenRows = 2;
-                        //             sheet.mergedCells = ["A1:R1"];
-                        //             sheet.name = "POSTMORTEM";
+                    //     dataSource: $scope.dataExcel,
+                    //     // sortable: true,
+                    //     reorderable: true,
+                    //     filterable: true,
+                    //     pageable: true,
+                    //     groupable: true,
+                    //     columnMenu: true,
+                    //     resizable: true,
+                    //     selectable: true,
+                    //     excelExport: function (e) {
+                    //         var sheet = e.workbook.sheets[0];
+                    //             sheet.frozenRows = 2;
+                    //             sheet.mergedCells = ["A1:R1"];
+                    //             sheet.name = "POSTMORTEM";
 
-                        //             var myHeaders = [
+                    //             var myHeaders = [
 
-                        //                 {
-                        //                     value: "POSTMORTEM ",
-                        //                     fontSize: 15,
-                        //                     textAlign: "center",
-                        //                     background: "#c1d2d2",
-                        //                 }];
+                    //                 {
+                    //                     value: "POSTMORTEM ",
+                    //                     fontSize: 15,
+                    //                     textAlign: "center",
+                    //                     background: "#c1d2d2",
+                    //                 }];
 
-                        //             sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 50 });
-                        //     },
-                        columns: [{
-                                "field": "no",
-                                "title": "No",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: no #</span>"
-                            },
-                            {
-                                "field": "labeldvi",
-                                "title": "No Label DVI",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: labeldvi #</span>"
-                            },
-                            {
-                                "field": "tglperiksa",
-                                "title": "Tgl Periksa",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: tglperiksa #</span>"
-                            },
-                            {
-                                "field": "jeniskelamin",
-                                "title": "Jenis Kelamin",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: jeniskelamin #</span>"
-                            },
-                            {
-                                "field": "perkiraanusia",
-                                "title": "Usia",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: perkiraanusia #</span>"
-                            },
-                            {
-                                "field": "perkiraantinggibadan",
-                                "title": "Tinggi Badan (CM)",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: perkiraantinggibadan #</span>"
-                            },
-                            {
-                                "field": "cirikhusus",
-                                "title": "Ciri Khusus",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: cirikhusus #</span>"
-                            },
-                            {
-                                "field": "barangbukti",
-                                "title": "Barang Bukti",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: barangbukti #</span>"
-                            },
-                            {
-                                "field": "dna",
-                                "title": "DNA",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: dna #</span>"
-                            },
-                            {
-                                "field": "golongandarah",
-                                "title": "Gol Dar",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: golongandarah #</span>"
-                            },
-                            {
-                                "field": "inavis",
-                                "title": "Inavis",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: inavis #</span>"
-                            },
-                            {
-                                "field": "tim",
-                                "title": "Tim",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: tim #</span>"
-                            },
-                            {
-                                "field": "dokter",
-                                "title": "Dokter",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: dokter #</span>"
-                            },
-                            {
-                                "field": "labeltkp",
-                                "title": "No Label TKP",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: labeltkp #</span>"
-                            },
-                            {
-                                "field": "gigi",
-                                "title": "Gigi",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: gigi #</span>"
-                            },
-                            {
-                                "field": "odontologi",
-                                "title": "Obs Odontologi",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: odontologi #</span>"
-                            },
-                            {
-                                "field": "hasillab",
-                                "title": "Hasil Lab",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: hasillab #</span>"
-                            },
-                            {
-                                "field": "keterangan",
-                                "title": "Keterangan",
-                                "width": "50px",
-                                "template": "<span class='style-center'>#: keterangan #</span>"
-                                    // "template": "<button class=\"k-button custom-button\" ng-click=\"keterangan(dataItem)\" style=\"margin:0 0 5px\"> Heleh</button>",
-                            },
-                            {
-                                "title": "Foto",
-                                "width": "50px",
-                                "template": "<button class=\"k-button custom-button\" ng-click=\"lihatfoto(dataItem)\" style=\"margin:0 0 5px\"> Lihat Foto</button>",
-                            }
-                        ]
+                    //             sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 50 });
+                    //     },
+                    columns: [{
+                        "field": "no",
+                        "title": "No",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: no #</span>"
+                    },
+                    {
+                        "field": "labeldvi",
+                        "title": "No Label DVI",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: labeldvi #</span>"
+                    },
+                    {
+                        "field": "tglperiksa",
+                        "title": "Tgl Periksa",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: tglperiksa #</span>"
+                    },
+                    {
+                        "field": "jeniskelamin",
+                        "title": "Jenis Kelamin",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: jeniskelamin #</span>"
+                    },
+                    {
+                        "field": "perkiraanusia",
+                        "title": "Usia",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: perkiraanusia #</span>"
+                    },
+                    {
+                        "field": "perkiraantinggibadan",
+                        "title": "Tinggi Badan (CM)",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: perkiraantinggibadan #</span>"
+                    },
+                    {
+                        "field": "cirikhusus",
+                        "title": "Ciri Khusus",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: cirikhusus #</span>"
+                    },
+                    {
+                        "field": "barangbukti",
+                        "title": "Barang Bukti",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: barangbukti #</span>"
+                    },
+                    {
+                        "field": "dna",
+                        "title": "DNA",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: dna #</span>"
+                    },
+                    {
+                        "field": "golongandarah",
+                        "title": "Gol Dar",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: golongandarah #</span>"
+                    },
+                    {
+                        "field": "inavis",
+                        "title": "Inavis",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: inavis #</span>"
+                    },
+                    {
+                        "field": "tim",
+                        "title": "Tim",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: tim #</span>"
+                    },
+                    {
+                        "field": "dokter",
+                        "title": "Dokter",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: dokter #</span>"
+                    },
+                    {
+                        "field": "labeltkp",
+                        "title": "No Label TKP",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: labeltkp #</span>"
+                    },
+                    {
+                        "field": "gigi",
+                        "title": "Gigi",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: gigi #</span>"
+                    },
+                    {
+                        "field": "odontologi",
+                        "title": "Obs Odontologi",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: odontologi #</span>"
+                    },
+                    {
+                        "field": "hasillab",
+                        "title": "Hasil Lab",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: hasillab #</span>"
+                    },
+                    {
+                        "field": "keterangan",
+                        "title": "Keterangan",
+                        "width": "50px",
+                        "template": "<span class='style-center'>#: keterangan #</span>"
+                        // "template": "<button class=\"k-button custom-button\" ng-click=\"keterangan(dataItem)\" style=\"margin:0 0 5px\"> Heleh</button>",
+                    },
+                    {
+                        "title": "Foto",
+                        "width": "50px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"lihatfoto(dataItem)\" style=\"margin:0 0 5px\"> Lihat Foto</button>",
                     }
-                    // })
+                    ]
+                }
+                // })
             }
-            $scope.save = function() {
+            $scope.save = function () {
                 if ($scope.item.jenisbencana == undefined) {
                     toastr.error('Jenis Bencana Belum Dipilih !', 'Peringatan')
                     return
@@ -330,7 +330,7 @@ define(['initialize'], function(initialize) {
                     foto3: foto3,
                     foto4: foto4
                 }
-                medifirstService.post('jenazah/dvi/save-postmortem', save).then(function(e) {
+                medifirstService.post('jenazah/dvi/save-postmortem', save).then(function (e) {
                     $scope.item.jenisbencana = undefined
                     $scope.item.nolabeldvi = undefined
                     $scope.item.tglperiksa = undefined
@@ -375,14 +375,14 @@ define(['initialize'], function(initialize) {
                     $scope.dokter4 = false
                 })
             }
-            $scope.tambah = function() {
+            $scope.tambah = function () {
                 $scope.grid = false;
                 $scope.isian = true;
                 $scope.buttontambah = true;
                 $scope.buttonedit = false;
                 $scope.gambaredit = false;
             }
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 loadData();
                 $scope.grid = true;
                 $scope.isian = false;
@@ -390,12 +390,12 @@ define(['initialize'], function(initialize) {
                 $scope.buttonedit = false;
                 $scope.gambaredit = false;
             }
-            $scope.keterangan = function(dataItem) {
+            $scope.keterangan = function (dataItem) {
                 debugger;
             }
-            $scope.lihatam = function() {
+            $scope.lihatam = function () {
                 debugger;
-                medifirstService.get('jenazah/dvi/get-daftar-formulir-antemortem').then(function(data) {
+                medifirstService.get('jenazah/dvi/get-daftar-formulir-antemortem').then(function (data) {
                     var antemortem = data.data
                     $scope.dataAntemortem = new kendo.data.DataSource({
                         data: antemortem,
@@ -416,51 +416,51 @@ define(['initialize'], function(initialize) {
                     selectable: "row",
                     pageable: true,
                     columns: [{
-                            "field": "tglinput",
-                            "title": "Tgl Input",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "noregistrasi",
-                            "title": "No Registrasi",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "namapelapor",
-                            "title": "Nama Pelapor",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "namadilaporkan",
-                            "title": "Nama Dilaporkan",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "jeniskelamin",
-                            "title": "Jenis Kelamin",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "tgllahir",
-                            "title": "Tgl Lahir",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "alamat",
-                            "title": "Alamat",
-                            "width": "50px",
-                        },
-                        {
-                            "title": " ",
-                            "width": "50px",
-                            "template": "<button class=\"k-button custom-button\" ng-click=\"foto(dataItem)\" style=\"margin:0 0 5px\"> Lihat Foto</button>",
-                        }
+                        "field": "tglinput",
+                        "title": "Tgl Input",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "noregistrasi",
+                        "title": "No Registrasi",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "namapelapor",
+                        "title": "Nama Pelapor",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "namadilaporkan",
+                        "title": "Nama Dilaporkan",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "jeniskelamin",
+                        "title": "Jenis Kelamin",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "tgllahir",
+                        "title": "Tgl Lahir",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "alamat",
+                        "title": "Alamat",
+                        "width": "50px",
+                    },
+                    {
+                        "title": " ",
+                        "width": "50px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"foto(dataItem)\" style=\"margin:0 0 5px\"> Lihat Foto</button>",
+                    }
                     ]
                 }
                 $scope.popUpAntemortem.center().open();
             }
-            $scope.lihatfoto = function(dataItem) {
-                medifirstService.get('jenazah/dvi/get-foto-postmortem?norec=' + dataItem.norec).then(function(dat) {
+            $scope.lihatfoto = function (dataItem) {
+                medifirstService.get('jenazah/dvi/get-foto-postmortem?norec=' + dataItem.norec).then(function (dat) {
                     debugger
                     if (dat.data.length > 0) {
                         $scope.images3 = [];
@@ -477,9 +477,9 @@ define(['initialize'], function(initialize) {
                 })
                 $scope.popUpFotoPostmortem.center().open();
             }
-            $scope.foto = function(dataItem) {
+            $scope.foto = function (dataItem) {
                 debugger
-                medifirstService.get('jenazah/dvi/get-foto-antemortem?noreg=' + dataItem.noregistrasi).then(function(data) {
+                medifirstService.get('jenazah/dvi/get-foto-antemortem?noreg=' + dataItem.noregistrasi).then(function (data) {
                     debugger;
                     $scope.images2 = [];
                     var fotoantemortem = data.data
@@ -492,10 +492,10 @@ define(['initialize'], function(initialize) {
                 $scope.popUpFotoAntemortem.center().open();
 
             }
-            $scope.closeAntemortem = function() {
+            $scope.closeAntemortem = function () {
                 $scope.popUpAntemortem.close();
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -526,16 +526,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto.push({ foto: (reader.result), jenisgambar: "gigi" })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker2').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -566,16 +566,16 @@ define(['initialize'], function(initialize) {
 
                 var reader2 = new FileReader();
                 reader2.readAsDataURL(file);
-                reader2.onload = function() {
+                reader2.onload = function () {
                     //    tes.push(reader)
                     console.log(reader2.result);
                     foto2.push({ foto: (reader2.result), jenisgambar: "dna" })
                 };
-                reader2.onerror = function(error) {
+                reader2.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker3').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -606,16 +606,16 @@ define(['initialize'], function(initialize) {
 
                 var reader3 = new FileReader();
                 reader3.readAsDataURL(file);
-                reader3.onload = function() {
+                reader3.onload = function () {
                     //    tes.push(reader)
                     console.log(reader3.result);
                     foto3.push({ foto: (reader3.result), jenisgambar: "sidikjari" })
                 };
-                reader3.onerror = function(error) {
+                reader3.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker4').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -646,16 +646,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result);
                     foto4.push({ foto: (reader.result), jenisgambar: "lampiran" })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            $scope.lihatdata = function() {
+            $scope.lihatdata = function () {
                 if ($scope.dataSelectedPostmortem.labeldvi == undefined) {
                     toastr.error('Data Belum Dipilih !')
                     return
@@ -664,7 +664,7 @@ define(['initialize'], function(initialize) {
             }
 
             function loadEdit() {
-                medifirstService.get('jenazah/dvi/get-lihat-data-postmortem?label=' + $scope.dataSelectedPostmortem.labeldvi).then(function(dat) {
+                medifirstService.get('jenazah/dvi/get-lihat-data-postmortem?label=' + $scope.dataSelectedPostmortem.labeldvi).then(function (dat) {
                     debugger;
                     temp = dat.data.datapostmortem[0].labeldvi
                     tempnorec = dat.data.datapostmortem[0].norec
@@ -681,9 +681,9 @@ define(['initialize'], function(initialize) {
                     $scope.item.tinggibadan = dat.data.datapostmortem[0].perkiraantinggibadan
                     $scope.item.cirikhusus = dat.data.datapostmortem[0].cirikhusus
                     $scope.item.barangbukti = dat.data.datapostmortem[0].barangbukti
-                        // $scope.item.dna = dat.data.datapostmortem[0].dna
+                    // $scope.item.dna = dat.data.datapostmortem[0].dna
                     $scope.item.golongandarah = { id: dat.data.datapostmortem[0].golongandarahfk, golongandarah: dat.data.datapostmortem[0].golongandarah }
-                        // $scope.item.inavis = dat.data.datapostmortem[0].inavis }
+                    // $scope.item.inavis = dat.data.datapostmortem[0].inavis }
                     $scope.item.tim = dat.data.datapostmortem[0].tim
                     $scope.item.dokter = dat.data.datapostmortem[0].dokter
                     if (dat.data.datapostmortem[0].dokter2 != null) {
@@ -762,17 +762,17 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.deletefoto = function(image) {
+            $scope.deletefoto = function (image) {
                 debugger
                 var save = {
                     norec: image.norec
                 }
-                medifirstService.post('jenazah/dvi/delete-foto-postmortem', save).then(function(e) {
+                medifirstService.post('jenazah/dvi/delete-foto-postmortem', save).then(function (e) {
                     $scope.dataSelectedPostmortem.labeldvi = temp
                     loadEdit()
                 })
             }
-            $scope.edit = function() {
+            $scope.edit = function () {
                 debugger
                 var save = {
                     norec: tempnorec,
@@ -814,7 +814,7 @@ define(['initialize'], function(initialize) {
                     foto3: foto3,
                     foto4: foto4
                 }
-                medifirstService.post('jenazah/dvi/edit-postmortem', save).then(function(e) {
+                medifirstService.post('jenazah/dvi/edit-postmortem', save).then(function (e) {
                     $scope.dataSelectedPostmortem.labeldvi = temp
                     loadEdit()
                     foto = []
@@ -823,7 +823,7 @@ define(['initialize'], function(initialize) {
                     foto4 = []
                 })
             }
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 debugger
                 $scope.isRouteLoading = true;
                 if ($scope.dataSelectedPostmortem.norec == undefined) {
@@ -841,7 +841,7 @@ define(['initialize'], function(initialize) {
                     "paramType": [""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -860,7 +860,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/postmortem.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/postmortem.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/postmortem.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/postmortem.pdf');

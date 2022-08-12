@@ -3,10 +3,10 @@
 //     'use strict';
 //     initialize.controller('DaftarDokumenRekamMedisRevCtrl', ['$state', 'ManagePhp', '$timeout','$rootScope', '$scope', 'DateHelper',
 //         function ($state, managePhp,$timeout, $rootScope, $scope, dateHelper) {
-define(['initialize', 'Configuration'], function(initialize, configuration) {
+define(['initialize', 'Configuration'], function (initialize, configuration) {
     'use strict';
     initialize.controller('DaftarDokumenRekamMedisRevCtrl', ['$q', '$scope', 'ModelItem', 'MedifirstService',
-        function($q, $scope, ModelItem, medifirstService) {
+        function ($q, $scope, ModelItem, medifirstService) {
             $scope.title = "Daftar Bayi Baru Lahir";
             $scope.dataVOloaded = false;
             $scope.isRouteLoading = false;
@@ -26,10 +26,10 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             }
             $scope.tglregistrasi = true
             $scope.tglkembali = false
-            $scope.setSourceRuangan = function() {
+            $scope.setSourceRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan
             }
-            $scope.ceklispilihManual = function(bool) {
+            $scope.ceklispilihManual = function (bool) {
                 if (bool) {
                     $scope.tglregistrasi = false
                     $scope.tglkembali = true
@@ -44,7 +44,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             }
 
             function loadCombo() {
-                medifirstService.get("registrasi/dokumenrm/get-combo-dokumen-rekmed", false).then(function(data) {
+                medifirstService.get("registrasi/dokumenrm/get-combo-dokumen-rekmed", false).then(function (data) {
                     $scope.listDepartemen = data.data.departemen;
                     $scope.listRuanganTujuan = data.data.ruangan;
                     $scope.listRuanganAsal = data.data.ruanganrak;
@@ -54,7 +54,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 });
             }
             loadCombo()
-            $scope.refresh = function() {
+            $scope.refresh = function () {
                 $scope.item = {
                     from: $scope.now,
                     until: $scope.now,
@@ -62,17 +62,17 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 };
                 $scope.findData()
             }
-            $scope.refreshData = function() {
+            $scope.refreshData = function () {
                 $scope.pasien = {}
                 loadDataPasien()
             }
-            $scope.SearchDatatab = function() {
+            $scope.SearchDatatab = function () {
                 $scope.findData()
             }
-            $scope.SearchDatatabb = function() {
+            $scope.SearchDatatabb = function () {
                 $scope.findData3()
             }
-            $scope.SearchDatatabbb = function() {
+            $scope.SearchDatatabbb = function () {
                 $scope.findData()
             }
 
@@ -105,12 +105,12 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
 
                 medifirstService.get("registrasipasien/get-pasien?" +
-                        tglLahirs +
-                        rm +
-                        pasien +
-                        ayah +
-                        almat)
-                    .then(function(data) {
+                    tglLahirs +
+                    rm +
+                    pasien +
+                    ayah +
+                    almat)
+                    .then(function (data) {
                         $scope.isRouteLoading = false;
 
                         $scope.dataSourceGrid = new kendo.data.DataSource({
@@ -122,7 +122,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             };
 
-            $scope.findData = function() {
+            $scope.findData = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.from).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.until).format('YYYY-MM-DD HH:mm');
@@ -184,28 +184,28 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         rows +
                         dikirim +
                         '&status=2' +
-                        diterima).then(function(e) {
-                        debugger;
-                        $scope.isRouteLoading = false;
-                        for (var i = 0; i < e.data.length; i++) {
-                            e.data[i].statCheckbox = false;
-                        }
-                        $scope.dataPasienBatal11 = new kendo.data.DataSource({
-                            data: e.data,
-                            // pageSize: 10,
-                            serverPaging: false,
-                            // group: {
-                            //     field: "tglmeninggal",
-                            //     aggregates: [{
-                            //         field: "noregistrasi",
-                            //         aggregate: "count"
-                            //     }, {
-                            //         field: "namapasien",
-                            //         aggregate: "count"
-                            //     }]
-                            // }
-                        });
-                    })
+                        diterima).then(function (e) {
+                            debugger;
+                            $scope.isRouteLoading = false;
+                            for (var i = 0; i < e.data.length; i++) {
+                                e.data[i].statCheckbox = false;
+                            }
+                            $scope.dataPasienBatal11 = new kendo.data.DataSource({
+                                data: e.data,
+                                // pageSize: 10,
+                                serverPaging: false,
+                                // group: {
+                                //     field: "tglmeninggal",
+                                //     aggregates: [{
+                                //         field: "noregistrasi",
+                                //         aggregate: "count"
+                                //     }, {
+                                //         field: "namapasien",
+                                //         aggregate: "count"
+                                //     }]
+                                // }
+                            });
+                        })
                 } else {
 
 
@@ -220,27 +220,27 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         rows +
                         dikirim +
                         status +
-                        diterima).then(function(e) {
-                        $scope.isRouteLoading = false;
-                        for (var i = 0; i < e.data.length; i++) {
-                            e.data[i].statCheckbox = false;
-                        }
-                        $scope.dataPasienBatal = new kendo.data.DataSource({
-                            data: e.data,
-                            pageSize: 500,
-                            serverPaging: false,
-                            // group: {
-                            //     field: "tglmeninggal",
-                            //     aggregates: [{
-                            //         field: "noregistrasi",
-                            //         aggregate: "count"
-                            //     }, {
-                            //         field: "namapasien",
-                            //         aggregate: "count"
-                            //     }]
-                            // }
-                        });
-                    })
+                        diterima).then(function (e) {
+                            $scope.isRouteLoading = false;
+                            for (var i = 0; i < e.data.length; i++) {
+                                e.data[i].statCheckbox = false;
+                            }
+                            $scope.dataPasienBatal = new kendo.data.DataSource({
+                                data: e.data,
+                                pageSize: 500,
+                                serverPaging: false,
+                                // group: {
+                                //     field: "tglmeninggal",
+                                //     aggregates: [{
+                                //         field: "noregistrasi",
+                                //         aggregate: "count"
+                                //     }, {
+                                //         field: "namapasien",
+                                //         aggregate: "count"
+                                //     }]
+                                // }
+                            });
+                        })
                     medifirstService.get("registrasi/dokumenrm/get-daftar-dokumen-rekmed-rjri?" +
                         "tglAwal=" + tglAwal +
                         "&tglAkhir=" + tglAkhir +
@@ -252,32 +252,32 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         rows +
                         dikirim +
                         '&status=2' +
-                        diterima).then(function(e) {
-                        $scope.isRouteLoading = false;
-                        for (var i = 0; i < e.data.length; i++) {
-                            e.data[i].statCheckbox = false;
-                        }
-                        $scope.dataPasienBatal11 = new kendo.data.DataSource({
-                            data: e.data,
-                            // pageSize: 10,
-                            serverPaging: false,
-                            // group: {
-                            //     field: "tglmeninggal",
-                            //     aggregates: [{
-                            //         field: "noregistrasi",
-                            //         aggregate: "count"
-                            //     }, {
-                            //         field: "namapasien",
-                            //         aggregate: "count"
-                            //     }]
-                            // }
-                        });
-                    })
+                        diterima).then(function (e) {
+                            $scope.isRouteLoading = false;
+                            for (var i = 0; i < e.data.length; i++) {
+                                e.data[i].statCheckbox = false;
+                            }
+                            $scope.dataPasienBatal11 = new kendo.data.DataSource({
+                                data: e.data,
+                                // pageSize: 10,
+                                serverPaging: false,
+                                // group: {
+                                //     field: "tglmeninggal",
+                                //     aggregates: [{
+                                //         field: "noregistrasi",
+                                //         aggregate: "count"
+                                //     }, {
+                                //         field: "namapasien",
+                                //         aggregate: "count"
+                                //     }]
+                                // }
+                            });
+                        })
                 }
 
             }
 
-            $scope.findData2 = function() {
+            $scope.findData2 = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.from2).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.until2).format('YYYY-MM-DD HH:mm');
@@ -301,14 +301,14 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
                     dikirim +
-                    dipinjam).then(function(e) {
-                    $scope.isRouteLoading = false;
-                    $scope.dataRekapDokumen = e.data.data;
-                    // $scope.dataRekapDokumen = new kendo.data.DataSource({
-                    //     data: e.data,
+                    dipinjam).then(function (e) {
+                        $scope.isRouteLoading = false;
+                        $scope.dataRekapDokumen = e.data.data;
+                        // $scope.dataRekapDokumen = new kendo.data.DataSource({
+                        //     data: e.data,
 
-                    // });
-                })
+                        // });
+                    })
 
             }
 
@@ -358,40 +358,40 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     rm +
                     nama +
                     ruangan +
-                    deptId).then(function(e) {
-                    $scope.isRouteLoading = false;
-                    for (var i = 0; i < e.data.length; i++) {
-                        e.data[i].statCheckbox = false;
-                    }
-                    $scope.dataPasienBatal2 = new kendo.data.DataSource({
-                        data: e.data.data,
-                        // pageSize: 10,
-                        serverPaging: false,
-                        // group: {
-                        //     field: "tglmeninggal",
-                        //     aggregates: [{
-                        //         field: "noregistrasi",
-                        //         aggregate: "count"
-                        //     }, {
-                        //         field: "namapasien",
-                        //         aggregate: "count"
-                        //     }]
-                        // }
-                    });
-                })
+                    deptId).then(function (e) {
+                        $scope.isRouteLoading = false;
+                        for (var i = 0; i < e.data.length; i++) {
+                            e.data[i].statCheckbox = false;
+                        }
+                        $scope.dataPasienBatal2 = new kendo.data.DataSource({
+                            data: e.data.data,
+                            // pageSize: 10,
+                            serverPaging: false,
+                            // group: {
+                            //     field: "tglmeninggal",
+                            //     aggregates: [{
+                            //         field: "noregistrasi",
+                            //         aggregate: "count"
+                            //     }, {
+                            //         field: "namapasien",
+                            //         aggregate: "count"
+                            //     }]
+                            // }
+                        });
+                    })
             }
-            $scope.findData3 = function() {
+            $scope.findData3 = function () {
                 f3();
 
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm');
             }
             $scope.findData();
             $scope.selectedData = [];
             $scope.selectedData2 = [];
-            $scope.onClickold = function(e) {
+            $scope.onClickold = function (e) {
 
                 var element = $(e.currentTarget);
 
@@ -402,7 +402,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 // $scope.selectedData[dataItem.noRec] = checked;
                 if (checked) {
-                    var result = $.grep($scope.selectedData, function(e) {
+                    var result = $.grep($scope.selectedData, function (e) {
                         return e.norec == dataItem.norec;
                     });
                     if (result.length == 0) {
@@ -429,7 +429,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                     alert("Dokumen Belum dikembalikan dari ruangan " + dataItem["kendali2"][0]["namaruangan"]);
                     if (checked) {
-                        var result = $.grep($scope.selectedData2, function(e) {
+                        var result = $.grep($scope.selectedData2, function (e) {
                             return e.norec == dataItem.norec;
                         });
                         if (result.length == 0) {
@@ -455,7 +455,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.winTerima.center().open()
                 }
             }
-            $scope.onClick = function(e) {
+            $scope.onClick = function (e) {
                 debugger
                 $scope.isRouteLoading = true;
                 if ($scope.isPushOnClick == false) {
@@ -472,7 +472,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 // $scope.selectedData[dataItem.noRec] = checked;
                 if (checked) {
-                    var result = $.grep($scope.selectedData, function(e) {
+                    var result = $.grep($scope.selectedData, function (e) {
                         return e.norec == dataItem.norec;
                     });
                     $scope.selectedData.push(dataItem);
@@ -487,7 +487,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         'tglkeluar': moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
                     }
 
-                    medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function(e) {
+                    medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function (e) {
                         $scope.selectedData = [];
                         if (dataItem.objectruanganlastfk == '569') {
                             $scope.findData();
@@ -516,7 +516,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             }
 
-            $scope.onClick2old = function(e) {
+            $scope.onClick2old = function (e) {
 
                 var element = $(e.currentTarget);
 
@@ -527,7 +527,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 // $scope.selectedData[dataItem.noRec] = checked;
                 if (checked) {
-                    var result = $.grep($scope.selectedData2, function(e) {
+                    var result = $.grep($scope.selectedData2, function (e) {
                         return e.norec == dataItem.norec;
                     });
                     if (result.length == 0) {
@@ -552,7 +552,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
 
             }
-            $scope.onClick2 = function(e) {
+            $scope.onClick2 = function (e) {
 
                 var element = $(e.currentTarget);
 
@@ -563,7 +563,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 // $scope.selectedData[dataItem.noRec] = checked;
                 if (checked) {
-                    var result = $.grep($scope.selectedData2, function(e) {
+                    var result = $.grep($scope.selectedData2, function (e) {
                         return e.norec == dataItem.norec;
                     });
                     $scope.selectedData2.push(dataItem);
@@ -577,7 +577,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         'tglkembali': moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
                         'loop': 'y'
                     }
-                    medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function(e) {
+                    medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function (e) {
                         $scope.selectedData2 = [];
                         panggilsemua();
                     }, function error(e) {
@@ -598,7 +598,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     fileName: "DOKUMENSEDANGDISIAPKAN.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:M1"];
@@ -618,61 +618,61 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 pageable: true,
                 // dataBound: onDataBound,
                 columns: [{
-                        "field": "nocm",
-                        "title": "No Rekam Medis",
-                        "width": "80px",
-                        // "template": "<span class='style-center'>#: nocm #</span>"
-                    },
-                    {
-                        "field": "namapasien",
-                        "title": "Nama Pasien",
-                        "width": "150px",
-                        // "template": "<span class='style-center'>#: namapasien #</span>"
-                    },
-                    {
-                        "field": "jeniskelamin",
-                        "title": "Jenis Kelamin",
-                        "width": "80px",
-                        // "template": "<span class='style-center'>#: jeniskelamin #</span>"
-                    },
+                    "field": "nocm",
+                    "title": "No Rekam Medis",
+                    "width": "80px",
+                    // "template": "<span class='style-center'>#: nocm #</span>"
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "150px",
+                    // "template": "<span class='style-center'>#: namapasien #</span>"
+                },
+                {
+                    "field": "jeniskelamin",
+                    "title": "Jenis Kelamin",
+                    "width": "80px",
+                    // "template": "<span class='style-center'>#: jeniskelamin #</span>"
+                },
 
-                    {
-                        "field": "namaayah",
-                        "title": "Nama Ayah Kandung",
-                        "width": "100px",
-                        "template": '# if( namaayah==null) {# - # } else {# #= namaayah # #} #'
-                            // "template": "<span class='style-center'>#: namaayah #</span>"
-                    },
-                    {
-                        "field": "tgllahir",
-                        "title": "Tanggal Lahir",
-                        "width": "80px",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
-                    },
-                    // {
-                    //     "field": "umurzz",
-                    //     "title": "Umur",
-                    //     "width":240
+                {
+                    "field": "namaayah",
+                    "title": "Nama Ayah Kandung",
+                    "width": "100px",
+                    "template": '# if( namaayah==null) {# - # } else {# #= namaayah # #} #'
+                    // "template": "<span class='style-center'>#: namaayah #</span>"
+                },
+                {
+                    "field": "tgllahir",
+                    "title": "Tanggal Lahir",
+                    "width": "80px",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
+                },
+                // {
+                //     "field": "umurzz",
+                //     "title": "Umur",
+                //     "width":240
 
-                    // },
-                    {
-                        "field": "alamatlengkap",
-                        "title": "Alamat",
-                        "width": "200px",
+                // },
+                {
+                    "field": "alamatlengkap",
+                    "title": "Alamat",
+                    "width": "200px",
 
-                    },
-                    {
-                        "field": "notelepon",
-                        "title": "No Telepon",
-                        "width": "80px",
-                        "template": '# if( notelepon==null) {# - # } else {# #= notelepon # #} #'
-                    },
-                    {
-                        "field": "nohp",
-                        "title": "No HP",
-                        "width": "80px",
-                        "template": '# if( nohp==null) {# - # } else {# #= nohp # #} #'
-                    },
+                },
+                {
+                    "field": "notelepon",
+                    "title": "No Telepon",
+                    "width": "80px",
+                    "template": '# if( notelepon==null) {# - # } else {# #= notelepon # #} #'
+                },
+                {
+                    "field": "nohp",
+                    "title": "No HP",
+                    "width": "80px",
+                    "template": '# if( nohp==null) {# - # } else {# #= nohp # #} #'
+                },
                 ]
             };
 
@@ -685,7 +685,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     fileName: "DOKUMEN SEDANG DISIAPKAN.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:M1"];
@@ -707,83 +707,83 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 // selectable: 'row',
 
                 columns: [{
-                        "template": "<input type='checkbox' class='checkbox' ng-click='onClick($event)' />",
-                        "width": 40
-                    },
-                    {
-                        field: "tglregistrasi",
-                        title: "Tgl Registrasi",
-                        template: "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
-                    },
+                    "template": "<input type='checkbox' class='checkbox' ng-click='onClick($event)' />",
+                    "width": 40
+                },
+                {
+                    field: "tglregistrasi",
+                    title: "Tgl Registrasi",
+                    template: "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
+                },
 
-                    {
-                        field: "noregistrasi",
-                        title: "No Reg",
-                        hidden: false
-                    },
-                    {
-                        field: "namaruangan",
-                        title: "Ruangan Daftar",
-                        hidden: false
-                    },
-                    {
-                        field: "nocm",
-                        title: "No RM",
-                        hidden: false
-                    },
-                    {
-                        field: "namapasien",
-                        title: "Nama Pasien"
-                    },
-                    {
-                        field: "kelompokpasien",
-                        title: "Jaminan"
-                    },
-                    // {
-                    //     field: "tgllahir",
-                    //     title: "Tgl Lahir",
-                    //     template: "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
-                    // },
-                    {
-                        field: "jeniskelamin",
-                        title: "Jenis Kelamin"
-                    },
-                    // {
-                    //     field: "alamatlengkap",
-                    //     title: "Alamat"
-                    // }
-                    {
-                        field: "ruangantujuanx",
-                        title: "Ruangan Konsul"
-                    },
-                    {
-                        field: "tglkeluar",
-                        title: "Tanggal Keluar"
-                    },
-                    {
-                        field: "tglkembali",
-                        title: "Tanggal Kembali"
-                    },
-                    {
-                        field: "selisih",
-                        title: "Selisih dari daftar ke kirim"
-                    },
-                    {
-                        field: "noantrian",
-                        title: "No Antrian"
-                    },
-                    {
-                        field: "catatan",
-                        title: "Catatan"
-                    },
-                    {
-                        field: "statuspelayanan",
-                        title: "Cara Daftar"
-                    },
-                    {
-                        field: "statuspulang",
-                        title: "Status Pulang"
-                    },
+                {
+                    field: "noregistrasi",
+                    title: "No Reg",
+                    hidden: false
+                },
+                {
+                    field: "namaruangan",
+                    title: "Ruangan Daftar",
+                    hidden: false
+                },
+                {
+                    field: "nocm",
+                    title: "No RM",
+                    hidden: false
+                },
+                {
+                    field: "namapasien",
+                    title: "Nama Pasien"
+                },
+                {
+                    field: "kelompokpasien",
+                    title: "Jaminan"
+                },
+                // {
+                //     field: "tgllahir",
+                //     title: "Tgl Lahir",
+                //     template: "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
+                // },
+                {
+                    field: "jeniskelamin",
+                    title: "Jenis Kelamin"
+                },
+                // {
+                //     field: "alamatlengkap",
+                //     title: "Alamat"
+                // }
+                {
+                    field: "ruangantujuanx",
+                    title: "Ruangan Konsul"
+                },
+                {
+                    field: "tglkeluar",
+                    title: "Tanggal Keluar"
+                },
+                {
+                    field: "tglkembali",
+                    title: "Tanggal Kembali"
+                },
+                {
+                    field: "selisih",
+                    title: "Selisih dari daftar ke kirim"
+                },
+                {
+                    field: "noantrian",
+                    title: "No Antrian"
+                },
+                {
+                    field: "catatan",
+                    title: "Catatan"
+                },
+                {
+                    field: "statuspelayanan",
+                    title: "Cara Daftar"
+                },
+                {
+                    field: "statuspulang",
+                    title: "Status Pulang"
+                },
                     // {
                     //     // "field": "statuspulang",
                     //     // "title": "Status Pulang",
@@ -804,7 +804,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     fileName: "DOKUMEN SUDAH DITERIMA.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:M1"];
@@ -916,7 +916,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     fileName: "DAFTAR DOKUMEN BELUM KEMBALI.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:I1"];
@@ -936,66 +936,66 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 pageable: true,
 
                 columns: [{
-                        "template": "<input type='checkbox' class='checkbox' ng-click='onClick2($event)' />",
-                        "width": 40
-                    },
-                    {
-                        field: "tglupdate",
-                        title: "Tgl Dipinjam",
-                        template: "<span class='style-left'>{{formatTanggal('#: tglupdate #')}}</span>"
-                    },
-                    {
-                        field: "ruangantujuan",
-                        title: "Ke Ruangan",
-                        hidden: false
-                    },
-                    {
-                        field: "ruangantujuanx",
-                        title: "Ruangan Konsul",
-                        hidden: false,
-                        width: 200,
-                    },
-                    {
-                        field: "nocm",
-                        title: "No RM",
-                        hidden: false
-                    },
-                    {
-                        field: "namapasien",
-                        title: "Nama Pasien"
-                    },
-                    {
-                        field: "kelompokpasien",
-                        title: "Jaminan"
-                    },
-                    // {
-                    //     field: "tgllahir",
-                    //     title: "Tgl Lahir",
-                    //     template: "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
-                    // },
-                    {
-                        field: "jeniskelamin",
-                        title: "Jenis Kelamin"
-                    },
-                    {
-                        field: "name",
-                        title: "Status"
-                    },
-                    {
-                        field: "catatan",
-                        title: "Catatan"
-                    },
-                    {
-                        field: "statuspulang",
-                        title: "Status Pulang"
-                    },
-                    {
-                        "field": "",
-                        "title": "Hapus",
-                        "width": "90px",
+                    "template": "<input type='checkbox' class='checkbox' ng-click='onClick2($event)' />",
+                    "width": 40
+                },
+                {
+                    field: "tglupdate",
+                    title: "Tgl Dipinjam",
+                    template: "<span class='style-left'>{{formatTanggal('#: tglupdate #')}}</span>"
+                },
+                {
+                    field: "ruangantujuan",
+                    title: "Ke Ruangan",
+                    hidden: false
+                },
+                {
+                    field: "ruangantujuanx",
+                    title: "Ruangan Konsul",
+                    hidden: false,
+                    width: 200,
+                },
+                {
+                    field: "nocm",
+                    title: "No RM",
+                    hidden: false
+                },
+                {
+                    field: "namapasien",
+                    title: "Nama Pasien"
+                },
+                {
+                    field: "kelompokpasien",
+                    title: "Jaminan"
+                },
+                // {
+                //     field: "tgllahir",
+                //     title: "Tgl Lahir",
+                //     template: "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
+                // },
+                {
+                    field: "jeniskelamin",
+                    title: "Jenis Kelamin"
+                },
+                {
+                    field: "name",
+                    title: "Status"
+                },
+                {
+                    field: "catatan",
+                    title: "Catatan"
+                },
+                {
+                    field: "statuspulang",
+                    title: "Status Pulang"
+                },
+                {
+                    "field": "",
+                    "title": "Hapus",
+                    "width": "90px",
 
-                        "template": "<button class=\"k-button custom-button\" ng-click=\"hapusdokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'Hapus' #</button> ",
-                    },
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"hapusdokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'Hapus' #</button> ",
+                },
                 ],
                 selectable: "row"
             }
@@ -1019,7 +1019,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 ],
             };
-            $scope.terimadokumen = function(dataPasienSelected) {
+            $scope.terimadokumen = function (dataPasienSelected) {
 
                 if (dataPasienSelected.tglkeluar == "") {
                     toastr.error('Dokumen belum di kirim')
@@ -1040,7 +1040,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'tglkembali': moment(new Date()).format('YYYY-MM-DD HH:mm'),
                     'loop': 'x'
                 }
-                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function (e) {
 
                 }, function error(e) {
 
@@ -1049,7 +1049,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 panggilsemua();
 
             }
-            $scope.hapusdokumen = function(dataPasienSelected) {
+            $scope.hapusdokumen = function (dataPasienSelected) {
                 debugger;
                 if (dataPasienSelected.name != "DIKIRIM") {
                     toastr.error('Dokumen sudah diterima POLIKLINIK')
@@ -1068,7 +1068,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'tglkembali': moment(new Date()).format('YYYY-MM-DD HH:mm'),
                     'loop': 'x'
                 }
-                medifirstService.post('registrasi/dokumenrm/hapuskendali', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/hapuskendali', json).then(function (e) {
 
                 }, function error(e) {
 
@@ -1077,13 +1077,13 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 panggilsemua();
 
             }
-            $scope.history = function() {
+            $scope.history = function () {
                 if ($scope.dataSelected == undefined) {
                     toastr.error('Pilih data dulu')
                     return
                 }
 
-                medifirstService.get('registrasi/dokumenrm/get-histori-dokumen-rekmed/' + $scope.dataSelected.nocm).then(function(e) {
+                medifirstService.get('registrasi/dokumenrm/get-histori-dokumen-rekmed/' + $scope.dataSelected.nocm).then(function (e) {
                     for (let i = 0; i < e.data.data.length; i++) {
                         const element = e.data.data[i];
                         element.no = i + 1
@@ -1098,7 +1098,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.pasien = $scope.dataSelected
                 $scope.winHistori.center().open()
             }
-            $scope.peminjaman = function() {
+            $scope.peminjaman = function () {
                 if ($scope.selectedData.length == 0) {
                     toastr.error('Ceklis data dulu')
                     return
@@ -1109,7 +1109,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             $scope.pegawai = JSON.parse(window.localStorage.getItem('pegawai'))
             $scope.ruanganLogin = JSON.parse(window.localStorage.getItem('mapLoginUserToRuangan'))
-            $scope.simpanPinjam = function() {
+            $scope.simpanPinjam = function () {
                 if ($scope.item.keteranganPinjam == undefined) {
                     toastr.error('Keterangan harus di isi')
                     return
@@ -1121,7 +1121,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'statuskendali': 'pinjam',
                     'pasien': $scope.selectedData,
                 }
-                medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function (e) {
                     $scope.selectedData = [];
 
                 }, function error(e) {
@@ -1131,7 +1131,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 panggilsemua();
             }
 
-            $scope.kirim = function() {
+            $scope.kirim = function () {
                 if ($scope.selectedData.length == 0) {
                     toastr.error('Ceklis data dulu')
                     return
@@ -1143,7 +1143,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 // }
                 $scope.winKirim.center().open()
             }
-            $scope.simpanKirim = function() {
+            $scope.simpanKirim = function () {
                 if ($scope.item.ruanganTujuan == undefined) {
                     toastr.error('Keterangan harus di isi')
                     return
@@ -1159,7 +1159,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'ruangantujuanfk': $scope.item.ruanganTujuan.id,
                     'tglkeluar': moment(new Date()).format('YYYY-MM-DD HH:mm')
                 }
-                medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function (e) {
                     $scope.selectedData = [];
                 }, function error(e) {
 
@@ -1187,50 +1187,50 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 // dataBound: onDataBound,
                 // editable: true,  
                 columns: [{
-                        "field": "nocm",
-                        "title": "No RM",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "tglupdate",
-                        "title": "Tanggal Pinjam",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "tglkembali",
-                        "title": "Tanggal Kembali",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "namapasien",
-                        "title": "Nama Pasien",
-                        "width": "100px",
-                    },
-                    // {
-                    //     "field": "kdsirs",
-                    //     "title": "Kode Sirs",
-                    //     "width": "50px",
-                    // },
-                    {
-                        "field": "name",
-                        "title": "Status Kendali",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "ruanganasal",
-                        "title": "Ruangan Asal",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "ruangantujuan",
-                        "title": "Ruangan Tujuan",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "catatan",
-                        "title": "catatan",
-                        "width": "80px",
-                    }
+                    "field": "nocm",
+                    "title": "No RM",
+                    "width": "50px",
+                },
+                {
+                    "field": "tglupdate",
+                    "title": "Tanggal Pinjam",
+                    "width": "50px",
+                },
+                {
+                    "field": "tglkembali",
+                    "title": "Tanggal Kembali",
+                    "width": "50px",
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "100px",
+                },
+                // {
+                //     "field": "kdsirs",
+                //     "title": "Kode Sirs",
+                //     "width": "50px",
+                // },
+                {
+                    "field": "name",
+                    "title": "Status Kendali",
+                    "width": "50px",
+                },
+                {
+                    "field": "ruanganasal",
+                    "title": "Ruangan Asal",
+                    "width": "80px",
+                },
+                {
+                    "field": "ruangantujuan",
+                    "title": "Ruangan Tujuan",
+                    "width": "80px",
+                },
+                {
+                    "field": "catatan",
+                    "title": "catatan",
+                    "width": "80px",
+                }
                 ],
                 selectable: "row"
 
@@ -1246,11 +1246,11 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 //     $scope.item.ruanganTerima = $scope.ruanganLogin[0]
                 // }
             }
-            $scope.terima = function() {
+            $scope.terima = function () {
                 terima();
                 $scope.winTerima2.center().open()
             }
-            $scope.simpanTerima = function() {
+            $scope.simpanTerima = function () {
 
                 if ($scope.item.ruanganTerima == undefined) {
                     toastr.error('Keterangan harus di isi')
@@ -1266,7 +1266,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'tglkembali': moment(new Date()).format('YYYY-MM-DD HH:mm'),
                     'loop': 'y'
                 }
-                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function (e) {
 
                 }, function error(e) {
 
@@ -1274,10 +1274,10 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.winTerima.close();
                 panggilsemua();
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -1286,34 +1286,34 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.cetakLabel = function() {
+            $scope.cetakLabel = function () {
                 var client = new HttpClient();
                 // client.get('http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&nocm='+$scope.dataSelected.nocm , function(response) {
                 //       // aadc=response;
 
                 // });
-                client.get(' http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&norec=' + $scope.dataSelected.nocm + '&view=false&qty=1', function(response) {
+                client.get(' http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&norec=' + $scope.dataSelected.nocm + '&view=false&qty=1', function (response) {
                     // aadc=response;
                 });
             }
 
-            $scope.cetakFormKunjungan = function() {
+            $scope.cetakFormKunjungan = function () {
 
                 var client = new HttpClient();
 
-                client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected.norecpd + '&view=1', function(response) {
+                client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected.norecpd + '&view=1', function (response) {
                     // aadc=response;
                 });
             }
-            $scope.cetakFormKunjungan2 = function() {
+            $scope.cetakFormKunjungan2 = function () {
 
                 var client = new HttpClient();
 
-                client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected2.norecpd + '&view=1', function(response) {
+                client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected2.norecpd + '&view=1', function (response) {
                     // aadc=response;
                 });
             }
-            $scope.cetakTracer = function() {
+            $scope.cetakTracer = function () {
                 if ($scope.dataSelected == undefined) {
                     toastr.error('Pilih Dulu NoRegistrasi Pasien')
                     return
@@ -1322,12 +1322,12 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                     //cetakan langsung service VB6 by grh    
                     var client = new HttpClient();
-                    client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected.noregistrasi + '&view=false', function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected.noregistrasi + '&view=false', function (response) {
                         // do something with response
                     });
                 }
             }
-            $scope.cetakTracer2 = function() {
+            $scope.cetakTracer2 = function () {
                 if ($scope.dataSelected2 == undefined) {
                     toastr.error('Pilih Dulu NoRegistrasi Pasien')
                     return
@@ -1336,22 +1336,22 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                     //cetakan langsung service VB6 by grh    
                     var client = new HttpClient();
-                    client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected2.noregistrasi + '&view=false', function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected2.noregistrasi + '&view=false', function (response) {
                         // do something with response
                     });
                 }
             }
-            $scope.cetakulangtracer = function() {
+            $scope.cetakulangtracer = function () {
                 debugger
                 var noregistrasi = $scope.dataSelected.noregistrasi
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["noregistrasi"],
-                    "paramValue": [$scope.dataSelected.noregistrasi, ], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                    "paramValue": [$scope.dataSelected.noregistrasi,], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                     "paramType": [""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1370,7 +1370,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakulangtracer.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakulangtracer.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakulangtracer.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakulangtracer.pdf');
@@ -1388,17 +1388,17 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 // send rquest with JSON payload
                 xhr.send(JSON.stringify(data));
             }
-            $scope.cetakulangtracer2 = function() {
+            $scope.cetakulangtracer2 = function () {
                 debugger
                 var noregistrasi = $scope.dataSelected2.noregistrasi
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["noregistrasi"],
-                    "paramValue": [$scope.dataSelected2.noregistrasi, ], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                    "paramValue": [$scope.dataSelected2.noregistrasi,], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
                     "paramType": [""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1417,7 +1417,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakulangtracer.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakulangtracer.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakulangtracer.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/cetakulangtracer.pdf');
@@ -1434,7 +1434,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 xhr.send(JSON.stringify(data));
             }
 
-            $scope.simpanTerima2 = function() {
+            $scope.simpanTerima2 = function () {
 
                 if ($scope.item.ruanganTerima == undefined) {
                     toastr.error('Keterangan harus di isi')
@@ -1450,7 +1450,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'tglkembali': moment(new Date()).format('YYYY-MM-DD HH:mm'),
                     'loop': 't'
                 }
-                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function(e) {
+                medifirstService.post('registrasi/dokumenrm/updatetglterima', json).then(function (e) {
 
                 }, function error(e) {
 

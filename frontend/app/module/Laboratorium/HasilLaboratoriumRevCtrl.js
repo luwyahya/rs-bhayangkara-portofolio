@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('HasilLaboratoriumRevCtrl', ['$scope', '$state', 'MedifirstService', 'CacheHelper',
-        function($scope, $state, medifirstService, cacheHelper) {
+        function ($scope, $state, medifirstService, cacheHelper) {
 
             $scope.isRouteLoading = false;
             $scope.norecPD = $state.params.norecPd
@@ -105,24 +105,24 @@ define(['initialize'], function(initialize) {
             // });
             // }
             function loadCombo() {
-                medifirstService.get('laboratorium/get-combo-map-lab').then(function(e) {
+                medifirstService.get('laboratorium/get-combo-map-lab').then(function (e) {
 
                     $scope.listSatuan = e.data.satuanstandar
 
                 })
                 medifirstService.get("tatarekening/tindakan/get-combo")
-                    .then(function(da) {
+                    .then(function (da) {
                         $scope.ListAnalis = da.data.pegawai;
                     })
             }
 
-            $scope.result = function() {
+            $scope.result = function () {
                 $scope.resultGrids = new kendo.data.DataSource({
-                        data: []
-                    })
-                    // $scope.group = {
-                    //     field: "detailjenisproduk"
-                    // };
+                    data: []
+                })
+                // $scope.group = {
+                //     field: "detailjenisproduk"
+                // };
 
                 $scope.ColumnResult = {
                     toolbar: [
@@ -138,7 +138,7 @@ define(['initialize'], function(initialize) {
                     editable: true,
 
                     // dataBound: onDataBound,
-                    excelExport: function(e) {
+                    excelExport: function (e) {
 
                         var sheet = e.workbook.sheets[0];
                         sheet.frozenRows = 2;
@@ -163,327 +163,196 @@ define(['initialize'], function(initialize) {
                         });
                     },
                     columns: [{
-                            field: "namaproduk",
-                            title: "Nama Pemeriksaan",
-                            width: "20%"
+                        field: "namaproduk",
+                        title: "Nama Pemeriksaan",
+                        width: "20%"
+                    },
+                    {
+                        field: "detailpemeriksaan",
+                        title: "Detail Pemeriksaan",
+                        width: "20%"
+                    }, {
+                        field: "hasil",
+                        title: "Hasil Pemeriksaan",
+                        width: "15%",
+                        attributes: {
+                            class: "#=flag != 'N' ? 'red' : 'green' #"
                         },
-                        {
-                            field: "detailpemeriksaan",
-                            title: "Detail Pemeriksaan",
-                            width: "20%"
-                        }, {
-                            field: "hasil",
-                            title: "Hasil Pemeriksaan",
-                            width: "15%",
-                            attributes: {
-                                class: "#=flag != 'N' ? 'red' : 'green' #"
-                            },
-                            editor: dynamicEditor
-                        }, {
-                            field: "nilaitext",
-                            title: "Nilai Normal",
-                            width: "15%"
-                        },
-                        {
-                            field: "hasilpemeriksaanterakhir",
-                            title: "Hasil Pemeriksaan Terakhir",
-                            width: "15%"
+                        editor: dynamicEditor
+                    }, {
+                        field: "nilaitext",
+                        title: "Nilai Normal",
+                        width: "15%"
+                    },
+                    {
+                        field: "hasilpemeriksaanterakhir",
+                        title: "Hasil Pemeriksaan Terakhir",
+                        width: "15%"
 
-                        },
-                        {
-                            field: "satuanstandar",
-                            title: "Satuan Hasil",
-                            width: "20%"
-                        },
-                        {
-                            field: "Metode",
-                            title: "Metode",
-                            width: "20%"
-                        },
-                        {
-                            field: "hasil_s",
-                            title: "S",
-                            width: "5%"
-                        },
-                        {
-                            field: "hasil_i",
-                            title: "I",
-                            width: "5%"
-                        },
-                        {
-                            field: "catatan",
-                            title: "Catatan",
-                            width: "5%"
-                        },
-                        {
-                            field: "skor",
-                            title: "Skor",
-                            width: "5%"
-                        },
-                        {
-                            hidden: true,
-                            field: "detailjenisproduk",
-                            title: "Jenis Pemeriksaan"
-                        },
+                    },
+                    {
+                        field: "satuanstandar",
+                        title: "Satuan Hasil",
+                        width: "20%"
+                    },
+                    {
+                        field: "Metode",
+                        title: "Metode",
+                        width: "20%"
+                    },
+                    {
+                        field: "hasil_s",
+                        title: "S",
+                        width: "5%"
+                    },
+                    {
+                        field: "hasil_i",
+                        title: "I",
+                        width: "5%"
+                    },
+                    {
+                        field: "catatan",
+                        title: "Catatan",
+                        width: "5%"
+                    },
+                    {
+                        field: "skor",
+                        title: "Skor",
+                        width: "5%"
+                    },
+                    {
+                        hidden: true,
+                        field: "detailjenisproduk",
+                        title: "Jenis Pemeriksaan"
+                    },
 
-                        {
-                            hidden: true,
-                            field: "nourutdetail"
+                    {
+                        hidden: true,
+                        field: "nourutdetail"
 
-                        }
+                    }
                     ]
                 };
                 $scope.isRouteLoading = true
 
                 medifirstService.get("laboratorium/get-hasil-lab-manual?norec_apd=" + $state.params.norecApd +
-                    '&objectjeniskelaminfk=' + $scope.item.objectjeniskelaminfk + '&umur=' + $scope.item.umurDay + '&norec=' + $scope.item.norecPP + '&tgl=' + Date(moment($scope.now).format('YYYY-MM-DD HH:mm:ss')) + '&tglP=' + moment($scope.item.tglRegistrasi).format('YYYY-MM-DD HH:mm:ss')).then(function(data) {
-                    // var sourceGrid = []
+                    '&objectjeniskelaminfk=' + $scope.item.objectjeniskelaminfk + '&umur=' + $scope.item.umurDay + '&norec=' + $scope.item.norecPP + '&tgl=' + Date(moment($scope.now).format('YYYY-MM-DD HH:mm:ss')) + '&tglP=' + moment($scope.item.tglRegistrasi).format('YYYY-MM-DD HH:mm:ss')).then(function (data) {
+                        // var sourceGrid = []
 
-                    $scope.isRouteLoading = false;
+                        $scope.isRouteLoading = false;
 
-                    if (data.statResponse == true && data.data.data.length > 0) {
-                        $scope.item.tglpelayanan = new Date(moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm'));
-                        $scope.item.tglhasil = new Date(moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm'));
+                        if (data.statResponse == true && data.data.data.length > 0) {
+                            $scope.item.tglpelayanan = new Date(moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm'));
+                            $scope.item.tglhasil = new Date(moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm'));
 
-                        // untuk penjagaan lab
-                        // var bingung =  moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm');
-                        $scope.item.tglhasils = moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm');
-                        $scope.item.mintime = data.data.data[0].mintime * 60000;
-                        $scope.item.maxtime = data.data.data[0].maxtime * 60000;
-                        // tglpelayanans = Date.parse(bingung);
-                        // $scope.item.tglhasilminsec = tglpelayanans + $scope.item.mintime;
-                        // $scope.item.tglhasilmaxsec = tglpelayanans + $scope.item.maxtime;
+                            // untuk penjagaan lab
+                            // var bingung =  moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm');
+                            $scope.item.tglhasils = moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm');
+                            $scope.item.mintime = data.data.data[0].mintime * 60000;
+                            $scope.item.maxtime = data.data.data[0].maxtime * 60000;
+                            // tglpelayanans = Date.parse(bingung);
+                            // $scope.item.tglhasilminsec = tglpelayanans + $scope.item.mintime;
+                            // $scope.item.tglhasilmaxsec = tglpelayanans + $scope.item.maxtime;
 
-                        $scope.item.DataPegawai = {
-                            namalengkap: data.data.data[0].namalengkap,
-                            id: data.data.data[0].namalengkap
-                        };
-                        $scope.item.catatan = data.data.data[0].catatancetak;
-                        for (let i = 0; i < data.data.data.length; i++) {
-                            const element = data.data.data[i];
-                            $scope.item.catatan = data.data.data[i].catatancetak;
-                            if (data.data.data[i].tglcetak != null) {
-                                $scope.item.tglcetak = new Date(moment(data.data.data[i].tglcetak).format('YYYY-MM-DD HH:mm'));
-                            } else {
-                                $scope.item.tglcetak = new Date(moment(data.data.data[i].tglhasil).format('YYYY-MM-DD HH:mm'));
-                            }
-
-
-                        }
-                        $scope.datahasilawal = data.data.data;
-                        medifirstService.get("laboratorium/get-hasil-lab-manuallast?nocm=" + $scope.item.noMr + "&tglpelayanan=" + data.data.data[0].tglpelayanan).then(function(datax) {
-                            // $scope.isRouteLoading = false
-                            for (let i = 0; i < $scope.datahasilawal.length; i++) {
-                                for (let j = 0; j < datax.data.data.length; j++) {
-                                    if ($scope.datahasilawal[i].detailpemeriksaan == datax.data.data[j].detailpemeriksaan) {
-                                        $scope.datahasilawal[i].hasilpemeriksaanterakhir = datax.data.data[j].hasil + ' / ' + datax.data.data[j].tglpelayanan;
-                                    }
+                            $scope.item.DataPegawai = {
+                                namalengkap: data.data.data[0].namalengkap,
+                                id: data.data.data[0].namalengkap
+                            };
+                            $scope.item.catatan = data.data.data[0].catatancetak;
+                            for (let i = 0; i < data.data.data.length; i++) {
+                                const element = data.data.data[i];
+                                $scope.item.catatan = data.data.data[i].catatancetak;
+                                if (data.data.data[i].tglcetak != null) {
+                                    $scope.item.tglcetak = new Date(moment(data.data.data[i].tglcetak).format('YYYY-MM-DD HH:mm'));
+                                } else {
+                                    $scope.item.tglcetak = new Date(moment(data.data.data[i].tglhasil).format('YYYY-MM-DD HH:mm'));
                                 }
 
 
-
                             }
-                            $scope.resultGrids = new kendo.data.DataSource({
-                                data: $scope.datahasilawal,
-                                group: [{
-                                        field: "detailjenisproduk"
-                                    },
-                                    // { field: "namaproduk" }
-                                ],
-                                sort: {
-                                    field: "nourutdetail",
-                                    dir: "asc"
-                                },
-                                schema: {
-                                    model: {
-                                        id: "id",
-                                        fields: {
-                                            detailjenisproduk: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            detailpemeriksaan: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            memohasil: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            namaproduk: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            satuanstandar: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            // detailpemeriksaan: { editable: false, type: "string" },
-                                            nilaimax: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            nilaimin: {
-                                                editable: false,
-                                                type: "string"
-                                            },
-                                            hasil: {
-                                                editable: (dynamicEditor)
-                                            },
-                                            skor: {
-                                                editable: (dynamicEditor)
-                                            },
-                                            nourutdetail: {
-                                                editable: false,
-                                                type: "number"
-                                            },
-                                            nilaitext: {
-                                                editable: false,
-                                                type: "string"
-                                            }
+                            $scope.datahasilawal = data.data.data;
+                            medifirstService.get("laboratorium/get-hasil-lab-manuallast?nocm=" + $scope.item.noMr + "&tglpelayanan=" + data.data.data[0].tglpelayanan).then(function (datax) {
+                                // $scope.isRouteLoading = false
+                                for (let i = 0; i < $scope.datahasilawal.length; i++) {
+                                    for (let j = 0; j < datax.data.data.length; j++) {
+                                        if ($scope.datahasilawal[i].detailpemeriksaan == datax.data.data[j].detailpemeriksaan) {
+                                            $scope.datahasilawal[i].hasilpemeriksaanterakhir = datax.data.data[j].hasil + ' / ' + datax.data.data[j].tglpelayanan;
                                         }
                                     }
-                                },
-                                change: function(e) {
-                                    debugger
-                                    console.log("change :" + e.action);
-                                    if (e.field && e.action === "itemchange") {
-                                        if (e.items[0].hasil) {
-                                            // $scope.item.nilaistr = e.items[0].nilaimin + '-' + e.items[0].nilaimax
-                                            let HasilInput = e.items[0].hasil
-                                            if (HasilInput.indexOf("+/") >= 0) {
-                                                let hssl = "positif"
-                                                let nilaistring = e.items[0].nilaitext
-                                                nilaistring = nilaistring.toUpperCase();
-                                                hssl = hssl.toUpperCase();
-                                                if (hssl == nilaistring) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
+
+
+
+                                }
+                                $scope.resultGrids = new kendo.data.DataSource({
+                                    data: $scope.datahasilawal,
+                                    group: [{
+                                        field: "detailjenisproduk"
+                                    },
+                                        // { field: "namaproduk" }
+                                    ],
+                                    sort: {
+                                        field: "nourutdetail",
+                                        dir: "asc"
+                                    },
+                                    schema: {
+                                        model: {
+                                            id: "id",
+                                            fields: {
+                                                detailjenisproduk: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                detailpemeriksaan: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                memohasil: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                namaproduk: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                satuanstandar: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                // detailpemeriksaan: { editable: false, type: "string" },
+                                                nilaimax: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                nilaimin: {
+                                                    editable: false,
+                                                    type: "string"
+                                                },
+                                                hasil: {
+                                                    editable: (dynamicEditor)
+                                                },
+                                                skor: {
+                                                    editable: (dynamicEditor)
+                                                },
+                                                nourutdetail: {
+                                                    editable: false,
+                                                    type: "number"
+                                                },
+                                                nilaitext: {
+                                                    editable: false,
+                                                    type: "string"
                                                 }
-                                            } else if (HasilInput.indexOf("-/") >= 0) {
-                                                let hssl = "negatif"
-                                                let nilaistring = e.items[0].nilaitext
-                                                nilaistring = nilaistring.toUpperCase();
-                                                hssl = hssl.toUpperCase();
-                                                if (hssl == nilaistring) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
-                                                }
-                                            } else if (HasilInput.indexOf("<") >= 0) {
-                                                let a = parseFloat(e.items[0].nilaimin)
-                                                let b = parseFloat(e.items[0].nilaimax)
-                                                let hsslARr = HasilInput.split("<");
-                                                let hssl = parseFloat(hsslARr[1])
-
-                                                if (hssl >= a && hssl <= b) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
-                                                }
-                                            } else if (HasilInput.indexOf(">") >= 0) {
-                                                let a = parseFloat(e.items[0].nilaimin)
-                                                let b = parseFloat(e.items[0].nilaimax)
-                                                let hsslARr = HasilInput.split(">");
-                                                let hssl = parseFloat(hsslARr[1])
-
-                                                if (hssl >= a && hssl <= b) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
-                                                }
-                                            } else if (HasilInput.indexOf("-") >= 0 && e.items[0].nilaimin != "") {
-                                                let a = parseFloat(e.items[0].nilaimin)
-                                                let b = parseFloat(e.items[0].nilaimax)
-                                                let hsslARr = HasilInput.split("-");
-                                                let hssl0 = parseFloat(hsslARr[0])
-                                                let hssl = parseFloat(hsslARr[1])
-
-                                                if (hssl0 >= a && hssl <= b) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
-                                                }
-                                            } else if (e.items[0].nilaimin == null) {
-                                                let hssl = e.items[0].hasil
-                                                let nilaistring = e.items[0].nilaitext
-                                                nilaistring = nilaistring.toUpperCase();
-                                                hssl = hssl.toUpperCase();
-
-                                                e.items[0].flag = "N"
-
-                                            } else if (e.items[0].nilaimin == "") {
-                                                let hssl = e.items[0].hasil
-                                                let nilaistring = e.items[0].nilaitext
-                                                nilaistring = nilaistring.toUpperCase();
-                                                hssl = hssl.toUpperCase();
-
-                                                if (hssl == nilaistring) {
-                                                    e.items[0].flag = "N"
-                                                } else {
-                                                    e.items[0].flag = "Y"
-                                                }
-
-
-                                            } else {
-                                                if (e.items[0].nilaimin != null) {
-                                                    if (e.items[0].tipedata == 2) {
-                                                        if (e.items[0].nilaiminkritis != null) {
-                                                            let a = (e.items[0].nilaimin).toUpperCase()
-                                                            let b = (e.items[0].nilaimax).toUpperCase()
-                                                            let c = parseFloat(e.items[0].nilaiminkritis)
-                                                            let d = parseFloat(e.items[0].nilaimaxkritis)
-                                                            let hssl = ((e.items[0].hasil).trim()).toUpperCase()
-                                                            if (hssl >= a && hssl <= b) {
-                                                                e.items[0].flag = "N"
-                                                            } else if (hssl <= c && c != 0) {
-                                                                e.items[0].flag = "K"
-                                                            } else if (hssl >= d && d != 0) {
-                                                                e.items[0].flag = "K"
-                                                            } else {
-                                                                e.items[0].flag = "Y"
-                                                            }
-                                                        } else {
-                                                            let a = (e.items[0].nilaimin).toUpperCase()
-                                                            let b = (e.items[0].nilaimax).toUpperCase()
-                                                            let hssl = ((e.items[0].hasil).trim()).toUpperCase()
-                                                            if (hssl >= a && hssl <= b) {
-                                                                e.items[0].flag = "N"
-                                                            } else {
-                                                                e.items[0].flag = "Y"
-                                                            }
-                                                        }
-                                                    } else {
-                                                        if (e.items[0].nilaiminkritis != null) {
-                                                            let a = parseFloat(e.items[0].nilaimin)
-                                                            let b = parseFloat(e.items[0].nilaimax)
-                                                            let c = parseFloat(e.items[0].nilaiminkritis)
-                                                            let d = parseFloat(e.items[0].nilaimaxkritis)
-                                                            let hssl = parseFloat(e.items[0].hasil)
-                                                            if (hssl >= a && hssl <= b) {
-                                                                e.items[0].flag = "N"
-                                                            } else if (hssl <= c && c != 0) {
-                                                                e.items[0].flag = "K"
-                                                            } else if (hssl >= d && d != 0) {
-                                                                e.items[0].flag = "K"
-                                                            } else {
-                                                                e.items[0].flag = "Y"
-                                                            }
-                                                        } else {
-                                                            let a = parseFloat(e.items[0].nilaimin)
-                                                            let b = parseFloat(e.items[0].nilaimax)
-                                                            let hssl = parseFloat(e.items[0].hasil)
-                                                            if (hssl >= a && hssl <= b) {
-                                                                e.items[0].flag = "N"
-                                                            } else {
-                                                                e.items[0].flag = "Y"
-                                                            }
-                                                        }
-                                                    }
-
-                                                } else {
-                                                    let hssl = (e.items[0].hasil).trim()
+                                            }
+                                        }
+                                    },
+                                    change: function (e) {
+                                        debugger
+                                        console.log("change :" + e.action);
+                                        if (e.field && e.action === "itemchange") {
+                                            if (e.items[0].hasil) {
+                                                // $scope.item.nilaistr = e.items[0].nilaimin + '-' + e.items[0].nilaimax
+                                                let HasilInput = e.items[0].hasil
+                                                if (HasilInput.indexOf("+/") >= 0) {
+                                                    let hssl = "positif"
                                                     let nilaistring = e.items[0].nilaitext
                                                     nilaistring = nilaistring.toUpperCase();
                                                     hssl = hssl.toUpperCase();
@@ -492,27 +361,158 @@ define(['initialize'], function(initialize) {
                                                     } else {
                                                         e.items[0].flag = "Y"
                                                     }
+                                                } else if (HasilInput.indexOf("-/") >= 0) {
+                                                    let hssl = "negatif"
+                                                    let nilaistring = e.items[0].nilaitext
+                                                    nilaistring = nilaistring.toUpperCase();
+                                                    hssl = hssl.toUpperCase();
+                                                    if (hssl == nilaistring) {
+                                                        e.items[0].flag = "N"
+                                                    } else {
+                                                        e.items[0].flag = "Y"
+                                                    }
+                                                } else if (HasilInput.indexOf("<") >= 0) {
+                                                    let a = parseFloat(e.items[0].nilaimin)
+                                                    let b = parseFloat(e.items[0].nilaimax)
+                                                    let hsslARr = HasilInput.split("<");
+                                                    let hssl = parseFloat(hsslARr[1])
+
+                                                    if (hssl >= a && hssl <= b) {
+                                                        e.items[0].flag = "N"
+                                                    } else {
+                                                        e.items[0].flag = "Y"
+                                                    }
+                                                } else if (HasilInput.indexOf(">") >= 0) {
+                                                    let a = parseFloat(e.items[0].nilaimin)
+                                                    let b = parseFloat(e.items[0].nilaimax)
+                                                    let hsslARr = HasilInput.split(">");
+                                                    let hssl = parseFloat(hsslARr[1])
+
+                                                    if (hssl >= a && hssl <= b) {
+                                                        e.items[0].flag = "N"
+                                                    } else {
+                                                        e.items[0].flag = "Y"
+                                                    }
+                                                } else if (HasilInput.indexOf("-") >= 0 && e.items[0].nilaimin != "") {
+                                                    let a = parseFloat(e.items[0].nilaimin)
+                                                    let b = parseFloat(e.items[0].nilaimax)
+                                                    let hsslARr = HasilInput.split("-");
+                                                    let hssl0 = parseFloat(hsslARr[0])
+                                                    let hssl = parseFloat(hsslARr[1])
+
+                                                    if (hssl0 >= a && hssl <= b) {
+                                                        e.items[0].flag = "N"
+                                                    } else {
+                                                        e.items[0].flag = "Y"
+                                                    }
+                                                } else if (e.items[0].nilaimin == null) {
+                                                    let hssl = e.items[0].hasil
+                                                    let nilaistring = e.items[0].nilaitext
+                                                    nilaistring = nilaistring.toUpperCase();
+                                                    hssl = hssl.toUpperCase();
+
+                                                    e.items[0].flag = "N"
+
+                                                } else if (e.items[0].nilaimin == "") {
+                                                    let hssl = e.items[0].hasil
+                                                    let nilaistring = e.items[0].nilaitext
+                                                    nilaistring = nilaistring.toUpperCase();
+                                                    hssl = hssl.toUpperCase();
+
+                                                    if (hssl == nilaistring) {
+                                                        e.items[0].flag = "N"
+                                                    } else {
+                                                        e.items[0].flag = "Y"
+                                                    }
+
+
+                                                } else {
+                                                    if (e.items[0].nilaimin != null) {
+                                                        if (e.items[0].tipedata == 2) {
+                                                            if (e.items[0].nilaiminkritis != null) {
+                                                                let a = (e.items[0].nilaimin).toUpperCase()
+                                                                let b = (e.items[0].nilaimax).toUpperCase()
+                                                                let c = parseFloat(e.items[0].nilaiminkritis)
+                                                                let d = parseFloat(e.items[0].nilaimaxkritis)
+                                                                let hssl = ((e.items[0].hasil).trim()).toUpperCase()
+                                                                if (hssl >= a && hssl <= b) {
+                                                                    e.items[0].flag = "N"
+                                                                } else if (hssl <= c && c != 0) {
+                                                                    e.items[0].flag = "K"
+                                                                } else if (hssl >= d && d != 0) {
+                                                                    e.items[0].flag = "K"
+                                                                } else {
+                                                                    e.items[0].flag = "Y"
+                                                                }
+                                                            } else {
+                                                                let a = (e.items[0].nilaimin).toUpperCase()
+                                                                let b = (e.items[0].nilaimax).toUpperCase()
+                                                                let hssl = ((e.items[0].hasil).trim()).toUpperCase()
+                                                                if (hssl >= a && hssl <= b) {
+                                                                    e.items[0].flag = "N"
+                                                                } else {
+                                                                    e.items[0].flag = "Y"
+                                                                }
+                                                            }
+                                                        } else {
+                                                            if (e.items[0].nilaiminkritis != null) {
+                                                                let a = parseFloat(e.items[0].nilaimin)
+                                                                let b = parseFloat(e.items[0].nilaimax)
+                                                                let c = parseFloat(e.items[0].nilaiminkritis)
+                                                                let d = parseFloat(e.items[0].nilaimaxkritis)
+                                                                let hssl = parseFloat(e.items[0].hasil)
+                                                                if (hssl >= a && hssl <= b) {
+                                                                    e.items[0].flag = "N"
+                                                                } else if (hssl <= c && c != 0) {
+                                                                    e.items[0].flag = "K"
+                                                                } else if (hssl >= d && d != 0) {
+                                                                    e.items[0].flag = "K"
+                                                                } else {
+                                                                    e.items[0].flag = "Y"
+                                                                }
+                                                            } else {
+                                                                let a = parseFloat(e.items[0].nilaimin)
+                                                                let b = parseFloat(e.items[0].nilaimax)
+                                                                let hssl = parseFloat(e.items[0].hasil)
+                                                                if (hssl >= a && hssl <= b) {
+                                                                    e.items[0].flag = "N"
+                                                                } else {
+                                                                    e.items[0].flag = "Y"
+                                                                }
+                                                            }
+                                                        }
+
+                                                    } else {
+                                                        let hssl = (e.items[0].hasil).trim()
+                                                        let nilaistring = e.items[0].nilaitext
+                                                        nilaistring = nilaistring.toUpperCase();
+                                                        hssl = hssl.toUpperCase();
+                                                        if (hssl == nilaistring) {
+                                                            e.items[0].flag = "N"
+                                                        } else {
+                                                            e.items[0].flag = "Y"
+                                                        }
+                                                    }
                                                 }
-                                            }
-                                            //                                             alert('hasilna :'+e.items[0].hasil)
-                                            e.items.state = "edit"
+                                                //                                             alert('hasilna :'+e.items[0].hasil)
+                                                e.items.state = "edit"
                                                 //                                         } else {
                                                 //                                             e.items.state = "add"
-                                        } else if (e.items[0].hasil_s || e.items[0].hasil_i) {
-                                            e.items[0].flag = "N"
+                                            } else if (e.items[0].hasil_s || e.items[0].hasil_i) {
+                                                e.items[0].flag = "N"
+                                            }
+                                            // $scope.current.selisih = $scope.current.stokReal - $scope.current.qtyProduk;
+                                            $scope.resultGrids.fetch();
                                         }
-                                        // $scope.current.selisih = $scope.current.stokReal - $scope.current.qtyProduk;
-                                        $scope.resultGrids.fetch();
                                     }
-                                }
-                            });
-                        })
+                                });
+                            })
 
 
-                    } else {
-                        toastr.info('Data Hasil tidak ada', 'Info')
-                    }
-                });
+                        } else {
+                            toastr.info('Data Hasil tidak ada', 'Info')
+                        }
+                    });
             }
 
             $scope.result();
@@ -573,14 +573,14 @@ define(['initialize'], function(initialize) {
 
 
 
-            $scope.simpanNilaiNormal = function() {
+            $scope.simpanNilaiNormal = function () {
                 if ($scope.item.objectprodukfk == undefined) {
                     return
                 }
                 $scope.popupEntry.center().open();
                 //laboratorium/get-for-update-nilainormal
                 medifirstService.get("laboratorium/get-for-update-nilainormal?produkfk=" + $scope.item.objectprodukfk +
-                        '&mpid=' + $scope.item.mpid).then(function(data) {
+                    '&mpid=' + $scope.item.mpid).then(function (data) {
                         $scope.item.kelompokUmur = data.data.data[0].kelompokumur
                         for (var i = data.data.data.length - 1; i >= 0; i--) {
                             if (data.data.data[i].jkid == 1) {
@@ -599,15 +599,15 @@ define(['initialize'], function(initialize) {
                         }
 
                     })
-                    //laboratorium/save-update-nilainormal
+                //laboratorium/save-update-nilainormal
             }
-            $scope.simpanUpdateNilaiNormal = function() {
+            $scope.simpanUpdateNilaiNormal = function () {
                 if ($scope.item2 != undefined) {
                     let json = {
                         id: $scope.item.mpid,
                         satuanstandarfk: $scope.item2.satuanstandar.id,
                     }
-                    medifirstService.post('laboratorium/save-update-map-hasil-lab', json).then(function(e) {
+                    medifirstService.post('laboratorium/save-update-map-hasil-lab', json).then(function (e) {
                         $scope.dataSelected.satuanstandar = $scope.item2.satuanstandar.satuanstandar;
                     })
 
@@ -637,7 +637,7 @@ define(['initialize'], function(initialize) {
                         alert("Mapping Di Menu (Map Hasil Laboratorium)")
                         return;
                     }
-                    medifirstService.post('laboratorium/save-update-nilainormal', objSave).then(function(e) {
+                    medifirstService.post('laboratorium/save-update-nilainormal', objSave).then(function (e) {
                         $scope.popupEntry.center().close();
                         if ($scope.dataSelected.jeniskelaminfk == 1) {
                             $scope.dataSelected.nilaimin = $scope.item.nilaiminL
@@ -750,19 +750,19 @@ define(['initialize'], function(initialize) {
                 input.appendTo(container);
                 // }
             };
-            $scope.kl = function(ttm) {
+            $scope.kl = function (ttm) {
                 $scope.item.nilaimin = $scope.dataSelected.nilaimin
                 $scope.item.nilaimax = $scope.dataSelected.nilaimax
                 $scope.item.objectprodukfk = $scope.dataSelected.produkfk
                 $scope.item.mpid = $scope.dataSelected.map_id
                 $scope.item.nmPemeriksaan = $scope.dataSelected.namaproduk
                 $scope.item.detPemeriksaan = $scope.dataSelected.detailpemeriksaan
-                    // alert("ASDASD")
+                // alert("ASDASD")
             }
 
 
 
-            $scope.simpan = function() {
+            $scope.simpan = function () {
                 var r = confirm("Yakin Simpan?");
                 if (r == false) {
                     return;
@@ -796,13 +796,13 @@ define(['initialize'], function(initialize) {
                     var objSave = {
                         "hasil": dataArray
                     }
-                    medifirstService.post('laboratorium/save-hasil-lab-manual', objSave).then(function(e) {
+                    medifirstService.post('laboratorium/save-hasil-lab-manual', objSave).then(function (e) {
                         $scope.result();
                         $scope.IsSave = true;
                     })
                 }
             }
-            $scope.simpanTAT = function() {
+            $scope.simpanTAT = function () {
 
                 let json = {
                     id: '',
@@ -812,12 +812,12 @@ define(['initialize'], function(initialize) {
                     statusenabled: 1,
 
                 }
-                medifirstService.post('laboratorium/save-tat', json).then(function(e) {
+                medifirstService.post('laboratorium/save-tat', json).then(function (e) {
 
                 })
             }
 
-            $scope.ubahAT = function() {
+            $scope.ubahAT = function () {
                 let json = {
                     id: '',
                     noregistrasifk: $state.params.norecApd,
@@ -826,22 +826,22 @@ define(['initialize'], function(initialize) {
                     statusenabled: 1,
 
                 }
-                medifirstService.post('laboratorium/update-tat', json).then(function(e) {
+                medifirstService.post('laboratorium/update-tat', json).then(function (e) {
 
                 })
             }
 
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 window.history.back()
             }
-            $scope.kembaliAh = function() {
+            $scope.kembaliAh = function () {
                 $scope.popUpDokter.close();
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -850,15 +850,15 @@ define(['initialize'], function(initialize) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.showPopUp = function() {
+            $scope.showPopUp = function () {
                 $scope.popUpDokter.center().open();
             }
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 // debugger
                 // $scope.item.tglpengambilan = '18-04-2022 12:04';
                 // ?noReg=" +
 
-                medifirstService.get('laboratorium/get-tanggal-pengambilan?norecpelayanan=' + editkenNorecPP[0].norec_pp).then(function(a) {
+                medifirstService.get('laboratorium/get-tanggal-pengambilan?norecpelayanan=' + editkenNorecPP[0].norec_pp).then(function (a) {
 
                     if (a.data.b[0].tglpengambilan != undefined || a.data.b[0].tglpengambilan != null || a.data.b[0].tglpengambilan != '') {
                         // alert(a.data.b[0].tglpengambilan);
@@ -893,16 +893,16 @@ define(['initialize'], function(initialize) {
 
             }
 
-            medifirstService.get("tatarekening/get-combo-penjamin").then(function(dat) {
+            medifirstService.get("tatarekening/get-combo-penjamin").then(function (dat) {
                 $scope.listUbahPenjamin = dat.data.penjamin;
                 $scope.listUbahRekanan = dat.data.rekanan;
             })
 
-            $scope.UbahPenjamin = function() {
+            $scope.UbahPenjamin = function () {
                 $scope.popupUbahPenjamin.center().open();
             }
 
-            $scope.SaveUbahPenjamin = function() {
+            $scope.SaveUbahPenjamin = function () {
                 debugger;
                 if ($scope.item.ubahpenjamin == undefined) {
                     toastr.error('Penjamin belum dipilih !', 'Warning !')
@@ -917,7 +917,7 @@ define(['initialize'], function(initialize) {
                     noregistrasi: $scope.item.noregistrasi,
                     penjamin: $scope.item.ubahpenjamin.id,
                 }
-                medifirstService.post('tatarekening/save-update-penjamin-lab', dataJson).then(function(e) {
+                medifirstService.post('tatarekening/save-update-penjamin-lab', dataJson).then(function (e) {
 
 
 
@@ -925,7 +925,7 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.cetakPolri = function() {
+            $scope.cetakPolri = function () {
                 var dokter = "";
                 if ($scope.item.DataPegawai == undefined) {
                     alert("Pilih terlebih dahulu dookter nya!!")
@@ -956,7 +956,7 @@ define(['initialize'], function(initialize) {
                 // }); 
 
             }
-            $scope.cetakMicro = function() {
+            $scope.cetakMicro = function () {
                 var dokter = "";
                 if ($scope.item.DataPegawai == undefined) {
                     alert("Pilih terlebih dahulu dookter nya!!")
@@ -981,7 +981,7 @@ define(['initialize'], function(initialize) {
 
                 $scope.popUpMicro.center().open();
             }
-            $scope.PopUpCetakFormatPolri = function() {
+            $scope.PopUpCetakFormatPolri = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Hasil Laboratorium? ')) {
@@ -1000,11 +1000,11 @@ define(['initialize'], function(initialize) {
                     '&objectjeniskelaminfk=' + $scope.item.objectjeniskelaminfk + '&umur=' + $scope.item.umurDay +
                     '&strIdPegawai=' + user.namaLengkap + '&strNorecPP=' + $scope.item.norecPP + '&view=' + stt + '&doketr=' + dokter.namalengkap + '&catatan=' + $scope.item.catatan +
                     '&tglpelayanan=' + tgl + '&tglhasil=' + tglhasil + '&ruangan=' + ruangan,
-                    function(response) {
+                    function (response) {
 
                     });
             }
-            $scope.PopUpCetakFormat = function() {
+            $scope.PopUpCetakFormat = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Hasil Laboratorium? ')) {
@@ -1025,7 +1025,7 @@ define(['initialize'], function(initialize) {
                     '&objectjeniskelaminfk=' + $scope.item.objectjeniskelaminfk + '&umur=' + $scope.item.umurDay +
                     '&strIdPegawai=' + user.namaLengkap + '&strNorecPP=' + $scope.item.norecPP + '&view=' + stt + '&doketr=' + dokter.namalengkap + '&catatan=' + $scope.item.catatan +
                     '&tglpelayanan=' + tgl + '&tglhasil=' + tglhasil + '&ruangan=' + ruangan + '&dokterperiksa=' + dokterPeriksa,
-                    function(response) {
+                    function (response) {
 
                     });
 
@@ -1042,7 +1042,7 @@ define(['initialize'], function(initialize) {
                     status: statusUpdate
                 }
 
-                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function(data) {
+                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function (data) {
                     $scope.saveLogging('Ubah Tgl Pelayanan', 'norec Pelayanan Pasien', $scope.dataSelected.norec, 'menu Detail Tagihan')
                     LoadData()
                 });
@@ -1050,7 +1050,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.PopUpCetakMicro = function() {
+            $scope.PopUpCetakMicro = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Hasil Laboratorium? ')) {
@@ -1061,7 +1061,7 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function (data) {
                     debugger
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
@@ -1093,7 +1093,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1114,7 +1114,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabmikrobiologi2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabmikrobiologi2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/hasillabmikrobiologi2.pdf');
                 } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
                     xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabmikrobiologi2.pdf');
@@ -1136,7 +1136,7 @@ define(['initialize'], function(initialize) {
                 //     });
             }
 
-            $scope.PopUpCetakKlinik = function() {
+            $scope.PopUpCetakKlinik = function () {
                 debugger
 
 
@@ -1155,7 +1155,7 @@ define(['initialize'], function(initialize) {
                     tglpengambilan: tgl_new,
                 }
 
-                medifirstService.post('laboratorium/update-tgl-pengambilan-hasil-lab', objSave).then(function(data) {
+                medifirstService.post('laboratorium/update-tgl-pengambilan-hasil-lab', objSave).then(function (data) {
                     $scope.saveLogging('Ubah Tgl Pelayanan', 'norec Pelayanan Pasien', $scope.dataSelected.norec, 'menu Detail Tagihan')
                     LoadData()
                 });
@@ -1171,7 +1171,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi + "&ruangan=" + $scope.item.Ruangan.namaruangan).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi + "&ruangan=" + $scope.item.Ruangan.namaruangan).then(function (data) {
                     debugger
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
@@ -1212,7 +1212,7 @@ define(['initialize'], function(initialize) {
                         "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             //this.response is what you're looking for
                             // handler(this.response);
@@ -1235,7 +1235,7 @@ define(['initialize'], function(initialize) {
                         xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:1003/generic/report/hasillabKlinik.pdf');
@@ -1280,12 +1280,12 @@ define(['initialize'], function(initialize) {
                     status: statusUpdate
                 }
 
-                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function(data) {
+                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function (data) {
                     $scope.saveLogging('Ubah Tgl Pelayanan', 'norec Pelayanan Pasien', $scope.dataSelected.norec, 'menu Detail Tagihan')
                     LoadData()
                 });
             }
-            $scope.PopUpCetakKlinikSkor = function() {
+            $scope.PopUpCetakKlinikSkor = function () {
                 debugger
 
 
@@ -1300,7 +1300,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function (data) {
                     debugger
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
@@ -1340,7 +1340,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1361,7 +1361,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinikskor.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinikskor.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/hasillabKlinikskor.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1003/generic/report/hasillabKlinikskor.pdf');
@@ -1403,13 +1403,13 @@ define(['initialize'], function(initialize) {
                     status: statusUpdate
                 }
 
-                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function(data) {
+                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function (data) {
                     $scope.saveLogging('Ubah Tgl Pelayanan', 'norec Pelayanan Pasien', $scope.dataSelected.norec, 'menu Detail Tagihan')
                     LoadData()
                 });
             }
 
-            $scope.PopUpCetakKlinik1 = function() {
+            $scope.PopUpCetakKlinik1 = function () {
                 debugger
                 var tgl = moment($scope.item.tglpelayanan).format('YYYY-MM-DD  HH:mm')
                 tglpelayanans = Date.parse(tgl);
@@ -1445,7 +1445,7 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + $scope.item.noregistrasi).then(function (data) {
                     debugger
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
@@ -1485,7 +1485,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1506,7 +1506,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1003/generic/report/hasillabKlinik.pdf');
@@ -1548,14 +1548,14 @@ define(['initialize'], function(initialize) {
                     status: statusUpdate
                 }
 
-                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function(data) {
+                medifirstService.post('tatarekening/save-update-tanggal_pelayanan_all', objSave).then(function (data) {
                     $scope.saveLogging('Ubah Tgl Pelayanan', 'norec Pelayanan Pasien', $scope.dataSelected.norec, 'menu Detail Tagihan')
                     LoadData()
                 });
             }
 
 
-            $scope.cetakSurat = function() {
+            $scope.cetakSurat = function () {
                 var dokter = "";
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
@@ -1575,7 +1575,7 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/bridging?cetak-suratketerangan-lab=1&norec=' + $scope.norecAPD +
                     '&objectjeniskelaminfk=' + $scope.item.objectjeniskelaminfk + '&umur=' + $scope.item.umurDay +
                     '&strIdPegawai=' + user.namaLengkap + '&strNorecPP=' + $scope.item.norecPP + '&view=' + stt + '&doketr=' + dokter.namalengkap + '&catatan=' + $scope.item.catatan,
-                    function(response) {
+                    function (response) {
 
                     });
                 // client.get('http://127.0.0.1:1237/printvb/bridging?cetak-hasil-lab=' + $scope.dataSbnSelected.noregistrasi + $scope.dataSbnSelected.norec_sp + '&idPegawai=' + $scope.pegawai.namaLengkap + '&STD=' + sudahTerimaDari + '&view=' + stt, function (response) {                    
@@ -1584,12 +1584,12 @@ define(['initialize'], function(initialize) {
                 // });
             }
 
-            medifirstService.getPart("laboratorium/get-combo-dokter-lab").then(function(data) {
+            medifirstService.getPart("laboratorium/get-combo-dokter-lab").then(function (data) {
                 $scope.ListDataPegawai = data;
             });
-            medifirstService.get("rawatinap/get-data-combo-dokter", false).then(function(data) {
+            medifirstService.get("rawatinap/get-data-combo-dokter", false).then(function (data) {
                 $scope.ListRuangan = data.data.ruanganall;
-                medifirstService.get("tatarekening/get-detail_apd?noregistrasi=" + $scope.item.noregistrasi).then(function(data) {
+                medifirstService.get("tatarekening/get-detail_apd?noregistrasi=" + $scope.item.noregistrasi).then(function (data) {
                     // debugger
                     $scope.item.Ruangan = {
                         namaruangan: data.data[0].lastRuangan,

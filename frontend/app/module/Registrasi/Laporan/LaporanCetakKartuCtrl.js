@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('LaporanCetakKartuCtrl', ['CacheHelper', '$q', '$rootScope', '$scope', 'MedifirstService', 'DateHelper',
-        function(cacheHelper, $q, $rootScope, $scope, medifirstService, DateHelper) {
+        function (cacheHelper, $q, $rootScope, $scope, medifirstService, DateHelper) {
             //Inisial Variable ]\
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -13,10 +13,10 @@ define(['initialize'], function(initialize) {
             LoadDataCombo()
             LoadData()
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -28,7 +28,7 @@ define(['initialize'], function(initialize) {
 
             function LoadDataCombo() {
                 //sdm service hanya sementara, nanti harus diganti pake service kasir !!
-                medifirstService.get("registrasi/laporan/get-data-combo-laporan").then(function(dat) {
+                medifirstService.get("registrasi/laporan/get-data-combo-laporan").then(function (dat) {
                     $scope.listPegawai = dat.data.pegawai;
                     $scope.listPasien = dat.data.kelompokpasien;
                     $scope.listDepartemen = dat.data.departemen;
@@ -57,7 +57,7 @@ define(['initialize'], function(initialize) {
                 $scope.pegawai = medifirstService.getPegawai();
             }
 
-            $scope.CetakPasienDaftar = function() {
+            $scope.CetakPasienDaftar = function () {
                 // if($scope.item.format == undefined){
                 // 	alert('format file harus dipilih terlebih dahulu !!!')
                 // }
@@ -92,7 +92,7 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-pasiendaftar=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&strIdDepartement=' + departement + '&strIdKelompokPasien=' + kelompokPasien + '&strIdPegawai=' + $scope.pegawai.id + '&view=' + stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-pasiendaftar=1&tglAwal=' + tglawal + '&tglAkhir=' + tglakhir + '&strIdRuangan=' + ruangan + '&strIdDepartement=' + departement + '&strIdKelompokPasien=' + kelompokPasien + '&strIdPegawai=' + $scope.pegawai.id + '&view=' + stt, function (response) {
                     // do something with response
                 });
                 // if(client.status==0){
@@ -106,11 +106,11 @@ define(['initialize'], function(initialize) {
             };
 
 
-            $scope.getIsiComboRuangan = function() {
+            $scope.getIsiComboRuangan = function () {
                 $scope.listRuangan = $scope.item.departement.ruangan
             }
 
-            $scope.Search = function() {
+            $scope.Search = function () {
                 $scope.isLoadingData = true;
                 LoadData()
 
@@ -150,13 +150,13 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('LaporanCetakKartuCtrl', chacePeriode);
 
                 medifirstService.get("registrasi/laporan/get-laporan-cetak-kartu?" +
-                        "tglAwal=" + tglAwal +
-                        "&tglAkhir=" + tglAkhir)
+                    "tglAwal=" + tglAwal +
+                    "&tglAkhir=" + tglAkhir)
                     // + tempDepartemenId
                     // + tempRuanganId
                     // + tempKelPasienId
                     // + status)
-                    .then(function(data) {
+                    .then(function (data) {
                         $scope.isRouteLoading = false;
                         var datas = data.data.data;
                         $scope.sourceLaporan = new kendo.data.DataSource({
@@ -164,28 +164,28 @@ define(['initialize'], function(initialize) {
                         });
                     })
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm:ss');
             }
-            $scope.Perbaharui = function() {
+            $scope.Perbaharui = function () {
                 $scope.ClearSearch();
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm:ss');
             }
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
 
-            $scope.ClearSearch = function() {
+            $scope.ClearSearch = function () {
                 $scope.item = {};
                 $scope.item.tglawal = $scope.now;
                 $scope.item.tglakhir = $scope.now;
                 $scope.Search();
             }
-            $scope.detailcetakkartu = function() {
+            $scope.detailcetakkartu = function () {
                 debugger
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;
@@ -197,7 +197,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -216,7 +216,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/detailcetakkartu.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1003/generic/report/detailcetakkartu.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/detailcetakkartu.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1003/generic/report/detailcetakkartu.pdf');
@@ -242,25 +242,25 @@ define(['initialize'], function(initialize) {
                 pageable: true,
                 editable: false,
                 columns: [{
-                        "field": "namapasien",
-                        "title": "Nama Pasien",
-                        // "template": "<span class='style-left'>{{formatTanggal('#: namapasien #')}}</span>",
-                        // "width": 120,
-                    },
-                    {
-                        "field": "nocm",
-                        "title": "No RM",
-                    },
-                    {
-                        "field": "namalengkap",
-                        "title": "Petugas Cetak",
-                    },
-                    {
-                        "field": "tanggal",
-                        "title": "Tanggal Cetak",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tanggal #')}}</span>",
-                        // "width": 120,
-                    },
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    // "template": "<span class='style-left'>{{formatTanggal('#: namapasien #')}}</span>",
+                    // "width": 120,
+                },
+                {
+                    "field": "nocm",
+                    "title": "No RM",
+                },
+                {
+                    "field": "namalengkap",
+                    "title": "Petugas Cetak",
+                },
+                {
+                    "field": "tanggal",
+                    "title": "Tanggal Cetak",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tanggal #')}}</span>",
+                    // "width": 120,
+                },
 
                 ],
 

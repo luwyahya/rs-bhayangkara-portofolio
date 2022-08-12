@@ -330,6 +330,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::put('update-rencana-kontrol-v2', 'Bridging\BridgingBPJSV2Controller@updateRencanaKontrolV2');
                 Route::get('monitoring/HistoriPelayanan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getMonitoringHistori');
                 Route::get('listsuratkontrol-berdasarkan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getListRencanaKontrolBerdasarkanNoKartu');
+                Route::get('listsuratkontrol-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@cariListHistoriSuratKontrol');
                  //##MJKN
                 Route::get('mjkn/antrian/getRefPoli', 'Bridging\BridgingBPJSV2Controller@mjknRefPoli');
                 Route::get('mjkn/antrian/getRefDokter', 'Bridging\BridgingBPJSV2Controller@mjknRefDokter');

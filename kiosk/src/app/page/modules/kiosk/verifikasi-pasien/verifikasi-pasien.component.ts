@@ -81,81 +81,78 @@ export class VerifikasiPasienComponent implements OnInit {
     // }
 
     // if (this.formGroup.get('jenisPasien').value == 'lama') {
-      if (this.formGroup.get('noCm').value != null) {
-        if (this.formGroup.get('noCm').value.length == 1) {
-          this.formGroup.get('noCm').setValue("0000000" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 2) {
-          this.formGroup.get('noCm').setValue("000000" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 3) {
-          this.formGroup.get('noCm').setValue("00000" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 4) {
-          this.formGroup.get('noCm').setValue("0000" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 5) {
-          this.formGroup.get('noCm').setValue("000" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 6) {
-          this.formGroup.get('noCm').setValue("00" + this.formGroup.get('noCm').value)
-        } else if (this.formGroup.get('noCm').value.length == 7) {
-          this.formGroup.get('noCm').setValue("0" + this.formGroup.get('noCm').value)
-        }
+    if (this.formGroup.get('noCm').value != null) {
+      if (this.formGroup.get('noCm').value.length == 1) {
+        this.formGroup.get('noCm').setValue("000000" + this.formGroup.get('noCm').value)
+      } else if (this.formGroup.get('noCm').value.length == 2) {
+        this.formGroup.get('noCm').setValue("00000" + this.formGroup.get('noCm').value)
+      } else if (this.formGroup.get('noCm').value.length == 3) {
+        this.formGroup.get('noCm').setValue("0000" + this.formGroup.get('noCm').value)
+      } else if (this.formGroup.get('noCm').value.length == 4) {
+        this.formGroup.get('noCm').setValue("000" + this.formGroup.get('noCm').value)
+      } else if (this.formGroup.get('noCm').value.length == 5) {
+        this.formGroup.get('noCm').setValue("00" + this.formGroup.get('noCm').value)
+      } else if (this.formGroup.get('noCm').value.length == 6) {
+        this.formGroup.get('noCm').setValue("0" + this.formGroup.get('noCm').value)
       }
-      var re = /[a-zA-Z]/;
-      if (re.test(this.formGroup.get('noCm').value))
-      {
-        this.alertService.warn('Peringatan', 'Nomor RM harus 8 digit ANGKA')
-        return
-          //there are only alphanumeric characters
-      }
-      this.loading = true
-      this.httpservice.get('medifirst2000/reservasionline/get-pasien/' + this.formGroup.get('noCm').value + '/null').subscribe(e => {
-        if (e.data.length > 0) {
-            if(e.data[0].nohp == null || e.data[0].nohp == "-"){
-            this.alertService.error('Info', 'NoHP Pasein Tidak Lengkap,')
-            // return;
-            }
-            if(e.data[0].alamatlengkap == null){
-              this.alertService.error('Info', 'Alamat Lengkap Pasien Tidak Lengkap,')
-              // return;
-            }
-            if(e.data[0].objectdesakelurahanfk == null){
-              this.alertService.error('Info', 'Desa Kelurahan Pasien Tidak Lengkap,')
-              // return;
-            }
-            if(e.data[0].noidentitas == null || e.data[0].noidentitas == "-"){
-              this.alertService.error('Info', 'NoIdentitas Pasien Tidak Lengkap,')
-              // return;
-            }
-          let result = e.data[0]
-          if (result.tgllahir == null)
-            result.tgllahir = '-'
-          if (result.tempatlahir == null)
-            result.tempatlahir = '-'
-          if (result.alamatlengkap == null)
-            result.alamatlengkap = '-'
-          if (result.notelepon == null || result.notelepon == "")
-            result.notelepon = '-'
-          if (result.noidentitas == null || result.noidentitas == "")
-            result.noidentitas = '-'
-          this.isInfoPasien = true
-          this.noCm = result.nocm
-          this.namaPasien = result.namapasien
-          this.jenisKelamin = result.jeniskelamin
-          this.noIdentitas = result.noidentitas
-          this.tempatTglLahir = result.tempatlahir + ', ' + result.tgllahir
-          this.alamat = result.alamatlengkap
-          this.noTelpon = result.notelepon
-          this.idPasien = result.nocmfk
-          this.dataCache = result
-        } else {
-          this.isInfoPasien = false
-          this.dataCache = undefined
-          this.alertService.error('Info', 'Data tidak ditemukan')
+    }
+    var re = /[a-zA-Z]/;
+    if (re.test(this.formGroup.get('noCm').value)) {
+      this.alertService.warn('Peringatan', 'Nomor RM harus 8 digit ANGKA')
+      return
+      //there are only alphanumeric characters
+    }
+    this.loading = true
+    this.httpservice.get('medifirst2000/reservasionline/get-pasien/' + this.formGroup.get('noCm').value + '/null').subscribe(e => {
+      if (e.data.length > 0) {
+        if (e.data[0].nohp == null || e.data[0].nohp == "-") {
+          this.alertService.error('Info', 'NoHP Pasein Tidak Lengkap,')
+          // return;
         }
-        this.loading = false
-      }, error => {
+        if (e.data[0].alamatlengkap == null) {
+          this.alertService.error('Info', 'Alamat Lengkap Pasien Tidak Lengkap,')
+          // return;
+        }
+        if (e.data[0].objectdesakelurahanfk == null) {
+          this.alertService.error('Info', 'Desa Kelurahan Pasien Tidak Lengkap,')
+          // return;
+        }
+        if (e.data[0].noidentitas == null || e.data[0].noidentitas == "-") {
+          this.alertService.error('Info', 'NoIdentitas Pasien Tidak Lengkap,')
+          // return;
+        }
+        let result = e.data[0]
+        if (result.tgllahir == null)
+          result.tgllahir = '-'
+        if (result.tempatlahir == null)
+          result.tempatlahir = '-'
+        if (result.alamatlengkap == null)
+          result.alamatlengkap = '-'
+        if (result.notelepon == null || result.notelepon == "")
+          result.notelepon = '-'
+        if (result.noidentitas == null || result.noidentitas == "")
+          result.noidentitas = '-'
+        this.isInfoPasien = true
+        this.noCm = result.nocm
+        this.namaPasien = result.namapasien
+        this.jenisKelamin = result.jeniskelamin
+        this.noIdentitas = result.noidentitas
+        this.tempatTglLahir = result.tempatlahir + ', ' + result.tgllahir
+        this.alamat = result.alamatlengkap
+        this.noTelpon = result.notelepon
+        this.idPasien = result.nocmfk
+        this.dataCache = result
+      } else {
         this.isInfoPasien = false
-        this.loading = false
+        this.dataCache = undefined
         this.alertService.error('Info', 'Data tidak ditemukan')
-      })
+      }
+      this.loading = false
+    }, error => {
+      this.isInfoPasien = false
+      this.loading = false
+      this.alertService.error('Info', 'Data tidak ditemukan')
+    })
     // } else {
     //   let nik = this.formGroup.get('noCm').value
     //   if (nik != null && nik.length > 10) {

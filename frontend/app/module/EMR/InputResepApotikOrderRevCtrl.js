@@ -92,8 +92,8 @@ define(['initialize'], function (initialize) {
                         $scope.item.kdKelompokPasien = chacePeriode[19]
                     medifirstService.get("sysadmin/general/get-sudah-verif?noregistrasi=" +
                         $scope.item.noregistrasi, true).then(function (dat) {
-                        $scope.item.statusVerif = dat.data.status
-                    });
+                            $scope.item.statusVerif = dat.data.status
+                        });
                     //  ** cek status closing
                     medifirstService.get("sysadmin/general/get-status-close/" + $scope.item.noregistrasi, false).then(function (rese) {
                         if (rese.data.status == true) {
@@ -260,13 +260,13 @@ define(['initialize'], function (initialize) {
                 });
 
                 $scope.listCaraAmbil = [{
-                        "id": 1,
-                        "caraambil": "Diambil Sendiri"
-                    },
-                    {
-                        "id": 2,
-                        "caraambil": "Diantar ke Rumah"
-                    }
+                    "id": 1,
+                    "caraambil": "Diambil Sendiri"
+                },
+                {
+                    "id": 2,
+                    "caraambil": "Diantar ke Rumah"
+                }
                 ]
                 medifirstService.get('emr/get-pasien-telemedicine?noregistrasi=' + $scope.item.noregistrasi).then(function (e) {
                     var datas = e.data.data
@@ -381,8 +381,8 @@ define(['initialize'], function (initialize) {
                     alert('Pilih dulu Master Resep yang mau di hapus!');
                 } else {
                     medifirstService.post("emr/hapus-resep-master", {
-                            norec: $scope.item.resepMaster.norec,
-                        })
+                        norec: $scope.item.resepMaster.norec,
+                    })
                         .then(function (e) {
                             init()
                             $scope.item.resepMaster = ""
@@ -423,8 +423,8 @@ define(['initialize'], function (initialize) {
             }
             $scope.suksesHapusDetailResepMaster = function () {
                 medifirstService.post("emr/hapus-resep-master-detail", {
-                        norec: $scope.dataSelectedMaster.norec,
-                    })
+                    norec: $scope.dataSelectedMaster.norec,
+                })
                     .then(function (e) {
                         $scope.popUpKonfirmasiHapusDetailRM.close()
                         init()
@@ -516,9 +516,9 @@ define(['initialize'], function (initialize) {
 
             $scope.suksesUbahNamaMaster = function () {
                 medifirstService.post("emr/ubah-nama-resep-master", {
-                        norec: $scope.item.resepMaster.norec,
-                        namamaster: $scope.item.namamasterbaru
-                    })
+                    norec: $scope.item.resepMaster.norec,
+                    namamaster: $scope.item.namamasterbaru
+                })
                     .then(function (e) {
                         init()
                         // $scope.item.resepMaster = ""
@@ -672,56 +672,56 @@ define(['initialize'], function (initialize) {
                 }
                 debugger
                 medifirstService.post("emr/save-resep-master-detail", {
-                        norec: $scope.item.resepMaster.norec,
-                        namamaster: $scope.item.namamasterbaru,
-                        generik: null,
-                        hargajual: $scope.item.hargaSatuan,
-                        jenisobatfk: jRacikan,
-                        //         //kelasfk:$scope.item.kelas.id,
-                        stock: $scope.item.stok,
-                        harganetto: $scope.item.hargaSatuan,
-                        // nostrukterimafk: noTerima,
-                        noruangan: $scope.item.noRuang,
-                        penulisresep: $scope.item.penulisResep.id,
-                        caraambil: $scope.item.caraAmbil.caraambil,
-                        kekuatan: $scope.item.kekuatan,
+                    norec: $scope.item.resepMaster.norec,
+                    namamaster: $scope.item.namamasterbaru,
+                    generik: null,
+                    hargajual: $scope.item.hargaSatuan,
+                    jenisobatfk: jRacikan,
+                    //         //kelasfk:$scope.item.kelas.id,
+                    stock: $scope.item.stok,
+                    harganetto: $scope.item.hargaSatuan,
+                    // nostrukterimafk: noTerima,
+                    noruangan: $scope.item.noRuang,
+                    penulisresep: $scope.item.penulisResep.id,
+                    caraambil: $scope.item.caraAmbil.caraambil,
+                    kekuatan: $scope.item.kekuatan,
 
 
-                        ruanganfk: $scope.item.ruangan.id, //£££
-                        // routefk: $scope.item.route.id,
-                        // route: $scope.item.route.name,
-                        routefk: $scope.item.route != undefined ? $scope.item.route.id : null,
-                        route: $scope.item.route != undefined ? $scope.item.route.name : null,
-                        rke: $scope.item.rke,
-                        jeniskemasanfk: $scope.item.jenisKemasan.id,
-                        jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
-                        aturanpakaifk: $scope.item.aturanPakai.id,
-                        aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
-                        // ispagi: $scope.item.chkp,
-                        // issiang: $scope.item.chks,
-                        // issore: $scope.item.chksr,
-                        // ismalam: $scope.item.chkm,
-                        asalprodukfk: 0, //$scope.item.asal.id,
-                        asalproduk: '', //$scope.item.asal.asalproduk,
-                        produkfk: $scope.item.produk.id,
-                        namaproduk: $scope.item.produk.namaproduk,
-                        nilaikonversi: $scope.item.nilaiKonversi,
-                        satuanstandarfk: $scope.item.satuan.ssid,
-                        satuanstandar: $scope.item.satuan.satuanstandar,
-                        satuanviewfk: $scope.item.satuan.ssid,
-                        satuanview: $scope.item.satuan.satuanstandar,
-                        jmlstok: $scope.item.stok,
-                        jumlah: $scope.item.jumlah,
-                        hargasatuan: $scope.item.hargaSatuan,
-                        hargadiscount: 0,
-                        total: $scope.item.jumlah * $scope.item.hargaSatuan,
-                        dosis: dosis,
-                        // $scope.item.jumlahxmakan != undefined ? $scope.item.jumlahxmakan : null
-                        jumlahxmakan: null,
-                        jmldosis: String(($scope.item.jumlah) / dosis) + '/' + String(dosis),
-                        keterangan: KetPakai
+                    ruanganfk: $scope.item.ruangan.id, //£££
+                    // routefk: $scope.item.route.id,
+                    // route: $scope.item.route.name,
+                    routefk: $scope.item.route != undefined ? $scope.item.route.id : null,
+                    route: $scope.item.route != undefined ? $scope.item.route.name : null,
+                    rke: $scope.item.rke,
+                    jeniskemasanfk: $scope.item.jenisKemasan.id,
+                    jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
+                    aturanpakaifk: $scope.item.aturanPakai.id,
+                    aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
+                    // ispagi: $scope.item.chkp,
+                    // issiang: $scope.item.chks,
+                    // issore: $scope.item.chksr,
+                    // ismalam: $scope.item.chkm,
+                    asalprodukfk: 0, //$scope.item.asal.id,
+                    asalproduk: '', //$scope.item.asal.asalproduk,
+                    produkfk: $scope.item.produk.id,
+                    namaproduk: $scope.item.produk.namaproduk,
+                    nilaikonversi: $scope.item.nilaiKonversi,
+                    satuanstandarfk: $scope.item.satuan.ssid,
+                    satuanstandar: $scope.item.satuan.satuanstandar,
+                    satuanviewfk: $scope.item.satuan.ssid,
+                    satuanview: $scope.item.satuan.satuanstandar,
+                    jmlstok: $scope.item.stok,
+                    jumlah: $scope.item.jumlah,
+                    hargasatuan: $scope.item.hargaSatuan,
+                    hargadiscount: 0,
+                    total: $scope.item.jumlah * $scope.item.hargaSatuan,
+                    dosis: dosis,
+                    // $scope.item.jumlahxmakan != undefined ? $scope.item.jumlahxmakan : null
+                    jumlahxmakan: null,
+                    jmldosis: String(($scope.item.jumlah) / dosis) + '/' + String(dosis),
+                    keterangan: KetPakai
 
-                    })
+                })
                     .then(function (e) {
                         init()
                         // $scope.item.resepMaster = ""
@@ -803,56 +803,56 @@ define(['initialize'], function (initialize) {
                 }
                 debugger
                 medifirstService.post("emr/ubah-resep-master-detail", {
-                        norec: $scope.dataSelectedMaster.norec,
-                        namamaster: $scope.item.namamasterbaru,
-                        generik: null,
-                        hargajual: $scope.item.hargaSatuan,
-                        jenisobatfk: jRacikan,
-                        //         //kelasfk:$scope.item.kelas.id,
-                        stock: $scope.item.stok,
-                        harganetto: $scope.item.hargaSatuan,
-                        // nostrukterimafk: noTerima,
-                        noruangan: $scope.item.noRuang,
-                        penulisresep: $scope.item.penulisResep.id,
-                        caraambil: $scope.item.caraAmbil.caraambil,
-                        kekuatan: $scope.item.kekuatan,
+                    norec: $scope.dataSelectedMaster.norec,
+                    namamaster: $scope.item.namamasterbaru,
+                    generik: null,
+                    hargajual: $scope.item.hargaSatuan,
+                    jenisobatfk: jRacikan,
+                    //         //kelasfk:$scope.item.kelas.id,
+                    stock: $scope.item.stok,
+                    harganetto: $scope.item.hargaSatuan,
+                    // nostrukterimafk: noTerima,
+                    noruangan: $scope.item.noRuang,
+                    penulisresep: $scope.item.penulisResep.id,
+                    caraambil: $scope.item.caraAmbil.caraambil,
+                    kekuatan: $scope.item.kekuatan,
 
 
-                        ruanganfk: $scope.item.ruangan.id, //£££
-                        // routefk: $scope.item.route.id,
-                        // route: $scope.item.route.name,
-                        routefk: $scope.item.route != undefined ? $scope.item.route.id : null,
-                        route: $scope.item.route != undefined ? $scope.item.route.name : null,
-                        rke: $scope.item.rke,
-                        jeniskemasanfk: $scope.item.jenisKemasan.id,
-                        jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
-                        aturanpakaifk: $scope.item.aturanPakai.id,
-                        aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
-                        // ispagi: $scope.item.chkp,
-                        // issiang: $scope.item.chks,
-                        // issore: $scope.item.chksr,
-                        // ismalam: $scope.item.chkm,
-                        asalprodukfk: 0, //$scope.item.asal.id,
-                        asalproduk: '', //$scope.item.asal.asalproduk,
-                        produkfk: $scope.item.produk.id,
-                        namaproduk: $scope.item.produk.namaproduk,
-                        nilaikonversi: $scope.item.nilaiKonversi,
-                        satuanstandarfk: $scope.item.satuan.ssid,
-                        satuanstandar: $scope.item.satuan.satuanstandar,
-                        satuanviewfk: $scope.item.satuan.ssid,
-                        satuanview: $scope.item.satuan.satuanstandar,
-                        jmlstok: $scope.item.stok,
-                        jumlah: $scope.item.jumlah,
-                        hargasatuan: $scope.item.hargaSatuan,
-                        hargadiscount: 0,
-                        total: $scope.item.jumlah * $scope.item.hargaSatuan,
-                        dosis: dosis,
-                        // $scope.item.jumlahxmakan != undefined ? $scope.item.jumlahxmakan : null
-                        jumlahxmakan: null,
-                        jmldosis: String(($scope.item.jumlah) / dosis) + '/' + String(dosis),
-                        keterangan: KetPakai
+                    ruanganfk: $scope.item.ruangan.id, //£££
+                    // routefk: $scope.item.route.id,
+                    // route: $scope.item.route.name,
+                    routefk: $scope.item.route != undefined ? $scope.item.route.id : null,
+                    route: $scope.item.route != undefined ? $scope.item.route.name : null,
+                    rke: $scope.item.rke,
+                    jeniskemasanfk: $scope.item.jenisKemasan.id,
+                    jeniskemasan: $scope.item.jenisKemasan.jeniskemasan,
+                    aturanpakaifk: $scope.item.aturanPakai.id,
+                    aturanpakai: $scope.item.aturanPakai.name, //aturanPakai.name, aturanpakaitxt
+                    // ispagi: $scope.item.chkp,
+                    // issiang: $scope.item.chks,
+                    // issore: $scope.item.chksr,
+                    // ismalam: $scope.item.chkm,
+                    asalprodukfk: 0, //$scope.item.asal.id,
+                    asalproduk: '', //$scope.item.asal.asalproduk,
+                    produkfk: $scope.item.produk.id,
+                    namaproduk: $scope.item.produk.namaproduk,
+                    nilaikonversi: $scope.item.nilaiKonversi,
+                    satuanstandarfk: $scope.item.satuan.ssid,
+                    satuanstandar: $scope.item.satuan.satuanstandar,
+                    satuanviewfk: $scope.item.satuan.ssid,
+                    satuanview: $scope.item.satuan.satuanstandar,
+                    jmlstok: $scope.item.stok,
+                    jumlah: $scope.item.jumlah,
+                    hargasatuan: $scope.item.hargaSatuan,
+                    hargadiscount: 0,
+                    total: $scope.item.jumlah * $scope.item.hargaSatuan,
+                    dosis: dosis,
+                    // $scope.item.jumlahxmakan != undefined ? $scope.item.jumlahxmakan : null
+                    jumlahxmakan: null,
+                    jmldosis: String(($scope.item.jumlah) / dosis) + '/' + String(dosis),
+                    keterangan: KetPakai
 
-                    })
+                })
                     .then(function (e) {
                         init()
                         // $scope.item.resepMaster = ""
@@ -931,29 +931,29 @@ define(['initialize'], function (initialize) {
                     "produkfk=" + $scope.item.produk.id +
                     "&ruanganfk=" + $scope.item.ruangan.id +
                     "&kelompokpasien=" + $scope.item.kdKelompokPasien, true).then(function (dat) {
-                    $scope.isRouteLoading = false;
-                    dataProdukDetail = dat.data.detail;
-                    $scope.item.stok = dat.data.jmlstok / $scope.item.nilaiKonversi
-                    $scope.item.kekuatan = dat.data.kekuatan
-                    $scope.item.sediaan = dat.data.sediaan
+                        $scope.isRouteLoading = false;
+                        dataProdukDetail = dat.data.detail;
+                        $scope.item.stok = dat.data.jmlstok / $scope.item.nilaiKonversi
+                        $scope.item.kekuatan = dat.data.kekuatan
+                        $scope.item.sediaan = dat.data.sediaan
 
-                    // $scope.item.dosis =$scope.dataSelected.dosis
-                    // $scope.item.jumlahxmakan =parseFloat($scope.dataSelected.jumlah) / parseFloat($scope.item.dosis)
-                    if ($scope.dataSelected != undefined) {
-                        $scope.item.nilaiKonversi = $scope.dataSelected.nilaikonversi
-                        // $scope.item.satuan = {ssid:$scope.dataSelected.satuanstandarfk,satuanstandar:$scope.dataSelected.satuanstandar}
-                        $scope.item.stok = $scope.dataSelected.jmlstok //* $scope.item.nilaiKonversi 
-                        $scope.item.jumlah = $scope.dataSelected.jumlah
-                        $scope.item.hargaSatuan = $scope.dataSelected.hargasatuan
-                        // $scope.item.hargadiskon = $scope.dataSelected.hargadiscount
-                        $scope.item.total = $scope.dataSelected.total
-                        if ($scope.item.kekuatan != undefined && $scope.item.kekuatan != 0) {
-                            $scope.item.jumlahxmakan = (parseFloat($scope.item.jumlah) / parseFloat($scope.item.dosis)) * parseFloat($scope.item.kekuatan)
+                        // $scope.item.dosis =$scope.dataSelected.dosis
+                        // $scope.item.jumlahxmakan =parseFloat($scope.dataSelected.jumlah) / parseFloat($scope.item.dosis)
+                        if ($scope.dataSelected != undefined) {
+                            $scope.item.nilaiKonversi = $scope.dataSelected.nilaikonversi
+                            // $scope.item.satuan = {ssid:$scope.dataSelected.satuanstandarfk,satuanstandar:$scope.dataSelected.satuanstandar}
+                            $scope.item.stok = $scope.dataSelected.jmlstok //* $scope.item.nilaiKonversi 
+                            $scope.item.jumlah = $scope.dataSelected.jumlah
+                            $scope.item.hargaSatuan = $scope.dataSelected.hargasatuan
+                            // $scope.item.hargadiskon = $scope.dataSelected.hargadiscount
+                            $scope.item.total = $scope.dataSelected.total
+                            if ($scope.item.kekuatan != undefined && $scope.item.kekuatan != 0) {
+                                $scope.item.jumlahxmakan = (parseFloat($scope.item.jumlah) / parseFloat($scope.item.dosis)) * parseFloat($scope.item.kekuatan)
+                            }
                         }
-                    }
-                    statusTambah = true
-                    gettotal();
-                });
+                        statusTambah = true
+                        gettotal();
+                    });
             }
             $scope.getNilaiKonversi = function () {
                 $scope.item.nilaiKonversi = $scope.item.satuan.nilaikonversi
@@ -1392,25 +1392,25 @@ define(['initialize'], function (initialize) {
                     "id": 1,
                     "nama": "Aturan Pakai",
                     "detail": [{
-                            "id": 1,
-                            "nama": "P",
-                            'isChecked': sp
-                        },
-                        {
-                            "id": 2,
-                            "nama": "S",
-                            'isChecked': ss
-                        },
-                        {
-                            "id": 3,
-                            "nama": "Sr",
-                            'isChecked': sr
-                        },
-                        {
-                            "id": 4,
-                            "nama": "M",
-                            'isChecked': sm
-                        }
+                        "id": 1,
+                        "nama": "P",
+                        'isChecked': sp
+                    },
+                    {
+                        "id": 2,
+                        "nama": "S",
+                        'isChecked': ss
+                    },
+                    {
+                        "id": 3,
+                        "nama": "Sr",
+                        'isChecked': sr
+                    },
+                    {
+                        "id": 4,
+                        "nama": "M",
+                        'isChecked': sm
+                    }
                     ]
                 }];
                 $scope.item.asal = {
@@ -1783,40 +1783,40 @@ define(['initialize'], function (initialize) {
                 }
             ];
             $scope.columnGridRiwayat = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "tglorder",
-                    "title": "Tgl Order",
-                    "width": "50px",
-                },
-                {
-                    "field": "noorder",
-                    "title": "No Order",
-                    "width": "60px",
-                },
-                {
-                    "field": "namalengkap",
-                    "title": "Dokter",
-                    "width": "100px"
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Apotik",
-                    "width": "70px",
-                },
-                {
-                    "field": "statusorder",
-                    "title": "Status",
-                    "width": "70px",
-                },
-                {
-                    "field": "cekreseppulang",
-                    "title": "Resep Pulang",
-                    "width": "50px",
-                }
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "tglorder",
+                "title": "Tgl Order",
+                "width": "50px",
+            },
+            {
+                "field": "noorder",
+                "title": "No Order",
+                "width": "60px",
+            },
+            {
+                "field": "namalengkap",
+                "title": "Dokter",
+                "width": "100px"
+            },
+            {
+                "field": "namaruangan",
+                "title": "Apotik",
+                "width": "70px",
+            },
+            {
+                "field": "statusorder",
+                "title": "Status",
+                "width": "70px",
+            },
+            {
+                "field": "cekreseppulang",
+                "title": "Resep Pulang",
+                "width": "50px",
+            }
             ];
             $scope.detailGridOptions = function (dataItem) {
                 return {
@@ -1824,35 +1824,35 @@ define(['initialize'], function (initialize) {
                         data: dataItem.details
                     }),
                     columns: [{
-                            field: "rke",
-                            title: "Rke",
-                            width: "30px",
-                        },
-                        {
-                            field: "jeniskemasan",
-                            title: "Jenis Kemasan",
-                            width: "100px",
-                        },
-                        {
-                            field: "namaproduk",
-                            title: "Deskripsi",
-                            width: "200px"
-                        },
-                        {
-                            field: "satuanstandar",
-                            title: "Satuan",
-                            width: "100px"
-                        },
-                        {
-                            field: "aturanpakai",
-                            title: "Aturan Pakai",
-                            width: "100px"
-                        },
-                        {
-                            field: "jumlah",
-                            title: "Qty",
-                            width: "100px"
-                        }
+                        field: "rke",
+                        title: "Rke",
+                        width: "30px",
+                    },
+                    {
+                        field: "jeniskemasan",
+                        title: "Jenis Kemasan",
+                        width: "100px",
+                    },
+                    {
+                        field: "namaproduk",
+                        title: "Deskripsi",
+                        width: "200px"
+                    },
+                    {
+                        field: "satuanstandar",
+                        title: "Satuan",
+                        width: "100px"
+                    },
+                    {
+                        field: "aturanpakai",
+                        title: "Aturan Pakai",
+                        width: "100px"
+                    },
+                    {
+                        field: "jumlah",
+                        title: "Qty",
+                        width: "100px"
+                    }
                     ]
                 };
             };
@@ -1937,7 +1937,7 @@ define(['initialize'], function (initialize) {
                         $scope.item.resep == undefined
                         $scope.norecOrder = ''
                         medifirstService.postLogging('Order Resep', 'Norec strukresep_t', e.data.noresep.norec,
-                            'Order Resep No Order - ' + e.data.noresep.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {})
+                            'Order Resep No Order - ' + e.data.noresep.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) { })
                         // $scope.item.resep = e.data.noresep.noorder
                         $scope.hideSimpan = false
                         init();
@@ -2083,60 +2083,60 @@ define(['initialize'], function (initialize) {
                     // nocm=" + $scope.item.noMr
                     // + "&noregistrasifk=" + norec_apd
                     , true).then(function (dat) {
-                    let group = [];
-                    if (dat.statResponse == true) {
-                        for (var i = 0; i < dat.data.length; i++) {
-                            dat.data[i].no = i + 1
-                            dat.data[i].total = parseFloat(dat.data[i].jumlah) * (parseFloat(dat.data[i].hargasatuan) - parseFloat(dat.data[i].hargadiscount));
-                            dat.data[i].total = parseFloat(dat.data[i].total) + parseFloat(dat.data[i].jasa);
-                            if (dat.data[i].reseppulang == '1') {
-                                dat.data[i].cekreseppulang = "✔"
-                            } else {
-                                dat.data[i].cekreseppulang = "-"
+                        let group = [];
+                        if (dat.statResponse == true) {
+                            for (var i = 0; i < dat.data.length; i++) {
+                                dat.data[i].no = i + 1
+                                dat.data[i].total = parseFloat(dat.data[i].jumlah) * (parseFloat(dat.data[i].hargasatuan) - parseFloat(dat.data[i].hargadiscount));
+                                dat.data[i].total = parseFloat(dat.data[i].total) + parseFloat(dat.data[i].jasa);
+                                if (dat.data[i].reseppulang == '1') {
+                                    dat.data[i].cekreseppulang = "✔"
+                                } else {
+                                    dat.data[i].cekreseppulang = "-"
+                                }
+                            }
+                            var array = dat.data;
+                            let sama = false
+
+                            for (let i in array) {
+                                array[i].count = 1
+                                sama = false
+                                for (let x in group) {
+                                    if (group[x].noresep == array[i].noresep) {
+                                        sama = true;
+                                        group[x].count = parseFloat(group[x].count) + parseFloat(array[i].count)
+
+                                    }
+                                }
+                                if (sama == false) {
+                                    var dataDetail0 = [];
+                                    for (var f = 0; f < array.length; f++) {
+                                        if (array[i].noresep == array[f].noresep) {
+                                            dataDetail0.push(array[f]);
+                                        };
+                                    }
+                                    let result = {
+                                        noregistrasi: array[i].noregistrasi,
+                                        norec_resep: array[i].norec_resep,
+                                        tglpelayanan: array[i].tglpelayanan,
+                                        noresep: array[i].noresep,
+                                        aturanpakai: array[i].aturanpakai,
+                                        namaruangandepo: array[i].namaruangandepo,
+                                        namaruangan: array[i].namaruangan,
+                                        dokter: array[i].dokter,
+                                        count: array[i].count,
+                                        cekreseppulang: array[i].cekreseppulang,
+                                        details: dataDetail0
+                                    }
+                                    group.push(result)
+                                }
                             }
                         }
-                        var array = dat.data;
-                        let sama = false
 
-                        for (let i in array) {
-                            array[i].count = 1
-                            sama = false
-                            for (let x in group) {
-                                if (group[x].noresep == array[i].noresep) {
-                                    sama = true;
-                                    group[x].count = parseFloat(group[x].count) + parseFloat(array[i].count)
-
-                                }
-                            }
-                            if (sama == false) {
-                                var dataDetail0 = [];
-                                for (var f = 0; f < array.length; f++) {
-                                    if (array[i].noresep == array[f].noresep) {
-                                        dataDetail0.push(array[f]);
-                                    };
-                                }
-                                let result = {
-                                    noregistrasi: array[i].noregistrasi,
-                                    norec_resep: array[i].norec_resep,
-                                    tglpelayanan: array[i].tglpelayanan,
-                                    noresep: array[i].noresep,
-                                    aturanpakai: array[i].aturanpakai,
-                                    namaruangandepo: array[i].namaruangandepo,
-                                    namaruangan: array[i].namaruangan,
-                                    dokter: array[i].dokter,
-                                    count: array[i].count,
-                                    cekreseppulang: array[i].cekreseppulang,
-                                    details: dataDetail0
-                                }
-                                group.push(result)
-                            }
-                        }
-                    }
-
-                    $scope.dataGridResep = group
-                    console.log(group)
-                    $scope.isRouteLoading = false;
-                });
+                        $scope.dataGridResep = group
+                        console.log(group)
+                        $scope.isRouteLoading = false;
+                    });
                 $scope.riwayatForm = false
                 $scope.riwayatFormResep = true
                 $scope.inputObatOrder = false;
@@ -2227,7 +2227,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/eresep.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/eresep.pdf');
@@ -2256,35 +2256,35 @@ define(['initialize'], function (initialize) {
 
                     }),
                     columns: [{
-                            "field": "no",
-                            "title": "No",
-                            "width": "15px",
-                        },
-                        {
-                            "field": "namaproduk",
-                            "title": "Deskripsi",
-                            "width": "200px",
-                        },
-                        {
-                            "field": "aturanpakai",
-                            "title": "Aturan Pakai",
-                            "width": "80px",
-                        },
-                        {
-                            "field": "satuanstandar",
-                            "title": "Satuan",
-                            "width": "80px",
-                        },
-                        {
-                            "field": "jumlah",
-                            "title": "Qty",
-                            "width": "40px",
-                        },
-                        {
-                            "field": "kekuatan",
-                            "title": "Kekuatan",
-                            "width": "80px",
-                        }
+                        "field": "no",
+                        "title": "No",
+                        "width": "15px",
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Deskripsi",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "aturanpakai",
+                        "title": "Aturan Pakai",
+                        "width": "80px",
+                    },
+                    {
+                        "field": "satuanstandar",
+                        "title": "Satuan",
+                        "width": "80px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "40px",
+                    },
+                    {
+                        "field": "kekuatan",
+                        "title": "Kekuatan",
+                        "width": "80px",
+                    }
 
                     ]
                 }
@@ -2339,20 +2339,20 @@ define(['initialize'], function (initialize) {
                 $state.go('CPPT')
             }
             $scope.columnGridStok = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Ruangan",
-                    "width": "100px",
-                },
-                {
-                    "field": "qtyproduk",
-                    "title": "Stok",
-                    "width": "50px",
-                }
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "namaruangan",
+                "title": "Ruangan",
+                "width": "100px",
+            },
+            {
+                "field": "qtyproduk",
+                "title": "Stok",
+                "width": "50px",
+            }
 
             ];
             $scope.editOrder = function () {
@@ -2417,25 +2417,25 @@ define(['initialize'], function (initialize) {
                 "id": 1,
                 "nama": "Aturan Pakai",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Pagi",
-                        'isChecked': false
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Siang",
-                        'isChecked': false
-                    },
-                    {
-                        "id": 3,
-                        "nama": "Sore",
-                        'isChecked': false
-                    },
-                    {
-                        "id": 4,
-                        "nama": "Malam",
-                        'isChecked': false
-                    }
+                    "id": 1,
+                    "nama": "Pagi",
+                    'isChecked': false
+                },
+                {
+                    "id": 2,
+                    "nama": "Siang",
+                    'isChecked': false
+                },
+                {
+                    "id": 3,
+                    "nama": "Sore",
+                    'isChecked': false
+                },
+                {
+                    "id": 4,
+                    "nama": "Malam",
+                    'isChecked': false
+                }
                 ]
             }];
             $scope.item.chkp = 0
@@ -2520,15 +2520,15 @@ define(['initialize'], function (initialize) {
                 })
             }
             $scope.columnGridResepExist = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "namaproduk",
-                    "title": "Nama Produk",
-                    "width": "100px",
-                },
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "namaproduk",
+                "title": "Nama Produk",
+                "width": "100px",
+            },
 
             ];
             $scope.klikExist = function (dataSelectedResepExist) {

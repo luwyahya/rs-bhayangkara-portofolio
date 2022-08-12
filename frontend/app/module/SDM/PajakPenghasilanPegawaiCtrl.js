@@ -1,8 +1,8 @@
-define(['initialize', 'Configuration'], function(initialize, configuration) {
+define(['initialize', 'Configuration'], function (initialize, configuration) {
     'use strict';
     var baseTransaksi = configuration.baseApiBackend;
     initialize.controller('PajakPenghasilanPegawaiCtrl', ['$scope', '$state', 'ModelItem', '$mdDialog', 'MedifirstService', 'CacheHelper', 'DateHelper',
-        function($scope, $state, ModelItem, $mdDialog, medifirstService, cacheHelper, dateHelper) {
+        function ($scope, $state, ModelItem, $mdDialog, medifirstService, cacheHelper, dateHelper) {
             $scope.isRouteLoading = false;
             $scope.item = {};
             $scope.itemKeluarga = {};
@@ -46,7 +46,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             var jenisCache = "";
             $scope.loginDisabled = false;
             var OldCurStop = undefined;
-            $scope.monthSelectorOptions = function() {
+            $scope.monthSelectorOptions = function () {
                 return {
                     start: "decade",
                     depth: "decade",
@@ -101,10 +101,10 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             function FormLoad() {
                 $scope.isRouteLoading = true;
-                medifirstService.getPart("sysadmin/general/get-combo-pegawai", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/general/get-combo-pegawai", true, true, 20).then(function (data) {
                     $scope.listPgw = data;
                 });
-                medifirstService.get("sdm/get-data-combo-sdm?", true).then(function(dat) {
+                medifirstService.get("sdm/get-data-combo-sdm?", true).then(function (dat) {
                     var dataCombo = dat.data
                     $scope.ListJenisKelamin = dataCombo.jeniskelamin;
                     $scope.ListAgama = dataCombo.agama;
@@ -137,7 +137,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     LoadCache();
                 });
 
-                medifirstService.get("sdm/get-petugas-diklat", true, true, 20).then(function(data) {
+                medifirstService.get("sdm/get-petugas-diklat", true, true, 20).then(function (data) {
                     $scope.ListPetugasDiklat = data.data.data;
                 });
             }
@@ -160,7 +160,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             function init() {
                 if (jenisCache != '') {
                     if (jenisCache == 'EditPegawai') {
-                        medifirstService.get("sdm/get-data-pajak-penghasilan-pegawai?idPegawai=" + $scope.item.idPegawai + "&tahunPajak=" + $scope.item.tahunPajak, true).then(function(dat) {
+                        medifirstService.get("sdm/get-data-pajak-penghasilan-pegawai?idPegawai=" + $scope.item.idPegawai + "&tahunPajak=" + $scope.item.tahunPajak, true).then(function (dat) {
                             $scope.now = new Date();
                             $scope.item.ttd = $scope.now;
                             $scope.ShowLogin = false;
@@ -370,9 +370,9 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                                 dataRiwayatPendidikan[i].no = i + 1
                             }
                             $scope.gridRiwayatPendidikan = new kendo.data.DataSource({
-                                    data: dataRiwayatPendidikan
-                                })
-                                // End Data Pendidikan   
+                                data: dataRiwayatPendidikan
+                            })
+                            // End Data Pendidikan   
 
                             // Data Riwayat Jabatan
                             dataRiwayatJabatan = dataCacheJabatan;
@@ -405,9 +405,9 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                                 dataRiwayatPelatihan[i].no = i + 1
                             }
                             $scope.gridRiwayatPelatihan = new kendo.data.DataSource({
-                                    data: dataRiwayatPelatihan
-                                })
-                                // End Data Pendidikan  
+                                data: dataRiwayatPelatihan
+                            })
+                            // End Data Pendidikan  
 
                             // Data Phone
                             dataNoTelp = dataCacheTelp;
@@ -431,7 +431,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                             // Data Login User
                             ClearDataUserLogin()
-                                // End Data Login User
+                            // End Data Login User
 
                             $scope.isRouteLoading = false;
                         });
@@ -441,7 +441,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.ShowLogin = true;
                 }
             }
-            $scope.CariFiltergpp = function() {
+            $scope.CariFiltergpp = function () {
                 var gpp = $scope.item.gpp
                 if (gpp.substring(0, 4) == "Rp. ") {
                     gpp = gpp.substring(4)
@@ -450,7 +450,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.gpp = formatRupiah(gpp, "");
                 document.getElementById("ti").focus();
             }
-            $scope.CariFilterti = function() {
+            $scope.CariFilterti = function () {
                 var ti = $scope.item.ti
                 if (ti.substring(0, 4) == "Rp. ") {
                     ti = ti.substring(4)
@@ -459,7 +459,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ti = formatRupiah(ti, "");
                 document.getElementById("ta").focus();
             }
-            $scope.CariFilterta = function() {
+            $scope.CariFilterta = function () {
                 var ta = $scope.item.ta
                 if (ta.substring(0, 4) == "Rp. ") {
                     ta = ta.substring(4)
@@ -468,7 +468,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ta = formatRupiah(ta, "");
                 document.getElementById("jgtk").focus();
             }
-            $scope.CariFilterjgtk = function() {
+            $scope.CariFilterjgtk = function () {
                 var jgtk = $scope.item.jgtk
                 if (jgtk.substring(0, 4) == "Rp. ") {
                     jgtk = jgtk.substring(4)
@@ -477,7 +477,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jgtk = formatRupiah(jgtk, "");
                 document.getElementById("tpp").focus();
             }
-            $scope.CariFiltertpp = function() {
+            $scope.CariFiltertpp = function () {
                 var tpp = $scope.item.tpp
                 if (tpp.substring(0, 4) == "Rp. ") {
                     tpp = tpp.substring(4)
@@ -486,7 +486,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.tpp = formatRupiah(tpp, "");
                 document.getElementById("tsf").focus();
             }
-            $scope.CariFiltertsf = function() {
+            $scope.CariFiltertsf = function () {
                 var tsf = $scope.item.tsf
                 if (tsf.substring(0, 4) == "Rp. ") {
                     tsf = tsf.substring(4)
@@ -495,7 +495,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.tsf = formatRupiah(tsf, "");
                 document.getElementById("tb").focus();
             }
-            $scope.CariFiltertb = function() {
+            $scope.CariFiltertb = function () {
                 var tb = $scope.item.tb
                 if (tb.substring(0, 4) == "Rp. ") {
                     tb = tb.substring(4)
@@ -504,7 +504,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.tb = formatRupiah(tb, "");
                 document.getElementById("tk").focus();
             }
-            $scope.CariFiltertk = function() {
+            $scope.CariFiltertk = function () {
                 var tk = $scope.item.tk
                 if (tk.substring(0, 4) == "Rp. ") {
                     tk = tk.substring(4)
@@ -513,7 +513,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.tk = formatRupiah(tk, "");
                 document.getElementById("tll").focus();
             }
-            $scope.CariFiltertll = function() {
+            $scope.CariFiltertll = function () {
                 var tll = $scope.item.tll
                 if (tll.substring(0, 4) == "Rp. ") {
                     tll = tll.substring(4)
@@ -522,7 +522,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.tll = formatRupiah(tll, "");
                 document.getElementById("pttlyptdpg").focus();
             }
-            $scope.CariFilterpttlyptdpg = function() {
+            $scope.CariFilterpttlyptdpg = function () {
                 var pttlyptdpg = $scope.item.pttlyptdpg
                 if (pttlyptdpg.substring(0, 4) == "Rp. ") {
                     pttlyptdpg = pttlyptdpg.substring(4)
@@ -531,7 +531,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.pttlyptdpg = formatRupiah(pttlyptdpg, "");
                 document.getElementById("jpb").focus();
             }
-            $scope.CariFilterjpb = function() {
+            $scope.CariFilterjpb = function () {
                 var jpb = $scope.item.jpb
                 if (jpb.substring(0, 4) == "Rp. ") {
                     jpb = jpb.substring(4)
@@ -540,7 +540,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jpb = formatRupiah(jpb, "");
                 document.getElementById("bjbp").focus();
             }
-            $scope.CariFilterbjbp = function() {
+            $scope.CariFilterbjbp = function () {
                 var bjbp = $scope.item.bjbp
                 if (bjbp.substring(0, 4) == "Rp. ") {
                     bjbp = bjbp.substring(4)
@@ -549,7 +549,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.bjbp = formatRupiah(bjbp, "");
                 document.getElementById("ipai").focus();
             }
-            $scope.CariFilteripai = function() {
+            $scope.CariFilteripai = function () {
                 var ipai = $scope.item.ipai
                 if (ipai.substring(0, 4) == "Rp. ") {
                     ipai = ipai.substring(4)
@@ -558,7 +558,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ipai = formatRupiah(ipai, "");
                 document.getElementById("jp").focus();
             }
-            $scope.CariFilterjp = function() {
+            $scope.CariFilterjp = function () {
                 var jp = $scope.item.jp
                 if (jp.substring(0, 4) == "Rp. ") {
                     jp = jp.substring(4)
@@ -567,7 +567,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jp = formatRupiah(jp, "");
                 document.getElementById("jpn").focus();
             }
-            $scope.CariFilterjpn = function() {
+            $scope.CariFilterjpn = function () {
                 var jpn = $scope.item.jpn
                 if (jpn.substring(0, 4) == "Rp. ") {
                     jpn = jpn.substring(4)
@@ -576,7 +576,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jpn = formatRupiah(jpn, "");
                 document.getElementById("jpnms").focus();
             }
-            $scope.CariFilterjpnms = function() {
+            $scope.CariFilterjpnms = function () {
                 var jpnms = $scope.item.jpnms
                 if (jpnms.substring(0, 4) == "Rp. ") {
                     jpnms = jpnms.substring(4)
@@ -585,7 +585,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jpnms = formatRupiah(jpnms, "");
                 document.getElementById("jpnuppp").focus();
             }
-            $scope.CariFilterjpnuppp = function() {
+            $scope.CariFilterjpnuppp = function () {
                 var jpnuppp = $scope.item.jpnuppp
                 if (jpnuppp.substring(0, 4) == "Rp. ") {
                     jpnuppp = jpnuppp.substring(4)
@@ -594,7 +594,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.jpnuppp = formatRupiah(jpnuppp, "");
                 document.getElementById("ptkp").focus();
             }
-            $scope.CariFilterptkp = function() {
+            $scope.CariFilterptkp = function () {
                 var ptkp = $scope.item.ptkp
                 if (ptkp.substring(0, 4) == "Rp. ") {
                     ptkp = ptkp.substring(4)
@@ -603,7 +603,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ptkp = formatRupiah(ptkp, "");
                 document.getElementById("pkpsd").focus();
             }
-            $scope.CariFilterpkpsd = function() {
+            $scope.CariFilterpkpsd = function () {
                 var pkpsd = $scope.item.pkpsd
                 if (pkpsd.substring(0, 4) == "Rp. ") {
                     pkpsd = pkpsd.substring(4)
@@ -612,7 +612,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.pkpsd = formatRupiah(pkpsd, "");
                 document.getElementById("ppapkpsd").focus();
             }
-            $scope.CariFilterppapkpsd = function() {
+            $scope.CariFilterppapkpsd = function () {
                 var ppapkpsd = $scope.item.ppapkpsd
                 if (ppapkpsd.substring(0, 4) == "Rp. ") {
                     ppapkpsd = ppapkpsd.substring(4)
@@ -621,7 +621,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ppapkpsd = formatRupiah(ppapkpsd, "");
                 document.getElementById("ppytdms").focus();
             }
-            $scope.CariFilterppytdms = function() {
+            $scope.CariFilterppytdms = function () {
                 var ppytdms = $scope.item.ppytdms
                 if (ppytdms.substring(0, 4) == "Rp. ") {
                     ppytdms = ppytdms.substring(4)
@@ -630,7 +630,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ppytdms = formatRupiah(ppytdms, "");
                 document.getElementById("ppt").focus();
             }
-            $scope.CariFilterppt = function() {
+            $scope.CariFilterppt = function () {
                 var ppt = $scope.item.ppt
                 if (ppt.substring(0, 4) == "Rp. ") {
                     ppt = ppt.substring(4)
@@ -639,7 +639,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ppt = formatRupiah(ppt, "");
                 document.getElementById("ppytdd").focus();
             }
-            $scope.CariFilterppytdd = function() {
+            $scope.CariFilterppytdd = function () {
                 var ppytdd = $scope.item.ppytdd
                 if (ppytdd.substring(0, 4) == "Rp. ") {
                     ppytdd = ppytdd.substring(4)
@@ -648,7 +648,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.ppytdd = formatRupiah(ppytdd, "");
                 document.getElementById("agt").focus();
             }
-            $scope.CariFilteragt = function() {
+            $scope.CariFilteragt = function () {
                 var agt = $scope.item.agt
                 if (agt.substring(0, 4) == "Rp. ") {
                     agt = agt.substring(4)
@@ -657,23 +657,23 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.item.agt = formatRupiah(agt, "");
                 document.getElementById("apttlyptdpg").focus();
             }
-            $scope.CariFilterapttlyptdpg = function() {
-                    var apttlyptdpg = $scope.item.apttlyptdpg
-                    if (apttlyptdpg.substring(0, 4) == "Rp. ") {
-                        apttlyptdpg = apttlyptdpg.substring(4)
-                        apttlyptdpg = apttlyptdpg.replace(/,/g, '');
-                    }
-                    $scope.item.apttlyptdpg = formatRupiah(apttlyptdpg, "");
-                    // document.getElementById("tpp").focus();
+            $scope.CariFilterapttlyptdpg = function () {
+                var apttlyptdpg = $scope.item.apttlyptdpg
+                if (apttlyptdpg.substring(0, 4) == "Rp. ") {
+                    apttlyptdpg = apttlyptdpg.substring(4)
+                    apttlyptdpg = apttlyptdpg.replace(/,/g, '');
                 }
-                // $scope.CariFiltertpp = function () {
-                // 	var tpp = $scope.item.tpp
-                // 	if(tpp.substring(0,4)=="Rp. "){
-                // 		tpp = tpp.substring(4)
-                // 		tpp = tpp.replace(/,/g, '');
-                // 	}
-                // 	$scope.item.tpp = formatRupiah(tpp, "");
-                // }
+                $scope.item.apttlyptdpg = formatRupiah(apttlyptdpg, "");
+                // document.getElementById("tpp").focus();
+            }
+            // $scope.CariFiltertpp = function () {
+            // 	var tpp = $scope.item.tpp
+            // 	if(tpp.substring(0,4)=="Rp. "){
+            // 		tpp = tpp.substring(4)
+            // 		tpp = tpp.replace(/,/g, '');
+            // 	}
+            // 	$scope.item.tpp = formatRupiah(tpp, "");
+            // }
 
             function formatRupiah(value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
@@ -693,23 +693,23 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             // // }
 
 
-            $scope.ubah = function() {
+            $scope.ubah = function () {
                 if ($scope.itemJabatan.jenisJabatan != undefined || $scope.itemJabatan.jenisJabatan != "") {
                     $scope.ListJabatan = $scope.itemJabatan.jenisJabatan.jabatan;
                 }
             }
-            $scope.$watch('itemSip.unitKerja', function(newValue, oldValue) {
+            $scope.$watch('itemSip.unitKerja', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     $scope.ListSubUnitKerja = newValue.subunit;
                 }
             });
-            $scope.$watch('itemStr.unitKerja', function(newValue, oldValue) {
+            $scope.$watch('itemStr.unitKerja', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     $scope.ListSubUnitKerja = newValue.subunit;
                 }
             });
 
-            $scope.$watch('item.test', function(newValue, oldValue) {
+            $scope.$watch('item.test', function (newValue, oldValue) {
                 // var res = newValue.substring(4);
                 if (newValue.substring(0, 4) == "Rp. ") {
                     newValue = newValue.substring(4)
@@ -725,16 +725,16 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             });
 
-            $scope.getGradeJbtn = function(e) {
+            $scope.getGradeJbtn = function (e) {
                 // if (!e.id) return;
                 // $scope.item.grade = e.grade;
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
-            $scope.formatTahun = function(tanggal) {
+            $scope.formatTahun = function (tanggal) {
                 return moment(tanggal).format('YYYY');
             }
 
@@ -755,49 +755,49 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "5%"
-                    },
-                    {
-                        "field": "namalengkap",
-                        "title": "Nama",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "hubungankeluarga",
-                        "title": "Hubungan Keluarga",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "statustanggungan",
-                        "title": "Tertanggung",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "tgllahir",
-                        "title": "Tanggal Lahir",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
-                    },
-                    {
-                        "field": "pendidikan",
-                        "title": "Pendidikan Terakhir",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "pekerjaan",
-                        "title": "Pekerjaan",
-                        "width": "20%"
-                    },
-                    {
-                        "command": [
-                            { text: "Edit", click: Edit, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: Hapus, imageClass: "k-icon k-i-delete" },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                    "field": "no",
+                    "title": "No",
+                    "width": "5%"
+                },
+                {
+                    "field": "namalengkap",
+                    "title": "Nama",
+                    "width": "20%"
+                },
+                {
+                    "field": "hubungankeluarga",
+                    "title": "Hubungan Keluarga",
+                    "width": "20%"
+                },
+                {
+                    "field": "statustanggungan",
+                    "title": "Tertanggung",
+                    "width": "20%"
+                },
+                {
+                    "field": "tgllahir",
+                    "title": "Tanggal Lahir",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
+                },
+                {
+                    "field": "pendidikan",
+                    "title": "Pendidikan Terakhir",
+                    "width": "20%"
+                },
+                {
+                    "field": "pekerjaan",
+                    "title": "Pekerjaan",
+                    "width": "20%"
+                },
+                {
+                    "command": [
+                        { text: "Edit", click: Edit, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: Hapus, imageClass: "k-icon k-i-delete" },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -815,45 +815,45 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "5%"
-                    },
-                    {
-                        "field": "pendidikan",
-                        "title": "Pendidikan",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "namatempatpendidikan",
-                        "title": "Institusi Pendidikan",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "alamattempatpendidikan",
-                        "title": "Alamat",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "tglmasuk",
-                        "title": "Tahun Masuk",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTahun('#: tglmasuk #')}}</span>"
-                    },
-                    {
-                        "field": "tgllulus",
-                        "title": "Tahun Lulus",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTahun('#: tgllulus #')}}</span>"
-                    },
-                    {
-                        "command": [
-                            { text: "Edit", click: EditPendidikan, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: HapusPendidikan, imageClass: "k-icon k-i-delete" },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                    "field": "no",
+                    "title": "No",
+                    "width": "5%"
+                },
+                {
+                    "field": "pendidikan",
+                    "title": "Pendidikan",
+                    "width": "20%"
+                },
+                {
+                    "field": "namatempatpendidikan",
+                    "title": "Institusi Pendidikan",
+                    "width": "20%"
+                },
+                {
+                    "field": "alamattempatpendidikan",
+                    "title": "Alamat",
+                    "width": "20%"
+                },
+                {
+                    "field": "tglmasuk",
+                    "title": "Tahun Masuk",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTahun('#: tglmasuk #')}}</span>"
+                },
+                {
+                    "field": "tgllulus",
+                    "title": "Tahun Lulus",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTahun('#: tgllulus #')}}</span>"
+                },
+                {
+                    "command": [
+                        { text: "Edit", click: EditPendidikan, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: HapusPendidikan, imageClass: "k-icon k-i-delete" },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -871,60 +871,60 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "7%"
-                    },
-                    {
-                        "field": "instansipenyelenggara",
-                        "title": "Penyelenggara",
-                        "width": "25%"
-                    },
-                    {
-                        "field": "lokasipelatihan",
-                        "title": "Lokasi",
-                        "width": "18%"
-                    },
-                    {
-                        "field": "namapelatihan",
-                        "title": "Nama Pelatihan",
-                        "width": "35%"
-                    },
-                    {
-                        "field": "tglmulai",
-                        "title": "Tgl Mulai",
-                        "width": "15%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
-                    },
-                    {
-                        "field": "tglakhir",
-                        "title": "Tgl Selesai",
-                        "width": "15%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
-                    },
-                    {
-                        "field": "durasi",
-                        "title": "Durasi(jam)",
-                        "width": "15%"
-                    },
-                    {
-                        "field": "nosertifikat",
-                        "title": "No Sertifikat",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "keterangan",
-                        "title": "Ket",
-                        "width": "20%"
-                    },
-                    {
-                        "command": [
-                            { text: "Edit", click: EditPelatihan, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: HapusPelatihan, imageClass: "k-icon k-i-delete" },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                    "field": "no",
+                    "title": "No",
+                    "width": "7%"
+                },
+                {
+                    "field": "instansipenyelenggara",
+                    "title": "Penyelenggara",
+                    "width": "25%"
+                },
+                {
+                    "field": "lokasipelatihan",
+                    "title": "Lokasi",
+                    "width": "18%"
+                },
+                {
+                    "field": "namapelatihan",
+                    "title": "Nama Pelatihan",
+                    "width": "35%"
+                },
+                {
+                    "field": "tglmulai",
+                    "title": "Tgl Mulai",
+                    "width": "15%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                },
+                {
+                    "field": "tglakhir",
+                    "title": "Tgl Selesai",
+                    "width": "15%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
+                },
+                {
+                    "field": "durasi",
+                    "title": "Durasi(jam)",
+                    "width": "15%"
+                },
+                {
+                    "field": "nosertifikat",
+                    "title": "No Sertifikat",
+                    "width": "20%"
+                },
+                {
+                    "field": "keterangan",
+                    "title": "Ket",
+                    "width": "20%"
+                },
+                {
+                    "command": [
+                        { text: "Edit", click: EditPelatihan, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: HapusPelatihan, imageClass: "k-icon k-i-delete" },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -942,44 +942,44 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "5%"
-                    },
-                    {
-                        "field": "nosk",
-                        "title": "No SK",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "tglsk",
-                        "title": "Tanggal SK",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglsk #')}}</span>"
-                    },
-                    {
-                        "field": "jenisjabatan",
-                        "title": "Jenis Jabatan",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "namajabatan",
-                        "title": "Jabatan",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "pegawaipenanggungjawab",
-                        "title": "Penanda Tangan SK",
-                        "width": "20%"
-                    },
-                    {
-                        "command": [
-                            { text: "Edit", click: EditJabatan, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: HapusJabatan, imageClass: "k-icon k-i-delete" },
-                        ],
-                        title: "",
-                        width: "185px",
-                    }
+                    "field": "no",
+                    "title": "No",
+                    "width": "5%"
+                },
+                {
+                    "field": "nosk",
+                    "title": "No SK",
+                    "width": "20%"
+                },
+                {
+                    "field": "tglsk",
+                    "title": "Tanggal SK",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglsk #')}}</span>"
+                },
+                {
+                    "field": "jenisjabatan",
+                    "title": "Jenis Jabatan",
+                    "width": "20%"
+                },
+                {
+                    "field": "namajabatan",
+                    "title": "Jabatan",
+                    "width": "20%"
+                },
+                {
+                    "field": "pegawaipenanggungjawab",
+                    "title": "Penanda Tangan SK",
+                    "width": "20%"
+                },
+                {
+                    "command": [
+                        { text: "Edit", click: EditJabatan, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: HapusJabatan, imageClass: "k-icon k-i-delete" },
+                    ],
+                    title: "",
+                    width: "185px",
+                }
                 ]
             }
 
@@ -997,51 +997,51 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "5%"
-                    },
-                    //             {
-                    //                 "field": "namaLengkap",
-                    //                 "title": "Nama",
-                    //                 "width": "20%"
-                    //             },	                
-                    // {
-                    //     "field": "unitkerja",
-                    //     "title": "Unit Kerja",
-                    //     "width": "20%",
+                    "field": "no",
+                    "title": "No",
+                    "width": "5%"
+                },
+                //             {
+                //                 "field": "namaLengkap",
+                //                 "title": "Nama",
+                //                 "width": "20%"
+                //             },	                
+                // {
+                //     "field": "unitkerja",
+                //     "title": "Unit Kerja",
+                //     "width": "20%",
 
-                    // },
-                    // {
-                    // 	"field": "subunit",
-                    //     "title": "Sub-Unit Kerja",
-                    //     "width": "20%"
-                    // },
-                    {
-                        "field": "nomor",
-                        "title": "Nomor SIP",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "tglberakhir",
-                        "title": "Tanggal Berakhir",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglberakhir #')}}</span>"
-                    },
-                    {
-                        "field": "namafileupload",
-                        "title": "File SIP",
-                        "width": "30%"
-                    },
-                    {
-                        "command": [
-                            // { text: "Edit", click: EditSip, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: HapusSipNew, imageClass: "k-icon k-i-delete" },
-                            { text: "Download", click: downloadSipStr, imageClass: "k-icon k-delete" }
-                        ],
-                        title: "",
-                        width: "22%",
-                    }
+                // },
+                // {
+                // 	"field": "subunit",
+                //     "title": "Sub-Unit Kerja",
+                //     "width": "20%"
+                // },
+                {
+                    "field": "nomor",
+                    "title": "Nomor SIP",
+                    "width": "20%"
+                },
+                {
+                    "field": "tglberakhir",
+                    "title": "Tanggal Berakhir",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglberakhir #')}}</span>"
+                },
+                {
+                    "field": "namafileupload",
+                    "title": "File SIP",
+                    "width": "30%"
+                },
+                {
+                    "command": [
+                        // { text: "Edit", click: EditSip, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: HapusSipNew, imageClass: "k-icon k-i-delete" },
+                        { text: "Download", click: downloadSipStr, imageClass: "k-icon k-delete" }
+                    ],
+                    title: "",
+                    width: "22%",
+                }
                 ]
             }
 
@@ -1059,55 +1059,55 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "5%"
-                    },
-                    //             {
-                    //                 "field": "namaLengkap",
-                    //                 "title": "Nama",
-                    //                 "width": "20%"
-                    //             },	                
-                    // {
-                    //     "field": "unitkerja",
-                    //     "title": "Unit Kerja",
-                    //     "width": "20%",
-                    // },
-                    // {
-                    // 	"field": "subunit",
-                    //     "title": "Sub-Unit Kerja",
-                    //     "width": "20%"
-                    // },
-                    {
-                        "field": "nomor",
-                        "title": "Nomor STR",
-                        "width": "20%"
-                    },
-                    {
-                        "field": "tglberakhir",
-                        "title": "Tanggal Berakhir",
-                        "width": "20%",
-                        "template": "<span class='style-left'>{{formatTanggal('#: tglberakhir #')}}</span>"
-                    },
-                    {
-                        "field": "namafileupload",
-                        "title": "File STR",
-                        "width": "30%"
-                    },
-                    {
-                        "command": [
-                            // { text: "Edit", click: EditStr, imageClass: "k-icon k-i-pencil" },
-                            { text: "Hapus", click: HapusStrNew, imageClass: "k-icon k-i-delete" },
-                            { text: "Download", click: downloadSipStr, imageClass: "k-icon k-delete" }
-                        ],
-                        title: "",
-                        width: "22%",
-                    }
+                    "field": "no",
+                    "title": "No",
+                    "width": "5%"
+                },
+                //             {
+                //                 "field": "namaLengkap",
+                //                 "title": "Nama",
+                //                 "width": "20%"
+                //             },	                
+                // {
+                //     "field": "unitkerja",
+                //     "title": "Unit Kerja",
+                //     "width": "20%",
+                // },
+                // {
+                // 	"field": "subunit",
+                //     "title": "Sub-Unit Kerja",
+                //     "width": "20%"
+                // },
+                {
+                    "field": "nomor",
+                    "title": "Nomor STR",
+                    "width": "20%"
+                },
+                {
+                    "field": "tglberakhir",
+                    "title": "Tanggal Berakhir",
+                    "width": "20%",
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglberakhir #')}}</span>"
+                },
+                {
+                    "field": "namafileupload",
+                    "title": "File STR",
+                    "width": "30%"
+                },
+                {
+                    "command": [
+                        // { text: "Edit", click: EditStr, imageClass: "k-icon k-i-pencil" },
+                        { text: "Hapus", click: HapusStrNew, imageClass: "k-icon k-i-delete" },
+                        { text: "Download", click: downloadSipStr, imageClass: "k-icon k-delete" }
+                    ],
+                    title: "",
+                    width: "22%",
+                }
                 ]
             }
 
 
-            $scope.$watch('item.gelarDepan', function(newValue, oldValue) {
+            $scope.$watch('item.gelarDepan', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.gelarDepan) {
                         if ($scope.item.gelarDepan && $scope.item.gelarBelakang) {
@@ -1123,7 +1123,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             });
 
-            $scope.$watch('item.nama', function(newValue, oldValue) {
+            $scope.$watch('item.nama', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.nama) {
                         var user = $scope.item.nama.replace(" ", ".")
@@ -1141,7 +1141,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             });
 
-            $scope.$watch('item.gelarBelakang', function(newValue, oldValue) {
+            $scope.$watch('item.gelarBelakang', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.gelarBelakang) {
                         if ($scope.item.gelarDepan && $scope.item.gelarBelakang) {
@@ -1206,7 +1206,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "id": dataItem.id
                 }
 
-                medifirstService.post('sdm/delete-data-keluarga-pegawai', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-keluarga-pegawai', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         grid.removeRow(row);
                     }
@@ -1297,7 +1297,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "norec": dataItem.norec
                 }
 
-                medifirstService.post('sdm/delete-data-pelatihan', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-pelatihan', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         grid.removeRow(row);
                     }
@@ -1384,7 +1384,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "norec": dataItem.norec
                 }
 
-                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         grid.removeRow(row);
                     }
@@ -1435,14 +1435,14 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
 
                 // managePhp.postData2('sdm-pegawai/delete-data-sipstr', itemDelete).then(function (e) {
-                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         grid.removeRow(row);
                     }
                 })
             }
 
-            $scope.createPendNew = function() {
+            $scope.createPendNew = function () {
                 $scope.item.norecPend = "";
                 $scope.item.nomor = undefined;
                 $scope.popUpRiwayatPendidikan.center().open();
@@ -1451,7 +1451,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpRiwayatPendidikan.setOptions({ actions: actions });
             }
 
-            $scope.createPelatihanNew = function() {
+            $scope.createPelatihanNew = function () {
                 $scope.item.norecPel = "";
                 $scope.item.nomor = undefined;
                 $scope.popUpRiwayatPelatihan.center().open();
@@ -1460,7 +1460,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpRiwayatPelatihan.setOptions({ actions: actions });
             }
 
-            $scope.createNew = function() {
+            $scope.createNew = function () {
                 $scope.item.id = "";
                 $scope.item.no = undefined;
                 $scope.popUpDataKeluarga.center().open();
@@ -1469,7 +1469,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpDataKeluarga.setOptions({ actions: actions });
             }
 
-            $scope.createJabatanNew = function() {
+            $scope.createJabatanNew = function () {
                 $scope.item.norecJab = "";
                 $scope.item.nomorId = undefined;
                 $scope.popUpRiwayatJabatan.center().open();
@@ -1478,7 +1478,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpRiwayatJabatan.setOptions({ actions: actions });
             }
 
-            $scope.createSip = function() {
+            $scope.createSip = function () {
                 $scope.item.norecSip = "";
                 $scope.item.nomorId = undefined;
                 $scope.popUpSip.center().open();
@@ -1487,7 +1487,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpSip.setOptions({ actions: actions });
             }
 
-            $scope.createStr = function() {
+            $scope.createStr = function () {
                 $scope.item.norecStr = "";
                 $scope.item.nomorId = undefined;
                 $scope.popUpStr.center().open();
@@ -1496,39 +1496,39 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.popUpStr.setOptions({ actions: actions });
             }
 
-            $scope.batalDataKeluarga = function() {
+            $scope.batalDataKeluarga = function () {
                 ClearDataKeluarga();
                 $scope.popUpDataKeluarga.close();
             }
 
-            $scope.batalRiwayatPendidikan = function() {
+            $scope.batalRiwayatPendidikan = function () {
                 ClearDataRiwayatPendidikan();
                 $scope.popUpRiwayatPendidikan.close();
             }
 
-            $scope.batalRiwayatPelatihan = function() {
+            $scope.batalRiwayatPelatihan = function () {
                 ClearDataRiwayatPelatihan();
                 $scope.popUpRiwayatPelatihan.close();
             }
 
-            $scope.batalRiwayatJabatan = function() {
+            $scope.batalRiwayatJabatan = function () {
                 ClearDataRiwayatJabatan();
                 $scope.popUpRiwayatJabatan.close();
             }
 
-            $scope.batalSip = function() {
+            $scope.batalSip = function () {
                 ClearDataSip();
                 document.getElementById("coba").reset();
                 $scope.popUpSip.close();
             }
 
-            $scope.batalStr = function() {
+            $scope.batalStr = function () {
                 ClearDataStr();
                 document.getElementById("coba2").reset();
                 $scope.popUpStr.close();
             }
 
-            $scope.tambahDataKeluarga = function() {
+            $scope.tambahDataKeluarga = function () {
                 var listRawRequired = [
                     "itemKeluarga.namaAnggotaKeluarga|ng-model|Nama Anggota Keluarga",
                     "itemKeluarga.hubunganKeluarga|ng-model|Hubungan Keluarga",
@@ -1649,7 +1649,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.tambahRiwayatPendidikan = function() {
+            $scope.tambahRiwayatPendidikan = function () {
                 var listRawRequired = [
                     "itemPendidikan.pendidikan|k-ng-model|Pendidikan",
                     "itemPendidikan.NamaInstitusi|ng-model|Nama Institusi",
@@ -1739,7 +1739,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 var idpegawai = $scope.item.idPegawai;
                 var namabendahara = $scope.item.namabendahara;
                 var npwpbendahara = "";
@@ -1760,7 +1760,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1785,7 +1785,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/pemotonganpajak.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/pemotonganpajak.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/pemotonganpajak.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/pemotonganpajak.pdf');
@@ -1798,7 +1798,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 $scope.isRouteLoading = false;
             }
 
-            $scope.tambahRiwayatPelatihan = function() {
+            $scope.tambahRiwayatPelatihan = function () {
                 var listRawRequired = [
                     "itemPelatihan.namaInstitusi|ng-model|Nama Penyelenggara",
                     "itemPelatihan.namaPelatihan|k-ng-model|Nama Pelatihan",
@@ -1875,7 +1875,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.tambahRiwayatJabatan = function() {
+            $scope.tambahRiwayatJabatan = function () {
                 var listRawRequired = [
                     "itemJabatan.jenisJabatan|k-ng-model|Jenis Jabatan",
                     "itemJabatan.jabatan|k-ng-model|Nama Jabatan",
@@ -1953,7 +1953,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.tambahSip = function() {
+            $scope.tambahSip = function () {
                 var listRawRequired = [
                     // "itemSip.unitKerja|k-ng-model|Unit Kerja",
                     // "itemSip.subUnitKerja|k-ng-model|Sub Unit Kerja",
@@ -2017,7 +2017,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.tambahStr = function() {
+            $scope.tambahStr = function () {
                 var listRawRequired = [
                     // "itemStr.unitKerja|k-ng-model|Unit Kerja",
                     // "itemStr.subUnitKerja|k-ng-model|Sub Unit Kerja",
@@ -2079,14 +2079,14 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.ceklispilihManual = function(bool) {
+            $scope.ceklispilihManual = function (bool) {
                 if (bool) {
                     $scope.model.kodeop = true
                 } else {
                     $scope.model.kodeop = false
                 }
             }
-            $scope.ceklispilihManual1 = function(bool) {
+            $scope.ceklispilihManual1 = function (bool) {
                 if (bool) {
                     $scope.model.kodeop1 = true
                     $scope.model.kodeop = false
@@ -2094,7 +2094,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.model.kodeop1 = false
                 }
             }
-            $scope.ceklispilihManualpt = function(bool) {
+            $scope.ceklispilihManualpt = function (bool) {
                 if (bool) {
                     $scope.model.pegawaitersebut = true
                     $scope.model.pegawaitersebut1 = false
@@ -2105,7 +2105,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.model.pegawaitersebut = false
                 }
             }
-            $scope.ceklispilihManualpt1 = function(bool) {
+            $scope.ceklispilihManualpt1 = function (bool) {
                 if (bool) {
                     $scope.model.pegawaitersebut1 = true
                     $scope.model.pegawaitersebut = false
@@ -2116,7 +2116,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.model.pegawaitersebut1 = false
                 }
             }
-            $scope.ceklispilihManualpt2 = function(bool) {
+            $scope.ceklispilihManualpt2 = function (bool) {
                 if (bool) {
                     $scope.model.pegawaitersebut2 = true
                     $scope.model.pegawaitersebut = false
@@ -2127,7 +2127,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.model.pegawaitersebut2 = false
                 }
             }
-            $scope.ceklispilihManualpt3 = function(bool) {
+            $scope.ceklispilihManualpt3 = function (bool) {
                 if (bool) {
                     $scope.model.pegawaitersebut3 = true
                     $scope.model.pegawaitersebut = false
@@ -2138,7 +2138,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     $scope.model.pegawaitersebut3 = false
                 }
             }
-            $scope.ceklispilihManualpt4 = function(bool) {
+            $scope.ceklispilihManualpt4 = function (bool) {
                 if (bool) {
                     $scope.model.pegawaitersebut4 = true
                     $scope.model.pegawaitersebut3 = false
@@ -2150,7 +2150,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.simpan = function() {
+            $scope.simpan = function () {
                 var listRawRequired = [
 
                     // Data Pegawai
@@ -2424,7 +2424,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         jenispegawai: $scope.item.JenisPegawai.id,
                         petugasdiklat: $scope.item.petugasdiklat.id != undefined ? $scope.item.petugasdiklat.id : null,
                         idruangan: $scope.item.ruangan != undefined ? $scope.item.ruangan.id : null
-                            // Data Status Pegawai
+                        // Data Status Pegawai
                     }
 
                     // var data ={};
@@ -2493,7 +2493,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                         .ariaLabel('Lucky day')
                         .cancel('Tidak')
                         .ok('Ya')
-                    $mdDialog.show(confirm).then(function() {
+                    $mdDialog.show(confirm).then(function () {
                         RealSave();
                     });
                 } else {
@@ -2501,7 +2501,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             }
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 $state.go('DataPegawai')
             }
 
@@ -2521,13 +2521,13 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'waktuberakhir': waktuBerakhir
                 }
 
-                medifirstService.post('sysadmin/menu/save-new-user', objSaveLogin).then(function(e) {
+                medifirstService.post('sysadmin/menu/save-new-user', objSaveLogin).then(function (e) {
 
                     ClearDataUserLogin();
                     LoadCache();
                     // FormLoad();
 
-                }, function(error) {
+                }, function (error) {
                     toastr.error(JSON.stringify(error.message), 'Error')
                 });
             }
@@ -2539,9 +2539,9 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     'noidentitas': $scope.item.noidentitas,
                     'idPegawai': $scope.item.idPegawai
                 }
-                medifirstService.post('sdm/save-rekam-data-pajak-penghasilan', objSave).then(function(e) {
+                medifirstService.post('sdm/save-rekam-data-pajak-penghasilan', objSave).then(function (e) {
                     if (e.status === 201) {
-                        medifirstService.post('tatarekening/save-log-pemotongan-pajak', json).then(function(e) {})
+                        medifirstService.post('tatarekening/save-log-pemotongan-pajak', json).then(function (e) { })
                     }
                     var dataHasilSave = e.data
                     if ($scope.item.idPegawai == undefined || $scope.item.idPegawai == "") {
@@ -2554,12 +2554,12 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 });
             }
 
-            $scope.batal = function() {
+            $scope.batal = function () {
                 $scope.showEdit = false;
                 $scope.item = {};
             }
 
-            $scope.simpanSipNew = function() {
+            $scope.simpanSipNew = function () {
                 // if ($scope.item.idPegawai == "" || $scope.item.idPegawai == undefined) {
                 // 	toastr.error('Id Tidak Boleh Kosong')
                 // 	return;
@@ -2627,7 +2627,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             }
 
-            $scope.simpanStrNew = function() {
+            $scope.simpanStrNew = function () {
                 // if ($scope.item.idPegawai == "" || $scope.item.idPegawai == undefined) {
                 // 	toastr.error('Id Tidak Boleh Kosong')
                 // 	return;
@@ -2695,8 +2695,8 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
             }
 
-            $scope.loadDataSip = function() {
-                medifirstService.get("sdm/get-data-sip").then(function(res) {
+            $scope.loadDataSip = function () {
+                medifirstService.get("sdm/get-data-sip").then(function (res) {
                     var datas = res.data.data;
                     for (var i = 0; i < datas.length; i++) {
                         datas[i].no = i + 1;
@@ -2708,8 +2708,8 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
 
                 });
             }
-            $scope.loadDataStr = function() {
-                medifirstService.get("sdm/get-data-str").then(function(res) {
+            $scope.loadDataStr = function () {
+                medifirstService.get("sdm/get-data-str").then(function (res) {
                     var datas = res.data.data;
                     for (var i = 0; i < datas.length; i++) {
                         datas[i].no = i + 1;
@@ -2737,7 +2737,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "namafile": dataItem.namafileupload,
                 }
 
-                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         $scope.loadDataSip();
                     }
@@ -2758,7 +2758,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     "namafile": dataItem.namafileupload,
                 }
 
-                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function(e) {
+                medifirstService.post('sdm/delete-data-sipstr', itemDelete).then(function (e) {
                     if (e.status === 201) {
                         $scope.loadDataStr();
                     }
@@ -2774,14 +2774,14 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                     return;
                 }
 
-                medifirstService.get('sdm/download-data-sipstr?' + "namaFile=" + dataItem.namafileupload).then(function(data) {
+                medifirstService.get('sdm/download-data-sipstr?' + "namaFile=" + dataItem.namafileupload).then(function (data) {
                     window.open(baseTransaksi + 'sdm/download-data-sipstr?' + "namaFile=" + dataItem.namafileupload);
                     // var url=baseTransaksi+data;
                     // downloadURI(url);
                 })
             }
 
-            $scope.$watch('item.tglMasuk', function(newValue, oldValue) {
+            $scope.$watch('item.tglMasuk', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.tglkeluar != undefined) {
                         let masaKerja = dateHelper.CountAge(new Date($scope.item.tglMasuk), new Date($scope.item.tglkeluar));
@@ -2796,7 +2796,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             });
 
-            $scope.$watch('item.tglkeluar', function(newValue, oldValue) {
+            $scope.$watch('item.tglkeluar', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.tglkeluar != undefined) {
                         let masaKerja = dateHelper.CountAge(new Date($scope.item.tglMasuk), new Date($scope.item.tglkeluar));
@@ -2811,7 +2811,7 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                 }
             });
 
-            $scope.$watch('item.tglPensiun', function(newValue, oldValue) {
+            $scope.$watch('item.tglPensiun', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.tglkeluar != undefined) {
                         let masaKerja = dateHelper.CountAge(new Date($scope.item.tglMasuk), new Date($scope.item.tglkeluar));

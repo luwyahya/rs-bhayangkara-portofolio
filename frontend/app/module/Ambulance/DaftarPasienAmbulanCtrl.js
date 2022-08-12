@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarPasienAmbulanCtrl', ['$q', '$rootScope', '$scope', 'CacheHelper', '$state', 'DateHelper', 'MedifirstService',
-        function($q, $rootScope, $scope, cacheHelper, $state, DateHelper, medifirstService) {
+        function ($q, $rootScope, $scope, cacheHelper, $state, DateHelper, medifirstService) {
             $scope.item = {};
             // DaftarPasienAmbulanCtrl
             $scope.dataVOloaded = true;
@@ -12,7 +12,7 @@ define(['initialize'], function(initialize) {
 
 
             function FormLoad() {
-                medifirstService.get("ambulance/get-data-for-combo", true).then(function(dat) {
+                medifirstService.get("ambulance/get-data-for-combo", true).then(function (dat) {
                     $scope.listRuangan = dat.data.ruanganambulan;
                     debugger;
                     $scope.ListDataPegawai = dat.data.pegawai;
@@ -79,31 +79,31 @@ define(['initialize'], function(initialize) {
 
                 var i = 0;
                 medifirstService.get("ambulance/get-data-pasien-ambulan?" + noCm + noRegis + nama +
-                    idRuangan + "&tglAwal=" + tglAwal + "&tglAkhir=" + tglAkhir).then(function(dat) {
-                    $scope.listDataJenazah = dat.data.data;
-                    if ($scope.listDataJenazah != undefined) {
-                        for (i = 0; i < $scope.listDataJenazah.length; i++) {
-                            $scope.listDataJenazah[i].no = i + 1;
-                            var tanggal = $scope.now;
-                            var tanggalLahir = new Date($scope.listDataJenazah[i].tgllahir);
-                            var umur = DateHelper.CountAge(tanggalLahir, tanggal);
-                            $scope.listDataJenazah[i].umur = umur.year + ' thn ' + umur.month + ' bln ' + umur.day + ' hari'
+                    idRuangan + "&tglAwal=" + tglAwal + "&tglAkhir=" + tglAkhir).then(function (dat) {
+                        $scope.listDataJenazah = dat.data.data;
+                        if ($scope.listDataJenazah != undefined) {
+                            for (i = 0; i < $scope.listDataJenazah.length; i++) {
+                                $scope.listDataJenazah[i].no = i + 1;
+                                var tanggal = $scope.now;
+                                var tanggalLahir = new Date($scope.listDataJenazah[i].tgllahir);
+                                var umur = DateHelper.CountAge(tanggalLahir, tanggal);
+                                $scope.listDataJenazah[i].umur = umur.year + ' thn ' + umur.month + ' bln ' + umur.day + ' hari'
+                            }
+                            $scope.dataSource = new kendo.data.DataSource({
+                                pageSize: 10,
+                                data: $scope.listDataJenazah,
+                                autoSync: true
+                            });
                         }
-                        $scope.dataSource = new kendo.data.DataSource({
-                            pageSize: 10,
-                            data: $scope.listDataJenazah,
-                            autoSync: true
-                        });
-                    }
-                });
+                    });
             }
-            $scope.kembalirekanan = function() {
+            $scope.kembalirekanan = function () {
                 $scope.popup_editor.close();
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm');
             }
-            $scope.simpansuratjalan = function() {
+            $scope.simpansuratjalan = function () {
                 var objSave = {
                     noregistrasi: $scope.item.noregistrasi,
                     petugasfk: $scope.item.petugas.id,
@@ -113,13 +113,13 @@ define(['initialize'], function(initialize) {
                     tujuan: $scope.item.tujuan,
                     keluargapasien: $scope.item.keluargapasien,
                 }
-                medifirstService.post('ambulance/save-suratjalan', objSave).then(function(e) {
+                medifirstService.post('ambulance/save-suratjalan', objSave).then(function (e) {
 
                 });
             }
-            $scope.suratjalan = function() {
+            $scope.suratjalan = function () {
                 if ($scope.current != undefined) {
-                    medifirstService.get("ambulance/get-suratjalan?noregistrasi=" + $scope.current.noregistrasi).then(function(dat) {
+                    medifirstService.get("ambulance/get-suratjalan?noregistrasi=" + $scope.current.noregistrasi).then(function (dat) {
                         $scope.item.nopol = dat.data.data.nopol
                         $scope.item.tujuan = dat.data.data.tujuan
                         $scope.item.keperluan = dat.data.data.keperluan
@@ -132,7 +132,7 @@ define(['initialize'], function(initialize) {
                 $scope.popup_editor.center().open();
             }
 
-            $scope.cetak = function() {
+            $scope.cetak = function () {
 
                 var user = medifirstService.getPegawaiLogin();
                 var data = {
@@ -142,7 +142,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -161,7 +161,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratjalan.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratjalan.pdf');
@@ -177,84 +177,84 @@ define(['initialize'], function(initialize) {
             }
 
             $scope.columnDataJenazah = [{
-                    "field": "tglregistrasi",
-                    "title": "Tgl Registrasi",
-                    "width": "130px",
-                    "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
-                },
-                // {
-                // 	"field": "tglorder",
-                // 	"title": "Tgl Order",
-                // 	"width":"130px",
-                // 	"template": "<span class='style-left'>{{formatTanggal('#: tglorder #')}}</span>"
-                // },
-                // {
-                // 	"field": "tglmasuk",
-                // 	"title": "Tgl Layanan",
-                // 	"width":"130px",
-                // 	"template": "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>"
-                // },
-                // {
-                // 	"field": "tglpelayanan",
-                // 	"title": "Tgl Layanan",
-                // 	"width":"130px",
-                // 	"template": "<span class='style-left'>{{formatTanggal('#: tglpelayanan #')}}</span>"
-                // },				
-                {
-                    "field": "nocm",
-                    "title": "No RM",
-                    "width": "80px",
-                    "template": "<span class='style-center'>#: nocm #</span>"
-                },
-                {
-                    "field": "noregistrasi",
-                    "title": "No Registrasi",
-                    "width": "100px",
-                    "template": "<span class='style-center'>#: noregistrasi #</span>"
-                },
-                {
-                    "field": "namapasien",
-                    "title": "Nama Pasien",
-                    "width": "200px",
-                    "template": "<span class='style-left'>#: namapasien #</span>"
-                },
-                {
-                    "field": "umur",
-                    "title": "Umur",
-                    "width": "150px",
-                    "template": "<span class='style-left'>#: umur #</span>"
-                },
-                {
-                    "field": "namadokter",
-                    "title": "Dokter",
-                    "width": "150px",
-                    // "template": "<span class='style-left'>#: namadokter #</span>"
-                    "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
-                },
-                {
-                    "field": "jeniskelamin",
-                    "title": "JK",
-                    "width": "80px",
-                    "template": "<span class='style-left'>#: jeniskelamin #</span>"
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Ruangan",
-                    "width": "150px",
-                    "template": "<span class='style-left'>#: namaruangan #</span>"
-                },
-                {
-                    "field": "namakelas",
-                    "title": "Kelas",
-                    "width": "80px",
-                    "template": "<span class='style-left'>#:  namakelas #</span>"
-                },
-                {
-                    "field": "kelompokpasien",
-                    "title": "Tipe Pembayaran",
-                    "width": "150px",
-                    "template": "<span class='style-center'>#: kelompokpasien #</span>"
-                }
+                "field": "tglregistrasi",
+                "title": "Tgl Registrasi",
+                "width": "130px",
+                "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
+            },
+            // {
+            // 	"field": "tglorder",
+            // 	"title": "Tgl Order",
+            // 	"width":"130px",
+            // 	"template": "<span class='style-left'>{{formatTanggal('#: tglorder #')}}</span>"
+            // },
+            // {
+            // 	"field": "tglmasuk",
+            // 	"title": "Tgl Layanan",
+            // 	"width":"130px",
+            // 	"template": "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>"
+            // },
+            // {
+            // 	"field": "tglpelayanan",
+            // 	"title": "Tgl Layanan",
+            // 	"width":"130px",
+            // 	"template": "<span class='style-left'>{{formatTanggal('#: tglpelayanan #')}}</span>"
+            // },				
+            {
+                "field": "nocm",
+                "title": "No RM",
+                "width": "80px",
+                "template": "<span class='style-center'>#: nocm #</span>"
+            },
+            {
+                "field": "noregistrasi",
+                "title": "No Registrasi",
+                "width": "100px",
+                "template": "<span class='style-center'>#: noregistrasi #</span>"
+            },
+            {
+                "field": "namapasien",
+                "title": "Nama Pasien",
+                "width": "200px",
+                "template": "<span class='style-left'>#: namapasien #</span>"
+            },
+            {
+                "field": "umur",
+                "title": "Umur",
+                "width": "150px",
+                "template": "<span class='style-left'>#: umur #</span>"
+            },
+            {
+                "field": "namadokter",
+                "title": "Dokter",
+                "width": "150px",
+                // "template": "<span class='style-left'>#: namadokter #</span>"
+                "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
+            },
+            {
+                "field": "jeniskelamin",
+                "title": "JK",
+                "width": "80px",
+                "template": "<span class='style-left'>#: jeniskelamin #</span>"
+            },
+            {
+                "field": "namaruangan",
+                "title": "Ruangan",
+                "width": "150px",
+                "template": "<span class='style-left'>#: namaruangan #</span>"
+            },
+            {
+                "field": "namakelas",
+                "title": "Kelas",
+                "width": "80px",
+                "template": "<span class='style-left'>#:  namakelas #</span>"
+            },
+            {
+                "field": "kelompokpasien",
+                "title": "Tipe Pembayaran",
+                "width": "150px",
+                "template": "<span class='style-center'>#: kelompokpasien #</span>"
+            }
             ];
 
             $scope.mainGridOptions = {
@@ -265,7 +265,7 @@ define(['initialize'], function(initialize) {
                 scrollable: false
             };
 
-            $scope.klik = function(current) {
+            $scope.klik = function (current) {
                 $scope.current = current;
                 $scope.item.norec = current.norec;
                 $scope.item.objectpasiendaftarfk = current.objectpasiendaftarfk;
@@ -273,11 +273,11 @@ define(['initialize'], function(initialize) {
                 $scope.item.noregistrasi = current.noregistrasi;
             };
 
-            $scope.cari = function() {
+            $scope.cari = function () {
                 loadData()
             }
 
-            $scope.inputTindakan = function() {
+            $scope.inputTindakan = function () {
                 if ($scope.current != undefined) {
                     $state.go('InputTindakan', {
                         norecPD: $scope.current.norec_pd,
@@ -288,7 +288,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.DetailTagihan = function() {
+            $scope.DetailTagihan = function () {
                 if ($scope.current != undefined) {
                     var obj = {
                         noRegistrasi: $scope.current.noregistrasi
@@ -300,19 +300,19 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            var HttpClient = function() {
-                    this.get = function(aUrl, aCallback) {
-                        var anHttpRequest = new XMLHttpRequest();
-                        anHttpRequest.onreadystatechange = function() {
-                            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                                aCallback(anHttpRequest.responseText);
-                        }
-
-                        anHttpRequest.open("GET", aUrl, true);
-                        anHttpRequest.send(null);
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
+                    var anHttpRequest = new XMLHttpRequest();
+                    anHttpRequest.onreadystatechange = function () {
+                        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                            aCallback(anHttpRequest.responseText);
                     }
+
+                    anHttpRequest.open("GET", aUrl, true);
+                    anHttpRequest.send(null);
                 }
-                //** BATAS SUCI */
+            }
+            //** BATAS SUCI */
 
         }
     ]);

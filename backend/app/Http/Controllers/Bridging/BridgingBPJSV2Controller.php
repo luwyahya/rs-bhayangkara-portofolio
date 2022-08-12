@@ -2115,6 +2115,8 @@ class BridgingBPJSV2Controller extends ApiController
             $result = (array) json_decode($response);
         }
 
+        $key=$data.$secretKey.(string)$tStamp;
+        $result =$this->stringDecryptVclaim($key,$result);
         return $this->respond($result);
     }
     public function getMonitoringKlaim(Request $request) {
@@ -4065,6 +4067,86 @@ class BridgingBPJSV2Controller extends ApiController
         $key=$data.$secretKey.(string)$tStamp;
         $result =$this->stringDecryptVclaim($key,$result);
         return $this->respond($result);
+    }
+    public function cariListHistoriSuratKontrol($noKartu)
+    {
+        
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noKartu'] = $noKartu;
+            $objetoRequest['bulan'] = 0;
+            $response = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+            if($response['metaData']->code==200){
+                $x=$response['response']['list'];
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['noKartu'] = $noKartu;
+                $objetoRequest['bulan'] = 1;
+                $response2 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+                if($response2['metaData']->code==200){
+                    $r=array_merge($x,$response2['response']['list']);
+                }
+            }
+            $result = array(
+                        'metaData' => $response['metaData'],
+                        'response' => $r,
+                    );
+        return response()->json($result);
+    }
+    public function getListRencanaKontrolBerdasarkanNoKartuCustom(Request $request) {
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+
+        $curl = curl_init();
+        
+        $tahun = Carbon::now()->format('Y');
+        // $bulan = Carbon::now()->format('m');
+        $bulan =Carbon::now()->startOfMonth()->subMonth($request['bulan'])->format('m');
+        $kartu=$request['noKartu'];
+        
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
+            CURLOPT_URL =>$this->getUrlBrigdingBPJSV2()."RencanaKontrol/ListRencanaKontrol/Bulan/".$bulan."/Tahun/".$tahun."/Nokartu/".$kartu."/filter/2",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json; charset=utf-8",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key:". $userKey
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            $result= "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+
+        $key=$data.$secretKey.(string)$tStamp;
+        $result =$this->stringDecryptVclaim($key,$result);
+        return ($result);
     }
 
     public function getMonitoringJasaRaharja(Request $request) {

@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarFormulirAntemortemCtrl', ['$mdDialog', 'CacheHelper', '$scope', '$state', 'MedifirstService', 'DateHelper', '$window',
-        function($mdDialog, cacheHelper, $scope, $state, medifirstService, dateHelper, $window) {
+        function ($mdDialog, cacheHelper, $scope, $state, medifirstService, dateHelper, $window) {
             $scope.dataVOloaded = true;
             $scope.isRouteLoading = true;
             $scope.dataSelectedAntemortem = {};
@@ -21,7 +21,7 @@ define(['initialize'], function(initialize) {
             var foto6 = [];
 
             function loadCombo() {
-                medifirstService.get('jenazah/get-data-for-combo').then(function(dat) {
+                medifirstService.get('jenazah/get-data-for-combo').then(function (dat) {
                     debugger
                     $scope.listJenisBencana = dat.data.jenisbencana
                     $scope.item.jenisbencana = { id: dat.data.jenisbencana[0].id, jenisbencana: dat.data.jenisbencana[0].jenisbencana }
@@ -37,10 +37,10 @@ define(['initialize'], function(initialize) {
                     loadData()
                 })
             }
-            $scope.cari = function() {
+            $scope.cari = function () {
                 loadData()
             }
-            $scope.$watch('model.cekpilihManual', function(value) {
+            $scope.$watch('model.cekpilihManual', function (value) {
                 if (value == true) {
                     $scope.petugasdalam = false;
                     $scope.petugasluar = true;
@@ -69,7 +69,7 @@ define(['initialize'], function(initialize) {
                 } else {
                     namapelapor = ""
                 }
-                medifirstService.get("jenazah/dvi/get-daftar-formulir-antemortem?" + jenisbencana + namakorban + namapelapor).then(function(data) {
+                medifirstService.get("jenazah/dvi/get-daftar-formulir-antemortem?" + jenisbencana + namakorban + namapelapor).then(function (data) {
                     debugger;
                     $scope.isRouteLoading = false;
                     var antemortem = data.data
@@ -86,7 +86,7 @@ define(['initialize'], function(initialize) {
                             }
                         }
                     });
-                    $scope.formatTanggal = function(tanggal) {
+                    $scope.formatTanggal = function (tanggal) {
                         return moment(tanggal).format('DD-MMM-YYYY');
                     }
                     $scope.columnAntemortem = {
@@ -94,54 +94,54 @@ define(['initialize'], function(initialize) {
                         selectable: "row",
                         pageable: true,
                         columns: [{
-                                "field": "tglinput",
-                                "title": "Tgl Input",
-                                "width": "50px",
+                            "field": "tglinput",
+                            "title": "Tgl Input",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "noregistrasi",
+                            "title": "No Registrasi",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "namapelapor",
+                            "title": "Nama Pelapor",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "namadilaporkan",
+                            "title": "Nama Dilaporkan",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "jeniskelamin",
+                            "title": "Jenis Kelamin",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "tgllahir",
+                            "title": "Tgl Lahir",
+                            "width": "50px",
+                            "template": "<span class='style-right'>{{formatTanggal('#: tgllahir #')}}</span>"
+                        },
+                        {
+                            "field": "alamat",
+                            "title": "Alamat",
+                            "width": "50px",
+                        },
+                        {
+                            "field": "statusdaftar",
+                            "title": "Status",
+                            "width": "50px",
+                            attributes: {
+                                class: "#=statusdaftar == 'Online' ? 'hejo' : 'green' #"
                             },
-                            {
-                                "field": "noregistrasi",
-                                "title": "No Registrasi",
-                                "width": "50px",
-                            },
-                            {
-                                "field": "namapelapor",
-                                "title": "Nama Pelapor",
-                                "width": "50px",
-                            },
-                            {
-                                "field": "namadilaporkan",
-                                "title": "Nama Dilaporkan",
-                                "width": "50px",
-                            },
-                            {
-                                "field": "jeniskelamin",
-                                "title": "Jenis Kelamin",
-                                "width": "50px",
-                            },
-                            {
-                                "field": "tgllahir",
-                                "title": "Tgl Lahir",
-                                "width": "50px",
-                                "template": "<span class='style-right'>{{formatTanggal('#: tgllahir #')}}</span>"
-                            },
-                            {
-                                "field": "alamat",
-                                "title": "Alamat",
-                                "width": "50px",
-                            },
-                            {
-                                "field": "statusdaftar",
-                                "title": "Status",
-                                "width": "50px",
-                                attributes: {
-                                    class: "#=statusdaftar == 'Online' ? 'hejo' : 'green' #"
-                                },
-                            },
+                        },
                         ]
                     }
                 })
             }
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 if ($scope.dataSelectedAntemortem.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !')
                     $scope.isRouteLoading = false;
@@ -280,7 +280,7 @@ define(['initialize'], function(initialize) {
                     "paramType": [""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -299,7 +299,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/antemortemnew.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/antemortemnew.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/antemortemnew.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/antemortemnew.pdf');
@@ -320,7 +320,7 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
                 $scope.isRouteLoading = false;
             }
-            $scope.edit = function() {
+            $scope.edit = function () {
                 $scope.isRouteLoading = true;
                 if ($scope.dataSelectedAntemortem.noregistrasi == undefined) {
                     toastr.error('Data Belum Dipilih !')
@@ -333,7 +333,7 @@ define(['initialize'], function(initialize) {
             }
 
             function loadEdit() {
-                medifirstService.get('jenazah/dvi/get-data-edit-antemortem?noregistrasi=' + $scope.dataSelectedAntemortem.noregistrasi).then(function(dat) {
+                medifirstService.get('jenazah/dvi/get-data-edit-antemortem?noregistrasi=' + $scope.dataSelectedAntemortem.noregistrasi).then(function (dat) {
                     debugger
                     $scope.isRouteLoading = true;
                     temp = dat.data.dataAntemortem[0].noregistrasi
@@ -380,7 +380,7 @@ define(['initialize'], function(initialize) {
                         $scope.item.petugasinputdata = { id: dat.data.dataAntemortem[0].idpenginput, namalengkap: dat.data.dataAntemortem[0].penginput }
                     }
                     $scope.item.teleponinputdata = dat.data.dataAntemortem[0].notelppenginput
-                        //   $scope.item.jenisbencana.id
+                    //   $scope.item.jenisbencana.id
                     debugger
                     $scope.images = [];
                     var fotoantemortem = dat.data.fotoLampiran
@@ -433,17 +433,17 @@ define(['initialize'], function(initialize) {
                     $scope.isRouteLoading = false;
                 })
             }
-            $scope.deletefoto = function(image) {
+            $scope.deletefoto = function (image) {
                 debugger
                 var save = {
                     norec: image.norec
                 }
-                medifirstService.post('jenazah/dvi/delete-foto-antemortem', save).then(function(e) {
+                medifirstService.post('jenazah/dvi/delete-foto-antemortem', save).then(function (e) {
                     $scope.dataSelectedAntemortem.noregistrasi = temp
                     loadEdit()
                 })
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -474,16 +474,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto.push({ foto: (reader.result), id: 4 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker2').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -514,16 +514,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto2.push({ foto: (reader.result), id: 1 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker3').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -554,16 +554,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto3.push({ foto: (reader.result), id: 2 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker4').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -594,16 +594,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto4.push({ foto: (reader.result), id: 3 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker5').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -634,16 +634,16 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto5.push({ foto: (reader.result), id: 4 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            var handleFileSelect = function(file) {
+            var handleFileSelect = function (file) {
                 var files = document.getElementById('filePicker6').files;
                 debugger
                 for (var i = 0; i < files.length; i++) {
@@ -674,22 +674,22 @@ define(['initialize'], function(initialize) {
 
                 var reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = function() {
+                reader.onload = function () {
                     //    tes.push(reader)
                     console.log(reader.result)
                     foto6.push({ foto: (reader.result), id: 5 })
                 };
-                reader.onerror = function(error) {
+                reader.onerror = function (error) {
                     console.log('Error: ', error);
                 };
             }
-            $scope.batalEdit = function() {
+            $scope.batalEdit = function () {
                 $scope.buttonasli = true;
                 $scope.isi = false;
                 $scope.item.petugaswawancara = undefined;
                 $scope.item.petugaswawancaraluar = undefined;
             }
-            $scope.saveEdit = function() {
+            $scope.saveEdit = function () {
                 debugger
                 if ($scope.model.cekpilihManual == true) {
                     $scope.item.petugaswawancara = {
@@ -742,39 +742,39 @@ define(['initialize'], function(initialize) {
                     petugasinput: $scope.item.petugasinputdata.id,
                     notelpinput: $scope.item.teleponinputdata
                 }
-                medifirstService.post('jenazah/dvi/save-edit-antemortem', save).then(function(e) {
+                medifirstService.post('jenazah/dvi/save-edit-antemortem', save).then(function (e) {
                     $scope.isi = false;
                     $scope.buttonasli = true;
                     loadCombo();
                 })
             }
-            $scope.release = function() {
-                    if ($scope.dataSelectedAntemortem.noregistrasi == undefined) {
-                        toastr.error('Pilih Data Dahulu !')
-                        return;
-                    }
-                    medifirstService.get('jenazah/dvi/cek-sudah-release?noregistrasi=' + $scope.dataSelectedAntemortem.noregistrasi).then(function(dat) {
-                        if (dat.data.length > 0) {
-                            toastr.error('Data Sudah di Release !')
-                            return
-                        } else {
-                            var arrStr = {
-                                0: $scope.dataSelectedAntemortem.noregistrasi,
-                                1: $scope.dataSelectedAntemortem.namadilaporkan,
-                                2: $scope.dataSelectedAntemortem.tgllahir,
-                                3: $scope.dataSelectedAntemortem.namapelapor,
-                                4: $scope.dataSelectedAntemortem.notelepon,
-                                5: $scope.dataSelectedAntemortem.alamat,
-                                6: $scope.dataSelectedAntemortem.hubungankeluarga,
-                                7: $scope.dataSelectedAntemortem.idhubungankeluarga,
-                                8: $scope.dataSelectedAntemortem.idjenisbencana
-                            }
-                            cacheHelper.set('ReleaseDvi', arrStr);
-                            $state.go('ReleaseDvi')
-                        }
-                    })
+            $scope.release = function () {
+                if ($scope.dataSelectedAntemortem.noregistrasi == undefined) {
+                    toastr.error('Pilih Data Dahulu !')
+                    return;
                 }
-                /*Batas Suci*/
+                medifirstService.get('jenazah/dvi/cek-sudah-release?noregistrasi=' + $scope.dataSelectedAntemortem.noregistrasi).then(function (dat) {
+                    if (dat.data.length > 0) {
+                        toastr.error('Data Sudah di Release !')
+                        return
+                    } else {
+                        var arrStr = {
+                            0: $scope.dataSelectedAntemortem.noregistrasi,
+                            1: $scope.dataSelectedAntemortem.namadilaporkan,
+                            2: $scope.dataSelectedAntemortem.tgllahir,
+                            3: $scope.dataSelectedAntemortem.namapelapor,
+                            4: $scope.dataSelectedAntemortem.notelepon,
+                            5: $scope.dataSelectedAntemortem.alamat,
+                            6: $scope.dataSelectedAntemortem.hubungankeluarga,
+                            7: $scope.dataSelectedAntemortem.idhubungankeluarga,
+                            8: $scope.dataSelectedAntemortem.idjenisbencana
+                        }
+                        cacheHelper.set('ReleaseDvi', arrStr);
+                        $state.go('ReleaseDvi')
+                    }
+                })
+            }
+            /*Batas Suci*/
 
         }
     ])

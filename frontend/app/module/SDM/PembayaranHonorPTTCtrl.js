@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('PembayaranHonorPTTCtrl', ['CacheHelper', '$scope', 'MedifirstService', 'DateHelper',
-        function(cacheHelper, $scope, medifirstService, DateHelper) {
+        function (cacheHelper, $scope, medifirstService, DateHelper) {
             $scope.dataVOloaded1 = true;
             $scope.now = new Date()
             $scope.dataPasienSelected = {};
@@ -15,7 +15,7 @@ define(['initialize'], function(initialize) {
             loadCombo2()
 
             function loadCombo() {
-                medifirstService.get("sdm/get-data-combo-sdm?").then(function(dat) {
+                medifirstService.get("sdm/get-data-combo-sdm?").then(function (dat) {
                     var dataCombo = dat.data
                     $scope.listRuangan = dataCombo.ruangan;
                     $scope.ListStatusPegawai = dataCombo.kategorypegawai;
@@ -24,13 +24,13 @@ define(['initialize'], function(initialize) {
             }
 
             function loadCombo2() {
-                medifirstService.get("sdm/get-combo-honor").then(function(o) {
+                medifirstService.get("sdm/get-combo-honor").then(function (o) {
                     debugger;
                     $scope.listKedudukan = o.data
                 })
             }
 
-            $scope.Search = function() {
+            $scope.Search = function () {
                 $scope.isRouteLoading = true;
                 loadData()
             }
@@ -51,7 +51,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 $scope.isRouteLoading = true;
-                medifirstService.get('sdm/get-pembayaran-honor-ptt?' + ruangan + sp + "&bulan=" + bulan + "&tahun=" + tahun).then(function(dat) {
+                medifirstService.get('sdm/get-pembayaran-honor-ptt?' + ruangan + sp + "&bulan=" + bulan + "&tahun=" + tahun).then(function (dat) {
                     $scope.isRouteLoading = false;
                     debugger;
                     for (var i = 0; i < dat.data.length; i++) {
@@ -99,40 +99,40 @@ define(['initialize'], function(initialize) {
                         resizable: true,
                         scrollable: false,
                         columns: [{
-                                "field": "no",
-                                "title": "No",
-                                "width": "15px"
-                            },
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama",
-                                "width": "200px",
-                                "template": "<span class='style-center'>#:namalengkap #</span>"
-                            },
-                            {
-                                "field": "namaruangan2",
-                                "title": "Nama Ruangan",
-                                "width": "100px",
-                                "template": "<span class='style-center'>#:namaruangan2 #</span>"
-                            },
-                            {
-                                "field": "pendidikan2",
-                                "title": "Pendidikan",
-                                "width": "100px",
-                                "template": "<span class='style-center'>#:pendidikan2 #</span>"
-                            },
-                            {
-                                "field": "tglmasuk",
-                                "title": "TMT",
-                                "width": "100px",
-                                "template": "<span class='style-center'>{{formatTanggal('#:tglmasuk #', '')}}</span>"
-                            },
-                            {
-                                "field": "salary",
-                                "title": "Jumlah Nominal",
-                                "width": "100px",
-                                "template": "<span class='style-center'>{{formatRupiah2('#:salary #', '')}}</span>"
-                            }
+                            "field": "no",
+                            "title": "No",
+                            "width": "15px"
+                        },
+                        {
+                            "field": "namalengkap",
+                            "title": "Nama",
+                            "width": "200px",
+                            "template": "<span class='style-center'>#:namalengkap #</span>"
+                        },
+                        {
+                            "field": "namaruangan2",
+                            "title": "Nama Ruangan",
+                            "width": "100px",
+                            "template": "<span class='style-center'>#:namaruangan2 #</span>"
+                        },
+                        {
+                            "field": "pendidikan2",
+                            "title": "Pendidikan",
+                            "width": "100px",
+                            "template": "<span class='style-center'>#:pendidikan2 #</span>"
+                        },
+                        {
+                            "field": "tglmasuk",
+                            "title": "TMT",
+                            "width": "100px",
+                            "template": "<span class='style-center'>{{formatTanggal('#:tglmasuk #', '')}}</span>"
+                        },
+                        {
+                            "field": "salary",
+                            "title": "Jumlah Nominal",
+                            "width": "100px",
+                            "template": "<span class='style-center'>{{formatRupiah2('#:salary #', '')}}</span>"
+                        }
                         ]
                     }
 
@@ -145,13 +145,13 @@ define(['initialize'], function(initialize) {
                     // })
 
                     if ($scope.item.ruangan == undefined && $scope.item.statuspegawai == undefined) {
-                        medifirstService.get('sdm/get-total-pembayaran-ptt?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function(a) {
+                        medifirstService.get('sdm/get-total-pembayaran-ptt?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function (a) {
                             debugger;
                             var total1 = a.data;
                             $scope.item.salary2 = "Rp. " + parseFloat(total1[0].salary2).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                         })
                     } else if ($scope.item.ruangan != undefined && $scope.item.statuspegawai == undefined) {
-                        medifirstService.get('sdm/get-jumlah-pembayaran-ptt?' + ruangan + "&bulan=" + bulan + "&tahun=" + tahun).then(function(dat) {
+                        medifirstService.get('sdm/get-jumlah-pembayaran-ptt?' + ruangan + "&bulan=" + bulan + "&tahun=" + tahun).then(function (dat) {
                             debugger;
                             var total = dat.data;
                             for (var i = 0; i < total.length; i++) {
@@ -159,7 +159,7 @@ define(['initialize'], function(initialize) {
                             }
                         })
                     } else if ($scope.item.ruangan == undefined && $scope.item.statuspegawai != undefined) {
-                        medifirstService.get('sdm/get-jumlah-pembayaran-kelompok-ptt?' + sp + "&bulan=" + bulan + "&tahun=" + tahun).then(function(dat) {
+                        medifirstService.get('sdm/get-jumlah-pembayaran-kelompok-ptt?' + sp + "&bulan=" + bulan + "&tahun=" + tahun).then(function (dat) {
                             debugger;
                             var total = dat.data;
                             for (var i = 0; i < total.length; i++) {
@@ -168,21 +168,21 @@ define(['initialize'], function(initialize) {
                         })
                     }
 
-                    $scope.formatRupiah2 = function(value, currency) {
+                    $scope.formatRupiah2 = function (value, currency) {
                         return currency + "Rp. " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                     }
-                    $scope.formatTanggal = function(tanggal) {
+                    $scope.formatTanggal = function (tanggal) {
                         return moment(tanggal).format('DD-MMM-YYYY');
                     }
 
                 })
 
-                medifirstService.get('sdm/get-pembayaran-rekap?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function(dat) {
+                medifirstService.get('sdm/get-pembayaran-rekap?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function (dat) {
                     debugger;
                     var anjay = dat.data[0]
                     $scope.jumlah = "Rp. " + parseFloat(anjay.salary2).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                 })
-                medifirstService.get('sdm/get-personil-rekap?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function(dat) {
+                medifirstService.get('sdm/get-personil-rekap?' + "&bulan=" + bulan + "&tahun=" + tahun).then(function (dat) {
                     debugger;
                     var anjay2 = dat.data[0]
                     $scope.personil = anjay2.personil
@@ -192,7 +192,7 @@ define(['initialize'], function(initialize) {
             //     start: "year",
             //     depth: "year"
             // }
-            $scope.cetakJasperRekap = function() {
+            $scope.cetakJasperRekap = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Rekap Gaji? ')) {
@@ -230,8 +230,8 @@ define(['initialize'], function(initialize) {
                 // }
                 var jumlah = $scope.jumlah
                 var personil = $scope.personil
-                    // var tanggal = $scope.item.tanggal
-                    // var tanggal = moment($scope.now).format('MMM YYYY');
+                // var tanggal = $scope.item.tanggal
+                // var tanggal = moment($scope.now).format('MMM YYYY');
                 var tanggal = moment($scope.item.periode).format('MMM YYYY');
                 var bulan = moment($scope.item.periode).format('MM');
                 var tahun = moment($scope.item.periode).format('YYYY');
@@ -248,10 +248,10 @@ define(['initialize'], function(initialize) {
                     // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", ""]
-                        // ,"","","date","","","","","","","","","","","","",""]
+                    // ,"","","date","","","","","","","","","","","","",""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -272,7 +272,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekappembayaranptt.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekappembayaranptt.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rekappembayaranptt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rekappembayaranptt.pdf');
@@ -319,7 +319,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.cetakJasperRuangan = function() {
+            $scope.cetakJasperRuangan = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Rekap Gaji? ')) {
@@ -356,8 +356,8 @@ define(['initialize'], function(initialize) {
                 //     catatan = $scope.item.catatan;
                 // }
                 var jumlah = $scope.item.salary2
-                    // var tanggal = $scope.item.tanggal
-                    // var tanggal = moment($scope.now).format('MMM YYYY');
+                // var tanggal = $scope.item.tanggal
+                // var tanggal = moment($scope.now).format('MMM YYYY');
                 var tanggal = moment($scope.item.periode).format('MMM YYYY');
                 var bulan = moment($scope.item.periode).format('MM');
                 var tahun = moment($scope.item.periode).format('YYYY');
@@ -374,10 +374,10 @@ define(['initialize'], function(initialize) {
                     // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", "", ""]
-                        // ,"","","date","","","","","","","","","","","","",""]
+                    // ,"","","date","","","","","","","","","","","","",""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -398,7 +398,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/daftarPembayaranHonorPtt.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/daftarPembayaranHonorPtt.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorPtt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorPtt.pdf');
@@ -444,7 +444,7 @@ define(['initialize'], function(initialize) {
                 //    });
 
             }
-            $scope.cetakJasperKelompok = function() {
+            $scope.cetakJasperKelompok = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var stt = 'false'
                 if (confirm('View Rekap Gaji? ')) {
@@ -481,8 +481,8 @@ define(['initialize'], function(initialize) {
                 //     catatan = $scope.item.catatan;
                 // }
                 var jumlah = $scope.item.salary2
-                    // var tanggal = $scope.item.tanggal
-                    // var tanggal = moment($scope.now).format('MMM YYYY');
+                // var tanggal = $scope.item.tanggal
+                // var tanggal = moment($scope.now).format('MMM YYYY');
                 var tanggal = moment($scope.item.periode).format('MMM YYYY');
                 var bulan = moment($scope.item.periode).format('MM');
                 var tahun = moment($scope.item.periode).format('YYYY');
@@ -499,10 +499,10 @@ define(['initialize'], function(initialize) {
                     // "RUMAH SAKIT UNIVERSITAS ANDALAS","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", ""]
-                        // ,"","","date","","","","","","","","","","","","",""]
+                    // ,"","","date","","","","","","","","","","","","",""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -523,7 +523,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorKelompokPtt.pdf');

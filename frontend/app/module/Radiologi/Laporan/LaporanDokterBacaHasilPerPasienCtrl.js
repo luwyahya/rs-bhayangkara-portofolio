@@ -202,7 +202,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             aggregate: [{
                                 field: 'total',
                                 aggregate: 'sum'
-                            }, ]
+                            },]
 
                         };
 
@@ -211,9 +211,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         }
 
                     },
-                    function (error) {
-                        $scope.isLoading = false;
-                    });
+                        function (error) {
+                            $scope.isLoading = false;
+                        });
                 // } else {
                 // $scope.isLoading = false;
                 // }
@@ -734,7 +734,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     aggregate: [{
                         field: 'total',
                         aggregate: 'sum'
-                    }, ]
+                    },]
 
                 });
 
@@ -982,10 +982,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                 $scope.hideExper = true
                 medifirstService.post('laboratorium/save-hasil-lab-pa', objSave).then(function (e) {
-                        init();
-                        $scope.hideExper = false
-                        $scope.popUpPA.close();
-                    },
+                    init();
+                    $scope.hideExper = false
+                    $scope.popUpPA.close();
+                },
 
                     function (error) {
                         $scope.hideExper = false
@@ -1121,7 +1121,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 //     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/evaluasiigd.pdf');
                 // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                 //     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/evaluasiigd.pdf');
-                // } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                // } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                 //     xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 // } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                 //     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/evaluasiigd.pdf');

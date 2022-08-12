@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarPenerimaanObatResiduCtrl', ['$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($scope, $state, cacheHelper, dateHelper, medifirstService) {
+        function ($scope, $state, cacheHelper, dateHelper, medifirstService) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -71,27 +71,27 @@ define(['initialize'], function(initialize) {
             }
 
             function ComboLoad() {
-                medifirstService.get('logistik/get-combo-logistik').then(function(dat) {
+                medifirstService.get('logistik/get-combo-logistik').then(function (dat) {
                     $scope.listDataJabatan = dat.data.jabatan;
                     $scope.ruanganUser = dat.data.ruangan[0].namaruangan;
                     init();
                 });
 
-                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function (data) {
                     $scope.ListDataPegawai = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function (data) {
                     $scope.listNamaBarang = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-rekanan-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-rekanan-logistik", true, true, 20).then(function (data) {
                     $scope.listRekanan = data;
                 });
                 init();
             }
 
-            $scope.BatalCetak = function() {
+            $scope.BatalCetak = function () {
                 $scope.popUp.close();
                 // $scope.item.DataJabatan1 = undefined;                 
                 // $scope.item.DataPegawai1 = undefined;
@@ -101,7 +101,7 @@ define(['initialize'], function(initialize) {
                 // $scope.item.DataPegawai3 = undefined
             }
 
-            $scope.CetakAh = function() {
+            $scope.CetakAh = function () {
                 var jabatan1 = ''
                 if ($scope.item.DataJabatan1 != undefined) {
                     jabatan1 = $scope.item.DataJabatan1.namajabatan;
@@ -145,13 +145,13 @@ define(['initialize'], function(initialize) {
                 var client = new HttpClient();
                 client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&pegawaiPenerima=' + pegawai2 + '&pegawaiPenyerahan=' + pegawai1 + '&pegawaiMengetahui=' + pegawai3 +
                     '&jabatanPenerima=' + jabatan2 + '&jabatanPenyerahan=' + jabatan1 + '&jabatanMengetahui=' + jabatan3 + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser,
-                    function(response) {
+                    function (response) {
                         //aadc=response; 
 
                     });
                 $scope.popUp.close();
             }
-            $scope.LaporanSupplier = function() {
+            $scope.LaporanSupplier = function () {
                 var stt = 'false'
                 if (confirm('View Laporan? ')) {
                     // Save it!
@@ -171,12 +171,12 @@ define(['initialize'], function(initialize) {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-laporan-penerimaan-supplier-rekap=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&view=' + stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-laporan-penerimaan-supplier-rekap=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&view=' + stt, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.CetaPermohonan = function() {
+            $scope.CetaPermohonan = function () {
                 var data = {
                     "gambarLogo": "logo_rs.jpg",
                     "paramKey": ["namaRS", "alamatRS", "printedBy", "nofaktur"],
@@ -186,7 +186,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -218,12 +218,12 @@ define(['initialize'], function(initialize) {
                 xhr.send(JSON.stringify(data));
                 $scope.isRouteLoading = false;
             }
-            $scope.CetakBeritaAcara = function() {
+            $scope.CetakBeritaAcara = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD');
                 var tglayeuna = ''
                 var tglnow = ''
                 var tglsekarang = "Jakarta, " + moment($scope.now).format('DD-MM-YYYY');
-                medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglAwal).then(function(dat) {
+                medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglAwal).then(function (dat) {
                     debugger
                     tglnow = dat.data.tglsekarang;
                     tglayeuna = dat.data.tglayeuna;
@@ -291,7 +291,7 @@ define(['initialize'], function(initialize) {
                         "paramType": ["", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             //this.response is what you're looking for
                             // handler(this.response);
@@ -315,7 +315,7 @@ define(['initialize'], function(initialize) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/beritaacara.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:8797/generic/report/beritaacara.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/beritaacara.pdf');
@@ -329,12 +329,12 @@ define(['initialize'], function(initialize) {
                     $scope.isRouteLoading = false;;
                 })
             }
-            $scope.CetakBeritaAcara2 = function() {
+            $scope.CetakBeritaAcara2 = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD');
                 var tglayeuna = ''
                 var tglnow = ''
                 var tglsekarang = "Jakarta, " + moment($scope.now).format('DD-MM-YYYY');
-                medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglAwal).then(function(dat) {
+                medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglAwal).then(function (dat) {
                     debugger
                     tglnow = dat.data.tglsekarang;
                     tglayeuna = dat.data.tglayeuna;
@@ -402,7 +402,7 @@ define(['initialize'], function(initialize) {
                         "paramType": ["", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             //this.response is what you're looking for
                             // handler(this.response);
@@ -426,7 +426,7 @@ define(['initialize'], function(initialize) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/beritaacara2.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:8797/generic/report/beritaacara2.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara2.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/beritaacara2.pdf');
@@ -440,11 +440,11 @@ define(['initialize'], function(initialize) {
                     $scope.isRouteLoading = false;;
                 })
             }
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 $state.go('PenerimaanBarangSuplier')
             }
 
-            $scope.BatalTerima = function() {
+            $scope.BatalTerima = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -466,11 +466,11 @@ define(['initialize'], function(initialize) {
                     nostruk: $scope.dataSelected.norec,
                     noorderfk: $scope.dataSelected.noorderfk
                 }
-                medifirstService.post('logistik/delete-data-penerimaan', objSave).then(function(e) {
+                medifirstService.post('logistik/delete-data-penerimaan', objSave).then(function (e) {
                     var forsave = {
                         nostruk: $scope.dataSelected.nostruk,
                     }
-                    medifirstService.post('sysadmin/general/hapus-jurnal-penerimaan-barang', forsave).then(function(e) {
+                    medifirstService.post('sysadmin/general/hapus-jurnal-penerimaan-barang', forsave).then(function (e) {
                         init();
                     });
                 });
@@ -510,35 +510,35 @@ define(['initialize'], function(initialize) {
                     produkfk +
                     noSppb +
                     namaruangan +
-                    keterangan, true).then(function(dat) {
-                    $scope.isRouteLoading = false;
-                    var data2 = dat.data.daftar;
-                    for (var i = 0; i < data2.length; i++) {
-                        data2[i].no = i + 1
-                        for (let e = 0; e < data2[i].details.length; e++) {
-                            debugger
-                            data2[i].details[e].no = e + 1;
-                            data2[i].details[e].qtyproduk = Number(data2[i].details[e].qtyproduk).toFixed(2);
-                            data2[i].details[e].hargasatuan = Number(data2[i].details[e].hargasatuan).toFixed(2);
-                            // data2[i].details[e].hargaSekarang = (parseFloat(data2[i].details[e].hargasekarang))
-                            // data2[i].details[e].hargalama = (parseFloat(data2[i].details[e].hargalama))
-                            data2[i].details[e].namapenerima = (data2[i].namapenerima)
+                    keterangan, true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        var data2 = dat.data.daftar;
+                        for (var i = 0; i < data2.length; i++) {
+                            data2[i].no = i + 1
+                            for (let e = 0; e < data2[i].details.length; e++) {
+                                debugger
+                                data2[i].details[e].no = e + 1;
+                                data2[i].details[e].qtyproduk = Number(data2[i].details[e].qtyproduk).toFixed(2);
+                                data2[i].details[e].hargasatuan = Number(data2[i].details[e].hargasatuan).toFixed(2);
+                                // data2[i].details[e].hargaSekarang = (parseFloat(data2[i].details[e].hargasekarang))
+                                // data2[i].details[e].hargalama = (parseFloat(data2[i].details[e].hargalama))
+                                data2[i].details[e].namapenerima = (data2[i].namapenerima)
 
+                            }
                         }
-                    }
-                    $scope.dataGrid = new kendo.data.DataSource({
-                        data: data2,
-                        group: $scope.group,
-                        pageSize: 100,
-                        total: data2.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {}
-                        }
+                        $scope.dataGrid = new kendo.data.DataSource({
+                            data: data2,
+                            group: $scope.group,
+                            pageSize: 100,
+                            total: data2.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {}
+                            }
+                        });
+                        pegawaiUser = dat.data.datalogin
+                        $scope.deleteShow = true;
                     });
-                    pegawaiUser = dat.data.datalogin
-                    $scope.deleteShow = true;
-                });
                 var objSave = {
                     tglAwal: tglAwal,
                     tglAkhir: tglAkhir
@@ -558,15 +558,15 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('DaftarPenerimaanObatResiduCtrl', chacePeriode);
             }
 
-            $scope.getRuangan = function() {
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
 
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
                 init();
             }
 
-            $scope.CetakRincian = function() {
+            $scope.CetakRincian = function () {
                 var stt = 'false'
                 if (confirm('View resep? ')) {
                     // Save it!
@@ -576,22 +576,22 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.CetakBukti = function() {
+            $scope.CetakBukti = function () {
                 $scope.popUp.center().open();
             }
 
-            $scope.ubahdetail = function() {
-                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + 24, true).then(function(dat) {
-                        $scope.listProduk = dat.data.produk;
-                    })
-                    // if (noOrder == 'EditTerima') {
+            $scope.ubahdetail = function () {
+                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + 24, true).then(function (dat) {
+                    $scope.listProduk = dat.data.produk;
+                })
+                // if (noOrder == 'EditTerima') {
                 $scope.disableSppb = true;
-                medifirstService.get("logistik/get-detail-penerimaan?norec=" + $scope.dataSelected.norec, true).then(function(data_ih) {
+                medifirstService.get("logistik/get-detail-penerimaan?norec=" + $scope.dataSelected.norec, true).then(function (data_ih) {
                     $scope.isRouteLoading = false;
                     NoOrderFk = data_ih.data.detailterima.noorderfk
                     $scope.item.noTerima = data_ih.data.detailterima.nostruk
@@ -618,7 +618,7 @@ define(['initialize'], function(initialize) {
                     $scope.item.TglJatuhTempo = moment(data_ih.data.detailterima.tgljatuhtempo).format('DD-MM-YYYY HH:mm');
                     kelTrans = 35
                     data2 = data_ih.data.pelayananPasien
-                    medifirstService.get("logistik/get-data-produk-detail?" + data_ih.data.pelayananPasien[0].kpid, true).then(function(dat) {
+                    medifirstService.get("logistik/get-data-produk-detail?" + data_ih.data.pelayananPasien[0].kpid, true).then(function (dat) {
                         $scope.listProduk = dat.data.produk;
                     });
                     $scope.dataGrid2 = new kendo.data.DataSource({
@@ -639,16 +639,16 @@ define(['initialize'], function(initialize) {
                     for (var i = data2.length - 1; i >= 0; i--) {
                         ttlTotal = ttlTotal + (parseFloat(data2[i].hargasatuan) * parseFloat(data2[i].jumlah))
                         ttlDiskon = ttlDiskon + (parseFloat(data2[i].hargadiscount) * parseFloat(data2[i].jumlah))
-                            //ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
-                            //ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
+                        //ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
+                        //ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
                         $scope.persenppn = parseFloat(data2[i].persenppn)
                     }
                     $scope.item.total = parseFloat(ttlTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
                     $scope.item.totalDiskon = parseFloat(ttlDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 
                     $scope.item.totalPpn = parseFloat($scope.persenppn) / 100 * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
-                        // @all
-                        // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
+                    // @all
+                    // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
                     $scope.item.totalPpn = parseFloat($scope.item.totalPpn).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 
                     // ttlPpn = $scope.persenppn/100 * (ttlTotal - ttlDiskon)
@@ -659,71 +659,71 @@ define(['initialize'], function(initialize) {
                 });
 
                 $scope.columnGrid = [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "30px",
-                    },
-                    {
-                        "field": "statusharga",
-                        "title": "status harga",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "hargaLama",
-                        "title": "Harga Sebelumnya",
-                        "width": "100px",
-                        // "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                    },
-                    {
-                        "field": "namaproduk",
-                        "title": "Nama Produk",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "satuanstandar",
-                        "title": "Satuan",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "jumlah",
-                        "title": "Qty",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "hargasatuan",
-                        "title": "Harga Satuan",
-                        "width": "70px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
-                    },
-                    {
-                        "field": "ppn",
-                        "title": "Ppn/Item",
-                        "width": "70px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: ppn #', '')}}</span>"
-                    },
-                    {
-                        "field": "hargadiscount",
-                        "title": "Harga Discount",
-                        "width": "70px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
-                    },
-                    {
-                        "field": "total",
-                        "title": "SubTotal",
-                        "width": "100px",
-                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                    },
-                    {
-                        "field": "nobatch",
-                        "title": "No Batch",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "tglkadaluarsa",
-                        "title": "Tgl Kadaluarsa",
-                        "width": "100px",
-                        "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                    },
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                },
+                {
+                    "field": "statusharga",
+                    "title": "status harga",
+                    "width": "50px",
+                },
+                {
+                    "field": "hargaLama",
+                    "title": "Harga Sebelumnya",
+                    "width": "100px",
+                    // "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Produk",
+                    "width": "120px",
+                },
+                {
+                    "field": "satuanstandar",
+                    "title": "Satuan",
+                    "width": "50px",
+                },
+                {
+                    "field": "jumlah",
+                    "title": "Qty",
+                    "width": "50px",
+                },
+                {
+                    "field": "hargasatuan",
+                    "title": "Harga Satuan",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
+                },
+                {
+                    "field": "ppn",
+                    "title": "Ppn/Item",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: ppn #', '')}}</span>"
+                },
+                {
+                    "field": "hargadiscount",
+                    "title": "Harga Discount",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                },
+                {
+                    "field": "total",
+                    "title": "SubTotal",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                },
+                {
+                    "field": "nobatch",
+                    "title": "No Batch",
+                    "width": "50px",
+                },
+                {
+                    "field": "tglkadaluarsa",
+                    "title": "Tgl Kadaluarsa",
+                    "width": "100px",
+                    "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                },
                     //                  {
                     //     "field": "",
                     //     "title": "Hapus",
@@ -741,7 +741,7 @@ define(['initialize'], function(initialize) {
                 $scope.popUp2.center().open();
             }
 
-            $scope.EditTerima = function() {
+            $scope.EditTerima = function () {
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
                     1: 'EditTerima',
@@ -753,11 +753,11 @@ define(['initialize'], function(initialize) {
                 }
                 cacheHelper.set('PenerimaanObatResiduCtrl', chacePeriode);
                 $state.go('PenerimaanObatResidu')
-                    // cacheHelper.set('UbahPenerimaanBarangSuplierCtrl', chacePeriode);
-                    // $state.go('UbahPenerimaanBarangSuplier')
+                // cacheHelper.set('UbahPenerimaanBarangSuplierCtrl', chacePeriode);
+                // $state.go('UbahPenerimaanBarangSuplier')
             }
 
-            $scope.RegisAset = function() {
+            $scope.RegisAset = function () {
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
                     1: 'RegisAset',
@@ -770,7 +770,7 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('RegisterAsetCtrl', chacePeriode);
                 $state.go('RegisterAset')
             }
-            $scope.ubahPenerimaanDetail = function() {
+            $scope.ubahPenerimaanDetail = function () {
                 if ($scope.dataSelected.norec == undefined) {
                     alert("Pilih yg akan di Rubah!!")
                     return;
@@ -786,9 +786,9 @@ define(['initialize'], function(initialize) {
                 }
                 cacheHelper.set('UpdatePenerimaanDetailBarangCtrl', chacePeriode);
                 $state.go('UpdatePenerimaanDetailBarangCtrl')
-                    // $state.go('UpdatePenerimaanDetailBarang')
+                // $state.go('UpdatePenerimaanDetailBarang')
             }
-            $scope.HapusPenerimaan = function() {
+            $scope.HapusPenerimaan = function () {
                 if ($scope.dataSelected == undefined) {
                     alert("Pilih yg akan di hapus!!")
                     return;
@@ -805,132 +805,132 @@ define(['initialize'], function(initialize) {
                     // Do nothing!
                     return;
                 }
-                manageLogistikPhp.getDataTableTransaksi("penerimaan-suplier/delete-terima-barang-suplier?" + "norec_sp=" + $scope.dataSelected.norec, true).then(function(dat) {
+                manageLogistikPhp.getDataTableTransaksi("penerimaan-suplier/delete-terima-barang-suplier?" + "norec_sp=" + $scope.dataSelected.norec, true).then(function (dat) {
                     init()
                 });
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
             $scope.columnGrid = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "35px",
-                },
-                {
-                    "field": "nostruk",
-                    "title": "No Dokumen",
-                    "width": "100px",
-                },
-                // {
-                //     "field": "nosppb",
-                //     "title": "No PO",
-                //     "width": "100px",
-                //     "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
-                // },
-                // {
-                //     "field": "namaruangan",
-                //     "title": "Nama Ruangan",
-                //     "width": "100px",
-                //     "template": "#if (namaruangan) {# #= namaruangan # #} else {# - #} #",
-                // },
-                {
-                    "field": "tglstruk",
-                    "title": "Tanggal Input",
-                    "width": "55px",
-                    "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Ruangan Asal",
-                    "width": "120px",
-                },
-                {
-                    "field": "jmlitem",
-                    "title": "Item",
-                    "width": "35px",
-                    "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
-                },
-                {
-                    "field": "totalharusdibayar",
-                    "title": "Total Tagihan",
-                    "width": "100px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', '')}}</span>"
-                },
-                {
-                    "field": "namapegawaipenerima",
-                    "title": "user terima",
-                    "width": "120px",
-                },
+                "field": "no",
+                "title": "No",
+                "width": "35px",
+            },
+            {
+                "field": "nostruk",
+                "title": "No Dokumen",
+                "width": "100px",
+            },
+            // {
+            //     "field": "nosppb",
+            //     "title": "No PO",
+            //     "width": "100px",
+            //     "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
+            // },
+            // {
+            //     "field": "namaruangan",
+            //     "title": "Nama Ruangan",
+            //     "width": "100px",
+            //     "template": "#if (namaruangan) {# #= namaruangan # #} else {# - #} #",
+            // },
+            {
+                "field": "tglstruk",
+                "title": "Tanggal Input",
+                "width": "55px",
+                "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
+            },
+            {
+                "field": "namaruangan",
+                "title": "Ruangan Asal",
+                "width": "120px",
+            },
+            {
+                "field": "jmlitem",
+                "title": "Item",
+                "width": "35px",
+                "template": "<span class='style-right'>#= kendo.toString(jmlitem) #</span>",
+            },
+            {
+                "field": "totalharusdibayar",
+                "title": "Total Tagihan",
+                "width": "100px",
+                "template": "<span class='style-right'>{{formatRupiah('#: totalharusdibayar #', '')}}</span>"
+            },
+            {
+                "field": "namapegawaipenerima",
+                "title": "user terima",
+                "width": "120px",
+            },
             ];
 
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 return {
                     dataSource: new kendo.data.DataSource({
                         data: dataItem.details
                     }),
                     columns: [{
-                            "field": "no",
-                            "title": "No",
-                            "width": "45px",
-                        },
-                        // {
-                        //     "field": "statusharga",
-                        //     "title": "statusharga",
-                        //     "width": "100px",
-                        // },
-                        // {
-                        //     "field": "hargalama",
-                        //     "title": "hargalama",
-                        //     "width": "100px",
-                        // },
+                        "field": "no",
+                        "title": "No",
+                        "width": "45px",
+                    },
+                    // {
+                    //     "field": "statusharga",
+                    //     "title": "statusharga",
+                    //     "width": "100px",
+                    // },
+                    // {
+                    //     "field": "hargalama",
+                    //     "title": "hargalama",
+                    //     "width": "100px",
+                    // },
 
-                        // {
-                        //     "field": "hargaSekarang",
-                        //     "title": "hargaSekarang",
-                        //     "width": "100px",
-                        // },
-                        {
-                            "field": "namaproduk",
-                            "title": "Nama Produk",
-                            "width": "100px",
-                        },
-                        {
-                            "field": "satuanstandar",
-                            "title": "Satuan",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "qtyproduk",
-                            "title": "Qty",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "hargasatuan",
-                            "title": "Harga Satuan",
-                            "width": "50px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp')}}</span>"
-                        },
-                        // {
-                        //     "field": "hargadiscount",
-                        //     "title": "Discount",
-                        //     "width": "50px",
-                        //     "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
-                        // },
-                        // {
-                        //     "field": "hargappn",
-                        //     "title": "PPn",
-                        //     "width": "50px",
-                        //     "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
-                        // },
-                        {
-                            "field": "total",
-                            "title": "Total",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp')}}</span>"
-                        },
+                    // {
+                    //     "field": "hargaSekarang",
+                    //     "title": "hargaSekarang",
+                    //     "width": "100px",
+                    // },
+                    {
+                        "field": "namaproduk",
+                        "title": "Nama Produk",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "satuanstandar",
+                        "title": "Satuan",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "qtyproduk",
+                        "title": "Qty",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "50px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp')}}</span>"
+                    },
+                    // {
+                    //     "field": "hargadiscount",
+                    //     "title": "Discount",
+                    //     "width": "50px",
+                    //     "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                    // },
+                    // {
+                    //     "field": "hargappn",
+                    //     "title": "PPn",
+                    //     "width": "50px",
+                    //     "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
+                    // },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "70px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp')}}</span>"
+                    },
                         // {
                         //     "field": "tglkadaluarsa",
                         //     "title": "Tgl Kadaluarsa",
@@ -958,15 +958,15 @@ define(['initialize'], function(initialize) {
                 }
             };
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.formatNumber = function(value, currency) {
+            $scope.formatNumber = function (value, currency) {
                 return number + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "1,");
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD/MM/YYYY');
             }
 
@@ -978,10 +978,10 @@ define(['initialize'], function(initialize) {
                 return thn + ' thn ' // + bln + ' bln'
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -993,8 +993,8 @@ define(['initialize'], function(initialize) {
 
 
             //*** edit penerimaan
-            var onDataBound = function() {
-                $('td').each(function() {
+            var onDataBound = function () {
+                $('td').each(function () {
                     // if ($(this).text() == 'Tetap') {$(this).addClass('red')}
                     if ($(this).text() == 'Naik') { $(this).addClass('red') }
                     if ($(this).text() == 'Turun') { $(this).addClass('green') }
@@ -1002,7 +1002,7 @@ define(['initialize'], function(initialize) {
 
                 })
             }
-            $scope.verifikasigrid = function(dataPasienSelected) {
+            $scope.verifikasigrid = function (dataPasienSelected) {
                 debugger;
                 if (dataPasienSelected == undefined) {
                     alert("clik grid yang mau di simpan")
@@ -1042,7 +1042,7 @@ define(['initialize'], function(initialize) {
                     statuskirim: "1"
                 }
 
-                medifirstService.post('logistik/save-data-penerimaan-revisi', objSave).then(function(e) {
+                medifirstService.post('logistik/save-data-penerimaan-revisi', objSave).then(function (e) {
 
                 })
 
@@ -1050,133 +1050,133 @@ define(['initialize'], function(initialize) {
 
             }
             $scope.columnDaftarPasienPulang = {
-                    toolbar: [
-                        "excel",
+                toolbar: [
+                    "excel",
 
-                    ],
-                    excel: {
-                        fileName: "DaftarRegistrasiPasien.xlsx",
-                        allPages: true,
-                    },
-                    excelExport: function(e) {
-                        var sheet = e.workbook.sheets[0];
-                        sheet.frozenRows = 2;
-                        sheet.mergedCells = ["A1:M1"];
-                        sheet.name = "Orders";
+                ],
+                excel: {
+                    fileName: "DaftarRegistrasiPasien.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Orders";
 
-                        var myHeaders = [{
-                            value: "Daftar Registrasi Pasien",
-                            fontSize: 20,
-                            textAlign: "center",
-                            background: "#ffffff",
-                            // color:"#ffffff"
-                        }];
+                    var myHeaders = [{
+                        value: "Daftar Registrasi Pasien",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
 
-                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
-                    },
-                    selectable: 'row',
-                    pageable: true,
-                    dataBound: onDataBound,
-                    // columns: $scope.columnGrid
-                    columns: [{
-                            "field": "no",
-                            "title": "No",
-                            "width": "30px",
-                        },
-                        {
-                            "field": "statusharga",
-                            "title": "status harga",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "hargaLama",
-                            "title": "Harga Sebelumnya",
-                            "width": "100px",
-                            // "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                        },
-                        {
-                            "field": "namaproduk",
-                            "title": "Nama Produk",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "satuanstandar",
-                            "title": "Satuan",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "jumlah",
-                            "title": "Qty",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "hargasatuan",
-                            "title": "Harga Satuan",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
-                        },
-                        {
-                            "field": "ppn",
-                            "title": "Ppn/Item",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: ppn #', '')}}</span>"
-                        },
-                        {
-                            "field": "hargadiscount",
-                            "title": "Harga Discount",
-                            "width": "70px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
-                        },
-                        {
-                            "field": "total",
-                            "title": "SubTotal",
-                            "width": "100px",
-                            "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                        },
-                        {
-                            "field": "nobatch",
-                            "title": "No Batch",
-                            "width": "50px",
-                        },
-                        {
-                            "field": "tglkadaluarsa",
-                            "title": "Tgl Kadaluarsa",
-                            "width": "100px",
-                            "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                        },
-                        // {
-                        //     "field": "",
-                        //     "title": "Hapus",
-                        //     "width": "90px",
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                selectable: 'row',
+                pageable: true,
+                dataBound: onDataBound,
+                // columns: $scope.columnGrid
+                columns: [{
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                },
+                {
+                    "field": "statusharga",
+                    "title": "status harga",
+                    "width": "50px",
+                },
+                {
+                    "field": "hargaLama",
+                    "title": "Harga Sebelumnya",
+                    "width": "100px",
+                    // "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Produk",
+                    "width": "120px",
+                },
+                {
+                    "field": "satuanstandar",
+                    "title": "Satuan",
+                    "width": "50px",
+                },
+                {
+                    "field": "jumlah",
+                    "title": "Qty",
+                    "width": "50px",
+                },
+                {
+                    "field": "hargasatuan",
+                    "title": "Harga Satuan",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
+                },
+                {
+                    "field": "ppn",
+                    "title": "Ppn/Item",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: ppn #', '')}}</span>"
+                },
+                {
+                    "field": "hargadiscount",
+                    "title": "Harga Discount",
+                    "width": "70px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                },
+                {
+                    "field": "total",
+                    "title": "SubTotal",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                },
+                {
+                    "field": "nobatch",
+                    "title": "No Batch",
+                    "width": "50px",
+                },
+                {
+                    "field": "tglkadaluarsa",
+                    "title": "Tgl Kadaluarsa",
+                    "width": "100px",
+                    "template": "<span class='style-center'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                },
+                    // {
+                    //     "field": "",
+                    //     "title": "Hapus",
+                    //     "width": "90px",
 
-                        //     "template": "<button color=\"red\"  class=\"button button3\" ng-click=\"verifikasigrid(dataPasienSelected)\"  style=\"margin:0 0 5px\" >Hapus</button> ",
-                        // },               {
-                        //     "field": "",
-                        //     "title": "Ubah",
-                        //     "width": "90px",
-                        //     "template": "<button color=\"red\"  class=\"button button3\" ng-click=\"verifikasigrid(dataPasienSelected)\"  style=\"margin:0 0 5px\" >Ubah</button> ",
-                        // },
-                        //    {
-                        //    command: {
-                        //              text: "Ubah",
-                        //             click: ubah
-                        //             },
-                        //              title: "Tools",
-                        //              width: "100px"
-                        //           }, {
-                        //             command: {
-                        //                 text: "Hapus",
-                        //                click: hapus
-                        //                },
-                        //                title: "Tools",
-                        //                width: "100px"
+                    //     "template": "<button color=\"red\"  class=\"button button3\" ng-click=\"verifikasigrid(dataPasienSelected)\"  style=\"margin:0 0 5px\" >Hapus</button> ",
+                    // },               {
+                    //     "field": "",
+                    //     "title": "Ubah",
+                    //     "width": "90px",
+                    //     "template": "<button color=\"red\"  class=\"button button3\" ng-click=\"verifikasigrid(dataPasienSelected)\"  style=\"margin:0 0 5px\" >Ubah</button> ",
+                    // },
+                    //    {
+                    //    command: {
+                    //              text: "Ubah",
+                    //             click: ubah
+                    //             },
+                    //              title: "Tools",
+                    //              width: "100px"
+                    //           }, {
+                    //             command: {
+                    //                 text: "Hapus",
+                    //                click: hapus
+                    //                },
+                    //                title: "Tools",
+                    //                width: "100px"
 
-                        //         },
-                    ]
-                }
-                //   $scope.verifikasigrid = function (dataSelected2) {
+                    //         },
+                ]
+            }
+            //   $scope.verifikasigrid = function (dataSelected2) {
 
-            $scope.getSatuan = function() {
+            $scope.getSatuan = function () {
                 GETKONVERSI(0)
             }
 
@@ -1211,7 +1211,7 @@ define(['initialize'], function(initialize) {
                         "tglClosing": moment($scope.now).format('YYYY-MM-DD HH:mm'), //DateHelper.getPeriodeFormatted($scope.item.tanggal),
                         "stokProduk": dataArray
                     }
-                    medifirstService.post('logistik/save-data-stock-opname', objSave).then(function(e) {
+                    medifirstService.post('logistik/save-data-stock-opname', objSave).then(function (e) {
                         // $scope.item.resep = e.data.noresep.noorder
                         $scope.isRouteLoading = false;
                         var norecSC = e.data.noSO
@@ -1223,7 +1223,7 @@ define(['initialize'], function(initialize) {
 
                         // $scope.dataExcel = datas;
                         $scope.cari()
-                            // refreshSelisih()                          
+                        // refreshSelisih()                          
                     })
                 } else {
                     window.messageContainer.error('Saldo Real barang belum di isi');
@@ -1270,7 +1270,7 @@ define(['initialize'], function(initialize) {
                 }
 
                 // medifirstService.post('logistik/save-ubah-data-penerimaan', objSave).then(function (e) {
-                medifirstService.post('logistik/save-data-penerimaan', objSave).then(function(e) {
+                medifirstService.post('logistik/save-data-penerimaan', objSave).then(function (e) {
                     $scope.isRouteLoading = false;
                     NorecCetak = e.data.data.norec
                     var forSave = {
@@ -1316,72 +1316,72 @@ define(['initialize'], function(initialize) {
                 $scope.item.hargaLama = 0;
                 medifirstService.get("logistik/get-data-harga?" +
                     "produkfk=" + $scope.item.produk.id +
-                    "&ruanganfk=" + 56, true).then(function(dat) {
-                    dataProdukDetail = dat.data.detail;
-                    $scope.item.hargaSatuan = 0
-                    $scope.item.hargadiskon = 0
-                    $scope.item.hargaNetto = 0
-                    $scope.item.total = 0
-                    $scope.item.jumlah = 0
-                    if (dat.data.detail.length != 0) {
-                        $scope.item.hargaSatuan = parseFloat(dat.data.detail[0].harga).toFixed(2)
-                        $scope.item.hargaSatuan = parseFloat($scope.item.hargaSatuan)
-                        hargalamatetep = $scope.item.hargaSatuan
+                    "&ruanganfk=" + 56, true).then(function (dat) {
+                        dataProdukDetail = dat.data.detail;
+                        $scope.item.hargaSatuan = 0
+                        $scope.item.hargadiskon = 0
+                        $scope.item.hargaNetto = 0
+                        $scope.item.total = 0
+                        $scope.item.jumlah = 0
+                        if (dat.data.detail.length != 0) {
+                            $scope.item.hargaSatuan = parseFloat(dat.data.detail[0].harga).toFixed(2)
+                            $scope.item.hargaSatuan = parseFloat($scope.item.hargaSatuan)
+                            hargalamatetep = $scope.item.hargaSatuan
                             // $scope.item.hargaSatuan = Math.round($scope.item.hargaSatuan)
-                        $scope.item.hargaLama = $scope.item.hargaSatuan;
-                    } else {
-                        $scope.item.hargaSatuan = 0;
+                            $scope.item.hargaLama = $scope.item.hargaSatuan;
+                        } else {
+                            $scope.item.hargaSatuan = 0;
 
-                        hargalamatetep = 0;
-                        // $scope.item.hargaSatuan = Math.round($scope.item.hargaSatuan)
-                        $scope.item.hargaLama = 0;
-                    }
+                            hargalamatetep = 0;
+                            // $scope.item.hargaSatuan = Math.round($scope.item.hargaSatuan)
+                            $scope.item.hargaLama = 0;
+                        }
 
-                });
+                    });
                 medifirstService.get("logistik/get-cekstokaja?" +
                     "produkfk=" + $scope.item.produk.id +
-                    "&ruanganfk=" + 59, true).then(function(dat1) {
-                    medifirstService.get("logistik/get-cekstok?" +
-                        "produkfk=" + $scope.item.produk.id +
-                        "&ruanganfk=" + 59, true).then(function(dat2) {
+                    "&ruanganfk=" + 59, true).then(function (dat1) {
+                        medifirstService.get("logistik/get-cekstok?" +
+                            "produkfk=" + $scope.item.produk.id +
+                            "&ruanganfk=" + 59, true).then(function (dat2) {
 
-                        var currentDate = '';
-                        if (parseFloat(dat1.data.datastok[0].qty) != parseFloat(dat2.data.kartustoklast[0].saldoawal)) {
-                            if (dat2.data.kartustoksebelum.length == 0) {
-                                currentDate = dat2.data.kartustoklast[0].created_at;
-                            } else {
-                                currentDate = dat2.data.kartustoksebelum[0].created_at;
-                            }
-                            var objSave = {
-                                "ruanganfk": 59,
-                                "produkfk": $scope.item.produk.id,
-                                "tglawal": moment(currentDate).format('YYYY-MM-DD 00:00:00')
-                            }
-                            medifirstService.post('logistik/save-perbaiki-kartu-stok', objSave).then(function(e) {
-                                // alert('yoyoyyy');
-                            })
-                        }
+                                var currentDate = '';
+                                if (parseFloat(dat1.data.datastok[0].qty) != parseFloat(dat2.data.kartustoklast[0].saldoawal)) {
+                                    if (dat2.data.kartustoksebelum.length == 0) {
+                                        currentDate = dat2.data.kartustoklast[0].created_at;
+                                    } else {
+                                        currentDate = dat2.data.kartustoksebelum[0].created_at;
+                                    }
+                                    var objSave = {
+                                        "ruanganfk": 59,
+                                        "produkfk": $scope.item.produk.id,
+                                        "tglawal": moment(currentDate).format('YYYY-MM-DD 00:00:00')
+                                    }
+                                    medifirstService.post('logistik/save-perbaiki-kartu-stok', objSave).then(function (e) {
+                                        // alert('yoyoyyy');
+                                    })
+                                }
+                            });
+
                     });
-
-                });
             }
 
-            $scope.getNilaiKonversi = function() {
+            $scope.getNilaiKonversi = function () {
                 $scope.item.nilaiKonversi = $scope.item.satuan.nilaikonversi
                 medifirstService.get("logistik/get-data-harga?" +
                     "produkfk=" + $scope.item.produk.id +
-                    "&ruanganfk=" + 59, true).then(function(dat) {
-                    dataProdukDetail = dat.data.detail;
-                    $scope.item.hargaSatuan = 0
-                    $scope.item.hargadiskon = 0
-                    $scope.item.hargaNetto = 0
-                    $scope.item.total = 0
-                    $scope.item.jumlah = 0
-                    $scope.item.hargaSatuan = dat.data.detail[0].hargapenerimaan
-                });
+                    "&ruanganfk=" + 59, true).then(function (dat) {
+                        dataProdukDetail = dat.data.detail;
+                        $scope.item.hargaSatuan = 0
+                        $scope.item.hargadiskon = 0
+                        $scope.item.hargaNetto = 0
+                        $scope.item.total = 0
+                        $scope.item.jumlah = 0
+                        $scope.item.hargaSatuan = dat.data.detail[0].hargapenerimaan
+                    });
             }
 
-            $scope.$watch('item.nilaiKonversi', function(newValue, oldValue) {
+            $scope.$watch('item.nilaiKonversi', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.stok > 0) {
                         $scope.item.stok = parseFloat($scope.item.stok) * (parseFloat(oldValue) / parseFloat(newValue))
@@ -1389,11 +1389,11 @@ define(['initialize'], function(initialize) {
                         $scope.item.hargaSatuan = 0 //hrg1 * parseFloat(newValue)
                         $scope.item.hargadiskon = 0 //hrgsdk * parseFloat(newValue)
                         $scope.item.total = 0 // parseFloat(newValue) * 
-                            // (hrg1-hrgsdk)
+                        // (hrg1-hrgsdk)
                     }
                 }
             });
-            $scope.$watch('item.satuan', function(newValue, oldValue) {
+            $scope.$watch('item.satuan', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // if ($scope.item.stok > 0) {
                     // $scope.item.hargaLama = parseFloat(hargalamatetep) * (parseFloat($scope.item.satuan.nilaikonversi))
@@ -1403,10 +1403,10 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.noTerima', function(newValue, oldValue) {
+            $scope.$watch('item.noTerima', function (newValue, oldValue) {
                 if (newValue != oldValue) {
 
-                    medifirstService.get("logistik/get-nomor-struk?NoSPK=" + $scope.item.noTerima, true).then(function(data_ih) {
+                    medifirstService.get("logistik/get-nomor-struk?NoSPK=" + $scope.item.noTerima, true).then(function (data_ih) {
                         var datas = data_ih.data;
                         for (var i = datas.length - 1; i >= 0; i--) {
                             if (datas[i].nostruk == $scope.item.noTerima && noOrder != 'EditTerima') {
@@ -1423,15 +1423,15 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.noFaktur', function(newValue, oldValue) {
+            $scope.$watch('item.noFaktur', function (newValue, oldValue) {
                 if (newValue != oldValue) {
 
-                    medifirstService.get("logistik/get-nomor-faktur?NoSPK=" + $scope.item.noFaktur, true).then(function(data_ih) {
+                    medifirstService.get("logistik/get-nomor-faktur?NoSPK=" + $scope.item.noFaktur, true).then(function (data_ih) {
                         var datas = data_ih.data;
                         for (var i = datas.length - 1; i >= 0; i--) {
                             if (datas[i].nofaktur == $scope.item.noFaktur && noOrder != '') {
                                 alert("No Terima Tidak Boleh Sama!")
-                                    // $scope.item.noFaktur = "";
+                                // $scope.item.noFaktur = "";
                                 break
                             }
                         }
@@ -1443,7 +1443,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.jumlah', function(newValue, oldValue) {
+            $scope.$watch('item.jumlah', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     // qty = parseFloat($scope.item.jumlah)
@@ -1462,7 +1462,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.hargaSatuan', function(newValue, oldValue) {
+            $scope.$watch('item.hargaSatuan', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     // qty = parseFloat($scope.item.jumlah)
@@ -1483,7 +1483,7 @@ define(['initialize'], function(initialize) {
                     }
                     $scope.item.ppn = (parseFloat($scope.item.ppnpersen) * parseFloat($scope.item.hargaSatuan)) / 100
                     $scope.item.subTotaltxt = subTtlSetelahDiskon + $scope.item.ppn
-                        //detail harga kiri bawah
+                    //detail harga kiri bawah
                     $scope.item.hargasatuanincludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / parseFloat($scope.item.nilaiKonversi) * ((100 + parseFloat($scope.item.ppnpersen)) / 100)
                     $scope.item.hargasatuanincludeppn = $scope.item.hargasatuanincludeppn.toFixed(2)
                     $scope.item.hargasatuanexcludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / (parseFloat($scope.item.nilaiKonversi) * ((110 - parseFloat($scope.item.ppnpersen)) / 100))
@@ -1494,7 +1494,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.ppn', function(newValue, oldValue) {
+            $scope.$watch('item.ppn', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     qty = parseFloat($scope.item.jumlah)
@@ -1508,7 +1508,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.hargaDiskon', function(newValue, oldValue) {
+            $scope.$watch('item.hargaDiskon', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     qty = parseFloat($scope.item.jumlah)
@@ -1518,7 +1518,7 @@ define(['initialize'], function(initialize) {
                     ppn = ((hrgsatuan - hargadiskon) * persenppn / 100) * qty
                     subTtlSetelahDiskon = (qty * (hrgsatuan - hargadiskon)) + ppn
                     $scope.item.subTotaltxt = subTtlSetelahDiskon // + ppn
-                        //detail harga kiri bawah
+                    //detail harga kiri bawah
                     $scope.item.hargasatuanincludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / parseFloat($scope.item.nilaiKonversi) * ((100 + parseFloat($scope.item.ppnpersen)) / 100)
                     $scope.item.hargasatuanincludeppn = $scope.item.hargasatuanincludeppn.toFixed(2)
                     $scope.item.hargasatuanexcludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / (parseFloat($scope.item.nilaiKonversi) * ((110 - parseFloat($scope.item.ppnpersen)) / 100))
@@ -1529,7 +1529,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.ppnpersen', function(newValue, oldValue) {
+            $scope.$watch('item.ppnpersen', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // debugger;
                     // $scope.item.ppn = (parseFloat($scope.item.ppnpersen)*parseFloat($scope.item.hargaSatuan))/100
@@ -1539,9 +1539,9 @@ define(['initialize'], function(initialize) {
                     hargadiskon = parseFloat($scope.item.hargaDiskon)
                     ppn = ((hrgsatuan - hargadiskon) * persenppn / 100) * qty
                     subTtlSetelahDiskon = (qty * (hrgsatuan - hargadiskon)) + ppn
-                        // $scope.item.ppn = (parseFloat($scope.item.ppnpersen) * parseFloat(subTtlSetelahDiskons)) / 100
+                    // $scope.item.ppn = (parseFloat($scope.item.ppnpersen) * parseFloat(subTtlSetelahDiskons)) / 100
                     $scope.item.ppn = (parseFloat($scope.item.ppnpersen) * parseFloat($scope.item.hargaSatuan)) / 100
-                        //detail harga kiri bawah
+                    //detail harga kiri bawah
                     $scope.item.hargasatuanincludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / parseFloat($scope.item.nilaiKonversi) * ((100 + parseFloat($scope.item.ppnpersen)) / 100)
                     $scope.item.hargasatuanincludeppn = $scope.item.hargasatuanincludeppn.toFixed(2)
                     $scope.item.hargasatuanexcludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / (parseFloat($scope.item.nilaiKonversi) * ((110 - parseFloat($scope.item.ppnpersen)) / 100))
@@ -1552,12 +1552,12 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.hargaDiskonPersen', function(newValue, oldValue) {
+            $scope.$watch('item.hargaDiskonPersen', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     // $scope.item.hargaDiskon = (parseFloat($scope.item.hargaDiskonPersen) * (parseFloat($scope.item.hargaSatuan) * parseFloat($scope.item.jumlah))) / 100
                     $scope.item.hargaDiskon = (parseFloat($scope.item.hargaDiskonPersen) * parseFloat($scope.item.hargaSatuan)) / 100
                     var hargadiskons = parseFloat($scope.item.hargaDiskon)
-                        //detail harga kiri bawah
+                    //detail harga kiri bawah
                     $scope.item.hargasatuanincludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / parseFloat($scope.item.nilaiKonversi) * ((100 + parseFloat($scope.item.ppnpersen)) / 100)
                     $scope.item.hargasatuanincludeppn = $scope.item.hargasatuanincludeppn.toFixed(2)
                     $scope.item.hargasatuanexcludeppn = (parseFloat($scope.item.hargaSatuan) - hargadiskon) / (parseFloat($scope.item.nilaiKonversi) * ((110 - parseFloat($scope.item.ppnpersen)) / 100))
@@ -1568,11 +1568,11 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
-            $scope.tambah = function() {
+            $scope.tambah = function () {
 
                 var statusharga = '';
                 // if ($scope.item.subTotaltxt == 0) {
@@ -1656,16 +1656,16 @@ define(['initialize'], function(initialize) {
                             for (var i = data2.length - 1; i >= 0; i--) {
                                 ttlTotal = ttlTotal + (parseFloat(data2[i].hargasatuan) * parseFloat(data2[i].jumlah))
                                 ttlDiskon = ttlDiskon + ((parseFloat(data2[i].hargadiscount) * parseFloat(data2[i].jumlah)))
-                                    // ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
-                                    // ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
+                                // ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
+                                // ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
                                 $scope.persenppn = parseFloat(data2[i].persenppn)
                             }
                             $scope.item.total = parseFloat(ttlTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
                             $scope.item.totalDiskon = parseFloat(ttlDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 
                             $scope.item.totalPpn = parseFloat($scope.persenppn) / 100 * ((parseFloat(ttlTotal) - parseFloat(ttlDiskon)))
-                                // @all
-                                // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
+                            // @all
+                            // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
                             $scope.item.totalPpn = parseFloat($scope.item.totalPpn).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 
                             // ttlPpn = $scope.persenppn/100 * (ttlTotal - ttlDiskon)
@@ -1731,15 +1731,15 @@ define(['initialize'], function(initialize) {
                     for (var i = data2.length - 1; i >= 0; i--) {
                         ttlTotal = ttlTotal + (parseFloat(data2[i].hargasatuan) * parseFloat(data2[i].jumlah))
                         ttlDiskon = ttlDiskon + (parseFloat(data2[i].hargadiscount) * parseFloat(data2[i].jumlah))
-                            //ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
-                            //ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
+                        //ttlPpn = ttlPpn + (parseFloat(data2[i].ppn) * parseFloat(data2[i].jumlah))
+                        //ttlPpn = ttlPpn + (parseFloat(data2[i].persenppn)/100 * ((parseFloat(data2[i].jumlah) * parseFloat(data2[i].hargasatuan)) - parseFloat(data2[i].hargadiscount)))
                         $scope.persenppn = parseFloat(data2[i].persenppn)
                     }
                     $scope.item.total = parseFloat(ttlTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
                     $scope.item.totalDiskon = parseFloat(ttlDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
                     $scope.item.totalPpn = parseFloat($scope.persenppn) / 100 * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
-                        // // @all
-                        // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
+                    // // @all
+                    // $scope.item.totalPpn = parseFloat($scope.persenppn) * (parseFloat(ttlTotal) - parseFloat(ttlDiskon))
                     $scope.item.totalPpn = parseFloat($scope.item.totalPpn).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 
                     // ttlPpn = $scope.persenppn/100 * (ttlTotal - ttlDiskon)
@@ -1753,11 +1753,11 @@ define(['initialize'], function(initialize) {
                 $scope.muncul = false;
                 racikan = ''
             }
-            $scope.klikGrid = function(dataSelected2) {
+            $scope.klikGrid = function (dataSelected2) {
                 debugger;
                 var k = dataSelected2;
             }
-            $scope.klikGrid = function(dataSelected) {
+            $scope.klikGrid = function (dataSelected) {
                 $scope.muncul = true;
                 var dataProduk = [];
                 if ($scope.item.produk != undefined) {
@@ -1773,12 +1773,12 @@ define(['initialize'], function(initialize) {
                     }
                 }
                 //$scope.listProduk = {id:dataSelected.produkfk, namaproduk:dataSelected.namaproduk}
-                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + $scope.item.kelompokproduk.id, true).then(function(dat) {
+                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + $scope.item.kelompokproduk.id, true).then(function (dat) {
                     $scope.listProduk = dat.data.produk;
                 });
                 $scope.item.produk = { id: dataSelected.produkfk, namaproduk: dataSelected.namaproduk } //dataProduk//{id:dataSelected.produkfk,namaproduk:dataSelected.namaproduk}
                 $scope.listSatuan = [{ ssid: dataSelected.satuanstandarfk, satuanstandar: dataSelected.satuanstandar }] //dataProduk.konversisatuan
-                    // $scope.item.stok = dataSelected.jmlstok //* $scope.item.nilaiKonversi 
+                // $scope.item.stok = dataSelected.jmlstok //* $scope.item.nilaiKonversi 
 
 
                 $scope.item.jumlah = dataSelected.jumlah
@@ -1817,7 +1817,7 @@ define(['initialize'], function(initialize) {
                 $scope.item.hargaLama = parseFloat(dataSelected.hargaLama).toFixed(2)
                 $scope.item.hargaLama = parseFloat($scope.item.hargaLama)
                 hargalamatetep = dataSelected.hargalama
-                    // GETKONVERSI(dataSelected.jumlah)
+                // GETKONVERSI(dataSelected.jumlah)
                 if (dataSelected.nilaikonversi == null) {
                     $scope.item.nilaiKonversi = 1;
                 } else {
@@ -1830,7 +1830,7 @@ define(['initialize'], function(initialize) {
 
             function Kosongkan() {
                 $scope.item.produk = ''
-                    // $scope.item.asal =''
+                // $scope.item.asal =''
                 $scope.item.satuan = ''
                 $scope.item.nilaiKonversi = 0
                 $scope.item.hargaSatuan = 0
@@ -1842,17 +1842,17 @@ define(['initialize'], function(initialize) {
                 $scope.item.subTotaltxt = 0
                 $scope.item.ppnpersen = 0
             }
-            $scope.batal = function() {
+            $scope.batal = function () {
                 Kosongkan()
                 $scope.muncul = false;
                 // $scope.popUp.center().open();
             }
 
 
-            $scope.formatRupiah = function(value, currency) {
-                    return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                }
-                //***********************************
+            $scope.formatRupiah = function (value, currency) {
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
+            //***********************************
         }
     ]);
 });

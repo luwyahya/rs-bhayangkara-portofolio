@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('KepatuhanHandHygieneCtrl', ['$state', '$q', '$scope', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($state, $q, $scope, cacheHelper, DateHelper, medifirstService) {
+        function ($state, $q, $scope, cacheHelper, DateHelper, medifirstService) {
 
             $scope.isRouteLoading = false;
             $scope.item = {};
@@ -25,7 +25,7 @@ define(['initialize'], function(initialize) {
                 depth: "decade"
             }
 
-            $scope.monthSelectorOptions = function() {
+            $scope.monthSelectorOptions = function () {
                 return {
                     start: "year",
                     depth: "year",
@@ -34,7 +34,7 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.checkObjectPegawai = function() {
+            $scope.checkObjectPegawai = function () {
                 $scope.isRouteLoading = false;
                 var tglAwal = moment($scope.tanggal).format('YYYY-MM-DD 00:00:00');
                 var tglAkhir = moment($scope.tanggal).format('YYYY-MM-DD 23:59:59');
@@ -68,7 +68,7 @@ define(['initialize'], function(initialize) {
                 }
                 medifirstService.get('emr/get-data-kepatuhan-handhygiene-pegawai?' + "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir + peg + pr + bng + ind
-                ).then(function(data) {
+                ).then(function (data) {
 
                     $scope.isLoadingData = false;
 
@@ -300,7 +300,7 @@ define(['initialize'], function(initialize) {
                     asyncCall();
 
                     cacheHelper.set('KepatuhanHandHygieneCtrl', chacePeriode);
-                }, function(error) {
+                }, function (error) {
                     $scope.isRouteLoading = false;
                     throw error;
                 })
@@ -354,22 +354,22 @@ define(['initialize'], function(initialize) {
                     $scope.periodeAkhir = new Date(moment($scope.now).format('YYYY-MM-DD 23:59'))
 
                 }
-                medifirstService.getPart("sysadmin/general/get-datacombo-ruangan", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/general/get-datacombo-ruangan", true, true, 20).then(function (data) {
                     $scope.listRuang = data;
                 });
-                medifirstService.get("sysadmin/general/get-datacombo-handhygiene-general", true, true, 20).then(function(data) {
+                medifirstService.get("sysadmin/general/get-datacombo-handhygiene-general", true, true, 20).then(function (data) {
                     $scope.listHand = data.data;
                 });
-                medifirstService.getPart("sysadmin/general/get-datacombo-departemen", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/general/get-datacombo-departemen", true, true, 20).then(function (data) {
                     $scope.listDepartemen = data;
                 });
-                medifirstService.getPart("sysadmin/general/get-datacombo-jenispegawai-general", true, true, 20).then(function(data) {
+                medifirstService.getPart("sysadmin/general/get-datacombo-jenispegawai-general", true, true, 20).then(function (data) {
                     $scope.listJenisPegawai = data;
                 });
-                medifirstService.get("sysadmin/general/get-datacombo-indikasi-general", true, true, 20).then(function(data) {
+                medifirstService.get("sysadmin/general/get-datacombo-indikasi-general", true, true, 20).then(function (data) {
                     $scope.listIndikasi = data.data;
                 });
-                medifirstService.getPart('emr/get-datacombo-part-pegawai', true, true, 20).then(function(data) {
+                medifirstService.getPart('emr/get-datacombo-part-pegawai', true, true, 20).then(function (data) {
                     $scope.listPegawai = data
                 });
 
@@ -411,7 +411,7 @@ define(['initialize'], function(initialize) {
                     fileName: "LaporanRincianSurveilans.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:I1"];
@@ -546,7 +546,7 @@ define(['initialize'], function(initialize) {
                     fileName: "IPCLN Bulanan.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:E1"];
@@ -565,27 +565,27 @@ define(['initialize'], function(initialize) {
                 selectable: 'row',
                 pageable: true,
                 columns: [{
-                        field: "namaruangan",
-                        title: "Nama Ruangan",
-                        width: 200
-                    }, {
-                        field: "ya",
-                        title: "Ya",
-                        width: 100
-                    }, {
-                        field: "tidak",
-                        title: "tidak",
-                        width: 100
-                    }, {
-                        field: "jumlah",
-                        title: "jumlah",
-                        width: 100
-                    },
-                    {
-                        field: "persentase",
-                        title: "Persentase",
-                        width: 100
-                    }
+                    field: "namaruangan",
+                    title: "Nama Ruangan",
+                    width: 200
+                }, {
+                    field: "ya",
+                    title: "Ya",
+                    width: 100
+                }, {
+                    field: "tidak",
+                    title: "tidak",
+                    width: 100
+                }, {
+                    field: "jumlah",
+                    title: "jumlah",
+                    width: 100
+                },
+                {
+                    field: "persentase",
+                    title: "Persentase",
+                    width: 100
+                }
                 ]
             };
 
@@ -598,7 +598,7 @@ define(['initialize'], function(initialize) {
                     fileName: "IPCLN Bulanan Tahun.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:E1"];
@@ -652,7 +652,7 @@ define(['initialize'], function(initialize) {
                     fileName: "IPCLN Indikasi.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:E1"];
@@ -671,27 +671,27 @@ define(['initialize'], function(initialize) {
                 selectable: 'row',
                 pageable: true,
                 columns: [{
-                        field: "indikasi",
-                        title: "Nama Indikasi",
-                        width: 200
-                    }, {
-                        field: "ya",
-                        title: "Ya",
-                        width: 100
-                    }, {
-                        field: "tidak",
-                        title: "tidak",
-                        width: 100
-                    }, {
-                        field: "jumlah",
-                        title: "jumlah",
-                        width: 100
-                    },
-                    {
-                        field: "persentase",
-                        title: "Persentase",
-                        width: 100
-                    }
+                    field: "indikasi",
+                    title: "Nama Indikasi",
+                    width: 200
+                }, {
+                    field: "ya",
+                    title: "Ya",
+                    width: 100
+                }, {
+                    field: "tidak",
+                    title: "tidak",
+                    width: 100
+                }, {
+                    field: "jumlah",
+                    title: "jumlah",
+                    width: 100
+                },
+                {
+                    field: "persentase",
+                    title: "Persentase",
+                    width: 100
+                }
                 ]
             };
 
@@ -703,7 +703,7 @@ define(['initialize'], function(initialize) {
 
 
 
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
                 init()
             }
 
@@ -745,7 +745,7 @@ define(['initialize'], function(initialize) {
                 }
                 medifirstService.get('emr/get-data-kepatuhan-handhygiene?' + "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir + peg + pr + bng + ind
-                ).then(function(data) {
+                ).then(function (data) {
                     $scope.isLoadingData = false;
                     var datas = data.data.data;
                     // var idpegawai = 0;
@@ -894,13 +894,13 @@ define(['initialize'], function(initialize) {
                     }
 
                     cacheHelper.set('KepatuhanHandHygieneCtrl', chacePeriode);
-                }, function(error) {
+                }, function (error) {
                     $scope.isRouteLoading = false;
                     throw error;
                 })
                 medifirstService.get('emr/get-data-kepatuhan-handhygiene-bulanan?' + "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir + peg + pr + bng + ind
-                ).then(function(databul) {
+                ).then(function (databul) {
 
                     $scope.dataSourceBulanan = new kendo.data.DataSource({
                         data: databul.data.data,
@@ -916,7 +916,7 @@ define(['initialize'], function(initialize) {
                 })
                 medifirstService.get('emr/get-data-kepatuhan-handhygiene-bulanan-tahun?' + "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir + peg + pr + bng + ind
-                ).then(function(databultah) {
+                ).then(function (databultah) {
 
                     $scope.dataSourceBulananTahun = new kendo.data.DataSource({
                         data: databultah.data.data,
@@ -933,7 +933,7 @@ define(['initialize'], function(initialize) {
 
                 medifirstService.get('emr/get-data-kepatuhan-handhygiene-indikasi?' + "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir + peg + pr + bng + ind
-                ).then(function(databulink) {
+                ).then(function (databulink) {
 
                     $scope.dataSourceIndikasi = new kendo.data.DataSource({
                         data: databulink.data.data,
@@ -949,28 +949,28 @@ define(['initialize'], function(initialize) {
                 })
             }
             $scope.group = [{
-                    field: "namaruangan",
-                    aggregates: [
-                        { field: "nilailangkah", aggregate: "average" }
-                    ],
-                    aggregate: [{ field: "nilailangkah", aggregate: "average" }]
-                },
-                {
-                    field: "namalengkap",
-                    aggregates: [
-                        { field: "nilailangkah", aggregate: "average" }
-                    ],
-                    aggregate: [{ field: "nilailangkah", aggregate: "average" }]
-                },
+                field: "namaruangan",
+                aggregates: [
+                    { field: "nilailangkah", aggregate: "average" }
+                ],
+                aggregate: [{ field: "nilailangkah", aggregate: "average" }]
+            },
+            {
+                field: "namalengkap",
+                aggregates: [
+                    { field: "nilailangkah", aggregate: "average" }
+                ],
+                aggregate: [{ field: "nilailangkah", aggregate: "average" }]
+            },
 
             ];
 
-            $scope.dropDownIndikasi = function(container, options) {
+            $scope.dropDownIndikasi = function (container, options) {
                 var editor = $('<input kendo-combo-box required k-data-text-field="\'text\'" k-data-value-field="\'text\'" k-filter="\'contains\'" k-data-source="listIndikasi" data-bind="value:' + options.field + '"/>')
                     .appendTo(container);
             };
 
-            $scope.dropDownHand = function(container, options) {
+            $scope.dropDownHand = function (container, options) {
                 if (options.model.objectindikasifk == undefined || options.model.objectindikasifk == null || options.model.objectindikasifk.value == '-') {
                     toastr.error('Pilih Indikasi Terlebih dahulu')
                     return
@@ -983,7 +983,7 @@ define(['initialize'], function(initialize) {
             function hitungNilai() {
                 $scope.hitungNilai();
             }
-            $scope.hitungNilai = function() {
+            $scope.hitungNilai = function () {
                 $scope.jumlah = 0;
                 $scope.ya = 0;
                 $scope.tidak = 0;
@@ -1070,7 +1070,7 @@ define(['initialize'], function(initialize) {
                 // $scope.item = {}
                 $scope.isRouteLoading = false;
                 var tanggal = parseFloat(moment($scope.item.bulan).format('MM'));
-                medifirstService.get('emr/get-data-kepatuhan-cuci-tanganload?&bulan=' + tanggal).then(function(data) {
+                medifirstService.get('emr/get-data-kepatuhan-cuci-tanganload?&bulan=' + tanggal).then(function (data) {
                     $scope.isLoadingData = false;
                     var datas = data.data.data;
                     for (let index = 0; index < datas.length; index++) {
@@ -1087,7 +1087,7 @@ define(['initialize'], function(initialize) {
                             }
                         }
                     });
-                }, function(error) {
+                }, function (error) {
                     $scope.isRouteLoading = false;
                     var tglAwal = moment($scope.periodeAwal).format('YYYY-MM-DD HH:mm:ss');
                     var tglAkhir = moment($scope.periodeAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -1095,7 +1095,7 @@ define(['initialize'], function(initialize) {
                 })
 
             }
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 // $scope.item = {}
                 $scope.isRouteLoading = false;
                 $scope.isEdit = false
@@ -1106,7 +1106,7 @@ define(['initialize'], function(initialize) {
                 var tglAkhir = moment($scope.periodeAkhir).format('YYYY-MM-DD HH:mm:ss');
             }
 
-            $scope.cetakPerRuangan = function() {
+            $scope.cetakPerRuangan = function () {
 
                 var user = medifirstService.getPegawaiLogin();
                 var periodeAwal = moment($scope.periodeAwal).format('YYYY-MM-DD HH:mm:ss');
@@ -1121,7 +1121,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "date", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1141,7 +1141,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1003/generic/report/chartPerRuangan.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1003/generic/report/chartPerRuangan.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/chartPerRuangan.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1003/generic/report/chartPerRuangan.pdf');
@@ -1208,46 +1208,46 @@ define(['initialize'], function(initialize) {
 
                 // $scope.isRouteLoading = false;
             }
-            $scope.clickedPopup = function() {
+            $scope.clickedPopup = function () {
                 $scope.item = {}
                 $scope.dialogPopup.close();
             }
-            $scope.Batal = function() {
+            $scope.Batal = function () {
                 // $scope.item = {}
                 $scope.dialogPopup.close();
             }
-            $scope.Batal2 = function() {
+            $scope.Batal2 = function () {
                 $scope.item = {}
                 $scope.dialogPopup2.close();
             }
-            $scope.lihatDetail = function() {
+            $scope.lihatDetail = function () {
                 init();
             }
 
             $scope.currentlistIndikasi = [];
-            $scope.addlistIndikasi = function(data) {
+            $scope.addlistIndikasi = function (data) {
                 var index = $scope.currentlistIndikasi.indexOf(data);
                 if (_.filter($scope.currentlistIndikasi, {
-                        value: data.value
-                    }).length === 0)
+                    value: data.value
+                }).length === 0)
                     $scope.currentlistIndikasi.push(data);
                 else {
                     $scope.currentlistIndikasi.splice(index, 1);
                 }
             }
             $scope.currentlistHand = [];
-            $scope.addlistHand = function(data) {
+            $scope.addlistHand = function (data) {
                 var index = $scope.currentlistHand.indexOf(data);
                 if (_.filter($scope.currentlistHand, {
-                        value: data.value
-                    }).length === 0)
+                    value: data.value
+                }).length === 0)
                     $scope.currentlistHand.push(data);
                 else {
                     $scope.currentlistHand.splice(index, 1);
                 }
             }
 
-            $scope.Save = function() {
+            $scope.Save = function () {
                 if ($scope.item.objectruanganfk == undefined || $scope.item.objectruanganfk.value == undefined) {
                     toastr.error('Pilih Bangsal Terlebih dahulu');
                     return
@@ -1318,20 +1318,20 @@ define(['initialize'], function(initialize) {
 
                 if (dataArray.length !== 0) {
                     var objSave = {
-                            "datas": dataArray
-                        }
-                        // var data = {
-                        //     "norec" : norec,
-                        //     "tanggal" :moment($scope.tanggal).format('YYYY-MM-DD HH:mm'),                        
-                        //     "objectruanganfk" :$scope.item.objectruanganfk != undefined ? $scope.item.objectruanganfk.value : null,
-                        //     "objectjenispegawaifk" :$scope.item.objectjenispegawaifk != undefined ? $scope.item.objectjenispegawaifk.value : null,
-                        //     "objectpegawaifk" :$scope.item.objectpegawaifk != undefined ? $scope.item.objectpegawaifk.value : null,
-                        //     "objectindikasifk" :listIndikasi != undefined ? listIndikasi : null,
-                        //     "objecthygienefk" :listHand != undefined ? listHand : null,
-                        //     "langkah" :$scope.item.langkah != undefined ? $scope.item.langkah : 0,
-                        //     "kesempatan" :$scope.item.kesempatan != undefined ? $scope.item.kesempatan : 0,
-                        // }
-                    medifirstService.post("emr/save-kepatuhanhandhygiene-array", objSave).then(function(e) {
+                        "datas": dataArray
+                    }
+                    // var data = {
+                    //     "norec" : norec,
+                    //     "tanggal" :moment($scope.tanggal).format('YYYY-MM-DD HH:mm'),                        
+                    //     "objectruanganfk" :$scope.item.objectruanganfk != undefined ? $scope.item.objectruanganfk.value : null,
+                    //     "objectjenispegawaifk" :$scope.item.objectjenispegawaifk != undefined ? $scope.item.objectjenispegawaifk.value : null,
+                    //     "objectpegawaifk" :$scope.item.objectpegawaifk != undefined ? $scope.item.objectpegawaifk.value : null,
+                    //     "objectindikasifk" :listIndikasi != undefined ? listIndikasi : null,
+                    //     "objecthygienefk" :listHand != undefined ? listHand : null,
+                    //     "langkah" :$scope.item.langkah != undefined ? $scope.item.langkah : 0,
+                    //     "kesempatan" :$scope.item.kesempatan != undefined ? $scope.item.kesempatan : 0,
+                    // }
+                    medifirstService.post("emr/save-kepatuhanhandhygiene-array", objSave).then(function (e) {
                         $scope.item = {};
                         init();
                         loadData();
@@ -1349,11 +1349,11 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.resetFilter = function() {
+            $scope.resetFilter = function () {
                 $scope.cari = {};
                 init()
             }
-            $scope.edit = function(bool) {
+            $scope.edit = function (bool) {
                 if ($scope.dataSelect == undefined) {
                     toastr.error('Pilih data dulu')
                     return
@@ -1422,13 +1422,13 @@ define(['initialize'], function(initialize) {
                     $scope.disabledText = false
                 }
             }
-            $scope.klikGrid = function(current) {
+            $scope.klikGrid = function (current) {
                 debugger
                 toastr.info(current.tanggal + " Terpilih");
                 $scope.current = current;
                 console.log(JSON.stringify($scope.current));
             }
-            $scope.hapus = function() {
+            $scope.hapus = function () {
                 if ($scope.dataSelect == undefined) {
                     toastr.error('Pilih data dulu')
                     return
@@ -1436,7 +1436,7 @@ define(['initialize'], function(initialize) {
                 var data = {
                     "norec": $scope.dataSelect.norec,
                 }
-                medifirstService.post('emr/batal-kepatuhan-handhygiene', data).then(function(e) {
+                medifirstService.post('emr/batal-kepatuhan-handhygiene', data).then(function (e) {
                     init();
                     loadData();
                     // $scope.item = {}
@@ -1463,7 +1463,7 @@ define(['initialize'], function(initialize) {
                     "denominator": dataItem.denominator,
 
                 }
-                medifirstService.post("sysadmin/general/rensar/save-master-indikator", data).then(function(e) {
+                medifirstService.post("sysadmin/general/rensar/save-master-indikator", data).then(function (e) {
                     loadData();
                     $scope.item = {}
                 });
@@ -1488,28 +1488,28 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.formatTanggalAjah = function(tanggal) {
+            $scope.formatTanggalAjah = function (tanggal) {
                 return moment(tanggal).format('DD-MM-YYYY');
             }
             var timeoutPromise;
-            $scope.$watch('cari.indikator', function(newVal, oldVal) {
+            $scope.$watch('cari.indikator', function (newVal, oldVal) {
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal != oldVal) {
                         applyFilter("indikator", newVal)
                     }
                 }, 500)
             })
-            $scope.$watch('cari.pic', function(newVal, oldVal) {
+            $scope.$watch('cari.pic', function (newVal, oldVal) {
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal != oldVal) {
                         applyFilter("pic", newVal)
                     }
                 }, 500)
             })
 
-            $scope.$watch('cari.jenisIndikator', function(newVal, oldVal) {
+            $scope.$watch('cari.jenisIndikator', function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     applyFilter("jenisindikator", newVal.jenisindikator)
                 }
@@ -1549,13 +1549,13 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.resetFilter = function() {
+            $scope.resetFilter = function () {
                 var dataGrid = $("#gridMaster").data("kendoGrid");
                 dataGrid.dataSource.filter({});
                 $scope.cari = {};
             }
 
-            $scope.$watch('item.numerator', function(newValue, oldValue) {
+            $scope.$watch('item.numerator', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     var text = '';
                     var num = '';
@@ -1571,7 +1571,7 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.denominator', function(newValue, oldValue) {
+            $scope.$watch('item.denominator', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     var text = $scope.item.numerator + ' / ' + $scope.item.denominator + 'x 100%'
                     $scope.item.formula = text

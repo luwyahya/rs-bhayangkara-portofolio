@@ -2,10 +2,10 @@
 //     'use strict';
 //     initialize.controller('LaporanRemunerasipolriCtrl', ['CacheHelper', '$q', '$rootScope', '$scope', 'medifirstService', 'DateHelper', '$http', '$state', 'ReportPelayanan', 'ManageSdm',
 //     function (cacheHelper, $q, $rootScope, $scope, medifirstService, DateHelper, $http, $state, ReportPelayanan, ManageSdm) {
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('LaporanRemunerasipolriCtrl', ['DateHelper', '$rootScope', '$scope', 'ModelItem', 'MedifirstService', '$state', '$window', 'CetakHelper', 'CacheHelper',
-        function(dateHelper, $rootScope, $scope, ModelItem, medifirstService, $state, $window, cetakHelper, cacheHelper) {
+        function (dateHelper, $rootScope, $scope, ModelItem, medifirstService, $state, $window, cetakHelper, cacheHelper) {
             //Inisial Variable 
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -23,19 +23,19 @@ define(['initialize'], function(initialize) {
             var judul = "Detail Remunerasi.xlsx";
             FormLoad();
 
-            $scope.showAndHide = function() {
+            $scope.showAndHide = function () {
                 $('#contentPencarianSatu').fadeToggle("fast", "linear");
             }
 
-            $scope.showAndHideDua = function() {
+            $scope.showAndHideDua = function () {
                 $('#contentPencarianDua').fadeToggle("fast", "linear");
             }
 
-            $scope.showAndHideTiga = function() {
+            $scope.showAndHideTiga = function () {
                 $('#contentPencarianTiga').fadeToggle("fast", "linear");
             }
 
-            $scope.showAndHideEmpat = function() {
+            $scope.showAndHideEmpat = function () {
                 $('#contentPencarianEmpat').fadeToggle("fast", "linear");
             }
             combolaporan = [
@@ -142,7 +142,7 @@ define(['initialize'], function(initialize) {
             ];
 
             function LoadCombo() {
-                medifirstService.get("registrasi/laporan/get-data-combo-laporan", true).then(function(dat) {
+                medifirstService.get("registrasi/laporan/get-data-combo-laporan", true).then(function (dat) {
                     //debugger;                              
                     $scope.listDokter = dat.data.dokter;
                     $scope.listDepartemen = dat.data.departemen;
@@ -156,26 +156,26 @@ define(['initialize'], function(initialize) {
                     $scope.listtanggalstor = dat.data.tglsetor;
                     $scope.namaLengkap = dat.data.user.namalengkap;
                 });
-                medifirstService.get("registrasi/laporan/get-data-combo-tindakan", true).then(function(dat) {
+                medifirstService.get("registrasi/laporan/get-data-combo-tindakan", true).then(function (dat) {
                     //debugger;                              
                     $scope.listTindakan = dat.data.produk;
 
                 });
-                medifirstService.get("registrasi/laporan/get-data-combo-tindakan-all", true).then(function(dat) {
+                medifirstService.get("registrasi/laporan/get-data-combo-tindakan-all", true).then(function (dat) {
                     //debugger;                              
                     $scope.listTindakanAll = dat.data.produk;
                     $scope.listKomponenHarga = dat.data.komponenharga;
 
                 });
-                $scope.$watch('item.namakomponen', function(value) {
+                $scope.$watch('item.namakomponen', function (value) {
                     debugger
                     medifirstService.get("registrasi/laporan/get-harga-komponen?objectprodukfk=" + $scope.item.namatindakan.id +
                         "&jeniskomponenfk=" + $scope.item.namakomponen.id +
                         "&tglAwal=" + moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss') +
-                        "&tglAkhir=" + moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss')).then(function(dat) {
-                        debugger
-                        $scope.listHarga = dat.data
-                    })
+                        "&tglAkhir=" + moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss')).then(function (dat) {
+                            debugger
+                            $scope.listHarga = dat.data
+                        })
                 })
             }
 
@@ -192,7 +192,7 @@ define(['initialize'], function(initialize) {
                 LoadCombo();
             }
 
-            $scope.getIsiComboRuangan = function() {
+            $scope.getIsiComboRuangan = function () {
                 if ($scope.item.departement != undefined) {
                     $scope.listRuangan = $scope.item.departement.ruangan
                 } else if ($scope.itemDR.departement != undefined) {
@@ -202,7 +202,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.getIsiComboJenis = function() {
+            $scope.getIsiComboJenis = function () {
                 if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter") {
                     $scope.jasadokter = true;
                     $scope.jasaperawat = false;
@@ -347,7 +347,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.getIsiComboJenisRekap = function() {
+            $scope.getIsiComboJenisRekap = function () {
                 if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran") {
                     $scope.jasadokter = true;
                     $scope.jasaperawat = false;
@@ -418,7 +418,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.SearchData = function() {
+            $scope.SearchData = function () {
                 // LoadDataDetail() 
                 // var client = new HttpClient(); 
                 // client.get('http://127.0.0.1:1237/printvb/kasir?cetak-laporanjasadokter=1&strNoregistrasi=' + $scope.item.noRegistrasi '&view=' + stt, function(response) {
@@ -427,7 +427,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.ClearData = function() {
+            $scope.ClearData = function () {
                 $scope.item.ruangan = undefined;
                 $scope.item.departement = undefined
                 $scope.listRuangan = undefined
@@ -435,7 +435,7 @@ define(['initialize'], function(initialize) {
                 $scope.item.tglakhir = moment($scope.now).format('YYYY-MM-DD 23:59');
             }
 
-            $scope.SearchData2 = function() {
+            $scope.SearchData2 = function () {
                 // LoadDataRekap();   
                 var tglsetor = "";
                 var idpetugas = "";
@@ -462,7 +462,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -486,7 +486,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapjasa.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/rekapjasa.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rekapjasa.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapjasa.pdf');
@@ -501,13 +501,13 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.ClearDataDua = function() {
+            $scope.ClearDataDua = function () {
                 $scope.itemR.NamaDokter = undefined
                 $scope.itemR.tglawal = moment($scope.now).format('YYYY-MM-DD 00:00');
                 $scope.itemR.tglakhir = moment($scope.now).format('YYYY-MM-DD 23:59');
             }
 
-            $scope.ClearDataEmpat = function() {
+            $scope.ClearDataEmpat = function () {
                 $scope.itemEmpat.tglawal = moment($scope.now).format('YYYY-MM-DD 00:00');
                 $scope.itemEmpat.tglakhir = moment($scope.now).format('YYYY-MM-DD 23:59');
                 $scope.itemEmpat.departement = undefined;
@@ -515,7 +515,7 @@ define(['initialize'], function(initialize) {
                 $scope.listRuangan = undefined
             }
 
-            $scope.ClearDataTiga = function() {
+            $scope.ClearDataTiga = function () {
                 $scope.itemDR.tglawal = moment($scope.now).format('YYYY-MM-DD 00:00');
                 $scope.itemDR.tglakhir = moment($scope.now).format('YYYY-MM-DD 23:59');
                 $scope.itemDR.departement = undefined;
@@ -523,10 +523,10 @@ define(['initialize'], function(initialize) {
                 $scope.listRuangan = undefined
             }
 
-            $scope.SearchData3 = function() {
+            $scope.SearchData3 = function () {
                 LoadDataDetailDokter();
             }
-            $scope.SearchDatax = function() {
+            $scope.SearchDatax = function () {
                 var objverif = {
                     // "pegawaiverif":  $scope.dataLogin.id,
                     // "tglclosing" : tglclosing,
@@ -536,7 +536,7 @@ define(['initialize'], function(initialize) {
                     "tglawal": moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss'),
                     "tglakhir": moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss')
                 };
-                medifirstService.post('remunerasi/update-jasapelayanandokter', objverif).then(function(e) {
+                medifirstService.post('remunerasi/update-jasapelayanandokter', objverif).then(function (e) {
 
                 });
             }
@@ -559,40 +559,40 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("remunerasi/get-detail-laporan-remuntindakan?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    smf).then(function(data) {
-                    $scope.isRouteLoading = false;
-                    var datas = data.data;
-                    for (var i = 0; i < datas.length; i++) {
-                        datas[i].no = i + 1;
-                    }
-                    $scope.sourceLaporan = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        // pageSize: 50,
-                        total: datas.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    JasaDr: { type: "number" },
-                                    Paramedis: { type: "number" },
-                                    Direksi: { type: "number" },
-                                    StaffDireksi: { type: "number" },
-                                    PostRemun: { type: "number" },
-                                    Manajemen: { type: "number" }
+                    smf).then(function (data) {
+                        $scope.isRouteLoading = false;
+                        var datas = data.data;
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1;
+                        }
+                        $scope.sourceLaporan = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            // pageSize: 50,
+                            total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        JasaDr: { type: "number" },
+                                        Paramedis: { type: "number" },
+                                        Direksi: { type: "number" },
+                                        StaffDireksi: { type: "number" },
+                                        PostRemun: { type: "number" },
+                                        Manajemen: { type: "number" }
+                                    }
                                 }
-                            }
-                        },
-                        aggregate: [
-                            { field: 'JasaDr', aggregate: 'sum' },
-                            { field: 'Paramedis', aggregate: 'sum' },
-                            { field: 'Direksi', aggregate: 'sum' },
-                            { field: 'StaffDireksi', aggregate: 'sum' },
-                            { field: 'PostRemun', aggregate: 'sum' },
-                            { field: 'Manajemen', aggregate: 'sum' },
-                        ]
-                    });
-                })
+                            },
+                            aggregate: [
+                                { field: 'JasaDr', aggregate: 'sum' },
+                                { field: 'Paramedis', aggregate: 'sum' },
+                                { field: 'Direksi', aggregate: 'sum' },
+                                { field: 'StaffDireksi', aggregate: 'sum' },
+                                { field: 'PostRemun', aggregate: 'sum' },
+                                { field: 'Manajemen', aggregate: 'sum' },
+                            ]
+                        });
+                    })
             }
             // LoadDataDetailDokter
             // function LoadDataDetail() {                 
@@ -724,119 +724,119 @@ define(['initialize'], function(initialize) {
                 }
             ]
             $scope.columnLaporan = {
-                    toolbar: [
-                        "excel",
+                toolbar: [
+                    "excel",
 
-                    ],
-                    excel: {
-                        fileName: "tindakanremunerasi.xlsx",
-                        allPages: true,
+                ],
+                excel: {
+                    fileName: "tindakanremunerasi.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Orders";
+
+                    var myHeaders = [{
+                        value: "tindakanremunerasi",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                selectable: 'row',
+                pageable: true,
+                columns: [
+
+                    { field: "no", title: "No", width: "30px" },
+                    {
+                        field: "namaproduk",
+                        title: "Nama Pelayanan",
+                        width: "120px",
+                        footerTemplate: "Total"
                     },
-                    excelExport: function(e) {
-                        var sheet = e.workbook.sheets[0];
-                        sheet.frozenRows = 2;
-                        sheet.mergedCells = ["A1:M1"];
-                        sheet.name = "Orders";
+                    {
+                        field: "TindakanRJ",
+                        title: "Tindakan RJ",
+                        width: "110px",
+                        // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "#: data.TindakanRJ.sum #",
+                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
+                        footerAttributes: { style: "text-align: right;" }
 
-                        var myHeaders = [{
-                            value: "tindakanremunerasi",
-                            fontSize: 20,
-                            textAlign: "center",
-                            background: "#ffffff",
-                            // color:"#ffffff"
-                        }];
-
-                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
                     },
-                    selectable: 'row',
-                    pageable: true,
-                    columns: [
+                    {
+                        field: "TindakanRI",
+                        title: "Tindakan RI",
+                        width: "110px",
+                        // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "#: data.TindakanRI.sum #",
+                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
+                        footerAttributes: { style: "text-align: right;" }
 
-                        { field: "no", title: "No", width: "30px" },
-                        {
-                            field: "namaproduk",
-                            title: "Nama Pelayanan",
-                            width: "120px",
-                            footerTemplate: "Total"
-                        },
-                        {
-                            field: "TindakanRJ",
-                            title: "Tindakan RJ",
-                            width: "110px",
-                            // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
-                            aggregates: ["sum"],
-                            footerTemplate: "#: data.TindakanRJ.sum #",
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
-                            footerAttributes: { style: "text-align: right;" }
+                    },
+                    {
+                        field: "TindakanIGD",
+                        title: "Tindakan IGD",
+                        width: "110px",
+                        // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "#: data.TindakanIGD.sum #",
+                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
+                        footerAttributes: { style: "text-align: right;" }
 
-                        },
-                        {
-                            field: "TindakanRI",
-                            title: "Tindakan RI",
-                            width: "110px",
-                            // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
-                            aggregates: ["sum"],
-                            footerTemplate: "#: data.TindakanRI.sum #",
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
-                            footerAttributes: { style: "text-align: right;" }
+                    },
+                    {
+                        field: "TindakanBedah",
+                        title: "Tindakan Bedah",
+                        width: "110px",
+                        // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "#: data.TindakanBedah.sum #",
+                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
+                        footerAttributes: { style: "text-align: right;" }
 
-                        },
-                        {
-                            field: "TindakanIGD",
-                            title: "Tindakan IGD",
-                            width: "110px",
-                            // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
-                            aggregates: ["sum"],
-                            footerTemplate: "#: data.TindakanIGD.sum #",
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
-                            footerAttributes: { style: "text-align: right;" }
+                    },
+                    {
+                        field: "jenissmf",
+                        title: "SMF",
+                        width: "110px",
+                        // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
+                        // aggregates: ["sum"],
+                        // footerTemplate: "#: data.TindakanBedah.sum #",
+                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
+                        // footerAttributes: {style: "text-align: right;"}
 
-                        },
-                        {
-                            field: "TindakanBedah",
-                            title: "Tindakan Bedah",
-                            width: "110px",
-                            // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
-                            aggregates: ["sum"],
-                            footerTemplate: "#: data.TindakanBedah.sum #",
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
-                            footerAttributes: { style: "text-align: right;" }
-
-                        },
-                        {
-                            field: "jenissmf",
-                            title: "SMF",
-                            width: "110px",
-                            // template: "<span class='style-right'>{{formatRupiah('#: JasaDr #','')}}</span>",
-                            // aggregates: ["sum"],
-                            // footerTemplate: "#: data.TindakanBedah.sum #",
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.JasaDr.sum #', '')}}</span>",
-                            // footerAttributes: {style: "text-align: right;"}
-
-                        },
+                    },
 
 
-                    ]
-                }
-                // $scope.columnLaporan = {
-                //     toolbar: [
-                //         "excel",                    
-                //     ],
-                //     excel: { fileName: "tindakanremunerasi.xlsx", allPages: true, },
-                //     // pdf: { fileName: "RekapPembayaranJasaPelayanan.pdf", allPages: true, },
-                //     excelExport: function (e) {
-                //         var sheet = e.workbook.sheets[0];
-                //         sheet.frozenRows = 3;
-                //         sheet.mergedCells = ["A1:J1"];
-                //         sheet.name = "tindakanremunerasi";
-                //          judul = "Tindakan Remunerasi "
-                //         var myHeaders = [{
-                //             value: judul,
-                //             fontSize: 20,
-                //             textAlign: "center",
-                //             background: "#ffffff",
-                //             // color:"#ffffff"
-                //         }];
+                ]
+            }
+            // $scope.columnLaporan = {
+            //     toolbar: [
+            //         "excel",                    
+            //     ],
+            //     excel: { fileName: "tindakanremunerasi.xlsx", allPages: true, },
+            //     // pdf: { fileName: "RekapPembayaranJasaPelayanan.pdf", allPages: true, },
+            //     excelExport: function (e) {
+            //         var sheet = e.workbook.sheets[0];
+            //         sheet.frozenRows = 3;
+            //         sheet.mergedCells = ["A1:J1"];
+            //         sheet.name = "tindakanremunerasi";
+            //          judul = "Tindakan Remunerasi "
+            //         var myHeaders = [{
+            //             value: judul,
+            //             fontSize: 20,
+            //             textAlign: "center",
+            //             background: "#ffffff",
+            //             // color:"#ffffff"
+            //         }];
 
             //         sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
             //     },
@@ -988,32 +988,32 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("remunerasi/get-detail-laporan-remunoperasi?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    smf).then(function(data) {
-                    $scope.isRouteLoading = false;
-                    var datas = data.data;
-                    for (var i = 0; i < datas.length; i++) {
-                        datas[i].no = i + 1;
-                    }
-                    $scope.sourceLaporan2 = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        // pageSize: 50,
-                        total: datas.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    JasaDr: { type: "number" },
-                                    Paramedis: { type: "number" },
+                    smf).then(function (data) {
+                        $scope.isRouteLoading = false;
+                        var datas = data.data;
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1;
+                        }
+                        $scope.sourceLaporan2 = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            // pageSize: 50,
+                            total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        JasaDr: { type: "number" },
+                                        Paramedis: { type: "number" },
+                                    }
                                 }
-                            }
-                        },
-                        aggregate: [
-                            { field: 'JasaDr', aggregate: 'sum' },
-                            { field: 'Paramedis', aggregate: 'sum' },
-                        ]
-                    });
-                })
+                            },
+                            aggregate: [
+                                { field: 'JasaDr', aggregate: 'sum' },
+                                { field: 'Paramedis', aggregate: 'sum' },
+                            ]
+                        });
+                    })
             }
 
             // function LoadDataRekap() {                 
@@ -1124,7 +1124,7 @@ define(['initialize'], function(initialize) {
                     fileName: "tindakanremunerasi.xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
                     sheet.mergedCells = ["A1:M1"];
@@ -1151,7 +1151,7 @@ define(['initialize'], function(initialize) {
                         title: "Nama Dokter",
                         width: "120px",
                         footerTemplate: "Total"
-                            // template: "<span class='style-center'>#: nocm #</span>"
+                        // template: "<span class='style-center'>#: nocm #</span>"
                     },
 
                     {
@@ -1187,7 +1187,7 @@ define(['initialize'], function(initialize) {
                 ],
                 excel: { fileName: "rekapremunerasi.xlsx", allPages: true, },
                 // pdf: { fileName: "RekapPembayaranJasaPelayanan.pdf", allPages: true, },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 3;
                     sheet.mergedCells = ["A1:J1"];
@@ -1214,7 +1214,7 @@ define(['initialize'], function(initialize) {
                         title: "Nama Dokter",
                         width: "120px",
                         footerTemplate: "Total"
-                            // template: "<span class='style-center'>#: nocm #</span>"
+                        // template: "<span class='style-center'>#: nocm #</span>"
                     },
                     {
                         field: "Poli",
@@ -1367,32 +1367,32 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("remunerasi/get-detail-laporan-remunrekap?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    smf).then(function(data) {
-                    $scope.isRouteLoading = false;
-                    var datas = data.data;
-                    for (var i = 0; i < datas.length; i++) {
-                        datas[i].no = i + 1;
-                    }
-                    $scope.sourceLaporan3 = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        // pageSize: 50,
-                        total: datas.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    JasaDr: { type: "number" },
-                                    Paramedis: { type: "number" },
+                    smf).then(function (data) {
+                        $scope.isRouteLoading = false;
+                        var datas = data.data;
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1;
+                        }
+                        $scope.sourceLaporan3 = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            // pageSize: 50,
+                            total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        JasaDr: { type: "number" },
+                                        Paramedis: { type: "number" },
+                                    }
                                 }
-                            }
-                        },
-                        // aggregate: [
-                        //     { field: 'JasaDr', aggregate: 'sum' },
-                        //     { field: 'Paramedis', aggregate: 'sum' },      
-                        // ]
-                    });
-                })
+                            },
+                            // aggregate: [
+                            //     { field: 'JasaDr', aggregate: 'sum' },
+                            //     { field: 'Paramedis', aggregate: 'sum' },      
+                            // ]
+                        });
+                    })
             }
 
 
@@ -1401,13 +1401,13 @@ define(['initialize'], function(initialize) {
             //     field: "Ruangan"
             // };
             $scope.aggregate = [{
-                    field: "hargasatuan",
-                    aggregate: "sum"
-                },
-                {
-                    field: "total",
-                    aggregate: "sum"
-                }
+                field: "hargasatuan",
+                aggregate: "sum"
+            },
+            {
+                field: "total",
+                aggregate: "sum"
+            }
             ]
             $scope.columnLaporanTiga = {
                 toolbar: [
@@ -1415,7 +1415,7 @@ define(['initialize'], function(initialize) {
                 ],
                 excel: { fileName: "detaillaporanremunerasidokter.xlsx", allPages: true, },
                 // pdf: { fileName: "RekapPembayaranJasaPelayanan.pdf", allPages: true, },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 3;
                     sheet.mergedCells = ["A1:J1"];
@@ -1492,7 +1492,7 @@ define(['initialize'], function(initialize) {
                         title: "Cito",
                         width: "50px",
                         footerTemplate: "Total"
-                            // template: "<span class='style-center'>#: noregistrasi #</span>"
+                        // template: "<span class='style-center'>#: noregistrasi #</span>"
                     },
                     {
                         field: "hargasatuan",
@@ -1561,30 +1561,30 @@ define(['initialize'], function(initialize) {
                 ]
             }
 
-            $scope.Perbaharui = function() {
+            $scope.Perbaharui = function () {
                 $scope.ClearSearch();
             }
 
 
-            $scope.ClearSearch = function() {
+            $scope.ClearSearch = function () {
                 $scope.item = {};
                 $scope.item.tglawal = $scope.now;
                 $scope.item.tglakhir = $scope.now;
                 $scope.Search();
             }
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MM-YYYY');
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -1594,7 +1594,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.Cetak = function() {
+            $scope.Cetak = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;
 
@@ -1647,191 +1647,191 @@ define(['initialize'], function(initialize) {
                 var client = new HttpClient();
 
                 if ($scope.item.laporan.laporan == "Pendaftaran") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Pendaftaran(BerkasRS)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporan.laporan == "Pendaftaran(Atensi)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Masuk RS") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarankonsul=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarankonsul=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Atensi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarankonsulatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftarankonsulatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokter=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokter=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter Non Layanan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadoktercovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadoktercovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Tindakan Keperawatan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawat=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawat=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Tindakan Keperawatan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Medis/Paramedis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Medis/Paramedis Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Dokter") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Pelayanan Dokter Luar ALL") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluarall=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluarall=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Medis/Paramedis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Medis/Paramedis Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Rekap Paramedis & Dokter Ruangan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Bank Darah") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Perawat Anastesi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatanastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatanastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Perawat Operator") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatoperator=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatoperator=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Administrasi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatadministrasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatadministrasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Paramedis & Dokter Ruangan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatakomodasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatakomodasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Paramedis Dokpol") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatakomodasidokpol=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatakomodasidokpol=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter Anastesi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokteranastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokteranastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Dokter Operator") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatanastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatanastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Billing") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranbillling=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranbillling=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan RM") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranrm=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranrm=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Admision") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranadmision=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranadmision=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Perawat Registrasi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranperawatregistrasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterpendaftaranperawatregistrasi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Medis ODC") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedisodc=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasamedisodc=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pendaftaran") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pendaftaran Medis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pendaftaran Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Tindakan Keperawatan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Bank Darah") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Penerimaan Rawat Mondok") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Jasa Tindakan Keperawatan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Rekap Pelayanan Perawat Operator & Anastesi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporan.laporan == "Jasa Pelayanan Biddokpol") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasabiddokpol=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasabiddokpol=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 }
 
             }
 
-            $scope.Cetak2 = function() {
+            $scope.Cetak2 = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;
 
@@ -1884,103 +1884,103 @@ define(['initialize'], function(initialize) {
                 var client = new HttpClient();
 
                 if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Non Layanan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Medis/Paramedis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Medis/Paramedis Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Paramedis & Dokter Ruangan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaran=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran Medis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedis=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Tindakan Keperawatan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Bank Darah") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarah=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Penerimaan Rawat Mondok") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Tindakan Keperawatan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovid=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Perawat Operator & Anastesi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran(BerkasRS)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Masuk RS") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakancsr=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran(Atensi)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Luar ALL") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluarrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluarrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Atensi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakanatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakanatensi=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Medis ODC") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanrekapjasamedisodc=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanrekapjasamedisodc=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Biddokpol") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokpolrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokpolrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt, function (response) {
                         // do something with response
                     })
                 }
 
             }
-            $scope.setorpopup = function() {
+            $scope.setorpopup = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD');
 
@@ -1990,7 +1990,7 @@ define(['initialize'], function(initialize) {
                 $scope.popUp.center().open();
 
             }
-            $scope.setor = function() {
+            $scope.setor = function () {
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;
                 var tglsetor = moment($scope.item.tglsetor).format('YYYY-MM-DD');
@@ -2048,13 +2048,13 @@ define(['initialize'], function(initialize) {
                 }
 
                 var stt = 'true'
-                    // if (confirm('View Laporan Remunerasi? ')) {
-                    //     // Save it!
-                    //     stt = 'true';
-                    // } else {
-                    //     // Do nothing!
-                    //     stt = 'false'
-                    // }
+                // if (confirm('View Laporan Remunerasi? ')) {
+                //     // Save it!
+                //     stt = 'true';
+                // } else {
+                //     // Do nothing!
+                //     stt = 'false'
+                // }
                 var client = new HttpClient();
 
                 if (namarekap == 'Rekap Paramedis & Dokter Ruangan') {
@@ -2065,101 +2065,101 @@ define(['initialize'], function(initialize) {
                 }
 
                 if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Non Layanan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapdokternonlayanan=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Medis/Paramedis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Medis/Paramedis Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasamedispenunjang=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
 
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Paramedis & Dokter Ruangan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekapjasaparamedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaransetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaransetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                         debugger;
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran Medis") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranmedissetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran Dokter Luar") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarandokterluar=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Tindakan Keperawatan") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Bank Darah") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarahsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapdarahsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovidsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaperawatrekapcovidsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Penerimaan Rawat Mondok") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanpenerimaanrawatmondok=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Tindakan Keperawatan Covid") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovidsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasatindakanperawatacovidsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Penunjang") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjangsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappenunjangsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Perawat Operator & Anastesi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasaoperatordananastesisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&departement=' + tempDepartemenId + '&ruangan=' + tempRuanganId + '&ruangannama=' + tempRuanganNama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran(BerkasRS)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarancsrsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftarancsrsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Masuk RS") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakancsrsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakancsrsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pendaftaran(Atensi)") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranatensisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekappendaftaranatensisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Pelayanan Dokter Luar ALL") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluarrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterluarrekap=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     });
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Atensi") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakanatensisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanjasadokterrekaptindakanatensisetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     })
                 } else if ($scope.item.laporanrekap.laporan == "Rekap Jasa Pelayanan Medis ODC") {
-                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanrekapjasamedisodcsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function(response) {
+                    client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporanrekapjasamedisodcsetor=1&tglawal=' + tglAwal + '&tglakhir=' + tglAkhir + '&IdDokter=' + tempDokter + '&namadokter=' + tempDokternama + '&idpenjamin=' + tempPenjamin + '&namapenjamin=' + tempNamapenjamin + '&departement=' + tempnamadepartemen + '&namarekanan=' + tempNamaRekanan + '&view=' + stt + '&periode=' + periode + '&namarekap=' + namarekap + '&departementsetor=' + departemenx + '&uraian=' + uraian + '&periodeahir=' + periodeahir + '&tglsetor=' + tglsetor, function (response) {
                         // do something with response
                     })
                 }
 
             }
 
-            $scope.SearchDataEmpat = function() {
+            $scope.SearchDataEmpat = function () {
                 LoadDataDetailParamedis();
             }
 
@@ -2205,42 +2205,42 @@ define(['initialize'], function(initialize) {
                 medifirstService.get("remunerasi/get-detail-laporan-remun-paramedis?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    tempDepartemenId + tempRuanganId + tempDokter + isEksekutif).then(function(data) {
-                    $scope.isRouteLoading = false;
-                    var datas = data.data;
-                    for (var i = 0; i < datas.length; i++) {
-                        datas[i].no = i + 1;
-                        if (datas[i].isparamedis == "1") {
-                            datas[i].statusparamedis = "✔"
-                        } else {
-                            datas[i].statusparamedis = ""
-                        }
-                        if (datas[i].iscito == "1") {
-                            datas[i].statuscito = "✔"
-                        } else {
-                            datas[i].statuscito = ""
-                        }
-                    }
-                    $scope.sourceLaporanEmpat = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        // pageSize: 50,
-                        total: datas.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    hargasatuan: { type: "number" },
-                                    total: { type: "number" },
-                                }
+                    tempDepartemenId + tempRuanganId + tempDokter + isEksekutif).then(function (data) {
+                        $scope.isRouteLoading = false;
+                        var datas = data.data;
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1;
+                            if (datas[i].isparamedis == "1") {
+                                datas[i].statusparamedis = "✔"
+                            } else {
+                                datas[i].statusparamedis = ""
                             }
-                        },
-                        aggregate: [
-                            { field: 'hargasatuan', aggregate: 'sum' },
-                            { field: 'total', aggregate: 'sum' },
-                        ]
-                    });
-                })
+                            if (datas[i].iscito == "1") {
+                                datas[i].statuscito = "✔"
+                            } else {
+                                datas[i].statuscito = ""
+                            }
+                        }
+                        $scope.sourceLaporanEmpat = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            // pageSize: 50,
+                            total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        hargasatuan: { type: "number" },
+                                        total: { type: "number" },
+                                    }
+                                }
+                            },
+                            aggregate: [
+                                { field: 'hargasatuan', aggregate: 'sum' },
+                                { field: 'total', aggregate: 'sum' },
+                            ]
+                        });
+                    })
             }
 
 
@@ -2248,13 +2248,13 @@ define(['initialize'], function(initialize) {
             //     field: "Ruangan"
             // };
             $scope.aggregate = [{
-                    field: "hargasatuan",
-                    aggregate: "sum"
-                },
-                {
-                    field: "total",
-                    aggregate: "sum"
-                }
+                field: "hargasatuan",
+                aggregate: "sum"
+            },
+            {
+                field: "total",
+                aggregate: "sum"
+            }
             ]
             $scope.columnLaporanEmpat = {
                 toolbar: [
@@ -2262,7 +2262,7 @@ define(['initialize'], function(initialize) {
                 ],
                 excel: { fileName: "detaillaporanremunerasiparamedis.xlsx", allPages: true, },
                 // pdf: { fileName: "RekapPembayaranJasaPelayanan.pdf", allPages: true, },
-                excelExport: function(e) {
+                excelExport: function (e) {
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 3;
                     sheet.mergedCells = ["A1:J1"];
@@ -2339,7 +2339,7 @@ define(['initialize'], function(initialize) {
                         title: "Cito",
                         width: "50px",
                         footerTemplate: "Total"
-                            // template: "<span class='style-center'>#: noregistrasi #</span>"
+                        // template: "<span class='style-center'>#: noregistrasi #</span>"
                     },
                     {
                         field: "hargasatuan",
@@ -2407,10 +2407,10 @@ define(['initialize'], function(initialize) {
                 ]
             }
 
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -2420,7 +2420,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.cetakSatu = function() {
+            $scope.cetakSatu = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;
@@ -2453,12 +2453,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporan-detail-remunerasi=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdDept=' + tempDepartemenId + '&strIdRuangan=' + tempRuanganId +
                     '&strEksekutif=' + isEksekutif + '&view=' + stt,
-                    function(response) {
+                    function (response) {
                         // do something with response                
                     });
             }
 
-            $scope.cetakDua = function() {
+            $scope.cetakDua = function () {
                 var tglAwal = moment($scope.itemR.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.itemR.tglakhir).format('YYYY-MM-DD HH:mm');;
 
@@ -2487,12 +2487,12 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
                 client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporan-rekap-remunerasi=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdDokter=' + tempDokter + '&strEksekutif=' + isEksekutif + '&view=' + stt,
-                    function(response) {
+                    function (response) {
                         // do something with response                
                     });
             }
 
-            $scope.cetakTiga = function() {
+            $scope.cetakTiga = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.itemDR.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.itemDR.tglakhir).format('YYYY-MM-DD HH:mm');;
@@ -2532,12 +2532,12 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporan-detail-remunerasi-dokter=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdDept=' + tempDepartemenId + '&strIdRuangan=' + tempRuanganId +
                     '&strIdDokter=' + tempDokter + '&strEksekutif=' + isEksekutif + '&view=' + stt,
-                    function(response) {
+                    function (response) {
                         // do something with response                
                     });
             }
 
-            $scope.cetakEmpat = function() {
+            $scope.cetakEmpat = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.itemEmpat.tglawal).format('YYYY-MM-DD HH:mm');
                 var tglAkhir = moment($scope.itemEmpat.tglakhir).format('YYYY-MM-DD HH:mm');;
@@ -2572,24 +2572,24 @@ define(['initialize'], function(initialize) {
                 client.get('http://127.0.0.1:1237/printvb/remun?cetak-laporan-detail-remunerasi-paramedis=' + $scope.namaLengkap + '&tglAwal=' + tglAwal +
                     '&tglAkhir=' + tglAkhir + '&strIdDept=' + tempDepartemenId + '&strIdRuangan=' + tempRuanganId +
                     '&strEksekutif=' + isEksekutif + '&view=' + stt,
-                    function(response) {
+                    function (response) {
                         // do something with response                
                     });
             }
-            $scope.updateHarga = function() {
-                    var objSave = {
-                        "tglAwal": $scope.item.tglawal,
-                        "tglAkhir": $scope.item.tglakhir,
-                        "idProduk": $scope.item.namatindakan.id,
-                        "idKomponen": $scope.item.namakomponen.id,
-                        "hargaLama": $scope.item.harga.bruto,
-                        "hargaBaru": $scope.item.hargaBaru
-                    };
-                    medifirstService.post('remunerasi/update-harga-komponen-jaspel', objSave).then(function(e) {
+            $scope.updateHarga = function () {
+                var objSave = {
+                    "tglAwal": $scope.item.tglawal,
+                    "tglAkhir": $scope.item.tglakhir,
+                    "idProduk": $scope.item.namatindakan.id,
+                    "idKomponen": $scope.item.namakomponen.id,
+                    "hargaLama": $scope.item.harga.bruto,
+                    "hargaBaru": $scope.item.hargaBaru
+                };
+                medifirstService.post('remunerasi/update-harga-komponen-jaspel', objSave).then(function (e) {
 
-                    })
-                }
-                /////////////////////////////////////////
+                })
+            }
+            /////////////////////////////////////////
         }
     ]);
 });

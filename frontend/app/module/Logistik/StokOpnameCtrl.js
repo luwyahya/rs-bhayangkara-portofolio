@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('StokOpnameCtrl', ['$rootScope', '$scope', '$state', 'ModelItem', 'DateHelper', 'MedifirstService',
-        function($rootScope, $scope, $state, ModelItem, dateHelper, medifirstService) {
+        function ($rootScope, $scope, $state, ModelItem, dateHelper, medifirstService) {
             $scope.DataTakSedia = false;
             $scope.dataVOloaded = true;
             $scope.item = {};
@@ -34,7 +34,7 @@ define(['initialize'], function(initialize) {
                     dataValueField: "id",
                     filter: "contains"
                 };
-                medifirstService.get("logistik/get-combo-logistik", true).then(function(dat) {
+                medifirstService.get("logistik/get-combo-logistik", true).then(function (dat) {
                     var dataCombo = dat.data;
                     $scope.listJenisProduk = dataCombo.jenisproduk
                     $scope.listDetailJenis = dataCombo.detailjenisproduk
@@ -44,7 +44,7 @@ define(['initialize'], function(initialize) {
             }
 
 
-            $scope.cari = function() {
+            $scope.cari = function () {
                 judul = "SO_" + moment($scope.now).format('DD') + '_' + $scope.item.ruangan.id + '_' + $scope.item.ruangan.namaruangan;
                 $scope.optionsDataStokOpname = {
                     toolbar: ["excel"],
@@ -66,51 +66,51 @@ define(['initialize'], function(initialize) {
                     pageable: true,
                     editable: true,
                     columns: [{
-                            "field": "kodeProduk",
-                            "title": "Kode Barang",
-                            "width": 150,
+                        "field": "kodeProduk",
+                        "title": "Kode Barang",
+                        "width": 150,
+                    },
+                    {
+                        "field": "namaProduk",
+                        "title": "Nama Barang",
+                    }, {
+                        "field": "qtyProduk",
+                        "title": "Sistem",
+                        "format": "{0:n2}",
+                        "attributes": {
+                            "style": "text-align:right"
                         },
-                        {
-                            "field": "namaProduk",
-                            "title": "Nama Barang",
-                        }, {
-                            "field": "qtyProduk",
-                            "title": "Sistem",
-                            "format": "{0:n2}",
-                            "attributes": {
-                                "style": "text-align:right"
-                            },
-                            "width": 100,
-                            filterable: false
-                        }, {
-                            "field": "stokReal",
-                            "title": "Real",
-                            "format": "{0:n2}",
-                            "attributes": {
-                                "style": "text-align:right"
-                            },
-                            "width": 100,
-                            filterable: false
-                        }, {
-                            "field": "selisih",
-                            "title": "Selisih",
-                            "format": "{0:n2}",
-                            "attributes": {
-                                "style": "text-align:right"
-                            },
-                            "width": 100,
-                            filterable: false
-                        }, {
-                            "field": "satuanStandar",
-                            "title": "Satuan",
-                            width: 150,
-                            filterable: false
-                        }, {
-                            "field": "adjustmen",
-                            "title": "KeteranganAdjustmen",
-                            width: 150,
-                            filterable: false
+                        "width": 100,
+                        filterable: false
+                    }, {
+                        "field": "stokReal",
+                        "title": "Real",
+                        "format": "{0:n2}",
+                        "attributes": {
+                            "style": "text-align:right"
                         },
+                        "width": 100,
+                        filterable: false
+                    }, {
+                        "field": "selisih",
+                        "title": "Selisih",
+                        "format": "{0:n2}",
+                        "attributes": {
+                            "style": "text-align:right"
+                        },
+                        "width": 100,
+                        filterable: false
+                    }, {
+                        "field": "satuanStandar",
+                        "title": "Satuan",
+                        width: 150,
+                        filterable: false
+                    }, {
+                        "field": "adjustmen",
+                        "title": "KeteranganAdjustmen",
+                        width: 150,
+                        filterable: false
+                    },
                     ]
                 };
                 $scope.dataStokOpname = new kendo.data.DataSource({
@@ -170,11 +170,11 @@ define(['initialize'], function(initialize) {
                     '&ruanganfk=' + ruanganId +
                     '&namaproduk=' + barangId +
                     "&detailjenisprodukfk=" + listDetailJenis
-                ).then(function(data) {
+                ).then(function (data) {
                     // $scope.isReport = true;
                     $scope.isEdit = true;
 
-                    data.data.detail.forEach(function(x) {
+                    data.data.detail.forEach(function (x) {
                         x.stokReal = x.qtyProduk;
                     })
 
@@ -195,7 +195,7 @@ define(['initialize'], function(initialize) {
                             }
                         },
                         // pageSize: 20,
-                        change: function(e) {
+                        change: function (e) {
                             console.log("change :" + e.action);
                             if (e.field && e.action === "itemchange") {
                                 //debugger;
@@ -212,39 +212,39 @@ define(['initialize'], function(initialize) {
                     });
                 })
             }
-            $scope.fk = function(current) {
+            $scope.fk = function (current) {
                 debugger;
                 $scope.current.selisih = $scope.current.stokReal - $scope.current.qtyProduk;
                 $scope.current.adjustmen = "-"
                 $scope.dataStokOpname.fetch();
             }
-            $scope.kl = function(current) {
+            $scope.kl = function (current) {
                 $scope.current = current;
                 $scope.current.adjustmen = "-"
                 console.log(current);
             };
 
 
-            $scope.$watch('item.kelompokBarang', function(e) {
+            $scope.$watch('item.kelompokBarang', function (e) {
                 if (e === undefined) return;
                 if (e.id === undefined) return;
                 $rootScope.addData = { content: 'ada data baru ' + e.kelompokProduk };
                 $scope.listJenisBarang = ModelItem.kendoHttpSource('product/find-jenis-produk?idKelompokProduk=' + e.id, true);
             })
-            $scope.$watch('item.jenisProduk', function(e) {
+            $scope.$watch('item.jenisProduk', function (e) {
                 if (e === undefined) return;
                 if (e.id === undefined) return;
                 $scope.listNamaBarang = ModelItem.kendoHttpSource('product/find-produk-by-jenis-produk-and-nama-produk?idDetailJenisProduk=' + e.id, true);
             })
             $scope.listKelompokBarang = ModelItem.kendoHttpSource('/product/kelompok-produk-have-stok', true);
 
-            $scope.BatalStokOpname = function() {
+            $scope.BatalStokOpname = function () {
                 $scope.item.kataKunciPass = "";
                 $scope.item.kataKunciConfirm = "";
                 $scope.popUp.close();
             }
 
-            $scope.lanjutStokOpname = function() {
+            $scope.lanjutStokOpname = function () {
                 $scope.isRouteLoading = true;
                 // debugger
                 if ($scope.item.ruangan == undefined) {
@@ -283,7 +283,7 @@ define(['initialize'], function(initialize) {
                         "tglClosing": moment($scope.now).format('YYYY-MM-DD HH:mm'), //DateHelper.getPeriodeFormatted($scope.item.tanggal),
                         "stokProduk": dataArray
                     }
-                    medifirstService.post('logistik/save-data-stock-opname', objSave).then(function(e) {
+                    medifirstService.post('logistik/save-data-stock-opname', objSave).then(function (e) {
                         // $scope.item.resep = e.data.noresep.noorder
                         //hitung sesuai jam di UI karena apotik blok F So tanpa berhenti pelayanan
                         for (var i = dataArray.length - 1; i >= 0; i--) {
@@ -326,7 +326,7 @@ define(['initialize'], function(initialize) {
 
                         $scope.dataExcel = datas;
                         $scope.cari()
-                            // refreshSelisih()                          
+                        // refreshSelisih()                          
                     })
                 } else {
                     window.messageContainer.error('Saldo Real barang belum di isi');
@@ -355,7 +355,7 @@ define(['initialize'], function(initialize) {
                             }
                         },
                         // pageSize: 20,
-                        change: function(e) {
+                        change: function (e) {
                             console.log("change :" + e.action);
                             if (e.field && e.action === "itemchange") {
                                 //debugger;
@@ -368,16 +368,16 @@ define(['initialize'], function(initialize) {
                     });
                 }
             }
-            $scope.Save = function() {
-                    $scope.lanjutStokOpname()
-                        // $scope.popUp.center().open();
-                }
-                // $scope.uploadFile = function(){
-                //     var client = new HttpClient();
-                //     client.get('http://127.0.0.1:1237/printvb/logistik?upload-file-so=1', function(response) {
-                //         // aadc=response;
-                //     });
-                // }
+            $scope.Save = function () {
+                $scope.lanjutStokOpname()
+                // $scope.popUp.center().open();
+            }
+            // $scope.uploadFile = function(){
+            //     var client = new HttpClient();
+            //     client.get('http://127.0.0.1:1237/printvb/logistik?upload-file-so=1', function(response) {
+            //         // aadc=response;
+            //     });
+            // }
             $("#kGrid").kendoGrid({
                 toolbar: ["excel"],
                 excel: {
@@ -390,60 +390,60 @@ define(['initialize'], function(initialize) {
                 pageable: true,
                 resizable: true,
                 columns: [{
-                        field: "no",
-                        title: "No",
-                        Template: "<span class='style-center'>#: no #</span>",
-                        width: "80px"
-                    },
-                    {
-                        field: "kdproduk",
-                        title: "Kode Produk",
-                        // "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>",
-                        width: "100px"
-                    },
-                    {
-                        field: "namaproduk",
-                        title: "Nama Produk",
-                        width: "100px",
-                        template: "<span class='style-center'>#: namaproduk #</span>",
-                        headerAttributes: { style: "text-align : center" },
-                    },
-                    {
-                        field: "stokSistem",
-                        title: "Stok Sistem",
-                        width: "100px",
-                        template: "<span class='style-center'>#: stokSistem #</span>",
-                        headerAttributes: { style: "text-align : center" },
-                    },
-                    {
-                        field: "stokReal",
-                        title: "Stok Real",
-                        width: "100px",
-                        template: "<span class='style-center'>#: stokReal #</span>",
-                        headerAttributes: { style: "text-align : center" },
-                    },
-                    {
-                        field: "selisih",
-                        title: "selisih",
-                        width: "100px",
-                        template: "<span class='style-center'>#: selisih #</span>",
-                        headerAttributes: { style: "text-align : center" },
-                    }
+                    field: "no",
+                    title: "No",
+                    Template: "<span class='style-center'>#: no #</span>",
+                    width: "80px"
+                },
+                {
+                    field: "kdproduk",
+                    title: "Kode Produk",
+                    // "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>",
+                    width: "100px"
+                },
+                {
+                    field: "namaproduk",
+                    title: "Nama Produk",
+                    width: "100px",
+                    template: "<span class='style-center'>#: namaproduk #</span>",
+                    headerAttributes: { style: "text-align : center" },
+                },
+                {
+                    field: "stokSistem",
+                    title: "Stok Sistem",
+                    width: "100px",
+                    template: "<span class='style-center'>#: stokSistem #</span>",
+                    headerAttributes: { style: "text-align : center" },
+                },
+                {
+                    field: "stokReal",
+                    title: "Stok Real",
+                    width: "100px",
+                    template: "<span class='style-center'>#: stokReal #</span>",
+                    headerAttributes: { style: "text-align : center" },
+                },
+                {
+                    field: "selisih",
+                    title: "selisih",
+                    width: "100px",
+                    template: "<span class='style-center'>#: selisih #</span>",
+                    headerAttributes: { style: "text-align : center" },
+                }
                 ]
 
             });
 
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 window.messageContainer.error('Fitur belum tersedia');
                 //http://127.0.0.1:1237/printvb/logistik?cetak-stokopname=1&tgl=2017-12-29&idRuangan=50&view=true&id=admin
             }
-            $scope.batal = function() {
+            $scope.batal = function () {
                 $scope.item = {};
             }
-            $scope.daftar = function() {
-                    $state.go('DaftarStokOpname')
-                }
-                /**upload txt lama */
+            $scope.daftar = function () {
+                $state.go('DaftarStokOpname')
+            }
+            /**upload txt lama */
 
             // function readSingleFile(e) {
             //   var file = e.target.files[0];
@@ -520,153 +520,59 @@ define(['initialize'], function(initialize) {
 
             /***Upload Excel */
             $("#upload").kendoUpload({
-                    localization: {
-                        "select": "Pilih File Excel..."
-                    },
+                localization: {
+                    "select": "Pilih File Excel..."
+                },
 
-                    select: function(e) {
-                        var ALLOWED_EXTENSIONS = [".xlsx"];
-                        var extension = e.files[0].extension.toLowerCase();
-                        if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
-                            toastr.error('Mohon Pilih File Excel (.xls)')
-                            e.preventDefault();
-                            // return
-                        }
-                        var file = e.files[0];
-                        var stringFile = e.files[0].name
-                        var strFile = stringFile.split('.')
-                        var nmFileArr = strFile[0].split('_')
-                        if (nmFileArr[1] != undefined && nmFileArr[2] != undefined && nmFileArr[3] != undefined) {
-                            $scope.item.tanggal = new Date(moment(nmFileArr[1]).format('YYYY-MM-DD HH:mm'));
-                            $scope.item.ruangan = { id: nmFileArr[2], namaruangan: nmFileArr[3] }
-                        } else {
-                            toastr.info('SO_Tgl_KodeRuangan_NamaRuangan.xls', 'Contoh Nama File');
-                            toastr.error('Nama File Tidak Sesuai', 'Info');
+                select: function (e) {
+                    var ALLOWED_EXTENSIONS = [".xlsx"];
+                    var extension = e.files[0].extension.toLowerCase();
+                    if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
+                        toastr.error('Mohon Pilih File Excel (.xls)')
+                        e.preventDefault();
+                        // return
+                    }
+                    var file = e.files[0];
+                    var stringFile = e.files[0].name
+                    var strFile = stringFile.split('.')
+                    var nmFileArr = strFile[0].split('_')
+                    if (nmFileArr[1] != undefined && nmFileArr[2] != undefined && nmFileArr[3] != undefined) {
+                        $scope.item.tanggal = new Date(moment(nmFileArr[1]).format('YYYY-MM-DD HH:mm'));
+                        $scope.item.ruangan = { id: nmFileArr[2], namaruangan: nmFileArr[3] }
+                    } else {
+                        toastr.info('SO_Tgl_KodeRuangan_NamaRuangan.xls', 'Contoh Nama File');
+                        toastr.error('Nama File Tidak Sesuai', 'Info');
 
-                            return;
-                        }
+                        return;
+                    }
 
-                        for (var i = 0; i < e.files.length; i++) {
-                            var file = e.files[i].rawFile;
+                    for (var i = 0; i < e.files.length; i++) {
+                        var file = e.files[i].rawFile;
 
-                            if (file) {
-                                var reader = new FileReader();
-                                reader.onload = function(e) {
-                                    var data = e.target.result;
-                                    var workbook = XLSX.read(data, {
-                                        type: 'binary'
-                                    });
+                        if (file) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var data = e.target.result;
+                                var workbook = XLSX.read(data, {
+                                    type: 'binary'
+                                });
 
-                                    workbook.SheetNames.forEach(function(sheetName) {
-                                        // Here is your object
-                                        var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                                        var json_object = JSON.stringify(XL_row_object);
-                                        console.log(XL_row_object);
-                                        var objSave = {
-                                            data: XL_row_object,
-                                            ruanganfk: $scope.item.ruangan.id
-                                        }
-
-                                        medifirstService.post('logistik/get-stok-ruangan-so-from-fileexcel', objSave).then(function(data) {
-                                            $scope.isEdit = true;
-                                            // data.data.detail.forEach(function(x){
-                                            //     x.stokReal = x.qtyProduk;
-                                            // })
-                                            debugger;
-                                            $scope.btnTombol = data.data.save_cmd
-                                            $scope.dataStokOpname = new kendo.data.DataSource({
-                                                data: data.data.detail,
-                                                schema: {
-                                                    model: {
-                                                        id: "id",
-                                                        fields: {
-                                                            kodeProduk: { editable: false },
-                                                            namaProduk: { editable: false, type: "string" },
-                                                            qtyProduk: { editable: false, type: "number" },
-                                                            stokReal: { type: "number" },
-                                                            selisih: { editable: false, type: "number" },
-                                                            satuanStandar: { editable: false, type: "string" }
-                                                        }
-                                                    }
-                                                },
-                                                // pageSize: 20,
-                                                change: function(e) {
-                                                    console.log("change :" + e.action);
-                                                    if (e.field && e.action === "itemchange") {
-                                                        //debugger;
-                                                        $scope.current.selisih = $scope.current.stokReal - $scope.current.qtyProduk;
-                                                        // if ($scope.current.selisih<0)
-                                                        //     $scope.current.selisih = $scope.current.selisih*=-1;
-                                                        $scope.dataStokOpname.fetch();
-                                                    }
-                                                }
-                                            });
-                                        })
-                                    })
-
-                                };
-
-                                reader.onerror = function(ex) {
-                                    console.log(ex);
-                                };
-
-                                reader.readAsBinaryString(file);
-                            }
-                        }
-                    },
-
-                })
-                /***END Upload Excel */
-
-            /***Upload TXT */
-            $("#file-input").kendoUpload({
-                    localization: {
-                        "select": "Pilih File TXT..."
-                    },
-
-                    select: function(e) {
-                        var ALLOWED_EXTENSIONS = [".txt"];
-                        var extension = e.files[0].extension.toLowerCase();
-                        if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
-                            toastr.error('Mohon Pilih File TXT ')
-                            e.preventDefault();
-                            // break
-                            // return
-                        }
-                        var file = e.files[0];
-                        var stringFile = e.files[0].name
-                        var strFile = stringFile.split('.')
-                        var nmFileArr = strFile[0].split('_')
-                        if (nmFileArr[1] != undefined && nmFileArr[2] != undefined && nmFileArr[3] != undefined) {
-                            $scope.item.tanggal = new Date(moment(nmFileArr[1]).format('YYYY-MM-DD HH:mm'));
-                            $scope.item.ruangan = { id: nmFileArr[2], namaruangan: nmFileArr[3] }
-                        } else {
-                            toastr.error('Nama File Tidak Sesuai', 'Info');
-                            return;
-                        }
-
-                        for (var i = 0; i < e.files.length; i++) {
-                            var file = e.files[i].rawFile;
-                            // var extension = e.files[i].extension.toLowerCase();
-                            if (ALLOWED_EXTENSIONS.indexOf(e.files[i].extension.toLowerCase()) == -1) {
-                                break
-                            }
-                            if (file) {
-                                var reader = new FileReader();
-                                var contents = "";
-                                reader.onload = function(e) {
-                                    contents = e.target.result;
-
+                                workbook.SheetNames.forEach(function (sheetName) {
+                                    // Here is your object
+                                    var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                                    var json_object = JSON.stringify(XL_row_object);
+                                    console.log(XL_row_object);
                                     var objSave = {
-                                        data: contents,
+                                        data: XL_row_object,
                                         ruanganfk: $scope.item.ruangan.id
                                     }
 
-                                    medifirstService.post('logistik/get-stok-ruangan-so-from-file', objSave).then(function(data) {
+                                    medifirstService.post('logistik/get-stok-ruangan-so-from-fileexcel', objSave).then(function (data) {
                                         $scope.isEdit = true;
                                         // data.data.detail.forEach(function(x){
                                         //     x.stokReal = x.qtyProduk;
                                         // })
+                                        debugger;
                                         $scope.btnTombol = data.data.save_cmd
                                         $scope.dataStokOpname = new kendo.data.DataSource({
                                             data: data.data.detail,
@@ -684,7 +590,7 @@ define(['initialize'], function(initialize) {
                                                 }
                                             },
                                             // pageSize: 20,
-                                            change: function(e) {
+                                            change: function (e) {
                                                 console.log("change :" + e.action);
                                                 if (e.field && e.action === "itemchange") {
                                                     //debugger;
@@ -696,28 +602,122 @@ define(['initialize'], function(initialize) {
                                             }
                                         });
                                     })
-                                };
-                                // reader.readAsText(file);
-                                reader.onerror = function(ex) {
-                                    console.log(ex);
-                                };
-                                reader.readAsText(file);
-                            }
-                        }
-                    },
+                                })
 
-                })
-                /***END Upload TXT */
-            $scope.saveLogging = function(jenis, referensi, noreff, ket) {
+                            };
+
+                            reader.onerror = function (ex) {
+                                console.log(ex);
+                            };
+
+                            reader.readAsBinaryString(file);
+                        }
+                    }
+                },
+
+            })
+            /***END Upload Excel */
+
+            /***Upload TXT */
+            $("#file-input").kendoUpload({
+                localization: {
+                    "select": "Pilih File TXT..."
+                },
+
+                select: function (e) {
+                    var ALLOWED_EXTENSIONS = [".txt"];
+                    var extension = e.files[0].extension.toLowerCase();
+                    if (ALLOWED_EXTENSIONS.indexOf(extension) == -1) {
+                        toastr.error('Mohon Pilih File TXT ')
+                        e.preventDefault();
+                        // break
+                        // return
+                    }
+                    var file = e.files[0];
+                    var stringFile = e.files[0].name
+                    var strFile = stringFile.split('.')
+                    var nmFileArr = strFile[0].split('_')
+                    if (nmFileArr[1] != undefined && nmFileArr[2] != undefined && nmFileArr[3] != undefined) {
+                        $scope.item.tanggal = new Date(moment(nmFileArr[1]).format('YYYY-MM-DD HH:mm'));
+                        $scope.item.ruangan = { id: nmFileArr[2], namaruangan: nmFileArr[3] }
+                    } else {
+                        toastr.error('Nama File Tidak Sesuai', 'Info');
+                        return;
+                    }
+
+                    for (var i = 0; i < e.files.length; i++) {
+                        var file = e.files[i].rawFile;
+                        // var extension = e.files[i].extension.toLowerCase();
+                        if (ALLOWED_EXTENSIONS.indexOf(e.files[i].extension.toLowerCase()) == -1) {
+                            break
+                        }
+                        if (file) {
+                            var reader = new FileReader();
+                            var contents = "";
+                            reader.onload = function (e) {
+                                contents = e.target.result;
+
+                                var objSave = {
+                                    data: contents,
+                                    ruanganfk: $scope.item.ruangan.id
+                                }
+
+                                medifirstService.post('logistik/get-stok-ruangan-so-from-file', objSave).then(function (data) {
+                                    $scope.isEdit = true;
+                                    // data.data.detail.forEach(function(x){
+                                    //     x.stokReal = x.qtyProduk;
+                                    // })
+                                    $scope.btnTombol = data.data.save_cmd
+                                    $scope.dataStokOpname = new kendo.data.DataSource({
+                                        data: data.data.detail,
+                                        schema: {
+                                            model: {
+                                                id: "id",
+                                                fields: {
+                                                    kodeProduk: { editable: false },
+                                                    namaProduk: { editable: false, type: "string" },
+                                                    qtyProduk: { editable: false, type: "number" },
+                                                    stokReal: { type: "number" },
+                                                    selisih: { editable: false, type: "number" },
+                                                    satuanStandar: { editable: false, type: "string" }
+                                                }
+                                            }
+                                        },
+                                        // pageSize: 20,
+                                        change: function (e) {
+                                            console.log("change :" + e.action);
+                                            if (e.field && e.action === "itemchange") {
+                                                //debugger;
+                                                $scope.current.selisih = $scope.current.stokReal - $scope.current.qtyProduk;
+                                                // if ($scope.current.selisih<0)
+                                                //     $scope.current.selisih = $scope.current.selisih*=-1;
+                                                $scope.dataStokOpname.fetch();
+                                            }
+                                        }
+                                    });
+                                })
+                            };
+                            // reader.readAsText(file);
+                            reader.onerror = function (ex) {
+                                console.log(ex);
+                            };
+                            reader.readAsText(file);
+                        }
+                    }
+                },
+
+            })
+            /***END Upload TXT */
+            $scope.saveLogging = function (jenis, referensi, noreff, ket) {
                 medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis +
                     "&referensi=" + referensi +
                     "&noreff=" + noreff +
                     "&keterangan=" + ket
-                ).then(function(data) {
+                ).then(function (data) {
 
                 })
             }
-            $scope.CetakRegJasper = function() {
+            $scope.CetakRegJasper = function () {
                 if ($scope.item.ruangan != undefined) {
                     var ruanganId = $scope.item.ruangan.id
                 } else {
@@ -736,7 +736,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -759,7 +759,7 @@ define(['initialize'], function(initialize) {
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakanso.pdf');
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakanso.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakanso.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/cetakanso.pdf');

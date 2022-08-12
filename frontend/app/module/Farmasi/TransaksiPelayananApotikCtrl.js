@@ -2499,7 +2499,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/eresep.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/eresep.pdf');
@@ -2571,7 +2571,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1001/generic/report/cetakEtiket.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1001/generic/report/cetakEtiket.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakEtiket.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1001/generic/report/cetakEtiket.pdf');
@@ -2643,13 +2643,13 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1001/generic/report/cetakEtiket2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1001/generic/report/cetakEtiket2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakEtiket2.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1001/generic/report/cetakEtiket2.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakEtiket2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakEtiket2.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakEtiket2.pdf');
@@ -2862,7 +2862,7 @@ define(['initialize'], function (initialize) {
                             xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rekapbillingApotiktap.pdf');
                         } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                             xhr.open('POST', 'http://10.10.20.167:1002/generic/report/rekapbillingApotiktap.pdf');
-                        } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                        } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/rekapbillingApotiktap.pdf');
                         } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                             xhr.open('POST', 'http://202.51.105.98:1002/generic/report/rekapbillingApotiktap.pdf');
@@ -2939,13 +2939,13 @@ define(['initialize'], function (initialize) {
                             xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakResepRIncian.pdf');
                         } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                             xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakResepRIncian.pdf');
-                        } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                        } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/cetakResepRIncian.pdf');
                         } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                             xhr.open('POST', 'http://202.51.105.98:1002/generic/report/cetakResepRIncian.pdf');
                         } else if (window.location.hostname.indexOf('simrs') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/cetakResepRIncian.pdf');
-                        } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                        } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/cetakResepRIncian.pdf');
                         } else {
                             xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakResepRIncian.pdf');
@@ -3059,13 +3059,13 @@ define(['initialize'], function (initialize) {
                                 xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rekapbillingApotik.pdf');
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                 xhr.open('POST', 'http://10.10.20.167:1002/generic/report/rekapbillingApotik.pdf');
-                            } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
                             } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                                 xhr.open('POST', 'http://202.51.105.98:1002/generic/report/rekapbillingApotik.pdf');
                             } else if (window.location.hostname.indexOf('simrs') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
-                            } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
                             } else {
                                 xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingApotik.pdf');

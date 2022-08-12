@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('DaftarPenerimaanBarangSuplierPerUnitCtrl', ['$scope', 'ModelItem', 'DateHelper', 'MedifirstService', 'CacheHelper',
-        function($scope, ModelItem, dateHelper, medifirstService, cacheHelper) {
+        function ($scope, ModelItem, dateHelper, medifirstService, cacheHelper) {
             $scope.item = {};
             $scope.now = new Date();
             $scope.isRouteLoading = false;
@@ -25,12 +25,12 @@ define(['initialize'], function(initialize) {
             }
 
             function loadCombo() {
-                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-barang-logistik", true, true, 20).then(function (data) {
                     $scope.listNamaBarang = data;
                     // $scope.listDetailJenisBrg = data;
                 });
 
-                medifirstService.getPart("logistik/get-combo-detail-jenis-logistik", true, true, 20).then(function(data) {
+                medifirstService.getPart("logistik/get-combo-detail-jenis-logistik", true, true, 20).then(function (data) {
 
                     // $scope.listNamaBarang = data;
                     $scope.listDetailJenisBrg = data;
@@ -41,7 +41,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 $state.go('PenerimaanBarangSuplier')
             }
 
@@ -79,47 +79,47 @@ define(['initialize'], function(initialize) {
                     "&nostruk=" + $scope.item.struk +
                     "&nofaktur=" + $scope.item.nofaktur +
                     "&namarekanan=" + $scope.item.namarekanan +
-                    produkfk + KdSirs1 + KdSirs2 + jenis, true).then(function(dat) {
+                    produkfk + KdSirs1 + KdSirs2 + jenis, true).then(function (dat) {
 
-                    $scope.isRouteLoading = false;
-                    var datas = dat.data.data;
-                    var total = 0;
-                    var totalQty = 0;
-                    var ppn = 0;
-                    var diskon = 0;
-                    for (var i = 0; i < datas.length; i++) {
-                        var y = 0
-                        datas[i].no = i + 1
-                        total = parseFloat(datas[i].total) + total;
-                        totalQty = parseFloat(datas[i].qtyproduk) + totalQty;
-                    }
-                    $scope.item.SubTotalQty = parseFloat(totalQty).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                    $scope.item.SubTotal = parseFloat(total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                    $scope.dataGrid = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        pageSize: 100,
-                        total: datas.length,
-                        serverPaging: false,
-                        selectable: true,
-                        refresh: true,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {
-                                    total: { type: "number" },
+                        $scope.isRouteLoading = false;
+                        var datas = dat.data.data;
+                        var total = 0;
+                        var totalQty = 0;
+                        var ppn = 0;
+                        var diskon = 0;
+                        for (var i = 0; i < datas.length; i++) {
+                            var y = 0
+                            datas[i].no = i + 1
+                            total = parseFloat(datas[i].total) + total;
+                            totalQty = parseFloat(datas[i].qtyproduk) + totalQty;
+                        }
+                        $scope.item.SubTotalQty = parseFloat(totalQty).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        $scope.item.SubTotal = parseFloat(total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        $scope.dataGrid = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            pageSize: 100,
+                            total: datas.length,
+                            serverPaging: false,
+                            selectable: true,
+                            refresh: true,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                        total: { type: "number" },
+                                    }
                                 }
-                            }
-                        },
-                        aggregate: [
-                            { field: 'total', aggregate: 'sum' },
-                            { field: 'hargappn', aggregate: 'sum' }
-                            // scrollable: false,
-                            // pageSize: 5
-                        ],
-                    })
-                    pegawaiUser = dat.data.datalogin
-                });
+                            },
+                            aggregate: [
+                                { field: 'total', aggregate: 'sum' },
+                                { field: 'hargappn', aggregate: 'sum' }
+                                // scrollable: false,
+                                // pageSize: 5
+                            ],
+                        })
+                        pegawaiUser = dat.data.datalogin
+                    });
 
                 var chacePeriode = {
                     0: tglAwal,
@@ -134,15 +134,15 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.getRuangan = function() {
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
-            $scope.cariFilter = function() {
+            $scope.cariFilter = function () {
 
                 init();
             }
 
-            $scope.CetakRincian = function() {
+            $scope.CetakRincian = function () {
                 var stt = 'false'
                 if (confirm('View Laporan? ')) {
                     // Save it!
@@ -152,12 +152,12 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.CetakRincianDetailRekap = function() {
+            $scope.CetakRincianDetailRekap = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 var stt = 'false'
@@ -177,13 +177,13 @@ define(['initialize'], function(initialize) {
                     namaBrg = $scope.item.namaBarang.namaproduk;
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-detail-penerimaan-sp-sum=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&jnsBarang=' + detailjenisproduk + '&namaBrg=' + namaBrg + '&view=' + stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-detail-penerimaan-sp-sum=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&jnsBarang=' + detailjenisproduk + '&namaBrg=' + namaBrg + '&view=' + stt, function (response) {
                     //aadc=response;
                 });
             }
 
 
-            $scope.LaporanSupplier = function() {
+            $scope.LaporanSupplier = function () {
                 var stt = 'false'
                 if (confirm('View Laporan? ')) {
                     // Save it!
@@ -203,11 +203,11 @@ define(['initialize'], function(initialize) {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-laporan-penerimaan-supplier=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&objectProduk=' + objPrd + '&jenis=' + jns + '&view=' + stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-laporan-penerimaan-supplier=1&tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&objectProduk=' + objPrd + '&jenis=' + jns + '&view=' + stt, function (response) {
                     //aadc=response;
                 });
             }
-            $scope.LaporanSupplierRekap = function() {
+            $scope.LaporanSupplierRekap = function () {
                 $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
@@ -223,7 +223,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -245,7 +245,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/RekapitulasiPembelianObat.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/RekapitulasiPembelianObat.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/RekapitulasiPembelianObat.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/RekapitulasiPembelianObat.pdf');
@@ -263,7 +263,7 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.penerimaanharian = function() {
+            $scope.penerimaanharian = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 $scope.isRouteLoading = true;
@@ -283,7 +283,7 @@ define(['initialize'], function(initialize) {
                     "paramType": ["", "", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
                         // cetakttd();
@@ -309,7 +309,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/penerimaanharian.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/penerimaanharian.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/penerimaanharian.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/penerimaanharian.pdf');
@@ -323,7 +323,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
 
             }
-            $scope.Laporanrekon = function() {
+            $scope.Laporanrekon = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 $scope.isRouteLoading = true;
@@ -340,10 +340,10 @@ define(['initialize'], function(initialize) {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "tglawal", "tglakhir"],
                     "paramValue": ["RUMAH SAKIT UNIVERSITAS ANDALAS", "Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176", tglAwal.toString(), tglAkhir.toString()],
-                    "paramType": ["", "","date", "date"]
+                    "paramType": ["", "", "date", "date"]
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
 
                         // cetakttd();
@@ -369,7 +369,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/laporanrekon.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/laporanrekon.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporanrekon.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/laporanrekon.pdf');
@@ -383,7 +383,7 @@ define(['initialize'], function(initialize) {
                 $scope.isRouteLoading = false;
 
             }
-            $scope.CetakBukti = function() {
+            $scope.CetakBukti = function () {
                 var stt = 'false'
                 if (confirm('View Bukti Penerimaan? ')) {
                     // Save it!
@@ -393,12 +393,12 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
 
-            $scope.EditTerima = function() {
+            $scope.EditTerima = function () {
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
                     1: 'EditTerima',
@@ -412,7 +412,7 @@ define(['initialize'], function(initialize) {
                 $state.go('PenerimaanBarangSuplier')
             }
 
-            $scope.RegisAset = function() {
+            $scope.RegisAset = function () {
                 debugger;
                 var chacePeriode = {
                     0: $scope.dataSelected.norec,
@@ -427,7 +427,7 @@ define(['initialize'], function(initialize) {
                 $state.go('RegisterAset')
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
@@ -438,7 +438,7 @@ define(['initialize'], function(initialize) {
                         moment($scope.item.tglAkhir).format('DD/MMM/YYYY') + ".xlsx",
                     allPages: true,
                 },
-                excelExport: function(e) {
+                excelExport: function (e) {
 
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 1;
@@ -463,160 +463,160 @@ define(['initialize'], function(initialize) {
                 resizable: true,
                 selectable: 'row',
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "30px",
-                    },
-                    {
-                        "field": "namarekanan",
-                        "title": "Nama Rekanan",
-                        "width": "90px",
-                    },
-                    {
-                        "field": "nofaktur",
-                        "title": "No Faktur",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "kdproduk",
-                        "title": "Kode Produk",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "kdsirs",
-                        "title": "Kode Produk Sirs",
-                        "width": "95px"
-                    },
-                    {
-                        "field": "namaproduk",
-                        "title": "Nama Produk",
-                        "width": "100px",
-                    },
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                },
+                {
+                    "field": "namarekanan",
+                    "title": "Nama Rekanan",
+                    "width": "90px",
+                },
+                {
+                    "field": "nofaktur",
+                    "title": "No Faktur",
+                    "width": "80px",
+                },
+                {
+                    "field": "kdproduk",
+                    "title": "Kode Produk",
+                    "width": "80px"
+                },
+                {
+                    "field": "kdsirs",
+                    "title": "Kode Produk Sirs",
+                    "width": "95px"
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Produk",
+                    "width": "100px",
+                },
 
-                    {
-                        "field": "detailjenisproduk",
-                        "title": "Jenis Produk",
-                        "width": "100px",
-                    },
+                {
+                    "field": "detailjenisproduk",
+                    "title": "Jenis Produk",
+                    "width": "100px",
+                },
 
-                    {
-                        "field": "tglfaktur",
-                        "title": "Tanggal faktur",
-                        "width": "60px",
-                        "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
-                    },
-                    {
-                        "field": "tglstruk",
-                        "title": "Tanggal Penerimaan",
-                        "width": "60px",
-                        "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
-                    },
-                    {
-                        "field": "nosppb",
-                        "title": "No PO",
-                        "width": "80px",
-                        "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
-                    },
-                    {
-                        "field": "satuanstandar",
-                        "title": "Satuan",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "qtyproduk",
-                        "title": "Qty Terima",
-                        "width": "55px",
-                        "template": "<span class='style-right'>#= kendo.toString(qtyproduk) #</span>",
-                    },
-                    {
-                        "field": "hargasatuan",
-                        "title": "Harga Satuan",
-                        "width": "90px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
-                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                    },
-                    {
-                        "field": "hargadiscount",
-                        "title": "Diskon",
-                        "width": "90px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
-                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                    },
-                    {
-                        "field": "hargappn",
-                        "title": "PPn",
-                        "width": "90px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
-                        "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                        // footerTemplate: "#:data.hargappn.sum  #"
-                        footerTemplate: "TOTAL"
-                    },
-                    {
-                        "field": "hna",
-                        "title": "HNA",
-                        "width": "90px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
-                        "template": "<span class='style-right'>{{formatRupiah('#: hna #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                        // footerTemplate: "#:data.hargappn.sum  #"
-                        // footerTemplate: "TOTAL"
-                    }, {
-                        "field": "hasilkonversi",
-                        "title": "QTY terkecil",
-                        "width": "90px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
-                        // "template": "<span class='style-right'>{{formatRupiah('#: HNA #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                        // footerTemplate: "#:data.hargappn.sum  #"
-                        // footerTemplate: "TOTAL"
-                    },
-                    {
-                        "field": "total",
-                        "title": "Total",
-                        "width": "120px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                        "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp. ')}}</span>",
-                        attributes: { style: "text-align:right;" },
-                        aggregates: ["sum"],
-                        // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp. ')}}</span>"
+                {
+                    "field": "tglfaktur",
+                    "title": "Tanggal faktur",
+                    "width": "60px",
+                    "template": "<span class='style-right'>{{formatTanggal('#: tglfaktur #', '')}}</span>"
+                },
+                {
+                    "field": "tglstruk",
+                    "title": "Tanggal Penerimaan",
+                    "width": "60px",
+                    "template": "<span class='style-right'>{{formatTanggal('#: tglstruk #', '')}}</span>"
+                },
+                {
+                    "field": "nosppb",
+                    "title": "No PO",
+                    "width": "80px",
+                    "template": "#if (nosppb) {# #= nosppb # #} else {# - #} #",
+                },
+                {
+                    "field": "satuanstandar",
+                    "title": "Satuan",
+                    "width": "80px",
+                },
+                {
+                    "field": "qtyproduk",
+                    "title": "Qty Terima",
+                    "width": "55px",
+                    "template": "<span class='style-right'>#= kendo.toString(qtyproduk) #</span>",
+                },
+                {
+                    "field": "hargasatuan",
+                    "title": "Harga Satuan",
+                    "width": "90px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>"
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                },
+                {
+                    "field": "hargadiscount",
+                    "title": "Diskon",
+                    "width": "90px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>"
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                },
+                {
+                    "field": "hargappn",
+                    "title": "PPn",
+                    "width": "90px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
+                    "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                    // footerTemplate: "#:data.hargappn.sum  #"
+                    footerTemplate: "TOTAL"
+                },
+                {
+                    "field": "hna",
+                    "title": "HNA",
+                    "width": "90px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
+                    "template": "<span class='style-right'>{{formatRupiah('#: hna #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                    // footerTemplate: "#:data.hargappn.sum  #"
+                    // footerTemplate: "TOTAL"
+                }, {
+                    "field": "hasilkonversi",
+                    "title": "QTY terkecil",
+                    "width": "90px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: hargappn #', '')}}</span>"
+                    // "template": "<span class='style-right'>{{formatRupiah('#: HNA #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                    // footerTemplate: "#:data.hargappn.sum  #"
+                    // footerTemplate: "TOTAL"
+                },
+                {
+                    "field": "total",
+                    "title": "Total",
+                    "width": "120px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    "template": "<span class='style-right'>{{formatRupiah('#: total #', 'Rp. ')}}</span>",
+                    attributes: { style: "text-align:right;" },
+                    aggregates: ["sum"],
+                    // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp. ')}}</span>"
 
-                        footerTemplate: "#:data.total.sum  #"
-                            // footerTemplate: "<span class='style-right'>{{formatRupiah('#: total #', 'Rp. ')}}</span>"
-                            // footerTemplate: "#:data.total.sum  #"
-                    },
-                    {
-                        "field": "HNA",
-                        "title": "HNA",
-                        "width": "120px",
-                        // "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                        // "template": "<span class='style-right'>{{formatRupiah('#: HNA #', 'Rp. ')}}</span>",
-                        // attributes: { style: "text-align:right;" },
-                        // aggregates: ["sum"],
-                        // // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp. ')}}</span>"
+                    footerTemplate: "#:data.total.sum  #"
+                    // footerTemplate: "<span class='style-right'>{{formatRupiah('#: total #', 'Rp. ')}}</span>"
+                    // footerTemplate: "#:data.total.sum  #"
+                },
+                {
+                    "field": "HNA",
+                    "title": "HNA",
+                    "width": "120px",
+                    // "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    // "template": "<span class='style-right'>{{formatRupiah('#: HNA #', 'Rp. ')}}</span>",
+                    // attributes: { style: "text-align:right;" },
+                    // aggregates: ["sum"],
+                    // // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp. ')}}</span>"
 
-                        // footerTemplate: "#:data.HNA.sum  #"
-                    },
-                    {
-                        "field": "asalproduk",
-                        "title": "Sumber Dana",
-                        "width": "80px",
-                    },
-                    {
-                        "field": "tglkadaluarsa",
-                        "title": "Tanggal Expire",
-                        "width": "80px",
-                        "template": "<span class='style-right'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
-                    }
+                    // footerTemplate: "#:data.HNA.sum  #"
+                },
+                {
+                    "field": "asalproduk",
+                    "title": "Sumber Dana",
+                    "width": "80px",
+                },
+                {
+                    "field": "tglkadaluarsa",
+                    "title": "Tanggal Expire",
+                    "width": "80px",
+                    "template": "<span class='style-right'>{{formatTanggal('#: tglkadaluarsa #', '')}}</span>"
+                }
                 ]
             }
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD/MM/YYYY');
             }
 
@@ -627,19 +627,19 @@ define(['initialize'], function(initialize) {
                 var thn = Math.round(selisih / (1000 * 60 * 60 * 24 * 365));
                 return thn + ' thn ' // + bln + ' bln'
             }
-            var HttpClient = function() {
-                    this.get = function(aUrl, aCallback) {
-                        var anHttpRequest = new XMLHttpRequest();
-                        anHttpRequest.onreadystatechange = function() {
-                            if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
-                                aCallback(anHttpRequest.responseText);
-                        }
-
-                        anHttpRequest.open("GET", aUrl, true);
-                        anHttpRequest.send(null);
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
+                    var anHttpRequest = new XMLHttpRequest();
+                    anHttpRequest.onreadystatechange = function () {
+                        if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
+                            aCallback(anHttpRequest.responseText);
                     }
+
+                    anHttpRequest.open("GET", aUrl, true);
+                    anHttpRequest.send(null);
                 }
-                //***********************************
+            }
+            //***********************************
         }
     ]);
 });
