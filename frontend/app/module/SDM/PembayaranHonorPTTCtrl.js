@@ -276,8 +276,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', '/jasper1/generic/report/rekappembayaranptt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rekappembayaranptt.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/rekappembayaranptt.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/rekappembayaranptt.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekappembayaranptt.pdf');
                 }
@@ -402,8 +402,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorPtt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorPtt.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/daftarPembayaranHonorPtt.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorPtt.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/daftarPembayaranHonorPtt.pdf');
                 }
@@ -527,8 +527,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/daftarPembayaranHonorKelompokPtt.pdf');
                 }

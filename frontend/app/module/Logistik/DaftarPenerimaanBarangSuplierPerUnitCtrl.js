@@ -308,7 +308,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/penerimaanharian.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:1002/generic/report/penerimaanharian.pdf');
+                    xhr.open('POST', '/jasper1generic/report/penerimaanharian.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/penerimaanharian.pdf');
                 } else {
@@ -368,7 +368,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/laporanrekon.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:1002/generic/report/laporanrekon.pdf');
+                    xhr.open('POST', '/jasper1generic/report/laporanrekon.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporanrekon.pdf');
                 } else {

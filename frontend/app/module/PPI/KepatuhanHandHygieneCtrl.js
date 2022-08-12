@@ -1143,8 +1143,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1003/generic/report/chartPerRuangan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/chartPerRuangan.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:1003/generic/report/chartPerRuangan.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/chartPerRuangan.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/chartPerRuangan.pdf');
                 }

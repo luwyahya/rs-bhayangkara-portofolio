@@ -411,8 +411,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratPersetujuanCovidEMR.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratPersetujuanCovidEMR.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratPersetujuanCovidEMR.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/suratPersetujuanCovidEMR.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratPersetujuanCovidEMR.pdf');
                 }
@@ -485,8 +485,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratKronologiKejadianEMR.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratKronologiKejadianEMR.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratKronologiKejadianEMR.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/suratKronologiKejadianEMR.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratKronologiKejadianEMR.pdf');
                 }
@@ -550,8 +550,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratPermohonanRawatInap.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratPermohonanRawatInap.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratPermohonanRawatInap.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/suratPermohonanRawatInap.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratPermohonanRawatInap.pdf');
                 }
@@ -625,7 +625,7 @@ define(['initialize'], function (initialize) {
             //     }else if(window.location.hostname.indexOf('10.8.8.8') > -1){
             //         xhr.open('POST', '/jasper1/generic/report/suratKronologiKejadianEMR.pdf');
             //     }else if(window.location.hostname.indexOf('202.51.105.98') > -1){
-            //         xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratKronologiKejadianEMR.pdf');
+            //         xhr.open('POST', '/jasper1/generic/report/suratKronologiKejadianEMR.pdf');
             //     }else{
             //         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratKronologiKejadianEMR.pdf');
             //     }

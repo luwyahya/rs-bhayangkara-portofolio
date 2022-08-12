@@ -342,8 +342,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', '/jasper1/generic/report/report2.pdf');
                 } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
                     xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/report2.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/report2.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1/generic/report/report2.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/report2.pdf');
                 }

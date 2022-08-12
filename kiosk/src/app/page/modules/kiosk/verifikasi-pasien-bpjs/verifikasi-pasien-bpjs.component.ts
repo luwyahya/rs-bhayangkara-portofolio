@@ -917,8 +917,8 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                       }
                     }
                   }
-                  this.httpService.update("medifirst2000/bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).subscribe(e => {
-                    if (e.response) {
+                  this.httpService.update("medifirst2000/bridging/bpjs2/update-rencana-kontrol-v2", dataSend).subscribe(e => {
+                    if (e.metaData.code == 200) {
                       this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + this.noSKDP
                       ).subscribe(data => {
                         if (data.metaData.code == 200) {

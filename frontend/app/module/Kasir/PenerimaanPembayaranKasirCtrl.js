@@ -526,8 +526,8 @@ define(['initialize'], function (initialize) {
                                     xhr.open('POST', '/jasper1/generic/report/kwSbmTotalRajal.pdf');
                                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                                     xhr.open('POST', '/jasper1/generic/report/kwSbmTotalRajal.pdf');
-                                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/kwSbmTotalRajal.pdf');
+                                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                                    xhr.open('POST', '/jasper1/generic/report/kwSbmTotalRajal.pdf');
                                 } else {
                                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/kwSbmTotalRajal.pdf');
                                 }
@@ -538,8 +538,8 @@ define(['initialize'], function (initialize) {
                                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/kwSbmTotal.pdf');
                                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/kwSbmTotal.pdf');
-                                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/kwSbmTotal.pdf');
+                                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                                    xhr.open('POST', '/jasper1/generic/report/kwSbmTotal.pdf');
                                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                     xhr.open('POST', '/jasper1/generic/report/kwSbmTotal.pdf');
                                 } else if (window.location.hostname.indexOf('simrs') > -1) {
@@ -556,8 +556,8 @@ define(['initialize'], function (initialize) {
                                 xhr.open('POST', 'http://192.168.88.56:8797/generic/report/kwSbmTotalNonLayanan.pdf');
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                 xhr.open('POST', 'http://10.10.20.167:8797/generic/report/kwSbmTotalNonLayanan.pdf');
-                            } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                                xhr.open('POST', 'http://202.51.105.98:8797/generic/report/kwSbmTotalNonLayanan.pdf');
+                            } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                                xhr.open('POST', '/jasper1/generic/report/kwSbmTotalNonLayanan.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/kwSbmTotalNonLayanan.pdf');
                             } else if (window.location.hostname.indexOf('simrs') > -1) {

@@ -608,8 +608,8 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/catatankeperawatan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/catatankeperawatan.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:1002/generic/report/catatankeperawatan.pdf');
+                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    xhr.open('POST', '/jasper1generic/report/catatankeperawatan.pdf');
                 } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
                     xhr.open('POST', 'http://36.92.186.59:1002/generic/report/catatankeperawatan.pdf');
                 } else {

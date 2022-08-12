@@ -4083,6 +4083,17 @@ class BridgingBPJSV2Controller extends ApiController
                 $response2 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
                 if($response2['metaData']->code==200){
                     $r=array_merge($x,$response2['response']['list']);
+                }else{
+                    $r=$x;
+                }
+            }else{
+                $r=[];
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['noKartu'] = $noKartu;
+                $objetoRequest['bulan'] = 1;
+                $response2 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+                if($response2['metaData']->code==200){
+                    $r=$response2['response']['list'];
                 }
             }
             $result = array(
