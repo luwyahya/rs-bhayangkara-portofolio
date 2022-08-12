@@ -3802,7 +3802,7 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/sjprjumum.pdf');
                 } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
                     xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/sjprjumum.pdf');
@@ -3845,7 +3845,7 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/sjprjpenjamin.pdf');
                 } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
                     xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/sjprjpenjamin.pdf');

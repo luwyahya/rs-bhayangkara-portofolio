@@ -550,7 +550,7 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratketerangan.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratketerangan.pdf');

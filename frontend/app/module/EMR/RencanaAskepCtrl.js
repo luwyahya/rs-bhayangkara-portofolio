@@ -1,8 +1,8 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('RencanaAskepCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state',
         'CacheHelper', 'DateHelper', 'MedifirstService',
-        function($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
+        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
             $scope.noCM = $state.params.noCM;
             $scope.tombolSimpanVis = true
             $scope.noRecPap = cacheHelper.get('noRecPap');
@@ -35,14 +35,14 @@ define(['initialize'], function(initialize) {
 
             function LoadCombo() {
 
-                medifirstService.get("emr/get-combo").then(function(dat) {
+                medifirstService.get("emr/get-combo").then(function (dat) {
                     $scope.listJenisPetugas = dat.data.jenispetugas
                     $scope.listDokter = dat.data.pegawaiAll
                     $scope.listPerawat = dat.data.pegawaiAll
                     $scope.listTandaTangan = dat.data.pegawaiAll
                 })
 
-                medifirstService.get("emr/get-combolistaskep?noregistrasi=" + $scope.cc.noregistrasi).then(function(dat) {
+                medifirstService.get("emr/get-combolistaskep?noregistrasi=" + $scope.cc.noregistrasi).then(function (dat) {
 
                     $scope.listAskep = dat.data.askep
                 })
@@ -78,21 +78,21 @@ define(['initialize'], function(initialize) {
             function init() {
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                    // medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=rencanaaskep", true).then(function(dat) {
-                    //     debugger
-                    //     $scope.isRouteLoading = false
-                    //     $scope.noemr = dat.data.data[0].noemr
-                    //     $scope.cc.norec_emr = dat.data.data[0].noemr
-                    //         // var nomorEMRSS = ''
-                    //     cacheHelper.set('cacheEmrIgd', undefined)
-                    //     if (dat.data.data.length > 0) {
-                    //         for (var i = 0; i < dat.data.data.length; i++) {
-                    //             const element = dat.data.data[i];
-                    //             element.no = i + 1
-                    //         }
-                    //         nomorEMRSS = dat.data.data[0].noemr
-                    //         nomorEMR = nomorEMRSS
-                    //         $scope.cc.emrfk = '518'
+                // medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=rencanaaskep", true).then(function(dat) {
+                //     debugger
+                //     $scope.isRouteLoading = false
+                //     $scope.noemr = dat.data.data[0].noemr
+                //     $scope.cc.norec_emr = dat.data.data[0].noemr
+                //         // var nomorEMRSS = ''
+                //     cacheHelper.set('cacheEmrIgd', undefined)
+                //     if (dat.data.data.length > 0) {
+                //         for (var i = 0; i < dat.data.data.length; i++) {
+                //             const element = dat.data.data[i];
+                //             element.no = i + 1
+                //         }
+                //         nomorEMRSS = dat.data.data[0].noemr
+                //         nomorEMR = nomorEMRSS
+                //         $scope.cc.emrfk = '518'
                 LoadData();
                 //         // setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                 //     } else {
@@ -167,15 +167,15 @@ define(['initialize'], function(initialize) {
                 } else {
                     emr = ''
                 }
-                medifirstService.get("emr/get-history-rencana?" + emr).then(function(dat) {
+                medifirstService.get("emr/get-history-rencana?" + emr).then(function (dat) {
 
 
                     var cppt = dat.data
-                        // if (cppt[0].verifikasi == 1) {
-                        //     $scope.showbtn = false
-                        // } else {
-                        //     $scope.showbtn = true
-                        // }
+                    // if (cppt[0].verifikasi == 1) {
+                    //     $scope.showbtn = false
+                    // } else {
+                    //     $scope.showbtn = true
+                    // }
                     debugger;
                     $scope.sourceResumeHead = new kendo.data.DataSource({
                         data: cppt,
@@ -192,50 +192,50 @@ define(['initialize'], function(initialize) {
                     pageable: true,
                     scrollable: true,
                     columns: [{
-                            "field": "emrpasienfk",
-                            "title": "No EMR",
-                            "width": "85px"
-                        },
-                        {
-                            "field": "diagnosa",
-                            "title": "Diagnosa",
-                            "width": "120px",
-                        },
-                        // {
-                        //     "field": "hasilpemeriksaan",
-                        //     "title": "Hasil Pemeriksaan",
-                        //     "width": "120px",
-                        // },
-                        {
-                            "field": "intervensi",
-                            "title": "intervensi",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "luaran",
-                            "title": "luaran",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "tglditegakan",
-                            "title": "Tgl ditegakan",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "namaperawat",
-                            "title": "Perawat Penegak",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "tglteratasi",
-                            "title": "Tgl Teratasi",
-                            "width": "120px",
-                        },
-                        {
-                            "field": "namaperawatteratasi",
-                            "title": "Perawat",
-                            "width": "120px",
-                        },
+                        "field": "emrpasienfk",
+                        "title": "No EMR",
+                        "width": "85px"
+                    },
+                    {
+                        "field": "diagnosa",
+                        "title": "Diagnosa",
+                        "width": "120px",
+                    },
+                    // {
+                    //     "field": "hasilpemeriksaan",
+                    //     "title": "Hasil Pemeriksaan",
+                    //     "width": "120px",
+                    // },
+                    {
+                        "field": "intervensi",
+                        "title": "intervensi",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "luaran",
+                        "title": "luaran",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "tglditegakan",
+                        "title": "Tgl ditegakan",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "namaperawat",
+                        "title": "Perawat Penegak",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "tglteratasi",
+                        "title": "Tgl Teratasi",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "namaperawatteratasi",
+                        "title": "Perawat",
+                        "width": "120px",
+                    },
                         // { field: "emrpasienfk", title: "No", width: 40 },
                         // { field: "tglresume", title: "Tgl Resume", width: 150 },
                         // { field: "koderesume", title: "Kode Resume", width: 150 },
@@ -267,7 +267,7 @@ define(['initialize'], function(initialize) {
 
                 };
             }
-            $scope.showInput = function() {
+            $scope.showInput = function () {
 
                 if (nomorEMRSS == '') {
                     $scope.grid = false;
@@ -276,7 +276,7 @@ define(['initialize'], function(initialize) {
                     $scope.editsave = false;
                     return
                 }
-                medifirstService.get('emr/get-status-verif?emrpasien=' + nomorEMRSS).then(function(dat) {
+                medifirstService.get('emr/get-status-verif?emrpasien=' + nomorEMRSS).then(function (dat) {
                     debugger
                     if (dat.data.length > 0) {
                         if (dat.data[0].verifikasi == 1) {
@@ -304,34 +304,34 @@ define(['initialize'], function(initialize) {
             $scope.data = {
                 names: [{ idtgl: "153", tgl: "", idjp: "154", jp: "", idhp: "155", hp: "S:\nO:\nA:\nP:", idit: "156", it: "P:", iddk: "157", dk: "", norec: "", verifikasi: "", idmenyerahkan: "158", menyerahkan: "", idmenerima: "159", menerima: "", idpk: "160", pk: "", idttd: "161", ttd: "", idtgllapor: "162", tgllapor: "", idpi: "163", pi: "", idtgljawab: "164", tgljawab: "", idinstruksi: "165", instruksi: "", ids: "851", s: "S :", ido: "852", o: "O :", ida: "853", a: "A :", idp: "854", p: "P :" }]
             };
-            $scope.TambahSoap = function(index) {
+            $scope.TambahSoap = function (index) {
 
                 var ax = $scope.data.names[index].list
                 $scope.data.names[index].o = ax.caption;
                 medifirstService.get("emr/get-dataaskep?noemr=" + ax.emrpasienfk + "&emrfk=" +
-                    ax.id).then(function(dat) {
-                    var a = '';
-                    var o = '';
-                    var p = '';
-                    var data = dat.data.askep
-                    for (var i = 0; i < data.length; i++) {
-                        if (data[i].kolom == 1) {
-                            a = a + data[i].captionemr + "\n"
+                    ax.id).then(function (dat) {
+                        var a = '';
+                        var o = '';
+                        var p = '';
+                        var data = dat.data.askep
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].kolom == 1) {
+                                a = a + data[i].captionemr + "\n"
+                            }
+                            if (data[i].kolom == 2) {
+                                o = o + data[i].captionemr + "\n"
+                            }
+                            if (data[i].kolom == 3) {
+                                p = p + data[i].captionemr + "\n"
+                            }
                         }
-                        if (data[i].kolom == 2) {
-                            o = o + data[i].captionemr + "\n"
-                        }
-                        if (data[i].kolom == 3) {
-                            p = p + data[i].captionemr + "\n"
-                        }
-                    }
-                    $scope.data.names[index].diagnosa = a
-                    $scope.data.names[index].luaran = o;
-                    $scope.data.names[index].intervensi = p;
-                })
+                        $scope.data.names[index].diagnosa = a
+                        $scope.data.names[index].luaran = o;
+                        $scope.data.names[index].intervensi = p;
+                    })
 
             }
-            $scope.Tambah = function(index) {
+            $scope.Tambah = function (index) {
                 var name = { idtgl: "153", tgl: "", idjp: "154", jp: "", idhp: "155", hp: "S:\nO:\nA:\nP:", idit: "156", it: "P:", iddk: "157", dk: "", norec: "", verifikasi: "", idmenyerahkan: "158", menyerahkan: "", idmenerima: "159", menerima: "", idpk: "160", pk: "", idttd: "161", ttd: "", idtgllapor: "162", tgllapor: "", idpi: "163", pi: "", idtgljawab: "164", tgljawab: "", idinstruksi: "165", instruksi: "", ids: "851", s: "S :", ido: "852", o: "O :", ida: "853", a: "A :", idp: "854", p: "P :" };
                 if ($scope.data.names.length <= index + 1) {
                     $scope.data.names.splice(index + 1, 0, name);
@@ -376,7 +376,7 @@ define(['initialize'], function(initialize) {
                         }
                     }
                 }
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
 
                     for (var m = 0; m < dat.data.length; m++) {
                         $scope.data.names[m].tgl = dat.data[m].tgljam
@@ -511,12 +511,12 @@ define(['initialize'], function(initialize) {
                 //     }
                 // })
                 loadTempEmr()
-                setTimeout(function() {
+                setTimeout(function () {
 
 
                 }, 5500);
                 setRow3()
-                    // loadTempEmr2()
+                // loadTempEmr2()
             }
 
             function setRow3(index = 11) {
@@ -612,61 +612,61 @@ define(['initialize'], function(initialize) {
             }
 
             function loadTempEmr() {
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
 
-                        for (var m = 0; m < 10; m++) {
-                            $scope.data.names[m].tgl = dat.data[m].tgljam
-                            $scope.data.names[m].jp = { id: dat.data[m].id, jenispetugaspe: dat.data[m].profesi }
-                            $scope.data.names[m].hp = dat.data[m].hasilpemeriksaan
-                            $scope.data.names[m].it = dat.data[m].instruksitenaga
-                            $scope.data.names[m].dk = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
-                            $scope.data.names[m].norec = dat.data[m].norec
-                            $scope.data.names[m].verifikasi = dat.data[m].verifikasi
-                            $scope.data.names[m].menyerahkan = { id: dat.data[m].id, namalengkap: dat.data[m].menyerahkan }
-                            $scope.data.names[m].menerima = { id: dat.data[m].id, namalengkap: dat.data[m].menerima }
-                            $scope.data.names[m].pk = dat.data[m].pasienkeluarga
-                            $scope.data.names[m].ttd = { id: dat.data[m].id, namalengkap: dat.data[m].ttd }
-                            if (dat.data[m].tgllapor == "1900-01-01 00:00:00.000") {
-                                $scope.data.names[m].tgllapor = ""
-                            } else {
-                                $scope.data.names[m].tgllapor = new moment(dat.data[m].tgllapor).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                            $scope.data.names[m].pi = { id: dat.data[m].id, namalengkap: dat.data[m].penerimainstruksi }
-                            if (dat.data[m].tgljawab == "1900-01-01 00:00:00.000") {
-                                $scope.data.names[m].tgljawab = ""
-                            } else {
-                                $scope.data.names[m].tgljawab = new moment(dat.data[m].tgljawab).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                            $scope.data.names[m].instruksi = { id: dat.data[m].id, namalengkap: dat.data[m].pemberiinstruksi }
-
-
-                            if ($scope.data.names[m].verifikasi == 1) {
-                                $scope.tgl = true;
-                                $scope.jp = true;
-                                $scope.hp = true;
-                                $scope.it = true;
-                                $scope.dk = true;
-                                $scope.btn = true;
-                                $scope.showbtn = false;
-                            } else {
-                                $scope.tgl = false;
-                                $scope.jp = false;
-                                $scope.hp = false;
-                                $scope.it = false;
-                                $scope.dk = false;
-                                $scope.btn = false;
-                                $scope.showbtn = true;
-                            }
+                    for (var m = 0; m < 10; m++) {
+                        $scope.data.names[m].tgl = dat.data[m].tgljam
+                        $scope.data.names[m].jp = { id: dat.data[m].id, jenispetugaspe: dat.data[m].profesi }
+                        $scope.data.names[m].hp = dat.data[m].hasilpemeriksaan
+                        $scope.data.names[m].it = dat.data[m].instruksitenaga
+                        $scope.data.names[m].dk = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
+                        $scope.data.names[m].norec = dat.data[m].norec
+                        $scope.data.names[m].verifikasi = dat.data[m].verifikasi
+                        $scope.data.names[m].menyerahkan = { id: dat.data[m].id, namalengkap: dat.data[m].menyerahkan }
+                        $scope.data.names[m].menerima = { id: dat.data[m].id, namalengkap: dat.data[m].menerima }
+                        $scope.data.names[m].pk = dat.data[m].pasienkeluarga
+                        $scope.data.names[m].ttd = { id: dat.data[m].id, namalengkap: dat.data[m].ttd }
+                        if (dat.data[m].tgllapor == "1900-01-01 00:00:00.000") {
+                            $scope.data.names[m].tgllapor = ""
+                        } else {
+                            $scope.data.names[m].tgllapor = new moment(dat.data[m].tgllapor).format('YYYY-MM-DD HH:mm:ss')
                         }
-                    })
-                    // setTimeout(function () {
+                        $scope.data.names[m].pi = { id: dat.data[m].id, namalengkap: dat.data[m].penerimainstruksi }
+                        if (dat.data[m].tgljawab == "1900-01-01 00:00:00.000") {
+                            $scope.data.names[m].tgljawab = ""
+                        } else {
+                            $scope.data.names[m].tgljawab = new moment(dat.data[m].tgljawab).format('YYYY-MM-DD HH:mm:ss')
+                        }
+                        $scope.data.names[m].instruksi = { id: dat.data[m].id, namalengkap: dat.data[m].pemberiinstruksi }
+
+
+                        if ($scope.data.names[m].verifikasi == 1) {
+                            $scope.tgl = true;
+                            $scope.jp = true;
+                            $scope.hp = true;
+                            $scope.it = true;
+                            $scope.dk = true;
+                            $scope.btn = true;
+                            $scope.showbtn = false;
+                        } else {
+                            $scope.tgl = false;
+                            $scope.jp = false;
+                            $scope.hp = false;
+                            $scope.it = false;
+                            $scope.dk = false;
+                            $scope.btn = false;
+                            $scope.showbtn = true;
+                        }
+                    }
+                })
+                // setTimeout(function () {
 
                 // }, 3000);
                 // loadTempEmr2()
             }
 
             function loadTempEmr2() {
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
 
                     for (var m = 5; m < 10; m++) {
                         $scope.data.names[m].tgl = dat.data[m].tgljam
@@ -713,68 +713,68 @@ define(['initialize'], function(initialize) {
                         }
                     }
                 })
-                setTimeout(function() {
+                setTimeout(function () {
 
                 }, 3000);
                 loadTempEmr3()
             }
 
             function loadTempEmr3() {
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
 
-                        for (var m = 10; m < dat.data.length; m++) {
-                            $scope.data.names[m].tgl = dat.data[m].tgljam
-                            $scope.data.names[m].jp = { id: dat.data[m].id, jenispetugaspe: dat.data[m].profesi }
-                            $scope.data.names[m].hp = dat.data[m].hasilpemeriksaan
-                            $scope.data.names[m].it = dat.data[m].instruksitenaga
-                            $scope.data.names[m].dk = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
-                            $scope.data.names[m].norec = dat.data[m].norec
-                            $scope.data.names[m].verifikasi = dat.data[m].verifikasi
-                            $scope.data.names[m].menyerahkan = { id: dat.data[m].id, namalengkap: dat.data[m].menyerahkan }
-                            $scope.data.names[m].menerima = { id: dat.data[m].id, namalengkap: dat.data[m].menerima }
-                            $scope.data.names[m].pk = dat.data[m].pasienkeluarga
-                            $scope.data.names[m].ttd = { id: dat.data[m].id, namalengkap: dat.data[m].ttd }
-                            if (dat.data[m].tgllapor == "1900-01-01 00:00:00.000") {
-                                $scope.data.names[m].tgllapor = ""
-                            } else {
-                                $scope.data.names[m].tgllapor = new moment(dat.data[m].tgllapor).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                            $scope.data.names[m].pi = { id: dat.data[m].id, namalengkap: dat.data[m].penerimainstruksi }
-                            if (dat.data[m].tgljawab == "1900-01-01 00:00:00.000") {
-                                $scope.data.names[m].tgljawab = ""
-                            } else {
-                                $scope.data.names[m].tgljawab = new moment(dat.data[m].tgljawab).format('YYYY-MM-DD HH:mm:ss')
-                            }
-                            $scope.data.names[m].instruksi = { id: dat.data[m].id, namalengkap: dat.data[m].pemberiinstruksi }
-
-
-                            if ($scope.data.names[m].verifikasi == 1) {
-                                $scope.tgl = true;
-                                $scope.jp = true;
-                                $scope.hp = true;
-                                $scope.it = true;
-                                $scope.dk = true;
-                                $scope.btn = true;
-                                $scope.showbtn = false;
-                            } else {
-                                $scope.tgl = false;
-                                $scope.jp = false;
-                                $scope.hp = false;
-                                $scope.it = false;
-                                $scope.dk = false;
-                                $scope.btn = false;
-                                $scope.showbtn = true;
-                            }
+                    for (var m = 10; m < dat.data.length; m++) {
+                        $scope.data.names[m].tgl = dat.data[m].tgljam
+                        $scope.data.names[m].jp = { id: dat.data[m].id, jenispetugaspe: dat.data[m].profesi }
+                        $scope.data.names[m].hp = dat.data[m].hasilpemeriksaan
+                        $scope.data.names[m].it = dat.data[m].instruksitenaga
+                        $scope.data.names[m].dk = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
+                        $scope.data.names[m].norec = dat.data[m].norec
+                        $scope.data.names[m].verifikasi = dat.data[m].verifikasi
+                        $scope.data.names[m].menyerahkan = { id: dat.data[m].id, namalengkap: dat.data[m].menyerahkan }
+                        $scope.data.names[m].menerima = { id: dat.data[m].id, namalengkap: dat.data[m].menerima }
+                        $scope.data.names[m].pk = dat.data[m].pasienkeluarga
+                        $scope.data.names[m].ttd = { id: dat.data[m].id, namalengkap: dat.data[m].ttd }
+                        if (dat.data[m].tgllapor == "1900-01-01 00:00:00.000") {
+                            $scope.data.names[m].tgllapor = ""
+                        } else {
+                            $scope.data.names[m].tgllapor = new moment(dat.data[m].tgllapor).format('YYYY-MM-DD HH:mm:ss')
                         }
-                    })
-                    // setTimeout(function () {
+                        $scope.data.names[m].pi = { id: dat.data[m].id, namalengkap: dat.data[m].penerimainstruksi }
+                        if (dat.data[m].tgljawab == "1900-01-01 00:00:00.000") {
+                            $scope.data.names[m].tgljawab = ""
+                        } else {
+                            $scope.data.names[m].tgljawab = new moment(dat.data[m].tgljawab).format('YYYY-MM-DD HH:mm:ss')
+                        }
+                        $scope.data.names[m].instruksi = { id: dat.data[m].id, namalengkap: dat.data[m].pemberiinstruksi }
+
+
+                        if ($scope.data.names[m].verifikasi == 1) {
+                            $scope.tgl = true;
+                            $scope.jp = true;
+                            $scope.hp = true;
+                            $scope.it = true;
+                            $scope.dk = true;
+                            $scope.btn = true;
+                            $scope.showbtn = false;
+                        } else {
+                            $scope.tgl = false;
+                            $scope.jp = false;
+                            $scope.hp = false;
+                            $scope.it = false;
+                            $scope.dk = false;
+                            $scope.btn = false;
+                            $scope.showbtn = true;
+                        }
+                    }
+                })
+                // setTimeout(function () {
 
                 // }, 3000);
                 // loadTempEmr3()
             }
 
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.cc.norec,
@@ -820,7 +820,7 @@ define(['initialize'], function(initialize) {
                         }
                     }
                 }
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
 
                     for (var m = 10; m < dat.data.length; m++) {
                         $scope.data.names[m].tgl = dat.data[m].tgljam
@@ -868,7 +868,7 @@ define(['initialize'], function(initialize) {
                     }
                 })
             }
-            $scope.Save = function() {
+            $scope.Save = function () {
                 $scope.inputsave = false
                 var arrobj = $scope.data.names
                 var arrSave = []
@@ -974,7 +974,7 @@ define(['initialize'], function(initialize) {
                     // data: arrSave,
                     temp: arrTemp,
                 }
-                medifirstService.post('emr/save-rencana-askep', gasSave).then(function(e) {
+                medifirstService.post('emr/save-rencana-askep', gasSave).then(function (e) {
                     init()
                     LoadData();
                     // LoadCacheHelper();
@@ -986,7 +986,7 @@ define(['initialize'], function(initialize) {
                     $scope.input = false;
                 })
             }
-            $scope.Verifikasi = function() {
+            $scope.Verifikasi = function () {
                 debugger
                 var stt = 'false'
                 if (confirm('Verifikasi CPPT ?')) {
@@ -999,7 +999,7 @@ define(['initialize'], function(initialize) {
                     var update = {
                         norecemr: $scope.cc.norec_emr
                     }
-                    medifirstService.post('emr/save-verifikasi-dokter-cppt', update).then(function(dat) {
+                    medifirstService.post('emr/save-verifikasi-dokter-cppt', update).then(function (dat) {
                         // init()
                         LoadCacheHelper();
                         var arrStr = {
@@ -1009,10 +1009,10 @@ define(['initialize'], function(initialize) {
                     })
                 }
             }
-            $scope.Unverifikasi2 = function() {
+            $scope.Unverifikasi2 = function () {
                 $scope.popUpUnVerifikasi.center().open()
             }
-            $scope.Unverifikasi = function() {
+            $scope.Unverifikasi = function () {
                 debugger
                 if ($scope.item.password2 != "sehatselalu") {
                     toastr.error('Password Salah !')
@@ -1033,7 +1033,7 @@ define(['initialize'], function(initialize) {
                     var update = {
                         norecemr: $scope.cc.norec_emr
                     }
-                    medifirstService.post('emr/save-unverifikasi-dokter-cppt', update).then(function(dat) {
+                    medifirstService.post('emr/save-unverifikasi-dokter-cppt', update).then(function (dat) {
                         init()
                         var arrStr = {
                             0: e.data.data.noemr
@@ -1042,7 +1042,7 @@ define(['initialize'], function(initialize) {
                     })
                 }
             }
-            $scope.cetakPdf = function() {
+            $scope.cetakPdf = function () {
                 $scope.isRouteLoading = true;
                 var namapasien = $scope.cc.namapasien
                 var norm = $scope.cc.nocm
@@ -1062,7 +1062,7 @@ define(['initialize'], function(initialize) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -1084,7 +1084,7 @@ define(['initialize'], function(initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rencanaaskepv2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/rencanaaskepv2.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rencanaaskepv2.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/rencanaaskepv2.pdf');
@@ -1105,15 +1105,15 @@ define(['initialize'], function(initialize) {
 
 
             }
-            $scope.Back = function() {
-                    $scope.grid = true;
-                    $scope.input = false;
-                }
-                // $scope.klik = function() {
-                //     debugger;
-                //     nomorEMRSS = ''
-                // }
-            $scope.editGrid = function() {
+            $scope.Back = function () {
+                $scope.grid = true;
+                $scope.input = false;
+            }
+            // $scope.klik = function() {
+            //     debugger;
+            //     nomorEMRSS = ''
+            // }
+            $scope.editGrid = function () {
 
                 if ($scope.modelGrid == undefined) {
                     toastr.error('Data Belum Dipilih', 'Peringatan !');
@@ -1121,7 +1121,7 @@ define(['initialize'], function(initialize) {
                 }
                 debugger;
                 nomorEMRSS = $scope.modelGrid.emrpasienfk;
-                medifirstService.get('emr/get-status-verif?emrpasien=' + nomorEMRSS).then(function(dat) {
+                medifirstService.get('emr/get-status-verif?emrpasien=' + nomorEMRSS).then(function (dat) {
                     debugger
                     if (dat.data.length > 0) {
                         if (dat.data[0].verifikasi == 1) {
@@ -1143,7 +1143,7 @@ define(['initialize'], function(initialize) {
                 $scope.inputsave = false;
                 $scope.editsave = true;
                 $scope.editsave = true;
-                medifirstService.get('emr/get-rencana-edit?norec=' + norec).then(function(dat) {
+                medifirstService.get('emr/get-rencana-edit?norec=' + norec).then(function (dat) {
                     debugger;
                     var tglteratasi
                     if ($scope.data.names[0].tglteratasi == undefined || $scope.data.names[0].tglteratasi == null) {
@@ -1162,7 +1162,7 @@ define(['initialize'], function(initialize) {
 
                 })
             }
-            $scope.Edit = function() {
+            $scope.Edit = function () {
                 var arrobj = $scope.data.names
                 var arrTempEdit = []
                 debugger
@@ -1213,7 +1213,7 @@ define(['initialize'], function(initialize) {
                     // data: arrSave,
                     temp: arrTempEdit,
                 }
-                medifirstService.post('emr/edit-rencana-askep', gasSave).then(function(e) {
+                medifirstService.post('emr/edit-rencana-askep', gasSave).then(function (e) {
                     // init()
                     // var arrStr = {
                     //     0: e.data.data.noemr

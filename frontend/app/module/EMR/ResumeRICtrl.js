@@ -1,12 +1,12 @@
-define(['initialize', 'Configuration'], function(initialize, config) {
+define(['initialize', 'Configuration'], function (initialize, config) {
     'use strict';
     initialize.controller('ResumeRICtrl', ['$q', '$scope', 'ModelItem', '$state', 'MedifirstService', '$timeout', 'CacheHelper', '$rootScope',
-        function($q, $scope, ModelItem, $state, medifirstService, $timeout, cacheHelper, $rootScope) {
+        function ($q, $scope, ModelItem, $state, medifirstService, $timeout, cacheHelper, $rootScope) {
             $scope.isRouteLoading = false;
             $scope.now = new Date()
             $scope.item = {
-                    tglresume: $scope.now
-                } // set defined object
+                tglresume: $scope.now
+            } // set defined object
             $scope.isGrid = true
             $scope.isNext = true
             var noregistrasi = '';
@@ -51,17 +51,17 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             $scope.item.pemeriksaanPenunjangLab = '';
 
             function loadRmPp(norec_pp) {
-                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function(rmpp) {
+                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function (rmpp) {
                     $scope.statusSelesaiPeriksaRm = rmpp.data.isrm;
                 });
             }
 
             function loadClaimPp(norec_pp) {
-                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function(rmpp) {
+                medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + norec_pp).then(function (rmpp) {
                     $scope.statusSelesaiPeriksaPp = rmpp.data.isrm;
                 });
             }
-            $scope.loadClaimPpLuar = function(dataItem) {
+            $scope.loadClaimPpLuar = function (dataItem) {
                 // function loadClaimPpLuar(dataItem) {
                 // var noregistrasi = dataItem.noregistrasi
                 var norec_pp = dataItem.norec_pp;
@@ -88,7 +88,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     // loadClaimPp($scope.item.norec_pp)
                     norec_pp = "'" + dataItem.norec_pp + "'"
                     var x = "WHERE (pp.noregistrasifk = '" + norecAPD + "')and (pp.norec in (" + norecPP + ')) '
-                    medifirstService.get("emr/get-hasil-lab?norecapd=" + x + "&umur=" + umurDay + "&jeniskelamin=" + $scope.item.objectjeniskelaminfk).then(function(x) {
+                    medifirstService.get("emr/get-hasil-lab?norecapd=" + x + "&umur=" + umurDay + "&jeniskelamin=" + $scope.item.objectjeniskelaminfk).then(function (x) {
                         if ($scope.item.pemeriksaanPenunjangLab == undefined) {
                             $scope.item.pemeriksaanPenunjangLab = x.data[0].tglpelayanan + ' : ' + x.data[0].detailjenisproduk + ' : '
                         } else {
@@ -110,13 +110,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'norec': dataItem.norec_pp,
                     'isrm': rmstat
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function(e) {
+                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function (e) {
                     if (e.status === 201) {
                         // debugger;
                         // medifirstService.post('tatarekening/save-log-closing-rm', json).then(function (e) {
                         // 	})
                         // loadClaimPp(norec_ppc)
-                        medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + dataItem.norec_pp).then(function(rmpp) {
+                        medifirstService.get("registrasi/daftar-registrasi/get-status-rm-pp?norec_pp=" + dataItem.norec_pp).then(function (rmpp) {
                             $scope.statusSelesaiPeriksaPp = rmpp.data.isrm;
                             loadClaimGridPp(noregistrasifk, objectruanganfk);
                             loadDaftarRmPp(noregistrasi);
@@ -129,7 +129,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
             function loadClaimGridPp(noregistrasifk, objectruanganfk) {
-                medifirstService.get("radiologi/get-lab-inacbg-grid-rm?noregistrasifk=" + noregistrasifk + "&objectruanganfk=" + objectruanganfk, true).then(function(dat) {
+                medifirstService.get("radiologi/get-lab-inacbg-grid-rm?noregistrasifk=" + noregistrasifk + "&objectruanganfk=" + objectruanganfk, true).then(function (dat) {
                     // if (dat.data.data.length > 0) {
                     // }
                     datalabstat = dat.data.data;
@@ -192,7 +192,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 aggregate: [{
                                     field: 'total',
                                     aggregate: 'sum'
-                                }, ]
+                                },]
                             };
                             $scope.popUpPelayananRadio.center().open();
                             popc == false;
@@ -208,7 +208,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 aggregate: [{
                                     field: 'total',
                                     aggregate: 'sum'
-                                }, ]
+                                },]
                             };
                             $scope.popUpPelayanan.center().open();
                             popc == false;
@@ -240,7 +240,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 aggregate: [{
                                     field: 'total',
                                     aggregate: 'sum'
-                                }, ]
+                                },]
                             };
                             $scope.popUpPelayananrad.center().open();
                             popc == false;
@@ -256,7 +256,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                 aggregate: [{
                                     field: 'total',
                                     aggregate: 'sum'
-                                }, ]
+                                },]
                             };
                             $scope.popUpPelayanan.center().open();
                             popc == false;
@@ -266,63 +266,63 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
             function loadDaftarRmPp(noregistrasi) {
-                medifirstService.get("registrasi/daftar-registrasi/get-daftar-rm-pp?noregistrasi=" + noregistrasi).then(function(dat) {
-                        if (dat.data.data.length > 0) {
-                            $scope.item.tgllahir = dat.data.data[0].tgllahir
-                            $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                medifirstService.get("registrasi/daftar-registrasi/get-daftar-rm-pp?noregistrasi=" + noregistrasi).then(function (dat) {
+                    if (dat.data.data.length > 0) {
+                        $scope.item.tgllahir = dat.data.data[0].tgllahir
+                        $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                    }
+                    for (var i = 0; i < dat.data.data.length; i++) {
+                        dat.data.data[i].no = i + 1
+                        dat.data.data[i].statCheckbox = false;
+                        if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
+                            dat.data.data[i].statusbridging = "✔";
+                            // ✅
+                            // ✔
+                        } else {
+                            dat.data.data[i].statusbridging = "✘";
+                            // ✘
+                            // ❎
                         }
-                        for (var i = 0; i < dat.data.data.length; i++) {
-                            dat.data.data[i].no = i + 1
-                            dat.data.data[i].statCheckbox = false;
-                            if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
-                                dat.data.data[i].statusbridging = "✔";
-                                // ✅
-                                // ✔
-                            } else {
-                                dat.data.data[i].statusbridging = "✘";
-                                // ✘
-                                // ❎
-                            }
-                            if (dat.data.data[i].iscito == "1") {
-                                dat.data.data[i].statuscito = "✔";
-                                // ✅
-                                // ✔
-                            } else {
-                                dat.data.data[i].statuscito = "✘";
-                                // ✘
-                                // ❎
-                            }
-                            if (dat.data.data[i].statusperiksa == 1) {
-                                dat.data.data[i].statusperiksa = "✔";
-                            } else {
-                                dat.data.data[i].statusperiksa = "✘";
-                            }
-
+                        if (dat.data.data[i].iscito == "1") {
+                            dat.data.data[i].statuscito = "✔";
+                            // ✅
+                            // ✔
+                        } else {
+                            dat.data.data[i].statuscito = "✘";
+                            // ✘
+                            // ❎
                         }
-                        if (dat.data.data.length > 0) {
-                            if (dat.data.data[0].objectdepartemenfk == 3)
-                                $scope.disableRad = true
-                            if (dat.data.data[0].objectdepartemenfk == 27)
-                                $scope.disableLab = true
+                        if (dat.data.data[i].statusperiksa == 1) {
+                            dat.data.data[i].statusperiksa = "✔";
+                        } else {
+                            dat.data.data[i].statusperiksa = "✘";
                         }
-                        $scope.isLoading = false;
 
-                        $scope.dataGridRm = {
-                            data: dat.data.data,
-                            _data: dat.data.data,
-                            // pageSize: 10,
-                            selectable: true,
-                            refresh: true,
-                            total: dat.data.data.length,
-                            serverPaging: false,
-                            aggregate: [{
-                                field: 'total',
-                                aggregate: 'sum'
-                            }, ]
-                        };
+                    }
+                    if (dat.data.data.length > 0) {
+                        if (dat.data.data[0].objectdepartemenfk == 3)
+                            $scope.disableRad = true
+                        if (dat.data.data[0].objectdepartemenfk == 27)
+                            $scope.disableLab = true
+                    }
+                    $scope.isLoading = false;
 
-                    },
-                    function(error) {
+                    $scope.dataGridRm = {
+                        data: dat.data.data,
+                        _data: dat.data.data,
+                        // pageSize: 10,
+                        selectable: true,
+                        refresh: true,
+                        total: dat.data.data.length,
+                        serverPaging: false,
+                        aggregate: [{
+                            field: 'total',
+                            aggregate: 'sum'
+                        },]
+                    };
+
+                },
+                    function (error) {
                         $scope.isLoading = false;
                     });
             }
@@ -331,42 +331,42 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 "id": 1,
                 "nama": "Kondisi Waktu Keluar",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Sembuh"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "Pindah"
-                    },
-                    {
-                        "id": 3,
-                        "nama": "Pulang atas Permintaan Sendiri"
-                    },
-                    {
-                        "id": 4,
-                        "nama": "Meninggal"
-                    },
+                    "id": 1,
+                    "nama": "Sembuh"
+                },
+                {
+                    "id": 2,
+                    "nama": "Pindah"
+                },
+                {
+                    "id": 3,
+                    "nama": "Pulang atas Permintaan Sendiri"
+                },
+                {
+                    "id": 4,
+                    "nama": "Meninggal"
+                },
                 ]
             }]
             $scope.listPengobatan = [{
                 "id": 2,
                 "nama": "Pengobatan Dilanjutkan",
                 "detail": [{
-                        "id": 1,
-                        "nama": "Poliklinik RS ini"
-                    },
-                    {
-                        "id": 2,
-                        "nama": "RS Lain"
-                    },
-                    {
-                        "id": 3,
-                        "nama": "PUSKESMAS"
-                    },
-                    {
-                        "id": 4,
-                        "nama": "Dokter Luar"
-                    },
+                    "id": 1,
+                    "nama": "Poliklinik RS ini"
+                },
+                {
+                    "id": 2,
+                    "nama": "RS Lain"
+                },
+                {
+                    "id": 3,
+                    "nama": "PUSKESMAS"
+                },
+                {
+                    "id": 4,
+                    "nama": "Dokter Luar"
+                },
                 ]
             }]
 
@@ -442,7 +442,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     name: "create",
                     text: "Tambah",
                     template: '<button ng-click="AddHasilKonsul(575)" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Hasil Laboratorium</button>'
-                }, ],
+                },],
                 selectable: "row",
                 pageable: true,
                 scrollable: true,
@@ -515,133 +515,133 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 pageable: true,
                 scrollable: true,
                 columns: [{
-                        field: "no",
-                        title: "No",
-                        width: 40
-                    },
-                    {
-                        field: "tglresume",
-                        title: "Tgl Resume",
-                        width: 150
-                    },
-                    {
-                        field: "koderesume",
-                        title: "Kode Resume",
-                        width: 150
-                    },
-                    {
-                        field: "noregistrasi",
-                        title: "No Registrasi",
-                        width: 150
-                    },
-                    {
-                        field: "namaruangan",
-                        title: "Ruangan",
-                        width: 150
-                    },
-                    {
-                        field: "tglkontrolpoli",
-                        title: "Tgl Kontrol Poliklinik",
-                        width: 150
-                    },
-                    {
-                        field: "namadokter",
-                        title: "Pegawai",
-                        width: 150
-                    },
-                    {
-                        field: "ringkasanriwayatpenyakit",
-                        title: "Ringkasan Riwayat Penyakit",
-                        width: 250
-                    },
-                    {
-                        field: "pemeriksaanfisik",
-                        title: "Pemerisaan Fisik",
-                        width: 250
-                    },
-                    {
-                        field: "pemeriksaanpenunjangaddlab",
-                        title: "Pemerisaan Penunjang",
-                        width: 250
-                    },
-                    {
-                        field: "hasilkonsultasi",
-                        title: "Hasil Konsultasi",
-                        width: 250
-                    },
-                    {
-                        field: "diagnosisawal",
-                        title: "Diagnosi Awal",
-                        width: 150
-                    },
-                    {
-                        field: "diagnosissekunder",
-                        title: "Diagnosis Sekunder",
-                        width: 150
-                    },
-                    {
-                        field: "diet",
-                        title: "Diet",
-                        width: 150
-                    },
-                    // { field: "hasilkonsultasi", title: "Hasil Konsultasi", width: 150 },
-                    {
-                        field: "hasillab",
-                        title: "Hasil Lab",
-                        width: 150
-                    },
-                    {
-                        field: "instruksianjuran",
-                        title: "Intruksi",
-                        width: 150
-                    },
-                    {
-                        field: "kondisiwaktukeluar",
-                        title: "Kondisi Keluar",
-                        width: 150
-                    },
-                    {
-                        field: "pengobatandilanjutkan",
-                        title: "Pengobatan Dilanjutkan",
-                        width: 150
-                    },
-                    {
-                        field: "tindakanprosedur",
-                        title: "Tindakan Prosedur",
-                        width: 150
-                    },
-                    {
-                        field: "terapi",
-                        title: "Terapi",
-                        width: 120
-                    },
-                    {
-                        field: "alasanrawat",
-                        title: "Alasan diRawat",
-                        width: 150
-                    },
-                    {
-                        field: "kondisiklinis",
-                        title: "Kondisi Klinis",
-                        width: 150
-                    },
-                    {
-                        field: "obatobatakhir",
-                        title: "Obat Pulang",
-                        width: 150
-                    },
-                    {
-                        field: "pasienkeluarga",
-                        title: "Pasien Keluarga",
-                        width: 250
-                    },
+                    field: "no",
+                    title: "No",
+                    width: 40
+                },
+                {
+                    field: "tglresume",
+                    title: "Tgl Resume",
+                    width: 150
+                },
+                {
+                    field: "koderesume",
+                    title: "Kode Resume",
+                    width: 150
+                },
+                {
+                    field: "noregistrasi",
+                    title: "No Registrasi",
+                    width: 150
+                },
+                {
+                    field: "namaruangan",
+                    title: "Ruangan",
+                    width: 150
+                },
+                {
+                    field: "tglkontrolpoli",
+                    title: "Tgl Kontrol Poliklinik",
+                    width: 150
+                },
+                {
+                    field: "namadokter",
+                    title: "Pegawai",
+                    width: 150
+                },
+                {
+                    field: "ringkasanriwayatpenyakit",
+                    title: "Ringkasan Riwayat Penyakit",
+                    width: 250
+                },
+                {
+                    field: "pemeriksaanfisik",
+                    title: "Pemerisaan Fisik",
+                    width: 250
+                },
+                {
+                    field: "pemeriksaanpenunjangaddlab",
+                    title: "Pemerisaan Penunjang",
+                    width: 250
+                },
+                {
+                    field: "hasilkonsultasi",
+                    title: "Hasil Konsultasi",
+                    width: 250
+                },
+                {
+                    field: "diagnosisawal",
+                    title: "Diagnosi Awal",
+                    width: 150
+                },
+                {
+                    field: "diagnosissekunder",
+                    title: "Diagnosis Sekunder",
+                    width: 150
+                },
+                {
+                    field: "diet",
+                    title: "Diet",
+                    width: 150
+                },
+                // { field: "hasilkonsultasi", title: "Hasil Konsultasi", width: 150 },
+                {
+                    field: "hasillab",
+                    title: "Hasil Lab",
+                    width: 150
+                },
+                {
+                    field: "instruksianjuran",
+                    title: "Intruksi",
+                    width: 150
+                },
+                {
+                    field: "kondisiwaktukeluar",
+                    title: "Kondisi Keluar",
+                    width: 150
+                },
+                {
+                    field: "pengobatandilanjutkan",
+                    title: "Pengobatan Dilanjutkan",
+                    width: 150
+                },
+                {
+                    field: "tindakanprosedur",
+                    title: "Tindakan Prosedur",
+                    width: 150
+                },
+                {
+                    field: "terapi",
+                    title: "Terapi",
+                    width: 120
+                },
+                {
+                    field: "alasanrawat",
+                    title: "Alasan diRawat",
+                    width: 150
+                },
+                {
+                    field: "kondisiklinis",
+                    title: "Kondisi Klinis",
+                    width: 150
+                },
+                {
+                    field: "obatobatakhir",
+                    title: "Obat Pulang",
+                    width: 150
+                },
+                {
+                    field: "pasienkeluarga",
+                    title: "Pasien Keluarga",
+                    width: 250
+                },
 
                     // { command: [{ imageClass: "k-icon k-delete", text: "Hapus", click: hapusHead }, { name: "edit", text: "Edit", click: editHead }], title: "&nbsp;", width: 120 }
                 ],
 
             };
 
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 for (var i = 0; i < dataItem.details.length; i++) {
                     dataItem.details[i].no = i + 1
                 }
@@ -651,46 +651,46 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                     }),
                     columns: [{
-                            field: "no",
-                            title: "No",
-                            width: 40
-                        },
-                        {
-                            field: "namaobat",
-                            title: "Nama Obat",
-                            width: 200
-                        },
-                        {
-                            field: "jumlah",
-                            title: "Jumlah",
-                            width: 120
-                        },
-                        {
-                            field: "dosis",
-                            title: "Dosis",
-                            width: 120
-                        },
-                        {
-                            field: "frekuensi",
-                            title: "Frekuensi",
-                            width: 120
-                        },
-                        {
-                            field: "carapemberian",
-                            title: "Cara Pemberian",
-                            width: 150
-                        },
+                        field: "no",
+                        title: "No",
+                        width: 40
+                    },
+                    {
+                        field: "namaobat",
+                        title: "Nama Obat",
+                        width: 200
+                    },
+                    {
+                        field: "jumlah",
+                        title: "Jumlah",
+                        width: 120
+                    },
+                    {
+                        field: "dosis",
+                        title: "Dosis",
+                        width: 120
+                    },
+                    {
+                        field: "frekuensi",
+                        title: "Frekuensi",
+                        width: 120
+                    },
+                    {
+                        field: "carapemberian",
+                        title: "Cara Pemberian",
+                        width: 150
+                    },
                     ]
                 }
             };
-            $scope.inputBaru = function() {
+            $scope.inputBaru = function () {
                 $scope.popUp.center().open()
             }
-            $scope.batal = function() {
+            $scope.batal = function () {
                 $scope.popUp.close()
             }
             init();
-            $scope.showInput = function() {
+            $scope.showInput = function () {
                 // noregistrasi = $scope.modelGrid.noregistrasi
                 // loadDaftarRmPp(noregistrasi);
                 // loadDiagnosa(noregistrasi);
@@ -717,7 +717,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 });
 
             }
-            $scope.Back = function() {
+            $scope.Back = function () {
                 $scope.isEdit = false
                 $scope.isGrid = true
                 init()
@@ -756,7 +756,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'norec': norec_pp,
                     'isrm': false
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function(e) {
+                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function (e) {
                     if (e.status === 201) {
                         loadDaftarRmPp(noregistrasi);
 
@@ -786,7 +786,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'produkfk': produkfk,
                     'isrm': isrm
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-obat-rm', json).then(function(e) {
+                medifirstService.post('tatarekening/save-selesai-transaksi-obat-rm', json).then(function (e) {
                     if (e.status === 201) {
                         editDosisObat(noregistrasi);
                         editDosisObatPop($scope.noregistrasi);
@@ -817,7 +817,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'produkfk': produkfk,
                     'ispulang': ispulang
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-obat-rm-pulang', json).then(function(e) {
+                medifirstService.post('tatarekening/save-selesai-transaksi-obat-rm-pulang', json).then(function (e) {
                     if (e.status === 201) {
                         editDosisObatPulang(noregistrasi);
                         editDosisObatPulangPop($scope.noregistrasi);
@@ -836,57 +836,57 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
 
             // }
-            $scope.editGrid = function() {
-                    noregistrasi = $scope.modelGrid.noregistrasi
-                    loadDaftarRmPp(noregistrasi);
-                    loadDiagnosa(noregistrasi);
-                    loadObatObat(noregistrasi);
-                    editDosisObat(noregistrasi);
-                    editDosisObatPulang(noregistrasi);
-                    // statusDosisObat(noregistrasi);
-                    init();
-                    $scope.item.norec = $scope.modelGrid.norec
-                        // $scope.item.obatobat = $scope.modelGrid.obatobat
-                    $scope.item.riwayatPenyakit = $scope.modelGrid.ringkasanriwayatpenyakit
-                    $scope.item.pemeriksaanFisik = $scope.modelGrid.pemeriksaanfisik
-                    $scope.item.pemeriksaanPenunjang = $scope.modelGrid.pemeriksaanpenunjang
-                    $scope.item.pemeriksaanPenunjangLab = $scope.modelGrid.pemeriksaanpenunjanglab
-                    $scope.item.hasilKonsultasi = $scope.modelGrid.hasilkonsultasi
-                    $scope.item.alasanRawat = $scope.modelGrid.alasanrawat
-                    $scope.item.kondisiKlinis = $scope.modelGrid.kondisiklinis
-                    $scope.item.terapi = $scope.modelGrid.terapi
-                    $scope.item.diagnosaUtama = $scope.modelGrid.diagnosisawal
-                    $scope.item.diagnosisSekunder = $scope.modelGrid.diagnosissekunder
-                    $scope.item.tindakanProsedur = $scope.modelGrid.tindakanprosedur
-                    $scope.item.alergi = $scope.modelGrid.alergi
-                    $scope.item.diet = $scope.modelGrid.diet
-                    $scope.item.intruksi = $scope.modelGrid.instruksianjuran
-                    $scope.item.hasilLab = $scope.modelGrid.hasillab
-                    $scope.item.tgllahir = $scope.modelGrid.tgllahir
-                    $scope.item.kondisi = $scope.modelGrid.kondisiwaktukeluar
-                    $scope.item.pengobatan = $scope.modelGrid.pengobatandilanjutkan
-                    $scope.item.tglresume = $scope.modelGrid.tglresume
-                    $scope.item.tglkontrolpoli = $scope.modelGrid.tglkontrolpoli
-                    $scope.norecAPD = $scope.modelGrid.noregistrasifk
-                    $scope.item.dokter = {
-                        id: $scope.modelGrid.objectpegawaifk,
-                        namalengkap: $scope.modelGrid.namadokter
-                    }
-                    debugger
-                    data2 = $scope.modelGrid.details
-                    $scope.item.pasienKeluarga = $scope.modelGrid.pasienkeluarga
-                    for (let index = 0; index < data2.length; index++) {
-                        data2[index].no = index + 1;
-                    }
-                    $scope.sourceResume = new kendo.data.DataSource({
-                        data: data2
-                    });
-                    $scope.isGrid = false
-                    $scope.isEdit = true
+            $scope.editGrid = function () {
+                noregistrasi = $scope.modelGrid.noregistrasi
+                loadDaftarRmPp(noregistrasi);
+                loadDiagnosa(noregistrasi);
+                loadObatObat(noregistrasi);
+                editDosisObat(noregistrasi);
+                editDosisObatPulang(noregistrasi);
+                // statusDosisObat(noregistrasi);
+                init();
+                $scope.item.norec = $scope.modelGrid.norec
+                // $scope.item.obatobat = $scope.modelGrid.obatobat
+                $scope.item.riwayatPenyakit = $scope.modelGrid.ringkasanriwayatpenyakit
+                $scope.item.pemeriksaanFisik = $scope.modelGrid.pemeriksaanfisik
+                $scope.item.pemeriksaanPenunjang = $scope.modelGrid.pemeriksaanpenunjang
+                $scope.item.pemeriksaanPenunjangLab = $scope.modelGrid.pemeriksaanpenunjanglab
+                $scope.item.hasilKonsultasi = $scope.modelGrid.hasilkonsultasi
+                $scope.item.alasanRawat = $scope.modelGrid.alasanrawat
+                $scope.item.kondisiKlinis = $scope.modelGrid.kondisiklinis
+                $scope.item.terapi = $scope.modelGrid.terapi
+                $scope.item.diagnosaUtama = $scope.modelGrid.diagnosisawal
+                $scope.item.diagnosisSekunder = $scope.modelGrid.diagnosissekunder
+                $scope.item.tindakanProsedur = $scope.modelGrid.tindakanprosedur
+                $scope.item.alergi = $scope.modelGrid.alergi
+                $scope.item.diet = $scope.modelGrid.diet
+                $scope.item.intruksi = $scope.modelGrid.instruksianjuran
+                $scope.item.hasilLab = $scope.modelGrid.hasillab
+                $scope.item.tgllahir = $scope.modelGrid.tgllahir
+                $scope.item.kondisi = $scope.modelGrid.kondisiwaktukeluar
+                $scope.item.pengobatan = $scope.modelGrid.pengobatandilanjutkan
+                $scope.item.tglresume = $scope.modelGrid.tglresume
+                $scope.item.tglkontrolpoli = $scope.modelGrid.tglkontrolpoli
+                $scope.norecAPD = $scope.modelGrid.noregistrasifk
+                $scope.item.dokter = {
+                    id: $scope.modelGrid.objectpegawaifk,
+                    namalengkap: $scope.modelGrid.namadokter
                 }
-                // function editHead(e) {
-                //     e.preventDefault();
-                //     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                debugger
+                data2 = $scope.modelGrid.details
+                $scope.item.pasienKeluarga = $scope.modelGrid.pasienkeluarga
+                for (let index = 0; index < data2.length; index++) {
+                    data2[index].no = index + 1;
+                }
+                $scope.sourceResume = new kendo.data.DataSource({
+                    data: data2
+                });
+                $scope.isGrid = false
+                $scope.isEdit = true
+            }
+            // function editHead(e) {
+            //     e.preventDefault();
+            //     var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
 
             //     if (!dataItem) {
             //         toastr.error("Data Tidak Ditemukan");
@@ -938,14 +938,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             function init() {
                 $scope.item.pemeriksaanFisik = "KU : \nKES : \nGCS :        , E :        , M :        , V : \nTD :        , N :        , P :        , SO2 :        , T : \n\nKEPALA / LEHER : \n\nTHORAK : \n\nABDOMEN : \n\nEKSTREMITAS :";
                 $scope.isRouteLoading = true;
-                medifirstService.get("emr/get-combo").then(function(e) {
+                medifirstService.get("emr/get-combo").then(function (e) {
                     $scope.listDokter = e.data.dokter
                     $scope.listReouteFarmasi = e.data.reouteFarmasi
                 })
 
                 $q.all([
                     medifirstService.get("emr/get-resume-medis-inap-noregistrasi/" + $scope.noregistrasi)
-                ]).then(function(res) {
+                ]).then(function (res) {
                     debugger
                     if (res[0].statResponse) {
                         var result = res[0].data.data
@@ -993,31 +993,31 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
 
                 $scope.isLoadingDiagnosis = true;
-                medifirstService.getPart("emr/get-combo-icd9", true, true, 10).then(function(data) {
+                medifirstService.getPart("emr/get-combo-icd9", true, true, 10).then(function (data) {
                     $scope.listDiagnosaTindakan = data;
                 });
-                medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function(data) {
+                medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function (data) {
                     $scope.listDiagnosa = data;
                 });
-                medifirstService.get('emr/get-combo-diagnosis').then(function(data) {
+                medifirstService.get('emr/get-combo-diagnosis').then(function (data) {
                     $scope.listJenisDiagnosa = data.data.jenisdiagnosa;
                 });
             };
 
-            $scope.saveIcd10 = function() {
+            $scope.saveIcd10 = function () {
                 // if(medifirstService.getPegawai().jenisPegawai != undefined && medifirstService.getPegawai().jenisPegawai.jenispegawai !='DOKTER'){
                 //     toastr.error('Hanya Dokter yang bisa mengisi Diagnosis','Peringatan')
                 //     return
                 // }
                 validasiIcd10();
                 console.log(JSON.stringify($scope.objSave));
-                medifirstService.post('emr/save-diagnosa-pasien', $scope.objSave).then(function(e) {
+                medifirstService.post('emr/save-diagnosa-pasien', $scope.objSave).then(function (e) {
 
                     $scope.savePeriksaDokter()
                     medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', e.data.data.norec,
                         'Input Diagnosis ICD 10 ( ' + $scope.item.diagnosa.kdDiagnosa + '-' + $scope.item.diagnosa.namaDiagnosa + ' )' + ' No Registrasi ' + $scope.item.noregistrasi +
                         '/ ' + $scope.item.noMr
-                    ).then(function(res) {})
+                    ).then(function (res) { })
                     delete $scope.item.jenisDiagnosis;
                     delete $scope.item.diagnosa;
                     delete $scope.item.keterangan;
@@ -1026,7 +1026,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
             }
 
-            $scope.deleteIcd10 = function() {
+            $scope.deleteIcd10 = function () {
                 if ($scope.item.diagnosa == undefined) {
                     alert("Pilih data yang mau di hapus!!")
                     return
@@ -1037,12 +1037,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var objDelete = {
                     diagnosa: diagnosa,
                 }
-                medifirstService.post('emr/delete-diagnosa-pasien', objDelete).then(function(e) {
+                medifirstService.post('emr/delete-diagnosa-pasien', objDelete).then(function (e) {
                     medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', '',
                         'Hapus Diagnosis ICD 10 ( ' + $scope.dataIcd10Selected.kddiagnosa + '-' + $scope.dataIcd10Selected.namadiagnosa + ' )' + ' No Registrasi ' + $scope.item.noregistrasi +
                         '/ ' + $scope.item.noMr
 
-                    ).then(function(res) {})
+                    ).then(function (res) { })
                     delete $scope.item.jenisDiagnosis;
                     delete $scope.item.diagnosa;
                     delete $scope.item.keterangan;
@@ -1060,7 +1060,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var objDelete = {
                     diagnosa: diagnosa,
                 }
-                medifirstService.post('emr/delete-diagnosa-pasien', objDelete).then(function(e) {
+                medifirstService.post('emr/delete-diagnosa-pasien', objDelete).then(function (e) {
                     // medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', '',
                     //     'Hapus Diagnosis ICD 10 ( ' + $scope.dataIcd10Selected.kddiagnosa + '-' + $scope.dataIcd10Selected.namadiagnosa + ' )' + ' No Registrasi ' + $scope.item.noregistrasi
                     //     + '/ ' + $scope.item.noMr
@@ -1077,20 +1077,20 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
             }
 
-            $scope.saveIcd9 = function() {
+            $scope.saveIcd9 = function () {
                 //  if(medifirstService.getPegawai().jenisPegawai != undefined && medifirstService.getPegawai().jenisPegawai.jenispegawai !='DOKTER'){
                 //     toastr.error('Hanya Dokter yang bisa mengisi Diagnosis','Peringatan')
                 //     return
                 // }
                 validasi();
                 console.log(JSON.stringify($scope.objSave));
-                medifirstService.post('emr/save-diagnosa-tindakan-pasien', $scope.objSave).then(function(e) {
+                medifirstService.post('emr/save-diagnosa-tindakan-pasien', $scope.objSave).then(function (e) {
 
                     medifirstService.postLogging('Diagnosis', 'Norec DiagnosaTindakanPasien_T', e.data.data.norec,
                         'Input Diagnosis ICD 9 ( ' + $scope.item.diagnosaTindakan.kdDiagnosaTindakan + '-' + $scope.item.diagnosaTindakan.namaDiagnosaTindakan + ' )' + ' No Registrasi ' + $scope.item.noregistrasi +
                         '/ ' + $scope.item.noMr
 
-                    ).then(function(res) {})
+                    ).then(function (res) { })
                     delete $scope.item.diagnosaTindakan;
                     delete $scope.item.ketTindakan;
                     delete $scope.dataIcd9Selected;
@@ -1127,7 +1127,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     ModelItem.showMessages(isValid.messages)
                 }
             }
-            $scope.deleteIcd9 = function() {
+            $scope.deleteIcd9 = function () {
                 if ($scope.item.diagnosaTindakan == undefined) {
                     alert("Pilih data yang mau di hapus!!")
                     return
@@ -1138,12 +1138,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var objDelete = {
                     diagnosa: diagnosa,
                 }
-                medifirstService.post('emr/delete-diagnosa-tindakan-pasien', objDelete).then(function(e) {
+                medifirstService.post('emr/delete-diagnosa-tindakan-pasien', objDelete).then(function (e) {
                     medifirstService.postLogging('Diagnosis', 'Norec DiagnosaTindakanPasien_T', '',
                         'Hapus Diagnosis ICD 9 ( ' + $scope.dataIcd9Selected.kddiagnosatindakan + '-' + $scope.dataIcd9Selected.namadiagnosatindakan + ' )' + ' No Registrasi ' + $scope.item.noregistrasi +
                         '/ ' + $scope.item.noMr
 
-                    ).then(function(res) {})
+                    ).then(function (res) { })
                     delete $scope.item.diagnosaTindakan;
                     delete $scope.item.ketTindakan;
                     delete $scope.dataIcd9Selected
@@ -1159,7 +1159,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var objDelete = {
                     diagnosa: diagnosa,
                 }
-                medifirstService.post('emr/delete-diagnosa-tindakan-pasien', objDelete).then(function(e) {
+                medifirstService.post('emr/delete-diagnosa-tindakan-pasien', objDelete).then(function (e) {
                     // medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', '',
                     //     'Hapus Diagnosis ICD 10 ( ' + $scope.dataIcd10Selected.kddiagnosa + '-' + $scope.dataIcd10Selected.namadiagnosa + ' )' + ' No Registrasi ' + $scope.item.noregistrasi
                     //     + '/ ' + $scope.item.noMr
@@ -1176,38 +1176,38 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
             }
 
-            $scope.savePeriksaDokter = function() {
+            $scope.savePeriksaDokter = function () {
 
                 var kelompokUser = medifirstService.getKelompokUser()
-                    // var chacePeriode = cacheHelper.get('InputTindakanPelayananDokterRevCtrl');
+                // var chacePeriode = cacheHelper.get('InputTindakanPelayananDokterRevCtrl');
                 if (kelompokUser == 'dokter') {
                     var data = {
                         "norec_apd": norec_apd,
                         "kelompokUser": kelompokUser
                     }
                     medifirstService.postNonMessage('rawatjalan/save-periksa', data)
-                        .then(function(res) {
+                        .then(function (res) {
 
                         })
                 }
             }
-            $scope.isidiganosa = function(index) {
+            $scope.isidiganosa = function (index) {
                 debugger;
                 $scope.data.namea[index].keterangan = $scope.data.namea[0].kddiagnosa.namaDiagnosa;
             }
-            $scope.isidiganosay = function(index) {
+            $scope.isidiganosay = function (index) {
                 debugger;
                 $scope.data.namey[index].keterangan = $scope.data.namey[0].kddiagnosa.namaDiagnosa;
             }
-            $scope.isidiganosas = function(index) {
+            $scope.isidiganosas = function (index) {
                 debugger;
                 $scope.data.names[index].keterangan = $scope.data.names[0].kddiagnosa.namaDiagnosa;
             }
-            $scope.isidiganosaz = function(index) {
+            $scope.isidiganosaz = function (index) {
                 debugger;
                 $scope.data.namez[index].keterangan = $scope.data.namez[0].kddiagnosatindakan.namaDiagnosaTindakan;
             }
-            $scope.klikIcd9 = function(dataIcd9Selected) {
+            $scope.klikIcd9 = function (dataIcd9Selected) {
                 $scope.item.diagnosaTindakan = {
                     id: dataIcd9Selected.id,
                     namaDiagnosaTindakan: dataIcd9Selected.namadiagnosatindakan,
@@ -1217,7 +1217,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.ketTindakan = dataIcd9Selected.keterangantindakan
                 $scope.findBy = "1";
             }
-            $scope.klikIcd10 = function(dataIcd10Selected) {
+            $scope.klikIcd10 = function (dataIcd10Selected) {
                 $scope.item.jenisDiagnosis = {
                     id: dataIcd10Selected.objectjenisdiagnosafk,
                     jenisDiagnosa: dataIcd10Selected.jenisdiagnosa
@@ -1291,13 +1291,13 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
             }
 
-            $rootScope.getRekamMedisCheck = function(bool) {
+            $rootScope.getRekamMedisCheck = function (bool) {
                 if (bool) {
                     $scope.isRouteLoading = true;
                     var param = "noReg=" + $scope.item.noregistrasi;
                     medifirstService.get("emr/get-diagnosapasienbynoregicd9?" +
                         param
-                    ).then(function(data) {
+                    ).then(function (data) {
                         $scope.isRouteLoading = false;
                         var dataICD9 = data.data.datas;
                         $scope.dataSourceDiagnosaIcd9 = new kendo.data.DataSource({
@@ -1308,7 +1308,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                     medifirstService.get("emr/get-diagnosapasienbynoreg?" +
                         param
-                    ).then(function(data) {
+                    ).then(function (data) {
                         // $scope.isRouteLoading = false;
                         var dataICD10 = data.data.datas;
                         $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
@@ -1321,7 +1321,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     var param = "noCm=" + $scope.item.noMr;
                     medifirstService.get("emr/get-diagnosapasienbynoregicd9?" +
                         param
-                    ).then(function(data) {
+                    ).then(function (data) {
                         $scope.isRouteLoading = false;
                         var dataICD9 = data.data.datas;
                         $scope.dataSourceDiagnosaIcd9 = new kendo.data.DataSource({
@@ -1332,7 +1332,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                     medifirstService.get("emr/get-diagnosapasienbynoreg?" +
                         param
-                    ).then(function(data) {
+                    ).then(function (data) {
                         // $scope.isRouteLoading = fals e;
                         var dataICD10 = data.data.datas;
                         $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
@@ -1357,14 +1357,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 $scope.isRouteLoading = true;
                 var param = ""
-                    // if($scope.dataParams.noRegistrasi == true)
+                // if($scope.dataParams.noRegistrasi == true)
                 param = "noReg=" + noregistrasi;
                 // else
                 //   param = "noCm=" + $scope.item.noCm;
 
                 medifirstService.get("emr/get-diagnosapasienbynoregicd9-rm?" +
                     param
-                ).then(function(data) {
+                ).then(function (data) {
                     var indez = 1;
                     // $scope.isRouteLoading = false;
                     if (data.data.datas.length > 0) {
@@ -1441,7 +1441,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 medifirstService.get("emr/get-diagnosapasienbynoreg-rm?" +
                     param
-                ).then(function(data) {
+                ).then(function (data) {
                     var index = 1;
                     var indey = 1;
                     var indea = 1;
@@ -1651,85 +1651,85 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
             $scope.columnDiagnosaIcd9 = [{
-                    "title": "No",
-                    "template": "{{dataSourceDiagnosaIcd9.indexOf(dataItem) + 1}}",
-                    "width": "30px"
-                },
-                {
-                    "field": "noregistrasi",
-                    "title": "No Registrasi",
-                    "width": "100px"
-                }, {
-                    "field": "kddiagnosatindakan",
-                    "title": "Kode ICD 9",
-                    "width": "100px"
-                }, {
-                    "field": "namadiagnosatindakan",
-                    "title": "Nama ICD 9",
-                    "width": "300px"
-                }, {
-                    "field": "keterangantindakan",
-                    "title": "Keterangan",
-                    "width": "200px"
-                }, {
-                    "field": "namaruangan",
-                    "title": "Ruangan",
-                    "width": "200px"
-                },
-                {
-                    "field": "namalengkap",
-                    "title": "Penginput",
-                    "width": "200px"
-                },
-                {
-                    "field": "tglinputdiagnosa",
-                    "title": "Tgl Input",
-                    "width": "200px"
-                }
+                "title": "No",
+                "template": "{{dataSourceDiagnosaIcd9.indexOf(dataItem) + 1}}",
+                "width": "30px"
+            },
+            {
+                "field": "noregistrasi",
+                "title": "No Registrasi",
+                "width": "100px"
+            }, {
+                "field": "kddiagnosatindakan",
+                "title": "Kode ICD 9",
+                "width": "100px"
+            }, {
+                "field": "namadiagnosatindakan",
+                "title": "Nama ICD 9",
+                "width": "300px"
+            }, {
+                "field": "keterangantindakan",
+                "title": "Keterangan",
+                "width": "200px"
+            }, {
+                "field": "namaruangan",
+                "title": "Ruangan",
+                "width": "200px"
+            },
+            {
+                "field": "namalengkap",
+                "title": "Penginput",
+                "width": "200px"
+            },
+            {
+                "field": "tglinputdiagnosa",
+                "title": "Tgl Input",
+                "width": "200px"
+            }
             ];
             $scope.columnDiagnosaIcd10 = [{
-                    "title": "No",
-                    "template": "{{dataSourceDiagnosaIcd10.indexOf(dataItem) + 1}}",
-                    "width": "30px"
-                },
-                {
-                    "field": "noregistrasi",
-                    "title": "No Registrasi",
-                    "width": "100px"
-                }, {
-                    "field": "jenisdiagnosa",
-                    "title": "Jenis Diagnosis",
-                    "width": "150px"
-                }, {
-                    "field": "kddiagnosa",
-                    "title": "Kode ICD 10",
-                    "width": "100px"
-                }, {
-                    "field": "namadiagnosa",
-                    "title": "Nama ICD 10",
-                    "width": "300px"
-                }, {
-                    "field": "keterangan",
-                    "title": "Keterangan",
-                    "width": "200px"
-                }, {
-                    "field": "namaruangan",
-                    "title": "Ruangan",
-                    "width": "150px"
-                },
-                {
-                    "field": "namalengkap",
-                    "title": "Penginput",
-                    "width": "200px"
-                },
-                {
-                    "field": "tglinputdiagnosa",
-                    "title": "Tgl Input",
-                    "width": "200px"
-                }
+                "title": "No",
+                "template": "{{dataSourceDiagnosaIcd10.indexOf(dataItem) + 1}}",
+                "width": "30px"
+            },
+            {
+                "field": "noregistrasi",
+                "title": "No Registrasi",
+                "width": "100px"
+            }, {
+                "field": "jenisdiagnosa",
+                "title": "Jenis Diagnosis",
+                "width": "150px"
+            }, {
+                "field": "kddiagnosa",
+                "title": "Kode ICD 10",
+                "width": "100px"
+            }, {
+                "field": "namadiagnosa",
+                "title": "Nama ICD 10",
+                "width": "300px"
+            }, {
+                "field": "keterangan",
+                "title": "Keterangan",
+                "width": "200px"
+            }, {
+                "field": "namaruangan",
+                "title": "Ruangan",
+                "width": "150px"
+            },
+            {
+                "field": "namalengkap",
+                "title": "Penginput",
+                "width": "200px"
+            },
+            {
+                "field": "tglinputdiagnosa",
+                "title": "Tgl Input",
+                "width": "200px"
+            }
             ];
 
-            $scope.Save = function(data) {
+            $scope.Save = function (data) {
                 debugger
                 var dataDiagnosaD10 = [];
                 var dataDiagnosaD9 = [];
@@ -1794,23 +1794,23 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         return;
                     }
                     var datanamez = {
-                            norec_dp: $scope.data.namez[i].norec_diagnosapasien,
-                            objectpasienfk: $scope.data.namez[i].norec_apd,
-                            tglpendaftaran: moment($scope.data.namez[i].tglregistrasi).format('YYYY-MM-DD hh:mm:ss'),
-                            objectdiagnosatindakanfk: $scope.data.namez[i].kddiagnosatindakan.id,
-                            objectjenisdiagnosafk: "2",
-                            tglinputdiagnosa: moment($scope.data.namez[i].tglinputdiagnosa).format('YYYY-MM-DD HH:mm:ss'),
-                            keterangantindakan: $scope.data.namez[i].keterangan,
-                            kasusbaru: undefined,
-                            kasuslama: undefined
-                        }
-                        // var data = {
-                        //     norec_dp: norec_diagnosapasien,
-                        //     objectpasienfk: $scope.norecAPD,
-                        //     tglpendaftaran: moment($scope.item.tglMasuk).format('YYYY-MM-DD hh:mm:ss'),
-                        //     objectdiagnosatindakanfk: $scope.item.diagnosaTindakan.id,
-                        //     keterangantindakan: ketTindakans
-                        // }
+                        norec_dp: $scope.data.namez[i].norec_diagnosapasien,
+                        objectpasienfk: $scope.data.namez[i].norec_apd,
+                        tglpendaftaran: moment($scope.data.namez[i].tglregistrasi).format('YYYY-MM-DD hh:mm:ss'),
+                        objectdiagnosatindakanfk: $scope.data.namez[i].kddiagnosatindakan.id,
+                        objectjenisdiagnosafk: "2",
+                        tglinputdiagnosa: moment($scope.data.namez[i].tglinputdiagnosa).format('YYYY-MM-DD HH:mm:ss'),
+                        keterangantindakan: $scope.data.namez[i].keterangan,
+                        kasusbaru: undefined,
+                        kasuslama: undefined
+                    }
+                    // var data = {
+                    //     norec_dp: norec_diagnosapasien,
+                    //     objectpasienfk: $scope.norecAPD,
+                    //     tglpendaftaran: moment($scope.item.tglMasuk).format('YYYY-MM-DD hh:mm:ss'),
+                    //     objectdiagnosatindakanfk: $scope.item.diagnosaTindakan.id,
+                    //     keterangantindakan: ketTindakans
+                    // }
                     dataDiagnosaD9.push(datanamez);
                 }
 
@@ -1822,7 +1822,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     dataDiagnosaD9: dataDiagnosaD9
                 }
 
-                medifirstService.post('emr/save-diagnosa-pasien-rm', JSON.stringify(objSaveD10)).then(function(e) {
+                medifirstService.post('emr/save-diagnosa-pasien-rm', JSON.stringify(objSaveD10)).then(function (e) {
                     // medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', e.data.data.norec,
                     //     'Input Diagnosis ICD 10 ( ' + $scope.data.namey[i].keterangan, + ' )' + ' No Registrasi ' + $scope.noregistrasi
                     //     + '/ ' + $scope.nocm
@@ -1830,7 +1830,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     // })
                 })
 
-                medifirstService.post('emr/save-diagnosa-tindakan-pasien-rm', JSON.stringify(objSaveD9)).then(function(e) {
+                medifirstService.post('emr/save-diagnosa-tindakan-pasien-rm', JSON.stringify(objSaveD9)).then(function (e) {
                     // medifirstService.postLogging('Diagnosis', 'Norec DiagnosaPasien_T', e.data.data.norec,
                     //     'Input Diagnosis ICD 10 ( ' + $scope.data.namey[i].keterangan, + ' )' + ' No Registrasi ' + $scope.noregistrasi
                     //     + '/ ' + $scope.nocm
@@ -1867,11 +1867,11 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
 
 
-                medifirstService.post('emr/post-resume-medis-inap/save', item).then(function(e) {
+                medifirstService.post('emr/post-resume-medis-inap/save', item).then(function (e) {
                     // delete $scope.item;
                     // clear()
                     // init();
-                    medifirstService.postLogging('Resume Medis', 'Norec resumemedis_t', e.data.resume.norec, 'Resume RI').then(function(res) {
+                    medifirstService.postLogging('Resume Medis', 'Norec resumemedis_t', e.data.resume.norec, 'Resume RI').then(function (res) {
                         $scope.isEdit = false
                         $scope.isGrid = true
                         init()
@@ -1883,14 +1883,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.isRouteLoading = true;
                 var noresep = '';
                 var param = ""
-                    // if($scope.dataParams.noRegistrasi == true)
+                // if($scope.dataParams.noRegistrasi == true)
                 param = "noReg=" + noregistrasi;
                 // else
                 //   param = "noCm=" + $scope.item.noCm;
 
                 medifirstService.get("emr/get-obat-resep-akhir?" +
                     param
-                ).then(function(data) {
+                ).then(function (data) {
                     $scope.isRouteLoading = false;
                     // for (var i = 0; i < data.data.datas.length; i++) {
                     //     // data.data.datas[i].no = i + 1
@@ -1941,14 +1941,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.isRouteLoading = true;
                 var noresep = '';
                 var param = ""
-                    // if($scope.dataParams.noRegistrasi == true)
+                // if($scope.dataParams.noRegistrasi == true)
                 param = "noReg=" + noregistrasi;
                 // else
                 //   param = "noCm=" + $scope.item.noCm;
 
                 medifirstService.get("emr/get-obat-obat?" +
                     param
-                ).then(function(data) {
+                ).then(function (data) {
                     $scope.item.obatobat = data.data.datas;
                 });
                 $scope.isRouteLoading = false;
@@ -1960,7 +1960,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 var ruid = 575;
                 datalabs = []
-                medifirstService.get("farmasi/get-transaksi-dosis-rm?noReg=" + noregistrasi, true).then(function(dat) {
+                medifirstService.get("farmasi/get-transaksi-dosis-rm?noReg=" + noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
@@ -2000,7 +2000,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 $scope.isLoading = true;
 
-                medifirstService.get("farmasi/get-transaksi-dosis-pulang-rm?noReg=" + noregistrasi, true).then(function(dat) {
+                medifirstService.get("farmasi/get-transaksi-dosis-pulang-rm?noReg=" + noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     debugger
                     for (var i = 0; i < dat.data.length; i++) {
@@ -2085,7 +2085,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 var ruid = 575;
                 datalabs = []
-                medifirstService.get("farmasi/get-transaksi-dosis-rm-pop?noReg=" + $scope.noregistrasi, true).then(function(dat) {
+                medifirstService.get("farmasi/get-transaksi-dosis-rm-pop?noReg=" + $scope.noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
@@ -2131,7 +2131,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 var ruid = 575;
                 datalabs = []
-                medifirstService.get("farmasi/get-transaksi-dosis-pulang-rm-pop?noReg=" + $scope.noregistrasi, true).then(function(dat) {
+                medifirstService.get("farmasi/get-transaksi-dosis-pulang-rm-pop?noReg=" + $scope.noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
@@ -2186,12 +2186,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 });
                 // $scope.popUpDosisObat.center().open();
             }
-            $scope.editDosisObat = function() {
+            $scope.editDosisObat = function () {
                 editDosisObatPop($scope.noregistrasi);
                 $scope.popUpDosisObat.center().open();
             }
 
-            $scope.editDosisObatPulang = function() {
+            $scope.editDosisObatPulang = function () {
                 editDosisObatPulangPop($scope.noregistrasi);
                 $scope.popUpDosisObatPulang.center().open();
             }
@@ -2203,7 +2203,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
                 var ruid = 575;
                 datalabs = []
-                medifirstService.get("farmasi/get-transaksi-status-dosis-rm?noReg=" + $scope.noregistrasi, true).then(function(dat) {
+                medifirstService.get("farmasi/get-transaksi-status-dosis-rm?noReg=" + $scope.noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
@@ -2239,7 +2239,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 });
             }
 
-            $scope.cetakjs = function() {
+            $scope.cetakjs = function () {
 
                 if ($scope.modelGrid == undefined) {
                     toastr.error('Pilih data dulu')
@@ -2293,7 +2293,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 };
 
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function() {
+                xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
@@ -2320,7 +2320,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/resumemedis.pdf');
                 } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
                     xhr.open('POST', 'http://36.92.186.59:1002/generic/report/resumemedis.pdf');
-                } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/resumemedis.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/resumemedis.pdf');
@@ -2428,11 +2428,11 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             }
 
 
-            $scope.TutupPopUpPelayanan = function() {
+            $scope.TutupPopUpPelayanan = function () {
                 $scope.popUpPelayanan.center().close();
             }
 
-            $scope.AddHasilKonsul = function(ruangan) {
+            $scope.AddHasilKonsul = function (ruangan) {
                 $scope.isLoading = true;
 
                 // var noregistrasi = ''
@@ -2442,7 +2442,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 loadClaimGridPp($scope.norecPd, ruid);
                 medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm?noregistrasi=" + $scope.noregistrasi + "&ruid=" + ruid
                     // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
-                    , true).then(function(dat) {
+                    , true).then(function (dat) {
                         if (dat.data.data.length > 0) {
                             $scope.item.tgllahir = dat.data.data[0].tgllahir
                             $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
@@ -2494,7 +2494,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                             aggregate: [{
                                 field: 'total',
                                 aggregate: 'sum'
-                            }, ]
+                            },]
                         };
 
                         // $scope.popUpPelayanan.center().open();
@@ -2503,9 +2503,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         popUps(datalab)
 
                     },
-                    function(error) {
-                        $scope.isLoading = false;
-                    });
+                        function (error) {
+                            $scope.isLoading = false;
+                        });
                 // loadEditor()
                 //     if(dataItem.ruid === '576') {
                 //         $scope.isLoading = true;
@@ -2587,7 +2587,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //     }
             }
 
-            $scope.AddHasilKonsul = function(ruangan) {
+            $scope.AddHasilKonsul = function (ruangan) {
                 $scope.isLoading = true;
 
                 var ruid = ruangan;
@@ -2595,7 +2595,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 loadClaimGridPp($scope.norecPd, ruid);
                 medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm?noregistrasi=" + $scope.noregistrasi + "&ruid=" + ruid
                     // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
-                    , true).then(function(dat) {
+                    , true).then(function (dat) {
                         if (dat.data.data.length > 0) {
                             $scope.item.tgllahir = dat.data.data[0].tgllahir
                             $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
@@ -2647,7 +2647,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                             aggregate: [{
                                 field: 'total',
                                 aggregate: 'sum'
-                            }, ]
+                            },]
                         };
 
                         // $scope.popUpPelayanan.center().open();
@@ -2661,9 +2661,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         }
 
                     },
-                    function(error) {
-                        $scope.isLoading = false;
-                    });
+                        function (error) {
+                            $scope.isLoading = false;
+                        });
             }
 
             // $scope.editDosisObat = function () {
@@ -2700,7 +2700,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             //     $scope.popUpDosisObat.center().open();
             // }
 
-            $scope.simpanDosisObat = function() {
+            $scope.simpanDosisObat = function () {
                 var dataArray = [];
                 for (var i = $scope.dataGridDosisObat._data.length - 1; i >= 0; i--) {
                     if ($scope.dataGridDosisObat._data[i].dosisobat != null || $scope.dataGridDosisObat._data[i].dosisobat != '')
@@ -2718,7 +2718,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         "dosisobat": dataArray
                     }
                     debugger
-                    medifirstService.post('farmasi/save-transaksi-dosis-rm', objSave).then(function(e) {
+                    medifirstService.post('farmasi/save-transaksi-dosis-rm', objSave).then(function (e) {
                         if (e.status == 201) {
                             loadObatResepAkhir(noregistrasi);
                             editDosisObat(noregistrasi);
@@ -2729,7 +2729,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }
             }
 
-            $scope.simpanCaraPemberian = function() {
+            $scope.simpanCaraPemberian = function () {
                 var dataArray = [];
                 debugger
                 for (var i = $scope.dataGridDosisObatPulang._data.length - 1; i >= 0; i--) {
@@ -2750,7 +2750,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         "dosisobat": dataArray
                     }
                     debugger
-                    medifirstService.post('farmasi/save-transaksi-dosis-pulang-rm', objSave).then(function(e) {
+                    medifirstService.post('farmasi/save-transaksi-dosis-pulang-rm', objSave).then(function (e) {
                         if (e.status == 201) {
                             editDosisObatPulang(noregistrasi);
                             // editDosisObat(noregistrasi);
@@ -2823,7 +2823,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         "template": "<button class=\"k-button custom-button\" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
                         attributes: {
                             class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                                // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                            // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
                         },
                     },
                     {
@@ -2933,82 +2933,82 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
             $scope.columnGridrad = {
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "30px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        "field": "tglpelayanan",
-                        "title": "Tgl Pelayanan",
-                        "width": "90px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                },
+                {
+                    "field": "tglpelayanan",
+                    "title": "Tgl Pelayanan",
+                    "width": "90px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        "field": "ruangan",
-                        "title": "Ruangan",
-                        "width": "120px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                },
+                {
+                    "field": "ruangan",
+                    "title": "Ruangan",
+                    "width": "120px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        "field": "namaruanganasal",
-                        "title": "Ruangan Asal",
-                        "width": "120px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                },
+                {
+                    "field": "namaruanganasal",
+                    "title": "Ruangan Asal",
+                    "width": "120px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        "field": "namaproduk",
-                        "title": "Layanan",
-                        "width": "160px",
-                        // "template": "<button class=\"k-button custom-button\" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                                // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
-                        },
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Layanan",
+                    "width": "160px",
+                    // "template": "<button class=\"k-button custom-button\" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
                     },
-                    {
-                        "field": "dokterpemeriksa",
-                        "title": "Dokter Pemeriksa",
-                        "width": "140px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                },
+                {
+                    "field": "dokterpemeriksa",
+                    "title": "Dokter Pemeriksa",
+                    "width": "140px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        "field": "dokterpengirim",
-                        "title": "Dokter Pengririm",
-                        "width": "140px",
-                        attributes: {
-                            class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        },
+                },
+                {
+                    "field": "dokterpengirim",
+                    "title": "Dokter Pengririm",
+                    "width": "140px",
+                    attributes: {
+                        class: "#=flaglab != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        // "field": "claim",
-                        "title": "Resume Medis",
-                        "width": "100px",
-                        "template": "<button class=\"k-button custom-button\" ng-click=\"Cetakexpertise(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                },
+                {
+                    // "field": "claim",
+                    "title": "Resume Medis",
+                    "width": "100px",
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"Cetakexpertise(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
 
-                        // "template": "<button class=\"k-button custom-button\" ng-click=\"loadClaimPpLuar(dataItem)\" style=\"margin:0 0 5px\">#: rm #</button>",
-                    },
-                    {
-                        "field": "tglhasil",
-                        "title": "Tgl Hasil",
-                        "width": "90px",
-                    },
+                    // "template": "<button class=\"k-button custom-button\" ng-click=\"loadClaimPpLuar(dataItem)\" style=\"margin:0 0 5px\">#: rm #</button>",
+                },
+                {
+                    "field": "tglhasil",
+                    "title": "Tgl Hasil",
+                    "width": "90px",
+                },
 
-                    {
-                        "field": "nofoto",
-                        "title": "No Foto",
-                        "width": "100px",
-                    }
+                {
+                    "field": "nofoto",
+                    "title": "No Foto",
+                    "width": "100px",
+                }
 
                 ],
                 sortable: {
@@ -3016,8 +3016,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     allowUnsort: false,
                 }
             }
-            $scope.Cetakexpertise = function(dataItem) {
-                medifirstService.get('radiologi/get-hasil-radiologi?norec_pp=' + dataItem.norec_pp + '&idproduk=' + dataItem.produkfk).then(function(e) {
+            $scope.Cetakexpertise = function (dataItem) {
+                medifirstService.get('radiologi/get-hasil-radiologi?norec_pp=' + dataItem.norec_pp + '&idproduk=' + dataItem.produkfk).then(function (e) {
                     debugger;
                     var kalimat = e.data[0].keterangan;
                     // var panjang = kalimat.length;
@@ -3041,11 +3041,11 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
             }
 
-            $scope.CetakLabKlinikLangsung = function(dataItem) {
+            $scope.CetakLabKlinikLangsung = function (dataItem) {
                 debugger
                 var user = medifirstService.getPegawaiLogin();
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + dataItem.noregistrasi).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + dataItem.noregistrasi).then(function (data) {
                     debugger
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
@@ -3100,7 +3100,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             //this.response is what you're looking for
                             // handler(this.response);
@@ -3121,7 +3121,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                         xhr.open('POST', 'http://192.168.88.56:8797/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:8797/generic/report/hasillabKlinik.pdf');
@@ -3166,7 +3166,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //    });
             }
 
-            $scope.detailHasilLab = function(dataItem) {
+            $scope.detailHasilLab = function (dataItem) {
                 $scope.resultGridsHasilLab = new kendo.data.DataSource({
                     data: []
                 })
@@ -3176,96 +3176,96 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item.norec_pp = dataItem.norec_pp;
                 norec_pp = "'" + dataItem.norec_pp + "'"
                 medifirstService.get("laboratorium/get-hasil-lab-manual?norec_apd=" + dataItem.norec_apd +
-                    '&objectjeniskelaminfk=' + dataItem.objectjeniskelaminfk + '&umur=' + dataItem.umur + '&norec=' + norec_pp + '&tgl=' + Date(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'))).then(function(data) {
-                    // var sourceGrid = []
-                    $scope.isRouteLoading = false;
-                    if (data.statResponse == true && data.data.data.length > 0) {
-                        // if (data.status === 201) {
-                        // debugger;
-                        // medifirstService.post('tatarekening/save-log-closing-claim', json).then(function (e) {
-                        // 	})
-                        loadRmPp($scope.item.norec_pp);
-                        loadDaftarRmPp(noregistrasi);
-                        // }
-                        // loadRmPp(norec_pp);
-                        // sourceGrid = data.data.data
-                        $scope.item.tglpelayanan = new Date(moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm'));
-                        $scope.item.tglhasil = new Date(moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm'));
-                        $scope.item.DataPegawai = {
-                            namalengkap: data.data.data[0].namalengkap,
-                            id: data.data.data[0].id
-                        };
-                        $scope.item.catatan = data.data.data[0].catatancetak;
-                        for (let i = 0; i < data.data.data.length; i++) {
-                            const element = data.data.data[i];
-                            $scope.item.catatan = data.data.data[i].catatancetak;
-                        }
-                        $scope.resultGridsHasilLab = new kendo.data.DataSource({
-                            data: data.data.data,
-                            group: [{
+                    '&objectjeniskelaminfk=' + dataItem.objectjeniskelaminfk + '&umur=' + dataItem.umur + '&norec=' + norec_pp + '&tgl=' + Date(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'))).then(function (data) {
+                        // var sourceGrid = []
+                        $scope.isRouteLoading = false;
+                        if (data.statResponse == true && data.data.data.length > 0) {
+                            // if (data.status === 201) {
+                            // debugger;
+                            // medifirstService.post('tatarekening/save-log-closing-claim', json).then(function (e) {
+                            // 	})
+                            loadRmPp($scope.item.norec_pp);
+                            loadDaftarRmPp(noregistrasi);
+                            // }
+                            // loadRmPp(norec_pp);
+                            // sourceGrid = data.data.data
+                            $scope.item.tglpelayanan = new Date(moment(data.data.data[0].tglpelayanan).format('YYYY-MM-DD HH:mm'));
+                            $scope.item.tglhasil = new Date(moment(data.data.data[0].tglhasil).format('YYYY-MM-DD HH:mm'));
+                            $scope.item.DataPegawai = {
+                                namalengkap: data.data.data[0].namalengkap,
+                                id: data.data.data[0].id
+                            };
+                            $scope.item.catatan = data.data.data[0].catatancetak;
+                            for (let i = 0; i < data.data.data.length; i++) {
+                                const element = data.data.data[i];
+                                $scope.item.catatan = data.data.data[i].catatancetak;
+                            }
+                            $scope.resultGridsHasilLab = new kendo.data.DataSource({
+                                data: data.data.data,
+                                group: [{
                                     field: "detailjenisproduk"
                                 },
-                                // { field: "namaproduk" }
-                            ],
-                            sort: {
-                                field: "nourutdetail",
-                                dir: "asc"
-                            },
-                            schema: {
-                                model: {
-                                    id: "id",
-                                    fields: {
-                                        detailjenisproduk: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        detailpemeriksaan: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        memohasil: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        namaproduk: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        satuanstandar: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        // detailpemeriksaan: { editable: false, type: "string" },
-                                        nilaimax: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        nilaimin: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        hasil: {
-                                            editable: false,
-                                            type: "string"
-                                        },
-                                        nourutdetail: {
-                                            editable: false,
-                                            type: "number"
-                                        },
-                                        nilaitext: {
-                                            editable: false,
-                                            type: "string"
+                                    // { field: "namaproduk" }
+                                ],
+                                sort: {
+                                    field: "nourutdetail",
+                                    dir: "asc"
+                                },
+                                schema: {
+                                    model: {
+                                        id: "id",
+                                        fields: {
+                                            detailjenisproduk: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            detailpemeriksaan: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            memohasil: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            namaproduk: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            satuanstandar: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            // detailpemeriksaan: { editable: false, type: "string" },
+                                            nilaimax: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            nilaimin: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            hasil: {
+                                                editable: false,
+                                                type: "string"
+                                            },
+                                            nourutdetail: {
+                                                editable: false,
+                                                type: "number"
+                                            },
+                                            nilaitext: {
+                                                editable: false,
+                                                type: "string"
+                                            }
                                         }
                                     }
                                 }
-                            }
-                        });
+                            });
 
-                        $scope.popUpDetailLab.center().open();
-                    } else {
-                        toastr.info('Data Hasil tidak ada', 'Info')
-                    }
-                });
+                            $scope.popUpDetailLab.center().open();
+                        } else {
+                            toastr.info('Data Hasil tidak ada', 'Info')
+                        }
+                    });
 
             }
 
@@ -3283,7 +3283,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 editable: true,
 
                 // dataBound: onDataBound,
-                excelExport: function(e) {
+                excelExport: function (e) {
 
                     var sheet = e.workbook.sheets[0];
                     sheet.frozenRows = 2;
@@ -3308,76 +3308,76 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     });
                 },
                 columns: [{
-                        field: "namaproduk",
-                        title: "Nama Pemeriksaan",
-                        width: "20%"
+                    field: "namaproduk",
+                    title: "Nama Pemeriksaan",
+                    width: "20%"
+                },
+                {
+                    field: "detailpemeriksaan",
+                    title: "Detail Pemeriksaan",
+                    width: "20%"
+                }, {
+                    field: "hasil",
+                    title: "Hasil Pemeriksaan",
+                    width: "15%",
+                    attributes: {
+                        class: "#=flag != 'N' ? 'red' : 'green' #"
                     },
-                    {
-                        field: "detailpemeriksaan",
-                        title: "Detail Pemeriksaan",
-                        width: "20%"
-                    }, {
-                        field: "hasil",
-                        title: "Hasil Pemeriksaan",
-                        width: "15%",
-                        attributes: {
-                            class: "#=flag != 'N' ? 'red' : 'green' #"
-                        },
-                    }, {
-                        field: "nilaitext",
-                        title: "Nilai Normal",
-                        width: "15%"
-                    },
-                    // {
-                    //     field: "tipedata",
-                    //     title: "tipedata",
-                    //     width: "0%"
+                }, {
+                    field: "nilaitext",
+                    title: "Nilai Normal",
+                    width: "15%"
+                },
+                // {
+                //     field: "tipedata",
+                //     title: "tipedata",
+                //     width: "0%"
 
-                    // },
-                    {
-                        field: "satuanstandar",
-                        title: "Satuan Hasil",
-                        width: "20%"
-                    },
-                    {
-                        field: "Metode",
-                        title: "Metode",
-                        width: "20%"
-                    },
-                    {
-                        field: "hasil_s",
-                        title: "S",
-                        width: "5%"
-                    },
-                    {
-                        field: "hasil_i",
-                        title: "I",
-                        width: "5%"
-                    },
-                    {
-                        field: "catatan",
-                        title: "Catatan",
-                        width: "5%"
-                    },
-                    {
-                        hidden: true,
-                        field: "detailjenisproduk",
-                        title: "Jenis Pemeriksaan"
-                    },
+                // },
+                {
+                    field: "satuanstandar",
+                    title: "Satuan Hasil",
+                    width: "20%"
+                },
+                {
+                    field: "Metode",
+                    title: "Metode",
+                    width: "20%"
+                },
+                {
+                    field: "hasil_s",
+                    title: "S",
+                    width: "5%"
+                },
+                {
+                    field: "hasil_i",
+                    title: "I",
+                    width: "5%"
+                },
+                {
+                    field: "catatan",
+                    title: "Catatan",
+                    width: "5%"
+                },
+                {
+                    hidden: true,
+                    field: "detailjenisproduk",
+                    title: "Jenis Pemeriksaan"
+                },
 
-                    {
-                        hidden: true,
-                        field: "nourutdetail"
+                {
+                    hidden: true,
+                    field: "nourutdetail"
 
-                    }
+                }
                 ]
             };
 
-            $scope.TutupPopUpDetail = function() {
+            $scope.TutupPopUpDetail = function () {
                 $scope.popUpDetailLab.center().close();
             }
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.norecAPD,
@@ -3390,32 +3390,32 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     name: "create",
                     text: "Tambah",
                     template: '<button ng-click="editDosisObat()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Terapi Rawat</button>'
-                }, ],
+                },],
                 editable: true,
                 columns: [{
-                        field: "namaproduk",
-                        title: "Nama Produk",
-                        width: "70%"
-                    },
-                    {
-                        field: "dosisobat",
-                        title: "Dosis Obat",
-                        width: "20%",
-                        editor: dynamicEditor
-                    }, {
-                        field: "frekuensi",
-                        title: "Frekuensi",
-                        width: "10%",
-                        editor: dynamicEditors
-                    },
-                    {
-                        command: [{
-                            text: "Hapus",
-                            click: simpanDeleteObat
-                        }],
-                        title: "&nbsp;",
-                        width: "10%"
-                    }
+                    field: "namaproduk",
+                    title: "Nama Produk",
+                    width: "70%"
+                },
+                {
+                    field: "dosisobat",
+                    title: "Dosis Obat",
+                    width: "20%",
+                    editor: dynamicEditor
+                }, {
+                    field: "frekuensi",
+                    title: "Frekuensi",
+                    width: "10%",
+                    editor: dynamicEditors
+                },
+                {
+                    command: [{
+                        text: "Hapus",
+                        click: simpanDeleteObat
+                    }],
+                    title: "&nbsp;",
+                    width: "10%"
+                }
                     // {
                     //     // field: "namaproduk",
                     //     title: "",
@@ -3430,7 +3430,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     // },
                 ]
             };
-            $scope.dropDownReouteFarmasi = function(container, options) {
+            $scope.dropDownReouteFarmasi = function (container, options) {
                 debugger;
                 var editor = $('<input kendo-combo-box required k-data-text-field="\'text\'" k-data-value-field="\'text\'" k-filter="\'contains\'" k-data-source="listReouteFarmasi" data-bind="value:' + options.field + '"/>')
                     .appendTo(container);
@@ -3440,49 +3440,49 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     name: "create",
                     text: "Tambah",
                     template: '<button ng-click="editDosisObatPulang()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Terapi Pulang</button>'
-                }, ],
+                },],
                 // editable: true,
                 editable: "incell",
                 columns: [{
-                        field: "namaproduk",
-                        title: "Nama Produk",
-                        width: "60%"
-                    },
-                    {
-                        field: "dosisobat",
-                        title: "Dosis Obat",
-                        width: "10%"
-                    },
-                    {
-                        field: "frekuensi",
-                        title: "Frekuensi",
-                        width: "10%"
-                    },
-                    {
-                        field: "jumlah",
-                        title: "Jumlah",
-                        width: "5%"
-                    },
-                    {
-                        field: "carapemberian",
-                        title: "Cara Pemberian",
-                        width: "10%",
-                        editor: $scope.dropDownReouteFarmasi,
-                        template: "#=carapemberian.text#"
-                    },
-                    // {
-                    //     field: "carapemberian",
-                    //     title: "Cara Pemberian",
-                    //     width: "15%"
-                    // },
-                    {
-                        command: [{
-                            text: "Hapus",
-                            click: simpanDeleteObatPulang
-                        }],
-                        title: "&nbsp;",
-                        width: "10%"
-                    },
+                    field: "namaproduk",
+                    title: "Nama Produk",
+                    width: "60%"
+                },
+                {
+                    field: "dosisobat",
+                    title: "Dosis Obat",
+                    width: "10%"
+                },
+                {
+                    field: "frekuensi",
+                    title: "Frekuensi",
+                    width: "10%"
+                },
+                {
+                    field: "jumlah",
+                    title: "Jumlah",
+                    width: "5%"
+                },
+                {
+                    field: "carapemberian",
+                    title: "Cara Pemberian",
+                    width: "10%",
+                    editor: $scope.dropDownReouteFarmasi,
+                    template: "#=carapemberian.text#"
+                },
+                // {
+                //     field: "carapemberian",
+                //     title: "Cara Pemberian",
+                //     width: "15%"
+                // },
+                {
+                    command: [{
+                        text: "Hapus",
+                        click: simpanDeleteObatPulang
+                    }],
+                    title: "&nbsp;",
+                    width: "10%"
+                },
                     // { 
                     //     field: "carapemberians", 
                     //     title: "Cara Pemberian", 
@@ -3502,67 +3502,67 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 // },],
                 editable: true,
                 columns: [{
-                        field: "namaproduk",
-                        title: "Nama Produk",
-                        width: "60%"
-                    },
-                    {
-                        field: "dosisobat",
-                        title: "Dosis Obat",
-                        width: "10%"
-                    },
-                    {
-                        field: "frekuensi",
-                        title: "Frekuensi",
-                        width: "10%"
-                    },
-                    {
-                        field: "jumlah",
-                        title: "Jumlah",
-                        width: "5%"
-                    },
-                    {
-                        field: "carapemberian",
-                        title: "Cara Pemberian",
-                        width: "15%"
-                    },
-                    {
-                        command: [{
-                            text: "Tambah",
-                            click: simpanDeleteObatPulang
-                        }],
-                        title: "&nbsp;",
-                        width: "10%"
-                    }
+                    field: "namaproduk",
+                    title: "Nama Produk",
+                    width: "60%"
+                },
+                {
+                    field: "dosisobat",
+                    title: "Dosis Obat",
+                    width: "10%"
+                },
+                {
+                    field: "frekuensi",
+                    title: "Frekuensi",
+                    width: "10%"
+                },
+                {
+                    field: "jumlah",
+                    title: "Jumlah",
+                    width: "5%"
+                },
+                {
+                    field: "carapemberian",
+                    title: "Cara Pemberian",
+                    width: "15%"
+                },
+                {
+                    command: [{
+                        text: "Tambah",
+                        click: simpanDeleteObatPulang
+                    }],
+                    title: "&nbsp;",
+                    width: "10%"
+                }
                 ]
             };
 
             $scope.dosisObatPop = {
                 editable: true,
                 columns: [{
-                        field: "namaproduk",
-                        title: "Nama Produk",
-                        width: "70%"
-                    },
-                    {
-                        field: "dosisobat",
-                        title: "Dosis Obat",
-                        width: "10%",
-                        editor: dynamicEditor
-                    }, {
-                        field: "frekuensi",
-                        title: "Frekuensi",
-                        width: "10%",
-                        editor: dynamicEditors
-                    },
-                    {
-                        command: [{
-                            text: "Tambah",
-                            click: simpanDeleteObat
-                        }],
-                        title: "&nbsp;",
-                        width: "10%"
-                    }
+                    field: "namaproduk",
+                    title: "Nama Produk",
+                    width: "70%"
+                },
+                {
+                    field: "dosisobat",
+                    title: "Dosis Obat",
+                    width: "10%",
+                    editor: dynamicEditor
+                }, {
+                    field: "frekuensi",
+                    title: "Frekuensi",
+                    width: "10%",
+                    editor: dynamicEditors
+                },
+                {
+                    command: [{
+                        text: "Tambah",
+                        click: simpanDeleteObat
+                    }],
+                    title: "&nbsp;",
+                    width: "10%"
+                }
                     // {
                     //     // field: "namaproduk",
                     //     title: "",
@@ -3601,7 +3601,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 // }
             };
 
-            $scope.simpanAddPp = function() {
+            $scope.simpanAddPp = function () {
                 // if ($scope.item.password != "diclaim") {
                 // 	toastr.error("Password Salah!")
                 // 	return;
@@ -3612,21 +3612,21 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'norec': $scope.item.norec_pp,
                     'isrm': true
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function(e) {
-                        if (e.status === 201) {
-                            // debugger;
-                            // medifirstService.post('tatarekening/save-log-closing-claim', json).then(function (e) {
-                            // 	})
-                            loadRmPp(norec_pp);
-                            loadDaftarRmPp(noregistrasi);
-                            init();
-                        }
-                    })
-                    // loadClaimPp(norec_ppc)
-                    // $scope.popUpDetailLab.close()
+                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function (e) {
+                    if (e.status === 201) {
+                        // debugger;
+                        // medifirstService.post('tatarekening/save-log-closing-claim', json).then(function (e) {
+                        // 	})
+                        loadRmPp(norec_pp);
+                        loadDaftarRmPp(noregistrasi);
+                        init();
+                    }
+                })
+                // loadClaimPp(norec_ppc)
+                // $scope.popUpDetailLab.close()
             }
 
-            $scope.simpanDeletePp = function() {
+            $scope.simpanDeletePp = function () {
                 debugger
                 var norec_pp = ''
                 norec_pp = $scope.item.norec_pp
@@ -3634,14 +3634,14 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     'norec': $scope.item.norec_pp,
                     'isrm': false
                 }
-                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function(e) {
-                        if (e.status === 201) {
-                            loadRmPp(norec_pp);
-                            loadDaftarRmPp(noregistrasi);
-                            init();
-                        }
-                    })
-                    // $scope.popUpClaim.close()
+                medifirstService.post('tatarekening/save-selesai-transaksi-add-rm', json).then(function (e) {
+                    if (e.status === 201) {
+                        loadRmPp(norec_pp);
+                        loadDaftarRmPp(noregistrasi);
+                        init();
+                    }
+                })
+                // $scope.popUpClaim.close()
             }
 
 
@@ -3666,11 +3666,11 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 $scope.item = {}
 
             }
-            $scope.hapusGrid = function() {
+            $scope.hapusGrid = function () {
                 var item = {
                     "norec": $scope.modelGrid.norec
                 }
-                medifirstService.post('emr/post-resume-medis-inap/delete', item).then(function(e) {
+                medifirstService.post('emr/post-resume-medis-inap/delete', item).then(function (e) {
                     clear()
                     init();
                 });
@@ -3686,22 +3686,22 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     });
             }
             var timeoutPromise;
-            $scope.$watch('item.filterRiwayat', function(newVal, oldVal) {
+            $scope.$watch('item.filterRiwayat', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     applyFilter("ringkasanriwayatpenyakit", newVal)
                 }
             })
-            $scope.$watch('item.filterPemeriksaanfisik', function(newVal, oldVal) {
+            $scope.$watch('item.filterPemeriksaanfisik', function (newVal, oldVal) {
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal != oldVal) {
                         applyFilter("pemeriksaanfisik", newVal)
                     }
                 }, 500)
             })
-            $scope.$watch('item.filterPemeriksaanPenunjang', function(newVal, oldVal) {
+            $scope.$watch('item.filterPemeriksaanPenunjang', function (newVal, oldVal) {
                 $timeout.cancel(timeoutPromise);
-                timeoutPromise = $timeout(function() {
+                timeoutPromise = $timeout(function () {
                     if (newVal != oldVal) {
                         applyFilter("pemeriksaanpenunjang", newVal)
                     }
@@ -3741,7 +3741,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     filters: currentFilters
                 })
             }
-            $scope.resetFilter = function() {
+            $scope.resetFilter = function () {
                 var dataGrid = $("#gridResume").data("kendoGrid");
                 dataGrid.dataSource.filter({});
                 delete $scope.item.filterRiwayat
@@ -3749,7 +3749,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 delete $scope.item.filterPemeriksaanPenunjang
             }
 
-            $scope.cetak = function() {
+            $scope.cetak = function () {
                 if ($scope.modelGrid == undefined) {
                     toastr.error('Pilih data dulu')
                     return
@@ -3764,12 +3764,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 client.get('http://127.0.0.1:1237/printvb/rekammedis?cetak-resume-ri=' + $scope.nocm +
                     '&noRec=' + $scope.modelGrid.norec +
                     '&view=' + stt,
-                    function(response) {});
+                    function (response) { });
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -3796,7 +3796,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 }]
             };
 
-            $scope.TambahD10 = function(index) {
+            $scope.TambahD10 = function (index) {
                 debugger;
                 var name = {
                     kddiagnosa: {
@@ -3816,7 +3816,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.data.namey.splice(index + 1, 0, name);
                 }
             }
-            $scope.HapusD10 = function(index) {
+            $scope.HapusD10 = function (index) {
                 debugger;
                 var norec_diagnosapasien = $scope.data.namey[index].norec_diagnosapasien;
                 if (norec_diagnosapasien != "") {
@@ -3830,7 +3830,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //  }
             }
 
-            $scope.TambahD9 = function(index) {
+            $scope.TambahD9 = function (index) {
                 debugger
                 var name = {
                     kddiagnosatindakan: {
@@ -3850,7 +3850,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.data.namez.splice(index + 1, 0, name);
                 }
             }
-            $scope.HapusD9 = function(index) {
+            $scope.HapusD9 = function (index) {
                 debugger
                 var norec_diagnosapasien = $scope.data.namez[index].norec_diagnosapasien;
                 if (norec_diagnosapasien != "") {
@@ -3863,7 +3863,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //  }
             }
 
-            $scope.HapusUtama = function(index) {
+            $scope.HapusUtama = function (index) {
                 debugger;
                 $scope.data.names.splice(index, 1);
                 // var name = {kddiagnosa:{id:"", kdDiagnosa:""}, keterangan:""};
@@ -3871,7 +3871,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //      $scope.data.names.splice(index+1,0,name);
                 //  }
             }
-            $scope.Tambah = function() {
+            $scope.Tambah = function () {
                 var nomor = 0
                 if ($scope.sourceResume == undefined) {
                     nomor = 1

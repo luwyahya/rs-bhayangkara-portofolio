@@ -1,7 +1,7 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('TransaksiPelayananLaboratoriumDokterRevCtrl', ['$q', '$rootScope', '$scope', 'MedifirstService', '$state', 'CacheHelper', '$window',
-        function($q, $rootScope, $scope, medifirstService, $state, cacheHelper, $window) {
+        function ($q, $rootScope, $scope, medifirstService, $state, cacheHelper, $window) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -15,7 +15,7 @@ define(['initialize'], function(initialize) {
             $scope.OrderPelayanan = false;
             $scope.showTombol = false
             $scope.header.DataNoregis = true
-                // var pegawaiUser = {}
+            // var pegawaiUser = {}
             var detail = ''
             var temphasil = [];
             var jenisPelayananId = ''
@@ -42,9 +42,9 @@ define(['initialize'], function(initialize) {
                     namaRuanganFk = chacePeriode[11]
                     $scope.item.namaRuangan = chacePeriode[12]
                     $scope.header.DataNoregis = chacePeriode[13]
-                        // if ($scope.header.DataNoregis == undefined) {
-                        //     $scope.header.DataNoregis = false;
-                        // }
+                    // if ($scope.header.DataNoregis == undefined) {
+                    //     $scope.header.DataNoregis = false;
+                    // }
                     if ($scope.item.namaRuangan.substr($scope.item.namaRuangan.length - 1) == '`') {
                         $scope.showTombol = true
                     }
@@ -53,22 +53,22 @@ define(['initialize'], function(initialize) {
                     //         $scope.item.statusVerif = dat.data.status
                     //     });
                     //  ** cek status closing
-                    medifirstService.get("sysadmin/general/get-status-close/" + $scope.item.noregistrasi, false).then(function(rese) {
+                    medifirstService.get("sysadmin/general/get-status-close/" + $scope.item.noregistrasi, false).then(function (rese) {
                         if (rese.data.status == true) {
                             toastr.error('Pemeriksaan sudah ditutup tanggal ' + moment(new Date(rese.data.tglclosing)).format('DD-MMM-YYYY HH:mm'), 'Peringatan!')
                             $scope.isSelesaiPeriksa = true
                         }
                     })
-                    medifirstService.get('sysadmin/general/get-jenis-pelayanan/' + norec_pd).then(function(e) {
-                            jenisPelayananId = e.data.jenispelayanan
-                            init()
-                        })
-                        //** */
+                    medifirstService.get('sysadmin/general/get-jenis-pelayanan/' + norec_pd).then(function (e) {
+                        jenisPelayananId = e.data.jenispelayanan
+                        init()
+                    })
+                    //** */
                 }
 
             }
             var urlHasilVansLab = ''
-            medifirstService.get('sysadmin/settingdatafixed/get/urlHasilVansLab').then(function(dat) {
+            medifirstService.get('sysadmin/settingdatafixed/get/urlHasilVansLab').then(function (dat) {
                 urlHasilVansLab = dat.data
 
             })
@@ -76,36 +76,36 @@ define(['initialize'], function(initialize) {
             // $scope.PegawaiLogin2 = {};
             // var namaRuangan = ''
             // var namaRuanganFk = ''
-            $scope.getProduk = function(ruangan) {
-                    var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
-                    medifirstService.getPart("sysadmin/general/get-tindakan?idRuangan=" +
-                            ruangan.id +
-                            "&idKelas=" +
-                            6 +
-                            RuangRanap +
-                            "&idJenisPelayanan=" +
-                            jenisPelayananId, true, 10, 10)
-                        .then(function(x) {
-                            $scope.listLayanan = x;
-                            //    $scope.isRouteLoading = false;
+            $scope.getProduk = function (ruangan) {
+                var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
+                medifirstService.getPart("sysadmin/general/get-tindakan?idRuangan=" +
+                    ruangan.id +
+                    "&idKelas=" +
+                    6 +
+                    RuangRanap +
+                    "&idJenisPelayanan=" +
+                    jenisPelayananId, true, 10, 10)
+                    .then(function (x) {
+                        $scope.listLayanan = x;
+                        //    $scope.isRouteLoading = false;
 
-                        })
-                }
-                // $scope.$watch('item.ruangantujuan', function (newValue, oldValue) {
-                //     if ( newValue!= undefined && jenisPelayananId != '' && $scope.item.namaRuangan!= undefined) {
-                //         var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
-                //         medifirstService.getPart("sysadmin/general/get-tindakan?idRuangan="
-                //             + newValue.id
-                //             + "&idKelas="
-                //             + 6
-                //             + RuangRanap
-                //             + "&idJenisPelayanan="
-                //             + jenisPelayananId
-                //             , true, 10, 10)
-                //             .then(function (x) {
-                //                 $scope.listLayanan = x;
-                //                 //    $scope.isRouteLoading = false;
-                //             })
+                    })
+            }
+            // $scope.$watch('item.ruangantujuan', function (newValue, oldValue) {
+            //     if ( newValue!= undefined && jenisPelayananId != '' && $scope.item.namaRuangan!= undefined) {
+            //         var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
+            //         medifirstService.getPart("sysadmin/general/get-tindakan?idRuangan="
+            //             + newValue.id
+            //             + "&idKelas="
+            //             + 6
+            //             + RuangRanap
+            //             + "&idJenisPelayanan="
+            //             + jenisPelayananId
+            //             , true, 10, 10)
+            //             .then(function (x) {
+            //                 $scope.listLayanan = x;
+            //                 //    $scope.isRouteLoading = false;
+            //             })
 
 
             //         // modelItemAkuntansi.getDataDummyPHPV2('pelayanan/get-produk-penunjang-part?idRuangan='+newValue.id,true,10,10).then(function(e){
@@ -117,7 +117,7 @@ define(['initialize'], function(initialize) {
 
             function init() {
 
-                medifirstService.get("emr/get-combo-penunjang?departemenfk=3", true).then(function(dat) {
+                medifirstService.get("emr/get-combo-penunjang?departemenfk=3", true).then(function (dat) {
 
                     $scope.item.ruanganAsal = $scope.item.namaRuangan
                     $scope.listRuanganTujuan = dat.data.ruangantujuan;
@@ -126,20 +126,20 @@ define(['initialize'], function(initialize) {
                         namaruangan: dat.data.ruangantujuan[0].namaruangan
                     }
                     $scope.getProduk($scope.item.ruangantujuan)
-                        // // $scope.listLayanan = dat.data.produk;
-                        // namaRuanganFk = dat.data.data[0].objectruanganfk
-                        // norec_pd = dat.data.data[0].noregistrasifk
+                    // // $scope.listLayanan = dat.data.produk;
+                    // namaRuanganFk = dat.data.data[0].objectruanganfk
+                    // norec_pd = dat.data.data[0].noregistrasifk
                 });
                 // medifirstService.get("get-detail-login", true).then(function (dat) {
                 $scope.PegawaiLogin2 = medifirstService.getPegawaiLogin()
-                    // });
-                    //tanda trisno
-                medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm2hasil?noregistrasi=" + $scope.item.noregistrasi + "&ruid=" + 575, true).then(function(dat) {
+                // });
+                //tanda trisno
+                medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm2hasil?noregistrasi=" + $scope.item.noregistrasi + "&ruid=" + 575, true).then(function (dat) {
                     temphasil = dat.data;
 
                     medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm2?noregistrasi=" + $scope.item.noregistrasi + "&ruid=" + 575
                         // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
-                        , true).then(function(dat) {
+                        , true).then(function (dat) {
                             if (dat.data.data.length > 0) {
                                 $scope.item.tgllahir = dat.data.data[0].tgllahir
                                 $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
@@ -208,9 +208,9 @@ define(['initialize'], function(initialize) {
                             // $scope.popUpPelayanan.center().open();
 
                         },
-                        function(error) {
-                            $scope.isLoading = false;
-                        });
+                            function (error) {
+                                $scope.isLoading = false;
+                            });
                 })
                 if ($scope.header.DataNoregis == true) {
                     loadRiwayat('noregistrasi=' + $scope.item.noregistrasi)
@@ -222,7 +222,7 @@ define(['initialize'], function(initialize) {
             }
 
             function loadRiwayat(params) {
-                medifirstService.get('emr/get-riwayat-order-penunjang?' + params).then(function(e) {
+                medifirstService.get('emr/get-riwayat-order-penunjang?' + params).then(function (e) {
                     for (var i = e.data.daftar.length - 1; i >= 0; i--) {
                         e.data.daftar[i].no = i + 1
                     }
@@ -234,14 +234,14 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $rootScope.getRekamMedisCheck = function(bool) {
+            $rootScope.getRekamMedisCheck = function (bool) {
                 if (bool) {
                     loadRiwayat('noregistrasi=' + $scope.item.noregistrasi)
                 } else {
                     loadRiwayat('NoCM=' + $scope.item.noMr)
                 }
             }
-            $scope.LihatHasil = function(data) {
+            $scope.LihatHasil = function (data) {
                 //debugger;
                 if ($scope.dataSelectedRiwayat == undefined) {
                     toastr.error('Pilih data dulu');
@@ -262,7 +262,7 @@ define(['initialize'], function(initialize) {
 
             }
 
-            $scope.formatTanggal = function(tanggal) {
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
@@ -272,110 +272,110 @@ define(['initialize'], function(initialize) {
                 selectable: false,
                 pageable: true,
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "30px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "tglpelayanan",
-                        "title": "Tgl Pelayanan",
-                        "width": "90px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "ruangan",
-                        "title": "Ruangan",
-                        "width": "120px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "namaruanganasal",
-                        "title": "Ruangan Asal",
-                        "width": "120px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "namaproduk",
-                        "title": "Layanan",
-                        "width": "160px",
-                        // "template": "<button class=\"k-button custom-button #=resumemedis != 'Belum diisi' ? 'dark-green' : 'dark-red' # \" ng-click=\"ResumeRI(dataItem)\" style=\"margin:0 5px 5px\">#:  resumemedis #</button>",
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "tglpelayanan",
+                    "title": "Tgl Pelayanan",
+                    "width": "90px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "ruangan",
+                    "title": "Ruangan",
+                    "width": "120px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "namaruanganasal",
+                    "title": "Ruangan Asal",
+                    "width": "120px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Layanan",
+                    "width": "160px",
+                    // "template": "<button class=\"k-button custom-button #=resumemedis != 'Belum diisi' ? 'dark-green' : 'dark-red' # \" ng-click=\"ResumeRI(dataItem)\" style=\"margin:0 5px 5px\">#:  resumemedis #</button>",
 
-                        "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
-                        //     attributes: {
-                        //         class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        //    },
-                    },
-                    {
-                        "field": "dokterpemeriksa",
-                        "title": "Dokter Pemeriksa",
-                        "width": "140px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "dokterpengirim",
-                        "title": "Dokter Pengririm",
-                        "width": "140px",
-                        // attributes: {
-                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
-                        // },
-                    },
-                    {
-                        "field": "tglhasil",
-                        "title": "Tgl Hasil",
-                        "width": "90px",
-                    },
-                    {
-                        "field": "tglcetak",
-                        "title": "Tgl Cetak",
-                        "width": "90px",
-                    },
-                    {
-                        "field": "jumlah",
-                        "title": "Qty",
-                        "width": "40px",
-                    },
-                    {
-                        "field": "noorder",
-                        "title": "No Order",
-                        "width": "100px",
-                    },
-                    {
-                        "field": "nostruk",
-                        "title": "No Struk",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "statusbridging",
-                        "title": "Status Kirim",
-                        "width": "50px",
-                    },
-                    {
-                        "field": "statusperiksa",
-                        "title": "Status Periksa",
-                        "width": "100px",
+                    "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                    //     attributes: {
+                    //         class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    //    },
+                },
+                {
+                    "field": "dokterpemeriksa",
+                    "title": "Dokter Pemeriksa",
+                    "width": "140px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "dokterpengirim",
+                    "title": "Dokter Pengririm",
+                    "width": "140px",
+                    // attributes: {
+                    //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                    // },
+                },
+                {
+                    "field": "tglhasil",
+                    "title": "Tgl Hasil",
+                    "width": "90px",
+                },
+                {
+                    "field": "tglcetak",
+                    "title": "Tgl Cetak",
+                    "width": "90px",
+                },
+                {
+                    "field": "jumlah",
+                    "title": "Qty",
+                    "width": "40px",
+                },
+                {
+                    "field": "noorder",
+                    "title": "No Order",
+                    "width": "100px",
+                },
+                {
+                    "field": "nostruk",
+                    "title": "No Struk",
+                    "width": "80px"
+                },
+                {
+                    "field": "statusbridging",
+                    "title": "Status Kirim",
+                    "width": "50px",
+                },
+                {
+                    "field": "statusperiksa",
+                    "title": "Status Periksa",
+                    "width": "100px",
 
-                    },
-                    {
-                        "field": "statuscito",
-                        "title": "Status Cito",
-                        "width": "100px",
-                    },
-                    {
-                        "field": "nofoto",
-                        "title": "No Foto",
-                        "width": "100px",
-                    },
+                },
+                {
+                    "field": "statuscito",
+                    "title": "Status Cito",
+                    "width": "100px",
+                },
+                {
+                    "field": "nofoto",
+                    "title": "No Foto",
+                    "width": "100px",
+                },
                     // {
                     //     "field": "no",
                     //     "title": "No",
@@ -433,95 +433,95 @@ define(['initialize'], function(initialize) {
             };
 
             $scope.columnGridOrder = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "10px",
-                },
-                {
-                    "field": "namaproduk",
-                    "title": "Layanan",
-                    "width": "160px",
-                },
-                {
-                    "field": "qtyproduk",
-                    "title": "Qty",
-                    "width": "40px",
-                }
+                "field": "no",
+                "title": "No",
+                "width": "10px",
+            },
+            {
+                "field": "namaproduk",
+                "title": "Layanan",
+                "width": "160px",
+            },
+            {
+                "field": "qtyproduk",
+                "title": "Qty",
+                "width": "40px",
+            }
             ];
             $scope.columnGridRiwayat = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "noregistrasi",
-                    "title": "No Registrasi",
-                    "width": "70px",
-                },
-                {
-                    "field": "tglorder",
-                    "title": "Tgl Order",
-                    "width": "50px",
-                },
-                {
-                    "field": "noorder",
-                    "title": "No Order",
-                    "width": "60px",
-                },
-                {
-                    "field": "dokter",
-                    "title": "Dokter",
-                    "width": "100px"
-                },
-                {
-                    "field": "namaruangantujuan",
-                    "title": "Ruangan",
-                    "width": "100px",
-                },
-                {
-                    "field": "keteranganlainnya",
-                    "title": "Keterangan",
-                    "width": "100px",
-                },
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "noregistrasi",
+                "title": "No Registrasi",
+                "width": "70px",
+            },
+            {
+                "field": "tglorder",
+                "title": "Tgl Order",
+                "width": "50px",
+            },
+            {
+                "field": "noorder",
+                "title": "No Order",
+                "width": "60px",
+            },
+            {
+                "field": "dokter",
+                "title": "Dokter",
+                "width": "100px"
+            },
+            {
+                "field": "namaruangantujuan",
+                "title": "Ruangan",
+                "width": "100px",
+            },
+            {
+                "field": "keteranganlainnya",
+                "title": "Keterangan",
+                "width": "100px",
+            },
 
-                {
-                    "field": "statusorder",
-                    "title": "Status",
-                    "width": "70px",
-                }
+            {
+                "field": "statusorder",
+                "title": "Status",
+                "width": "70px",
+            }
             ];
-            $scope.detailGridOptions = function(dataItem) {
+            $scope.detailGridOptions = function (dataItem) {
                 return {
                     dataSource: new kendo.data.DataSource({
                         data: dataItem.details
                     }),
                     columns: [{
-                            field: "namaproduk",
-                            title: "Deskripsi",
-                            width: "300px"
-                        },
-                        {
-                            field: "qtyproduk",
-                            title: "Qty",
-                            width: "100px"
-                        }
+                        field: "namaproduk",
+                        title: "Deskripsi",
+                        width: "300px"
+                    },
+                    {
+                        field: "qtyproduk",
+                        title: "Qty",
+                        width: "100px"
+                    }
                     ]
                 };
             };
-            $scope.back = function() {
+            $scope.back = function () {
                 window.history.back();
             }
-            $scope.order = function() {
+            $scope.order = function () {
                 $scope.CmdOrderPelayanan = false;
                 $scope.OrderPelayanan = true;
             }
-            $scope.Batal = function() {
+            $scope.Batal = function () {
                 $scope.batal();
             }
-            $scope.CetakLabKlinikLangsung = function(dataItem) {
+            $scope.CetakLabKlinikLangsung = function (dataItem) {
                 var user = medifirstService.getPegawaiLogin();
                 var diagnosa = "";
-                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + dataItem.noregistrasi).then(function(data) {
+                medifirstService.get("registrasi/daftar-registrasi/get-data-diagnosa-pasien?noReg=" + dataItem.noregistrasi).then(function (data) {
                     if (data.data.datas == undefined) {
                         diagnosa = "-";
                     } else {
@@ -567,7 +567,7 @@ define(['initialize'], function(initialize) {
                         "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
-                    xhr.onreadystatechange = function() {
+                    xhr.onreadystatechange = function () {
                         if (this.readyState == 4 && this.status == 200) {
                             console.log(this.response, typeof this.response);
                             debugger;
@@ -584,7 +584,7 @@ define(['initialize'], function(initialize) {
                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('10.8.8.8') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:1002/generic/report/hasillabKlinik.pdf');
@@ -600,7 +600,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.add = function() {
+            $scope.add = function () {
                 //    if ($scope.item.statusVerif == true) {
                 //           toastr.error("Data Sudah Diclosing, Hubungi Tatarekening!");
                 //           return;
@@ -660,7 +660,7 @@ define(['initialize'], function(initialize) {
                         objectkelasfk: $scope.item.idKelas
                     }
                     data2.push(data)
-                        // $scope.dataGrid.add($scope.dataSelected)
+                    // $scope.dataGrid.add($scope.dataSelected)
                     $scope.dataGridOrder = new kendo.data.DataSource({
                         data: data2
                     });
@@ -668,7 +668,7 @@ define(['initialize'], function(initialize) {
                 $scope.batal();
             }
 
-            $scope.kembali = function() {
+            $scope.kembali = function () {
                 debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: norec_apd,
@@ -676,7 +676,7 @@ define(['initialize'], function(initialize) {
                 });
             }
 
-            $scope.klikGrid = function(dataSelected) {
+            $scope.klikGrid = function (dataSelected) {
                 var dataProduk = [];
                 //no:no,
                 $scope.item.no = dataSelected.no
@@ -692,7 +692,7 @@ define(['initialize'], function(initialize) {
                 $scope.item.qty = dataSelected.qtyproduk
                 $scope.item.pemeriksaanKeluar = dataSelected.pemeriksaanluar == 1 ? true : false
             }
-            $scope.hapus = function() {
+            $scope.hapus = function () {
                 if ($scope.item.qty == 0) {
                     alert("Qty harus di isi!")
                     return;
@@ -729,13 +729,13 @@ define(['initialize'], function(initialize) {
                 }
                 $scope.batal();
             }
-            $scope.batal = function() {
+            $scope.batal = function () {
                 $scope.item.layanan = ''
                 $scope.item.hargaTindakan = ''
                 $scope.item.qty = 1
                 $scope.item.no = undefined
             }
-            $scope.BatalOrder = function() {
+            $scope.BatalOrder = function () {
                 data2 = []
                 $scope.dataGridOrder = new kendo.data.DataSource({
                     data: data2
@@ -744,15 +744,15 @@ define(['initialize'], function(initialize) {
                 $scope.CmdOrderPelayanan = true;
                 $scope.OrderPelayanan = false;
             }
-            $scope.riwayat = function() {
+            $scope.riwayat = function () {
                 $scope.riwayatForm = true
                 $scope.inputOrder = false;
             }
-            $scope.newOrder = function() {
+            $scope.newOrder = function () {
                 $scope.riwayatForm = false
                 $scope.inputOrder = true;
             }
-            $scope.Simpan = function() {
+            $scope.Simpan = function () {
                 if ($scope.item.ruangantujuan == undefined) {
                     alert("Pilih Ruangan Tujuan terlebih dahulu!!")
                     return
@@ -774,8 +774,8 @@ define(['initialize'], function(initialize) {
                     details: data2
                 }
 
-                medifirstService.post('emr/save-order-pelayanan', objSave).then(function(e) {
-                    medifirstService.postLogging('Order Laboratorium', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function(res) {})
+                medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
+                    medifirstService.postLogging('Order Laboratorium', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) { })
                     init();
                     $scope.BatalOrder();
 
@@ -783,11 +783,11 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.cetakResep = function() {
+            $scope.cetakResep = function () {
                 if ($scope.dataSelected == undefined) {
                     alert('Pilih resep yg akan di cetak')
                     return;
@@ -801,14 +801,14 @@ define(['initialize'], function(initialize) {
                     stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/farmasiApotik?cetak-strukresep=1&nores=' + $scope.dataSelected.norec_resep + '&view=' + stt + '&user=' + $scope.dataSelected.detail.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/farmasiApotik?cetak-strukresep=1&nores=' + $scope.dataSelected.norec_resep + '&view=' + stt + '&user=' + $scope.dataSelected.detail.userData.namauser, function (response) {
                     // aadc=response;
                 });
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() {
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
@@ -817,21 +817,21 @@ define(['initialize'], function(initialize) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.back = function() {
+            $scope.back = function () {
                 $state.go('DaftarAntrianDokterRajal')
             }
 
-            $scope.showInputDiagnosaDokter = function() {
+            $scope.showInputDiagnosaDokter = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl');
                 cacheHelper.set('CacheInputDiagnosaDokter', arrStr);
                 $state.go('InputDiagnosaDokter')
             }
-            $scope.resep = function() {
+            $scope.resep = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl');
                 cacheHelper.set('InputResepApotikOrderRevCtrl', arrStr);
                 $state.go('InputResepApotikOrderRev')
             }
-            $scope.inputTindakanDokter = function() {
+            $scope.inputTindakanDokter = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl')
                 cacheHelper.set('InputTindakanPelayananDokterRevCtrl', arrStr);
                 $state.go('InputTindakanPelayananDokterRev', {
@@ -840,52 +840,52 @@ define(['initialize'], function(initialize) {
 
                 });
             }
-            $scope.laboratorium = function() {
+            $scope.laboratorium = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl')
                 cacheHelper.set('TransaksiPelayananLaboratoriumDokterRevCtrl', arrStr);
                 $state.go('TransaksiPelayananLaboratoriumDokterRev')
             }
-            $scope.radiologi = function() {
+            $scope.radiologi = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl')
                 cacheHelper.set('TransaksiPelayananRadiologiDokterRevCtrl', arrStr);
                 $state.go('TransaksiPelayananRadiologiDokterRev')
             }
-            $scope.rekamMedisElektronik = function() {
+            $scope.rekamMedisElektronik = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl');
                 cacheHelper.set('cacheRMelektronik', arrStr);
                 $state.go('RekamMedisElektronik')
             }
-            $scope.inputCPPT = function() {
+            $scope.inputCPPT = function () {
                 var arrStr = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl');
                 cacheHelper.set('cacheCPPT', arrStr);
                 $state.go('CPPT')
             }
-            $scope.hapusOrder = function() {
-                    if ($scope.dataSelectedRiwayat == undefined) {
-                        toastr.error('Pilih data yang mau dihapus')
-                        return
-                    }
-                    if ($scope.dataSelectedRiwayat.statusorder != 'PENDING') {
-                        toastr.error('Tidak bisa dihapus')
-                        return
-                    }
-                    var data = {
-                        norec_order: $scope.dataSelectedRiwayat.norec
-                    }
-                    medifirstService.post('emr/delete-order-pelayanan', data)
-                        .then(function(e) {
-                            init()
-
-                        })
+            $scope.hapusOrder = function () {
+                if ($scope.dataSelectedRiwayat == undefined) {
+                    toastr.error('Pilih data yang mau dihapus')
+                    return
                 }
-                // $scope.getHargaTindakan = function () {
-                //     $scope.item.hargaTindakan = $scope.item.layanan.hargasatuan;
+                if ($scope.dataSelectedRiwayat.statusorder != 'PENDING') {
+                    toastr.error('Tidak bisa dihapus')
+                    return
+                }
+                var data = {
+                    norec_order: $scope.dataSelectedRiwayat.norec
+                }
+                medifirstService.post('emr/delete-order-pelayanan', data)
+                    .then(function (e) {
+                        init()
+
+                    })
+            }
+            // $scope.getHargaTindakan = function () {
+            //     $scope.item.hargaTindakan = $scope.item.layanan.hargasatuan;
 
             //   }
 
-            $scope.getHargaTindakan = function() {
+            $scope.getHargaTindakan = function () {
                 delete $scope.item.hargaTindakan
-                    // $scope.item.qty = 1
+                // $scope.item.qty = 1
                 getKomponenHarga()
             }
 
@@ -902,7 +902,7 @@ define(['initialize'], function(initialize) {
                         // +$scope.item.pasien.objectkelasfk
                         // +"&idJenisPelayanan="
                         // + $scope.item.pasien.objectjenispelayananfk
-                    ).then(function(dat) {
+                    ).then(function (dat) {
                         $scope.listKomponen = dat.data.data;
                         $scope.item.hargaTindakan = dat.data.data2[0].hargasatuan //$scope.item.namaProduk.hargasatuan;
                         $scope.item.jumlah = 1;
@@ -911,7 +911,7 @@ define(['initialize'], function(initialize) {
                 }
             }
             $scope.paket = {}
-            $scope.cekPaket = function(bool) {
+            $scope.cekPaket = function (bool) {
 
                 if (bool) {
                     if ($scope.item.ruangantujuan == undefined) {
@@ -919,7 +919,7 @@ define(['initialize'], function(initialize) {
                         return
                     }
                     $scope.popUpPaket.center().open()
-                    medifirstService.get('sysadmin/general/get-paket-tindakan').then(function(e) {
+                    medifirstService.get('sysadmin/general/get-paket-tindakan').then(function (e) {
                         $scope.sourcePaket = new kendo.data.DataSource({
                             data: e.data,
                             pageSize: 10,
@@ -942,7 +942,7 @@ define(['initialize'], function(initialize) {
                     { field: "jml", title: "Jumlah Tindakan", width: 80 },
                 ],
             };
-            $scope.data2 = function(dataItem) {
+            $scope.data2 = function (dataItem) {
                 for (var i = 0; i < dataItem.details.length; i++) {
                     dataItem.details[i].no = i + 1
                 }
@@ -956,14 +956,14 @@ define(['initialize'], function(initialize) {
                     ]
                 }
             };
-            $scope.tutupPaket = function() {
+            $scope.tutupPaket = function () {
                 kosongkanPaket()
                 $scope.item.paket = false
                 $scope.popUpPaket.close()
             }
 
             var timeoutPromise;
-            $scope.$watch('paket.namaPaket', function(newVal, oldVal) {
+            $scope.$watch('paket.namaPaket', function (newVal, oldVal) {
                 if (newVal !== oldVal) {
                     applyFilter("namapaket", newVal)
                 }
@@ -1002,14 +1002,14 @@ define(['initialize'], function(initialize) {
                     filters: currentFilters
                 })
             }
-            $scope.resetFilterPaket = function() {
+            $scope.resetFilterPaket = function () {
                 var dataGrid = $("#gridPaket").data("kendoGrid");
                 dataGrid.dataSource.filter({});
                 $scope.paket = {};
             }
-            $scope.klikPaket = function(select) {
+            $scope.klikPaket = function (select) {
                 $scope.totalHargaDefault = 0
-                    // var arr = select.details
+                // var arr = select.details
 
                 // for (var i = 0; i < arr.length; i++) {
                 //     const element = arr[i];
@@ -1029,7 +1029,7 @@ define(['initialize'], function(initialize) {
                 //     })
                 // }
             }
-            $scope.tambahPaket = function() {
+            $scope.tambahPaket = function () {
                 if ($scope.dataPaketSelect == undefined) {
                     toastr.error('Pilih Paket dulu')
                     return
