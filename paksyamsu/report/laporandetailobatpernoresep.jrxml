@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lapora" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="438a9b8f-5f83-4b4f-9c2d-b53cc3e6d082">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -111,19 +111,19 @@ order by namadepartemen, noresep]]>
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 	<variable name="tha" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$V{totalhargajual}]]></variableExpression>
+		<variableExpression><![CDATA[$F{hargajual}]]></variableExpression>
 	</variable>
 	<variable name="tja" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$V{totaljumlah}]]></variableExpression>
+		<variableExpression><![CDATA[$F{jumlah}]]></variableExpression>
 	</variable>
 	<variable name="tjj" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$V{totaljasa}]]></variableExpression>
+		<variableExpression><![CDATA[$F{jasa}]]></variableExpression>
 	</variable>
 	<variable name="td" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$V{totaljasa}]]></variableExpression>
+		<variableExpression><![CDATA[$V{totaldiskon}]]></variableExpression>
 	</variable>
 	<variable name="tt" class="java.math.BigDecimal" calculation="Sum">
-		<variableExpression><![CDATA[$V{totaltotal}]]></variableExpression>
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 	<group name="installasi">
 		<groupHeader>
