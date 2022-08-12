@@ -1868,7 +1868,7 @@ define(['initialize'], function (initialize) {
                         } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/rincianrekap.pdf');
                         } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                            xhr.open('POST', '/jasper1/generic/report/rincianrekap.pdf');
+                            xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rincianrekap.pdf');
                         } else if (window.location.hostname.indexOf('simrs') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/rincianrekap.pdf');
                         } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
