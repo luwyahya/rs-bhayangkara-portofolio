@@ -840,7 +840,8 @@ class LaboratoriumController extends ApiController
 //        $kdProfile = $this->getDataKdProfile($request);
 //        $idProfile = (int) $kdProfile;
         $kdJenisPegawaiDokter =(int) $this->settingDataFixed('kdJenisPegawaiDokter');
-        $detail = DB::select(DB::raw("select id,namalengkap from pegawai_m WHERE id=$kdJenisPegawaiDokter and statusenabled=true"));
+        // $detail = DB::select(DB::raw("select id,namalengkap from pegawai_m WHERE id=$kdJenisPegawaiDokter and statusenabled=true"));
+        $detail = DB::select(DB::raw("select id,namalengkap from pegawai_m WHERE statusenabled=true"));
         // ->where('djp.objectdepartemenfk',$this->settingDataFixed('KdDepartemenInstalasiLaboratorium'));
         return ($detail);
     }
