@@ -1445,8 +1445,6 @@ define(['initialize'], function (initialize) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('simrs') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else {
@@ -1461,8 +1459,6 @@ define(['initialize'], function (initialize) {
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                 xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
@@ -1482,8 +1478,6 @@ define(['initialize'], function (initialize) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('simrs') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else {
@@ -1500,8 +1494,6 @@ define(['initialize'], function (initialize) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('simrs') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else {
@@ -1515,8 +1507,6 @@ define(['initialize'], function (initialize) {
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                 xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/rekapbilling.pdf');

@@ -113,7 +113,7 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.DataPegawai4 != undefined) {
                     pegawai4 = $scope.item.DataPegawai4.id;
                 }
-                
+
                 var stt = 'false'
                 if (confirm('View Bukti Order? ')) {
                     // Save it!
@@ -124,13 +124,13 @@ define(['initialize'], function (initialize) {
                 }
                 var client = new HttpClient();
                 client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-order=1&nores=' + norecCetak + '&pegawaiMenyetujui=' + pegawai1 + '&pegawaiMeminta=' + pegawai2
-                    + '&jabatanMenyetujui=' + jabatan1 + '&jabatanMeminta=' + jabatan2 
-                    + '&PegawaiM1=' + pegawai3 + '&PegawaM2=' + pegawai4 
+                    + '&jabatanMenyetujui=' + jabatan1 + '&jabatanMeminta=' + jabatan2
+                    + '&PegawaiM1=' + pegawai3 + '&PegawaM2=' + pegawai4
                     + '&JabatanM1=' + jabatan3 + '&JabatanM2=' + jabatan4
-                    + '&view=' + stt + '&user=' + pegawaiUser[0].namalengkap, function (response) {
+                    + '&view=' + stt + '&user=' + pegawaiUser.namalengkap, function (response) {
                         //aadc=response; 
 
-                    });                                
+                    });
                 $scope.popUp.close();
             }
 
@@ -143,7 +143,7 @@ define(['initialize'], function (initialize) {
                     $scope.listRuangan = medifirstService.getMapLoginUserToRuangan();
                     // $scope.listJenisKirim = [{ id: 1, jenis: 'Amprahan' }, { id: 2, jenis: 'Transfer' }]
                     $scope.listAsalProduk = dataCombo.asalproduk;
-                    $scope.listJenisKirim = [ { id: 2, jenis: 'Transfer' }]
+                    $scope.listJenisKirim = [{ id: 2, jenis: 'Transfer' }]
                     // $scope.listProduk = dataCombo.produk;
                     $scope.listRuanganTujuan = dataCombo.ruanganall;
                     pegawaiUser = dataCombo.detaillogin[0];
@@ -157,9 +157,9 @@ define(['initialize'], function (initialize) {
             }
             $scope.$watch('item.ruanganTujuan', function (newValue, oldValue) {
                 if (newValue != oldValue) {
-                    medifirstService.get("logistik/get-produk-by-ruangans?ruid="+newValue.id).then(function (dat) {
-                       var dataCombo = dat.data;
-                      $scope.listProduk = dataCombo.produk;
+                    medifirstService.get("logistik/get-produk-by-ruangans?ruid=" + newValue.id).then(function (dat) {
+                        var dataCombo = dat.data;
+                        $scope.listProduk = dataCombo.produk;
                     });
                 }
             })
