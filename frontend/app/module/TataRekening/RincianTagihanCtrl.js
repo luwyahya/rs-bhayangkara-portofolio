@@ -2096,7 +2096,7 @@ define(['initialize'], function (initialize) {
                             } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
                                 xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/rincianbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', '/jasper1/generic/report/rincianbilling.pdf');
+                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rincianbilling.pdf');
                             } else {
                                 xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
                             }
