@@ -1238,7 +1238,7 @@ define(['initialize'], function (initialize) {
                     } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/labelPasien.pdf');
+                        xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
                         xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('simrs') > -1) {
