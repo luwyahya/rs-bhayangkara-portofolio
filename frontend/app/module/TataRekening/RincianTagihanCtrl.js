@@ -2175,7 +2175,7 @@ define(['initialize'], function (initialize) {
                             xhr.open('POST', '/jasper1/generic/report/kw1.pdf');
                         } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/kw1.pdf');
-                        } else if (window.location.hostname.indexOf('simrs') > -1) {
+                        } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                             xhr.open('POST', '/jasper1/generic/report/kw1.pdf');
                         } else {
                             xhr.open('POST', 'http://127.0.0.1:8797/generic/report/kw1.pdf');
@@ -4113,7 +4113,7 @@ define(['initialize'], function (initialize) {
                                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakResepRIncianRajal.pdf');
                                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                                         xhr.open('POST', '/jasper1generic/report/cetakResepRIncianRajal.pdf');
-                                    } else if (window.location.hostname.indexOf('simrs') > -1) {
+                                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                         xhr.open('POST', '/jasper1/generic/report/cetakResepRIncianRajal.pdf');
                                     } else {
                                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakResepRIncianRajal.pdf');
