@@ -82,7 +82,7 @@
         <td bordercolor="#808080" height="13">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        HASIL PEMERIKSAAN LABORATORIUM INI BENAR DI KELUARKAN DARI RUMAH SAKIT UNIVERSITAS ANDALAS
+                        HASIL PEMERIKSAAN LABORATORIUM INI BENAR DI KELUARKAN DARI RS BHAYANGKARA TK IV CIANJUR
                     </span>
             </font>
         </td>

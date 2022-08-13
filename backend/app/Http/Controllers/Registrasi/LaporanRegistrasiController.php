@@ -770,7 +770,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
 
         $dataTTDetail [] =array(
             'no'=> 1,
-            'rumahsakit'=>'Rumah Sakit Universitas Andalas',
+            'rumahsakit'=>'RS BHAYANGKARA TK IV CIANJUR',
             'tempattidur'=>(int)$sumTTs[0]->tt,
             'hari'=>$jumHari,
             'kunjL'=>$kunjL,

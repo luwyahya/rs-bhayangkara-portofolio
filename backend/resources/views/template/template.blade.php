@@ -58,10 +58,10 @@
                                         <td align="center">
                                          
                                           <b>
-                                            <font style="font-size: 18pt" color="#000000">RUMAH SAKIT UNIVERSITAS ANDALAS</font>
+                                            <font style="font-size: 18pt" color="#000000">RS BHAYANGKARA TK IV CIANJUR</font>
                                             <br>
                                           </b>
-                                          <font size="3" color="#000000" style="font-weight: bold">Komp Kampus Unand Jalan Universitas Andalas, Limau Manis, Kec. Pauh, Kota Padang, Sumatera Barat 25176<font>
+                                          <font size="3" color="#000000" style="font-weight: bold">Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211<font>
 
 {{--                                          <font style="font-size: 11pt" color="#000000"> : Jl. Ir. Djuanda No. 106 Km. 2--}}
 {{--                                            Rancabango Kota--}}
