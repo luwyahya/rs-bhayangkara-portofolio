@@ -52,14 +52,14 @@
 			<textField>
 				<reportElement x="107" y="5" width="473" height="20" forecolor="#0A0101" uuid="71d1a7ac-0b46-488c-a39e-75075209ff28"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="107" y="30" width="473" height="42" forecolor="#0A0101" uuid="9dc4f2c1-2e1d-4e3e-be77-6dc7b9320518"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
 			</textField>
@@ -72,7 +72,7 @@
 			<staticText>
 				<reportElement mode="Transparent" x="9" y="79" width="551" height="25" forecolor="#0A0101" uuid="b410f112-841a-447d-984a-a1eafcf55498"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
 			</staticText>
@@ -99,42 +99,42 @@
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[KWITANSI]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="15" y="23" width="169" height="15" forecolor="#0A0101" uuid="1b9cc660-1095-49cb-8a7e-e4fca5cd5d19"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. Registrasi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="194" y="23" width="10" height="15" forecolor="#0A0101" uuid="d43030cb-a716-4c19-a6ae-1dcd92082d13"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="210" y="20" width="125" height="20" forecolor="#0A0101" uuid="6ead8ef3-c7a8-4704-a144-3669dd65320c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{noRegistrasi}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="336" y="21" width="89" height="18" forecolor="#0A0101" uuid="36fc871f-04e5-4b59-aa72-7771b2a61b4e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. Kwitansi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="434" y="23" width="10" height="15" forecolor="#0A0101" uuid="82d1ee1a-a889-4640-8aa1-7fd744416260"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -143,7 +143,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Sudah Terima Dari]]></text>
 			</staticText>
@@ -152,63 +152,63 @@
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="233" y="59" width="345" height="20" forecolor="#0A0101" uuid="14720204-0936-42eb-8895-bc9038b0cf64"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nominal}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="194" y="62" width="10" height="15" forecolor="#0A0101" uuid="3d0d6c5e-2cc1-487c-bb20-2bf263f6317e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="14" y="63" width="169" height="15" forecolor="#0A0101" uuid="00887a3e-4a7a-4287-ad9b-dd5b0efb5859"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Banyaknya Uang]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="14" y="82" width="169" height="15" forecolor="#0A0101" uuid="9980e390-d4ed-4fec-a13d-06499ce2d166"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Terbilang ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="194" y="80" width="10" height="15" forecolor="#0A0101" uuid="5202ee12-e598-4d18-bc87-ea2c5be918a9"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="210" y="79" width="368" height="20" forecolor="#0A0101" uuid="b98da263-1d01-4c06-a58a-6ea35a5aa2a9"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true" isItalic="true"/>
+					<font fontName="Tahoma" size="10" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{terbilang}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="193" y="100" width="10" height="15" forecolor="#0A0101" uuid="9b74e9ed-5c3a-42ab-bc08-eec85f847c16"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="13" y="101" width="169" height="15" forecolor="#0A0101" uuid="3bc3e43f-23d8-49be-9758-a47031f33384"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Untuk Pembayaran]]></text>
 			</staticText>
@@ -240,7 +240,7 @@
 			<textField>
 				<reportElement x="450" y="18" width="130" height="22" uuid="b10cd11e-cb8d-408d-835d-56a07d8ade63"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="false"/>
+					<font fontName="Tahoma" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nobayar}]]></textFieldExpression>
 			</textField>
@@ -249,7 +249,7 @@
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
 			</textField>
@@ -263,14 +263,14 @@
 			<staticText>
 				<reportElement mode="Transparent" x="210" y="60" width="20" height="17" forecolor="#0A0101" uuid="e0bd70ff-eac4-4cff-84a9-95642b0665d8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Rp.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="14" y="126" width="566" height="20" forecolor="#0A0101" uuid="bdcfb09d-9e18-4681-98a3-97d13b1f55e7"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{keteranganD}]]></textFieldExpression>
 			</textField>
