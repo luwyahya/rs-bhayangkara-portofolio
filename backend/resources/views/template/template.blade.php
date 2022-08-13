@@ -51,7 +51,7 @@
                                         <td width="105">
                                           <p align="left">
                                             <!-- <img src="{{ asset('/img/logo.jpg') }}" style="width: 80px" border="0"> -->
-                                              <img src="{{ asset('service/img/logo.jpg') }}" style="width: 120px" border="0">
+                                              <img src="{{ asset('service/img/polri.png') }}" style="width: 120px" border="0">
                                              <!-- ‘service/img/namagambar’ -->
                                           </p>
                                         </td>
