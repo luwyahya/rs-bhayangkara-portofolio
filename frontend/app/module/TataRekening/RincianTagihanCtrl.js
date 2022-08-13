@@ -4239,7 +4239,7 @@ define(['initialize'], function (initialize) {
                             kelas = $scope.item.kelasPenjamin
                         }
                         var namakamar = $scope.item.namakamar
-                        medifirstService.get("tatarekening/detail-tagihan/" + $scope.item.noregistrasi + '?jenisdata=bill').then(function (dat) {
+                        medifirstService.get("tatarekening/detail-tagihan/" + $scope.item.noRegistrasi + '?jenisdata=bill').then(function (dat) {
                             medifirstService.get("tatarekening/get-data-login-cetakan-ruangan-last?noregistrasi=" + $scope.item.noRegistrasi, true).then(function (dat) {
                                 ruanganLast = dat.data[0].namaruangan;
                                 medifirstService.get("tatarekening/get-data-login-cetakan?noregistrasi=" + $scope.item.noRegistrasi, true).then(function (dat) {
