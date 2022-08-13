@@ -1453,7 +1453,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporankasirdetailjasper.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/laporankasirdetailjasper.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/laporankasirdetailjasper.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporankasirdetailjasper.pdf');
                 } else {
@@ -1569,12 +1569,10 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/cetaklaporankasirjasper2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/cetaklaporankasirjasper2.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirjasper2.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirjasper2.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirjasper2.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/cetaklaporankasirjasper2.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetaklaporankasirjasper2.pdf');
                 }
@@ -1685,7 +1683,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirdetailnew.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirdetailnew.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/cetaklaporankasirdetailnew.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirdetailnew.pdf');
                 } else {
@@ -1795,7 +1793,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirlaboratorium.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirlaboratorium.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/cetaklaporankasirlaboratorium.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirlaboratorium.pdf');
                 } else {
@@ -1905,7 +1903,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirradiologi.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirradiologi.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/cetaklaporankasirradiologi.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirradiologi.pdf');
                 } else {
@@ -2015,7 +2013,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirfarmasi.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirfarmasi.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/cetaklaporankasirfarmasi.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetaklaporankasirfarmasi.pdf');
                 } else {
@@ -2100,7 +2098,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/suratjalan.pdf');
+                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratjalan.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {

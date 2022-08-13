@@ -75,7 +75,7 @@ FROM            strukpelayanan_t AS sp INNER JOIN
 			<textField>
 				<reportElement x="107" y="30" width="693" height="42" forecolor="#0A0101" uuid="9dc4f2c1-2e1d-4e3e-be77-6dc7b9320518"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="14" isBold="true"/>
+					<font fontName="Tahoma" size="14" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
 			</textField>
