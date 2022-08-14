@@ -3870,7 +3870,7 @@ class GeneralController extends ApiController
                     join produk_m as prd on prd.id =maps.objectprodukfk
                    -- join mapruangantoproduk_m as mpr on mpr.objectprodukfk = prd.id
                     where maps.objectpaketfk='$idPaket'
-                    and maps.statusenabled = 1"));
+                    and maps.statusenabled = true"));
             if(count($details) > 0){
                 $data2 [] = array(
                     'id'=>   $item->id,
