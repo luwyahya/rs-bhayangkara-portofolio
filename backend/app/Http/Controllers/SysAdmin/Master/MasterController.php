@@ -81,7 +81,7 @@ class MasterController extends ApiController{
             {
                 $data = $data->where('jsm.id','=',97);
             }else{
-            $data = $data->where('jsm.id','=',277);
+            // $data = $data->where('jsm.id','=',277);
             }
         }
 
