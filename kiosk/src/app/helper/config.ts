@@ -24,15 +24,15 @@ export class Configuration {
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':9000',
       }
-    } else if (window.location.hostname.indexOf('192.168.0.62') > -1) {
+    } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
       return {
-        apiBackend: 'http://192.168.0.62:8000/service/',
+        apiBackend: 'http://36.93.6.186/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
     } else {
       return {
-        apiBackend: 'http://10.8.8.8/service/',
+        apiBackend: 'http://192.168.100.209/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
