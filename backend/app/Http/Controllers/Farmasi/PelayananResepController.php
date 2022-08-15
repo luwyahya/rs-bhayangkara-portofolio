@@ -2493,7 +2493,7 @@ class PelayananResepController extends ApiController
 
             $persenUpHargaSatuan = 0;
             foreach ($result as $item) {
-
+                if($item->qtyproduk>0){
                 foreach ($persenHargaJualProduk as $hitem) {
                     if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto){
 
@@ -2515,6 +2515,7 @@ class PelayananResepController extends ApiController
                     'objectruanganfk' => $item->objectruanganfk,
                     'nostrukterimafk' => $item->nostrukterimafk,
                 );
+                }
             }
         }
         // ### END-FIFO ### //

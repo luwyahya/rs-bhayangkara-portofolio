@@ -120,8 +120,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     }
                 }
                 medifirstService.postNonMessage("bridging/bpjs2/mjkn/antrian/waktuTaskid", json).then(function (e) {
-                    if (e.data.metadata.code === 200) {
-                        toastr.success(e.data.metadata.message)
+                    if (e.data.metaData.code === 200) {
+                        toastr.success(e.data.metaData.message)
 
                         var result = []
                         result = e.data.response

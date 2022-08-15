@@ -856,7 +856,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     let updateSurkon = ''
     let updateSurkonDokter = ''
     let updateSurkonKodePoli = ''
-    this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + noKartu).subscribe(data => {
+    this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + noKartu).subscribe(data => {
       if (data.metaData.code == 200) {
         this.listHistori = data.response.histori;
         if (this.listHistori.length > 0) {
@@ -870,7 +870,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
           if (this.isKunjunganPertamaBPJS == true) {
             this.alertService.info('Kunjungan Pertama Dengan Nomor Rujukan ' + this.item.noKunjungan, 'Info')
           } else {
-            this.httpService.get("medifirst2000/bridging/bpjs2/listsuratkontrol-berdasarkan/NoKartu/" + this.item.peserta.noKartu
+            this.httpService.get("medifirst2000/bridging/bpjs2/listsuratkontrol-duabulan/NoKartu/" + this.item.peserta.noKartu
             ).subscribe(data => {
               if (data.metaData.code == "200") {
                 for (let i = 0; i < data.response.list.length; i++) {
@@ -1162,7 +1162,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   }
   getHistoriPelayananPesesta1(noKartu) {
 
-    this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + noKartu).subscribe(data => {
+    this.httpService.get("medifirst2000/bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + noKartu).subscribe(data => {
       if (data.metaData.code == 200) {
         this.listHistori = data.response.histori;
         if (this.listHistori.length > 0) {
@@ -1230,7 +1230,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
               let updateSurkon = ''
               let updateSurkonDokter = ''
               let updateSurkonKodePoli = ''
-              this.httpService.get("medifirst2000/bridging/bpjs2/listsuratkontrol-berdasarkan/NoKartu/" + this.item.peserta.noKartu
+              this.httpService.get("medifirst2000/bridging/bpjs2/listsuratkontrol-duabulan/NoKartu/" + this.item.peserta.noKartu
               ).subscribe(data => {
                 for (let i = 0; i < data.response.list.length; i++) {
                   if (data.response.list[i].terbitSEP == 'Belum' && data.response.list[i].jnsKontrol == '2' && data.response.list[i].jnsPelayanan == 'Rawat Inap') {

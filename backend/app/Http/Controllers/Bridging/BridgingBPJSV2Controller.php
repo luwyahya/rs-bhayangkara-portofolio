@@ -4098,7 +4098,110 @@ class BridgingBPJSV2Controller extends ApiController
             }
             $result = array(
                         'metaData' => $response['metaData'],
-                        'response' => $r,
+                        'response' => array('list'=>$r),
+                    );
+        return response()->json($result);
+    }
+    public function getMonitoringHistoriCustom(Request $request) {
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+
+        $curl = curl_init();
+        //Fungsi :Data Kunjungan
+        //Method : GET
+        //Format : Json
+        //Content-Type: application/json; charset=utf-8
+        //Parameter 1 : Tanggal Pulang format: yyyy-mm-dd
+       // Parameter 2 : Jenis Pelayanan (1. Inap 2. Jalan)
+       // Parameter 3 : Status Klaim (1. Proses Verifikasi 2. Pending Verifikasi 3. Klaim)
+        // URL : http://localhost:8000/service/transaksi/bpjs/monitoring/HistoriPelayanan/NoKartu/0002235322484/tglAwal/2018-10-01/tglAkhir/2018-10-21
+        // $tglMulai = Carbon::now()->subMonth(5)->format('Y-m-d');
+        $tglMulai=Carbon::now()->subDays($request['awal'])->format('Y-m-d');
+        // return($tglMulai);
+        // die();
+//        return $this->respond($tglMulai);
+        $tglAkhir = Carbon::now()->subDays($request['akhir'])->format('Y-m-d');
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
+            CURLOPT_URL =>$this->getUrlBrigdingBPJSV2()."monitoring/HistoriPelayanan/NoKartu/".$request['noKartu']."/tglMulai/".$tglMulai."/tglAkhir/".$tglAkhir,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json; charset=utf-8",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key:". $userKey
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            $result= "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+
+        $key=$data.$secretKey.(string)$tStamp;
+        $result =$this->stringDecryptVclaim($key,$result);
+        return ($result);
+    }
+    public function getMonitoringHistoriDuaBulan($noKartu)
+    {
+        
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noKartu'] = $noKartu;
+            $objetoRequest['awal'] = 30;
+            $objetoRequest['akhir'] = 0;
+            $response = $this->getMonitoringHistoriCustom($objetoRequest, true);
+            // dd($response);
+            if($response['metaData']->code==200){
+                $x=$response['response']['histori'];
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['noKartu'] = $noKartu;
+                $objetoRequest['awal'] = 60;
+                $objetoRequest['akhir'] = 30;
+                $response2 = $this->getMonitoringHistoriCustom($objetoRequest, true);
+                if($response2['metaData']->code==200){
+                    $r=array_merge($x,$response2['response']['histori']);
+                }else{
+                    $r=$x;
+                }
+            }else{
+                $r=[];
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['noKartu'] = $noKartu;
+                $objetoRequest['awal'] = 60;
+                $objetoRequest['akhir'] = 30;
+                $response2 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+                if($response2['metaData']->code==200){
+                    $r=$response2['response']['histori'];
+                }
+            }
+            $result = array(
+                        'metaData' => $response['metaData'],
+                        'response' => array('histori'=>$r),
                     );
         return response()->json($result);
     }
