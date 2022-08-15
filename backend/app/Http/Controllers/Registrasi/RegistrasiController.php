@@ -2877,14 +2877,14 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         } else if ($transStatus == 'true') {
             $transMessage = 'SUKSES';
             DB::commit();
-           if($rua->objectdepartemenfk!=3){
+        //    if($rua->objectdepartemenfk!=3){
                 if($dataPD->objectruanganlastfk !='251' && $dataPD->objectruanganlastfk != '453' && $dataPD->objectruanganlastfk != '20'
                 && $dataPD->objectruanganlastfk != '322' && $dataPD->objectruanganlastfk != '12'){
                     $objetoRequest = new \Illuminate\Http\Request();
                     $objetoRequest ['noregistrasi']= $dataPD->noregistrasi;
                     $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
                 }
-            }
+            // }
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
