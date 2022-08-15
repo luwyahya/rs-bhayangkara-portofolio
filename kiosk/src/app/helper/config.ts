@@ -26,13 +26,13 @@ export class Configuration {
       }
     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
       return {
-        apiBackend: 'http://36.93.6.186:8000/service/',
+        apiBackend: 'http://36.93.6.186/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
     } else {
       return {
-        apiBackend: 'http://192.168.100.209:8000/service/',
+        apiBackend: 'http://192.168.100.209/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
