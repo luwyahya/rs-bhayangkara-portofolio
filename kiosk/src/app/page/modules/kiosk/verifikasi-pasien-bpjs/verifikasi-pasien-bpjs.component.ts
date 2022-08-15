@@ -938,10 +938,82 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                     }
                   });
                 } else {
-                  this.alertService.error('Nomor Rujukan ' + this.item.noKunjungan + ' Tidak Mempunyai Surat Kontrol', 'Info')
+                  this.httpService.get("medifirst2000/bridging/bpjs2/cek-sep??nosep=" + noSepTerakhir
+                  ).subscribe(data => {
+                    if (data.metaData.code == 200) {
+                      debugger
+                      let dataSend = {
+                        "data": {
+                          "request": {
+                            "noSEP": noSepTerakhir,
+                            "kodeDokter": data.response.dpjp.kdDPJP,
+                            "poliKontrol": this.formGroup.get('poliTujuan').value.kode,
+                            "tglRencanaKontrol": moment(new Date()).format('YYYY-MM-DD'),
+                            "user": 'trans'
+                          }
+                        }
+                      }
+                      this.httpService.post("medifirst2000/bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).subscribe(e => {
+                        if (e.metaData.code == 200) {
+                          this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + e.response.noSuratKontrol
+                          ).subscribe(data => {
+                            if (data.metaData.code == 200) {
+                              this.test = data.response.namaDokter
+                              this.formGroup.get('dokterDPJPMelayani').setValue({
+                                "kode": data.response.kodeDokter,
+                                "nama": data.response.namaDokter
+                              })
+                              this.formGroup.get('dokterDPJP').setValue({
+                                "kode": data.response.kodeDokterPembuat,
+                                "nama": data.response.namaDokterPembuat
+                              })
+                            }
+                          })
+                        } else {
+                          alert(e.metaData.message)
+                        }
+                      });
+                    }
+                  })
                 }
               } else {
-                this.alertService.error('Nomor Rujukan ' + this.item.noKunjungan + ' Tidak Mempunyai Surat Kontrol', 'Info')
+                this.httpService.get("medifirst2000/bridging/bpjs2/cek-sep??nosep=" + noSepTerakhir
+                ).subscribe(data => {
+                  if (data.metaData.code == 200) {
+                    debugger
+                    let dataSend = {
+                      "data": {
+                        "request": {
+                          "noSEP": noSepTerakhir,
+                          "kodeDokter": data.response.dpjp.kdDPJP,
+                          "poliKontrol": this.formGroup.get('poliTujuan').value.kode,
+                          "tglRencanaKontrol": moment(new Date()).format('YYYY-MM-DD'),
+                          "user": 'trans'
+                        }
+                      }
+                    }
+                    this.httpService.post("medifirst2000/bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).subscribe(e => {
+                      if (e.metaData.code == 200) {
+                        this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + e.response.noSuratKontrol
+                        ).subscribe(data => {
+                          if (data.metaData.code == 200) {
+                            this.test = data.response.namaDokter
+                            this.formGroup.get('dokterDPJPMelayani').setValue({
+                              "kode": data.response.kodeDokter,
+                              "nama": data.response.namaDokter
+                            })
+                            this.formGroup.get('dokterDPJP').setValue({
+                              "kode": data.response.kodeDokterPembuat,
+                              "nama": data.response.namaDokterPembuat
+                            })
+                          }
+                        })
+                      } else {
+                        alert(e.metaData.message)
+                      }
+                    });
+                  }
+                })
               }
             })
           }
