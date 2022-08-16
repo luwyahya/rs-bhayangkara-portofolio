@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="184" pageHeight="113" whenNoDataType="NoDataSection" columnWidth="180" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" whenResourceMissingType="Empty" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -37,8 +37,7 @@
 left join pelayananpasienobatkronis_t as ppok on v_cetaketiket.strukresepfk = ppok.strukresepfk 
 and v_cetaketiket.produkfk = ppok.produkfk
   where v_cetaketiket.norec in ($P!{norec}) and tt=1  
-  order by v_cetaketiket.namaproduk
-]]>
+  order by v_cetaketiket.namaproduk]]>
 	</queryString>
 	<field name="noresep" class="java.lang.String"/>
 	<field name="tanggal" class="java.lang.String"/>
@@ -143,9 +142,11 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{tanggal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="20" width="178" height="12" uuid="24e8c7c7-6a55-45c0-a86a-714868bac48e"/>
+				<reportElement x="0" y="20" width="178" height="10" uuid="24e8c7c7-6a55-45c0-a86a-714868bac48e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
 			</textField>
@@ -175,9 +176,11 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="30" width="178" height="17" uuid="b240c1e1-333f-461f-8954-1d3b6af5f9d5"/>
+				<reportElement x="0" y="30" width="178" height="10" uuid="b240c1e1-333f-461f-8954-1d3b6af5f9d5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namaproduk}]]></textFieldExpression>
 			</textField>
@@ -229,18 +232,52 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<text><![CDATA[ED:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="-1" y="43" width="178" height="17" uuid="89d2fd61-280e-4397-8b95-2f08d7db7a32"/>
+				<reportElement x="-1" y="40" width="178" height="10" uuid="89d2fd61-280e-4397-8b95-2f08d7db7a32">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{aturanpakai}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="-1" y="57" width="178" height="17" uuid="9630b99d-2915-49ba-860b-87ffcadac2f5"/>
+				<reportElement x="-1" y="50" width="178" height="10" uuid="9630b99d-2915-49ba-860b-87ffcadac2f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="8" isBold="true"/>
+					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{keteranganpakai}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="60" width="50" height="10" uuid="d2dad7f7-2e82-44f2-b600-cc017f7ee87b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ispagi}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="65" y="60" width="50" height="10" uuid="24ffe085-f3cd-4ca1-81ee-3630cdc03696">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issiang}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="115" y="60" width="50" height="10" uuid="a5a47574-7785-4c92-8292-80294229af01">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{issore}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
