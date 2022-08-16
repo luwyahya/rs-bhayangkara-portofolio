@@ -4,37 +4,37 @@
         text-align: center;
         width: 100%;
     }
-    
+
     .style-right {
         display: inline-block;
         text-align: right;
         width: 100%;
     }
-    
+
     .style-left {
         display: inline-block;
         text-align: left;
         width: 100%;
     }
-    
+
     .red {
         background-color: #ff3860;
         color: #FFFFFF;
         /*font-weight: bold;*/
     }
-    
+
     .blue {
         background-color: #1E90FF;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .koneng {
         background-color: #FFFF00;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .hejo {
         background-color: #98FB98;
         color: #000000;
@@ -126,7 +126,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noMr" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noMr"
+                        ng-disabled="true" />
                 </div>
             </div>
             <!--  <div class="grid_2">
@@ -144,7 +145,9 @@
                     <label c-label item="item">Kelas</label>
                 </div>
                 <div class="grid_12">
-                    <input kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas" ng-disabled='true' />
+                    <input kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'"
+                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas"
+                        ng-disabled='true' />
                 </div>
             </div>
 
@@ -154,7 +157,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tglRegistrasi" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tglRegistrasi"
+                        ng-disabled="true" />
                 </div>
             </div>
             <div class="grid_3">
@@ -163,7 +167,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisPenjamin" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisPenjamin"
+                        ng-disabled="true" />
                 </div>
             </div>
 
@@ -174,7 +179,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien"
+                        ng-disabled="true" />
                 </div>
             </div>
             <div class="grid_2">
@@ -183,7 +189,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisKelamin" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisKelamin"
+                        ng-disabled="true" />
                 </div>
             </div>
             <div class="grid_3">
@@ -192,7 +199,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.umur" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.umur"
+                        ng-disabled="true" />
                 </div>
             </div>
             <div class="grid_3">
@@ -201,7 +209,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kelompokPasien" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kelompokPasien"
+                        ng-disabled="true" />
                 </div>
             </div>
         </div>
@@ -215,7 +224,8 @@
                 </div>
 
                 <div class="grid_5">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.beratBadan" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.beratBadan"
+                        ng-disabled="true" />
                 </div>
                 <div class="grid_4">
                     <label c-label item="item">Kg</label>
@@ -227,7 +237,8 @@
                 </div>
 
                 <div class="grid_10">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.AlergiYa" ng-disabled="true" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.AlergiYa"
+                        ng-disabled="true" />
                 </div>
             </div>
         </div>
@@ -247,7 +258,9 @@
                                             <p>Produk</p>
                                         </div> -->
                                 <!-- grid table -->
-                                <div kendo-grid id="kGrid" k-data-source="dataGrid" k-groupable="'true'" k-selectable="'row'" k-pageable="'true'" k-columns="columnGrid" k-sortable="'true'" k-ng-model="dataSelected" ng-click="klik(dataSelected)">
+                                <div kendo-grid id="kGrid" k-data-source="dataGrid" k-groupable="'true'"
+                                    k-selectable="'row'" k-pageable="'true'" k-columns="columnGrid" k-sortable="'true'"
+                                    k-ng-model="dataSelected" ng-click="klik(dataSelected)">
                                 </div>
                                 <!--  <div class="grid_12 borderBox">
                                             <div id="kGrid" 
@@ -291,7 +304,8 @@
                                     <button class="c-button" ng-click="CetakSEP('sep')">Cetak SEP</button>
                                 </div>
                                 <div class="grid_2" style="margin-top: 5px" ng-hide="true">
-                                    <button class="c-button" ng-click="RincianObatApt()"><i class="fa fa-clipboard"></i>  Rincian Obat Apotik</button>
+                                    <button class="c-button" ng-click="RincianObatApt()"><i class="fa fa-clipboard"></i>
+                                        Rincian Obat Apotik</button>
                                 </div>
                                 <div class="grid_2" style="margin-top: 5px">
                                     <button class="c-button" ng-click="cetakLabelRekapRajal()">Cetak E-Resep</button>
@@ -346,7 +360,8 @@
                                     <button class="c-button" ng-click="HapusResep()">Hapus</button>
                                 </div> -->
                                 <div class="grid_2" style="margin-top: 5px">
-                                    <button class="c-button" ng-click="HapusResepPerItem()" style="font-size: 12px">Hapus Peritem</button>
+                                    <button class="c-button" ng-click="HapusResepPerItem()"
+                                        style="font-size: 12px">Hapus Peritem</button>
                                 </div>
                                 <!-- <div class="grid_2" style="margin-top: 5px">
                                     <button class="c-button" ng-click="RincianObatceklis()">Cetak Obat Per Item</button>
@@ -372,7 +387,8 @@
                                     <button class="c-button" ng-click="RincianObatTapjs()">Rincian Obat & Tap</button>
                                 </div> -->
                                 <div class="grid_2" style="margin-top: 5px" ng-hide="false">
-                                    <button class="c-button" ng-click="cetakJasper()">Cetak Rincian Resep Keseluruhan</button>
+                                    <button class="c-button" ng-click="cetakJasper()">Cetak Rincian Resep
+                                        Keseluruhan</button>
                                 </div>
                                 <div class="grid_2" style="margin-top: 5px" ng-hide="false">
                                     <button class="c-button" ng-click="munculetiket()">Etiket</button>
@@ -392,7 +408,9 @@
                     <md-tab label="Daftar Resep Obat Kronis">
                         <md-content class="md-padding">
                             <div class="grid_12">
-                                <div kendo-grid id="kGridKronis" k-data-source="dataGridOK" k-groupable="'true'" k-selectable="'row'" k-pageable="'true'" k-columns="columnGridOK" k-sortable="'true'" k-ng-model="dataSelectedOK" ng-click="klikOK(dataSelectedOK)">
+                                <div kendo-grid id="kGridKronis" k-data-source="dataGridOK" k-groupable="'true'"
+                                    k-selectable="'row'" k-pageable="'true'" k-columns="columnGridOK"
+                                    k-sortable="'true'" k-ng-model="dataSelectedOK" ng-click="klikOK(dataSelectedOK)">
                                 </div>
                             </div>
                             <div class="grid_12">
@@ -413,7 +431,10 @@
                     <md-tab label="Daftar Resep Obat TAP">
                         <md-content class="md-padding">
                             <div class="grid_12">
-                                <div kendo-grid id="kGridTap" k-data-source="dataGridTap" k-groupable="'true'" k-selectable="'row'" k-pageable="'true'" k-columns="columnGridTap" k-sortable="'true'" k-ng-model="dataSelectedTap" ng-click="klikTap(dataSelectedTap)">
+                                <div kendo-grid id="kGridTap" k-data-source="dataGridTap" k-groupable="'true'"
+                                    k-selectable="'row'" k-pageable="'true'" k-columns="columnGridTap"
+                                    k-sortable="'true'" k-ng-model="dataSelectedTap"
+                                    ng-click="klikTap(dataSelectedTap)">
                                 </div>
                             </div>
                             <div class="grid_12">
@@ -422,7 +443,8 @@
                                     <button class="c-button" ng-click="CetakResepTap()">Cetak Resep TAP</button>
                                 </div>
                                 <div class="grid_2" style="margin-top: 22px">
-                                    <button class="c-button" ng-click="HapusResepPerItemTap()">Hapus Peritem TAP</button>
+                                    <button class="c-button" ng-click="HapusResepPerItemTap()">Hapus Peritem
+                                        TAP</button>
                                 </div>
                                 <!-- <div class="grid_2" style="margin-top: 22px">
                                     <button class="c-button" ng-click="cetakLabelResep23()">Cetak Label Resep
@@ -446,11 +468,13 @@
 <div kendo-window="popupPaketObat" k-title="'List Paket Obat'" k-visible="false" k-width="1000" k-height="600">
     <div class="panel panel-default container_12">
         <div class="grid_12 ">
-            <div kendo-grid k-data-source="dataPopUp" k-selectable="'row'" k-columns="columnPopUp" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUp" ng-click="klikPopUp(dataSelectedPopUp)">
+            <div kendo-grid k-data-source="dataPopUp" k-selectable="'row'" k-columns="columnPopUp" k-pageable="'true'"
+                k-sortable="'true'" k-ng-model="dataSelectedPopUp" ng-click="klikPopUp(dataSelectedPopUp)">
                 <div k-detail-template>
                     <kendo-tabstrip>
                         <div>
-                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'" k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
+                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
+                                k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
                             </div>
                         </div>
                     </kendo-tabstrip>
@@ -497,10 +521,12 @@
         </div>
     </div>
 </div>
-<div kendo-window="popupEtiket" k-title="'Cetak E-tiket'" k-visible="false" k-width="1200" k-height="600">
+<div kendo-window="popupEtiket" k-title="'Cetak E-tiket'" k-visible="false" k-width="1500" k-height="600">
     <div class="panel panel-default container_12">
         <div class="grid_12 ">
-            <div kendo-grid k-data-source="dataPopUpetiket" k-selectable="'row'" k-options="columnPopUpetiket" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpetiket" ng-click="klikPopUpetiket(dataSelectedPopUpetiket)" id="kgridetiket">
+            <div kendo-grid k-data-source="dataPopUpetiket" k-selectable="'row'" k-options="columnPopUpetiket"
+                k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpetiket"
+                ng-click="klikPopUpetiket(dataSelectedPopUpetiket)" id="kgridetiket">
                 <!-- <div k-detail-template>
                     <kendo-tabstrip>
                         <div>
@@ -532,7 +558,9 @@
     <div class="panel panel-default container_12">
         <div class="grid_12 ">
             <!-- <div kendo-grid k-data-source="dataPopUpDiskon" k-selectable="'row'" k-options="columnPopUpetiket" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpetiket" ng-click="klikPopUpetiket(dataSelectedPopUpetiket)" id="kgridetiket"> -->
-            <div kendo-grid id="kGrid" k-data-source="dataGriddiskon" k-groupable="'true'" k-selectable="'row'" k-pageable="'true'" k-columns="columnGrid2" k-sortable="'true'" k-ng-model="dataSelected" ng-click="klik(dataSelected)">
+            <div kendo-grid id="kGrid" k-data-source="dataGriddiskon" k-groupable="'true'" k-selectable="'row'"
+                k-pageable="'true'" k-columns="columnGrid2" k-sortable="'true'" k-ng-model="dataSelected"
+                ng-click="klik(dataSelected)">
             </div>
 
             <!-- <div k-detail-template>
@@ -559,9 +587,11 @@
         </div>
         <div class="grid_3" style="margin-top: 20px">
             <label for="persen"><b>Disc</b></label>
-            <input type="radio" name="persen" id="persen" class="k-radio" ng-model="item.persen" value="persen" ng-click="klikPeriode(stat)">
+            <input type="radio" name="persen" id="persen" class="k-radio" ng-model="item.persen" value="persen"
+                ng-click="klikPeriode(stat)">
             <label class="k-radio-label" for="persen"><b>Persen</b></label>
-            <input type="radio" name="rupiah" id="rupiah" class="k-radio" ng-model="item.persen" value="rupiah" ng-click="klikPeriode(stat)">
+            <input type="radio" name="rupiah" id="rupiah" class="k-radio" ng-model="item.persen" value="rupiah"
+                ng-click="klikPeriode(stat)">
             <label class="k-radio-label" for="rupiah"><b>Rupiah</b></label>
         </div>
         <div class="grid_3">
@@ -598,7 +628,9 @@
 <div kendo-window="popupDetailRegistrasi" k-title="'Detail Registrasi'" k-visible="false" k-width="1000" k-height="600">
     <div class="panel panel-default container_12">
         <div class="grid_12 ">
-            <div kendo-grid k-data-source="dataPopUpAPD" k-selectable="'row'" k-columns="columnPopUpAPD" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpAPD" ng-click="klikPopUpAPD(dataSelectedPopUpAPD)">
+            <div kendo-grid k-data-source="dataPopUpAPD" k-selectable="'row'" k-columns="columnPopUpAPD"
+                k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpAPD"
+                ng-click="klikPopUpAPD(dataSelectedPopUpAPD)">
 
             </div>
         </div>
@@ -620,10 +652,13 @@
 
     </div>
 </div>
-<div kendo-window="popupDetailRegistrasi2" k-title="'Detail Registrasi'" k-visible="false" k-width="1000" k-height="600">
+<div kendo-window="popupDetailRegistrasi2" k-title="'Detail Registrasi'" k-visible="false" k-width="1000"
+    k-height="600">
     <div class="panel panel-default container_12">
         <div class="grid_12 ">
-            <div kendo-grid k-data-source="dataPopUpAPD" k-selectable="'row'" k-columns="columnPopUpAPD" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpAPD" ng-click="klikPopUpAPD(dataSelectedPopUpAPD)">
+            <div kendo-grid k-data-source="dataPopUpAPD" k-selectable="'row'" k-columns="columnPopUpAPD"
+                k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPopUpAPD"
+                ng-click="klikPopUpAPD(dataSelectedPopUpAPD)">
 
             </div>
         </div>
@@ -654,8 +689,9 @@
             </div>
 
             <div class="grid_7">
-                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" k-on-change='getSatuan()' ng-disabled='disabledRuangan'
-                />
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan"
+                    k-on-change='getSatuan()' ng-disabled='disabledRuangan' />
             </div>
             <div class="grid_3" style="margin-top: 5px">
                 <button class="c-button" ng-click="cetakrincianz()">Cetak Rincian</button>
@@ -668,11 +704,14 @@
     <div id='item.def'>
         <table width="100%" style="border: none;">
             <tr>
-                <td width="126" style="width: 100px; border: none;"><img src="../app/images/logobpjs.png" width="300%"></td>
+                <td width="126" style="width: 100px; border: none;"><img src="../app/images/logobpjs.png" width="300%">
+                </td>
                 <td width="1063" style="text-align: center; border: none; font-size: 24px;">
-                    <p align="center" font="tahoma" style="text-align:center;"><span lang="EN-US" style="font-size: 22pt;">SURAT ELEGIBILITAS
+                    <p align="center" font="tahoma" style="text-align:center;"><span lang="EN-US"
+                            style="font-size: 22pt;">SURAT ELEGIBILITAS
                             PESERTA</span></p>
-                    <p style="text-align:center;tab-stops:177.65pt 187.0pt;"><span lang="EN-US" style="font-size: 22pt;">RS BHAYANGKARA TK IV CIANJUR
+                    <p style="text-align:center;tab-stops:177.65pt 187.0pt;"><span lang="EN-US"
+                            style="font-size: 22pt;">RS BHAYANGKARA TK IV CIANJUR
                         </span></p>
                 </td>
             </tr>
@@ -788,7 +827,7 @@
     </tr>
     </tbody>
     </table>
-</div>
+    </div>
 
 </form>
 

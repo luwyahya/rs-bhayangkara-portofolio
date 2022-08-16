@@ -734,6 +734,16 @@ define(['initialize'], function (initialize) {
                     "width": "80px",
                 },
                 {
+                    "field": "rke",
+                    "title": "Rke",
+                    "width": "25px",
+                },
+                {
+                    "field": "jeniskemasan",
+                    "title": "Jenis Kemasan",
+                    "width": "50px",
+                },
+                {
                     "field": "namaruangandepo",
                     "title": "Depo",
                     "width": "80px",

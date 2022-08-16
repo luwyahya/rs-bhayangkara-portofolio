@@ -33,11 +33,7 @@
 	<parameter name="alamatRS" class="java.lang.String"/>
 	<parameter name="norec" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select    case when ppok.jumlah is null then v_cetaketiket.jumlah else  ppok.jumlah+v_cetaketiket.jumlah end as jumlahtotal,  v_cetaketiket.*  from v_cetaketiket  
-left join pelayananpasienobatkronis_t as ppok on v_cetaketiket.strukresepfk = ppok.strukresepfk 
-and v_cetaketiket.produkfk = ppok.produkfk
-  where v_cetaketiket.norec in ($P!{norec}) and tt=1  
-  order by v_cetaketiket.namaproduk]]>
+		<![CDATA[select * from cetaketiket_t where norecpp in ($P!{norec}) ORDER BY namaproduk]]>
 	</queryString>
 	<field name="noresep" class="java.lang.String"/>
 	<field name="tanggal" class="java.lang.String"/>
@@ -175,12 +171,12 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="0" y="30" width="178" height="10" uuid="b240c1e1-333f-461f-8954-1d3b6af5f9d5">
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="30" width="178" height="14" uuid="b240c1e1-333f-461f-8954-1d3b6af5f9d5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="SansSerif" size="7" isBold="true"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namaproduk}]]></textFieldExpression>
 			</textField>
@@ -232,7 +228,7 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<text><![CDATA[ED:]]></text>
 			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="-1" y="40" width="178" height="10" uuid="89d2fd61-280e-4397-8b95-2f08d7db7a32">
+				<reportElement x="-1" y="44" width="178" height="10" uuid="89d2fd61-280e-4397-8b95-2f08d7db7a32">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -241,7 +237,7 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{aturanpakai}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="-1" y="50" width="178" height="10" uuid="9630b99d-2915-49ba-860b-87ffcadac2f5">
+				<reportElement x="-1" y="54" width="178" height="10" uuid="9630b99d-2915-49ba-860b-87ffcadac2f5">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -250,7 +246,7 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{keteranganpakai}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="15" y="60" width="50" height="10" uuid="d2dad7f7-2e82-44f2-b600-cc017f7ee87b">
+				<reportElement x="0" y="64" width="45" height="10" uuid="d2dad7f7-2e82-44f2-b600-cc017f7ee87b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -260,7 +256,7 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{ispagi}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="65" y="60" width="50" height="10" uuid="24ffe085-f3cd-4ca1-81ee-3630cdc03696">
+				<reportElement x="45" y="64" width="45" height="10" uuid="24ffe085-f3cd-4ca1-81ee-3630cdc03696">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -270,7 +266,7 @@ and v_cetaketiket.produkfk = ppok.produkfk
 				<textFieldExpression><![CDATA[$F{issiang}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="115" y="60" width="50" height="10" uuid="a5a47574-7785-4c92-8292-80294229af01">
+				<reportElement x="90" y="64" width="45" height="10" uuid="a5a47574-7785-4c92-8292-80294229af01">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -278,6 +274,16 @@ and v_cetaketiket.produkfk = ppok.produkfk
 					<font fontName="SansSerif" size="7" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{issore}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="64" width="45" height="10" uuid="65d33e9b-c84c-4c98-996b-4a8efce62a76">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ismalam}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

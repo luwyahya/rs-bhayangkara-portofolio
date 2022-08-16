@@ -44,6 +44,7 @@ use App\Transaksi\PelayananPasienPetugas;
 use App\Transaksi\StrukRetur;
 use App\Transaksi\PelayananPasienRetur;
 use App\Transaksi\AntrianApotik;
+use App\Transaksi\CetakEtiket;
 use App\Master\Produk;
 use App\Transaksi\AntrianPasienRegistrasi;
 
@@ -93,6 +94,92 @@ class PelayananResepController extends ApiController
     }
     public function getTransaksiPelayananApotik(Request $request)
     {
+        if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
+            $regEtiket =  $request['noReg'];
+        }
+        $etiket = DB::select(DB::raw("select v_cetaketiket.rke,v_cetaketiket.norec,v_cetaketiket.noresep,v_cetaketiket.nocm,v_cetaketiket.namaruangan,v_cetaketiket.waktu,v_cetaketiket.jumlah,v_cetaketiket.dokterresep,v_cetaketiket.carapemberian,
+            v_cetaketiket.waktuminum,case when ppok.jumlah is null then v_cetaketiket.jumlah else  ppok.jumlah+v_cetaketiket.jumlah end as jumlahtotal,  v_cetaketiket.tanggal,v_cetaketiket.tgllahir,v_cetaketiket.namapasien,v_cetaketiket.namaproduk,
+            v_cetaketiket.aturanpakai,v_cetaketiket.keteranganpakai,v_cetaketiket.ispagi,v_cetaketiket.issiang,v_cetaketiket.issore,
+            v_cetaketiket.ismalam,v_cetaketiket.satuanstandar,v_cetaketiket.tglkadaluarsa from v_cetaketiket  
+            left join pelayananpasienobatkronis_t as ppok on v_cetaketiket.strukresepfk = ppok.strukresepfk 
+            and v_cetaketiket.produkfk = ppok.produkfk
+            where v_cetaketiket.noregistrasi='$regEtiket'  and tt=1  
+            order by v_cetaketiket.namaproduk"));
+        
+        
+        $data10 = [];
+        foreach ($etiket as $itemEtiket) {
+            $sama = false;
+            $i = 0;
+            foreach ($data10 as $hideung) {
+                if ($itemEtiket->noresep==$data10[$i]['noresep']  && $itemEtiket->rke==$data10[$i]['rke']) {
+                    $sama = true;
+                    $data10[$i]['namaproduk']=$data10[$i]['namaproduk'].','.$itemEtiket->namaproduk;
+                }
+                $i = $i + 1;
+            }
+            if ($sama == false) {
+                 $data10[] = array(
+                    'noresep' => $itemEtiket->noresep,
+                    'nocm' => $itemEtiket->nocm,
+                    'namaruangan' => $itemEtiket->namaruangan,
+                    'waktu' => $itemEtiket->waktu,
+                    'jumlah' => $itemEtiket->jumlah,
+                    'dokterresep' => $itemEtiket->dokterresep,
+                    'carapemberian' => $itemEtiket->carapemberian,
+                    'waktuminum' => $itemEtiket->waktuminum,
+                    'jumlahtotal' => $itemEtiket->jumlahtotal,
+                    'tanggal' => $itemEtiket->tanggal,
+                    'tgllahir' => $itemEtiket->tgllahir,
+                    'namapasien' => $itemEtiket->namapasien,
+                    'namaproduk' => $itemEtiket->namaproduk,
+                    'ismalam' => $itemEtiket->ismalam,
+                    'satuanstandar' => $itemEtiket->satuanstandar,
+                    'tglkadaluarsa' => $itemEtiket->tglkadaluarsa,
+                    'rke' => $itemEtiket->rke,
+                    'ispagi' => $itemEtiket->ispagi,
+                    'issore' => $itemEtiket->issore,
+                    'issiang' => $itemEtiket->issiang,
+                    'noregistrasi'=> $regEtiket,
+                    'norecpp'=> $itemEtiket->norec,
+                    'keteranganpakai'=> $itemEtiket->keteranganpakai,
+                    'aturanpakai'=> $itemEtiket->aturanpakai,
+                );
+            }
+        }
+        if(count($data10)>0){
+            $HapusPPD = CetakEtiket::where('noregistrasi', $regEtiket)->delete();
+            foreach ($data10 as $simpan) {
+                $dataPD = new CetakEtiket();
+                $dataPD->norec = $dataPD->generateNewId();
+                $dataPD->noresep = $simpan['noresep'];
+                $dataPD->nocm = $simpan['nocm'];
+                $dataPD->namaruangan = $simpan['namaruangan'];
+                $dataPD->waktu = $simpan['waktu'];
+                $dataPD->jumlah = $simpan['jumlah'];
+                $dataPD->dokterresep = $simpan['dokterresep'];
+                $dataPD->carapemberian = $simpan['carapemberian'];
+                $dataPD->waktuminum = $simpan['waktuminum'];
+                $dataPD->jumlahtotal = $simpan['jumlahtotal'];
+                $dataPD->tanggal = $simpan['tanggal'];
+                $dataPD->tgllahir = $simpan['tgllahir'];
+                $dataPD->namapasien = $simpan['namapasien'];
+                $dataPD->namaproduk = $simpan['namaproduk'];
+                $dataPD->ismalam = $simpan['ismalam'];
+                $dataPD->satuanstandar = $simpan['satuanstandar'];
+                $dataPD->tglkadaluarsa = $simpan['tglkadaluarsa'];
+                $dataPD->rke = $simpan['rke'];
+                $dataPD->ispagi = $simpan['ispagi'];
+                $dataPD->issore = $simpan['issore'];
+                $dataPD->issiang = $simpan['issiang'];
+                $dataPD->noregistrasi = $simpan['noregistrasi'];
+                $dataPD->norecpp = $simpan['norecpp'];
+                $dataPD->keteranganpakai = $simpan['keteranganpakai'];
+                $dataPD->aturanpakai = $simpan['aturanpakai'];
+                $dataPD->save();
+            }
+        }
+        
         $detail = $request->all();
         $result = [];
         $data = \DB::table('pelayananpasien_t as pp')
