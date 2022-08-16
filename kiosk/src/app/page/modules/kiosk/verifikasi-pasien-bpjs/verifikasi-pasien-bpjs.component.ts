@@ -462,14 +462,20 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   setradio(e: string): void {
     this.formGroup.get('rumahSakit').setValue('')
     this.formGroup.get('pascaRanap').setValue('')
+    this.formGroup.get('pCare').setValue('Option 1')
+    this.getNoRujukan()
   }
   setradio2(e: string): void {
     this.formGroup.get('pCare').setValue('')
     this.formGroup.get('pascaRanap').setValue('')
+    this.formGroup.get('rumahSakit').setValue('Option 2')
+    this.getNoRujukan()
   }
   setradio3(e: string): void {
     this.formGroup.get('pCare').setValue('')
     this.formGroup.get('rumahSakit').setValue('')
+    this.formGroup.get('pascaRanap').setValue('Option 3')
+    this.getNoRujukan()
   }
   cekPesertaByNoKartu(noKa) {
     let jenis = "rs"

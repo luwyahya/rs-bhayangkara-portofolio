@@ -22,27 +22,36 @@
       <div class="ui-g-12">
         <div class="ui-g-3"></div>
         <div class="ui-g-2">
-          <p-radioButton name="group1" value="Option 1" label=" Puskesmas " formControlName="pCare"
+          <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white" formControlName="pCare"
+            (click)="setradio('Male')">Puskesmas
+          </button>
+          <!-- <p-radioButton name="group1" value="Option 1" label=" Puskesmas " formControlName="pCare"
             (click)="setradio('Male')" inputId="opt1">
-          </p-radioButton>
+          </p-radioButton> -->
         </div>
         <div class="ui-g-2">
-          <p-radioButton name="group1" value="Option 2" label=" Rumah Sakit" formControlName="rumahSakit"
+          <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white"
+            formControlName="rumahSakit" (click)="setradio2('Male')">Rumah Sakit
+          </button>
+          <!-- <p-radioButton name="group1" value="Option 2" label=" Rumah Sakit" formControlName="rumahSakit"
             (click)="setradio2('Male')" inputId="opt2">
-          </p-radioButton>
+          </p-radioButton> -->
         </div>
         <div class="ui-g-2">
-          <p-radioButton name="group1" value="Option 3" label=" PASCA RAWAT INAP" formControlName="pascaRanap"
+          <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white"
+            formControlName="pascaRanap" (click)="setradio3('Male')">Pasca Rawat Inap
+          </button>
+          <!-- <p-radioButton name="group1" value="Option 3" label=" PASCA RAWAT INAP" formControlName="pascaRanap"
             (click)="setradio3('Male')" inputId="opt3">
-          </p-radioButton>
+          </p-radioButton> -->
         </div>
       </div>
       <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
     </div>
     <div style="text-align:center">
-      <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+      <!-- <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
         (click)="getNoRujukan()">Selanjutnya
-      </button>
+      </button> -->
       <div style="text-align:center">
         <button mat-raised-button color="primary" class="btnTemplates" (click)="goTo('antrian')">Jika No Rujukan Tidak
           Ditemukan Klik Disini </button>

@@ -1155,9 +1155,10 @@ define(['initialize'], function (initialize) {
                                     ruanganfk: $scope.item.ruangan.id
                                 }
 
-                                // $scope.tombolSimpanVis = false;
+                                $scope.tombolSimpanVis = false;
                                 medifirstService.post('farmasi/save-stock-merger', objSave).then(function (e) {
                                     Kosongkan()
+                                    $scope.tombolSimpanVis = true;
                                 })
                             } else {
                                 // Do nothing!
