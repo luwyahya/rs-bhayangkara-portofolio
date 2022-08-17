@@ -733,21 +733,21 @@ define(['initialize'], function (initialize) {
                     "title": "No.Resep",
                     "width": "80px",
                 },
-                {
-                    "field": "rke",
-                    "title": "Rke",
-                    "width": "25px",
-                },
-                {
-                    "field": "jeniskemasan",
-                    "title": "Jenis Kemasan",
-                    "width": "50px",
-                },
-                {
-                    "field": "namaruangandepo",
-                    "title": "Depo",
-                    "width": "80px",
-                },
+                // {
+                //     "field": "rke",
+                //     "title": "Rke",
+                //     "width": "25px",
+                // },
+                // {
+                //     "field": "jeniskemasan",
+                //     "title": "Jenis Kemasan",
+                //     "width": "50px",
+                // },
+                // {
+                //     "field": "namaruangandepo",
+                //     "title": "Depo",
+                //     "width": "80px",
+                // },
 
                 {
                     "field": "namaproduk",
@@ -1334,8 +1334,8 @@ define(['initialize'], function (initialize) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
-                        dat.data[i].total = parseFloat(dat.data[i].jumlah) * (parseFloat(dat.data[i].hargasatuan) - parseFloat(dat.data[i].hargadiscount))
-                        dat.data[i].total = parseFloat(dat.data[i].total) + parseFloat(dat.data[i].jasa)
+                        // dat.data[i].total = parseFloat(dat.data[i].jumlah) * (parseFloat(dat.data[i].hargasatuan) - parseFloat(dat.data[i].hargadiscount))
+                        // dat.data[i].total = parseFloat(dat.data[i].total) + parseFloat(dat.data[i].jasa)
                         dat.data[i].isPagi = true;
 
 
@@ -1343,16 +1343,16 @@ define(['initialize'], function (initialize) {
                     $scope.dataGrid = dat.data;
                     for (let i = 0; i < $scope.dataGrid.length; i++) {
                         const element = $scope.dataGrid[i];
-                        if (element.ispagi == "1") element.ispagi = true
+                        if (element.ispagi == "pagi") element.ispagi = true
                         else element.ispagi = false
 
-                        if (element.issiang == "1") element.issiang = true
+                        if (element.issiang == "siang") element.issiang = true
                         else element.issiang = false
 
-                        if (element.issore == "1") element.issore = true
+                        if (element.issore == "sore") element.issore = true
                         else element.issore = false
 
-                        if (element.ismalam == "1") element.ismalam = true
+                        if (element.ismalam == "malam") element.ismalam = true
                         else element.ismalam = false
                     }
                     $scope.dataPopUpetiket = $scope.dataGrid;

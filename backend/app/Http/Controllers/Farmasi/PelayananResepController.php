@@ -97,7 +97,7 @@ class PelayananResepController extends ApiController
         if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
             $regEtiket =  $request['noReg'];
         }
-        $etiket = DB::select(DB::raw("select v_cetaketiket.rke,v_cetaketiket.norec,v_cetaketiket.noresep,v_cetaketiket.nocm,v_cetaketiket.namaruangan,v_cetaketiket.waktu,v_cetaketiket.jumlah,v_cetaketiket.dokterresep,v_cetaketiket.carapemberian,
+        $etiket = DB::select(DB::raw("select v_cetaketiket.jeniskemasanfk,v_cetaketiket.rke,v_cetaketiket.norec,v_cetaketiket.noresep,v_cetaketiket.nocm,v_cetaketiket.namaruangan,v_cetaketiket.waktu,v_cetaketiket.jumlah,v_cetaketiket.dokterresep,v_cetaketiket.carapemberian,
             v_cetaketiket.waktuminum,case when ppok.jumlah is null then v_cetaketiket.jumlah else  ppok.jumlah+v_cetaketiket.jumlah end as jumlahtotal,  v_cetaketiket.tanggal,v_cetaketiket.tgllahir,v_cetaketiket.namapasien,v_cetaketiket.namaproduk,
             v_cetaketiket.aturanpakai,v_cetaketiket.keteranganpakai,v_cetaketiket.ispagi,v_cetaketiket.issiang,v_cetaketiket.issore,
             v_cetaketiket.ismalam,v_cetaketiket.satuanstandar,v_cetaketiket.tglkadaluarsa from v_cetaketiket  
@@ -112,7 +112,7 @@ class PelayananResepController extends ApiController
             $sama = false;
             $i = 0;
             foreach ($data10 as $hideung) {
-                if ($itemEtiket->noresep==$data10[$i]['noresep']  && $itemEtiket->rke==$data10[$i]['rke']) {
+                if ($itemEtiket->noresep==$data10[$i]['noresep']  && $itemEtiket->rke==$data10[$i]['rke'] && $itemEtiket->jeniskemasanfk==$data10[$i]['jeniskemasanfk']) {
                     $sama = true;
                     $data10[$i]['namaproduk']=$data10[$i]['namaproduk'].','.$itemEtiket->namaproduk;
                 }
@@ -129,7 +129,7 @@ class PelayananResepController extends ApiController
                     'carapemberian' => $itemEtiket->carapemberian,
                     'waktuminum' => $itemEtiket->waktuminum,
                     'jumlahtotal' => $itemEtiket->jumlahtotal,
-                    'tanggal' => $itemEtiket->tanggal,
+                    'tglpelayanan' => $itemEtiket->tanggal,
                     'tgllahir' => $itemEtiket->tgllahir,
                     'namapasien' => $itemEtiket->namapasien,
                     'namaproduk' => $itemEtiket->namaproduk,
@@ -144,6 +144,12 @@ class PelayananResepController extends ApiController
                     'norecpp'=> $itemEtiket->norec,
                     'keteranganpakai'=> $itemEtiket->keteranganpakai,
                     'aturanpakai'=> $itemEtiket->aturanpakai,
+                    'jeniskemasanfk'=> $itemEtiket->jeniskemasanfk,
+                    'hargasatuan'=> '0',
+                    'hargadiscount'=> '0',
+                    'jasa'=> '0',
+                    'total'=> '0',
+                    'kadaluarsa'=>''
                 );
             }
         }
@@ -161,7 +167,7 @@ class PelayananResepController extends ApiController
                 $dataPD->carapemberian = $simpan['carapemberian'];
                 $dataPD->waktuminum = $simpan['waktuminum'];
                 $dataPD->jumlahtotal = $simpan['jumlahtotal'];
-                $dataPD->tanggal = $simpan['tanggal'];
+                $dataPD->tanggal = $simpan['tglpelayanan'];
                 $dataPD->tgllahir = $simpan['tgllahir'];
                 $dataPD->namapasien = $simpan['namapasien'];
                 $dataPD->namaproduk = $simpan['namaproduk'];
@@ -179,7 +185,7 @@ class PelayananResepController extends ApiController
                 $dataPD->save();
             }
         }
-        
+        return $this->respond($data10);
         $detail = $request->all();
         $result = [];
         $data = \DB::table('pelayananpasien_t as pp')
