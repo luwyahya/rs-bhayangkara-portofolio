@@ -1330,7 +1330,7 @@ define(['initialize'], function (initialize) {
 
             }
             $scope.munculetiket = function () {
-                medifirstService.get("farmasi/get-transaksi-pelayanan?noReg=" + $scope.item.noregistrasi, true).then(function (dat) {
+                medifirstService.get("farmasi/get-transaksi-pelayanan-etiket?noReg=" + $scope.item.noregistrasi, true).then(function (dat) {
                     $scope.isRouteLoading = false;
                     for (var i = 0; i < dat.data.length; i++) {
                         dat.data[i].no = i + 1
@@ -1340,9 +1340,9 @@ define(['initialize'], function (initialize) {
 
 
                     }
-                    $scope.dataGrid = dat.data;
-                    for (let i = 0; i < $scope.dataGrid.length; i++) {
-                        const element = $scope.dataGrid[i];
+                    $scope.dataGridEtiket = dat.data;
+                    for (let i = 0; i < $scope.dataGridEtiket.length; i++) {
+                        const element = $scope.dataGridEtiket[i];
                         if (element.ispagi == "pagi") element.ispagi = true
                         else element.ispagi = false
 
@@ -1355,7 +1355,7 @@ define(['initialize'], function (initialize) {
                         if (element.ismalam == "malam") element.ismalam = true
                         else element.ismalam = false
                     }
-                    $scope.dataPopUpetiket = $scope.dataGrid;
+                    $scope.dataPopUpetiket = $scope.dataGridEtiket;
 
                     // $scope.dataSelectedPopUpetiket = new kendo.data.DataSource({
                     // 	pageSize: 10,
