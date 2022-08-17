@@ -298,7 +298,7 @@ define(['initialize'], function (initialize) {
                 var element = $(e.currentTarget);
                 var checked = element.is(':checked'),
                     row = element.closest('tr'),
-                    grid = $("#kGrid").data("kendoGrid"),
+                    grid = $("#kgridetiket").data("kendoGrid"),
                     // grid = $("#grid").data("kendoGrid"),
                     dataItem = grid.dataItem(row);
 
