@@ -370,7 +370,8 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     "field": "jasars",
-                    "title": "Jasa RS"
+                    "title": "Jasa RS",
+                    "width": "30px",
                 },
                 {
                     "field": "penunjangumum",

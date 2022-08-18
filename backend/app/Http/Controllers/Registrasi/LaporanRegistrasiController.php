@@ -2705,11 +2705,11 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                     'dokter' => $item->namalengkap,
                     'hargadiscount' => $item->hargadiscount,
                     'jenispetugaspe'=> $item->jenispetugaspe,
-                    'saran' => $saran,
-                    'jasars' => $jasaRs,
-                    'penunjangumum' => $penunjang,
-                    'jasamedis' => $jasaMedis,
-                    'bhp' => $bhp,
+                    'saran' => (float)$saran,
+                    'jasars' => (float)$jasaRs,
+                    'penunjangumum' => (float)$penunjang,
+                    'jasamedis' => (float)$jasaMedis,
+                    'bhp' => (float)$bhp,
                 );
             }
             $result = array(
