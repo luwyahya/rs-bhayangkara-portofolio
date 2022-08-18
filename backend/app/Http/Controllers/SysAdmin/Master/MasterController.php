@@ -235,7 +235,7 @@ class MasterController extends ApiController{
                 $prod->isprodukintern = $data['objectjenisgenerikfk'];
             }
             if (isset($request['keterangan'])&& $request['keterangan'] != "" && $request['keterangan'] != "undefined" && $request['keterangan'] != 'null'){
-                $prod->isprodukintern = $data['keterangan'];
+                $prod->keterangan = $data['keterangan'];
             }
             if (isset($request['poinmedis'])&& $request['poinmedis'] != "" && $request['poinmedis'] != "undefined" && $request['poinmedis'] != 'null'){
                 $prod->isprodukintern = $data['poinmedis'];
