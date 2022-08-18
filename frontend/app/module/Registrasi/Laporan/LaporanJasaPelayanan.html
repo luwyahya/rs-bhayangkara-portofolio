@@ -1,0 +1,119 @@
+<div ng-controller="LaporanJasaPelayananCtrl">
+	<div ng-show="dataVOloaded">
+		<!-- <c-panel item="item" header="'Daftar Tagihan Rekanan'" disabled> -->
+		<div class="grid_12 headerBox">
+			<h1 style="color: white;"><b>Laporan Jasa Pelayanan</b></h1>
+		</div>
+		<div class="grid_12">
+			<div class="grid_2">
+				<label c-label item="item" c-label-text="Tanggal awal"></label>
+				<input style="width: 100%" k-ng-model="item.tglawal" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+
+			<div class="grid_2">
+				<label c-label item="item" c-label-text="Tanggal Akhir"></label>
+				<input style="width: 100%" k-ng-model="item.tglakhir" kendo-datetimepicker placeholer="yyyy-mm-dd"
+					k-format="'yyyy-MM-dd HH:mm'" />
+			</div>
+
+
+			<div class="grid_2" ng-show="isListDep">
+				<label c-label item="item" c-label-text="Banyak Departement"></label>
+				<!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.departement"
+					k-data-text-field="'departemen'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listDepartemen" k-on-change="getIsiComboRuangan()" /> -->
+
+				<select kendo-multi-select k-options="selectDepartemen" k-data-source="listDepartemen"
+					k-data-text-field="'departemen'" k-data-value-field="'id'" k-ng-model="selectedDepartemen" \>
+				</select>
+			</div>
+			<div class="grid_2" ng-show="isDep">
+				<label c-label item="item" c-label-text="Departement"></label>
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.departement"
+					k-data-text-field="'departemen'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listDepartemen" k-on-change="getIsiComboRuangan()" />
+
+				<!-- <select kendo-multi-select k-options="selectDepartemen" k-data-source="listDepartemen"
+					k-data-text-field="'departemen'" k-data-value-field="'id'"
+					k-ng-model="selectedDepartemen" \>
+				</select> -->
+			</div>
+			<div class="grid_2" ng-show="isRu">
+				<label c-label item="item" c-label-text="Ruangan"></label>
+				<input ng-disabled="isDisable" style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+					k-data-text-field="'ruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listRuangan" />
+			</div>
+			<div class="grid_2" ng-show="isDepPenun">
+				<label c-label item="item" c-label-text="Departement Penunjang"></label>
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.departementP"
+					k-data-text-field="'departemen'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listDepartemen" k-on-change="getIsiComboRuangan()" />
+
+				<!-- <select kendo-multi-select k-options="selectDepartemen" k-data-source="listDepartemen"
+					k-data-text-field="'departemen'" k-data-value-field="'id'"
+					k-ng-model="selectedDepartemen" \>
+				</select> -->
+			</div>
+			<div class="grid_2">
+				<label class="c-label">Nama Penjamin</label>
+				<input kendo-combo-box tyle="width:100%" k-ng-model="item.namaPenjamin"
+					k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'"
+					k-auto-bind="false" k-data-source="listKelompokPasien" />
+			</div>
+		</div>
+		<div class="grid_12">
+
+			<div class="grid_3">
+				<label c-label item="item" c-label-text="Tindakan"></label>
+				<!-- <input ng-disabled="isDisable" style="width: 100%;" kendo-combo-box k-ng-model="item.produk"
+					k-data-text-field="'namaproduk'" k-
+					data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+					k-data-source="listProduk" /> -->
+
+				<select kendo-multi-select k-options="selectProdukPelayanan" k-data-source="listProduk"
+					k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-ng-model="selectedProdukPelayanan" \>
+				</select>
+			</div>
+			<div class="grid_2">
+				<label c-label item="item" c-label-text="Petugas Pelaksana"></label>
+				<input ng-disabled="isDisable" style="width: 100%;" kendo-combo-box k-ng-model="item.PetugasPel"
+					k-data-text-field="'jenispetugaspe'" k-data-value-field="'id'" k-filter="'contains'"
+					k-auto-bind="false" k-data-source="listPetugasPel" />
+			</div>
+			<div class="grid_1" style="margin-top: 15px;">
+				<button class="btnTemplate1" style="margin-left: 0;" ng-click="LoadData()">Cari</button>
+			</div>
+
+		</div>
+
+
+		<div class="grid_12">
+			<div class="grid_12" ng-show="withOutDisc">
+				<kendo-grid k-data-source="dataSourceLaporanPelayananDokter" options="mainGroupOptionsLapLayananDok"
+					class="max-height"></kendo-grid>
+			</div>
+			<div class="grid_12" ng-show="withDisc">
+				<kendo-grid id="kGrid" data-source="dataSourceLaporanPelayananDokter"
+					options="columnLaporanLayananDokterWithDisc" k-pageable="'true'" k-sortable="'true'"
+					k-resizable="'true'" k-selectable="'row'" on-change="onChange(data)" k-ng-model="dataPasienSelected"
+					ng-click="klikGrid(dataPasienSelected)">
+				</kendo-grid>
+				<!-- <div id="kGrid" kendo-grid k-data-source="dataSourceLaporanPelayananDokter" k-selectable="'row'" k-groupable="true"
+					class="max-height" options="mainGroupOptionsLapLayananDok" k-resizable="'true'" k-sortable="'true'"
+					k-ng-model="dataPasienSelected" ng-click="klik(dataPasienSelected)">
+				</div>  -->
+				<!-- <kendo-grid k-data-source="dataSourceLaporanPelayananDokter" options="mainGroupOptionsLapLayananDok"
+					class="max-height"></kendo-grid> -->
+			</div>
+		</div>
+		<div class="clear"></div>
+
+		<br />
+		<div class="grid_12" style="margin-top:60px">
+			<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+		</div>
+
+	</div>
+</div>

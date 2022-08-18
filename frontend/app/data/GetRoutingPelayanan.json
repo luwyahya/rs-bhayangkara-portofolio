@@ -1657,6 +1657,25 @@
         ]
     },
     {
+        "name": "LaporanJasaPelayanan",
+        "url": "/LaporanJasaPelayanan",
+        "templateurl": "module/Registrasi/Laporan/LaporanJasaPelayanan.html",
+        "controller": "LaporanJasaPelayananCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "LaporanLayananKasir",
         "url": "/LaporanLayananKasir",
         "templateurl": "module/Registrasi/Laporan/LaporanLayananKasir.html",

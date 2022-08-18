@@ -367,6 +367,10 @@
             "urlDep": "module/Registrasi/Laporan/LaporanLayananCtrl"
         },
         {
+            "nameDep": "LaporanJasaPelayananCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanJasaPelayananCtrl"
+        },
+        {
             "nameDep": "LaporanLayananKasirCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanLayananKasirCtrl"
         },

@@ -2664,6 +2664,29 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
 
             $results = array();
             foreach ($data as $item) {
+                $dataKomponen = DB::select(
+                DB::raw("select kh.komponenharga,kh.id,ppd.hargajual 
+                    from pelayananpasiendetail_t as ppd 
+                    join komponenharga_m as kh on kh.id=ppd.komponenhargafk 
+                    where ppd.pelayananpasien='$item->norec'"));
+                    $saran=0;
+                    $jasaRs=0;
+                    $penunjang=0;
+                    $jasaMedis=0;
+                    $bhp=0;
+                    foreach($dataKomponen as $itemKomponen){
+                        if($itemKomponen->id==40){
+                            $saran=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==6){
+                            $jasaRs=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==30){
+                            $penunjang=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==94){
+                            $jasaMedis=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==97){
+                            $bhp=$itemKomponen->hargajual;
+                        }
+                    }
                 $results[] = array(
                     'tglpelayanan' => $item->tglpelayanan,
                     'nocm' => $item->nocm,
@@ -2681,7 +2704,12 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                     'iddokter' => $item->iddokter,
                     'dokter' => $item->namalengkap,
                     'hargadiscount' => $item->hargadiscount,
-                    'jenispetugaspe' => $item->jenispetugaspe
+                    'jenispetugaspe'=> $item->jenispetugaspe,
+                    'saran' => $saran,
+                    'jasars' => $jasaRs,
+                    'penunjangumum' => $penunjang,
+                    'jasamedis' => $jasaMedis,
+                    'bhp' => $bhp,
                 );
             }
             $result = array(
