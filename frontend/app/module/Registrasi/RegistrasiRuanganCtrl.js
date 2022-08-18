@@ -418,7 +418,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             jenisFaskes = "rs"
                     }
                     if ($scope.item.asalRujukan.id == 7) {
-                        medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + $scope.model.noKepesertaan).then(function (e) {
+                        medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (e) {
                             if (e.data.metaData.code === "200") {
                                 // for (var i = 0; i < e.data.response.histori.length; i++) {
                                 //     e.data.response.histori[i].no = i+1;
@@ -790,7 +790,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         $scope.isLoadingRujukan = false;
                         $scope.popupRujukan.close()
                         if (data.no == 1) {
-                            medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                            medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
                                 if (data.data.metaData.code == 200) {
                                     for (let i = 0; i < data.data.response.histori.length; i++) {
                                         if ($scope.model.noRujukan == data.data.response.histori[i].noRujukan) {
@@ -1300,7 +1300,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         $scope.isLoadingNoKartu = false;
                     });
                 } else if ($scope.model.cekpilihPascaranap == true) {
-                    medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                    medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
                         if (data.data.metaData.code == 200) {
                             for (let i = 0; i < data.data.response.histori.length; i++) {
                                 const element = data.data.response.histori[i];

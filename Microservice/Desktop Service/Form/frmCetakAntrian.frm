@@ -153,7 +153,7 @@ On Error Resume Next
         'MsgBox "CETAK"
         Printer.fontSize = 10
         Printer.Print "                       RUMAH SAKIT"
-        Printer.fontSize = 18
+        Printer.fontSize = 12
         Printer.FontBold = True
         Printer.Print "Bhayangkara TK.IV Cianjur"
         Printer.FontBold = False

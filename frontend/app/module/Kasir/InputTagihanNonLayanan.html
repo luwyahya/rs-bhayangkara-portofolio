@@ -26,7 +26,8 @@
 			<div class="clear"></div>
 
 			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien_klien" placeholder="Max 40 karakter" />
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien_klien"
+					placeholder="Max 40 karakter" />
 			</div>
 		</div>
 		<div class="grid_1">
@@ -36,7 +37,8 @@
 			<div class="clear"></div>
 
 			<div class="grid_12">
-				<input style="width: 100%" c-text-box type="input" filter="" class="k-textbox" ng-model="item.noTelp_klien" />
+				<input style="width: 100%" c-text-box type="input" filter="" class="k-textbox"
+					ng-model="item.noTelp_klien" />
 			</div>
 		</div>
 
@@ -79,7 +81,8 @@
 	</div>
 	<div class="grid_12 borderBox" style="margin-top: 10px;">
 		<div id="kGrid" kendo-grid k-data-source="dataDaftarProduk" k-selectable="'row'" k-columns="columnDaftarProduk"
-			k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedProduk" ng-click="klikGrid(dataSelectedProduk)">
+			k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedProduk"
+			ng-click="klikGrid(dataSelectedProduk)">
 		</div>
 	</div>
 	<!-- grid table -->
@@ -93,7 +96,7 @@
 				</div>
 				<div class="grid_12">
 					<input c-text-box type="input" style="text-align: left" filter="" class="k-textbox"
-						ng-model="item.no" disabled/>
+						ng-model="item.no" disabled />
 				</div>
 			</div>
 			<div class="grid_4">
@@ -135,15 +138,15 @@
 						ng-model="item.jumlah" />
 				</div>
 			</div>
-			<div class="grid_3">				
+			<div class="grid_3">
 				<div class="grid_12">
 					<input type="checkbox" class="k-checkbox" ng-model="checkQtyOrg" id="Generate"
-					 ng-click="getChecked(checkQtyOrg)"  >
+						ng-click="getChecked(checkQtyOrg)">
 					<label class="k-checkbox-label" for="Generate"><b> &nbsp; Qty Perorang / Perkilometer</b></label>
 				</div>
 				<div class="grid_12">
 					<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
-						ng-model="item.QtyPerOrang" ng-disabled="QtyOrang"/>
+						ng-model="item.QtyPerOrang" ng-disabled="QtyOrang" />
 				</div>
 			</div>
 			<div class="grid_2">
@@ -152,7 +155,7 @@
 				</div>
 				<div class="grid_12">
 					<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
-						ng-model="item.Harga" ng-disabled="disHarga"/>
+						ng-model="item.Harga" ng-disabled="disHarga" />
 				</div>
 			</div>
 			<div class="grid_2">
@@ -161,11 +164,34 @@
 				</div>
 				<div class="grid_12">
 					<input c-text-box type="input" style="text-align: right" filter="" class="k-textbox"
-						ng-model="item.Total" ng-disabled="disHarga"/>
+						ng-model="item.Total" ng-disabled="disHarga" />
+				</div>
+			</div>
+		</div>
+		<div class="grid_12">
+			<div class="grid_2">
+				<div class="grid_12">
+					<div class="grid_6" ng-repeat="tipe in dataCheckbox">
+						<input type="radio" name="{{tipe.name}}" id="{{tipe.id}}" class="k-radio"
+							ng-model="item.typeDiskon" ng-value="tipe" ng-click="cekRadioPersen(item.typeDiskon)">
+						<label class="k-radio-label" for="{{tipe.id}}" style="margin:5px">{{tipe.name}}</label>
+					</div>
 				</div>
 			</div>
 			<div class="grid_2">
-				<div class="grid_12" style="margin-top: 10px">
+				<div class="grid_12">
+					<div class="grid_12" ng-show="diskonPersen">
+						<input c-text-box type="number" style="text-align: right" class="k-textbox"
+							ng-model="item.persenDiscount" placeholder="%" />
+					</div>
+					<div class="grid_12" ng-hide="diskonPersen">
+						<input c-text-box type="number" style="text-align: right" class="k-textbox"
+							ng-model="item.diskonKomponen" />
+					</div>
+				</div>
+			</div>
+			<div class="grid_2">
+				<div class="grid_12" style="margin-top: -5px">
 					<div class="grid_4">
 						<button class="btnTemplate1" ng-click="tambah()">+</button>
 					</div>
@@ -180,7 +206,8 @@
 		</div>
 		<div class="grid_12 borderBox">
 			<div id="kGrid" kendo-grid k-data-source="dataDaftarTagihan" k-selectable="'row'"
-				k-columns="columnDaftarTagihan" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelected" ng-click="klikGridPro(dataSelected)">
+				k-columns="columnDaftarTagihan" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelected"
+				ng-click="klikGridPro(dataSelected)">
 			</div>
 		</div>
 		<div class="clear"></div>

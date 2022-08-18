@@ -205,6 +205,9 @@ define(['initialize'], function (initialize) {
                 dataValueField: "id",
                 filter: "contains"
             };
+            $scope.formatRupiah = function (value, currency) {
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
 
             $scope.JadwalDokter = function () {
                 $scope.isRouteLoading = true;
@@ -288,7 +291,7 @@ define(['initialize'], function (initialize) {
                     var myHeaders = [
 
                         {
-                            value: "Laporan Layanan",
+                            value: "Laporan Jasa Pelayanan",
                             fontSize: 15,
                             textAlign: "center",
                             background: "#c1d2d2",
@@ -362,100 +365,124 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     "field": "tarif",
-                    "title": "Tarif"
+                    "title": "Tarif",
+                    "template": "<span class='style-right'>{{formatRupiah('#: tarif #', '')}}</span>"
                 },
                 {
                     "field": "analis",
-                    "title": "Saran"
+                    "title": "Saran",
+                    "template": "<span class='style-right'>{{formatRupiah('#: analis #', '')}}</span>"
                 },
                 {
                     "field": "jasars",
                     "title": "Jasa RS",
                     "width": "30px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasars #', '')}}</span>"
                 },
                 {
                     "field": "penunjangumum",
-                    "title": "Penunjang Umum"
+                    "title": "Penunjang Umum",
+                    "template": "<span class='style-right'>{{formatRupiah('#: penunjangumum #', '')}}</span>"
                 },
                 {
                     "field": "jasamedis",
-                    "title": "Jasa Medis"
+                    "title": "Jasa Medis",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasamedis #', '')}}</span>"
                 },
                 {
                     "field": "bhp",
-                    "title": "BHP"
+                    "title": "BHP",
+                    "template": "<span class='style-right'>{{formatRupiah('#: bhp #', '')}}</span>"
                 },
                 {
                     "field": "jasadoklab",
-                    "title": "Jasa Dok Lab"
+                    "title": "Jasa Dok Lab",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasadoklab #', '')}}</span>"
                 },
                 {
                     "field": "anestesi",
-                    "title": "Anestesi"
+                    "title": "Anestesi",
+                    "template": "<span class='style-right'>{{formatRupiah('#: anestesi #', '')}}</span>"
                 },
                 {
                     "field": "jasaPerawat",
-                    "title": "Jasa Perawat"
+                    "title": "Jasa Perawat",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasaPerawat #', '')}}</span>"
                 },
                 {
                     "field": "perawatAnestesi",
-                    "title": "Perawat Anestesi"
+                    "title": "Perawat Anestesi",
+                    "template": "<span class='style-right'>{{formatRupiah('#: perawatAnestesi #', '')}}</span>"
                 },
                 {
                     "field": "radiografer",
-                    "title": "Radiografer"
+                    "title": "Radiografer",
+                    "template": "<span class='style-right'>{{formatRupiah('#: radiografer #', '')}}</span>"
                 },
                 {
                     "field": "jasaUmum",
-                    "title": "Jasa Umum"
+                    "title": "Jasa Umum",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasaUmum #', '')}}</span>"
                 },
                 {
                     "field": "perawatBedah",
-                    "title": "Perawat Bedah"
+                    "title": "Perawat Bedah",
+                    "template": "<span class='style-right'>{{formatRupiah('#: perawatBedah #', '')}}</span>"
                 },
                 {
                     "field": "jasaDokterUmum",
-                    "title": "Jasa Dokter Umum"
+                    "title": "Jasa Dokter Umum",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasaDokterUmum #', '')}}</span>"
                 },
                 {
                     "field": "ahliGizi",
-                    "title": "Ahli Gizi"
+                    "title": "Ahli Gizi",
+                    "template": "<span class='style-right'>{{formatRupiah('#: ahliGizi #', '')}}</span>"
                 },
                 {
                     "field": "pramusaji",
-                    "title": "Pramusaji"
+                    "title": "Pramusaji",
+                    "template": "<span class='style-right'>{{formatRupiah('#: pramusaji #', '')}}</span>"
                 },
                 {
                     "field": "jasa",
-                    "title": "Jasa"
+                    "title": "Jasa",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>"
                 },
                 {
                     "field": "dokterOperator",
-                    "title": "Dokter Operator"
+                    "title": "Dokter Operator",
+                    "template": "<span class='style-right'>{{formatRupiah('#: dokterOperator #', '')}}</span>"
                 },
                 {
                     "field": "sopir",
-                    "title": "Sopir"
+                    "title": "Sopir",
+                    "template": "<span class='style-right'>{{formatRupiah('#: sopir #', '')}}</span>"
                 },
                 {
                     "field": "penunjangMedis",
-                    "title": "Penunjang Medis"
+                    "title": "Penunjang Medis",
+                    "template": "<span class='style-right'>{{formatRupiah('#: penunjangMedis #', '')}}</span>"
                 },
                 {
                     "field": "perawatIgd",
-                    "title": "Perawat IGD"
+                    "title": "Perawat IGD",
+                    "template": "<span class='style-right'>{{formatRupiah('#: perawatIgd #', '')}}</span>"
                 },
                 {
                     "field": "perawatRj",
-                    "title": "Perawat RJ"
+                    "title": "Perawat RJ",
+                    "template": "<span class='style-right'>{{formatRupiah('#: perawatRj #', '')}}</span>"
                 },
                 {
                     "field": "jasaDokterPenunjang",
-                    "title": "Jasa Dokter Penunjang"
+                    "title": "Jasa Dokter Penunjang",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasaDokterPenunjang #', '')}}</span>"
                 },
                 {
                     "field": "jasaDokterAnak",
-                    "title": "Jasa Dokter Anak"
+                    "title": "Jasa Dokter Anak",
+                    "template": "<span class='style-right'>{{formatRupiah('#: jasaDokterAnak #', '')}}</span>"
                 }
             ];
 

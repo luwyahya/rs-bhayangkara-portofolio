@@ -30,6 +30,13 @@ define(['initialize'], function (initialize) {
 			//          }
 
 			loadCombo();
+			$scope.dataCheckbox = [{
+				"id": 1, "name": "Persen"
+			}, {
+				"id": 2, "name": "Rupiah"
+			}];
+			$scope.item.typeDiskon = $scope.dataCheckbox[0];
+			$scope.diskonPersen = true;
 
 			function loadCombo() {
 				$scope.KelompokUser = medifirstService.getKelompokUser();
@@ -41,28 +48,28 @@ define(['initialize'], function (initialize) {
 				})
 			}
 
-			function LoadCache() {                
-                var chacePeriode = cacheHelper.get('InputTagihanNonLayananCtrl');
-                if (chacePeriode != undefined) { 
-					norec = chacePeriode[0]; 
-					Kegiatan = chacePeriode[1]; 
-					NoStruk = chacePeriode[2];          
-                    init()
-                    var chacePeriode = {
-                        0: '',
-                        1: '',
-                        2: '',
-                        3: '',
-                        4: '',
-                        5: '',
-                        6: ''
-                    }
-                    cacheHelper.set('InputTagihanNonLayananCtrl', chacePeriode);
-                } else {
-                    init()
-                }
+			function LoadCache() {
+				var chacePeriode = cacheHelper.get('InputTagihanNonLayananCtrl');
+				if (chacePeriode != undefined) {
+					norec = chacePeriode[0];
+					Kegiatan = chacePeriode[1];
+					NoStruk = chacePeriode[2];
+					init()
+					var chacePeriode = {
+						0: '',
+						1: '',
+						2: '',
+						3: '',
+						4: '',
+						5: '',
+						6: ''
+					}
+					cacheHelper.set('InputTagihanNonLayananCtrl', chacePeriode);
+				} else {
+					init()
+				}
 			}
-			
+
 			function init() {
 				if (Kegiatan != '') {
 					$scope.isRouteLoading = true;
@@ -74,14 +81,14 @@ define(['initialize'], function (initialize) {
 							$scope.item.tglStruk = new Date(moment(data_ih.tglTransaksi).format('YYYY-MM-DD HH:mm'));
 							$scope.item.namaPasien_klien = data_ih.namaPasien_klien;
 							$scope.item.noTelp_klien = data_ih.notelepon;
-							$scope.item.kelompokTransaksi = {id:data_ih.kdkelompokTransaksi , kelompoktransaksi:data_ih.kelompokTransaksi};
+							$scope.item.kelompokTransaksi = { id: data_ih.kdkelompokTransaksi, kelompoktransaksi: data_ih.kelompokTransaksi };
 							$scope.item.keterangan = data_ih.keterangan;
 							dataProduk = data_ih.detailTagihan;
 							var subTotal = 0;
 							// var total = 0;
 							for (var i = dataProduk.length - 1; i >= 0; i--) {
 								dataProduk[i].no = i + 1
-								subTotal = subTotal + parseFloat(dataProduk[i].totalK)
+								subTotal = subTotal + parseFloat(dataProduk[i].totalK) - parseFloat(dataProduk[i].discount)
 							}
 							$scope.item.totalBilling = parseFloat(subTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 							$scope.dataDaftarTagihan = new kendo.data.DataSource({
@@ -137,6 +144,16 @@ define(['initialize'], function (initialize) {
 				//$state.go(dariSini)
 			};
 
+			$scope.$watch('item.persenDiscount', function (newValue, oldValue) {
+				if (newValue != oldValue) {
+					if ($scope.item.persenDiscount > 100) {
+						$scope.item.persenDiscount = "";
+					}
+					$scope.item.diskonKomponen = ((parseFloat($scope.item.Total)) * $scope.item.persenDiscount) / 100
+					// $scope.item.Total = $scope.item.Total - $scope.item.diskonKomponen
+				}
+			})
+
 			$scope.dataVOloaded = true;
 			$scope.now = new Date();
 
@@ -144,11 +161,17 @@ define(['initialize'], function (initialize) {
 			// $scope.dataDaftarTagihan = new kendo.data.DataSource({
 			// 	data: []
 			// });
+			$scope.cekRadioPersen = function (bool) {
+				if (bool.id == 1)
+					$scope.diskonPersen = true
+				else
+					$scope.diskonPersen = false
+			}
 
-			$scope.getChecked = function(){
+			$scope.getChecked = function () {
 				if ($scope.checkQtyOrg == true) {
 					$scope.QtyOrang = true;
-				}else{
+				} else {
 					$scope.QtyOrang = false;
 				}
 			}
@@ -190,12 +213,17 @@ define(['initialize'], function (initialize) {
 					"width": "110px"
 				},
 				{
+					"field": "discount",
+					"title": "Discount",
+					"width": "110px"
+				},
+				{
 					"field": "totalK",
 					"title": "Total",
 					"width": "110px"
 				}
 			];
-			
+
 			$scope.columnDaftarProduk = [
 				{
 					"field": "namaproduk",
@@ -209,13 +237,13 @@ define(['initialize'], function (initialize) {
 					$scope.dataDaftarProduk = data.data.data;
 				})
 			}
-			
+
 			$scope.bayar = function () {
 				var r = confirm("Yakin Simpan?");
-                  if (r == false) {
-                    return;                
-                  }
-                  debugger;if (dataProduk.length == 0) {
+				if (r == false) {
+					return;
+				}
+				debugger; if (dataProduk.length == 0) {
 					alert("Pilih produk terlebih dahulu !")
 					return;
 				}
@@ -231,7 +259,7 @@ define(['initialize'], function (initialize) {
 				// }
 				var subTotal = 0;
 				for (var i = dataProduk.length - 1; i >= 0; i--) {
-					subTotal = subTotal + parseFloat(dataProduk[i].totalK)
+					subTotal = subTotal + parseFloat(dataProduk[i].totalK) - parseFloat(dataProduk[i].discount)
 				}
 				if (subTotal == undefined || subTotal == 0) {
 					alert("Total tidak Boleh Kosong !")
@@ -240,7 +268,7 @@ define(['initialize'], function (initialize) {
 				if ($scope.item.kelompokTransaksi == undefined) {
 					alert("Pilih kelompok transaksi terlebih dahulu !")
 				}
-				
+
 				var objSave = {
 					norec: norec,
 					kelompoktransaksifk: $scope.item.kelompokTransaksi.id,
@@ -252,42 +280,42 @@ define(['initialize'], function (initialize) {
 					details: dataProduk
 
 				}
-				medifirstService.post('kasir/save-input-non-layanan',objSave).then(function (data) {
+				medifirstService.post('kasir/save-input-non-layanan', objSave).then(function (data) {
 					if ($scope.KelompokUser != $scope.KelompokUserDiklit) {
 						noRegistrasi2 = data.data.data.norec
 						$scope.changePage("PenerimaanPembayaranKasir");
-					}else{
+					} else {
 						window.history.back();
 					}
-					
+
 				})
 			}
 
-			$scope.$watch('item.jumlah', function(newValue, oldValue) {
-				if (newValue != oldValue  ) {
+			$scope.$watch('item.jumlah', function (newValue, oldValue) {
+				if (newValue != oldValue) {
 					if ($scope.item.jumlah > 0) {
-						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))							
+						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))
 					}
 				}
 			});
 
-			$scope.$watch('item.QtyPerOrang', function(newValue, oldValue) {
-				if (newValue != oldValue  ) {
+			$scope.$watch('item.QtyPerOrang', function (newValue, oldValue) {
+				if (newValue != oldValue) {
 					if ($scope.item.jumlah > 0) {
-						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))							
+						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))
 					}
 				}
 			});
 
-			$scope.$watch('item.Harga', function(newValue, oldValue) {
-				if (newValue != oldValue  ) {
+			$scope.$watch('item.Harga', function (newValue, oldValue) {
+				if (newValue != oldValue) {
 					if ($scope.item.jumlah > 0) {
-						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))							
+						$scope.item.Total = ((parseFloat($scope.item.Harga) * parseFloat($scope.item.QtyPerOrang)) * parseFloat($scope.item.jumlah))
 					}
 				}
 			});
 
-			$scope.changePage = function (stateName) {				
+			$scope.changePage = function (stateName) {
 				var obj = {
 					pageFrom: "InputTagihanNonLayanan",
 					noRegistrasi: noRegistrasi2
@@ -302,28 +330,28 @@ define(['initialize'], function (initialize) {
 
 			}
 
-			$scope.klikGrid = function(dataSelectedProduk){				
+			$scope.klikGrid = function (dataSelectedProduk) {
 				if (dataSelectedProduk == undefined) {
 					messageContainer.error("Layanan Belum Dipilih")
-                    return
+					return
 				}
-				$scope.dataSelectedProduk = dataSelectedProduk;				
+				$scope.dataSelectedProduk = dataSelectedProduk;
 				$scope.item.namaprodukInput = $scope.dataSelectedProduk.namaproduk;
 				if (($scope.dataSelectedProduk.namaproduk == "Pelayanan Lainnya") || ($scope.dataSelectedProduk.namaproduk == "Biaya kenaikan kelas")) {
 					$scope.item.KeteranganProduk = "-";
 					$scope.disHarga = false;
-				}else{	
-					$scope.disHarga = true;									
+				} else {
+					$scope.disHarga = true;
 				}
 				$scope.item.Harga = $scope.dataSelectedProduk.harga;
 				$scope.item.idProduk = $scope.dataSelectedProduk.id;
 				$scope.item.jumlah = 1;
 			}
 
-			$scope.klikGridPro = function(dataSelected){				
+			$scope.klikGridPro = function (dataSelected) {
 				if (dataSelected == undefined) {
 					messageContainer.error("Layanan Belum Dipilih")
-                    return
+					return
 				}
 				$scope.dataSelected = dataSelected;
 				$scope.item.no = $scope.dataSelected.no;
@@ -332,7 +360,7 @@ define(['initialize'], function (initialize) {
 				$scope.item.Harga = $scope.dataSelected.harga;
 				$scope.item.idProduk = $scope.dataSelected.id;
 				$scope.item.jumlah = $scope.dataSelected.jumlah;
-			}		
+			}
 
 			$scope.tambah = function () {
 				if ($scope.item.namaprodukInput == undefined) {
@@ -353,12 +381,12 @@ define(['initialize'], function (initialize) {
 				if ($scope.item.namaprodukInput == "Pelayanan Lainnya" && $scope.item.keterangan == undefined || $scope.item.keterangan == '') {
 					alert("Keterangan Tagihan Harus Diisi !!")
 					return;
-				}  
-				var dokter ='';
-				var namadokter ='';
+				}
+				var dokter = '';
+				var namadokter = '';
 				if ($scope.item.dokter != undefined) {
-					 dokter = $scope.item.dokter.id
-					 namadokter = $scope.item.dokter.namalengkap
+					dokter = $scope.item.dokter.id
+					namadokter = $scope.item.dokter.namalengkap
 				}
 				var no = 0
 				if (dataProduk.length == 0) {
@@ -370,6 +398,10 @@ define(['initialize'], function (initialize) {
 				if ($scope.item.no != undefined) {
 					no = $scope.item.no
 				}
+				var discount = 0
+				if ($scope.item.diskonKomponen != undefined) {
+					discount = $scope.item.diskonKomponen
+				}
 				var data = {};
 				if ($scope.item.no != undefined) {//LAMA
 					for (var i = dataProduk.length - 1; i >= 0; i--) {
@@ -380,18 +412,19 @@ define(['initialize'], function (initialize) {
 							data.namaproduk = $scope.item.namaprodukInput
 							data.jumlah = parseFloat($scope.item.jumlah)
 							data.qtyoranglast = parseFloat($scope.item.QtyPerOrang)
-							data.harga = parseFloat($scope.item.Harga)							
+							data.harga = parseFloat($scope.item.Harga)
 							data.totalK = $scope.item.Total //parseFloat($scope.item.jumlah) * parseFloat($scope.item.Harga)
 							data.keterangan = $scope.item.KeteranganProduk
 							data.dokter = dokter
 							data.namadokter = namadokter
+							data.discount = discount
 							dataProduk[i] = data;
 							$scope.dataDaftarTagihan = new kendo.data.DataSource({
 								data: dataProduk
 							});
 							var subTotal = 0;
 							for (var i = dataProduk.length - 1; i >= 0; i--) {
-								subTotal = subTotal + parseFloat(dataProduk[i].totalK)
+								subTotal = subTotal + parseFloat(dataProduk[i].totalK) - parseFloat(dataProduk[i].discount)
 							}
 							$scope.item.totalBilling = parseFloat(subTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 							ClearIsian();
@@ -410,7 +443,8 @@ define(['initialize'], function (initialize) {
 						keterangan: $scope.item.KeteranganProduk,
 						dokter: dokter,
 						namadokter: namadokter,
-						totalK: $scope.item.Total //parseFloat($scope.item.jumlah) * parseFloat($scope.item.Harga)
+						totalK: $scope.item.Total, //parseFloat($scope.item.jumlah) * parseFloat($scope.item.Harga)
+						discount: discount
 					}
 					dataProduk.push(data)
 					// $scope.dataGrid.add($scope.dataSelectedProduk)
@@ -419,14 +453,14 @@ define(['initialize'], function (initialize) {
 					});
 					var subTotal = 0;
 					for (var i = dataProduk.length - 1; i >= 0; i--) {
-						subTotal = subTotal + parseFloat(dataProduk[i].totalK)
+						subTotal = subTotal + parseFloat(dataProduk[i].totalK) - parseFloat(dataProduk[i].discount)
 					}
 					$scope.item.totalBilling = parseFloat(subTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 					ClearIsian();
 				}
 			}
 
-			function ClearIsian(){
+			function ClearIsian() {
 				$scope.item.no = undefined;
 				$scope.item.namaprodukInput = undefined;
 				$scope.item.KeteranganProduk = undefined;
@@ -436,38 +470,39 @@ define(['initialize'], function (initialize) {
 				$scope.item.Total = undefined;
 				$scope.item.QtyPerOrang = 1;
 				$scope.item.dokter = undefined;
+				$scope.item.diskonKomponen = undefined;
 			}
 
 			$scope.hapus = function () {
 				if ($scope.item.namaprodukInput == undefined) {
 					messageContainer.error("Layanan Belum Dipilih")
-                    return
+					return
 				}
-				var data ={};
-                if ($scope.item.no != undefined){
-                    for (var i = dataProduk.length - 1; i >= 0; i--) {
-                        if (dataProduk[i].no ==  $scope.item.no){                            
-                            dataProduk.splice(i, 1);
-                            var subTotal = 0 ;
-                            for (var i = dataProduk.length - 1; i >= 0; i--) {
-                                subTotal=subTotal+ parseFloat(data2[i].total)
-                                dataProduk[i].no = i+1
-                            }                            
-                            $scope.dataDaftarTagihan = new kendo.data.DataSource({
-                                data: dataProduk
-                            });                          
-                            $scope.item.totalBilling = parseFloat(subTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
-                        }
-                    }
-                }
-                ClearIsian();
+				var data = {};
+				if ($scope.item.no != undefined) {
+					for (var i = dataProduk.length - 1; i >= 0; i--) {
+						if (dataProduk[i].no == $scope.item.no) {
+							dataProduk.splice(i, 1);
+							var subTotal = 0;
+							for (var i = dataProduk.length - 1; i >= 0; i--) {
+								subTotal = subTotal + parseFloat(data2[i].total)
+								dataProduk[i].no = i + 1
+							}
+							$scope.dataDaftarTagihan = new kendo.data.DataSource({
+								data: dataProduk
+							});
+							$scope.item.totalBilling = parseFloat(subTotal).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
+						}
+					}
+				}
+				ClearIsian();
 			}
 
 			$scope.batal = function () {
 				ClearIsian();
 			}
 
-		// BATAS //
+			// BATAS //
 		}
 	]);
 });
