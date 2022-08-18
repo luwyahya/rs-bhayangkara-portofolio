@@ -2669,14 +2669,32 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                     from pelayananpasiendetail_t as ppd 
                     join komponenharga_m as kh on kh.id=ppd.komponenhargafk 
                     where ppd.pelayananpasien='$item->norec'"));
-                    $saran=0;
+                    $analis=0;
                     $jasaRs=0;
                     $penunjang=0;
                     $jasaMedis=0;
                     $bhp=0;
+                    $jasaDokLab=0;
+                    $anestesi=0;
+                    $jasaPerawat=0;
+                    $perawatAnestesi=0;
+                    $radiografer=0;
+                    $jasaUmum=0;
+                    $perawatBedah=0;
+                    $jasaDokterUmum=0;
+                    $ahliGizi=0;
+                    $pramusaji=0;
+                    $jasa=0;
+                    $dokterOperator=0;
+                    $sopir=0;
+                    $penunjangMedis=0;
+                    $perawatIgd=0;
+                    $perawatRj=0;
+                    $jasaDokterPenunjang=0;
+                    $jasaDokterAnak=0;
                     foreach($dataKomponen as $itemKomponen){
                         if($itemKomponen->id==40){
-                            $saran=$itemKomponen->hargajual;
+                            $analis=$itemKomponen->hargajual;
                         }else if($itemKomponen->id==6){
                             $jasaRs=$itemKomponen->hargajual;
                         }else if($itemKomponen->id==30){
@@ -2685,6 +2703,42 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                             $jasaMedis=$itemKomponen->hargajual;
                         }else if($itemKomponen->id==97){
                             $bhp=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==14){
+                            $jasaDokLab=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==21){
+                            $anestesi=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==25){
+                            $jasaPerawat=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==26){
+                            $perawatAnestesi=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==27){
+                            $radiografer=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==29){
+                            $perawatBedah=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==30){
+                            $jasaUmum=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==35){
+                            $jasaDokterUmum=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==42){
+                            $ahliGizi=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==55){
+                            $pramusaji=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==108){
+                            $jasa=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==83){
+                            $dokterOperator=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==91){
+                            $sopir=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==92){
+                            $penunjangMedis=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==95){
+                            $perawatIgd=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==99){
+                            $perawatRj=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==102){
+                            $jasaDokterPenunjang=$itemKomponen->hargajual;
+                        }else if($itemKomponen->id==117){
+                            $jasaDokterAnak=$itemKomponen->hargajual;
                         }
                     }
                 $results[] = array(
@@ -2705,11 +2759,29 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                     'dokter' => $item->namalengkap,
                     'hargadiscount' => $item->hargadiscount,
                     'jenispetugaspe'=> $item->jenispetugaspe,
-                    'saran' => (float)$saran,
+                    'analis' => (float)$analis,
                     'jasars' => (float)$jasaRs,
                     'penunjangumum' => (float)$penunjang,
                     'jasamedis' => (float)$jasaMedis,
                     'bhp' => (float)$bhp,
+                    'jasadoklab' =>(float)$jasaDokLab,
+                    'anestesi' =>(float)$anestesi,
+                    'jasaPerawat' =>(float)$jasaPerawat,
+                    'perawatAnestesi' =>(float)$perawatAnestesi,
+                    'radiografer' =>(float)$radiografer,
+                    'jasaUmum' =>(float)$jasaUmum,
+                    'perawatBedah' =>(float)$perawatBedah,
+                    'jasaDokterUmum' =>(float)$jasaDokterUmum,
+                    'ahliGizi' =>(float)$ahliGizi,
+                    'pramusaji' =>(float)$pramusaji,
+                    'jasa' =>(float)$jasa,
+                    'dokterOperator' =>(float)$dokterOperator,
+                    'sopir' =>(float)$sopir,
+                    'penunjangMedis' =>(float)$penunjangMedis,
+                    'perawatIgd' =>(float)$perawatIgd,
+                    'perawatRj' =>(float)$perawatRj,
+                    'jasaDokterPenunjang' =>(float)$jasaDokterPenunjang,
+                    'jasaDokterAnak' =>(float)$jasaDokterAnak,
                 );
             }
             $result = array(

@@ -365,7 +365,7 @@ define(['initialize'], function (initialize) {
                     "title": "Tarif"
                 },
                 {
-                    "field": "saran",
+                    "field": "analis",
                     "title": "Saran"
                 },
                 {
@@ -386,12 +386,76 @@ define(['initialize'], function (initialize) {
                     "title": "BHP"
                 },
                 {
-                    "field": "jumlah",
-                    "title": "Jumlah"
+                    "field": "jasadoklab",
+                    "title": "Jasa Dok Lab"
                 },
                 {
-                    "field": "statusbayar",
-                    "title": "Paid"
+                    "field": "anestesi",
+                    "title": "Anestesi"
+                },
+                {
+                    "field": "jasaPerawat",
+                    "title": "Jasa Perawat"
+                },
+                {
+                    "field": "perawatAnestesi",
+                    "title": "Perawat Anestesi"
+                },
+                {
+                    "field": "radiografer",
+                    "title": "Radiografer"
+                },
+                {
+                    "field": "jasaUmum",
+                    "title": "Jasa Umum"
+                },
+                {
+                    "field": "perawatBedah",
+                    "title": "Perawat Bedah"
+                },
+                {
+                    "field": "jasaDokterUmum",
+                    "title": "Jasa Dokter Umum"
+                },
+                {
+                    "field": "ahliGizi",
+                    "title": "Ahli Gizi"
+                },
+                {
+                    "field": "pramusaji",
+                    "title": "Pramusaji"
+                },
+                {
+                    "field": "jasa",
+                    "title": "Jasa"
+                },
+                {
+                    "field": "dokterOperator",
+                    "title": "Dokter Operator"
+                },
+                {
+                    "field": "sopir",
+                    "title": "Sopir"
+                },
+                {
+                    "field": "penunjangMedis",
+                    "title": "Penunjang Medis"
+                },
+                {
+                    "field": "perawatIgd",
+                    "title": "Perawat IGD"
+                },
+                {
+                    "field": "perawatRj",
+                    "title": "Perawat RJ"
+                },
+                {
+                    "field": "jasaDokterPenunjang",
+                    "title": "Jasa Dokter Penunjang"
+                },
+                {
+                    "field": "jasaDokterAnak",
+                    "title": "Jasa Dokter Anak"
                 }
             ];
 
