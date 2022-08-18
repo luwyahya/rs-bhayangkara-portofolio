@@ -277,7 +277,7 @@ class HumasController extends ApiController
         }
         $namaproduk = '';
         if ($filter['namaproduk'] != ''){
-            $namaproduk ="AND pr.namaproduk like '%" . $filter['namaproduk'] . "%'";
+            $namaproduk ="AND pr.namaproduk ilike '%" . $filter['namaproduk'] . "%'";
         }
 
         $data =DB::select(DB::raw("

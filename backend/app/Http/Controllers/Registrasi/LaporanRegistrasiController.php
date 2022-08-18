@@ -2448,6 +2448,249 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
         );
         return $this->respond($result);
     }
+    public function getLaporanJaspelCianjur(Request $request)
+    {
+        ini_set('max_execution_time', 500); //6 minuts
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
+        if ($request['tglSbm'] == 'true') {
+            $where = " sbm.tglsbm ";
+        } else {
+            $where = " pp.tglpelayanan ";
+        }
+        $idDept =  ' ';
+        if (isset($request['idDept']) && $request['idDept'] != "" && $request['idDept'] != "undefined") {
+            $idDept =  ' and ru.objectdepartemenfk =  ' . $request['idDept'];
+        }
+        $idRuangan =  ' ';
+        if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+            $idRuangan = ' and ru.id = ' . $request['idRuangan'];
+        }
+        $idKelompok = ' ';
+        if (isset($request['idKelompok']) && $request['idKelompok'] != "" && $request['idKelompok'] != "undefined") {
+            if ($idKelompok == 135 || $idKelompok == '135') {
+                $idKelompok = 'and pd.objectkelompokpasienlastfk in (1,5,3)';
+            } else {
+                $idKelompok = 'and pd.objectkelompokpasienlastfk = ' . $request['idKelompok'];
+            }
+        }
+        $idDokter = ' ';
+        if (isset($request['idDokter']) && $request['idDokter'] != "" && $request['idDokter'] != "undefined") {
+            $idDokter = 'and pg.id  = ' . $request['idDokter'];
+        }
+        $tindakan = ' ';
+        if (isset($request['tindakan']) && $request['tindakan'] != "" && $request['tindakan'] != "undefined") {
+            $tindakan = ' and pr.id = ' . $request['tindakan'];
+        }
+        $kelas = ' ';
+        if (isset($request['kelas']) && $request['kelas'] != "" && $request['kelas'] != "undefined") {
+            $kelas = ' and kl.id = ' . $request['kelas'];
+        }
+        $PetugasPe = ' ';
+        if (isset($request['PetugasPe']) && $request['PetugasPe'] != "" && $request['PetugasPe'] != "undefined") {
+            $PetugasPe = ' and ppp.objectjenispetugaspefk =' . $request['PetugasPe'];
+        }
+        $data = \DB::table('pasiendaftar_t as pd')
+                ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->JOIN('pelayananpasienpetugas_t as ppp', 'ppp.pelayananpasien', '=', 'pp.norec')
+                ->JOIN('jenispetugaspelaksana_m as jpp', 'jpp.id', '=', 'ppp.objectjenispetugaspefk')
+                ->JOIN('pegawai_m as pg', 'pg.id', '=', 'ppp.objectpegawaifk')
+                ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                ->leftJOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+                ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftJOIN('ruangan_m as ruasal', 'ruasal.id', '=', 'apd.objectruanganasalfk')
+                ->JOIN('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+                ->leftJOIN('strukpelayanan_t as sp', 'sp.noregistrasifk', '=', 'pd.norec')
+                ->leftJOIN('strukpelayanan_t as sp1', 'sp1.norec', '=', 'pp.strukfk')
+                ->leftJOIN('strukbuktipenerimaan_t as sbm', 'sbm.norec', '=', 'sp.nosbmlastfk')
+                ->leftJOIN('strukbuktipenerimaan_t as sbm1', 'sbm1.nostrukfk', '=', 'sp1.norec')
+                ->leftJOIN('loginuser_s as lgn', 'lgn.id', '=', 'sbm.objectpegawaipenerimafk')
+                ->leftjoin('mapruangantoproduk_m as mrtp', function ($join) {
+                    $join->on('mrtp.objectprodukfk', '=', 'pr.id');
+                    $join->on('mrtp.objectruanganfk', '=', 'apd.objectruanganfk');
+                })
+                ->leftjoin('ruangan_m as ru1', 'ru1.id', '=', 'mrtp.objectruanganfk')
+                ->leftJOIN('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftJOIN('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                ->select(
+                    'pp.norec',
+                    'pp.tglpelayanan',
+                    'apd.objectruanganfk',
+                    'ru.namaruangan',
+                    'kl.namakelas',
+                    'pg.id as iddokter',
+                    'pg.namalengkap',
+                    'pd.noregistrasi',
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'pr.namaproduk',
+                    'pp.jumlah',
+                    'kps.kelompokpasien',
+                    'pp.hargadiscount',
+                    'jpp.jenispetugaspe',
+                    DB::raw(
+                        'case when ru.objectdepartemenfk in (16,35) then \'Y\' ELSE \'N\' END as inap,
+                           case when rk.namarekanan is not null then rk.namarekanan else \' - \' end as namarekanan,
+                           case when pp.hargajual is not null then pp.hargajual else 0 end as harga,
+                           case when pp.strukfk is null then \'n\' else \'y\' end as sbm'
+                        
+                    )
+                )
+                ->whereNotIn('djp.objectjenisprodukfk', [97, 283])
+                ->whereNotIn('pr.id', [395])
+                ->where('mrtp.statusenabled', '=', true)
+                ->wherenull('pp.isobat')
+                ->groupBy(
+                    'pp.norec',
+                    'pp.tglpelayanan',
+                    'apd.objectruanganfk',
+                    'ru.namaruangan',
+                    'kl.namakelas',
+                    'pg.id',
+                    'pg.namalengkap',
+                    'pd.noregistrasi',
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'pr.namaproduk',
+                    'pp.jumlah',
+                    'kps.kelompokpasien',
+                    'ru.objectdepartemenfk',
+                    'rk.namarekanan',
+                    'pp.hargajual',
+                    'pd.nosbmlastfk',
+                    'pp.hargadiscount',
+                    'jpp.jenispetugaspe'
+                );
+
+         
+            if($request['semua']=="false"){
+                $data = $data->wherenotnull('pd.nosbmlastfk');
+                $data = $data->wherenotnull('pp.strukfk');
+            }
+            if ($request['tglSbm'] == 'true') {
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('sbm1.tglsbm', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $tgl = $request['tglAkhir']; //." 23:59:59";
+                    $data = $data->where('sbm1.tglsbm', '<=', $tgl);
+                }
+            } else {
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('pp.tglpelayanan', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $tgl = $request['tglAkhir']; //." 23:59:59";
+                    $data = $data->where('pp.tglpelayanan', '<=', $tgl);
+                }
+            }
+            if ($request['onlyDok'] == 'true') {
+                $data = $data->Where('pg.objectjenispegawaifk', '=', 1);
+            } else {
+            }
+            if ($request['jaskep'] == 'true') {
+                $data = $data->Where('pg.objectjenispegawaifk', '!=', 1);
+                $data = $data->where('pr.namaproduk', 'not like', '%akomodasi%');
+                $data = $data->where('pr.namaproduk', 'not like', '%administrasi%');
+                $data = $data->where('pr.namaproduk', 'not like', '%administrasi%');
+                $data = $data->where('pr.namaproduk', 'not like', '%EKG%');
+                $data = $data->whereNotIn('pg.id', [27678, 27703]);
+            } else {
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idKelompok']) && $request['idKelompok'] != "" && $request['idKelompok'] != "undefined") {
+                if ($request['idKelompok'] == 135 || $request['idKelompok'] == '135') {
+                    $data = $data->whereIn('pd.objectkelompokpasienlastfk', [1, 5, 3]);
+                } else {
+                    $data = $data->where('pd.objectkelompokpasienlastfk', '=', $request['idKelompok']);
+                }
+            }
+            if (isset($request['idDokter']) && $request['idDokter'] != "" && $request['idDokter'] != "undefined") {
+                $data = $data->where('pg.id', '=', $request['idDokter']);
+            }
+            if (isset($request['listDokter']) && $request['listDokter'] != "" && $request['listDokter'] != "undefined") {
+                $dok = $request['listDokter'];
+                $data = $data->whereRaw("pg.id IN ($dok)");
+            }
+            if ($request['notInTindakan'] == 'true') {
+
+                if (isset($request['listProduk']) && $request['listProduk'] != "" && $request['listProduk'] != "undefined") {
+                    $asu = $request['listProduk'];
+                    $data = $data->whereRaw("pr.id NOT IN ($asu)");
+                }
+            } else {
+
+                if (isset($request['listProduk']) && $request['listProduk'] != "" && $request['listProduk'] != "undefined") {
+                    $asu = $request['listProduk'];
+                    $data = $data->whereRaw("pr.id IN ($asu)");
+                }
+            }
+            if ($request['toPenunjang'] == 'true') {
+                if (isset($request['idDept']) && $request['idDept'] != "" && $request['idDept'] != "undefined") {
+                    $data = $data->where('ruasal.objectdepartemenfk', '=', $request['idDept']);
+                }
+                if (isset($request['listDepartemen']) && $request['listDepartemen'] != "" && $request['listDepartemen'] != "undefined") {
+                    $dep = $request['listDepartemen'];
+                    $data = $data->whereRaw("ruasal.objectdepartemenfk IN ($dep)");
+                }
+                if (isset($request['Penunjang']) && $request['Penunjang'] != "" && $request['Penunjang'] != "undefined") {
+                    $data = $data->where('ru.objectdepartemenfk', '=', $request['Penunjang']);
+                }
+            } else {
+                if (isset($request['listDepartemen']) && $request['listDepartemen'] != "" && $request['listDepartemen'] != "undefined") {
+                    $dep = $request['listDepartemen'];
+                    $data = $data->whereRaw("ru.objectdepartemenfk IN ($dep)");
+                }
+                if (isset($request['idDept']) && $request['idDept'] != "" && $request['idDept'] != "undefined") {
+                    $data = $data->where('ru.objectdepartemenfk', '=', $request['idDept']);
+                }
+            }
+        
+            if (isset($request['kelas']) && $request['kelas'] != "" && $request['kelas'] != "undefined") {
+                $data = $data->where('kl.id', '=', $request['kelas']);
+            }
+            if (isset($request['PetugasPe']) && $request['PetugasPe'] != "" && $request['PetugasPe'] != "undefined") {
+                $data = $data->where('ppp.objectjenispetugaspefk', '=', $request['PetugasPe']);
+            }
+            if (isset($filter['noReg']) && $filter['noReg'] != "" && $filter['noReg'] != "undefined") {
+                $data = $data->where('pd.noregistrasi', 'like', '%' . $filter['noReg'] . '%');
+            }
+            $data = $data->distinct();
+            $data = $data->get();
+
+            $results = array();
+            foreach ($data as $item) {
+                $results[] = array(
+                    'tglpelayanan' => $item->tglpelayanan,
+                    'nocm' => $item->nocm,
+                    'noregistrasi' => $item->noregistrasi,
+                    'namapasien' => $item->namapasien,
+                    'namakelas' => $item->namakelas,
+                    'kelompokpasien' => $item->kelompokpasien,
+                    'rekanan' => $item->namarekanan,
+                    'inap' => $item->inap,
+                    'ruangan' => $item->namaruangan,
+                    'layanan' => $item->namaproduk,
+                    'tarif' => $item->harga,
+                    'jumlah' => $item->jumlah,
+                    'statusbayar' => $item->sbm,
+                    'iddokter' => $item->iddokter,
+                    'dokter' => $item->namalengkap,
+                    'hargadiscount' => $item->hargadiscount,
+                    'jenispetugaspe' => $item->jenispetugaspe
+                );
+            }
+            $result = array(
+                'data' => $results,
+                'message' => 'tuk@com',
+            );
+        return $this->respond($result);
+    }
+
     public function getLaporanLayanan(Request $request)
     {
         ini_set('max_execution_time', 500); //6 minuts

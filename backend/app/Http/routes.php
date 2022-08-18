@@ -2519,6 +2519,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-lap-pasien-baru-lama', 'Registrasi\LaporanRegistrasiController@GetLaporanPasienBaruLama');
                 Route::get('get-laporan-cetak-kartu', 'Registrasi\LaporanRegistrasiController@GetLaporanCetakKartu');
                 Route::get('get-laporan-pasien-daftar2', 'Registrasi\LaporanRegistrasiController@getDataLaporanPasienDaftar2');
+                Route::get('get-detail-jaspel-cianjur', 'Registrasi\LaporanRegistrasiController@getLaporanJaspelCianjur');
                 // all
                 Route::get('get-laporan-pasien-daftar-kesatuan', 'Registrasi\LaporanRegistrasiController@getDataLaporanPasienDaftarBkesatuan');
                 Route::get('get-data-bridging-dinkes', 'Registrasi\LaporanRegistrasiController@getDataBridgingDinkes');
