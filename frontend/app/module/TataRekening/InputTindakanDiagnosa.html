@@ -100,7 +100,7 @@
                         </div>
                         <div class="grid_3">
                             <label name="produk" c-label item="item" c-label-text="Nama Pelayanan"></label>
-                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaProduk" k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listProduk" k-on-change="getHargaTindakan()" />
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaProduk" k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listProduk" k-on-change="getHargaTindakan(item.namaProduk.id)" />
                         </div>
                         <div class="grid_1">
                             <label c-label item="item" c-label-text="harga"></label>
