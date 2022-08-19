@@ -1740,7 +1740,14 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         $scope.item.jenispelayanan = e.data[0].jenispelayanan;
                         if ($scope.item.kelompokPasien.id == 2) {
                             $scope.isPasienBpjs = true
-                            $scope.model.cekpilihRujukan = true
+                            debugger
+                            if ($scope.item.objectdepartemenfk.id == 24 || $scope.item.objectdepartemenfk.id == 16) {
+                                $scope.model.cekpilihManual = true
+                                let x = true
+                                $scope.ceklispilihManual(x);
+                            } else {
+                                $scope.model.cekpilihRujukan = true
+                            }
                             $scope.model.Cito = 1
                             $scope.isBpjsRJ = true
                             $scope.isBpjsRJsep = true
@@ -2107,27 +2114,37 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
 
             $scope.$watch('item.asalRujukan', function (data) {
                 if (!data) return;
-                if (data.id == 7) {
-                    $scope.model.cekpilihManual = false
-                    $scope.isBpjsRJsep = false
-                    $scope.model.generateNoSEP = true
-                    $scope.model.cekpilihRujukan = false
-                    $scope.model.cekpilihPascaranap = true
-                } else if (data.id == 1) {
-                    $scope.model.cekpilihRujukan = true
-                    $scope.model.cekpilihPascaranap = false
-                    $scope.model.cekpilihManual = false
-                    $scope.isBpjsRJsep = false
-                } else if (data.id == 2) {
-                    $scope.model.cekpilihRujukan = true
-                    $scope.model.cekpilihPascaranap = false
-                    $scope.model.cekpilihManual = false
-                    $scope.isBpjsRJsep = false
-                } else {
+                debugger
+                if ($scope.item.ruangan.objectdepartemenfk == 24 || $scope.item.ruangan.objectdepartemenfk == 16) {
                     $scope.model.cekpilihRujukan = false
                     $scope.model.cekpilihPascaranap = false
                     $scope.model.cekpilihManual = true
                     $scope.isBpjsRJsep = true
+                    let x = true
+                    $scope.ceklispilihManual(x);
+                } else {
+                    if (data.id == 7) {
+                        $scope.model.cekpilihManual = false
+                        $scope.isBpjsRJsep = false
+                        $scope.model.generateNoSEP = true
+                        $scope.model.cekpilihRujukan = false
+                        $scope.model.cekpilihPascaranap = true
+                    } else if (data.id == 1) {
+                        $scope.model.cekpilihRujukan = true
+                        $scope.model.cekpilihPascaranap = false
+                        $scope.model.cekpilihManual = false
+                        $scope.isBpjsRJsep = false
+                    } else if (data.id == 2) {
+                        $scope.model.cekpilihRujukan = true
+                        $scope.model.cekpilihPascaranap = false
+                        $scope.model.cekpilihManual = false
+                        $scope.isBpjsRJsep = false
+                    } else {
+                        $scope.model.cekpilihRujukan = false
+                        $scope.model.cekpilihPascaranap = false
+                        $scope.model.cekpilihManual = true
+                        $scope.isBpjsRJsep = true
+                    }
                 }
                 if ($scope.model.noSep != "" && $scope.model.noSep != undefined && $scope.item.kelompokPasien.kelompokpasien == ('BPJS')) {
                     $scope.isBpjsRJsep = true
@@ -2565,14 +2582,31 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 if (cacheRegisOnline == undefined) {
                                     $scope.item.rekanan = { id: $scope.listRekanan[1].id, namarekanan: $scope.listRekanan[1].namarekanan };
                                 }
-                            }
-                            $scope.nonUmum = true;
-                            $scope.isPasienBpjs = true
-                            $scope.isBpjsRJ = true
-                            $scope.model.cekpilihRujukan = true
-                            if ($scope.currentfaskes == 3) {
-                                $scope.model.cekpilihRujukan = false
-                                $scope.model.cekpilihPascaranap = true
+                                $scope.nonUmum = true;
+                                $scope.isPasienBpjs = true
+                                $scope.isBpjsRJ = true
+                                debugger
+                                $scope.model.cekpilihRujukan = true
+                                if ($scope.currentfaskes == 3) {
+                                    $scope.model.cekpilihRujukan = false
+                                    $scope.model.cekpilihPascaranap = true
+                                }
+                            } else {
+                                $scope.nonUmum = true;
+                                $scope.isPasienBpjs = true
+                                $scope.isBpjsRJ = true
+                                debugger
+                                if ($scope.item.objectdepartemenfk.id == 24 || $scope.item.objectdepartemenfk.id == 16) {
+                                    $scope.model.cekpilihManual = true
+                                    let x = true
+                                    $scope.ceklispilihManual(x);
+                                } else {
+                                    $scope.model.cekpilihRujukan = true
+                                }
+                                if ($scope.currentfaskes == 3) {
+                                    $scope.model.cekpilihRujukan = false
+                                    $scope.model.cekpilihPascaranap = true
+                                }
                             }
                             // $scope.generateSKDP(true)
                             medifirstService.get("bridging/bpjs2/get-no-peserta?nokartu=" + $scope.model.noKepesertaan + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
