@@ -1862,6 +1862,7 @@ class LaboratoriumController extends ApiController
             ->select('pr.id','pr.namaexternal as namaproduk')
 //            ->where('pr.kdprofile', $kdProfile)
             ->where('pr.statusenabled',true)
+            ->where('pr.objectdepartemenfk',3)
             // ->where('pr.kodeexternal','<>','BTN 2 TN') teuing naon ieu
             ->groupBy('pr.id','pr.namaexternal')
             ->orderBy('pr.namaexternal')
