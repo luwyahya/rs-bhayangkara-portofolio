@@ -583,10 +583,14 @@
                     <div class="grid_3">
                         <label c-label item="item" c-label-text="No Rencana Kontrol"></label>
                         <input style="background-color: #eea236;" c-text-box type="input" filter="'char'"
-                            class="k-textbox" ng-model="item.noSuratKontrol" readonly />
+                            class="k-textbox" ng-model="item.noSuratKontrol" />
                     </div>
                     <div class="grid_3" style="margin-top: 15px">
                         <button class="btnTemplate1" style="margin-left: 0;" ng-click="simpanTambah()">Simpan</button>
+                    </div>
+                    <div class="grid_3" style="margin-top: 15px">
+                        <button class="btnTemplate1" style="margin-left: 0;"
+                            ng-click="setCetakSurat(item.noSuratKontrol)">Cetak</button>
                     </div>
                 </div>
                 <!-- </div> -->

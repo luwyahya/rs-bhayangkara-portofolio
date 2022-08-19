@@ -718,12 +718,12 @@ define(['initialize'], function (initialize) {
                 {
                     "title": "Cetak",
                     "width": "90px",
-                    "template": "<button class=\"k-button custom-button\" ng-click=\"setCetakSurat(dataItem)\"  style=\"margin:0 0 5px\">#:  'Cetak' #</button> ",
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setCetakSurat(dataItem.noSuratKontrol)\"  style=\"margin:0 0 5px\">#:  'Cetak' #</button> ",
                 },
                 ]
             };
-            $scope.setCetakSurat = function (dataPasienSelected) {
-                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + dataPasienSelected.noSuratKontrol).then(function (e) {
+            $scope.setCetakSurat = function (v) {
+                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + v).then(function (e) {
                     if (e.data.metaData.code === "200") {
                         debugger
                         if (e.data.response.namaJnsKontrol == 'Inap') {
