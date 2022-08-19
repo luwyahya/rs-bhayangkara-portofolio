@@ -2626,7 +2626,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "norec"],
-                    "paramValue": ["RS UNIVERSITAS ANDALAS", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", norectemp],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", norectemp],
                     "paramType": ["", "date", "", ""]
                 };
 
