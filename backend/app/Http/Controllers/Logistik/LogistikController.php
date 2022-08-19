@@ -655,6 +655,71 @@ class LogistikController extends ApiController
         );
         return $this->respond($result);
     }
+    public function saveAdjustmentStok2(Request $request)
+    {
+        //        $kdProfile = $this->getDataKdProfile($request);
+        //        $idProfile = (int) $kdProfile;
+        $dataPegawai = \DB::table('loginuser_s as lu')
+            ->select('lu.objectpegawaifk')
+            ->where('lu.id', $request['userData']['id'])
+            ->first();
+        $KelTransAddjusment = (int) $this->settingDataFixed('KelTransAddjusment');
+        \DB::beginTransaction();
+        try {
+            $newSPD = StokProdukDetail::where('norec', $request['norec_spd'])
+                ->where('nostrukterimafk', $request['nostruterimafk'])
+                ->where('objectruanganfk', $request['ruanganfk'])
+                ->where('objectprodukfk', $request['produkfk'])
+                ->first();
+
+        
+
+              StokProdukDetail::where('nostrukterimafk', $request['nostruterimafk'])               
+                ->where('objectprodukfk', $request['produkfk'])
+                ->update([
+                    'harganetto1' => $request['harga']
+                ]);
+
+            //## Logging User
+            $newId = LoggingUser::max('id');
+            $newId = $newId + 1;
+            $logUser = new LoggingUser();
+            $logUser->id = $newId;
+            $logUser->norec = $logUser->generateNewId();
+            $logUser->kdprofile = 12;
+            $logUser->statusenabled = true;
+            $logUser->jenislog = "ubah harga  Ruangan";
+            // $logUser->noreff = $dataSpdAD;
+            $logUser->referensi = '';
+            $logUser->objectloginuserfk =  $request['userData']['id'];
+            $logUser->tanggal = date('Y-m-d H:i:s');
+            $logUser->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Simpan Gagal";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Berhasil";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "as" => 'ea@epic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                "as" => 'ea@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getDataStokRuanganDetailakhir(Request $request)
     {
         $kelompokpasien = $request['kelompokpasien'];

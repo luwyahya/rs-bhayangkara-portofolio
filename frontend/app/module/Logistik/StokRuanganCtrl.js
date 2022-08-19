@@ -506,8 +506,21 @@ define(['initialize'], function (initialize) {
                 $scope.item.idProduk = $scope.dataSelected.kodeProduk
                 $scope.item.namaProduk = $scope.dataSelected.namaProduk;
                 $scope.item.QtyReal = parseFloat($scope.dataSelected.qtyProduk);
+                $scope.hargaSatuan = parseFloat($scope.dataSelected.harga);  
+                 $scope.AdjustmentShow.center().open();                   
+            }
+              $scope.UbahHarga = function(){                
+                if ($scope.dataSelected == undefined) {
+                    toastr.error("Data Belum Di Pilih")
+                    return;
+                }
+                norec_spd = $scope.dataSelected.norec_spd;
+                nostruterimafk = $scope.dataSelected.nostrukterimafk;
+                $scope.item.idProduk = $scope.dataSelected.kodeProduk
+                $scope.item.namaProduk = $scope.dataSelected.namaProduk;
+                $scope.item.QtyReal = parseFloat($scope.dataSelected.qtyProduk);
                 $scope.hargaSatuan = parseFloat($scope.dataSelected.harga);
-                $scope.AdjustmentShow.center().open();               
+                $scope.HargaShow.center().open();      
             }
 
             $scope.SimpanAdjustment = function(){
@@ -536,7 +549,46 @@ define(['initialize'], function (initialize) {
                 $scope.popUp.close();
                 $scope.AdjustmentShow.close();
             }
+            $scope.lanjutStokOpname2 = function(){
+                $scope.isRouteLoading = true;
+                if ($scope.item.ruangan == undefined) {
+                    toastr.error("Ruangan Harus Diisi");
+                    return
+                }
 
+                if ($scope.item.idProduk == undefined) {
+                    toastr.error("Produk Belum Dipilih");
+                    return
+                }
+
+               
+
+                 var objSave = {
+                    'namaRuangan': $scope.item.ruangan.namaruangan,
+                    'ruanganfk' : $scope.item.ruangan.id,
+                    'norec_spd': norec_spd,
+                    'produkfk': $scope.item.idProduk ,
+                    'nostruterimafk': nostruterimafk,
+                    'qtyreal' : $scope.item.QtyReal,
+                    'qtyad': parseFloat($scope.item.QtyAdjustment),
+                    'harga': parseFloat($scope.hargaSatuan)                    
+                }
+
+                medifirstService.post('logistik/save-adjusment-stok2', objSave).then(function (e) {
+                    norec_spd = '';
+                    nostruterimafk = '';
+                    $scope.item.idProduk = undefined;
+                    $scope.item.namaProduk = undefined;
+                    $scope.item.QtyReal = undefined;
+                    $scope.item.QtyAdjustment = undefined;
+                    $scope.item.kataKunciPass = undefined;
+                    $scope.popUp.close();
+                    $scope.HargaShow.close();
+                    $scope.isRouteLoading = false;
+                    $scope.hargaSatuan = 0;
+                       initData();
+                })
+            }
             $scope.lanjutStokOpname = function(){
                 $scope.isRouteLoading = true;
                 if ($scope.item.ruangan == undefined) {
