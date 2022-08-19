@@ -2248,7 +2248,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "poliKontrol": $scope.item.poliKontrol.kode,
                             "tglRencanaKontrol": moment($scope.item.tanggalRencakaKontrol).format('YYYY-MM-DD'),
                             // "user": $scope.pegawai.tempatLahir,
-                            "user": 'rsunand'
+                            "user": 'rsBhayCianjur'
                         }
                     }
                 }
@@ -2303,7 +2303,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 "poliKontrol": $scope.item.poliKontrol.kode,
                                 "tglRencanaKontrol": moment($scope.item.tanggalRencakaKontrol).format('YYYY-MM-DD'),
                                 // "user": $scope.pegawai.tempatLahir,
-                                "user": 'rsunand'
+                                "user": 'rsBhayCianjur'
                             }
                         }
                     }
