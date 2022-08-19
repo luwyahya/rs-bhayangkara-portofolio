@@ -2539,7 +2539,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
                 if (dataHistorySuratKontrolSelect.jnsKontrol == 1) {
                     $scope.model.skdp = dataHistorySuratKontrolSelect.noSuratKontrol
-                    // $scope.model.noRujukan = dataHistorySuratKontrolSelect.noSuratKontrol
+                    $scope.model.noRujukan = dataHistorySuratKontrolSelect.noSuratKontrol
                     $scope.model.dokterDPJP = { kode: dataHistorySuratKontrolSelect.kodeDokter, nama: dataHistorySuratKontrolSelect.namaDokter }
                 } else {
                     medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + dataHistorySuratKontrolSelect.noSuratKontrol).then(function (e) {

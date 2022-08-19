@@ -183,7 +183,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 medifirstService.get("bridging/bpjs2/get-no-peserta?nokartu=" + $scope.model.noKepesertaan + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
                     if (e.data.metaData.code === "200") {
                         $scope.isBpjsRJsep = true
-                        // $scope.model.noRujukan = $scope.model.skdp
+                        $scope.model.noRujukan = $scope.model.skdp
                         var tglLahir = new Date(e.data.response.peserta.tglLahir);
                         $scope.model.noKepesertaan = $scope.noKartu = e.data.response.peserta.noKartu;
                         $scope.model.namaPeserta = e.data.response.peserta.nama;
@@ -425,7 +425,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 $scope.popUpHistoriSuratKontrol.close()
                 if (dataHistorySuratKontrolSelect.jnsKontrol == 1) {
                     $scope.model.skdp = dataHistorySuratKontrolSelect.noSuratKontrol
-                    // $scope.model.noRujukan = dataHistorySuratKontrolSelect.noSuratKontrol
+                    $scope.model.noRujukan = dataHistorySuratKontrolSelect.noSuratKontrol
                     $scope.model.dokterDPJP = { kode: dataHistorySuratKontrolSelect.kodeDokter, nama: dataHistorySuratKontrolSelect.namaDokter }
                 } else {
                     medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + dataHistorySuratKontrolSelect.noSuratKontrol).then(function (e) {
@@ -618,7 +618,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 if (x.data.data[0].norujukan != null && x.data.data[0].norujukan != '') {
                                     $scope.model.noRujukan = x.data.data[0].norujukan
                                 } else {
-                                    // $scope.model.noRujukan = $scope.model.skdp
+                                    $scope.model.noRujukan = $scope.model.skdp
                                 }
                                 $scope.model.namaAsalRujukan = ppkRumahSakit + " - " + namappkRumahSakit
                             } else {
