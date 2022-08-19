@@ -1521,8 +1521,8 @@ define(['initialize'], function (initialize) {
                 $scope.popUpManual.center().open()
             }
             $scope.saveNormManual = function () {
-                if ($scope.item.normManual.length < 8) {
-                    toastr.warning('Nomor Rekam Medis Harus 8 Digit')
+                if ($scope.item.normManual.length < 7) {
+                    toastr.warning('Nomor Rekam Medis Harus 7 Digit')
                     return
                 }
                 var rm = ""
