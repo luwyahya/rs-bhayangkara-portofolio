@@ -1760,6 +1760,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-tglkadaluarsa-spd', 'Logistik\LogistikController@updateBarangKadaluarsa');
             Route::post('save-harga-produk', 'Logistik\LogistikController@saveHargaProduk');
             Route::post('save-adjusment-stok', 'Logistik\LogistikController@saveAdjustmentStok');
+            Route::post('save-adjusment-stok2', 'Logistik\LogistikController@saveAdjustmentStok2');
             Route::post('update-hapus-tglkadaluarsa-spd', 'Logistik\LogistikController@updateTglBarangKadaluarsa');
             Route::get('get-daftar-stock-flowcekstok', 'Logistik\LogistikController@getDaftarStockFlowDetailRev1cekstok');
             Route::get('get-daftar-stock-flowcekstok2', 'Logistik\LogistikController@getDaftarStockFlowDetailRev1cekstok2');
