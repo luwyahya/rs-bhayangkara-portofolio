@@ -23,8 +23,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.isPasienBpjs = false
             $scope.isBpjsRJ = false
             $scope.isBpjsRJsep = false
-            var ppkRumahSakit = "0050R058"
-            var namappkRumahSakit = "Rumah Sakit Unand"
+            var ppkRumahSakit = "0119R004"
+            var namappkRumahSakit = "RS BHAYANGKARA TK IV CIANJUR"
             $scope.istempatLaporan = true;
             var dirawat = 0;
             var kunjungan = 0;
@@ -796,7 +796,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         var noKartu = '';
                     }
 
-                    var kdPpkRujukan = "0050R058";
+                    var kdPpkRujukan = "0119R004";
                     var kdJenisPelayanan = "1";
                     var poliTujuans = "";
 
