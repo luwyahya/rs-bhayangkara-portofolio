@@ -73,14 +73,14 @@
                                     </td>
                                     <td align="center">
                                         <b>
-                                            <font style="font-size: 14pt; margin-right: 340px;" color="#000000">PUSAT KEDOKTERAN DAN KESEHATAN POLRI</font>
+                                            <font style="font-size: 14pt; margin-right: 0px;" color="#000000">PUSAT KEDOKTERAN DAN KESEHATAN POLRI</font>
                                         <br>
                                         </b>
                                         <b>
-                                            <font style="font-size: 14pt; margin-right: 340px;" color="#000000">RUMAH SAKIT BHAYANGKARA TK.I R SAID SUKANTO</font>
+                                            <font style="font-size: 14pt; margin-right: 0px;" color="#000000">RUMAH SAKIT BHAYANGKARA TK.IV CIANJUR</font>
                                         <br>
                                         </b>
-                                        <font style="font-size: 12pt; margin-right: 340px;" color="#000000">JL. RAYA BOGOR, KRAMAT JATI, JAKARTA TIMUR 13510</font>
+                                        <font style="font-size: 12pt; margin-right: 0px;" color="#000000">Jl. SUROSO, SOLOKPANDAN, KEC. CIANJUR, KABUPATEN CIANJUR, JAWA BARAT 43211</font>
                                     </td>
                                     
                                     </tbody>
@@ -90,7 +90,7 @@
                             </tbody>
                           </table>
                         </div>
-  <div style="margin-top: -10px; margin-right: 350px;">
+  <div style="margin-top: -10px; margin-right: 0px;">
     <hr style="border:1px solid #000;margin-bottom:0px;">
   </div>
                       </td>

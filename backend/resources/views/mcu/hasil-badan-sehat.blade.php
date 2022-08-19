@@ -42,7 +42,7 @@
         <td bordercolor="#808080" height="13" align="center">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        Nomor: {{ $raw->noSurat }}
+                        Nomor: {{ $raw->nosurat }}
                     </span>
             </font>
         </td>
@@ -57,8 +57,7 @@
                 <tr>
                     <td width="120" align="justify" class="contoh3">
                         <font style="font-size: 12pt; margin-left:60px; margin-right:135px;" face="Arial">
-                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara Tk.I R. Said 
-                    Sukanto Jakarta, telah memeriksa kesehatan seorang Laki - Laki / Perempuan :
+                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara Tk.IV Cianjur, telah memeriksa kesehatan seorang Laki - Laki / Perempuan :
                     </font>
                     </td>
                 </tr>
@@ -217,7 +216,7 @@
                 <tr>
                     <td style="text-align: center">
                         <font style="font-size: 12pt; margin-left:400px;" face="Arial">
-                    Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
+                    Cianjur, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
                     </font>
                     <br>
                     <font style="font-size: 12pt; margin-left:400px;" face="Arial">

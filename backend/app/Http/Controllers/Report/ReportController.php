@@ -520,21 +520,21 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         $raw = collect(DB::select("
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
-                '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
-            END AS alamatlengkap,hbs.tinggibadan,hbs.beratbadan,hbs.tensidarah,hbs.suhutubuh,
-            alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,pg.nippns,
-             convert(char,'$request[noSurat]')+ '/' + case when format(getdate(),'MM') = '01' then 'I' when format(getdate(),'MM') = '02' then 'II'
-             when format(getdate(),'MM') = '03' then 'III'
-             when format(getdate(),'MM') = '04' then 'IV'
-             when format(getdate(),'MM') = '05' then 'V'
-             when format(getdate(),'MM') = '06' then 'VI'
-             when format(getdate(),'MM') = '07' then 'VII'
-             when format(getdate(),'MM') = '08' then 'VIII'
-             when format(getdate(),'MM') = '09' then 'IX'
-             when format(getdate(),'MM') = '10' then 'X'
-             when format(getdate(),'MM') = '11' then 'XI' else 'XII' end + '/' + format(getdate(),'yyyy') + '/' + 'Inst.MCU' as noSurat
+        '-' ELSE (
+        alm.alamatlengkap|| ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+        || ' ' || kk.namakotakabupaten || ' ' || pro.namapropinsi )
+        END AS alamatlengkap,hbs.tinggibadan,hbs.beratbadan,hbs.tensidarah,hbs.suhutubuh,
+        alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,pg.nippns,
+        '$request[noSurat]'|| '/' || case when to_char(now(),'MM') = '01' then 'I' when to_char(now(),'MM') = '02' then 'II'
+        when to_char(now(),'MM') = '03' then 'III'
+        when to_char(now(),'MM') = '04' then 'IV'
+        when to_char(now(),'MM') = '05' then 'V'
+        when to_char(now(),'MM') = '06' then 'VI'
+        when to_char(now(),'MM') = '07' then 'VII'
+        when to_char(now(),'MM') = '08' then 'VIII'
+        when to_char(now(),'MM') = '09' then 'IX'
+        when to_char(now(),'MM') = '10' then 'X'
+        when to_char(now(),'MM') = '11' then 'XI' else 'XII' end || '/' || to_char(now(),'yyyy') || '/' || 'Inst.MCU' as nosurat
             FROM hasilpemeriksaanmcu_t as hbs
         INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
         INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
@@ -546,7 +546,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Keterangan Hasil Badan Sehat'
         ORDER BY hbs.nomor2 DESC
         
