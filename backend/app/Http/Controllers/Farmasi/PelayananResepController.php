@@ -1848,7 +1848,7 @@ class PelayananResepController extends ApiController
             ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
             ->leftJOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
             ->JOIN('stokprodukdetail_t as spd', 'spd.objectprodukfk', '=', 'pr.id')
-            ->select('pr.id', 'pr.namaproduk', 'ss.id as ssid', 'ss.satuanstandar')
+            ->select('pr.id', 'pr.namaproduk', 'ss.id as ssid', 'ss.satuanstandar','pr.objectkelompokprodukbpjsfk')
             ->where('pr.statusenabled', true)
             // ->whereIn('jp.id',[97,283])
             ->where('spd.qtyproduk', '>', 0)
@@ -1947,6 +1947,7 @@ class PelayananResepController extends ApiController
                 'ssid' =>   $item->ssid,
                 'satuanstandar' =>   $item->satuanstandar,
                 'konversisatuan' => $satuanKonversi,
+                'objectkelompokprodukbpjsfk' => $item->objectkelompokprodukbpjsfk
             );
         }
         $dataProdukResult1 = [];

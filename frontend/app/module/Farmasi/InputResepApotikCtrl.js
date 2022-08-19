@@ -1059,19 +1059,23 @@ define(['initialize'], function (initialize) {
                         return;
                     }
                     var qty20 = 0
-                    tarifJasa = parseFloat($scope.item.tarifadminresep) //800
-                    if ($scope.item.objectdepartemenfk == 18 || $scope.item.objectdepartemenfk == 24) {
-                        if ($scope.item.kdkelompokPasien == 1) {
-                            if ($scope.item.rke == 1) {
-                                if ($scope.item.jenisKemasan.jeniskemasan == 'Racikan') {
-                                    tarifJasa = tarifJasa + parseFloat($scope.item.tarifjasaresepracikan);
-                                } else {
-                                    tarifJasa = tarifJasa + parseFloat($scope.item.tarifjasaresepnonracikan);
+                    // tarifJasa = parseFloat($scope.item.tarifadminresep) //800
+                    // if ($scope.item.objectdepartemenfk == 18 || $scope.item.objectdepartemenfk == 24) {
+                    //     if ($scope.item.kdkelompokPasien == 1) {
+                    //         if ($scope.item.rke == 1) {
+                    //             if ($scope.item.jenisKemasan.jeniskemasan == 'Racikan') {
+                    //                 tarifJasa = tarifJasa + parseFloat($scope.item.tarifjasaresepracikan);
+                    //             } else {
+                    //                 tarifJasa = tarifJasa + parseFloat($scope.item.tarifjasaresepnonracikan);
 
-                                }
-                            }
-                        }
-
+                    //             }
+                    //         }
+                    //     }
+                    // }
+                    if ($scope.item.produk.objectkelompokprodukbpjsfk == 16) {
+                        tarifJasa = 2000;
+                    } else {
+                        tarifJasa = 4000;
                     }
 
                     // if (parseFloat(tarifJasa) != 0) {
