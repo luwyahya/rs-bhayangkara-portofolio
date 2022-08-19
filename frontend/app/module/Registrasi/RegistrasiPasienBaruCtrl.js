@@ -1350,6 +1350,20 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                     }
                                 }
                             }
+                            if ($scope.item.keluargaAnggota != undefined || $scope.item.keluargaAnggota.id != undefined || $scope.item.keluargaAnggota.id != null || $scope.item.keluargaAnggota.id != '' || $scope.item.keluargaAnggota.id != '-') {
+                                if ($scope.item.kelompok === undefined || $scope.item.kelompok.id === undefined || $scope.item.kelompok.id === null || $scope.item.kelompok.id === '' || $scope.item.kelompok.id === '-') {
+                                    toastr.error('Kelompok Belum Di Pilih', 'Peringatan');
+                                    $scope.hideBtnSimpan = false;
+                                    return;
+                                }
+                            }
+                            if ($scope.item.hubunganAnggota != undefined || $scope.item.hubunganAnggota.id != undefined || $scope.item.hubunganAnggota.id != null || $scope.item.hubunganAnggota.id != '' || $scope.item.hubunganAnggota.id != '-') {
+                                if ($scope.item.kelompok === undefined || $scope.item.kelompok.id === undefined || $scope.item.kelompok.id === null || $scope.item.kelompok.id === '' || $scope.item.kelompok.id === '-') {
+                                    toastr.error('Kelompok Belum Di Pilih', 'Peringatan');
+                                    $scope.hideBtnSimpan = false;
+                                    return;
+                                }
+                            }
 
                             debugger;
                             if ($scope.item.kelompok != undefined) {
