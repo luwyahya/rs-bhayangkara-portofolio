@@ -41,8 +41,7 @@
                 <tr>
                     <td width="120" align="justify">
                         <font style="font-size: 14pt; margin-left:60px; margin-right:135px;" face="Arial">
-                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara Tk.I R. Said 
-                    Sukanto Jakarta, telah memeriksa kesehatan seorang Laki - Laki / Perempuan :
+                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara Tk.IV Cianjur , telah memeriksa kesehatan seorang Laki - Laki / Perempuan :
                     </font>
                     </td>
                 </tr>
@@ -164,7 +163,7 @@
                 <tr>
                     <td style="text-align: center">
                         <font style="font-size: 14pt; margin-left:400px;" face="Arial">
-                    Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
+                    Cianjur, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
                     </font>
                     <br>
                     <font style="font-size: 14pt; margin-left:400px;" face="Arial">

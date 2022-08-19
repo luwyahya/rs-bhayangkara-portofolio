@@ -42,8 +42,8 @@
                     <td width="120" align="justify">
                         <font style="font-size: 14pt; margin-left:60px; margin-right:135px;" face="Arial">
                     Yang bertanda tangan dibawah ini Dokter Spesialis Kesehatan Jiwa pada Rumah Sakit
-                    Bhayangkara Tk.I R. Said Sukanto Jakarta, menerangkan bahwa atas permintaan SENDIRI
-                    bertempat di Instalasi MCU Rumah Sakit Bhayangkara Tk. I R. Said Sukanto Jakarta, pada
+                    Bhayangkara Tk.IV Cianjur, menerangkan bahwa atas permintaan SENDIRI
+                    bertempat di Instalasi MCU Rumah Sakit Bhayangkara Tk. IV Cianjur, pada
                     tanggal {{ App\Traits\Valet::getDateIndo(date('Y-m-d')).date(' H:i')   }} WIB melakukan pemeriksaan
                     dengan keterangan sebagai berikut
                     </font>

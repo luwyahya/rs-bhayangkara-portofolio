@@ -653,8 +653,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
             alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2
             FROM hasilpemeriksaanmcu_t as hbs
@@ -668,7 +668,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Keterangan Bebas Penyakit Menular'
         ORDER BY hbs.nomor2 DESC
         
@@ -683,8 +683,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
             alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2
             FROM hasilpemeriksaanmcu_t as hbs
@@ -698,7 +698,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Keterangan Bebas HIV'
         ORDER BY hbs.nomor2 DESC
         
@@ -713,20 +713,20 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
             alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,pg.nippns,
-            convert(char,'$request[noSurat]')+ '/' + case when format(getdate(),'MM') = '01' then 'I' when format(getdate(),'MM') = '02' then 'II'
-            when format(getdate(),'MM') = '03' then 'III'
-            when format(getdate(),'MM') = '04' then 'IV'
-            when format(getdate(),'MM') = '05' then 'V'
-            when format(getdate(),'MM') = '06' then 'VI'
-            when format(getdate(),'MM') = '07' then 'VII'
-            when format(getdate(),'MM') = '08' then 'VIII'
-            when format(getdate(),'MM') = '09' then 'IX'
-            when format(getdate(),'MM') = '10' then 'X'
-            when format(getdate(),'MM') = '11' then 'XI' else 'XII' end + '/' + format(getdate(),'yyyy') + '/' + 'Inst.MCU' as noSurat
+            '$request[noSurat]'|| '/' || case when to_char(now(),'MM') = '01' then 'I' when to_char(now(),'MM') = '02' then 'II'
+        when to_char(now(),'MM') = '03' then 'III'
+        when to_char(now(),'MM') = '04' then 'IV'
+        when to_char(now(),'MM') = '05' then 'V'
+        when to_char(now(),'MM') = '06' then 'VI'
+        when to_char(now(),'MM') = '07' then 'VII'
+        when to_char(now(),'MM') = '08' then 'VIII'
+        when to_char(now(),'MM') = '09' then 'IX'
+        when to_char(now(),'MM') = '10' then 'X'
+        when to_char(now(),'MM') = '11' then 'XI' else 'XII' end || '/' || to_char(now(),'yyyy') || '/' || 'Inst.MCU' as nosurat
             FROM hasilpemeriksaanmcu_t as hbs
         INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
         INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
@@ -738,7 +738,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Keterangan Tidak Hamil'
         ORDER BY hbs.nomor2 DESC
         
@@ -762,11 +762,11 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         ,pd.tglregistrasi,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,ps.tempatlahir, ps.tempatlahir as tempatlahir2, ps.tgllahir as tgllahir2,
             pg1.namalengkap as namalengkap1,pg2.namalengkap as namalengkap2,pg3.namalengkap as namalengkap3,pg4.namalengkap as namalengkap4,pg5.namalengkap as namalengkap5,pg6.namalengkap as namalengkap6,
-            pdf.jumlahgigikananatas + pdf.jumlahgigikananbawah + pdf.jumlahgigikiriatas + pdf.jumlahgigikiribawah as jumlahgigitotal, * FROM pemeriksaandokterforensik_t as pdf
+            pdf.jumlahgigikananatas || pdf.jumlahgigikananbawah || pdf.jumlahgigikiriatas || pdf.jumlahgigikiribawah as jumlahgigitotal, * FROM pemeriksaandokterforensik_t as pdf
         INNER JOIN pasiendaftar_t as pd on pd.norec = pdf.noregistrasifk
         INNER JOIN pasien_m as ps on ps.id = pd.nocmfk
         INNER JOIN jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk
@@ -804,12 +804,12 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
-            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal + ' ' + 'NRP .' + ' ' + pg.nrp
-            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat + ' ' + 'NIP .' + ' ' + pg.nippns
-            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat + ' ' + 'SIP .' + ' ' + pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
+            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal || ' ' || 'NRP .' || ' ' || pg.nrp
+            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat || ' ' || 'NIP .' || ' ' || pg.nippns
+            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat || ' ' || 'SIP .' || ' ' || pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
             alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.persyaratan,hbs.nomor2,hbs.tglcetak,hbs.tinggibadan,hbs.beratbadan,hbs.suhutubuh,hbs.tensidarah,hbs.jenispemeriksaan
             FROM hasilpemeriksaanmcu_t as hbs
         INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
@@ -838,12 +838,12 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
-            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal + ' ' + 'NRP .' + ' ' + pg.nrp
-            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat + ' ' + 'NIP .' + ' ' + pg.nippns
-            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat + ' ' + 'SIP .' + ' ' + pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
+            CASE WHEN pg.objectpangkatfk = 37 THEN pt.namaexternal || ' ' || 'NRP .' || ' ' || pg.nrp
+            WHEN pg.objectpangkatfk in (14,15) THEN pt.namapangkat || ' ' || 'NIP .' || ' ' || pg.nippns
+            WHEN pg.objectpangkatfk = 46 THEN pt.namapangkat || ' ' || 'SIP .' || ' ' || pg.nosip else '-' end as pangkatnrp, case when hbs.nomor2 is not null then hbs.nomor2 else '-' end as nomor3,
             alm.alamatlengkap as alamatlengkap2, pg.namalengkap as namadokter,hbs.nopasspor,'$request[tgldafta]' as tglregistrasi,'$request[tglambil]' as tglambil,pg.nippns
             FROM hasilpemeriksaanmcu_t as hbs
         INNER JOIN pasiendaftar_t as pd on pd.norec = hbs.noregistrasifk
@@ -869,8 +869,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKllVisum(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
@@ -890,8 +890,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKllVisumKoreksiII(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
@@ -911,8 +911,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKllVisumKoreksiSpesialis(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
@@ -932,8 +932,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKllVisumKoreksiInstalasi(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
@@ -953,12 +953,12 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKllVisum2(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
-		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || ', ' || pg4.namalengkap || 'sebagai konsultan forensik' else '' end as formatkonsultan,
 		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
 		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
 		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
@@ -983,9 +983,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKfdVisum(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1004,9 +1004,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKfdVisumKoreksiII(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1025,9 +1025,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKfdVisumKoreksiSpesialis(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1046,9 +1046,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKfdVisumKoreksiInstalasi(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1067,12 +1067,12 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKfdVisum2(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
-		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || ', ' || pg4.namalengkap || 'sebagai konsultan forensik' else '' end as formatkonsultan,
 		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
 		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
 		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
@@ -1097,9 +1097,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKsdVisum(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ' sebagai konsultan forensik' else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap || ' sebagai konsultan forensik' else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1118,9 +1118,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKsdVisumKoreksiII(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum2 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1139,9 +1139,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKsdVisumKoreksiSpesialis(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum3 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1160,9 +1160,9 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKsdVisumKoreksiInstalasi(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
-        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' + pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
+        pv.nosurat, pv.kllvisum4 , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, case when pv.dokterkonsultanfk is not null then 'dan diketahui oleh ' || pg2.namalengkap else '' end as dokterkonsultan from pasienvisum_t as pv inner join
         pasiendaftar_t as pd on pd.norec = pv.noregistrasifk inner join
         pasien_m as ps on ps.id = pd.nocmfk inner join
         jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk inner join
@@ -1181,12 +1181,12 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
     }
     public function cetakKsdVisum2(Request $request) {
         $raw = collect(DB::select("
-        select 'a/n : ' + ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir + ', ' + convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
-        case when al.alamatlengkap is null then '-' else al.alamatlengkap + ' ' + al.namadesakelurahan + ' ' + al.namakecamatan + ' ' + al.namakotakabupaten + ' ' + pro.namapropinsi end as alamat,
+        select 'a/n : ' || ps.namapasien as namapasien,ps.namapasien as namapasien2, ps.tempatlahir || ', ' || convert(varchar, ps.tgllahir, 105) as ttl, jk.jeniskelamin, neg.namanegara, ag.agama, pk.pekerjaan,
+        case when al.alamatlengkap is null then '-' else al.alamatlengkap || ' ' || al.namadesakelurahan || ' ' || al.namakecamatan || ' ' || al.namakotakabupaten || ' ' || pro.namapropinsi end as alamat,
         pv.nosurat, pv.kllprint , pg.namalengkap as dokter, pg2.namalengkap as dokterkonsultan, pv.permintaan, pv.nosuratpermintaan, pv.tglpermintaan, 
-		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + 'sebagai konsultan forensik'
-		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' + pg2.namalengkap + ', ' + pg3.namalengkap + ', ' + pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
+		case when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || 'sebagai konsultan forensik'
+		when pv.dokterkonsultanfk is not null and pv.dokterkonsultan2fk is not null and pv.dokterkonsultan3fk is not null then 'dan diketahui oleh ' || pg2.namalengkap || ', ' || pg3.namalengkap || ', ' || pg4.namalengkap + 'sebagai konsultan forensik' else '' end as formatkonsultan,
 		case when pg2.namalengkap is not null then 'Mengetahui :' else '' end as mengetahuikonsulen, case when pg2.namalengkap is not null then '2. Dokter Konsulen' else '' end as formatkonsulen, case when pg2.namalengkap is not null then pg2.namalengkap else '' end as konsulen,
 		case when pg3.namalengkap is not null then '3. Dokter Konsulen' else '' end as formatkonsulen2, case when pg3.namalengkap is not null then pg3.namalengkap else '' end as konsulen2,
 		case when pg4.namalengkap is not null then '4. Dokter Konsulen' else '' end as formatkonsulen3, case when pg4.namalengkap is not null then pg4.namalengkap else '' end as konsulen3
