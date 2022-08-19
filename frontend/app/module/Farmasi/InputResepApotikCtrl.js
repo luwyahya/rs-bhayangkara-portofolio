@@ -1072,10 +1072,12 @@ define(['initialize'], function (initialize) {
                     //         }
                     //     }
                     // }
-                    if ($scope.item.produk.objectkelompokprodukbpjsfk == 16) {
-                        tarifJasa = 2000;
-                    } else {
-                        tarifJasa = 4000;
+                    if ($scope.item.kdkelompokPasien == 1) {
+                        if ($scope.item.produk.objectkelompokprodukbpjsfk == 16) {
+                            tarifJasa = 2000;
+                        } else {
+                            tarifJasa = 4000;
+                        }
                     }
 
                     // if (parseFloat(tarifJasa) != 0) {
