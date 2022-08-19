@@ -4,31 +4,31 @@
         text-align: center;
         width: 100%;
     }
-    
+
     .style-right {
         display: inline-block;
         text-align: right;
         width: 100%;
     }
-    
+
     .style-left {
         display: inline-block;
         text-align: left;
         width: 100%;
     }
-    
+
     .red {
         background-color: #ff3860;
         color: #FFFFFF;
         /*font-weight: bold;*/
     }
-    
+
     .koneng {
         background-color: yellow;
         color: #000000;
         /*font-weight: bold;*/
     }
-    
+
     .green {
         background-color: #98FB98;
         color: #000000;
@@ -54,7 +54,8 @@
             <div class="grid_12">
                 <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.kasir" k-data-text-field="'namalengkap'"
 					k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKasir" /> -->
-                <select ng-show="listKasir.length" kendo-multi-select k-options="selectOptionsKasir" k-filter="'contains'" k-data-source="listKasir" k-ng-model="item.KasirMulti"></select>
+                <select ng-show="listKasir.length" kendo-multi-select k-options="selectOptionsKasir"
+                    k-filter="'contains'" k-data-source="listKasir" k-ng-model="item.KasirMulti"></select>
             </div>
         </div>
 
@@ -65,7 +66,8 @@
             <div class="clear"></div>
 
             <div class="grid_12">
-                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ins" k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listInstalasi" />
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ins" k-data-text-field="'namadepartemen'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listInstalasi" />
             </div>
         </div>
 
@@ -77,7 +79,8 @@
             <div class="clear"></div>
 
             <div class="grid_12">
-                <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar" k-data-text-field="'carabayar'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listCaraBayar" />
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar" k-data-text-field="'carabayar'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listCaraBayar" />
             </div>
         </div>
 
@@ -89,7 +92,9 @@
             <div class="clear"></div>
 
             <div class="grid_12">
-                <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokTransaksi" k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelompokTransaksi" />
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokTransaksi"
+                    k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listKelompokTransaksi" />
             </div>
         </div>
 
@@ -103,12 +108,14 @@
             <div class="grid_12">
                 <!-- AwalPeriode -->
                 <div class="grid_6 padDatePicker">
-                    <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    <input style="width: 100%" k-ng-model="item.periodeAwal" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
                 </div>
 
                 <!-- AkhirPeriode -->
                 <div class="grid_6 padDatePicker">
-                    <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    <input style="width: 100%" k-ng-model="item.periodeAkhir" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -137,7 +144,9 @@
 
     <!-- grid table -->
     <div class="grid_12 borderBox">
-        <div id="kGrid" kendo-grid k-data-source="dataDaftarPenerimaan" k-selectable="'row'" options="columnDaftarPenerimaan" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataSbnSelected" ng-click="klik(dataSbnSelected)">
+        <div id="kGrid" kendo-grid k-data-source="dataDaftarPenerimaan" k-selectable="'row'"
+            options="columnDaftarPenerimaan" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataSbnSelected"
+            ng-click="klik(dataSbnSelected)">
         </div>
     </div>
     <div class="clear"></div>
@@ -152,7 +161,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nosbm" ng-keypress="($event.which == 13)? SearchEnter():item.nosbm" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nosbm"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.nosbm" />
                 </div>
             </div>
             <div class="grid_4">
@@ -161,7 +171,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.norm" ng-keypress="($event.which == 13)? SearchEnter():item.norm" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.norm"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.norm" />
                 </div>
             </div>
             <div class="grid_4">
@@ -170,7 +181,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nama" ng-keypress="($event.which == 13)? SearchEnter():item.nama" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nama"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.nama" />
                 </div>
             </div>
         </div>
@@ -181,7 +193,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.desk" ng-keypress="($event.which == 13)? SearchEnter():item.desk" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.desk"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.desk" />
                 </div>
             </div>
             <div class="grid_6">
@@ -190,7 +203,8 @@
                 </div>
 
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.STD" ng-keypress="($event.which == 13)? SearchEnter():item.STD" />
+                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.STD"
+                        ng-keypress="($event.which == 13)? SearchEnter():item.STD" />
                 </div>
             </div>
         </div>
@@ -218,7 +232,8 @@
                 <button class="btnTemplate1" ng-click="CetakLaporanKasirJasper()">Cetak Laporan Kasir</button>
             </div>
             <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
-                <button class="btnTemplate1" ng-click="CetakLaporanKasirDetailNew()">Cetak Laporan Kasir Detail New</button>
+                <button class="btnTemplate1" ng-click="CetakLaporanKasirDetailNew()">Cetak Laporan Kasir Detail
+                    New</button>
             </div>
 
             <div class="grid_2" style="margin-top: 18px" ng-show="btn_0" ng-hide="true">
@@ -233,7 +248,7 @@
             <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="HapusSetoran()">Setor/Batal Setor</button>
             </div>
-            <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
+            <!-- <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="laporankasirdetailjasper()">Laporan Farmasi Rajal</button>
             </div>
             <div class="grid_3" style="margin-top: 18px" ng-show="btn_0">
@@ -244,7 +259,7 @@
             </div>
             <div class="grid_3" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="CetakLaporanKasirdetailFarmasi()">Cetak Laporan Kasir Detail Farmasi</button>
-            </div>
+            </div> -->
             <div class="grid_3" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="suratjalan()">Surat Jalan Ambulan</button>
             </div>
@@ -266,7 +281,8 @@
                     <label c-label item="item " c-label-text="Total Cash"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalCash" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalCash"
+                        disabled="" />
                 </div>
             </div>
             <div class="grid_6" style="margin-top:-10px">
@@ -274,7 +290,8 @@
                     <label c-label item="item " c-label-text="Total Debit"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalDebit" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalDebit"
+                        disabled="" />
                 </div>
             </div>
         </div>
@@ -284,7 +301,8 @@
                     <label c-label item="item " c-label-text="Total Kredit"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalKredit" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalKredit"
+                        disabled="" />
                 </div>
             </div>
             <div class="grid_6" style="margin-top:-10px">
@@ -292,7 +310,8 @@
                     <label c-label item="item " c-label-text="Total Donasi"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalDonasi" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalDonasi"
+                        disabled="" />
                 </div>
             </div>
         </div>
@@ -302,7 +321,8 @@
                     <label c-label item="item " c-label-text="Total Mix"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalMix" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalMix"
+                        disabled="" />
                 </div>
             </div>
             <div class="grid_6" style="margin-top:-10px">
@@ -310,7 +330,8 @@
                     <label c-label item="item " c-label-text="Total Transfer Bank"></label>
                 </div>
                 <div class="grid_12">
-                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalTrf" disabled="" />
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.totalTrf"
+                        disabled="" />
                 </div>
             </div>
         </div>
@@ -325,7 +346,8 @@
         <div class="clear"></div>
 
         <div class="grid_12">
-            <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar1" k-data-text-field="'carabayar'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listCaraBayar" />
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar1" k-data-text-field="'carabayar'"
+                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listCaraBayar" />
         </div>
     </div>
     <div class="grid_1" style="margin-top: 15px" ng-show="btn_1">
@@ -336,7 +358,8 @@
     </div>
 </div>
 
-<div kendo-window="popUp" k-title="'Masukkan Tanggal Setor'" k-width="300" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+<div kendo-window="popUp" k-title="'Masukkan Tanggal Setor'" k-width="300" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
     <div class="panel panel-default container_12" style="padding: 0px 10px;">
         <div class="grid_12">
 
@@ -348,7 +371,8 @@
             <div class="grid_12">
                 <!-- AwalPeriode -->
                 <div class="grid_12 padDatePicker">
-                    <input style="width: 100%" k-ng-model="item.tglsetor" kendo-datetimepicker k-max="now" placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                    <input style="width: 100%" k-ng-model="item.tglsetor" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
                 </div>
 
                 <div class="clear"></div>
@@ -358,8 +382,10 @@
         <div class="clear"></div>
         <!-- kata kunci confirm -->
         <div class="dialog_buttons pull-right" style="margin-top:5%">
-            <input type="button" class="confirm_no k-button" value="Kembali" style="width: 70px" ng-click="kembali()" /> &nbsp;
-            <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px" ng-click="lanjutsimpan()" />
+            <input type="button" class="confirm_no k-button" value="Kembali" style="width: 70px" ng-click="kembali()" />
+            &nbsp;
+            <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px"
+                ng-click="lanjutsimpan()" />
         </div>
         <div kendo-window="popup_editor" k-title="''" k-visible="false" k-width="800" k-height="800">
             <div class="panel panel-default container_12">
@@ -370,7 +396,8 @@
                     <div class="clear"></div>
 
                     <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi" ng-disabled="true" />
+                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi"
+                            ng-disabled="true" />
                     </div>
 
                 </div>
@@ -381,7 +408,9 @@
                     <div class="clear"></div>
 
                     <div class="grid_8">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugas" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="ListDataPegawai" />
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugas"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="ListDataPegawai" />
                     </div>
                 </div>
                 <div class="grid_12">
@@ -391,7 +420,8 @@
                     <div class="clear"></div>
                     <div class="grid_8 padDatePicker">
                         <div class="grid_12">
-                            <input style="width: 100%" k-ng-model="item.tglberangkat" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                            <input style="width: 100%" k-ng-model="item.tglberangkat" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
                         </div>
                     </div>
 

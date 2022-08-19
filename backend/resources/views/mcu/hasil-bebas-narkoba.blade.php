@@ -214,7 +214,7 @@
                 <tr>
                     <td style="text-align: center">
                         <font style="font-size: 14pt; margin-left:400px;" face="Arial">
-                    Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
+                    Cianjur, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
                     </font>
                     <br>
                     <font style="font-size: 14pt; margin-left:400px;" face="Arial">

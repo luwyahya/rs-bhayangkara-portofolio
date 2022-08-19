@@ -561,8 +561,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,hpm.nomor2,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
             alm.alamatlengkap as alamatlengkap2
             FROM pasien_m as ps
@@ -575,7 +575,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         WHERE pd.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hpm.keterangan = 'Surat Keterangan Bebas Narkoba'
         ORDER BY hpm.nomor2 DESC
         
@@ -624,8 +624,8 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         SELECT ps.namapasien,ps.tgllahir,pd.norec as norec_pd,jk.jeniskelamin,hpm.nomor2,
         CASE WHEN alm.alamatlengkap IS NULL THEN
                 '-' ELSE (
-                alm.alamatlengkap + ' ' + ds.namadesakelurahan + ' '+ kc.namakecamatan
-                + ' ' + kk.namakotakabupaten + ' '  + pro.namapropinsi )
+                alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' '|| kc.namakecamatan
+                || ' ' || kk.namakotakabupaten || ' '  || pro.namapropinsi )
             END AS alamatlengkap,
             alm.alamatlengkap as alamatlengkap2
             FROM pasien_m as ps
@@ -638,7 +638,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
             left join kecamatan_m as kc on kc.id=alm.objectkecamatanfk
             left join propinsi_m as pro on pro.id=alm.objectpropinsifk
         WHERE pd.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hpm.keterangan = 'Surat Keterangan Bebas Narkoba v2'
         ORDER BY hpm.nomor2 DESC
         
