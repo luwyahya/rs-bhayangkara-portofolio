@@ -3196,6 +3196,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             } else {
                                 kdJenisPelayanan = "1";
                                 kdPpkRujukan = "0119R004";
+                                $scope.model.noRujukan = $scope.model.skdp;
                             }
                         }
                     } else {
