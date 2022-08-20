@@ -2688,14 +2688,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.cetakSpri = function (x) {
                 // function cetakSpri(noregistrasi) {
                 debugger
-                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-sep-v2?noSEP=" + $scope.dataPasienSelected.noSep).then(function (e) {
+                // medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-sep-v2?noSEP=" + $scope.dataPasienSelected.noSep).then(function (e) {
+                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + $scope.item.noSPRI).then(function (e) {
                     if (e.data.metaData.code === "200") {
                         $("#noSPRIx").text($scope.item.noSPRI);
                         $("#nokartu").text($scope.item.nokartuBpjs);
                         $("#namapeserta").text($scope.dataPasienSelected.namapasien);
                         $("#tgllahir").text(moment($scope.dataPasienSelected.tgllahir).format('YYYY-MM-DD'));
                         $("#diagnosa").text('');
-                        $("#rencanainap").text(e.data.response.provPerujuk.tglRujukan);
+                        $("#rencanainap").text(e.data.response.tglRencanaKontrol);
                         $("#tglcetak").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
 
                         var printdata = document.getElementById(x);
