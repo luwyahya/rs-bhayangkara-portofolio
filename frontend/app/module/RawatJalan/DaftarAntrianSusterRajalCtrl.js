@@ -4570,7 +4570,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         messageContainer.error("Pilih data terlebih dahulu");
                         return
                     }
-                    if ($scope.dataPasienSelected.objectruanganfk != 322) {
+                    if ($scope.dataPasienSelected.objectruanganfk != 322 && $scope.dataPasienSelected.objectruanganfk != 569 && $scope.dataPasienSelected.objectruanganfk != 309) {
                         if ($scope.myVar == 0) {
                             alert('Dokumen Belum Diterima Nih... ketahuan nihh yaahh')
                             return;
