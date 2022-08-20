@@ -108,13 +108,15 @@ define(['initialize'], function (initialize) {
                     dataLogin = e.data.datalogin;
                     idKelompokPasienLastfk = e.data.listRuangan[0].objectkelompokpasienlastfk;
                     KelompokUser = e.data.kelompokuser;
+                    debugger
                     $scope.listRuangAPD = e.data.listRuangan
                     $scope.item.PegawaiLoginfk = e.data.pegawailoginfk;
                     var brs = e.data.listRuangan.length
                     ruangaan2 = {
                         id: e.data.listRuangan[brs - 1].id,
                         namaruangan: e.data.listRuangan[brs - 1].namaruangan,
-                        objectdepartemenfk: e.data.listRuangan[brs - 1].objectdepartemenfk
+                        objectdepartemenfk: e.data.listRuangan[brs - 1].objectdepartemenfk,
+                        norec_apd: e.data.listRuangan[brs - 1].norec
                     }
                     $scope.item.ruang2 = ruangaan2
 
@@ -162,13 +164,15 @@ define(['initialize'], function (initialize) {
                     dataLogin = e.data.datalogin;
                     idKelompokPasienLastfk = e.data.listRuangan[0].objectkelompokpasienlastfk;
                     KelompokUser = e.data.kelompokuser;
+                    debugger
                     $scope.listRuangAPD = e.data.listRuangan
                     $scope.item.PegawaiLoginfk = e.data.pegawailoginfk;
                     var brs = e.data.listRuangan.length
                     ruangaan2 = {
                         id: e.data.listRuangan[brs - 1].id,
                         namaruangan: e.data.listRuangan[brs - 1].namaruangan,
-                        objectdepartemenfk: e.data.listRuangan[brs - 1].objectdepartemenfk
+                        objectdepartemenfk: e.data.listRuangan[brs - 1].objectdepartemenfk,
+                        norec_apd: e.data.listRuangan[brs - 1].norec
                     }
                     $scope.item.ruang2 = ruangaan2
 
@@ -303,6 +307,39 @@ define(['initialize'], function (initialize) {
                     // 	})
                     // }
                 }, 0);
+            }
+
+            $scope.popUpInputTindakan = function () {
+                medifirstService.get("registrasi/get-status-close/" + $scope.item.noRegistrasi, false).then(function (rese) {
+                    if (rese.data.status == true) {
+                        toastr.error('Pemeriksaan sudah ditutup tanggal ' + moment(new Date(rese.data.tglclosing)).format('DD-MMM-YYYY HH:mm'), 'Peringatan!')
+                        return;
+
+                    }
+                    var ruangan = "";
+                    medifirstService.get("registrasi/daftar-registrasi/get-apd?noregistrasi=" +
+                        $scope.item.noRegistrasi +
+                        "&objectruanganlastfk=" + ruangan
+                    ).then(function (data) {
+                        $scope.listRuanganApd = data.data.ruangan;
+                        $scope.item.ruanganAntrian = {
+                            id: $scope.listRuanganApd[0].id,
+                            namaruangan: $scope.listRuanganApd[0].namaruangan,
+                            norec_apd: $scope.listRuanganApd[0].norec_apd
+                        }
+                    })
+                    $scope.popupAntrians.center().open();
+                    $scope.showInputTindakan = true;
+                    $scope.showBuktiLayanan = false;
+                });
+            }
+            $scope.inputTindakanBaru = function () {
+                debugger
+                $state.go('InputTindakan', {
+                    norecPD: $scope.item.norec_pd,
+                    norecAPD: $scope.item.ruang2.norec_apd,
+
+                });
             }
 
             $scope.inputTindakanPertanyaan = function () {
@@ -808,7 +845,8 @@ define(['initialize'], function (initialize) {
                     ruangaan2 = {
                         id: $scope.item.ruang2.id,
                         namaruangan: $scope.item.ruang2.namaruangan,
-                        objectdepartemenfk: $scope.item.ruang2.objectdepartemenfk
+                        objectdepartemenfk: $scope.item.ruang2.objectdepartemenfk,
+                        norec_apd: $scope.item.ruang2.norec
                     }
                 } else {
                     ruangaan2 = {}
@@ -831,6 +869,7 @@ define(['initialize'], function (initialize) {
                 $scope.selectedData = [];
 
                 medifirstService.get("tatarekening/get-data-login?noRegistrasi=" + $scope.item.noRegistrasi).then(function (e) {
+                    debugger
                     dataLogin = e.data.datalogin;
                     KelompokUser = e.data.kelompokuser;
                     $scope.listRuangAPD = e.data.listRuangan

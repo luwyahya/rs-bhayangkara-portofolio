@@ -491,13 +491,15 @@
 				</div> -->
     </div>
     <div class="grid_6" style="margin-top: 0px" ng-show="button">
-        <!-- <div class="grid_3" >
-					<button class="c-button" ng-click="inputTindakan()">Input Tindakan</button>
-				</div> -->
-        <div class="grid_3" style="margin-top: -10px;">
+        <div class="grid_3">
+            <button class="c-button" ng-click="inputTindakanBaru()">Input Tindakan</button>
+        </div>
+        <!-- ini yang lama -->
+        <!-- <div class="grid_3" style="margin-top: -10px;">
             <button class="btnTemplate1" ng-click="inputTindakanPertanyaan()"><i class="fa fa-stethoscope"></i> Input
                 Tindakan</button>
-        </div>
+        </div> -->
+        <!-- ini yang lama -->
         <!-- <div class="grid_2" >
 					<button class="c-button" ng-click="UpdateHarga()">Simpan</button>
 				</div> -->
@@ -1465,6 +1467,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- show pop up input Tindakan -->
+        <div kendo-window="popupAntrians" k-title="'Pilih Ruangan'" k-width="400" k-height="120" k-visible="false"
+            k-on-open="win2visible = true" k-on-close="win2visible = false">
+            <label c-label item="item " c-label-text="Nama Ruangan "></label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruanganAntrian"
+                k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                k-data-source="listRuanganApd" />
+            <div class="clear">
+                <button class="k-button" ng-click="inputTindakanBaru()" style="float:right;margin-top:4%"
+                    ng-show="showInputTindakan">Input Tindakan</button>
+            </div>
+            <!-- < -->
         </div>
     </div>
 </div>

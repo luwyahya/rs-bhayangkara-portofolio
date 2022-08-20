@@ -4646,13 +4646,13 @@ class TagihanController  extends ApiController
 
         $dataAPD = DB::select(
             DB::raw("
-                 select x.id,x.namaruangan,x.tglmasuk,x.objectkelompokpasienlastfk,x.objectdepartemenfk from (select  ru.id,ru.namaruangan ,apd.tglmasuk,pd.objectkelompokpasienlastfk, ru.objectdepartemenfk
+                 select x.norec,x.id,x.namaruangan,x.tglmasuk,x.objectkelompokpasienlastfk,x.objectdepartemenfk from (select  apd.norec,ru.id,ru.namaruangan ,apd.tglmasuk,pd.objectkelompokpasienlastfk, ru.objectdepartemenfk
                 from pasiendaftar_t as pd
                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                 INNER JOIN ruangan_m as ru on ru.id=apd.objectruanganfk
                 where pd.noregistrasi=:noregistrasi and apd.statusenabled=true
                   
-                 ) as x group by x.id,x.namaruangan,x.tglmasuk,x.objectkelompokpasienlastfk,x.objectdepartemenfk order by x.tglmasuk asc
+                 ) as x group by x.norec,x.id,x.namaruangan,x.tglmasuk,x.objectkelompokpasienlastfk,x.objectdepartemenfk order by x.tglmasuk asc
             "),
             array(
                 'noregistrasi' => $request['noRegistrasi'],

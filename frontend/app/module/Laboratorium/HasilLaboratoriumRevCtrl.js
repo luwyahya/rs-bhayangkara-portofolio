@@ -31,6 +31,7 @@ define(['initialize'], function (initialize) {
                 }
                 var chacePeriode = cacheHelper.get('chaceHasilLab2');
                 if (chacePeriode != undefined) {
+                    debugger
                     //var arrPeriode = chacePeriode.split(':');
                     $scope.item.noMr = chacePeriode[0]
                     $scope.item.namaPasien = chacePeriode[1]
@@ -253,7 +254,7 @@ define(['initialize'], function (initialize) {
                             // tglpelayanans = Date.parse(bingung);
                             // $scope.item.tglhasilminsec = tglpelayanans + $scope.item.mintime;
                             // $scope.item.tglhasilmaxsec = tglpelayanans + $scope.item.maxtime;
-
+                            debugger
                             $scope.item.DataPegawai = {
                                 namalengkap: data.data.data[0].namalengkap,
                                 id: data.data.data[0].namalengkap
