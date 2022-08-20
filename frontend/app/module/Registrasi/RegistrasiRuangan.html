@@ -313,6 +313,12 @@
                                         ng-click="ceklisNomorRujukanMulti(model.cekNomorRujukanMulti)">
                                     <label class="c-label k-checkbox-label" for="cekNomorRujukanMulti">No Kartu</label> -->
                                     </div>
+                                    <div class="grid_2" style="margin-top: 5px;float:left;">
+
+                                        <button ng-show="!isLoading" kendo-button style="width: 100%" class="error"
+                                            ng-click="tambahData()" position="'right'"><i
+                                                class="fa fa-list"></i>Terbitkan SPRI / SURKON</button>
+                                    </div>
                                 </div>
                                 <div class="grid_12">
                                     <div class="grid_2">
@@ -2197,5 +2203,160 @@
             </tr>
         </tbody>
     </table>
+
+</form>
+
+<div kendo-window="popUpTambah" k-title="'Terbitkan Surat Rencana Kontrol'" k-width="900" k-height="300"
+    k-visible="false">
+    <!-- <div class="grid_12"> -->
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="Tanggal Kotrol"></label>
+                <input style="width: 100%" k-ng-model="item.tanggalRencakaKontrol" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="Jenis Pelayanan"></label>
+                <input style="width:100%" kendo-combo-box k-ng-model="item.jenisKontrol"
+                    k-data-source="listJenisKontrol" k-data-text-field="'name'" k-filter="'contains'"
+                    k-data-value-field="'kode'" k-auto-bind="false" k-on-change='changeJenisPelayanan()' />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="No SEP Perujuk" ng-show="isControl"></label>
+                <label c-label item="item" c-label-text="No BPJS" ng-show="isSPRI"></label>
+                <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                    ng-model="item.noPenunjang" readonly />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4" ng-show="isControl">
+                <label c-label item="item" c-label-text="Tanggal Rujukan"></label>
+                <input style="width: 100%" k-ng-model="item.tanggalRujukan" kendo-date-picker placeholer="yyyy-MM-dd"
+                    k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" readonly />
+            </div>
+            <div class="grid_4" ng-show="isControl">
+                <label c-label item="item" c-label-text="Poli Rujukan"></label>
+                <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                    ng-model="item.poliRujukan" readonly />
+            </div>
+            <div class="grid_4" ng-show="isControl">
+                <label c-label item="item" c-label-text="No Rujukan"></label>
+                <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                    ng-model="item.noRujukan" readonly />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <label c-label item="item" c-label-text="Poli Kontrol"></label>
+                <input style="width:100%" kendo-combo-box k-ng-model="item.poliKontrol" k-data-source="listPoli"
+                    k-data-text-field="'nama'" k-filter="'contains'" k-data-value-field="'kode'" k-auto-bind="false"
+                    k-on-change='checkDPJP()' />
+            </div>
+            <div class="grid_3">
+                <label c-label item="item" c-label-text="DPJP Tujuan"></label>
+                <input style="width:100%" kendo-combo-box k-ng-model="item.kodeDokter" k-data-source="listDPJP"
+                    k-data-text-field="'nama'" k-filter="'contains'" k-data-value-field="'kode'" k-auto-bind="false" />
+            </div>
+            <div class="grid_3">
+                <label c-label item="item" c-label-text="No Rencana Kontrol"></label>
+                <input style="background-color: #eea236;" c-text-box type="input" filter="'char'" class="k-textbox"
+                    ng-model="item.noSuratKontrol" />
+            </div>
+            <div class="grid_3" style="margin-top: 15px">
+                <button class="btnTemplate1" style="margin-left: 0;" ng-click="simpanTambah()">Simpan</button>
+            </div>
+            <div class="grid_3" style="margin-top: 15px">
+                <button class="btnTemplate1" style="margin-left: 0;"
+                    ng-click="setCetakSurat(item.noSuratKontrol)">Cetak</button>
+            </div>
+        </div>
+        <!-- </div> -->
+    </div>
+</div>
+
+<form method="post" action="" id="spri" ng-model="spri" hidden>
+    <div id='item.def'>
+        <table width="100%" style="border:none;">
+            <tr>
+                <td style="width: 250px; border:none;"><img src="../app/images/logobpjs.png" width="100%">
+                </td>
+                <td style="width: 250px;text-align: right; border: none; font-size: 14px;">
+                    <p align="left" font="tahoma" style="text-align:left;"><span lang="EN-US"
+                            style="font-size: 14pt;">SURAT RENCANA INAP</span></p>
+                    <p style="text-align:left;"><span lang="EN-US" style="font-size: 14pt;">RS BHAYANGKARA TK IV
+                            CIANJUR
+                        </span></p>
+                </td>
+                <td style="text-align: right; border: none; font-size: 22px;">
+                    <p align="center" font="tahoma" style="text-align:right;"><span lang="EN-US"
+                            style="font-size: 22pt;">No.</span></p>
+                </td>
+                <td style="text-align: left; border: none; font-size: 14px;">
+                    <p align="center" font="tahoma" style="text-align:left;"><span lang="EN-US" style="font-size: 22pt;"
+                            id="noSPRIx"></span></p>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" style="border:none;">
+            <tr>
+                <td style="text-align: right; border: none; font-size: 14px;">
+                    <p align="left" font="tahoma" style="text-align:left;"><span lang="EN-US"
+                            style="font-size: 22pt;">Mohon Pemeriksaan dan Penanganan Lebih Lanjut</span></p>
+                </td>
+            </tr>
+        </table>
+        <table width="100%" border="0" style="border: none; font-size: 20px;">
+            <tr>
+                <td style="width: 200px; border: none;">No. Kartu</td>
+                <td style="text-align:center; border: none;">:</td>
+                <td style="text-align: left; border: none"><span id="nokartuSPRI"></td>
+            </tr>
+            <tr>
+                <td style="width: 200px; border: none;">Nama Peserta</td>
+                <td style="text-align:center; border: none;">:</td>
+                <td style="text-align: left; border: none"><span id="namapesertaSPRI"></td>
+            </tr>
+            <tr>
+                <td style="width: 200px; border: none;">Tgl. Lahir</td>
+                <td style="text-align:center; border: none;">:</td>
+                <td style="text-align: left; border: none"><span id="tgllahirSPRI"></td>
+            </tr>
+            <tr>
+                <td style="width: 200px; border: none;">Diagnosa</td>
+                <td style="text-align:center; border: none;">:</td>
+                <td style="text-align: left; border: none"><span id="diagnosa"></td>
+            </tr>
+            <tr>
+                <td style="width: 200px; border: none;">Rencana Inap</td>
+                <td style="text-align:center; border: none;">:</td>
+                <td style="text-align: left; border: none"><span id="rencanainapSPRI"></td>
+            </tr>
+
+        </table>
+        <table width="100%" border="0" style="border: none; font-size: 20px;">
+            <tr>
+                <td style="width: 400px; border: none;">Demikian atas bantuannya diucapkan banyak terima kasih
+                </td>
+            </tr>
+        </table>
+        <table width="1000" style="border: none;">
+            <tbody>
+                <tr>
+                    <td width="100" style="border: none;text-align: center">&nbsp;</td>
+                    <td width="100" style="border: none;text-align: center">
+    </div>
+    Mengetahui DPJP</td>
+    </tr>
+    <tr>
+        <td height="62" style="border: none; text-align: left; font-size: 14px;">
+            <p><span id="tglcetakSPRI"></p>
+            </p>
+        </td>
+        <td style="border: none;text-align: center">________________________</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
 
 </form>
