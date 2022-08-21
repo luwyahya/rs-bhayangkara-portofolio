@@ -335,7 +335,7 @@ define(['initialize'], function (initialize) {
             }
             $scope.inputTindakanBaru = function () {
                 debugger
-                $state.go('InputTindakan', {
+                $state.go('InputTindakanDiagnosa', {
                     norecPD: $scope.item.norec_pd,
                     norecAPD: $scope.item.ruang2.norec_apd,
 
