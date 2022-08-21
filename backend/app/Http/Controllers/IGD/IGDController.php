@@ -131,6 +131,7 @@ class IGDController extends  ApiController
                 'apd.objectstatuspulangfk'
             )
             ->whereNull('btl.norec')
+            ->where('apd.statusenabled', true)
             ->whereIn('ru.objectdepartemenfk', [18, 24, 26, 28, 73]);
 
         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
