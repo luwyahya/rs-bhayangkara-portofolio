@@ -648,89 +648,167 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             };
             $scope.cetakKontrol = function (x) {
                 debugger
-                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + x.noSuratKontrol).then(function (e) {
-                    if (e.data.metaData.code === "200") {
-                        $("#noKontrolx").text(e.data.response.noSuratKontrol);
-                        $("#nokartuKontrol").text(e.data.response.sep.peserta.noKartu);
-                        $("#namapesertaKontrol").text(e.data.response.sep.peserta.nama);
-                        $("#tgllahirKontrol").text(e.data.response.sep.peserta.tglLahir);
-                        $("#diagnosaKontrol").text(e.data.response.sep.diagnosa);
-                        $("#rencanakontrol").text(e.data.response.tglRencanaKontrol);
-                        $("#tglcetakKontrol").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
-                        $("#dpjptujKontrol").text(e.data.response.namaDokter);
-                        $("#subspetujKontrol").text('Sp./Sub.' + e.data.response.namaPoliTujuan);
-                        if (e.data.response.namaDokterPembuat == null) {
-                            $("#dpjppemberiSurat").text(e.data.response.namaDokter);
+                if (x.jnsKontrol == '1') {
+                    medifirstService.get("bridging/bpjs2/get-no-peserta?nokartu=" + x.noKartu + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
+                        if (e.data.metaData.code === "200") {
+                            $("#noSPRIx").text(x.noSuratKontrol);
+                            $("#nokartuSPRI").text(x.noKartu);
+                            $("#namapesertaSPRI").text(x.nama);
+                            $("#tgllahirSPRI").text(moment(e.data.response.peserta.tglLahir).format('YYYY-MM-DD'));
+                            $("#diagnosa").text('');
+                            $("#rencanainapSPRI").text(x.tglRencanaKontrol);
+                            $("#tglcetakSPRI").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+
+                            var printdata = document.getElementById('spri');
+                            printdata = printdata.innerHTML;
+                            // var editor = $("#editor").data("kendoEditor");
+                            // editor.value(printdata);
+
+                            var htmlStart =
+                                '<!DOCTYPE html>' +
+                                '<html style="border:none;border-color: white">' +
+                                '<head style="border:none;border-color: white">' +
+                                // '<div class="header" style="position: fixed;top: 0;">'+
+                                // header +
+                                '<style>' +
+                                'html { font: 11pt sans-serif; }' +
+                                '.k-grid { border-top-width: 0; }' +
+                                '.k-grid, .k-grid-content { height: auto !important; }' +
+                                '.k-grid-content { overflow: visible !important; }' +
+                                '.k-grid .k-grid-header th { border-top: none; }' +
+                                '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                                '</style>' +
+                                '</div>' +
+                                '</head>' +
+                                '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                                '<table  style="border:none; border-color: white">' +
+                                '<thead style="border:none;border-color: white">' +
+                                '<tr style="border:none;border-color: white">' +
+                                '<td style="border:none;border-color: white">' +
+                                // '<div class="page-header-space"></div>' +
+                                '<div style="border:none;border-color: white">' +
+                                // header +                                
+                                '</div>' +
+                                '</td>' +
+                                '</tr>' +
+                                '</thead>' +
+                                '<tbody>' +
+                                '<tr>' +
+                                '<td>'
+                            var htmlEnd =
+                                '</td>' +
+                                '</tr>' +
+                                '</tbody>' +
+                                '</body>' +
+                                '</div>' +
+
+
+                                '</html>';
+                            var printdata = document.getElementById('spri');
+                            printdata = printdata.innerHTML;
+                            printdata = htmlStart + printdata + htmlEnd;
+                            // var editor = $("#editor").data("kendoEditor");
+                            // editor.value(printdata);
+
+                            // var cetakan=htmlStart + printableContent + htmlEnd;
+                            var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                            WindowObject.document.writeln(printdata);
+                            WindowObject.document.close();
+                            WindowObject.focus();
                         } else {
-                            $("#dpjppemberiSurat").text(e.data.response.namaDokterPembuat);
+                            window.messageContainer.error(e.data.metaData.message);
                         }
+                        $scope.isRouteLoading = false;
+                    }, function (err) {
+                        $scope.isRouteLoading = false;
+                    });
+                } else {
+                    medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + x.noSuratKontrol).then(function (e) {
+                        if (e.data.metaData.code === "200") {
+                            $("#noKontrolx").text(e.data.response.noSuratKontrol);
+                            $("#nokartuKontrol").text(e.data.response.sep.peserta.noKartu);
+                            $("#namapesertaKontrol").text(e.data.response.sep.peserta.nama);
+                            $("#tgllahirKontrol").text(e.data.response.sep.peserta.tglLahir);
+                            $("#diagnosaKontrol").text(e.data.response.sep.diagnosa);
+                            $("#rencanakontrol").text(e.data.response.tglRencanaKontrol);
+                            $("#tglcetakKontrol").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+                            $("#dpjptujKontrol").text(e.data.response.namaDokter);
+                            $("#subspetujKontrol").text('Sp./Sub.' + e.data.response.namaPoliTujuan);
+                            if (e.data.response.namaDokterPembuat == null) {
+                                $("#dpjppemberiSurat").text(e.data.response.namaDokter);
+                            } else {
+                                $("#dpjppemberiSurat").text(e.data.response.namaDokterPembuat);
+                            }
 
 
-                        var printdata = document.getElementById("kontrol");
-                        printdata = printdata.innerHTML;
-                        // var editor = $("#editor").data("kendoEditor");
-                        // editor.value(printdata);
+                            var printdata = document.getElementById("kontrol");
+                            printdata = printdata.innerHTML;
+                            // var editor = $("#editor").data("kendoEditor");
+                            // editor.value(printdata);
 
-                        var htmlStart =
-                            '<!DOCTYPE html>' +
-                            '<html style="border:none;border-color: white">' +
-                            '<head style="border:none;border-color: white">' +
-                            // '<div class="header" style="position: fixed;top: 0;">'+
-                            // header +
-                            '<style>' +
-                            'html { font: 11pt sans-serif; }' +
-                            '.k-grid { border-top-width: 0; }' +
-                            '.k-grid, .k-grid-content { height: auto !important; }' +
-                            '.k-grid-content { overflow: visible !important; }' +
-                            '.k-grid .k-grid-header th { border-top: none; }' +
-                            '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
-                            '</style>' +
-                            '</div>' +
-                            '</head>' +
-                            '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
-                            '<table  style="border:none; border-color: white">' +
-                            '<thead style="border:none;border-color: white">' +
-                            '<tr style="border:none;border-color: white">' +
-                            '<td style="border:none;border-color: white">' +
-                            // '<div class="page-header-space"></div>' +
-                            '<div style="border:none;border-color: white">' +
-                            // header +                                
-                            '</div>' +
-                            '</td>' +
-                            '</tr>' +
-                            '</thead>' +
-                            '<tbody>' +
-                            '<tr>' +
-                            '<td>'
-                        var htmlEnd =
-                            '</td>' +
-                            '</tr>' +
-                            '</tbody>' +
-                            '</body>' +
-                            '</div>' +
-
-
-                            '</html>';
-                        var printdata = document.getElementById("kontrol");
-                        printdata = printdata.innerHTML;
-                        printdata = htmlStart + printdata + htmlEnd;
-                        // var editor = $("#editor").data("kendoEditor");
-                        // editor.value(printdata);
-
-                        // var cetakan=htmlStart + printableContent + htmlEnd;
-                        var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+                            var htmlStart =
+                                '<!DOCTYPE html>' +
+                                '<html style="border:none;border-color: white">' +
+                                '<head style="border:none;border-color: white">' +
+                                // '<div class="header" style="position: fixed;top: 0;">'+
+                                // header +
+                                '<style>' +
+                                'html { font: 11pt sans-serif; }' +
+                                '.k-grid { border-top-width: 0; }' +
+                                '.k-grid, .k-grid-content { height: auto !important; }' +
+                                '.k-grid-content { overflow: visible !important; }' +
+                                '.k-grid .k-grid-header th { border-top: none; }' +
+                                '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                                '</style>' +
+                                '</div>' +
+                                '</head>' +
+                                '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                                '<table  style="border:none; border-color: white">' +
+                                '<thead style="border:none;border-color: white">' +
+                                '<tr style="border:none;border-color: white">' +
+                                '<td style="border:none;border-color: white">' +
+                                // '<div class="page-header-space"></div>' +
+                                '<div style="border:none;border-color: white">' +
+                                // header +                                
+                                '</div>' +
+                                '</td>' +
+                                '</tr>' +
+                                '</thead>' +
+                                '<tbody>' +
+                                '<tr>' +
+                                '<td>'
+                            var htmlEnd =
+                                '</td>' +
+                                '</tr>' +
+                                '</tbody>' +
+                                '</body>' +
+                                '</div>' +
 
 
-                        WindowObject.document.writeln(printdata);
-                        WindowObject.document.close();
-                        WindowObject.focus();
-                    } else {
-                        window.messageContainer.error(e.data.metaData.message);
-                    }
-                    $scope.isLoadingNoKartu = false;
-                }, function (err) {
-                    $scope.isLoadingNoKartu = false;
-                });
+                                '</html>';
+                            var printdata = document.getElementById("kontrol");
+                            printdata = printdata.innerHTML;
+                            printdata = htmlStart + printdata + htmlEnd;
+                            // var editor = $("#editor").data("kendoEditor");
+                            // editor.value(printdata);
+
+                            // var cetakan=htmlStart + printableContent + htmlEnd;
+                            var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                            WindowObject.document.writeln(printdata);
+                            WindowObject.document.close();
+                            WindowObject.focus();
+                        } else {
+                            window.messageContainer.error(e.data.metaData.message);
+                        }
+                        $scope.isLoadingNoKartu = false;
+                    }, function (err) {
+                        $scope.isLoadingNoKartu = false;
+                    });
+                }
 
             }
             $scope.setRujukan = function (data) {
