@@ -586,7 +586,7 @@ define(['initialize'], function (initialize) {
                     $scope.HargaShow.close();
                     $scope.isRouteLoading = false;
                     $scope.hargaSatuan = 0;
-                       initData();
+                    //    initData();
                 })
             }
             $scope.lanjutStokOpname = function(){
