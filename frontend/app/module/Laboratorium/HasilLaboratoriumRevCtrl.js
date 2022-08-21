@@ -1202,7 +1202,7 @@ define(['initialize'], function (initialize) {
 
                     }
 
-                    var x = "WHERE (pp.noregistrasifk = '" + $scope.norecAPD + "')and (pp.norec in (" + $scope.item.norecPP + '))'
+                    var x = "WHERE (pp.noregistrasifk = '" + $scope.norecAPD + "')and (pp.norec in (" + $scope.item.norecPP + ')) and pg2.objectjenispegawaifk=1'
                     var y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-lab?reg=" + $scope.item.noregistrasi
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
