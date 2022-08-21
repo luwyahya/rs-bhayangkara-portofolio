@@ -180,7 +180,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     if ($scope.item.asalRujukan.id == 2)
                         jenisFaskes = "rs"
                 }
-                if ($scope.item.pasien.namatitle != 'By' && $scope.model.noKepesertaan != undefined && $scope.model.noKepesertaan != "") {
+                if ($scope.item.pasien.namatitle != 'By' && $scope.model.noKepesertaan != undefined && $scope.model.noKepesertaan != "" && $scope.model.noKepesertaan != "0000000000000") {
                     medifirstService.get("bridging/bpjs2/get-no-peserta?nokartu=" + $scope.model.noKepesertaan + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
                         if (e.data.metaData.code === "200") {
                             $scope.isBpjsRJsep = true
@@ -274,6 +274,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $scope.isCheckSEP = true;
                     $scope.model.lakalantas = false;
                     $scope.model.generateNoSEP = false
+                    $scope.model.noKepesertaan = "0000000000000";
                 }
             }
             $scope.ringkasanInOut = function () {
