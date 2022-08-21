@@ -1262,7 +1262,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             )
             ->where('kmr.objectruanganfk', $request['idRuangan'])
             ->where('kmr.objectkelasfk', $request['idKelas'])
-            ->where('tt.objectstatusbedfk', '=', '2')
+            // ->where('tt.objectstatusbedfk', '=', '2')
             ->where('tt.objectstatusbedfktriger', '=', '5')
             ->where('tt.statusenabled', true)
             ->where('kmr.statusenabled', true)
@@ -1283,7 +1283,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->select('tt.id', 'sb.statusbed', 'tt.reportdisplay')
             ->where('tt.objectkamarfk', $request['idKamar'])
             ->where('km.statusenabled', true)
-            ->where('tt.objectstatusbedfk', '=', '2')
+            // ->where('tt.objectstatusbedfk', '=', '2')
             ->where('tt.objectstatusbedfktriger', '=', 5)
             ->get();
 

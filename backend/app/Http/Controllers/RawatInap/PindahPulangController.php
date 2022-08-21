@@ -186,7 +186,7 @@ class PindahPulangController extends ApiController
                 'ru.namaruangan','kmr.jumlakamarisi','kmr.qtybed')
             ->where('kmr.objectruanganfk', $request['idRuangan'])
             ->where('kmr.objectkelasfk', $request['idKelas'])
-            ->where('tt.objectstatusbedfk','=','2')
+            // ->where('tt.objectstatusbedfk','=','2')
             ->where('tt.objectstatusbedfktriger','=','5')
             ->where('tt.statusenabled',true)
             ->where('kmr.statusenabled',true)
