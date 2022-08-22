@@ -211,7 +211,7 @@ class MasterController extends ApiController{
                 $prod->isprodukintern = $data['isprodukintern'];
             }
             if (isset($request['isarvdonasi']) && $request['isarvdonasi'] != "" && $request['isarvdonasi'] != "undefined" && $request['isarvdonasi'] != 'null'){
-                $prod->isprodukintern = $data['isarvdonasi'];
+                $prod->isarvdonasi = $data['isarvdonasi'];
             }
             if (isset($request['isnarkotika'])&& $request['isnarkotika'] != "" && $request['isnarkotika'] != "undefined" && $request['isnarkotika'] != 'null'){
                 $prod->isnarkotika = $data['isnarkotika'];
@@ -220,25 +220,25 @@ class MasterController extends ApiController{
                 $prod->ispsikotropika = $data['ispsikotropika'];
             }
             if (isset($request['isonkologi'])&& $request['isonkologi'] != "" && $request['isonkologi'] != "undefined" && $request['isonkologi'] != 'null'){
-                $prod->isprodukintern = $data['isonkologi'];
+                $prod->isonkologi = $data['isonkologi'];
             }
             if (isset($request['isoot'])&& $request['isoot'] != "" && $request['isoot'] != "undefined" && $request['isoot'] != 'null'){
-                $prod->isprodukintern = $data['isoot'];
+                $prod->isoot = $data['isoot'];
             }
             if (isset($request['isprekusor']) && $request['isprekusor'] != "" && $request['isprekusor'] != "undefined" && $request['isprekusor'] != 'null'){
-                $prod->isprodukintern = $data['isprekusor'];
+                $prod->isprekusor = $data['isprekusor'];
             }
             if (isset($request['isvaksindonasi']) && $request['isvaksindonasi'] != "" && $request['isvaksindonasi'] != "undefined" && $request['isvaksindonasi'] != 'null'){
-                $prod->isprodukintern = $data['isvaksindonasi'];
+                $prod->isvaksindonasi = $data['isvaksindonasi'];
             }
             if (isset($request['objectjenisgenerikfk'])&& $request['objectjenisgenerikfk'] != "" && $request['objectjenisgenerikfk'] != "undefined" && $request['objectjenisgenerikfk'] != 'null'){
-                $prod->isprodukintern = $data['objectjenisgenerikfk'];
+                $prod->objectjenisgenerikfk = $data['objectjenisgenerikfk'];
             }
             if (isset($request['keterangan'])&& $request['keterangan'] != "" && $request['keterangan'] != "undefined" && $request['keterangan'] != 'null'){
                 $prod->keterangan = $data['keterangan'];
             }
             if (isset($request['poinmedis'])&& $request['poinmedis'] != "" && $request['poinmedis'] != "undefined" && $request['poinmedis'] != 'null'){
-                $prod->isprodukintern = $data['poinmedis'];
+                $prod->poinmedis = $data['poinmedis'];
             }
             // if (isset($request['persen_individu'])){
             //     $prod->persen_individu = $data['persen_individu'];
@@ -852,6 +852,20 @@ class MasterController extends ApiController{
         $req = $request['0'];
 
         //## KartuStok
+        $newKS2 = KonversiSatuan::where('objekprodukfk', $req['objekprodukfk'])->get();
+
+        if (count($newKS2) < 1) {
+            // return (count($newKS2));
+            $x = new KonversiSatuan();
+            $norecKS = $x->generateNewId();
+            $x->kdprofile = 0;
+            $x->statusenabled = true;
+            $x->nilaikonversi = 1;
+            $x->objekprodukfk = $req['objekprodukfk'];
+            $x->satuanstandar_asal = $req['satuanstandar_asal'];
+            $x->satuanstandar_tujuan = $req['satuanstandar_asal'];
+            $x->save();
+        }
         if ($req['norec'] == '-') {
             $newKS = new KonversiSatuan();
             $norecKS = $newKS->generateNewId();
