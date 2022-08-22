@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketeranganmedis" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -45,10 +45,10 @@
 case when ps.nip is not null and ps.nip != '-' then ps.nip when ps.nrp is not null and ps.nrp != '-' then ps.nrp when ps.nrpnip is not null and ps.nrpnip != '-' then ps.nrpnip else '-' end as nrpnip,
 case when hpm.stakes1 is not null then hpm.stakes1 else '-' end as stakes1,
 case when ps.objectsatuankerjafk is not null then sk.satuankerjapasien else '-' end as satuankerja,
-case when hpm.stakes2 = 50 then 'K2' + ' ( ' + hpm.stakes2 + ' )'
-when hpm.stakes2 between 51 and 57 then 'K1' + ' ( ' + hpm.stakes2 + ' )'
-when hpm.stakes2 between 58 and 67 then 'C' + ' ( ' + hpm.stakes2 + ' )'
-when hpm.stakes2 between 68 and 80 then 'B' + ' ( ' + hpm.stakes2 + ' )'  else '-' end as stakes2,
+case when hpm.stakes2 = '50' then 'K2' || ' ( ' || hpm.stakes2 || ' )'
+when hpm.stakes2 between '51' and '57' then 'K1' || ' ( ' || hpm.stakes2 || ' )'
+when hpm.stakes2 between '58' and '67' then 'C' || ' ( ' || hpm.stakes2 || ' )'
+when hpm.stakes2 between '68' and '80' then 'B' || ' ( ' || hpm.stakes2 || ' )'  else '-' end as stakes2,
 hpm.nomor2,
 hpm.tinggibadan,
 case when hpm.komposisitubuh is not null then hpm.komposisitubuh else '-' end as komposisitubuh,
@@ -70,17 +70,17 @@ jb.namajabatan,
 case when pg.namalengkap is not null then pg.namalengkap else '-' end as timdoktermcu,
 case when pg2.namalengkap is not null then pg2.namalengkap else '-' end as timpelaksanamcu,
 pg3.namalengkap as dokter,
-case when pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then 'NRP ' + pg3.nrp when pg3.nip is not null then 'NIP ' + pg3.nip when pg3.nip_pns is not null then 'NIP ' + pg3.nip_pns when pg3.nippns is not null then 'NIP ' + pg3.nippns else ' ' end as nrpdokter,
+case when pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then 'NRP ' || pg3.nrp when pg3.nip is not null then 'NIP ' || pg3.nip when pg3.nip_pns is not null then 'NIP ' || pg3.nip_pns when pg3.nippns is not null then 'NIP ' || pg3.nippns else ' ' end as nrpdokter,
 case when pg3.objectgolonganfk is not null then glg.namaexternal when ps.pangkatpns is not null then p.namapangkat when ps.pangkatpolisi is not null then p2.namapangkat else ' ' end as pangkatdokter,
 case when ps.pangkatpns is not null then p.namapangkat when ps.pangkatpolisi is not null then p2.namapangkat else '-' end as pangkat,
-case when pg3.objectgolonganfk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap + CHAR(13) + glg.namaexternal + ' ' + 'NRP ' + pg3.nrp 
---when ps.pangkatpns is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap + CHAR(13) + CHAR(13) + CHAR(13) + CHAR(13) + p.namapangkat  + ' ' + 'NRP ' + pg3.nrp 
-when pg3.objectpangkatpolisifk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap + CHAR(13) + pp.namaexternal + ' ' + 'NRP ' + pg3.nrp
-when pg3.objectgolonganfk is not null and pg3.nippns is not null then pg3.namalengkap + CHAR(13) + glg.namaexternal + ' ' + 'NIP ' + pg3.nippns else ' ' end as namapangkatdokter,
-case when pg3.objectgolonganfk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then glg.namaexternal + ' ' + 'NRP ' + pg3.nrp 
---when ps.pangkatpns is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap + CHAR(13) + CHAR(13) + CHAR(13) + CHAR(13) + p.namapangkat  + ' ' + 'NRP ' + pg3.nrp 
-when pg3.objectpangkatpolisifk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pp.namaexternal + ' ' + 'NRP ' + pg3.nrp
-when pg3.objectgolonganfk is not null and pg3.nippns is not null then glg.namaexternal + ' ' + 'NIP ' + pg3.nippns else ' ' end as pangkatnomordokter
+case when pg3.objectgolonganfk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap || chr(13) || glg.namaexternal || ' ' || 'NRP ' || pg3.nrp 
+--when ps.pangkatpns is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap || CHAR(13) || CHAR(13) || CHAR(13) || CHAR(13) || p.namapangkat  || ' ' || 'NRP ' || pg3.nrp 
+when pg3.objectpangkatpolisifk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap || chr(13) || pp.namaexternal || ' ' || 'NRP ' || pg3.nrp
+when pg3.objectgolonganfk is not null and pg3.nippns is not null then pg3.namalengkap || chr(13) || glg.namaexternal || ' ' || 'NIP ' || pg3.nippns else ' ' end as namapangkatdokter,
+case when pg3.objectgolonganfk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then glg.namaexternal || ' ' || 'NRP ' || pg3.nrp 
+--when ps.pangkatpns is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pg3.namalengkap || CHAR(13) || CHAR(13) || CHAR(13) || CHAR(13) || p.namapangkat  || ' ' || 'NRP ' || pg3.nrp 
+when pg3.objectpangkatpolisifk is not null and pg3.nrp != ' ' and pg3.nrp is not null and pg3.nrp != '-' then pp.namaexternal || ' ' || 'NRP ' || pg3.nrp
+when pg3.objectgolonganfk is not null and pg3.nippns is not null then glg.namaexternal || ' ' || 'NIP ' || pg3.nippns else ' ' end as pangkatnomordokter
 from hasilpemeriksaanmcu_t as hpm left join
 pasiendaftar_t as pd on pd.norec = hpm.noregistrasifk left join
 pasien_m as ps on ps.id = pd.nocmfk left join
@@ -213,11 +213,11 @@ and hpm.keterangan = 'Surat Keterangan Medis']]>
 				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="43" width="260" height="21" uuid="c2b1e438-81a2-4f14-ba1c-86ec95e52ca1"/>
+				<reportElement x="20" y="43" width="260" height="21" uuid="c2b1e438-81a2-4f14-ba1c-86ec95e52ca1"/>
 				<textElement>
 					<font fontName="SansSerif" size="9" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK.I R.SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK.IV CIANJUR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="204" y="78" width="160" height="20" uuid="d24bd41e-2981-4a63-a0ab-f990c0464d5c"/>
@@ -1135,7 +1135,7 @@ and hpm.keterangan = 'Surat Keterangan Medis']]>
 				<textElement>
 					<font fontName="Tahoma" size="9"/>
 				</textElement>
-				<text><![CDATA[Jakarta,]]></text>
+				<text><![CDATA[Cianjur,]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="370" y="18" width="90" height="17" uuid="c69c50e8-ec8a-4888-b8cd-4df50d12d0c5">
