@@ -6319,7 +6319,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         } else {
                             $scope.isRouteLoading = false;
                             if (e.data.metaData.message == "Data Rujukan Tidak Sesuai - NoSep menggunakan No Rujukan Antar RS") {
-                                window.messageContainer.error('PASIEN INI, PASCA RAWAT. KONTROL SELANJUTNYA HARUS MENGGUNAKAN SURAT RUJUKAN')
+                                window.messageContainer.error('PASIEN INI PASCA RAWAT. KONTROL SELANJUTNYA HARUS MENGGUNAKAN SURAT RUJUKAN, TIDAK PERLU MENERBITKAN SURKON, LANGSUNG KLIK SIMPAN SAJA')
                             } else {
                                 window.messageContainer.error(e.data.metaData.message)
                             }
