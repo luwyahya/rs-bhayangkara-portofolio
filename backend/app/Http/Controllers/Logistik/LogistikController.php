@@ -1111,7 +1111,68 @@ class LogistikController extends ApiController
 
         return $this->respond($result);
     }
+    public function getDataProdukDetailall(Request $request)
+    {
+        $dataLogin = $request->all();
+        $dataProduk = \DB::table('produk_m as pr')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->JOIN('kelompokproduk_m as kp', 'kp.id', '=', 'jp.objectkelompokprodukfk')
+            ->leftJOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
+            // ->leftJOIN('stokprodukdetail_t as spd', 'spd.objectprodukfk', '=', 'pr.id')
+            ->select('pr.id', 'pr.namaproduk', 'ss.id as ssid', 'ss.satuanstandar', 'pr.spesifikasi')
+            ->where('pr.statusenabled', true)
+            ->where('kp.id', $request['idkelompokproduk'])
+            // ->where('spd.objectruanganfk', $request['idRuangan'])
+            //            ->where('spd.qtyproduk','>',0)
+            ->groupBy('pr.id', 'pr.namaproduk', 'ss.id', 'ss.satuanstandar', 'pr.spesifikasi')
+            ->orderBy('pr.namaproduk')
+            ->get();
 
+        $dataKonversiProduk = \DB::table('konversisatuan_t as ks')
+            ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'ks.satuanstandar_asal')
+            ->JOIN('satuanstandar_m as ss2', 'ss2.id', '=', 'ks.satuanstandar_tujuan')
+            ->select(
+                'ks.objekprodukfk',
+                'ks.satuanstandar_asal',
+                'ss.satuanstandar',
+                'ks.satuanstandar_tujuan',
+                'ss2.satuanstandar as satuanstandar2',
+                'ks.nilaikonversi'
+            )
+            ->where('ks.statusenabled', true)
+            ->get();
+
+        $dataProdukResult = [];
+        foreach ($dataProduk as $item) {
+            $satuanKonversi = [];
+            foreach ($dataKonversiProduk as $item2) {
+                if ($item->id == $item2->objekprodukfk) {
+                    $satuanKonversi[] = array(
+                        'ssid' => $item2->satuanstandar_tujuan,
+                        'satuanstandar' => $item2->satuanstandar2,
+                        'nilaikonversi' => $item2->nilaikonversi,
+                    );
+                }
+            }
+
+            $dataProdukResult[] = array(
+                'id' => $item->id,
+                'namaproduk' => $item->namaproduk,
+                'ssid' => $item->ssid,
+                'satuanstandar' => $item->satuanstandar,
+                'konversisatuan' => $satuanKonversi,
+                'spesifikasi' => $item->spesifikasi
+            );
+        }
+
+        $result = array(
+            'produk' => $dataProdukResult,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
     public function GetDataKartuStok(Request $request)
     {
         $data = \DB::table('kartustok_t as ks')
