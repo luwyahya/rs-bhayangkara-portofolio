@@ -14218,9 +14218,14 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             $req['filter']['filters'][0]['value'] != "" &&
             $req['filter']['filters'][0]['value'] != "undefined"
         ) {
-            $icdIX = $icdIX
-                ->where('dg.namadiagnosatindakan', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
-                ->orWhere('dg.kddiagnosatindakan', 'ilike', $req['filter']['filters'][0]['value'] . '%');
+            // $icdIX = $icdIX
+            //     ->where('dg.namadiagnosatindakan', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
+            //     ->orWhere('dg.kddiagnosatindakan', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
+            if($req['filter']['filters'][0]['field']=='kdDiagnosaTindakan'){
+                $icdIX = $icdIX->where('dg.kddiagnosatindakan', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
+            }else{   
+                $icdIX = $icdIX->where('dg.namadiagnosatindakan', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
+            }
         }
 
 
