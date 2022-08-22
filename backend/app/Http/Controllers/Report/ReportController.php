@@ -823,7 +823,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         LEFT JOIN pangkat_m as pt on pt.id = pg.objectpangkatfk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Hasil Pemeriksaan Covid'
         ORDER BY hbs.nomor2 DESC
         
@@ -857,7 +857,7 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
         INNER JOIN pegawai_m as pg on pg.id = hbs.pegawaifk
         LEFT JOIN pangkat_m as pt on pt.id = pg.objectpangkatfk
         WHERE hbs.norec = '$request[norec]'
-        AND pd.statusenabled = 1
+        AND pd.statusenabled = true
         AND hbs.keterangan = 'Surat Hasil Pemeriksaan Covid Luar Negeri'
         ORDER BY hbs.nomor2 DESC
         
