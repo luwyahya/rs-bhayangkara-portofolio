@@ -2412,7 +2412,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             // document.getElementById("jsonInsert").innerHTML = JSON.stringify(e.data.response, undefined, 4); 
                         } else {
                             if (e.data.metaData.message == "Data Rujukan Tidak Sesuai - NoSep menggunakan No Rujukan Antar RS") {
-                                window.messageContainer.error(e.data.metaData.message)
+                                window.messageContainer.error('PASIEN INI, PASCA RAWAT. KONTROL SELANJUTNYA HARUS MENGGUNAKAN SURAT RUJUKAN')
                             } else {
                                 window.messageContainer.error(e.data.metaData.message)
                             }

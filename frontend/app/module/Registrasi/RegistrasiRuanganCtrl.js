@@ -6309,7 +6309,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     }
                     $scope.isRouteLoading = true;
                     medifirstService.postNonMessage("bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).then(function (e) {
-                        if (e.data.response) {
+                        if (e.data.metaData.code === "200") {
                             debugger
                             $scope.saveLogging('Input Rencana Kontrol', 'No Surat Rencana Kontrol', e.data.response.noSuratKontrol, 'Input Rencana Kontrol ' + e.data.response.noSuratKontrol + ' Ke Ruangan ' + $scope.item.poliKontrol.nama + ' Dengan Dokter ' + $scope.item.kodeDokter.nama + 'Untuk Tanggal ' + moment($scope.item.tanggalRencakaKontrol).format('YYYY-MM-DD'))
                             $scope.isRouteLoading = false;
@@ -6318,7 +6318,11 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             $scope.synchronizeKontrolAndSPRI();
                         } else {
                             $scope.isRouteLoading = false;
-                            window.messageContainer.error(e.data.metaData.message)
+                            if (e.data.metaData.message == "Data Rujukan Tidak Sesuai - NoSep menggunakan No Rujukan Antar RS") {
+                                window.messageContainer.error('PASIEN INI, PASCA RAWAT. KONTROL SELANJUTNYA HARUS MENGGUNAKAN SURAT RUJUKAN')
+                            } else {
+                                window.messageContainer.error(e.data.metaData.message)
+                            }
                         }
                     }, function (err) {
                         $scope.isRouteLoading = false;
