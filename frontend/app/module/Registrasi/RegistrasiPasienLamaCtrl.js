@@ -2222,6 +2222,9 @@ define(['initialize'], function (initialize) {
                 if (data.noSep == '') {
                     messageContainer.error("SEP tidak ditemukan di sistem Transmedic!")
                     return
+                } else if (data.poli == 'INSTALASI GAWAT DARURAT') {
+                    messageContainer.error("SEP IGD Tidak Bisa Di Buatkan Surat Kontrol!, Pilih SEP Yang Lain!")
+                    return
                 }
                 $scope.item.noRujukan = undefined;
                 $scope.item.tanggalRujukan = undefined;

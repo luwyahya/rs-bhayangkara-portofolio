@@ -1372,6 +1372,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 if (data.noSep == '') {
                     messageContainer.error("SEP tidak ditemukan di sistem Transmedic!")
                     return
+                } else if (data.poli == 'INSTALASI GAWAT DARURAT') {
+                    messageContainer.error("SEP IGD Tidak Bisa Di Buatkan Surat Kontrol!, Pilih SEP Yang Lain!")
+                    return
                 }
                 $scope.item.noRujukan = undefined;
                 $scope.item.tanggalRujukan = undefined;
@@ -6046,7 +6049,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 debugger
                 $scope.item.forSukon = stat;
                 $scope.isRouteLoading = true;
-                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
                     if (data.data.metaData.code == 200) {
                         for (let i = 0; i < data.data.response.histori.length; i++) {
                             const element = data.data.response.histori[i];
