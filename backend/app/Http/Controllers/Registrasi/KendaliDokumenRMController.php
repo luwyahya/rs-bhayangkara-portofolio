@@ -875,7 +875,7 @@ class KendaliDokumenRMController extends  ApiController
                 DB::raw('case when pd.statusschedule = \'Kios-K\' then \'Kios-K\' when pd.statusschedule=\'\' then \'Loket\' else \'Registrasi Online\' end as statuspelayanan'))
             ->whereNull('br.norec')
             ->whereNotIn('ru.id',['322','251','545'])
-            ->wherein('ru.objectdepartemenfk',[18,28,16]); 
+            ->wherein('ru.objectdepartemenfk',[18,28,16,24]); 
             // ->wherein('ru.objectdepartemenfk','=','18');        
         if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
             $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal']);

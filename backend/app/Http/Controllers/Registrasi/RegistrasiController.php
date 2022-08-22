@@ -1262,7 +1262,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             )
             ->where('kmr.objectruanganfk', $request['idRuangan'])
             ->where('kmr.objectkelasfk', $request['idKelas'])
-            ->where('tt.objectstatusbedfk', '=', '2')
+            // ->where('tt.objectstatusbedfk', '=', '2')
             ->where('tt.objectstatusbedfktriger', '=', '5')
             ->where('tt.statusenabled', true)
             ->where('kmr.statusenabled', true)
@@ -1283,7 +1283,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->select('tt.id', 'sb.statusbed', 'tt.reportdisplay')
             ->where('tt.objectkamarfk', $request['idKamar'])
             ->where('km.statusenabled', true)
-            ->where('tt.objectstatusbedfk', '=', '2')
+            // ->where('tt.objectstatusbedfk', '=', '2')
             ->where('tt.objectstatusbedfktriger', '=', 5)
             ->get();
 
@@ -19432,7 +19432,7 @@ GROUP BY y.KET
     public function getHasilLabSurat(Request $request)
     {
         $noregistrasi = $request['noregistrasi'];
-        $datahl = DB::select(DB::raw("select * from (SELECT format(pp.tglpelayanan,'yyyy-MM-dd HH:mm') as tglpelayanan, pp.norec, pdk.namaproduk, hh.detailpemeriksaan,nourutjenispemeriksaan,nourutdetail,
+        $datahl = DB::select(DB::raw("select * from (SELECT to_char(pp.tglpelayanan,'yyyy-MM-dd HH:mm') as tglpelayanan, pp.norec, pdk.namaproduk, hh.detailpemeriksaan,nourutjenispemeriksaan,nourutdetail,
             CASE WHEN hh.hasil IS NOT NULL THEN hh.hasil ELSE '-' END as hasil
             FROM pasiendaftar_t as pd
             inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec
@@ -19442,7 +19442,7 @@ GROUP BY y.KET
             inner join maphasillab_m  as maps on maps.produkfk = pdk.id AND maps.detailpemeriksaan =hh.detailpemeriksaan  AND maps.id =hh.maphasilfk 
             WHERE pd.noregistrasi = $noregistrasi AND hh.flag='Y' and hh.hasil <>'-' 
             union all 
-            SELECT format(pp.tglpelayanan,'yyyy-MM-dd HH:mm') as tglpelayanan, pp.norec, pdk.namaproduk, hh.detailpemeriksaan,nourutjenispemeriksaan,nourutdetail,
+            SELECT to_char(pp.tglpelayanan,'yyyy-MM-dd HH:mm') as tglpelayanan, pp.norec, pdk.namaproduk, hh.detailpemeriksaan,nourutjenispemeriksaan,nourutdetail,
             CASE WHEN hh.hasil IS NOT NULL THEN hh.hasil ELSE '-' END as hasil
             FROM pasiendaftar_t as pd
             inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec
