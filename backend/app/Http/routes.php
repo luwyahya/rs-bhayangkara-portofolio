@@ -1606,6 +1606,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-combo-barang-logistik', 'Logistik\LogistikController@getDataProdukLogistik');
             Route::get('get-combo-barang-logistik2', 'Logistik\LogistikController@getDataProdukLogistik2');
             Route::get('get-data-produk-detail', 'Logistik\LogistikController@getDataProdukDetail');
+            Route::get('get-data-produk-detailall', 'Logistik\LogistikController@getDataProdukDetailall');
             Route::get('get-combo-pegawai-logistik', 'Logistik\LogistikController@getDataPegawaiPart');
             Route::get('get-combo-rekanan-logistik', 'Logistik\LogistikController@getDataRekananPart');
             Route::get('get-combo-detail-jenis-logistik', 'Logistik\LogistikController@getdetailjenisproduk');

@@ -173,7 +173,7 @@ define(['initialize'], function(initialize) {
             }
 
             $scope.getProduk = function() {
-                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
+                medifirstService.get("logistik/get-data-produk-detailall?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
                     $scope.listProduk = dat.data.produk;
                 })
 
@@ -389,7 +389,7 @@ define(['initialize'], function(initialize) {
                     $scope.item.ruanganKK = { id: $scope.listRuangan[0].id, namaruangan: $scope.listRuangan[0].namaruangan }
                     $scope.item.pegawaiPenerima = { id: $scope.listPegawai[0].id, namalengkap: $scope.listPegawai[0].namalengkap }
 
-                    medifirstService.get("logistik/get-data-produk-detail?" + kelompokproduk + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
+                    medifirstService.get("logistik/get-data-produk-detailall?" + kelompokproduk + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
                         $scope.listProduk = dat.data.produk;
                     });
                     medifirstService.getPart("logistik/get-combo-pegawai-logistik", true, true, 20).then(function(data) {
@@ -436,7 +436,7 @@ define(['initialize'], function(initialize) {
                                     data2[i].hargaSekarang = (parseFloat(data2[i].total) / parseFloat(data2[i].jumlah))
                                 }
 
-                                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + data_ih.data.pelayananPasien[0].kpid + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
+                                medifirstService.get("logistik/get-data-produk-detailall?idkelompokproduk=" + data_ih.data.pelayananPasien[0].kpid + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
                                     $scope.listProduk = dat.data.produk;
                                 });
                                 $scope.dataGrid = new kendo.data.DataSource({
@@ -2287,7 +2287,7 @@ define(['initialize'], function(initialize) {
                     }
                 }
                 //$scope.listProduk = {id:dataSelected.produkfk, namaproduk:dataSelected.namaproduk}
-                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
+                medifirstService.get("logistik/get-data-produk-detailall?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
                     $scope.listProduk = dat.data.produk;
                 });
                 $scope.item.produk = { id: dataSelected.produkfk, namaproduk: dataSelected.namaproduk } //dataProduk//{id:dataSelected.produkfk,namaproduk:dataSelected.namaproduk}
@@ -2828,7 +2828,7 @@ define(['initialize'], function(initialize) {
             }
 
             $scope.loadComboProduk = function() {
-                medifirstService.get("logistik/get-data-produk-detail?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
+                medifirstService.get("logistik/get-data-produk-detailall?idkelompokproduk=" + $scope.item.kelompokproduk.id + "&idRuangan=" + $scope.item.ruanganPenerima.id, true).then(function(dat) {
                     $scope.listProduk = dat.data.produk;
                 });
             }
