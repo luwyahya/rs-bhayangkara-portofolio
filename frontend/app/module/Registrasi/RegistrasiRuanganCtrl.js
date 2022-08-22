@@ -909,7 +909,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                         $scope.isLoadingNoKartu = false;
                                     }
                                 } else {
-                                    medifirstService.get("bridging/bpjs2/listsuratkontrol-berdasarkan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                                    medifirstService.get("bridging/bpjs2/listsuratkontrol-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
                                         debugger
                                         if (data.data.metaData.code == 200) {
                                             for (let i = 0; i < data.data.response.list.length; i++) {
@@ -2517,7 +2517,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.cekSuratKontrol = function (data) {
                 if (data === true) {
                     $scope.model.cekNosuratKontrol = true
-                    medifirstService.get("bridging/bpjs2/listsuratkontrol-berdasarkan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                    medifirstService.get("bridging/bpjs2/listsuratkontrol-duabulan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
                         $scope.popUpHistoriSuratKontrol.center().open()
                         $scope.dataSourceHistoriSuratKontrol = new kendo.data.DataSource({
                             data: data.data.response.list,
