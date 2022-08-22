@@ -4178,11 +4178,11 @@ class BridgingBPJSV2Controller extends ApiController
         //             die();
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest['noKartu'] = $noKartu;
-            $objetoRequest['awal'] = 30;
+            $objetoRequest['awal'] = 90;
             $objetoRequest['akhir'] = 0;
             $response = $this->getMonitoringHistoriCustom($objetoRequest, true);
-                    //      return($response);
-                    // die();
+            return response()->json($response);
+                    
             if($response['metaData']->code==200){
                 $x=$response['response']['histori'];
                 $objetoRequest = new \Illuminate\Http\Request();
