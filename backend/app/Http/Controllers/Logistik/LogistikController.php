@@ -655,6 +655,131 @@ class LogistikController extends ApiController
         );
         return $this->respond($result);
     }
+    public function getDataStokRuanganDetailmaster(Request $request)
+    {
+        $kdSirs1 = $request['KdSirs1'];
+        $kdSirs2 = $request['KdSirs2'];
+        $kelompokpasien = $request['kelompokpasien'];
+        $dataLogin = $request->all();
+        $data = \DB::table('stokprodukdetail_t as spd')
+        ->join('ruangan_m as ru','spd.objectruanganfk','=','ru.id')
+            ->JOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'spd.nostrukterimafk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'spd.objectprodukfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->JOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
+            ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
+            ->select(
+                'sp.nostruk as noterima',
+                'spd.objectprodukfk',
+                'pr.kdproduk as kdsirs',
+                'pr.namaproduk',
+                'ap.asalproduk',
+                'spd.qtyproduk',
+                'ss.satuanstandar',
+                'spd.tglkadaluarsa',
+                'spd.nobatch',
+                'spd.harganetto1',
+                'spd.norec as norec_spd',
+                'spd.nostrukterimafk',
+                'ru.namaruangan'
+            )
+            ->where('spd.statusenabled', true)
+            ->where('pr.statusenabled', true);
+
+        if (isset($request['kelompokprodukid']) && $request['kelompokprodukid'] != "" && $request['kelompokprodukid'] != "undefined") {
+            $data = $data->where('jp.objectkelompokprodukfk', '=', $request['kelompokprodukid']);
+        }
+        if (isset($request['jeniskprodukid']) && $request['jeniskprodukid'] != "" && $request['jeniskprodukid'] != "undefined") {
+            $data = $data->where('djp.objectjenisprodukfk', '=', $request['jeniskprodukid']);
+        }
+        if (isset($request['produkfk']) && $request['produkfk'] != "" && $request['produkfk'] != "undefined") {
+            $data = $data->where('spd.objectprodukfk', '=', $request['produkfk']);
+        }
+        if (isset($request['namaproduk']) && $request['namaproduk'] != "" && $request['namaproduk'] != "undefined") {
+            $data = $data->where('pr.namaproduk', 'ilike', '%' . $request['namaproduk'] . '%');
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $data = $data->where('spd.objectruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['asalprodukfk']) && $request['asalprodukfk'] != "" && $request['asalprodukfk'] != "undefined") {
+            $data = $data->where('spd.objectasalprodukfk', '=', $request['asalprodukfk']);
+        }
+        if (isset($request['KdSirs1']) &&  $request['KdSirs1'] != '') {
+            if ($request['KdSirs2'] != null &&  $request['KdSirs2'] != '' && $request['KdSirs1'] != null &&  $request['KdSirs1'] != '') {
+                $data = $data->whereRaw(" (pr.kdproduk BETWEEN '" . $request['KdSirs1'] . "' and '" . $request['KdSirs2'] . "') ");
+            } elseif ($request['KdSirs2'] &&  $request['KdSirs2'] != '' && $request['KdSirs1'] == '' ||  $request['KdSirs1'] == null) {
+                $data = $data->whereRaw = (" pr.kdproduk ilike '" . $request['KdSirs2'] . "%'");
+            } elseif ($request['KdSirs1'] &&  $request['KdSirs1'] != '' && $request['KdSirs2'] == '' ||  $request['KdSirs2'] == null) {
+                $data = $data->whereRaw = (" pr.kdproduk ilike '" . $request['KdSirs1'] . "%'");
+            }
+        }
+        // $data = $data->where('spd.qtyproduk','>', 0);
+        $data = $data->take($request['jmlRows']);
+        $data = $data->orderBy('pr.namaproduk');
+        $data = $data->orderBy('sp.nostruk');
+        $data = $data->get();
+        $data2 = [];
+
+
+        $dataOrder = \DB::table('strukorder_t as so')
+            ->JOIN('orderpelayanan_t as op', 'op.noorderfk', '=', 'so.norec')
+            ->leftJOIN('strukkirim_t as sk', 'sk.noorderfk', '=', 'so.norec')
+            ->select('so.objectruanganfk', 'op.objectprodukfk', DB::raw('sum(op.qtyproduk) as qty'));
+        $dataOrder = $dataOrder->where('so.objectruanganfk', '=', $request['ruanganfk']);
+        $dataOrder = $dataOrder->whereNull('sk.noorderfk')
+            ->groupBy('so.objectruanganfk', 'op.objectprodukfk');
+        $dataOrder = $dataOrder->get();
+        // return($data);
+        // die();
+        $persenHargaJualProduk = \DB::table('persenhargajualproduk_m as phjp')
+            ->JOIN('range_m as rg', 'rg.id', '=', 'phjp.objectrangefk')
+            ->select('rg.rangemin', 'rg.rangemax', 'phjp.persenuphargasatuan')
+            ->where('phjp.objectjenistransaksifk', 5)
+            ->where('phjp.statusenabled', true)
+            ->where('phjp.objectkelompokpasienfk', 2)
+            ->get();
+
+
+
+
+        foreach ($data as $item) {
+            //tanda
+            if (count($persenHargaJualProduk) == 0) {
+                $persenUpHargaSatuan = 0;
+            } else {
+                 $persenUpHargaSatuan = 0;
+                foreach ($persenHargaJualProduk as $hitem) {
+                    if ((float)$hitem->rangemin < (float)$item->harganetto1 && (float)$hitem->rangemax > (float)$item->harganetto1) {
+                        $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                    }
+                }
+            }
+            $data2[] = array(
+                'noTerima' => $item->noterima,
+                'kodeProduk' => $item->objectprodukfk,
+                'kdsirs' => $item->kdsirs,
+                'namaProduk' => $item->namaproduk,
+                'asalProduk' => $item->asalproduk,
+                'qtyProduk' => $item->qtyproduk,
+                'satuanStandar' => $item->satuanstandar,
+                'tglKadaluarsa' => $item->tglkadaluarsa,
+                'noBatch' => $item->nobatch,
+                'namaruangan' => $item->namaruangan,
+                'harga' => $item->harganetto1,
+                'hargajual' => (float)$item->harganetto1 + (((float)$item->harganetto1 * (float)$persenUpHargaSatuan) / 100),
+                'norec_spd' => $item->norec_spd,
+                'nostrukterimafk' => $item->nostrukterimafk,
+            );
+        }
+        $result = array(
+            'detail' => $data2,
+            'detailorder' => $dataOrder,
+            'datalogin' => $dataLogin,
+            'message' => 'as@epic',
+        );
+        return $this->respond($result);
+    }
     public function saveAdjustmentStok2(Request $request)
     {
         //        $kdProfile = $this->getDataKdProfile($request);

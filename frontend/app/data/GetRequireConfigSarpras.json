@@ -227,6 +227,14 @@
             "nameDep": "InputProdukCtrl",
             "urlDep": "module/SysAdmin/InputProdukCtrl"
         },
+         {
+            "nameDep": "MasterProdukFarmasiCtrl",
+            "urlDep": "module/SysAdmin/MasterProdukFarmasiCtrl"
+        },
+        {
+            "nameDep": "InputProdukFarmasiCtrl",
+            "urlDep": "module/SysAdmin/InputProdukFarmasiCtrl"
+        },
         {
             "nameDep": "KelompokProdukBPJSCtrl",
             "urlDep": "module/SysAdmin/KelompokProdukBPJSCtrl"

@@ -1062,6 +1062,44 @@
             }
         ]
     },
+     {
+        "name": "MasterProdukFarmasi",
+        "url": "/MasterProdukFarmasi",
+        "templateurl": "module/SysAdmin/MasterProdukFarmasi.html",
+        "controller": "MasterProdukFarmasiCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+     {
+        "name": "InputProdukFarmasi",
+        "url": "/InputProdukFarmasi/:idx",
+        "templateurl": "module/SysAdmin/InputProdukFarmasi.html",
+        "controller": "InputProdukFarmasiCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
     {
         "name": "InputProduk",
         "url": "/SW5wdXRQcm9kdWs=/:idx",
