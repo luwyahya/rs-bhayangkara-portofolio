@@ -64,6 +64,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
                 getDataDPJP();
             }
+            medifirstService.getPart("bridging/bpjs2/get-poli-part", true, true, 10).then(function (data) {
+                $scope.listPoli = data;
+
+            });
             $scope.cekpenanggungJawab = function (data) {
                 if (data === true) {
 
@@ -621,6 +625,232 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     });
                 }
 
+            }
+            $scope.changeJenisPelayanan = function (e) {
+                delete $scope.item.noPenunjang
+                delete $scope.item.noSuratKontrol
+                delete $scope.item.poliKontrol
+                delete $scope.item.kodeDokter
+                if ($scope.item.jenisKontrol.id == 2) {
+                    $scope.item.noPenunjang = $scope.item.noBPJS
+                    $scope.isControl = false
+                    $scope.isSPRI = true
+                } else {
+                    $scope.RiwayatRegistrasiforKonSpri()
+                    $scope.isControl = true
+                    $scope.isSPRI = false
+                }
+            }
+
+            $scope.RiwayatRegistrasiforKonSpri = function () {
+                debugger;
+                $scope.setCekHistorySEP(true);
+                // $scope.popUpRiwayatRegistrasiforKonSpri.center().open();
+                // var actions = $scope.popUpRiwayatRegistrasiforKonSpri.options.actions;
+                // actions.splice(actions.indexOf("Close"), 1);
+                // $scope.popUpRiwayatRegistrasiforKonSpri.setOptions({ actions: actions });
+            }
+            $scope.setCekHistorySEP = function (stat) {
+                debugger
+                $scope.item.forSukon = stat;
+                $scope.isRouteLoading = true;
+                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + $scope.model.noKepesertaan).then(function (data) {
+                    if (data.data.metaData.code == 200) {
+                        for (let i = 0; i < data.data.response.histori.length; i++) {
+                            const element = data.data.response.histori[i];
+                            element.no = i + 1
+                        }
+                        $scope.popUpHistoriPelayananPeserta.center().open()
+                        $scope.dataSourceHistoriPeserta = new kendo.data.DataSource({
+                            data: data.data.response.histori,
+                            pageSize: 10,
+                            total: data.data.response.histori.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        $scope.popUpHistoriPelayananPeserta.center().open()
+                        toastr.info(data.data.metaData.message, 'Status Peserta');
+                        $scope.isRouteLoading = false;
+                    }
+                    $scope.isRouteLoading = false;
+                }, function (err) {
+                    $scope.isRouteLoading = false;
+                });
+            }
+            $scope.columnHistoriPeserta = {
+
+                selectable: 'cell',
+                pageable: true,
+                columns: [{
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                },
+                {
+                    "field": "noSep",
+                    "title": "No SEP",
+                    "width": "130px",
+
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setSep(dataItem)\"  style=\"margin:0 0 5px\">#:  noSep #</button> ",
+
+                },
+                {
+                    "field": "ppkPelayanan",
+                    "title": "Rumah Sakit",
+                    "width": "100px"
+                },
+                {
+                    "field": "tglSep",
+                    "title": "Tgl SEP",
+                    "width": "100px"
+                },
+                {
+                    "field": "noRujukan",
+                    "title": "No Rujukan",
+                    "width": "90px"
+                },
+                {
+                    "field": "noKartu",
+                    "title": "No Kartu",
+                    "width": "90px"
+                },
+                {
+                    "field": "namaPeserta",
+                    "title": "Nama Pasien",
+                    "width": "90px"
+                },
+                {
+                    "field": "kelasRawat",
+                    "title": "Kelas",
+                    "width": "90px"
+                },
+                {
+                    "field": "poli",
+                    "title": "Poli",
+                    "width": "90px"
+                },
+                {
+                    "field": "diagnosa",
+                    "title": "Diagnosa",
+                    "width": "150px"
+                },
+
+                ]
+            };
+            $scope.cekNoRujukan = function (noKartu, noSep, poli) {
+                debugger
+                $scope.isRouteLoading = true;
+                medifirstService.get("bridging/bpjs2/get-rujukan-pcare?norujukan=" + noKartu).then(function (e) {
+                    debugger
+                    if (e.data.metaData.code == 201) {
+                        // $scope.isRouteLoading = false;
+                        // toastr.info(e.data.metaData.message, 'Info')
+                        medifirstService.get("bridging/bpjs2/get-rujukan-rs?norujukan=" + noKartu).then(function (e) {
+                            debugger
+                            if (e.data.metaData.code == 201) {
+                                $scope.isRouteLoading = false;
+                                toastr.info(e.data.metaData.message, 'Info')
+                                // $scope.cekNoKartu(noKartu, noSep, poli)
+                            } else {
+                                $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
+                                $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
+                                $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
+                                let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
+                                $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
+                                finalSet(noSep)
+                            }
+                        }).then(function () {
+                            $scope.isRouteLoading = false;
+                        });
+                    } else {
+                        $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
+                        $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
+                        $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
+                        let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
+                        $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
+                        finalSet(noSep)
+                    }
+                }).then(function () {
+                    $scope.isRouteLoading = false;
+                });
+            }
+            function finalSet(noSep) {
+                $scope.item.noPenunjang = noSep
+                $scope.itemD.noRM = undefined;
+                $scope.itemD.namaPasien = undefined;
+                $scope.itemD.tglLahir = undefined;
+                $scope.itemD.noRegistrasi = undefined;
+                $scope.itemD.JumlahRawat = undefined;
+            }
+            $scope.checkDPJP = function () {
+                medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 2
+                    + "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis="
+                    + $scope.item.poliKontrol.kode).then(function (z) {
+                        if (z.data.metaData.code == 200) {
+                            $scope.listDPJP = z.data.response.list;
+                        }
+                        else
+                            toastr.info('Dokter DPJP tidak ada', 'Info')
+                    });
+            }
+            $scope.setNoSEP = function (data) {
+                debugger
+                if (data.noSep == '') {
+                    messageContainer.error("SEP tidak ditemukan di sistem Transmedic!")
+                    return
+                }
+                $scope.item.noRujukan = undefined;
+                $scope.item.tanggalRujukan = undefined;
+                $scope.item.poliRujukan = undefined;
+                $scope.item.tglRujukanSecond = 0;
+                $scope.cekNoRujukan(data.noRujukan, data.noSep, data.poli)
+            }
+            $scope.setSep = function (dataHistorySelect) {
+                if ($scope.item.forSukon == true) {
+                    $scope.setNoSEP(dataHistorySelect)
+                    $scope.popUpHistoriPelayananPeserta.close()
+                } else {
+                    $scope.isBpjsRJsep = true
+                    $scope.model.noRujukan = dataHistorySelect.noSep
+                    $scope.kodeProvider = ppkRumahSakit
+                    $scope.namaProvider = namappkRumahSakit
+                    $scope.model.faskesRujukan = false;
+                    $scope.model.namaAsalRujukan = $scope.kodeProvider + " - " + $scope.namaProvider;
+                    $scope.isSetSEP = true
+                    // $scope.model.noSep = dataHistorySelect.noSep
+                    $scope.checkKepesertaanBySepPascaRanap(dataHistorySelect.noSep);
+                    $scope.popUpHistoriPelayananPeserta.close()
+                    $scope.isPemberiSurat = true
+                    $scope.isDpjpMelayani = true
+                    $scope.isTujuanKunjungan = false
+                    $scope.isflagProcedure = false
+                    $scope.iskdPenunjang = false
+                    $scope.isassesmentPel = false
+                    delete $scope.model.skdp
+                    delete $scope.model.DPJPMelayani
+                    delete $scope.model.dokterDPJP
+                    delete $scope.model.flagProcedure
+                    delete $scope.model.kdPenunjang
+                    delete $scope.model.assesmentPel
+                    $scope.model.tujuanKunj = { id: '0', nama: 'Normal' }
+                    $scope.isLoadingNoKartu = false;
+
+                    medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1 +
+                        "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis=" + kdSpesialis).then(function (data) {
+                            if (data.data.metaData.code == 200) {
+                                $scope.listDPJP = data.data.response.list;
+                                $scope.listDPJP2 = data.data.response.list;
+                            } else
+                                toastr.info('Dokter DPJP tidak ada', 'Info')
+                        });
+                    //     // $scope.dataHistorySelect = dataHistorySelect
+                }
             }
             $scope.simpanEditSuratKontrol = function () {
                 debugger
@@ -1185,6 +1415,15 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         $scope.isRouteLoading = false;
                     });
                 }
+            }
+            $scope.saveLogging = function (jenis, referensi, noreff, ket) {
+                medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis +
+                    "&referensi=" + referensi +
+                    "&noreff=" + noreff +
+                    "&keterangan=" + ket
+                ).then(function (data) {
+
+                })
             }
             $scope.Save = function () {
                 sensus = true;

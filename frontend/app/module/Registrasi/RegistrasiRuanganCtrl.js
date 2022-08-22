@@ -1303,6 +1303,17 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $scope.isLoadingSEP = false;
                 });
             };
+            $scope.checkDPJP = function () {
+                medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 2
+                    + "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis="
+                    + $scope.item.poliKontrol.kode).then(function (z) {
+                        if (z.data.metaData.code == 200) {
+                            $scope.listkodeDokter = z.data.response.list;
+                        }
+                        else
+                            toastr.info('Dokter DPJP tidak ada', 'Info')
+                    });
+            }
             $scope.cekNoRujukan = function (noKartu, noSep, poli) {
                 debugger
                 $scope.isRouteLoading = true;

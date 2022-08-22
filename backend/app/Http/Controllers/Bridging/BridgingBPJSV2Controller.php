@@ -4169,19 +4169,30 @@ class BridgingBPJSV2Controller extends ApiController
     }
     public function getMonitoringHistoriDuaBulan($noKartu)
     {
-        
+        // $objetoRequest = new \Illuminate\Http\Request();
+        //             $objetoRequest['noKartu'] = $noKartu;
+        //             $objetoRequest['awal'] = 90;
+        //             $objetoRequest['akhir'] = 0;
+        //             $response3 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+        //             return($response3);
+        //             die();
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest['noKartu'] = $noKartu;
             $objetoRequest['awal'] = 30;
             $objetoRequest['akhir'] = 0;
             $response = $this->getMonitoringHistoriCustom($objetoRequest, true);
-            // dd($response);
+                    //      return($response);
+                    // die();
             if($response['metaData']->code==200){
                 $x=$response['response']['histori'];
                 $objetoRequest = new \Illuminate\Http\Request();
                 $objetoRequest['noKartu'] = $noKartu;
                 $objetoRequest['awal'] = 60;
                 $objetoRequest['akhir'] = 30;
+                $resultMetaData = array(
+                            'code' => 200,
+                            'message'=>'Sukses'
+                        );
                 $response2 = $this->getMonitoringHistoriCustom($objetoRequest, true);
                 if($response2['metaData']->code==200){
                     $r=array_merge($x,$response2['response']['histori']);
@@ -4194,13 +4205,36 @@ class BridgingBPJSV2Controller extends ApiController
                 $objetoRequest['noKartu'] = $noKartu;
                 $objetoRequest['awal'] = 60;
                 $objetoRequest['akhir'] = 30;
-                $response2 = $this->getListRencanaKontrolBerdasarkanNoKartuCustom($objetoRequest, true);
+                $response2 = $this->getMonitoringHistoriCustom($objetoRequest, true);
                 if($response2['metaData']->code==200){
                     $r=$response2['response']['histori'];
+                    $resultMetaData = array(
+                            'code' => 200,
+                            'message'=>'Sukses'
+                        );
+                }else{
+                    $objetoRequest = new \Illuminate\Http\Request();
+                    $objetoRequest['noKartu'] = $noKartu;
+                    $objetoRequest['awal'] = 90;
+                    $objetoRequest['akhir'] = 30;
+                    $response3 = $this->getMonitoringHistoriCustom($objetoRequest, true);
+                    // dd($response3);
+                    if($response3['metaData']->code==200){
+                        $r=$response3['response']['histori'];
+                        $resultMetaData = array(
+                            'code' => 200,
+                            'message'=>'Sukses'
+                        );
+                    }else{
+                        $resultMetaData = array(
+                            'code' => 201,
+                            'message'=>'Data Tidak Ada'
+                        );
+                    }
                 }
             }
             $result = array(
-                        'metaData' => $response['metaData'],
+                        'metaData' => $resultMetaData,
                         'response' => array('histori'=>$r),
                     );
         return response()->json($result);
