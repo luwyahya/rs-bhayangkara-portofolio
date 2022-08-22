@@ -1317,39 +1317,47 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.cekNoRujukan = function (noKartu, noSep, poli) {
                 debugger
                 $scope.isRouteLoading = true;
-                medifirstService.get("bridging/bpjs2/get-rujukan-pcare?norujukan=" + noKartu).then(function (e) {
-                    debugger
-                    if (e.data.metaData.code == 201) {
-                        // $scope.isRouteLoading = false;
-                        // toastr.info(e.data.metaData.message, 'Info')
-                        medifirstService.get("bridging/bpjs2/get-rujukan-rs?norujukan=" + noKartu).then(function (e) {
-                            debugger
-                            if (e.data.metaData.code == 201) {
+                if (poli == '') {
+                    $scope.item.noRujukan = noSep;
+                    $scope.item.poliRujukan = 'Pasca Ranap';
+                    $scope.item.tglRujukanSecond = $scope.now;
+                    $scope.item.tanggalRujukan = $scope.now;
+                    finalSet(noSep)
+                } else {
+                    medifirstService.get("bridging/bpjs2/get-rujukan-pcare?norujukan=" + noKartu).then(function (e) {
+                        debugger
+                        if (e.data.metaData.code == 201) {
+                            // $scope.isRouteLoading = false;
+                            // toastr.info(e.data.metaData.message, 'Info')
+                            medifirstService.get("bridging/bpjs2/get-rujukan-rs?norujukan=" + noKartu).then(function (e) {
+                                debugger
+                                if (e.data.metaData.code == 201) {
+                                    $scope.isRouteLoading = false;
+                                    toastr.info(e.data.metaData.message, 'Info')
+                                    // $scope.cekNoKartu(noKartu, noSep, poli)
+                                } else {
+                                    $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
+                                    $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
+                                    $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
+                                    let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
+                                    $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
+                                    finalSet(noSep)
+                                }
+                            }).then(function () {
                                 $scope.isRouteLoading = false;
-                                toastr.info(e.data.metaData.message, 'Info')
-                                // $scope.cekNoKartu(noKartu, noSep, poli)
-                            } else {
-                                $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
-                                $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
-                                $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
-                                let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
-                                $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
-                                finalSet(noSep)
-                            }
-                        }).then(function () {
-                            $scope.isRouteLoading = false;
-                        });
-                    } else {
-                        $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
-                        $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
-                        $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
-                        let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
-                        $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
-                        finalSet(noSep)
-                    }
-                }).then(function () {
-                    $scope.isRouteLoading = false;
-                });
+                            });
+                        } else {
+                            $scope.item.noRujukan = e.data.response.rujukan.noKunjungan;
+                            $scope.item.poliRujukan = e.data.response.rujukan.poliRujukan.nama;
+                            $scope.item.tanggalRujukan = e.data.response.rujukan.tglKunjungan;
+                            let dateSce = new Date(e.data.response.rujukan.tglKunjungan);
+                            $scope.item.tglRujukanSecond = dateSce.getTime() / 1000 + 7689600;
+                            finalSet(noSep)
+                        }
+                    }).then(function () {
+                        $scope.isRouteLoading = false;
+                    });
+                }
             }
             function finalSet(noSep) {
                 $scope.item.noPenunjang = noSep
@@ -6301,7 +6309,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     }
                     $scope.isRouteLoading = true;
                     medifirstService.postNonMessage("bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).then(function (e) {
-                        if (e.data.response) {
+                        if (e.data.metaData.code === "200") {
                             debugger
                             $scope.saveLogging('Input Rencana Kontrol', 'No Surat Rencana Kontrol', e.data.response.noSuratKontrol, 'Input Rencana Kontrol ' + e.data.response.noSuratKontrol + ' Ke Ruangan ' + $scope.item.poliKontrol.nama + ' Dengan Dokter ' + $scope.item.kodeDokter.nama + 'Untuk Tanggal ' + moment($scope.item.tanggalRencakaKontrol).format('YYYY-MM-DD'))
                             $scope.isRouteLoading = false;
@@ -6310,7 +6318,11 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             $scope.synchronizeKontrolAndSPRI();
                         } else {
                             $scope.isRouteLoading = false;
-                            window.messageContainer.error(e.data.metaData.message)
+                            if (e.data.metaData.message == "Data Rujukan Tidak Sesuai - NoSep menggunakan No Rujukan Antar RS") {
+                                window.messageContainer.error('PASIEN INI PASCA RAWAT. KONTROL SELANJUTNYA HARUS MENGGUNAKAN SURAT RUJUKAN, TIDAK PERLU MENERBITKAN SURKON, LANGSUNG KLIK SIMPAN SAJA')
+                            } else {
+                                window.messageContainer.error(e.data.metaData.message)
+                            }
                         }
                     }, function (err) {
                         $scope.isRouteLoading = false;

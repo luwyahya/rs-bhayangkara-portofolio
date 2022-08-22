@@ -41,9 +41,9 @@
                 <tr>
                     <td width="120" align="justify">
                         <font style="font-size: 14pt; margin-left:60px; margin-right:135px;" face="Arial">
-                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara TK. I R. Said Sukanto
+                    Yang bertanda tangan dibawah ini, dokter pada Rumah Sakit Bhayangkara TK. IV Cianjur
                     Jakarta, menerangkan pada Tanggal {{ App\Traits\Valet::getDateIndo($raw->tglcetak).' '.substr($raw->tglcetak,1,0)   }}
-                    bertempat di Rumah Sakit Bhayangkara Tk. I R. Said Sukanto Jakarta telah melakukan pemeriksaan PCR Tes Covid-19 dengan 
+                    bertempat di Rumah Sakit Bhayangkara Tk. IV Cianjur telah melakukan pemeriksaan PCR Tes Covid-19 dengan 
                     keterangan sebagai berikut :
                     </font>
                     </td>
@@ -229,7 +229,7 @@
                 <tr>
                     <td style="text-align: center">
                         <font style="font-size: 14pt; margin-left:400px;" face="Arial">
-                    Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
+                    Cianjur, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}
                     </font>
                     <br>
                     <font style="font-size: 14pt; margin-left:400px;" face="Arial">

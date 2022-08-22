@@ -92,11 +92,11 @@
                 <tr>
                     <td width="120" align="justify">
                     <font style="font-size: 14pt; face="Arial">
-                    <b>This laboratory/health institution Rumah Sakit Bhayangkara TK I R. Said Sukanto
+                    <b>This laboratory/health institution Rumah Sakit Bhayangkara TK IV Cianjur
                     </b>
                     </font><br>
                     <font style="font-size: 14pt; face="Arial">
-                    <i>Laboratorium/institusi kesehatan ini, yaitu Rumah Sakit Bhayangkara TK I R. Said Sukanto
+                    <i>Laboratorium/institusi kesehatan ini, yaitu Rumah Sakit Bhayangkara TK IV Cianjur
                     </i>
                     </font>
                     </td>
@@ -255,7 +255,7 @@
                 <tr>
                     <td style="text-align: center">
                         <font style="font-size: 14pt; margin-left:400px;" face="Arial">
-                    Jakarta, {{ App\Traits\Valet::getDateInggris(date('Y-m-d'))   }}
+                    Cianjur, {{ App\Traits\Valet::getDateInggris(date('Y-m-d'))   }}
                     </font>
                     </td>
                 </tr>
