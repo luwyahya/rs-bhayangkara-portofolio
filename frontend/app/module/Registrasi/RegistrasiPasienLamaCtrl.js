@@ -1077,7 +1077,7 @@ define(['initialize'], function (initialize) {
             $scope.setCekHistorySEP = function (dataPasienSelected) {
                 $scope.isRouteLoading = true;
                 $scope.nocmKirim = dataPasienSelected.nocm;
-                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + dataPasienSelected.nobpjs).then(function (data) {
+                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + dataPasienSelected.nobpjs).then(function (data) {
                     if (data.data.metaData.code == 200) {
                         for (let i = 0; i < data.data.response.histori.length; i++) {
                             const element = data.data.response.histori[i];
@@ -2006,7 +2006,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.forSukon = stat;
                 $scope.isRouteLoading = true;
                 $scope.nocmKirim = dataPasienSelected.nocm;
-                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan/NoKartu/" + dataPasienSelected.nobpjs).then(function (data) {
+                medifirstService.get("bridging/bpjs2/monitoring/HistoriPelayanan-duabulan/NoKartu/" + dataPasienSelected.nobpjs).then(function (data) {
                     if (data.data.metaData.code == 200) {
                         for (let i = 0; i < data.data.response.histori.length; i++) {
                             const element = data.data.response.histori[i];
@@ -2221,6 +2221,9 @@ define(['initialize'], function (initialize) {
                 debugger
                 if (data.noSep == '') {
                     messageContainer.error("SEP tidak ditemukan di sistem Transmedic!")
+                    return
+                } else if (data.poli == 'INSTALASI GAWAT DARURAT') {
+                    messageContainer.error("SEP IGD Tidak Bisa Di Buatkan Surat Kontrol!, Pilih SEP Yang Lain!")
                     return
                 }
                 $scope.item.noRujukan = undefined;
