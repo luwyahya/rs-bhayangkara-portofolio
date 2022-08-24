@@ -19925,7 +19925,7 @@ group by namaproduk,satuanstandar) as a;")
             $SPD->norec = $norecKS;
             $SPD->kdprofile = 0;
             $SPD->statusenabled = true;
-            $SPD->objectasalprodukfk = 1;
+            $SPD->objectasalprodukfk = $request['asalproduk'];
             $SPD->hargadiscount = 0;
             $SPD->harganetto1 = $request['harga'];
             $SPD->harganetto2 = $request['harga'];

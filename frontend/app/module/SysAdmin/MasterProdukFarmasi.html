@@ -170,6 +170,12 @@
                             </div>
                         </div>
                         <div class="grid_12">
+                            <div class="grid_6">
+                        		<label c-label c-label-text="Anggaran" real></label>
+			                    <input style="width: 100%;" kendo-combo-box k-ng-model="popUpHarga.asalproduk"
+			                        k-data-text-field="'asalProduk'" k-data-value-field="'id'" k-filter="'contains'"
+			                        k-auto-bind="false" k-data-source="listAnggaran" />
+                        	</div>
                         	<div class="grid_6">
                         		<label c-label c-label-text="namaRuangan" real></label>
 			                    <input style="width: 100%;" kendo-combo-box k-ng-model="popUpHarga.ruangan"
@@ -187,18 +193,22 @@
                                         ng-model="popUpHarga.harga" ng-disabled="false" />
                                 </div>
                         	</div>
+                            <div class="grid_6">
+                                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                                    <button class="k-button  k-button-icontext k-primary k-grid-update" ng-click="saveHarga()"><span
+                                            class="k-icon k-update"></span>Simpan</button>
+                                    <button class="k-button  btnHapus k-button-icontext" ng-click="tutupBuatHarga()"><span
+                                            class="k-icon k-cancel"></span>Tutup</button>
+                                </div>
+                                   
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class=" panel-body">
                 <div class="grid_12">
-                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
-                        <button class="k-button  k-button-icontext k-primary k-grid-update" ng-click="saveHarga()"><span
-                                class="k-icon k-update"></span>Simpan</button>
-                        <button class="k-button  btnHapus k-button-icontext" ng-click="tutupBuatHarga()"><span
-                                class="k-icon k-cancel"></span>Tutup</button>
-                    </div>
+                   
                 </div>
             </div>
         </div>
