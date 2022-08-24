@@ -45,6 +45,7 @@ use App\Transaksi\OrderProduk;
 use App\Master\Pegawai;
 use App\Master\Pasien;
 use App\Traits\Valet;
+use Carbon\Carbon;
 use phpDocumentor\Reflection\Types\Null_;
 use Webpatser\Uuid\Uuid;
 class LaboratoriumController extends ApiController
@@ -71,11 +72,12 @@ class LaboratoriumController extends ApiController
         $dataLogin = $request->all();
         // return($request);
         // die();
+        $tglAkhir =Carbon::now()->format('Y-m-d');
 
         $terlayani = DB::select(DB::raw("select count(jo.norec)as terlayani
                 from jadwaloperasijkn_t as jo
                 where  jo.terlaksana=true and jo.statusenabled=true 
-                and (to_char( jo.tanggaloperasi,'YYYY-MM-DD' ) = CURRENT_DATE::text )
+                and (to_char( jo.tanggaloperasi,'YYYY-MM-DD' )::TIMESTAMP = '$tglAkhir'::TIMESTAMP )
             "),
             array(
                 // 'noregistrasi' => $noRegister ,
@@ -83,7 +85,7 @@ class LaboratoriumController extends ApiController
         );
         $rencana = DB::select(DB::raw("select count(jo.norec)as rencana
                 from jadwaloperasijkn_t as jo
-                where  jo.terlaksana=true and jo.statusenabled=true
+                where  jo.terlaksana=false and jo.statusenabled=true
             "),
             array(
                 // 'noregistrasi' => $noRegister ,
@@ -206,7 +208,7 @@ class LaboratoriumController extends ApiController
                 'jo.jenistindakan', 'jo.kodepoli','jo.namapoli','jo.terlaksana','jo.nopeserta',
                 'jo.lastupdate','nocm',
             DB::raw("'-' as namapeserta,  to_char( jo.tanggaloperasi,'yyyy-MM-dd HH:mm') as tanggaloperasi"))
-            ->where('jo.terlaksana',true)
+            ->where('jo.terlaksana',false)
             ->where('jo.statusenabled',true);
       
             $data = $data->orderBy('jo.kodebooking','desc');

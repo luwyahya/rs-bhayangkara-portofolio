@@ -4166,22 +4166,22 @@ class RadiologiController extends ApiController
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
                 ->leftJoin('pegawai_m as pg2', 'pg2.id', '=', 'pd.objectpegawaifk')
                 ->leftJoin('pelayananpasien_t as pp', 'pp.strukorderfk', '=', 'so.norec')
-                ->leftJoin('jadwaloperasijkn_t as jdop', 'jdop.noregistrasi2', '=', 'pd.noregistrasi')
-                ->leftJoin('pegawai_m as pg3', 'jdop.dokteroperatorfk', '=', 'pg3.id')
-                ->leftJoin('pegawai_m as pg4', 'jdop.dokteranestesi', '=', 'pg4.id')
-                            // ->select('so.norec as norec_so','jdop.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+                ->leftJoin('jadwaloperasijkn_t as jdopn', 'jdopn.noregistrasi2', '=', 'pd.noregistrasi')
+                ->leftJoin('pegawai_m as pg3', 'jdopn.dokteroperatorfk', '=', 'pg3.id')
+                ->leftJoin('pegawai_m as pg4', 'jdopn.dokteranestesi', '=', 'pg4.id')
+                            // ->select('so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
                 //     'klm.jeniskelamin', 'ps.tgllahir',
                 //     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
                 //     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
                 //     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
                 //     'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp',
                 //     (DB::raw("case when pp.strukorderfk is null then 'MASUK' else
-                //                     'Sudah Verifikasi' end as status,case when jdop.terlaksana = 0 and 
-                // pp.strukorderfk is not null then 'ANTREAN' when jdop.terlaksana is null and  pp.strukorderfk is null then 'MENUNGGU' else 'Selesai' end as statusantrianjkn")))
+                //                     'Sudah Verifikasi' end as status,case when jdopn.terlaksana = 0 and 
+                // pp.strukorderfk is not null then 'ANTREAN' when jdopn.terlaksana is null and  pp.strukorderfk is null then 'MENUNGGU' else 'Selesai' end as statusantrianjkn")))
                 ->select(
                 'pg3.namalengkap as dokter',
-                'pg4.namalengkap as anastesi','so.norec as norec_so','jdop.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                    'klm.jeniskelamin', 'ps.tgllahir','jdop.*',
+                'pg4.namalengkap as anastesi','so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+                    'klm.jeniskelamin', 'ps.tgllahir',
                     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
                     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
                     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
@@ -4190,7 +4190,7 @@ class RadiologiController extends ApiController
                          THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
 						 CASE WHEN so.status IS NULL 
                          THEN 'MENUNGGU'
-                         WHEN jdop.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
+                         WHEN jdopn.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
                          END AS statusantrianjkn")))
                 ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdInstalasiBedahSentral'))
                 ->where('so.statusenabled',true);
@@ -4359,16 +4359,16 @@ class RadiologiController extends ApiController
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
             ->leftJoin('pegawai_m as pg2', 'pg2.id', '=', 'pd.objectpegawaifk')
             ->leftJoin('pelayananpasien_t as pp', 'pp.strukorderfk', '=', 'so.norec')
-            ->leftJoin('jadwaloperasijkn_t as jdop', 'jdop.noregistrasi2', '=', 'pd.noregistrasi')
-            ->leftJoin('pegawai_m as pg3', 'jdop.dokteroperatorfk', '=', 'pg3.id')
-            ->leftJoin('pegawai_m as pg4', 'jdop.dokteranestesi', '=', 'pg4.id')
+            ->leftJoin('jadwaloperasijkn_t as jdopn', 'jdopn.noregistrasi2', '=', 'pd.noregistrasi')
+            ->leftJoin('pegawai_m as pg3', 'jdopn.dokteroperatorfk', '=', 'pg3.id')
+            ->leftJoin('pegawai_m as pg4', 'jdopn.dokteranestesi', '=', 'pg4.id')
             ->select(
                 'so.diagnosa as diagnosa',
                 'pg3.namalengkap as dokter',
                 'pg4.namalengkap as anastesi',                
-                'jdop.*',
+                'jdopn.*',
                 'so.norec as norec_so',
-                'jdop.norec as norec_jadwal',
+                'jdopn.norec as norec_jadwal',
                 'pd.norec as norec_pd',
                 'so.noorder',
                 'pd.noregistrasi',
@@ -4398,7 +4398,7 @@ class RadiologiController extends ApiController
                          THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
 						 CASE WHEN so.status IS NULL 
                          THEN 'MENUNGGU'
-                         WHEN jdop.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
+                         WHEN jdopn.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
                          END AS statusantrianjkn,
                          --CONCAT(DATEDIFF(YYYY,ps.[tgllahir], GETDATE()), ' tahun') as umur
                          to_char( ps.tgllahir, TO_CHAR(age( ps.tgllahir,  now( )), 'YY Tahun mm Bulan DD Hari')) AS umur"))
@@ -4453,7 +4453,7 @@ class RadiologiController extends ApiController
         if (isset($request['jmlRow']) && $request['jmlRow'] != "" && $request['jmlRow'] != "undefined") {
             $data = $data->take($request['jmlRow']);
         }
-        $data = $data->orderBy('jdop.ok', 'asc');
+        $data = $data->orderBy('jdopn.ok', 'asc');
         //        $data = $data->take(100);
         $data = $data->distinct();
         $data = $data->get();

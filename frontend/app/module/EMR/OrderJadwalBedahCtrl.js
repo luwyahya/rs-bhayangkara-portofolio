@@ -1257,7 +1257,7 @@ define(['initialize'], function (initialize) {
 
                             // data.produkfk = $scope.item.layanan.id
                             // data.namaproduk = $scope.item.layanan.namaproduk
-                            data.produkfk = '4041353'
+                            data.produkfk = '500162'
                             data.namaproduk = $scope.item.keterangan
                             data.keterangan2 = $scope.item.keterangan2
                             data.qtyproduk = parseFloat($scope.item.qty)
@@ -1279,7 +1279,7 @@ define(['initialize'], function (initialize) {
                         no: nomor,
                         // produkfk: $scope.item.layanan.id,
                         // namaproduk: $scope.item.layanan.namaproduk,
-                        produkfk: '4041353',
+                        produkfk: '500162',
                         namaproduk: $scope.item.keterangan,
 
                         keterangan: $scope.item.keterangan,
@@ -1394,7 +1394,7 @@ define(['initialize'], function (initialize) {
                     data = {
                         no: i + 1,
 
-                        produkfk: '4041353',
+                        produkfk: '500162',
                         namaproduk: datax[i].keteranganlainnya,
 
                         keterangan: datax[i].keteranganlainnya,
@@ -1447,7 +1447,19 @@ define(['initialize'], function (initialize) {
                     details: data2
                 }
 
+                var dataKonsul = {
+                    "asalrujukanfk": 1,
+                    "kelasfk": $scope.item.idKelas, //6,//nonKelas current.kelasid,
+                    "noantrian": 1,
+                    "norec_pd": norec_pd,
+                    "dokterfk": $scope.item.dokterbed.id,
+                    "objectruangantujuanfk": $scope.item.ruangantujuan.id,
+                    "objectruanganasalfk": namaRuanganFk
+                }
+                medifirstService.post('tatarekening/save-konsul-keruangan', dataKonsul).then(function (e) {
 
+
+                })
                 medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                     medifirstService.postLogging('Order Jadwal Bedah', 'Norec strukorder_t', e.data.strukorder.norec,
                         'Order Jadwal Bedah No Order-' + e.data.strukorder.noorder + ' No Registrasi ' + $scope.item.noregistrasi
