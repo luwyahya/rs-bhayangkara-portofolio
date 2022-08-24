@@ -403,7 +403,7 @@ define(['initialize'], function (initialize) {
                 return thn + ' thn ' // + bln + ' bln'
             }
             $scope.antrian = function () {
-                $scope.item.ruangandepo = { id: $scope.listRuangandepo[3].id, namaruangan: $scope.listRuangandepo[3].namaruangan }
+                $scope.item.ruangandepo = { id: $scope.listRuangandepo[0].id, namaruangan: $scope.listRuangandepo[0].namaruangan }
                 $scope.item.loket = { id: $scope.listloket[0].id, loket: $scope.listloket[0].loket }
                 if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectruanganfk == '796') {
                     if ($scope.dataSelected.istaskantrol < 6) {

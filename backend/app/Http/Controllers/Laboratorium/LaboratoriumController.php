@@ -459,7 +459,9 @@ class LaboratoriumController extends ApiController
             ); 
             $updatePP=StrukOrder::where('norec',$request['norec_so'])
             ->update([
-                    'status' => 1
+                    'status' => 1,
+                    'tglpelayananakhir' =>$request['tanggaloperasi'],
+                    'tglpelayananawal' =>$request['tanggaloperasi']
                 ]
             );
 

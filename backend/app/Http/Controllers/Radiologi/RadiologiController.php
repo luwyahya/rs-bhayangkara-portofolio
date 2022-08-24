@@ -4185,7 +4185,7 @@ class RadiologiController extends ApiController
                     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
                     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
                     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
-                    'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp',
+                    'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp','jdopn.jenistindakan',
                 (DB::raw("CASE WHEN so.status IS NULL 
                          THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
 						 CASE WHEN so.status IS NULL 

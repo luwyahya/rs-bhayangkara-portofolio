@@ -683,7 +683,7 @@ define(['initialize'], function (initialize) {
                 objectruanganfk = $scope.dataSelected.objectruanganfk;
                 namaRuangan = $scope.dataSelected.namaruangan;
                 kelompokpasien = $scope.dataSelected.kelompokpasien;
-                // jenisPelayananOk =$scope.item1.jenistindakan;
+                jenisPelayananOk = $scope.dataSelected.jenistindakan;
                 $scope.item.dokterOrder = { id: $scope.dataSelected.objectpegawaiorderfk, namalengkap: $scope.dataSelected.pegawaiorder };
                 $scope.item.tglOperasi = $scope.dataSelected.tglpelayananakhir;
                 $scope.popUpVerif.center().open();
@@ -956,7 +956,7 @@ define(['initialize'], function (initialize) {
                         kelompokpasien: kelompokpasien,
                         noregistrasi: noregistrasi,
                         tanggaloperasi: moment($scope.item.tglOperasi).format('YYYY-MM-DD HH:mm:ss'),
-                        jenistindakan: jenisPelayananOk,
+                        jenistindakan: $scope.item1.jenistindakan,
                         kdpoli: $scope.item1.poli.kdpoli,
                         nmpoli: $scope.item1.poli.nmpoli,
                         jam: moment($scope.item.jam).format('HH:mm:ss'),
