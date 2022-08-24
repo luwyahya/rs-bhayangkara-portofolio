@@ -1,0 +1,246 @@
+@font-face {
+    font-family: 'gadugibold';
+    src: url("../fonts/gadugib.ttf");
+}
+
+@font-face {
+    font-family: 'gadugiregular';
+    src: url("../fonts/gadugi.ttf");
+}
+
+@font-face {
+    font-family: 'neotericbold';
+    src: url("../fonts/NEOTERICc - Bold DEMO VERSION.ttf");
+}
+
+@font-face {
+    font-family: 'neotericregular';
+    src: url("../fonts/NEOTERICc - Regular DEMO VERSION.ttf");
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    color: #ffffff;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.bgimg {
+    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/img_9165.jpg");
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.topbar {
+    padding: 10px 0;
+}
+
+.topbar img.img-logo-top {
+    max-width: 100%;
+    margin-top: 10px;
+}
+
+.topbar .nama-rumah-sakit {
+    font-family: 'neotericbold';
+    text-align: left;
+    font-size: 45px;
+    margin-top: 30px;
+}
+
+.topbar .alamat-rumah-sakit {
+    font-family: 'gadugiregular';
+    text-align: left;
+    font-size: 25px;
+    margin: 0;
+}
+
+.topbar .informasi {
+    font-family: 'gadugibold';
+    text-align: right;
+    font-size: 32px;
+    background: rgb(255, 230, 1);
+    color: #444444;
+    border-radius: 40px;
+    margin: 60px 0 0 0;
+    padding: 10px 20px 15px 0px;
+}
+
+.divider {
+    border-bottom: 1px solid #cccccc;
+    padding: 10px;
+    margin: 10px;
+}
+
+.info-kamar {
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 20px 10px 20px;
+    border-top: 5px solid #0087d6;
+}
+
+.info-kamar h2 {
+    text-align: center;
+    font-family: 'gadugibold';
+    margin-top: 5px;
+    color: #cccccc;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.info-kamar h1 {
+    text-align: center;
+    font-family: 'gadugibold';
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+.info-kamar h3 {
+    text-align: center;
+    font-family: 'neotericregular';
+    color: #ffffff;
+}
+
+.table-antrian {
+    /* background: #282f2f;
+    margin-top: 20px;
+    border-top: 5px solid #00d62d;
+    overflow-y: auto;
+    height: 550px; */
+    /* argin-top: 20px; */
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 20px 10px 20px;
+    border-top: 5px solid #0087d6;
+}
+
+.table-antrian table>thead {
+    border-top: 0;
+}
+
+.table-antrian table>thead>tr>th {
+    font-family: 'neotericbold';
+    font-size: 25px;
+    border-bottom: 0;
+    text-align: center;
+    color: #cccccc;
+    position: sticky;
+    top: 0;
+    background: solid #0087d6;
+}
+
+.table-antrian table>thead>tr>th.ruangan,
+.table-antrian table>thead>tr>th.kelas {
+    text-align: left;
+}
+
+.table-antrian table>tbody>tr>td {
+    font-family: 'gadugibold';
+    color: #ffffff;
+    font-size: 20px;
+    padding: 7px;
+    text-align: center;
+}
+
+.table-antrian table>tbody>tr>td.ruangan {
+    text-align: left;
+    background: #00ac25ad;
+}
+
+.table-antrian table>tbody>tr>td.kelas {
+    text-align: left;
+    background: #2f4c50;
+}
+
+.table-antrian table>tbody>tr>td.kapasitas {
+    color: #1efff7;
+}
+
+.table-antrian table>tbody>tr>td.rusak {
+    color: #fa1f1f;
+}
+
+.table-antrian table>tbody>tr>td.dibersihkan {
+    color: #ffffff;
+}
+
+.table-antrian table>tbody>tr>td.terpakai {
+    color: #777aff;
+}
+
+.table-antrian table>tbody>tr>td.kosong {
+    color: #00ff06;
+}
+
+@media (max-width: 1366px) {
+    .topbar .nama-rumah-sakit {
+        font-size: 30px;
+    }
+    .topbar .alamat-rumah-sakit {
+        font-size: 18px;
+    }
+    .topbar .informasi {
+        font-size: 22px;
+        margin: 40px 0 0 0;
+    }
+    .info-kamar h2 {
+        font-size: 20px;
+    }
+    .table-antrian table>thead>tr>th {
+        font-size: 20px;
+    }
+    .table-antrian table>tbody>tr>td {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .topbar .nama-rumah-sakit {
+        font-size: 30px;
+    }
+    .topbar .alamat-rumah-sakit {
+        font-size: 18px;
+    }
+    .topbar .informasi {
+        font-size: 20px;
+        margin: 40px 0 0 0;
+    }
+    .info-kamar h2 {
+        font-size: 20px;
+    }
+    .table-antrian table>thead>tr>th {
+        font-size: 18px;
+    }
+    .table-antrian table>tbody>tr>td {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .topbar .nama-rumah-sakit {
+        font-size: 25px;
+    }
+    .topbar .alamat-rumah-sakit {
+        font-size: 18px;
+    }
+    .topbar .informasi {
+        font-size: 15.5px;
+        margin: 40px 0 0 0;
+    }
+    .info-kamar h2 {
+        font-size: 20px;
+    }
+    .table-antrian table>thead>tr>th {
+        font-size: 14px;
+    }
+    .table-antrian table>tbody>tr>td {
+        font-size: 12px;
+    }
+}
