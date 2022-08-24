@@ -802,7 +802,7 @@ define(['initialize'], function (initialize) {
                     let user = medifirstService.getPegawaiLogin();
                     var id = medifirstService.getPegawaiLogin().id
                     if (tglpulangs != '') {
-                        if (id === 890 || id === 320263 || id === 25093 || id === 25496 || id === 27382 || id === 27233 || user.ruangan.id == 809) {
+                        if (id === 890 || id === 320263 || id === 25093 || id === 25496 || id === 27382 || id === 27233 || id == 320261232 || user.ruangan.id == 809) {
                             var dataJson = {
                                 noregistrasi: $scope.item.noRegistrasi,
                                 norec_pd: $scope.item.norec_pd,
