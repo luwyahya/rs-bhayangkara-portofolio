@@ -39,6 +39,9 @@ define(['initialize'], function (initialize) {
 				medifirstService.get("sysadmin/general/get-combo-ruangan", false).then(function (data) {
                     $scope.listRuangan = data.data;
                 });
+				medifirstService.get("logistik/get-combo-logistik", false).then(function (data) {
+                    $scope.listAnggaran = data.data.asalproduk;
+                });
 			}
 
 			$scope.cariFilter = function () {
@@ -318,6 +321,7 @@ define(['initialize'], function (initialize) {
                 var objSave = {
                     'idproduk': $scope.popUpHarga.id,
                     'harga':$scope.popUpHarga.harga,
+                    'asalproduk':$scope.popUpHarga.asalproduk.id,
                     'idRuangan':$scope.popUpHarga.ruangan.id
                 }
                 medifirstService.post('logistik/save-harga-produk',objSave).then(function (e) {
