@@ -403,28 +403,28 @@ define(['initialize'], function (initialize) {
                 return thn + ' thn ' // + bln + ' bln'
             }
             $scope.antrian = function () {
-                $scope.item.ruangandepo = { id: $scope.listRuangandepo[0].id, namaruangan: $scope.listRuangandepo[0].namaruangan }
-                $scope.item.loket = { id: $scope.listloket[0].id, loket: $scope.listloket[0].loket }
-                if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectruanganfk == '796') {
-                    if ($scope.dataSelected.istaskantrol < 6) {
-                        toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
-                        return;
-                    } else {
-                        $scope.isTask6 = true;
-                        $scope.popupantrian.center().open();
-                    }
-                } else if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectdepartemenfk == 18) {
-                    if ($scope.dataSelected.istaskantrol < 6) {
-                        toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
-                        return;
-                    } else {
-                        $scope.isTask6 = true;
-                        $scope.popupantrian.center().open();
-                    }
-                } else {
-                    $scope.isTask6 = false;
-                    $scope.popupantrian.center().open();
-                }
+                // $scope.item.ruangandepo = { id: $scope.listRuangandepo[0].id, namaruangan: $scope.listRuangandepo[0].namaruangan }
+                // $scope.item.loket = { id: $scope.listloket[0].id, loket: $scope.listloket[0].loket }
+                // if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectruanganfk == '796') {
+                //     if ($scope.dataSelected.istaskantrol < 6) {
+                //         toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
+                //         return;
+                //     } else {
+                //         $scope.isTask6 = true;
+                //         $scope.popupantrian.center().open();
+                //     }
+                // } else if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectdepartemenfk == 18) {
+                //     if ($scope.dataSelected.istaskantrol < 6) {
+                //         toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
+                //         return;
+                //     } else {
+                //         $scope.isTask6 = true;
+                //         $scope.popupantrian.center().open();
+                //     }
+                // } else {
+                $scope.isTask6 = false;
+                $scope.popupantrian.center().open();
+                // }
             }
             $scope.saveantrian = function () {
                 debugger;
