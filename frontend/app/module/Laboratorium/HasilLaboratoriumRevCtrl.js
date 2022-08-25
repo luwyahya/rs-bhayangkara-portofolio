@@ -14,6 +14,7 @@ define(['initialize'], function (initialize) {
             var tglhasils = null
             var tglpelayanans = null
             $scope.datahasilawal = '';
+            var namaAnalis = '';
             // $scope.shows = 0;
             $scope.item = {
                 tglpelayanan: new Date(moment($scope.now).format('YYYY-MM-DD HH:mm:ss')),
@@ -50,6 +51,7 @@ define(['initialize'], function (initialize) {
 
                     editkenNorecPP = chacePeriode[18]
                     produkfk = chacePeriode[19]
+                    namaAnalis = chacePeriode[20]
                     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
                     const firstDate = new Date($scope.item.tgllahir);
                     const secondDate = new Date($scope.item.tglRegistrasi);
@@ -1206,11 +1208,11 @@ define(['initialize'], function (initialize) {
                     var y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-lab?reg=" + $scope.item.noregistrasi
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
+                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab"],
                         "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
-                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan
+                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan, namaAnalis
                         ],
-                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                     };
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {

@@ -2050,7 +2050,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         17: dokterP,
                         16: idDokterP,
                         18: daftarSimpan,
-                        19: daftarCetak
+                        19: daftarCetak,
+                        20: $scope.dataSelected.NamaAnalisLab
 
                     }
                     cacheHelper.set('chaceHasilLab2', arrStr);

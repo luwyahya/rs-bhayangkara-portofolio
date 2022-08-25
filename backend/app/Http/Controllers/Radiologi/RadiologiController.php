@@ -1179,9 +1179,10 @@ class RadiologiController extends ApiController
                     ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                     ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
                     ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
-                    ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
+                    ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id','ptu.objectjenispetugaspefk')
 //                    ->where('pd.kdprofile',$idProfile)
-                    ->where('ptu.objectjenispetugaspefk', 4)
+                    // ->where('ptu.objectjenispetugaspefk', 4)
+                    ->whereIn('ptu.objectjenispetugaspefk', array(4,10))
                     ->where('pd.noregistrasi', $pelayanan[0]->noregistrasi)
                     // ->take(1)
                     ->get();
@@ -1196,10 +1197,17 @@ class RadiologiController extends ApiController
                     }
                     $NamaDokter = '-';
                     $DokterId = '';
+                    $NamaAnalisLab = '-';
+                    $AnalisLabId = '';
                     foreach ($pelayananpetugas as $hahaha) {
                         if ($hahaha->pelayananpasien == $item->norec_pp) {
-                            $NamaDokter = $hahaha->namalengkap;
-                            $DokterId = $hahaha->id;
+                            if($hahaha->objectjenispetugaspefk==4){
+                                $NamaDokter = $hahaha->namalengkap;
+                                $DokterId = $hahaha->id;
+                            }else if($hahaha->objectjenispetugaspefk==10){
+                                $NamaAnalisLab = $hahaha->namalengkap;
+                                $AnalisLabId = $hahaha->id;
+                            }
                         }
                     }
                     $total = (((float)$item->hargasatuan - (float)$diskon) * (float)$item->jumlah ) + (float)$item->jasa ;
@@ -1260,6 +1268,7 @@ class RadiologiController extends ApiController
                         'iddokterpengirim' => $item->iddokterpengirim,
                         'statusperiksa' => $item->statusperiksa,
                         'nofoto' => $item->nofoto,
+                        'NamaAnalisLab' => $NamaAnalisLab
                     );
                 }
                 if (in_array($this->settingDataFixed('KdDepartemenInstalasiRadiologi'), $departemenfk)) {
