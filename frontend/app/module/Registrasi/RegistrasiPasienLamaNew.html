@@ -64,6 +64,12 @@
         height: 100%;
         object-fit: contain;
     }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
 </style>
 <c-panel item="item" header="'Pendaftaran Pasien Lama'" disabled>
     <div class="panel-place" style="top: -1px;"><i style="cursor:pointer;" ng-click='pasienBaru()'
@@ -488,25 +494,6 @@
 
         </div>
         <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
-        <div kendo-window="popUpHistoriPelayananPeserta" k-title="'Histori Pelayanan Peserta'" k-width="1200"
-            k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
-            <div class="panel panel-default container_12" style="padding: 0px 10px;">
-                <fieldset class="effect-shadow" style=" border-radius: 4px">
-                    <legend id="filterData">
-                        <a ng-click="showAndHide()">Daftar Histori</a>
-                    </legend>
-                    <div class="grid_12">
-
-                        <kendo-grid id="kGrids" data-source="dataSourceHistoriPeserta" options="columnHistoriPeserta"
-                            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataHistorySelect"
-                            ng-click="klikHis(dataHistorySelect)">
-                        </kendo-grid>
-
-
-                    </div>
-                </fieldset>
-            </div>
-        </div>
         <div kendo-window="popUpHistoriSuratKontrol" k-title="'Histori Surat'" k-width="1500" k-visible="false"
             k-on-open="win2visible = true" k-on-close="win2visible = false">
             <div class="panel panel-default container_12" style="padding: 0px 10px;">
@@ -604,13 +591,18 @@
                         <a ng-click="showAndHide()">Daftar Histori</a>
                     </legend>
                     <div class="grid_12">
-
+                        <div class="grid_12">
+                            <input type="checkbox" class="k-checkbox" value="true">
+                            <label class="k-checkbox-label" for="isSepTdkSesuai"><b>Warna Kuning Adalah SEP
+                                    Ranap</b></label>
+                            <span class="koneng">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 10px;">
                         <kendo-grid id="kGrids" data-source="dataSourceHistoriPeserta" options="columnHistoriPeserta"
                             k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataHistorySelect"
                             ng-click="klikHis(dataHistorySelect)">
                         </kendo-grid>
-
-
                     </div>
                     <!-- <div class="grid_12">
                         <div class="grid_2">

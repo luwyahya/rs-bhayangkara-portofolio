@@ -2,8 +2,8 @@
 
 define(['initialize', 'Configuration'], function (initialize, config) {
     'use strict';
-    initialize.controller('KlaimInaCbgCtrl', ['$state', '$q', '$scope', 'CacheHelper', 'DateHelper', '$timeout', 'MedifirstService',
-        function ($state, $q, $scope, cacheHelper, DateHelper, $timeout, medifirstService) {
+    initialize.controller('KlaimInaCbgCtrl', ['$state', '$q', '$scope', '$mdDialog', 'CacheHelper', 'DateHelper', '$timeout', 'MedifirstService',
+        function ($state, $q, $scope, $mdDialog, cacheHelper, DateHelper, $timeout, medifirstService) {
 
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -21,6 +21,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             var responData = ''
             var timeoutPromise;
             $scope.cardsEklaim = []
+            $scope.cardsEklaim2 = []
+            var noantrianLoket = 0;
 
             $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
@@ -43,6 +45,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             // ];
             $scope.cardView = false;
             $scope.cardViewEklaim = false;
+            $scope.cardViewEklaim2 = false;
 
             $scope.SearchEnter = function () {
                 loadData()
@@ -74,15 +77,57 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             }
                             medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
                                 debugger
-                                $scope.cardViewEklaim = false;
                                 var responDiagnosa = e.data.dataresponse;
                                 if (responDiagnosa[0].dataresponse.metadata.code == "200") {
+                                    $scope.cardsEklaim = []
                                     var diagnosaInacbg = responDiagnosa[0].dataresponse.response.data
                                     for (var x = diagnosaInacbg.length - 1; x >= 0; x--) {
                                         let resDokter = { description: diagnosaInacbg[x].description, code: diagnosaInacbg[x].code }
                                         $scope.cardsEklaim.push(resDokter);
                                     }
                                     $scope.cardViewEklaim = true;
+                                } else {
+                                    $scope.cardViewEklaim = false;
+                                }
+                            })
+                        }
+                    }, 500)
+                }
+            })
+            $scope.$watch('item.diagnosisPrimerEklaim2', function (newVal, oldVal) {
+                if (newVal.length > 2) {
+                    $timeout.cancel(timeoutPromise);
+                    timeoutPromise = $timeout(function () {
+                        if (newVal != oldVal) {
+                            var dt1 = {}
+                            var dt2 = []
+                            dt1 = {
+                                "metadata": {
+                                    "method": "search_procedures_inagrouper"
+                                },
+                                "data": {
+                                    "keyword": newVal
+                                }
+                            }
+                            dt2.push(dt1)
+
+
+                            var objData = {
+                                "data": dt2
+                            }
+                            medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+                                debugger
+                                var responDiagnosa = e.data.dataresponse;
+                                if (responDiagnosa[0].dataresponse.metadata.code == "200") {
+                                    $scope.cardsEklaim2 = []
+                                    var diagnosaInacbg = responDiagnosa[0].dataresponse.response.data
+                                    for (var x = diagnosaInacbg.length - 1; x >= 0; x--) {
+                                        let resDokter = { description: diagnosaInacbg[x].description, code: diagnosaInacbg[x].code }
+                                        $scope.cardsEklaim2.push(resDokter);
+                                    }
+                                    $scope.cardViewEklaim2 = true;
+                                } else {
+                                    $scope.cardViewEklaim2 = false;
                                 }
                             })
                         }
@@ -220,6 +265,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             var dataTea = $scope.item.dataDiagnosa10;
                             $scope.listDiagnosa10 = $scope.item.dataDiagnosa10;
                             $scope.listDiagnosa9 = $scope.item.dataDiagnosa9;
+                            $scope.listDiagnosa10Inacbg = $scope.item.dataDiagnosaInacbg10;
+                            $scope.listDiagnosa9Inacbg = $scope.item.dataDiagnosaInacbg9;
 
                         })
                     } else {
@@ -240,7 +287,67 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.formGridDetail = false
                 }
             }
+            $scope.clickCardEklaim = function (x) {
+                debugger
+                $scope.cardViewEklaim = false;
+                $scope.now = new Date();
+                var detaildiagnosapasien = {
+                    norec_dp: '',
+                    noregistrasifk: $scope.item.data[0].noregistrasi,
+                    code: x.code,
+                    description: x.description,
+                    jenisdiagnosainacbgfk: '10'
+                }
+                var objSave = {
+                    detaildiagnosapasien: detaildiagnosapasien,
+                }
+                debugger;
+                medifirstService.post('registrasi/save-diagnosa-inacbg', objSave).then(function (e) {
+                    delete $scope.item.diagnosisPrimer;
+                    $scope.dataSelectedDiagnosa = {};
+                    $scope.isRouteLoading = false;
+                    $scope.setdetail(set)
+                })
+            }
 
+            $scope.clickCardEklaim2 = function (x) {
+                debugger
+                $scope.cardViewEklaim2 = false;
+                var x2 = x;
+                var confirm = $mdDialog.prompt()
+                    .title('Silahkan Masukan Jumlah Tindakan Dalam 1x Operasi?')
+                    .placeholder('Jumlah Tindakan')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .initialValue('')
+                    .ok('Okay!')
+                    .cancel('Tidak');
+                $mdDialog.show(confirm).then(function (result) {
+                    noantrianLoket = result
+                    $scope.now = new Date();
+                    var detaildiagnosapasien = {
+                        norec_dp: '',
+                        noregistrasifk: $scope.item.data[0].noregistrasi,
+                        code: x2.code,
+                        description: x2.description,
+                        jenisdiagnosainacbgfk: '9',
+                        jumlah: noantrianLoket
+                    }
+                    var objSave = {
+                        detaildiagnosapasien: detaildiagnosapasien,
+                    }
+                    debugger;
+                    medifirstService.post('registrasi/save-diagnosa-inacbg9', objSave).then(function (e) {
+                        delete $scope.item.diagnosisPrimer;
+                        $scope.dataSelectedDiagnosa = {};
+                        $scope.isRouteLoading = false;
+                        $scope.setdetail(set)
+                    })
+                }, function () {
+                    return
+                });
+
+            }
             $scope.clickCard = function (x) {
                 $scope.formCari = false
                 $scope.formGrid = true
@@ -600,6 +707,40 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.dataSelected1 = x
                 //...
             };
+            $scope.clickHapus10DiagnosaInacbg = function (ai) {
+                debugger
+                var diagnosa = {
+                    norec_dp: ai.norec_diagnosapasien,
+                    noregistrasi: ai.noregistrasi
+                }
+                var objDelete = {
+                    diagnosa: diagnosa,
+                }
+                medifirstService.post('registrasi/daftar-antrian-pasien/delete-diagnosa-inacbg10', objDelete).then(function (e) {
+                    delete $scope.item.diagnosisPrimer;
+                    $scope.dataSelectedDiagnosa = {};
+                    $scope.setdetail(set)
+                })
+                // $scope.dataSelected1 = ai
+                //...
+            };
+            $scope.clickHapus9DiagnosaInacbg = function (ai) {
+                debugger
+                var diagnosa = {
+                    norec_dp: ai.norec_diagnosapasien,
+                    noregistrasi: ai.noregistrasi
+                }
+                var objDelete = {
+                    diagnosa: diagnosa,
+                }
+                medifirstService.post('registrasi/daftar-antrian-pasien/delete-diagnosa-inacbg9', objDelete).then(function (e) {
+                    delete $scope.item.diagnosisPrimer;
+                    $scope.dataSelectedDiagnosa = {};
+                    $scope.setdetail(set)
+                })
+                // $scope.dataSelected1 = ai
+                //...
+            };
             $scope.clickHapus = function (ai) {
                 debugger
                 var diagnosa = {
@@ -698,8 +839,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
-                            "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg,
+                            "diagnosa_inagrouper": $scope.item.dataDiagnosaInacbg10Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      
@@ -875,8 +1016,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
-                            "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg,
+                            "diagnosa_inagrouper": $scope.item.dataDiagnosaInacbg10Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      
@@ -1123,7 +1264,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         // 	biayanaikkelas=responData[0].dataresponse.response.add_payment_amt
                         // }
 
-                        biayanaikkelas = Number($scope.dataPasienSelected.biayanaikkelas)
+                        biayanaikkelas = Number($scope.item.data[0].biayanaikkelas)
                         // biayanaikkelas=biayanaikkelas.toFixed(0);
                         if (hakkelas == "kelas_1") {
                             for (let i = 0; i < cmglength.length; i++) {

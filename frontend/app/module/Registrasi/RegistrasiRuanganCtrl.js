@@ -547,7 +547,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     "width": "130px",
 
                     "template": "<button class=\"k-button custom-button\" ng-click=\"setSep(dataItem)\"  style=\"margin:0 0 5px\">#:  noSep #</button> ",
-
+                    attributes: {
+                        class: "#=jnsPelayanan == 1 ? 'koneng' : 'yellow' #"
+                    },
                 },
                 {
                     "field": "ppkPelayanan",

@@ -4,6 +4,12 @@
         padding: 2em 0 2em 5em;
         background: lightgrey;
     }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
 </style>
 <div class="grid_12">
 
@@ -1081,6 +1087,14 @@
                 <a ng-click="showAndHide()">Daftar Histori</a>
             </legend>
             <div class="grid_12">
+                <div class="grid_12">
+                    <input type="checkbox" class="k-checkbox" value="true">
+                    <label class="k-checkbox-label" for="isSepTdkSesuai"><b>Warna Kuning Adalah SEP
+                            Ranap</b></label>
+                    <span class="koneng">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 10px;">
 
                 <kendo-grid id="kGrids" data-source="dataSourceHistoriPeserta" options="columnHistoriPeserta"
                     k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataHistorySelect"
