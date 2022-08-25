@@ -130,6 +130,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 id: his.data[0].objectruanganlastfk,
                                 namaruangan: his.data[0].namaruangan,
                             }
+                            noRegistrasis = his.data[0].noregistrasi
+                            $scope.cacheNoRegistrasi = noRegistrasis;
                             $scope.item.kelas = { id: his.data[0].objectkelasfk, namakelas: his.data[0].namakelas }
                             $scope.listKamar = ([{ id: his.data[0].objectkamarfk, namakamar: his.data[0].namakamar }])
                             $scope.item.kamar = { id: his.data[0].objectkamarfk, namakamar: his.data[0].namakamar }
