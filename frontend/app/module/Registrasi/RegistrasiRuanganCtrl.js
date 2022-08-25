@@ -2756,7 +2756,13 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 $scope.isPasienBpjs = true
                                 $scope.isBpjsRJ = true
                                 debugger
-                                $scope.model.cekpilihRujukan = true
+                                if ($scope.item.objectdepartemenfk.id == 24 || $scope.item.objectdepartemenfk.id == 16) {
+                                    $scope.model.cekpilihManual = true
+                                    let x = true
+                                    $scope.ceklispilihManual(x);
+                                } else {
+                                    $scope.model.cekpilihRujukan = true
+                                }
                                 if ($scope.currentfaskes == 3) {
                                     $scope.model.cekpilihRujukan = false
                                     $scope.model.cekpilihPascaranap = true
