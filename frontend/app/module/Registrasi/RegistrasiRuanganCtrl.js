@@ -584,7 +584,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 {
                     "field": "poli",
                     "title": "Poli",
-                    "width": "90px"
+                    "width": "90px",
+                    attributes: {
+                        class: "#=poli == 'INSTALASI GAWAT DARURAT' ? 'red' : 'yellow' #"
+                    },
                 },
                 {
                     "field": "diagnosa",

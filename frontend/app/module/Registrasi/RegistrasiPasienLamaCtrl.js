@@ -2035,9 +2035,19 @@ define(['initialize'], function (initialize) {
                     $scope.isRouteLoading = false;
                 });
             }
+            var onDataBound = function (e) {
+                $('td').each(function () {
+                    // if ($(this).text() == '1') { $(this).text('Belum di Coder') }
+                    // if ($(this).text() == 'Belum di Coder') { $(this).addClass('koneng') }
+                    // if ($(this).text() == 'BELUM') { $(this).text('Belum di Grouping') }
+                    // if ($(this).text() == 'Belum di Grouping') { $(this).addClass('koneng') }
+                    if ($(this).text() == 'INSTALASI GAWAT DARURAT') { $(this).addClass('koneng') }
+                })
+            }
             $scope.columnHistoriPeserta = {
 
                 selectable: 'cell',
+                // dataBound: onDataBound,
                 pageable: true,
                 columns: [
                     {
@@ -2084,7 +2094,10 @@ define(['initialize'], function (initialize) {
                     {
                         "field": "poli",
                         "title": "Poli",
-                        "width": "90px"
+                        "width": "90px",
+                        attributes: {
+                            class: "#=poli == 'INSTALASI GAWAT DARURAT' ? 'red' : 'yellow' #"
+                        },
                     },
                     {
                         "field": "diagnosa",

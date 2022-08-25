@@ -70,6 +70,12 @@
         color: #191970;
         /*font-weight: bold;*/
     }
+
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
 </style>
 <c-panel item="item" header="'Pendaftaran Pasien Lama'" disabled>
     <div class="panel-place" style="top: -1px;"><i style="cursor:pointer;" ng-click='pasienBaru()'
@@ -591,11 +597,17 @@
                         <a ng-click="showAndHide()">Daftar Histori</a>
                     </legend>
                     <div class="grid_12">
-                        <div class="grid_12">
+                        <div class="grid_6">
                             <input type="checkbox" class="k-checkbox" value="true">
                             <label class="k-checkbox-label" for="isSepTdkSesuai"><b>Warna Kuning Adalah SEP
                                     Ranap</b></label>
                             <span class="koneng">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        </div>
+                        <div class="grid_6">
+                            <input type="checkbox" class="k-checkbox" value="true">
+                            <label class="k-checkbox-label" for="isSepTdkSesuai"><b>Warna Merah Adalah SEP
+                                    IGD</b></label>
+                            <span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </div>
                     </div>
                     <div class="grid_12" style="margin-top: 10px;">
