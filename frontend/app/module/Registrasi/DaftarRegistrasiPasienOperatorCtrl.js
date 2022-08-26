@@ -1541,7 +1541,45 @@ define(['initialize'], function (initialize) {
                 $scope.icd10.close();
             }
 
+            $scope.merge = function () {
+                if ($scope.dataPasienSelected.noregistrasi == undefined) {
+                    toastr.error('Noregistrasi Belum Di Pilih')
+                    return
+                }
+                $scope.item.noRegTujuan = $scope.dataPasienSelected.noregistrasi
+                $scope.item.noRegSalah = undefined
+                $scope.popupMergePendaftaran.center().open();
+            }
+            $scope.mergePendafataran = function () {
+                debugger;
+                if ($scope.item.noRegTujuan == undefined || $scope.item.noRegTujuan == "") {
+                    toastr.error('NoRegistrasi Tujuan Belum di ISI', 'Caution');
+                    return;
+                }
+                if ($scope.item.noRegSalah == undefined || $scope.item.noRegSalah == "") {
+                    toastr.error('NoRegistrasi Salah Belum di ISI', 'Caution');
+                    return;
+                }
+                if ($scope.item.password != "donatelo") {
+                    toastr.error("Password Salah!")
+                    return;
+                }
+                var stt = 'false'
+                if (confirm('Merge NoPendaftaran? Pastikan Data Merge Sudah Benar..!')) {
+                    stt = 'true';
+                    var objSave = {
+                        noRegTujuan: $scope.item.noRegTujuan,
+                        noRegSalah: $scope.item.noRegSalah
+                        // catatanMerge:$scope.item.catatanMerge
+                    }
+                    medifirstService.post('registrasi/save-Merge', objSave).then(function (e) {
 
+                        //ini untuk proposional kan utang per tindakan
+                    })
+                } else {
+                    stt = 'false';
+                }
+            }
             $scope.cetakBro = function () {
 
             }

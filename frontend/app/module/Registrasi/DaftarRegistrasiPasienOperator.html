@@ -536,9 +536,47 @@
             <button class="btnTemplate1" style="margin-top:-20px;margin-left: 0;" ng-click="cetakMCU()"><i
                     class="fa fa-print"></i>Cetak MCU</button>
         </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" style="margin-top:-20px;margin-left: 0;" ng-click="merge()">Merge No
+                Pendaftaran</button>
+        </div>
     </div>
     <div class="grid_12" style="margin-top:60px">
         <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+    <div kendo-window="popupMergePendaftaran" k-title="'Gabungkan Nomor Pendaftaran'" k-width="400" k-height="200"
+        k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">No Registrasi Tujuan</label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noRegTujuan" disable />
+            </div>
+        </div>
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item">No Registrasi Salah</label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noRegSalah" disable />
+            </div>
+        </div>
+        <!-- <textarea ng-model="item.catatanMerge" type="string" class="k-textbox" row="2" style="width:100%; margin-top:5px"></textarea> -->
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item ">Password</label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password" />
+            </div>
+        </div>
+        <button class="k-button" ng-click="mergePendafataran()" style="float:right;margin-top:4%">Simpan Mereg No
+            Pendaftaran</button>
     </div>
     <!-- <div class="grid_2" ng-show='cboUbahDokter'>
 				<button class="btnTemplate1" style="margin-left: 0;" ng-click="cetakKartu()">Cetak Kartu Pulang</button>
