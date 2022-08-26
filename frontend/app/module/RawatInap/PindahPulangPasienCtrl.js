@@ -1,9 +1,9 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     // initialize.controller('PindahPulangPasienCtrl', ['$q', '$rootScope', '$scope', '$mdDialog', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', 'FindPasien', 'ManagePasien', 'ManageServicePhp',
     //     function($q, $rootScope, $scope,  $mdDialog, ModelItem, $state, cacheHelper, dateHelper, FindPasien, ManagePasien, manageServicePhp) {
     initialize.controller('PindahPulangPasienCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', '$mdDialog', 'CetakHelper', 'MedifirstService', '$q',
-        function(saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, $mdDialog, cetakHelper, medifirstService, $q) {
+        function (saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, $mdDialog, cetakHelper, medifirstService, $q) {
             $scope.item = {};
             $scope.isNext = true;
             var responData = '';
@@ -32,12 +32,12 @@ define(['initialize'], function(initialize) {
             $scope.noCM = $state.params.noCM;
             $rootScope.showMenu = false;
             $rootScope.showMenuDetail = false;
-            $scope.$watch('item.jenisRujukan', function(e) {
+            $scope.$watch('item.jenisRujukan', function (e) {
                 if (e === undefined) return;
 
                 medifirstService.getPart("bridging/bpjs2/get-ref-faskes-part?jenisFaskes=" +
-                        e, true, 10, 10)
-                    .then(function(x) {
+                    e, true, 10, 10)
+                    .then(function (x) {
                         $scope.listFaskess = x;
                     })
 
@@ -46,7 +46,7 @@ define(['initialize'], function(initialize) {
             function getdataCombo() {
 
                 medifirstService.get("rawatinap/get-combo-pindahpasien")
-                    .then(function(e) {
+                    .then(function (e) {
                         for (var i = 0; i < e.data.statuskeluar.length; i++) {
                             e.data.statuskeluar[i].id = parseInt(e.data.statuskeluar[i].id)
                         }
@@ -71,41 +71,41 @@ define(['initialize'], function(initialize) {
                 //     objectruanganlastfk = CachePindah;
                 //     $scope.cacheruanganLast=objectruanganlastfk;
                 medifirstService.get("rawatinap/get-pasien-bynorec/" +
-                        $state.params.norecPD +
-                        "/" +
-                        $state.params.norecAPD)
-                    .then(function(e) {
+                    $state.params.norecPD +
+                    "/" +
+                    $state.params.norecAPD)
+                    .then(function (e) {
                         $scope.isRouteLoading = false;
                         $scope.item.pasien = e.data[0];
                     })
 
-                medifirstService.get("rawatinap/get-nosep-by-norec-pd/" + $state.params.norecPD).then(function(e) {
+                medifirstService.get("rawatinap/get-nosep-by-norec-pd/" + $state.params.norecPD).then(function (e) {
                     $scope.item.noSep = e.data.nosep;
                 })
 
                 medifirstService.get("rawatinap/get-pelayanan/" +
-                        $state.params.norecPD +
-                        "/" +
-                        $state.params.norecAPD)
-                    .then(function(e) {
+                    $state.params.norecPD +
+                    "/" +
+                    $state.params.norecAPD)
+                    .then(function (e) {
                         $scope.isRouteLoading = false;
                         $scope.item.pelayanan = e.data;
                     })
-                    //   }
+                //   }
             }
 
-            $scope.pilihRuangan = function(id) {
+            $scope.pilihRuangan = function (id) {
                 var ruanganId = id;
                 $scope.item.kelas = ""
                 $scope.item.kamar = ""
                 $scope.item.nomorTempatTidur = ""
                 medifirstService.get("rawatinap/get-kelasbyruangan?idRuangan=" + ruanganId)
-                    .then(function(dat) {
+                    .then(function (dat) {
                         $scope.listKelas = dat.data.kelas;
                     });
             }
 
-            $scope.$watch('item.penyebabKematian', function(e) {
+            $scope.$watch('item.penyebabKematian', function (e) {
                 if (e === undefined) return;
                 if ($scope.item.penyebabKematian.penyebabkematian == "LAINNYA") {
                     $scope.PenyebabKematianManual = true;
@@ -115,26 +115,26 @@ define(['initialize'], function(initialize) {
                 }
             });
 
-            $scope.$watch('item.kelas', function(e) {
+            $scope.$watch('item.kelas', function (e) {
                 $scope.item.kamar = ""
                 $scope.item.nomorTempatTidur = ""
                 if (e === undefined) return;
                 var kelasId = "idKelas=" + $scope.item.kelas.id;
                 var ruanganId = "&idRuangan=" + $scope.item.ruangan.id;
                 medifirstService.get("rawatinap/get-kamarbyruangankelas?" + kelasId + ruanganId)
-                    .then(function(b) {
-                        $scope.listKamar = _.filter(b.data.kamar, function(v) {
+                    .then(function (b) {
+                        $scope.listKamar = _.filter(b.data.kamar, function (v) {
                             return parseFloat(v.qtybed) > parseFloat(v.jumlakamarisi);
                         })
                     });
             });
-            $scope.$watch('item.kamar', function(e) {
+            $scope.$watch('item.kamar', function (e) {
                 $scope.item.nomorTempatTidur = ""
                 if (e === undefined) return;
                 var kamarId = $scope.item.kamar.id;
                 medifirstService.get("rawatinap/get-nobedbykamar?idKamar=" + kamarId)
-                    .then(function(a) {
-                        $scope.listNoBed = _.filter(a.data.bed, function(v) {
+                    .then(function (a) {
+                        $scope.listNoBed = _.filter(a.data.bed, function (v) {
                             if ($scope.item.rawatGabung == true) {
                                 return v.statusbed === "ISI";
                             } else {
@@ -144,7 +144,7 @@ define(['initialize'], function(initialize) {
                     })
             });
             $scope.item.kp = 1
-            $scope.Save = function() {
+            $scope.Save = function () {
                 if (!$scope.item.statusKeluar) {
                     messageContainer.error('Status keluar belum di pilih');
                     return;
@@ -157,7 +157,7 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.Savee = function() {
+            $scope.Savee = function () {
                 $scope.popUpKasusPenyakit.close();
                 $scope.popUpStatusPulangCovid.close();
                 if ($scope.item.statusKeluar.id === 2 && $scope.item.kelas == undefined) {
@@ -174,11 +174,11 @@ define(['initialize'], function(initialize) {
                                 .ariaLabel('Lucky day')
                                 .cancel('Tidak')
                                 .ok('Ya')
-                            $mdDialog.show(confirm).then(function() {
+                            $mdDialog.show(confirm).then(function () {
                                 var objAkomodasi = {
                                     noregistrasi: $scope.item.pasien.noregistrasi
                                 }
-                                medifirstService.post('rawatinap/save-akomodasi-tea', objAkomodasi).then(function(data) {
+                                medifirstService.post('rawatinap/save-akomodasi-tea', objAkomodasi).then(function (data) {
 
                                 })
                                 $scope.SavePulang();
@@ -247,11 +247,11 @@ define(['initialize'], function(initialize) {
                         .ariaLabel('Lucky day')
                         .cancel('Tidak')
                         .ok('Ya')
-                    $mdDialog.show(confirm).then(function() {
+                    $mdDialog.show(confirm).then(function () {
                         var objAkomodasi = {
                             noregistrasi: $scope.item.pasien.noregistrasi
                         }
-                        medifirstService.post('rawatinap/save-akomodasi-tea', objAkomodasi).then(function(data) {
+                        medifirstService.post('rawatinap/save-akomodasi-tea', objAkomodasi).then(function (data) {
 
                         })
                         $scope.SavePulang();
@@ -261,7 +261,7 @@ define(['initialize'], function(initialize) {
 
                 }
             }
-            $scope.SavePindah = function() {
+            $scope.SavePindah = function () {
                 if ($scope.item.pasien.objecttitlefk != 4 && $scope.item.rawatGabung === true) {
                     alert('RAWAT GABUNG HANYA UNTUK PASIEN BAYI !')
                     return;
@@ -385,7 +385,7 @@ define(['initialize'], function(initialize) {
                 //     $scope.isNext=false;                                             
                 // })
 
-                medifirstService.post('rawatinap/save-pindah-pasien', objSave).then(function(e) {
+                medifirstService.post('rawatinap/save-pindah-pasien', objSave).then(function (e) {
                     $scope.resultAPD = e.data.dataAPD;
                     responData = e.data;
                     $scope.isSimpan = true;
@@ -393,16 +393,16 @@ define(['initialize'], function(initialize) {
                     $scope.isNext = false;
                     //##save Logging user
                     medifirstService.get("sysadmin/logging/save-log-pindah-ruangan?norec_apd=" +
-                            $scope.resultAPD.norec
-                        ).then(function(data) {
-                            window.history.back();
-                        })
-                        //##end                                         
+                        $scope.resultAPD.norec
+                    ).then(function (data) {
+                        window.history.back();
+                    })
+                    //##end                                         
                 })
             }
 
-            $scope.SavePulang = function() {
-                medifirstService.get("tatarekening/tindakan/get-list-pertanyaan?objectmappingindikatortoprodukfk=544").then(function(dat) {
+            $scope.SavePulang = function () {
+                medifirstService.get("tatarekening/tindakan/get-list-pertanyaan?objectmappingindikatortoprodukfk=544").then(function (dat) {
                     $scope.item.indikator = dat.data.data[0].indikator;
                     $scope.item.tidakDitemukan = false;
                     $scope.listPertanyaan = dat.data.data;
@@ -410,7 +410,7 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.SaveFix = function(x) {
+            $scope.SaveFix = function (x) {
                 debugger
                 let ada = 'false';
                 let dekubitus = 'false';
@@ -532,18 +532,18 @@ define(['initialize'], function(initialize) {
 
                 }
                 var objSave = {
-                        strukorder: strukorder,
-                        pasiendaftar: pasiendaftar,
-                        antrianpasiendiperiksa: antrianpasiendiperiksa
-                    }
-                    // var dataJson = {
-                    //     "noregistrasifk": $scope.norecPDbuttonSelected,
-                    //     "objectstatuspulangfk": $scope.pulang.statuspulang.id,
-                    //     "noregistrasifkapd": $scope.norecAPDbuttonSelected,
-                    //     'objectkondisipasienfk' :kondisikeluar,
-                    //     'objectpenyebabkematianfk': objectpenyebabkematianfk,
-                    //     'tglmeninggal': tglMeninggal,
-                    // };
+                    strukorder: strukorder,
+                    pasiendaftar: pasiendaftar,
+                    antrianpasiendiperiksa: antrianpasiendiperiksa
+                }
+                // var dataJson = {
+                //     "noregistrasifk": $scope.norecPDbuttonSelected,
+                //     "objectstatuspulangfk": $scope.pulang.statuspulang.id,
+                //     "noregistrasifkapd": $scope.norecAPDbuttonSelected,
+                //     'objectkondisipasienfk' :kondisikeluar,
+                //     'objectpenyebabkematianfk': objectpenyebabkematianfk,
+                //     'tglmeninggal': tglMeninggal,
+                // };
                 debugger;
                 var meninggal = {
                     "noregistrasi": $scope.item.pasien.noregistrasi,
@@ -592,13 +592,13 @@ define(['initialize'], function(initialize) {
                 // }
 
 
-                medifirstService.post('rawatinap/save-pulang-pasien', objSave).then(function(e) {
+                medifirstService.post('rawatinap/save-pulang-pasien', objSave).then(function (e) {
                     if ($scope.item.pasien.israwatinap == 'true' && $scope.item.pasien.objectkelompokpasienlastfk == '2' &&
                         $scope.item.statusKeluar.id == 1) {
                         $scope.setTglPulangBridging()
                     }
                     if ($scope.item.statusKeluar.id == 4) {
-                        medifirstService.post('rawatinap/save-rujuk-pasien', objRujuk).then(function(e) {
+                        medifirstService.post('rawatinap/save-rujuk-pasien', objRujuk).then(function (e) {
 
                         })
                     }
@@ -611,11 +611,11 @@ define(['initialize'], function(initialize) {
                     //##save Logging user
                     medifirstService.get("sysadmin/logging/save-log-pulang-pasien?norec_pd=" +
                         $scope.currentNorecPD
-                    ).then(function(data) {
+                    ).then(function (data) {
                         window.history.back();
                     })
                     if ($scope.item.statusKeluar.id == 5) {
-                        medifirstService.post('rawatinap/save-logging-meninggal2', meninggal).then(function(e) {
+                        medifirstService.post('rawatinap/save-logging-meninggal2', meninggal).then(function (e) {
 
                         })
                     }
@@ -630,12 +630,12 @@ define(['initialize'], function(initialize) {
                 var objAkomodasi = {
                     noregistrasi: $scope.item.pasien.noregistrasi
                 }
-                medifirstService.post('rawatinap/hapus-akomodasi-tea', objAkomodasi).then(function() {
+                medifirstService.post('rawatinap/hapus-akomodasi-tea', objAkomodasi).then(function () {
 
                 })
             }
 
-            $scope.setTglPulangBridging = function() {
+            $scope.setTglPulangBridging = function () {
                 var dateGenerate = {
                     'data': {
                         "request": {
@@ -648,21 +648,21 @@ define(['initialize'], function(initialize) {
 
                     }
                 }
-                medifirstService.post('bridging/bpjs/update-tglpulang', dateGenerate).then(function(e) {
+                medifirstService.post('bridging/bpjs/update-tglpulang', dateGenerate).then(function (e) {
                     toastr.info(e.data.metaData.message, 'Set Tgl Pulang BPJS')
-                }).then(function() {
+                }).then(function () {
 
                 });
             }
-            $scope.cekRawatTitipan = function(data) {
+            $scope.cekRawatTitipan = function (data) {
                 $scope.item.rawatTitipan = data;
             }
-            $scope.cekRawatGabung = function(bool) {
+            $scope.cekRawatGabung = function (bool) {
                 if (bool === true) {
                     if ($scope.item.pasien.id_ibu != undefined) {
                         medifirstService.get("rawatinap/get-kamar-ruangan-ibu?id_ibu=" + $scope.item.pasien.id_ibu +
-                                "&nocm=" + $scope.item.pasien.nocm)
-                            .then(function(dat) {
+                            "&nocm=" + $scope.item.pasien.nocm)
+                            .then(function (dat) {
                                 if (dat.data.length > 0) {
                                     $scope.listKamar = []
                                     $scope.listNoBed = []
@@ -685,7 +685,7 @@ define(['initialize'], function(initialize) {
 
                             })
                     } else {
-                        $scope.item.rawatGabung = false
+                        // $scope.item.rawatGabung = false
                         $scope.popUpCariRmIbu.center().open()
                     }
                 } else {
@@ -698,10 +698,10 @@ define(['initialize'], function(initialize) {
                 }
             }
 
-            $scope.VerificationNamaIbu = function() {
+            $scope.VerificationNamaIbu = function () {
                 $scope.isRouteLoading = true;
                 medifirstService.get("registrasi/get-nocm-ibu?noCm=" + $scope.item.NoCM)
-                    .then(function(e) {
+                    .then(function (e) {
                         $scope.isRouteLoading = false;
                         if (e.data.data.length == 0) {
                             $scope.isBusyNoCm = false;
@@ -715,7 +715,7 @@ define(['initialize'], function(initialize) {
                             $scope.$apply();
                     })
             }
-            $scope.saveRmIbu = function() {
+            $scope.saveRmIbu = function () {
                 if ($scope.item.rmibu.id == undefined || $scope.item.rmibu.id == null) {
                     toastr.error('RM Ibu harus diisi')
                     return
@@ -728,7 +728,7 @@ define(['initialize'], function(initialize) {
                     idibu: $scope.item.rmibu.id,
                     nocmfk: $scope.item.pasien.nocmfk
                 }
-                medifirstService.post('registrasi/update-idibu', objAkomodasi).then(function(data) {
+                medifirstService.post('registrasi/update-idibu', objAkomodasi).then(function (data) {
                     if (data.status == 201) {
                         $scope.popUpCariRmIbu.close();
                         firstLoad();
@@ -736,7 +736,7 @@ define(['initialize'], function(initialize) {
                 })
             }
 
-            $scope.Back = function() {
+            $scope.Back = function () {
                 window.history.back()
             }
 

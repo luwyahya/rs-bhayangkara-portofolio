@@ -981,7 +981,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 medifirstService.get("registrasi/get-nobedbykamar?idKamar=" + kamarId)
                     .then(function (a) {
                         if ($scope.model.rawatGabung) {
-                            $scope.listNoBed = a.data.bed;
+                            // $scope.listNoBed = a.data.bed;
+                            $scope.listNoBed = _.filter(a.data.bed, function (v) {
+                                return v.statusbed === "ISI";
+                            })
                         } else {
                             $scope.listNoBed = _.filter(a.data.bed, function (v) {
                                 return v.statusbed === "KOSONG";
