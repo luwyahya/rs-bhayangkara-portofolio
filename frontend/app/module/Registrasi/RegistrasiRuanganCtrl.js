@@ -1915,6 +1915,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 $scope.model.cekpilihManual = true
                                 let x = true
                                 $scope.ceklispilihManual(x);
+                            } else if ($scope.item.asalRujukan.id == 7) {
+                                $scope.model.cekpilihRujukan = false
+                                $scope.model.cekpilihPascaranap = true
                             } else {
                                 $scope.model.cekpilihRujukan = true
                             }
@@ -2776,6 +2779,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                     $scope.model.cekpilihManual = true
                                     let x = true
                                     $scope.ceklispilihManual(x);
+                                } else if ($scope.item.asalRujukan.id == 7) {
+                                    $scope.model.cekpilihRujukan = false
+                                    $scope.model.cekpilihPascaranap = true
                                 } else {
                                     $scope.model.cekpilihRujukan = true
                                 }
