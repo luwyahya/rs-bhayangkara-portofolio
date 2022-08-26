@@ -311,9 +311,14 @@ define(['initialize'], function (initialize) {
                     toastr.error('Harga produk harus di isi')
                     return
                 }
-                
-                if ($scope.popUpHarga.ruangan == undefined) {
-                    toastr.error('Ruangan harus dipilih')
+
+				if ($scope.popUpHarga.ruangan == undefined) {
+					toastr.error('Ruangan harus dipilih')
+					return
+				}
+				
+                if ($scope.popUpHarga.asalproduk == undefined) {
+                    toastr.error('Anggaran harus dipilih')
                     return
                 }
 
