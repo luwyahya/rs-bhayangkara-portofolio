@@ -476,8 +476,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 }
                 debugger
                 medifirstService.post('rawatinap/save-pulang-pasien-eklaim', objSave).then(function (e) {
-
-
+                    $scope.setdetail(set);
                 })
             }
             function getdataCombo() {
@@ -964,9 +963,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 $scope.listspecialprocedure = specialProcedurex
                                 $scope.listspecialprosthesis = specialProsthesisx
                                 $scope.listspecialinvestigation = specialInvestigationx
-                                $scope.isRouteLoading = false;
                             }
-
+                            $scope.isRouteLoading = false;
+                            $scope.setdetail(set);
                         })
                     })
                 } else {
@@ -1157,7 +1156,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 $scope.listspecialinvestigation = specialInvestigationx
                             }
                             $scope.isRouteLoading = false;
-                            setdetail(set);
+                            $scope.setdetail(set);
                         })
                     })
 
