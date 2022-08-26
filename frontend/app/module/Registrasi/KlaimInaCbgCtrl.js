@@ -477,6 +477,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 debugger
                 medifirstService.post('rawatinap/save-pulang-pasien-eklaim', objSave).then(function (e) {
                     $scope.setdetail(set);
+                    $scope.popupEditStatusPulang.close();
                 })
             }
             function getdataCombo() {
