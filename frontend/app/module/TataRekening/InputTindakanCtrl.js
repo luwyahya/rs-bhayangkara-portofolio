@@ -194,9 +194,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     kelastindakan = $scope.item.pasien.objectkelasfk
                 }
                 //khusus unand kata resti selain ri dan bedah non kelas
-                if ($scope.item.pasien.objectdepartemenfk != 16 || $scope.item.pasien.objectdepartemenfk != 25) {
-                    kelastindakan = 6
-                }
+                // if ($scope.item.pasien.objectdepartemenfk != 16 || $scope.item.pasien.objectdepartemenfk != 25) {
+                //     kelastindakan = 6
+                // }
 
                 if ($scope.item.namaProduk != undefined) {
                     medifirstService.get("tatarekening/tindakan/get-komponenharga?idRuangan=" +
