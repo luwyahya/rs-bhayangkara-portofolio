@@ -296,6 +296,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 //** Rujukan */
                 Route::get('get-rujukan-pcare', 'Bridging\BridgingBPJSV2Controller@getNoRujukanPcare');
                 Route::get('get-rujukan-rs', 'Bridging\BridgingBPJSV2Controller@getNoRujukanRs');
+                Route::post('insert-rujukan-v2', 'Bridging\BridgingBPJSV2Controller@insertRujukan');
+                Route::get('get-cari-nomor-rujukan-keluar', 'Bridging\BridgingBPJSV2Controller@getSuratRujukanKeluar');
                 //*PESERTA
                 Route::get('get-no-peserta', 'Bridging\BridgingBPJSV2Controller@getNoPeserta');
                 Route::get('get-nik', 'Bridging\BridgingBPJSV2Controller@getNIK');

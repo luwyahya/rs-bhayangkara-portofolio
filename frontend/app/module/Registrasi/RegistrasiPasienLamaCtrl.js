@@ -28,7 +28,16 @@ define(['initialize'], function (initialize) {
             }
             $scope.listJenisKontrol = [
                 { "id": "1", "name": "Rencana Kontrol" },
-                { "id": "2", "name": "SPRI" }
+                { "id": "2", "name": "SPRI" },
+                { "id": "3", "name": "Rujukan Ke Faskes 2" }
+            ];
+            $scope.listJenisPelayananRujukan = [
+                { "id": "1", "name": "Rawat Inap" },
+                { "id": "2", "name": "Rawat Jalan" }
+            ];
+            $scope.listTypeRujukan = [
+                { "id": "0", "name": "Penuh" },
+                { "id": "1", "name": "Partial" },
             ];
             $scope.pegawai = ModelItem.getPegawai();
             loadFirst()
@@ -888,19 +897,27 @@ define(['initialize'], function (initialize) {
 
             }
             $scope.setCetakSurat = function (v) {
-                medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + v).then(function (e) {
-                    if (e.data.metaData.code === "200") {
-                        debugger
-                        if (e.data.response.namaJnsKontrol == 'Inap') {
-                            $("#noSPRIx").text(e.data.response.noSuratKontrol);
-                            $("#nokartu").text($scope.dataPasienSelected.nobpjs);
-                            $("#namapeserta").text($scope.dataPasienSelected.namapasien);
-                            $("#tgllahir").text(moment($scope.dataPasienSelected.tgllahir).format('YYYY-MM-DD'));
-                            $("#diagnosa").text('');
-                            $("#rencanainap").text(e.data.response.tglRencanaKontrol);
-                            $("#tglcetak").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+                if ($scope.item.jenisKontrol.id == 3) {
+                    medifirstService.get("bridging/bpjs2/get-cari-nomor-rujukan-keluar?noRujukan=" + v).then(function (e) {
+                        if (e.data.metaData.code === "200") {
+                            debugger
+                            var jns = "Rawat Jalan";
+                            if (e.data.response.rujukan.jnsPelayanan == '1') {
+                                jns = "Rawat Inap"
+                            }
+                            $("#faskesTujuan").text(e.data.response.rujukan.namaPpkDirujuk);
+                            $("#noRujukanKeluar").text(e.data.response.rujukan.noRujukan);
+                            $("#nokartuRujukanKeluar").text(e.data.response.rujukan.noKartu);
+                            $("#namapesertaRujukanKeluar").text(e.data.response.rujukan.nama);
+                            $("#tgllahirRujukanKeluar").text(moment(e.data.response.rujukan.tglLahir).format('YYYY-MM-DD'));
+                            $("#diagnosaRujukanKeluar").text(e.data.response.rujukan.diagRujukan);
+                            $("#keteranganRujukanKeluar").text(e.data.response.catatan);
+                            $("#tglcetakRujukanKeluar").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+                            $("#tglrencanakunjunganRujukanKeluar").text(moment(e.data.response.rujukan.tglRencanaKunjungan).format('YYYY-MM-DD'));
+                            $("#typeRujukanKeluar").text(e.data.response.rujukan.namaTipeRujukan);
+                            $("#jnsPelayananRujukanKeluar").text(jns);
 
-                            var printdata = document.getElementById('spri');
+                            var printdata = document.getElementById('rujukanKeluar');
                             printdata = printdata.innerHTML;
                             // var editor = $("#editor").data("kendoEditor");
                             // editor.value(printdata);
@@ -945,7 +962,7 @@ define(['initialize'], function (initialize) {
 
 
                                 '</html>';
-                            var printdata = document.getElementById('spri');
+                            var printdata = document.getElementById('rujukanKeluar');
                             printdata = printdata.innerHTML;
                             printdata = htmlStart + printdata + htmlEnd;
                             // var editor = $("#editor").data("kendoEditor");
@@ -959,83 +976,161 @@ define(['initialize'], function (initialize) {
                             WindowObject.document.close();
                             WindowObject.focus();
                         } else {
-                            $("#noKontrolx").text(e.data.response.noSuratKontrol);
-                            $("#nokartuKontrol").text($scope.dataPasienSelected.nobpjs);
-                            $("#namapesertaKontrol").text($scope.dataPasienSelected.namapasien);
-                            $("#tgllahirKontrol").text(e.data.response.sep.peserta.tglLahir);
-                            $("#diagnosaKontrol").text(e.data.response.sep.diagnosa);
-                            $("#rencanakontrol").text(e.data.response.tglRencanaKontrol);
-                            $("#tglcetakKontrol").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
-                            $("#dpjptujKontrol").text(e.data.response.namaDokter);
-                            $("#subspetujKontrol").text('Sp./Sub.' + e.data.response.namaPoliTujuan);
-                            $("#dpjppemberiSurat").text(e.data.response.namaDokterPembuat);
-
-                            var printdata = document.getElementById('kontrol');
-                            printdata = printdata.innerHTML;
-                            // var editor = $("#editor").data("kendoEditor");
-                            // editor.value(printdata);
-
-                            var htmlStart =
-                                '<!DOCTYPE html>' +
-                                '<html style="border:none;border-color: white">' +
-                                '<head style="border:none;border-color: white">' +
-                                // '<div class="header" style="position: fixed;top: 0;">'+
-                                // header +
-                                '<style>' +
-                                'html { font: 11pt sans-serif; }' +
-                                '.k-grid { border-top-width: 0; }' +
-                                '.k-grid, .k-grid-content { height: auto !important; }' +
-                                '.k-grid-content { overflow: visible !important; }' +
-                                '.k-grid .k-grid-header th { border-top: none; }' +
-                                '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
-                                '</style>' +
-                                '</div>' +
-                                '</head>' +
-                                '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
-                                '<table  style="border:none; border-color: white">' +
-                                '<thead style="border:none;border-color: white">' +
-                                '<tr style="border:none;border-color: white">' +
-                                '<td style="border:none;border-color: white">' +
-                                // '<div class="page-header-space"></div>' +
-                                '<div style="border:none;border-color: white">' +
-                                // header +                                
-                                '</div>' +
-                                '</td>' +
-                                '</tr>' +
-                                '</thead>' +
-                                '<tbody>' +
-                                '<tr>' +
-                                '<td>'
-                            var htmlEnd =
-                                '</td>' +
-                                '</tr>' +
-                                '</tbody>' +
-                                '</body>' +
-                                '</div>' +
-
-
-                                '</html>';
-                            var printdata = document.getElementById('kontrol');
-                            printdata = printdata.innerHTML;
-                            printdata = htmlStart + printdata + htmlEnd;
-                            // var editor = $("#editor").data("kendoEditor");
-                            // editor.value(printdata);
-
-                            // var cetakan=htmlStart + printableContent + htmlEnd;
-                            var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
-
-
-                            WindowObject.document.writeln(printdata);
-                            WindowObject.document.close();
-                            WindowObject.focus();
+                            window.messageContainer.error(e.data.metaData.message);
                         }
-                    } else {
-                        window.messageContainer.error(e.data.metaData.message);
-                    }
-                    $scope.isLoadingNoKartu = false;
-                }, function (err) {
-                    $scope.isLoadingNoKartu = false;
-                });
+                    }, function (err) {
+
+                    });
+                } else {
+                    medifirstService.get("bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + v).then(function (e) {
+                        if (e.data.metaData.code === "200") {
+                            debugger
+                            if (e.data.response.namaJnsKontrol == 'Inap') {
+                                $("#noSPRIx").text(e.data.response.noSuratKontrol);
+                                $("#nokartu").text($scope.dataPasienSelected.nobpjs);
+                                $("#namapeserta").text($scope.dataPasienSelected.namapasien);
+                                $("#tgllahir").text(moment($scope.dataPasienSelected.tgllahir).format('YYYY-MM-DD'));
+                                $("#diagnosa").text('');
+                                $("#rencanainap").text(e.data.response.tglRencanaKontrol);
+                                $("#tglcetak").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+
+                                var printdata = document.getElementById('spri');
+                                printdata = printdata.innerHTML;
+                                // var editor = $("#editor").data("kendoEditor");
+                                // editor.value(printdata);
+
+                                var htmlStart =
+                                    '<!DOCTYPE html>' +
+                                    '<html style="border:none;border-color: white">' +
+                                    '<head style="border:none;border-color: white">' +
+                                    // '<div class="header" style="position: fixed;top: 0;">'+
+                                    // header +
+                                    '<style>' +
+                                    'html { font: 11pt sans-serif; }' +
+                                    '.k-grid { border-top-width: 0; }' +
+                                    '.k-grid, .k-grid-content { height: auto !important; }' +
+                                    '.k-grid-content { overflow: visible !important; }' +
+                                    '.k-grid .k-grid-header th { border-top: none; }' +
+                                    '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                                    '</style>' +
+                                    '</div>' +
+                                    '</head>' +
+                                    '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                                    '<table  style="border:none; border-color: white">' +
+                                    '<thead style="border:none;border-color: white">' +
+                                    '<tr style="border:none;border-color: white">' +
+                                    '<td style="border:none;border-color: white">' +
+                                    // '<div class="page-header-space"></div>' +
+                                    '<div style="border:none;border-color: white">' +
+                                    // header +                                
+                                    '</div>' +
+                                    '</td>' +
+                                    '</tr>' +
+                                    '</thead>' +
+                                    '<tbody>' +
+                                    '<tr>' +
+                                    '<td>'
+                                var htmlEnd =
+                                    '</td>' +
+                                    '</tr>' +
+                                    '</tbody>' +
+                                    '</body>' +
+                                    '</div>' +
+
+
+                                    '</html>';
+                                var printdata = document.getElementById('spri');
+                                printdata = printdata.innerHTML;
+                                printdata = htmlStart + printdata + htmlEnd;
+                                // var editor = $("#editor").data("kendoEditor");
+                                // editor.value(printdata);
+
+                                // var cetakan=htmlStart + printableContent + htmlEnd;
+                                var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                                WindowObject.document.writeln(printdata);
+                                WindowObject.document.close();
+                                WindowObject.focus();
+                            } else {
+                                $("#noKontrolx").text(e.data.response.noSuratKontrol);
+                                $("#nokartuKontrol").text($scope.dataPasienSelected.nobpjs);
+                                $("#namapesertaKontrol").text($scope.dataPasienSelected.namapasien);
+                                $("#tgllahirKontrol").text(e.data.response.sep.peserta.tglLahir);
+                                $("#diagnosaKontrol").text(e.data.response.sep.diagnosa);
+                                $("#rencanakontrol").text(e.data.response.tglRencanaKontrol);
+                                $("#tglcetakKontrol").text(moment($scope.now).format('YYYY-MM-DD HH:mm:ss'));
+                                $("#dpjptujKontrol").text(e.data.response.namaDokter);
+                                $("#subspetujKontrol").text('Sp./Sub.' + e.data.response.namaPoliTujuan);
+                                $("#dpjppemberiSurat").text(e.data.response.namaDokterPembuat);
+
+                                var printdata = document.getElementById('kontrol');
+                                printdata = printdata.innerHTML;
+                                // var editor = $("#editor").data("kendoEditor");
+                                // editor.value(printdata);
+
+                                var htmlStart =
+                                    '<!DOCTYPE html>' +
+                                    '<html style="border:none;border-color: white">' +
+                                    '<head style="border:none;border-color: white">' +
+                                    // '<div class="header" style="position: fixed;top: 0;">'+
+                                    // header +
+                                    '<style>' +
+                                    'html { font: 11pt sans-serif; }' +
+                                    '.k-grid { border-top-width: 0; }' +
+                                    '.k-grid, .k-grid-content { height: auto !important; }' +
+                                    '.k-grid-content { overflow: visible !important; }' +
+                                    '.k-grid .k-grid-header th { border-top: none; }' +
+                                    '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                                    '</style>' +
+                                    '</div>' +
+                                    '</head>' +
+                                    '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                                    '<table  style="border:none; border-color: white">' +
+                                    '<thead style="border:none;border-color: white">' +
+                                    '<tr style="border:none;border-color: white">' +
+                                    '<td style="border:none;border-color: white">' +
+                                    // '<div class="page-header-space"></div>' +
+                                    '<div style="border:none;border-color: white">' +
+                                    // header +                                
+                                    '</div>' +
+                                    '</td>' +
+                                    '</tr>' +
+                                    '</thead>' +
+                                    '<tbody>' +
+                                    '<tr>' +
+                                    '<td>'
+                                var htmlEnd =
+                                    '</td>' +
+                                    '</tr>' +
+                                    '</tbody>' +
+                                    '</body>' +
+                                    '</div>' +
+
+
+                                    '</html>';
+                                var printdata = document.getElementById('kontrol');
+                                printdata = printdata.innerHTML;
+                                printdata = htmlStart + printdata + htmlEnd;
+                                // var editor = $("#editor").data("kendoEditor");
+                                // editor.value(printdata);
+
+                                // var cetakan=htmlStart + printableContent + htmlEnd;
+                                var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                                WindowObject.document.writeln(printdata);
+                                WindowObject.document.close();
+                                WindowObject.focus();
+                            }
+                        } else {
+                            window.messageContainer.error(e.data.metaData.message);
+                        }
+                        $scope.isLoadingNoKartu = false;
+                    }, function (err) {
+                        $scope.isLoadingNoKartu = false;
+                    });
+                }
             }
 
             $scope.setCekRujukan1 = function (dataPasienSelected) {
@@ -1972,6 +2067,7 @@ define(['initialize'], function (initialize) {
 
                 $scope.popUpTambah.center().open();
             }
+
             $scope.changeJenisPelayanan = function (e) {
                 delete $scope.item.noPenunjang
                 delete $scope.item.noSuratKontrol
@@ -1981,10 +2077,25 @@ define(['initialize'], function (initialize) {
                     $scope.item.noPenunjang = $scope.item.noBPJS
                     $scope.isControl = false
                     $scope.isSPRI = true
-                } else {
+                    $scope.isRujukan = false
+                } else if ($scope.item.jenisKontrol.id == 1) {
                     $scope.RiwayatRegistrasiforKonSpri()
                     $scope.isControl = true
                     $scope.isSPRI = false
+                    $scope.isRujukan = false
+                } else if ($scope.item.jenisKontrol.id == 3) {
+                    medifirstService.getPart("bridging/bpjs2/get-ref-faskes-part?jenisFaskes=" +
+                        2, true, 10, 10)
+                        .then(function (x) {
+                            $scope.listFaskess = x;
+                        })
+                    medifirstService.getPart("registrasi/get-diagnosa-saeutik", true, true, 10).then(function (data) {
+                        $scope.sourceDiagnosa = data;
+                    });
+                    $scope.RiwayatRegistrasiforKonSpri()
+                    $scope.isControl = false
+                    $scope.isSPRI = false
+                    $scope.isRujukan = true
                 }
             }
             $scope.RiwayatRegistrasiforKonSpri = function () {
@@ -2202,7 +2313,7 @@ define(['initialize'], function (initialize) {
                     }, function (err) {
                         $scope.isRouteLoading = false;
                     });
-                } else {
+                } else if ($scope.item.jenisKontrol.id == 2) {
                     let dataSend = {
                         "data": {
                             "request": {
@@ -2223,6 +2334,36 @@ define(['initialize'], function (initialize) {
                             $scope.isRouteLoading = false;
                             $scope.item.noSuratKontrol = e.data.response.noSPRI
                             toastr.success('Generate SPRI Success. No SPRI : ' + e.data.response.noSPRI, 'Status');
+                            $scope.synchronizeKontrolAndSPRI();
+                        } else {
+                            $scope.isRouteLoading = false;
+                            window.messageContainer.error(e.data.metaData.message)
+                        }
+                    }, function (err) {
+                        $scope.isRouteLoading = false;
+                    });
+                } else if ($scope.item.jenisKontrol.id == 3) {
+                    var dataSend = {
+                        nosep: $scope.udpdate.noSep,
+                        tglrujukan: new moment($scope.item.tglRujukan).format('YYYY-MM-DD'),
+                        tglRencanaKunjungan: new moment($scope.now).format('YYYY-MM-DD'),
+                        jenispelayanan: $scope.item.jenisPelayananRujukan.id,
+                        ppkdirujuk: $scope.item.diRujukKe,
+                        catatan: $scope.item.alasanRujuk,
+                        diagnosarujukan: $scope.item.diagnosa.kddiagnosa,
+                        polirujukan: $scope.item.poliRujukan.kode,
+                        tiperujukan: $scope.item.typeRujukan.id,
+                        user: $scope.pegawai.namaLengkap
+
+                    };
+                    $scope.isRouteLoading = true;
+                    medifirstService.postNonMessage("bridging/bpjs2/insert-rujukan-v2", dataSend).then(function (e) {
+                        if (e.data.response) {
+                            debugger
+                            $scope.saveLogging('Input Rujukan', 'No Surat Rujukan', e.data.response.rujukan.noRujukan, 'Input Rujukan ' + e.data.response.rujukan.noRujukan + ' Ke Faskes ' + $scope.item.diRujukKe.nama + 'Untuk Tanggal ' + moment($scope.item.tanggalRujukan).format('YYYY-MM-DD'))
+                            $scope.isRouteLoading = false;
+                            $scope.item.noSuratKontrol = e.data.response.rujukan.noRujukan
+                            toastr.success('Generate Rujukan Success. No Rujukan : ' + e.data.response.rujukan.noRujukan, 'Status');
                             $scope.synchronizeKontrolAndSPRI();
                         } else {
                             $scope.isRouteLoading = false;

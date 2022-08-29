@@ -1075,44 +1075,53 @@
                 </div>
             </div>
 
-            <div class="grid_12" ng-show="pulang.statuspulang.id == 16">
-                <div class="grid_6">
-                    <label c-label item="item" c-label-text="tanggalRujuk"></label>
-                    <input style="width: 100%" kendo-date-picker k-max="now" k-ng-model="item.tglRujuk" k-value="now"
-                        placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
-                </div>
-                <div class="grid_6">
-                    <div class="grid_12">
-                        <label c-label>Faskes Tujuan</label>
+            <div class="panel panel-default container_12" ng-show="pulang.statuspulang.id == 16">
+                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                    <legend id="filterData">
+                        <a ng-click="showAndHide()">Penerbitan Surat Rujuk</a>
+                    </legend>
+                    <div class="grid_6">
+                        <label c-label item="item" c-label-text="Jenis Pelayanan"></label>
+                        <input style="width:100%" kendo-combo-box k-ng-model="item.jenisRujukan"
+                            k-data-source="listJenisRujukan" k-data-text-field="'name'" k-filter="'contains'"
+                            k-data-value-field="'kode'" k-auto-bind="false" k-on-change='changeJenisPelayanan()' />
                     </div>
-                    <div ng-repeat="stat in listJenisRujukan | orderBy:'id'">
-                        <div class="grid_4">
-                            <input type="radio" name="{{stat.name}}" id="{{stat.name}}" class="k-radio"
-                                ng-model="item.jenisRujukan" value="{{stat.id}}">
-                            <label class=" k-radio-label" for="{{stat.name}}">{{stat.name}}</label>
+                    <div class="grid_6">
+                        <label c-label item="item" c-label-text="No SEP"></label>
+                        <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                            ng-model="item.pasienSelected.nosep" />
+                    </div>
+                    <div class="grid_12" ng-show="isRujuk">
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="tanggalRujuk"></label>
+                            <input style="width: 100%" kendo-date-picker k-max="now" k-ng-model="item.tglRujuk"
+                                k-value="now" placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="DiRujukKe"></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.diRujukKe"
+                                k-data-text-field="'nama'" k-filter="'contains'" k-data-value-field="'kode'"
+                                k-auto-bind="false" k-data-source="listFaskess" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="dokterPerujuk"></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokterPerujuk"
+                                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
+                                k-auto-bind="false" k-data-source="listDokter" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="AlamatPerujuk"></label>
+                            <textarea ng-model="item.alamatPerujuk"></textarea>
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="AlasanRujuk"></label>
+                            <textarea ng-model="item.alasanRujuk"></textarea>
                         </div>
                     </div>
-                </div>
-                <div class="grid_6">
-                    <label c-label item="item" c-label-text="DiRujukKe"></label>
-                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.diRujukKe" k-data-text-field="'nama'"
-                        k-filter="'contains'" k-data-value-field="'kode'" k-auto-bind="false"
-                        k-data-source="listFaskess" />
-                </div>
-                <div class="grid_6">
-                    <label c-label item="item" c-label-text="dokterPerujuk"></label>
-                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokterPerujuk"
-                        k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'"
-                        k-auto-bind="false" k-data-source="listDokter" />
-                </div>
-                <div class="grid_6">
-                    <label c-label item="item" c-label-text="AlamatPerujuk"></label>
-                    <textarea ng-model="item.alamatPerujuk"></textarea>
-                </div>
-                <div class="grid_6">
-                    <label c-label item="item" c-label-text="AlasanRujuk"></label>
-                    <textarea ng-model="item.alasanRujuk"></textarea>
-                </div>
+                    <div class="grid_12" ng-hide="isRujuk">
+                        <label c-label item="item" c-label-text="PRB"></label>
+                    </div>
+                </fieldset>
             </div>
             <div class="panel panel-default container_12" ng-show="pulang.statuspulang.id == 15">
                 <fieldset class="effect-shadow" style=" border-radius: 4px">

@@ -1526,6 +1526,7 @@ class BridgingBPJSV2Controller extends ApiController
     public function insertRujukan(Request $request) {
         $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
         // Computes the timestamp
         date_default_timezone_set('UTC');
         $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
@@ -1538,7 +1539,7 @@ class BridgingBPJSV2Controller extends ApiController
 	    $dataSend = json_encode($request['data']);
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $this->getPortBrigdingBPJS(),
-            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."Rujukan/insert",
+            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."Rujukan/2.0/insert",
 //                CURLOPT_URL => "http://dvlp.bpjs-kesehatan.go.id:8080/VClaim-Rest/SEP/insert",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
@@ -1569,13 +1570,14 @@ class BridgingBPJSV2Controller extends ApiController
                            {
                            \r\n\"noSep\": \"".$request['nosep']."\",
                            \r\n\"tglRujukan\": \"".$request['tglrujukan']."\",
+                           \r\n\"tglRencanaKunjungan\": \"".$request['tglRencanaKunjungan']."\",
                            \r\n\"ppkDirujuk\": \"".$request['ppkdirujuk']."\",
                            \r\n\"jnsPelayanan\": \"".$request['jenispelayanan']."\",
                            \r\n\"catatan\": \"".$request['catatan']."\",
                             \r\n\"diagRujukan\": \"".$request['diagnosarujukan']."\",
                            \r\n\"tipeRujukan\": \"".$request['tiperujukan']."\",
                            \r\n\"poliRujukan\": \"".$request['polirujukan']."\",
-                           \r\n\"user\": \"Ramdanegie\"\r\n}\r\n}\r\n
+                           \r\n\"user\": \"".$request['user']."\"\r\n}\r\n}\r\n
 
                      }",
             CURLOPT_HTTPHEADER => array(
@@ -1596,7 +1598,9 @@ class BridgingBPJSV2Controller extends ApiController
         } else {
             $result = (array) json_decode($response);
         }
-        return $this->respond($result);
+        $key=$data.$secretKey.(string)$tStamp;
+        return $this->respond($this->stringDecryptVclaim($key,$result));
+        // return $this->respond($result);
     }
     public function updateRujukan(Request $request) {
         $data = $this->getIdConsumerBPJSV2();
@@ -4944,6 +4948,56 @@ class BridgingBPJSV2Controller extends ApiController
         return $this->respond($this->stringDecryptVclaim($key,$result));
         // return $this->respond($result);
       
+    }
+    public function getSuratRujukanKeluar(Request $request) {
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
+            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."Rujukan/Keluar/".$request['noRujukan'],
+//            CURLOPT_URL => "https://dvlp.bpjs-kesehatan.go.id/VClaim-rest/referensi/kecamatan/kabupaten/".$request['kodeKabupaten'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json; charset=utf-8",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key:". $userKey
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            $result= "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+        $key=$data.$secretKey.(string)$tStamp;
+        return $this->respond($this->stringDecryptVclaim($key,$result));
     }
     public function getSuratKontrol(Request $request) {
         $data = $this->getIdConsumerBPJSV2();

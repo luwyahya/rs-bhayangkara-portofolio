@@ -2117,7 +2117,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             //     $scope.listpoliKontrol = data;
                             // });
                             tglRegistrasi = dataPasienSelected.tglregistrasi;
-                            $scope.listJenisRujukan = [{ 'id': 1, 'name': 'Faskes 1' }, { 'id': 2, 'name': 'Faskes 2' }]
+                            $scope.listJenisRujukan = [{ 'id': 1, 'name': 'Rujuk Balik' }, { 'id': 2, 'name': 'Rujuk' }]
                             $scope.norecPDbuttonSelected = dataPasienSelected.norec_pd
                             $scope.norecAPDbuttonSelected = dataPasienSelected.norec_apd
                             $scope.objectruanganfkSelected = dataPasienSelected.objectruanganfk
@@ -2162,7 +2162,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     //     $scope.listpoliKontrol = data;
                     // });
                     tglRegistrasi = dataPasienSelected.tglregistrasi;
-                    $scope.listJenisRujukan = [{ 'id': 1, 'name': 'Faskes 1' }, { 'id': 2, 'name': 'Faskes 2' }]
+                    $scope.listJenisRujukan = [{ 'id': 1, 'name': 'Rujuk Balik' }, { 'id': 2, 'name': 'Rujuk' }]
                     $scope.norecPDbuttonSelected = dataPasienSelected.norec_pd
                     $scope.norecAPDbuttonSelected = dataPasienSelected.norec_apd
                     $scope.objectruanganfkSelected = dataPasienSelected.objectruanganfk
@@ -2179,6 +2179,24 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             })
                         $scope.popUpPulang.center().open();
                     });
+                }
+            }
+            $scope.changeJenisPelayanan = function (e) {
+                if ($scope.item.jenisRujukan.id == 2) {
+                    medifirstService.getPart("bridging/bpjs2/get-ref-faskes-part?jenisFaskes=" +
+                        2, true, 10, 10)
+                        .then(function (x) {
+                            $scope.listFaskess = x;
+                        })
+                    $scope.item.noPenunjang = $scope.item.noBPJS
+                    $scope.isRujuk = true
+                } else {
+                    medifirstService.getPart("bridging/bpjs2/get-ref-faskes-part?jenisFaskes=" +
+                        1, true, 10, 10)
+                        .then(function (x) {
+                            $scope.listFaskess = x;
+                        })
+                    $scope.isRujuk = false
                 }
             }
             $scope.$watch('item.jenisRujukan', function (e) {
