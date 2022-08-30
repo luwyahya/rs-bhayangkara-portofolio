@@ -733,7 +733,7 @@ class BendaharaPenerimaanController extends ApiController {
                      inner join kelompoktransaksi_m as kt on kt.id = sc.objectkelompoktransaksifk
                      inner join mapbkutokelompoktransaksi_m as mbk on mbk.kelompoktransaksifk = kt.id
                      where sh.tglsetortarikdeposit > '$tglMinSabulan' and sh.tglsetortarikdeposit < '$tglAwal'
-                       and sh.statusenabled=1
+                       and sh.statusenabled=true
                        and sh.objectkelompoktransaksifk in ($KdTransak)
                      order by sh.nonhistori asc"));
         $saldolama=0;

@@ -40,7 +40,7 @@ define(['initialize'], function (initialize) {
             loadData()
             insertSensusHarian()
             // bridging siranap
-            if ($scope.now.getHours() >= 4 && $scope.now.getHours() <= 8) {
+            if ($scope.now.getHours() >= 19 && $scope.now.getHours() <= 21) {
                 var ppkRumahSakit = ''
                 medifirstService.get('sysadmin/settingdatafixed/get/kodePPKRujukan').then(function (dat) {
                     ppkRumahSakit = dat.data
@@ -56,7 +56,7 @@ define(['initialize'], function (initialize) {
             }
 
             function updateBridgingDinkes() {
-                medifirstService.postNonMessage("dinkes-jkt/post-bed").then(function (e) {})
+                medifirstService.postNonMessage("dinkes-jkt/post-bed").then(function (e) { })
             }
 
             function updateKetersediaanTT() {
@@ -461,110 +461,110 @@ define(['initialize'], function (initialize) {
                 selectable: 'row',
                 pageable: true,
                 columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "20px",
-                    },
-                    {
-                        "field": "tglregistrasi",
-                        "title": "Tgl Registrasi",
-                        "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "noregistrasi",
-                        "title": "No Registrasi",
-                        "width": "60px"
-                    },
-                    {
-                        "field": "nocm",
-                        "title": "No. Rekam Medis",
-                        "width": "60px"
-                    },
-                    {
-                        "field": "kasuspenyakit",
-                        "title": "Status Covid-19",
-                        "width": "100px"
-                    },
-                    {
-                        "field": "namapasien",
-                        "title": "Nama Pasien",
-                        "width": "160px"
-                    },
-                    {
-                        "field": "umurzz",
-                        "title": "Umur",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "namadokter",
-                        "title": "Dokter",
-                        "width": "100px"
-                    },
-                    {
-                        "field": "jeniskelamin",
-                        "title": "Jenis Kelamin",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "kelompokpasien",
-                        "title": "Tipe Pembayaran",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "namakelas",
-                        "title": "Kelas",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "kelasditanggung",
-                        "title": "Kelas Ditanggung",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "iskompleks",
-                        "title": "Kompleks",
-                        "width": "50px",
-                        "template": '# if( iskompleks==1 ) {# ✔ # } else {#  #} #'
+                    "field": "no",
+                    "title": "No",
+                    "width": "20px",
+                },
+                {
+                    "field": "tglregistrasi",
+                    "title": "Tgl Registrasi",
+                    "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
+                    "width": "80px"
+                },
+                {
+                    "field": "noregistrasi",
+                    "title": "No Registrasi",
+                    "width": "60px"
+                },
+                {
+                    "field": "nocm",
+                    "title": "No. Rekam Medis",
+                    "width": "60px"
+                },
+                {
+                    "field": "kasuspenyakit",
+                    "title": "Status Covid-19",
+                    "width": "100px"
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "160px"
+                },
+                {
+                    "field": "umurzz",
+                    "title": "Umur",
+                    "width": "80px"
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Dokter",
+                    "width": "100px"
+                },
+                {
+                    "field": "jeniskelamin",
+                    "title": "Jenis Kelamin",
+                    "width": "80px"
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Tipe Pembayaran",
+                    "width": "80px"
+                },
+                {
+                    "field": "namakelas",
+                    "title": "Kelas",
+                    "width": "80px"
+                },
+                {
+                    "field": "kelasditanggung",
+                    "title": "Kelas Ditanggung",
+                    "width": "80px"
+                },
+                {
+                    "field": "iskompleks",
+                    "title": "Kompleks",
+                    "width": "50px",
+                    "template": '# if( iskompleks==1 ) {# ✔ # } else {#  #} #'
 
-                    },
-                    {
-                        "field": "isMPP",
-                        "title": "MPP",
-                        "width": "50px",
-                        "template": '# if( isMPP==1 ) {# ✔ # } else {#  #} #'
+                },
+                {
+                    "field": "isMPP",
+                    "title": "MPP",
+                    "width": "50px",
+                    "template": '# if( isMPP==1 ) {# ✔ # } else {#  #} #'
 
+                },
+                {
+                    "field": "namaruanganasal",
+                    "title": "Ruangan Asal",
+                    "width": "80px"
+                },
+                {
+                    "field": "diagnosa",
+                    "title": "Diagnosa",
+                    "width": "80px"
+                },
+                {
+                    "field": "bedah",
+                    "title": "bedah",
+                    "width": "80px",
+                    attributes: {
+                        class: "#=bedah != '' ? 'red' : '' #"
                     },
-                    {
-                        "field": "namaruanganasal",
-                        "title": "Ruangan Asal",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "diagnosa",
-                        "title": "Diagnosa",
-                        "width": "80px"
-                    },
-                    {
-                        "field": "bedah",
-                        "title": "bedah",
-                        "width": "80px",
-                        attributes: {
-                            class: "#=bedah != '' ? 'red' : '' #"
-                        },
-                    },
-                    // {
-                    //     field: "statusAntrian",
-                    //     title: "Status",
-                    //     aggregates: ["count"]
-                    // }, 
-                    {
-                        hidden: true,
-                        field: "namaruangan",
-                        title: "Nama Ruangan",
-                        aggregates: ["count"],
-                        groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
-                    }
+                },
+                // {
+                //     field: "statusAntrian",
+                //     title: "Status",
+                //     aggregates: ["count"]
+                // }, 
+                {
+                    hidden: true,
+                    field: "namaruangan",
+                    title: "Nama Ruangan",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
+                }
                 ]
             };
 
