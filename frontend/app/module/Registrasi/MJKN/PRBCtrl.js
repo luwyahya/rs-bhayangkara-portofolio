@@ -488,21 +488,21 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 // medifirstService.getPart("laboratorium/poli-bpjs").then(function (data) {
                 //     $scope.listStatusKlaim = data;
                 // });
-                medifirstService.get("bridging/bpjs/get-ref-dokter-dpjp?jenisPelayanan=" + 1
+                medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1
                     + "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis=" + 10
                 ).then(function (e) {
                     if (e.data.metaData.code == 200) {
                         $scope.listDPJP = e.data.response.list;
                     }
                 })
-                medifirstService.getPart("bridging/bpjs/get-poli-part", true, true, 10).then(function (data) {
+                medifirstService.getPart("bridging/bpjs2/get-poli-part", true, true, 10).then(function (data) {
                     $scope.listPoli = data;
 
                 });
-                medifirstService.get("bridging/bpjs/get-programPRB").then(function (data) {
+                medifirstService.get("bridging/bpjs2/get-programPRB").then(function (data) {
                     $scope.listprogramPRB = data.data.response.list;
                 });
-                medifirstService.getPart("bridging/bpjs/get-obatprb", true, true, 10).then(function (data) {
+                medifirstService.getPart("bridging/bpjs2/get-obatprb", true, true, 10).then(function (data) {
                     $scope.listObat = data;
                 });
             }

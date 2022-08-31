@@ -520,7 +520,7 @@
                 </fieldset>
             </div>
         </div>
-        <div kendo-window="popUpTambah" k-title="'Terbitkan Surat Rencana Kontrol'" k-width="900" k-height="300"
+        <div kendo-window="popUpTambah" k-title="'Terbitkan Surat Rencana Kontrol'" k-width="900" k-height="500"
             k-visible="false">
             <!-- <div class="grid_12"> -->
             <div class="panel panel-default container_12" style="padding: 0px 10px;">
@@ -540,6 +540,7 @@
                         <label c-label item="item" c-label-text="No SEP Perujuk" ng-show="isControl"></label>
                         <label c-label item="item" c-label-text="No BPJS" ng-show="isSPRI"></label>
                         <label c-label item="item" c-label-text="No SEP Perujuk" ng-show="isRujukan"></label>
+                        <label c-label item="item" c-label-text="No SEP Perujuk" ng-show="isRujukanBalik"></label>
                         <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
                             ng-model="item.noPenunjang" readonly />
                     </div>
@@ -597,6 +598,92 @@
                         <textarea ng-model="item.alasanRujuk"></textarea>
                     </div>
                 </div>
+                <div class="grid_12" ng-show="isRujukanBalik">
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <label c-label item="item" c-label-text="AlamatPeserta"></label>
+                            <textarea ng-model="item.alamatPeserta"></textarea>
+                        </div>
+                        <div class="grid_4">
+                            <label c-label>email</label>
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.email"
+                                style="width:100%" />
+                        </div>
+                        <div class="grid_4">
+                            <label c-label>Program
+                                PRB</label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.programPRB"
+                                k-data-text-field="'nama'" k-data-value-field="'kode'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listprogramPRB" />
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <label c-label item="item" c-label-text="Keterangan"></label>
+                            <textarea ng-model="item.keterangan"></textarea>
+                        </div>
+                        <div class="grid_4">
+                            <label c-label item="item" c-label-text="Saran"></label>
+                            <textarea ng-model="item.saran"></textarea>
+                        </div>
+                        <div class="grid_4">
+                            <label c-label item="item" c-label-text="No Kartu"></label>
+                            <input style="width:100%" c-text-box type="input" filter="'char'" class="k-textbox"
+                                ng-model="item.noKartu" readonly />
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <div class="grid_12"> <label c-label>Obat</label></div>
+                            <div class="grid_12" style="margin-top:5px">
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obat"
+                                    k-data-text-field="'nama'" k-data-value-field="'kode'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listObat" />
+                            </div>
+                        </div>
+                        <div class="grid_2">
+                            <div class="grid_12"> <label c-label>Signa
+                                    1</label></div>
+                            <div class="grid_12" style="margin-top:5px">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.signa1"
+                                    style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="grid_2">
+                            <div class="grid_12"> <label c-label>Signa
+                                    2</label></div>
+                            <div class="grid_12" style="margin-top:5px">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.signa2"
+                                    style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="grid_2">
+                            <div class="grid_12"> <label c-label>Jumlah
+                                    Obat</label></div>
+                            <div class="grid_12" style="margin-top:5px">
+                                <input c-text-box type="number" filter="'char'" class="k-textbox"
+                                    ng-model="item.jumlahObat" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="grid_2">
+                            <div class="grid_12">
+                                <button ng-show="!isLoading" kendo-button style="width: 100%" class="primary"
+                                    ng-click="tambahTindakan()"><i class="fa fa-plus"></i>Tambah
+                                    Tindakan</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <kendo-grid id="grid" k-data-source="dataTindakan" options="mainGridOptions"
+                            k-ng-model="dataSelectedRow" ng-click="klikGrid(dataSelectedRow)">
+                            <div k-detail-template>
+                                <div kendo-grid k-options="detailGridOptions(dataItem)">
+                                </div>
+
+                            </div>
+                        </kendo-grid>
+                    </div>
+                </div>
                 <div class="grid_12">
                     <div class="grid_4">
                         <label c-label item="item" c-label-text="Poli Kontrol"></label>
@@ -605,14 +692,15 @@
                             k-data-value-field="'kode'" k-auto-bind="false" k-on-change='checkDPJP()' />
                     </div>
                     <div class="grid_4" ng-hide="isRujukan">
-                        <label c-label item="item" c-label-text="DPJP Tujuan"></label>
+                        <label c-label item="item" c-label-text="DPJP"></label>
                         <input style="width:100%" kendo-combo-box k-ng-model="item.kodeDokter"
                             k-data-source="listkodeDokter" k-data-text-field="'nama'" k-filter="'contains'"
                             k-data-value-field="'kode'" k-auto-bind="false" />
                     </div>
                     <div class="grid_4">
-                        <label c-label item="item" c-label-text="No Rencana Kontrol" ng-hide="isRujukan"></label>
-                        <label c-label item="item" c-label-text="No Rujukan" ng-show="isRujukan"></label>
+                        <label c-label item="item" c-label-text="No Kontrol/Rujukan"></label>
+                        <!-- <label c-label item="item" c-label-text="No Rujukan" ng-show="isRujukan"></label>
+                        <label c-label item="item" c-label-text="No Rujukan" ng-show="isRujukanBalik"></label> -->
                         <input style="background-color: #eea236;" c-text-box type="input" filter="'char'"
                             class="k-textbox" ng-model="item.noSuratKontrol" />
                     </div>
