@@ -2580,7 +2580,7 @@ define(['initialize'], function (initialize) {
                             }
                         }
                     };
-                    medifirstService.postNonMessage('bridging/bpjs/insert-prb', dataSend).then(function (e) {
+                    medifirstService.postNonMessage('bridging/bpjs2/insert-prb', dataSend).then(function (e) {
                         if (e.data.response) {
                             debugger
                             $scope.saveLogging('Input Rujukan', 'No Surat Rujukan', e.data.response.rujukan.noRujukan, 'Input Rujukan ' + e.data.response.rujukan.noRujukan + ' Ke Faskes ' + $scope.item.diRujukKe.nama + 'Untuk Tanggal ' + moment($scope.item.tanggalRujukan).format('YYYY-MM-DD'))
