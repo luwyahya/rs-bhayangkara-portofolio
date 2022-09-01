@@ -3524,6 +3524,11 @@ class PelayananResepController extends ApiController
             $racikanORnonracikan = 'N';
             //region @SIMPAN PELAYANAN OBAT IEU
             $dataLogin = $request->all();
+            $dataPegawai = \DB::table('loginuser_s as lu')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'lu.objectpegawaifk')
+            ->select('lu.objectpegawaifk', 'pg.namalengkap')
+            ->where('lu.id', $dataLogin['userData']['id'])
+            ->first();
             $r_SR = $request['strukresep'];
             if ($r_SR['noorder'] != '' && $r_SR['noorder'] != 'EditResep') {
                 $dataOrder = StrukOrder::where('noorder', $r_SR['noorder'])->first();
@@ -4233,6 +4238,7 @@ class PelayananResepController extends ApiController
                 $newPP->issiang = $r_PPL['issiang'];
                 $newPP->ismalam = $r_PPL['ismalam'];
                 $newPP->issore = $r_PPL['issore'];
+                $newPP->objectpegawailoginfk = $dataPegawai->objectpegawaifk;
                 // $newPP->keteranganpakai = $r_PPL['keterangan'];
                 $newPP->dosisobat = $r_PPL['dosis'];
                 if(isset($r_PPL['objectwaktuminumfk']) && $r_PPL['objectwaktuminumfk']!="" && $r_PPL['objectwaktuminumfk']!="undefined"){

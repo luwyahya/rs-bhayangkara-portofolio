@@ -1171,6 +1171,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-transaksi-pelayanan-obat-tap', 'Farmasi\PelayananResepController@getTransaksiPelayananObatTap');
             Route::post('save-ubahdokter', 'Farmasi\PelayananResepController@ubahdokter');
             Route::post('save-ubahdepo', 'Farmasi\PelayananResepController@ubahdepo');
+            Route::get('get-lap-pemakaian-obat', 'Farmasi\FarmasiController@getLapPemakaianObat');
 
 
             Route::get('cek-obat-psikotropika', 'Farmasi\PelayananResepController@cekObatPsikotropika');

@@ -518,8 +518,7 @@ class FarmasiController extends ApiController
 
         return $this->respond($result);
     }
-
-    public function getDaftarReturObatDetail(Request $request) {
+     public function getDaftarReturObatDetail(Request $request) {
         $data = \DB::table('strukretur_t as srt')
             ->leftJoin('strukresep_t as sr','sr.norec','=','srt.strukresepfk')
             ->leftJoin('antrianpasiendiperiksa_t as apd','apd.norec','=','sr.pasienfk')
@@ -569,6 +568,38 @@ class FarmasiController extends ApiController
 
         $result = array(
             'daftar' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
+    public function getLapPemakaianObat(Request $request) {
+        $dataLogin = $request->all();
+        // return($dataLogin);
+        // die();
+        $result = DB::select(
+                DB::raw("SELECT ROW_NUMBER() OVER (ORDER BY  pp.norec) as no,pp.tglpelayanan,pro.namaproduk,ps.namapasien,
+                    rk.namarekanan,pp.hargasatuan,pp.jumlah,pp.jumlah*pp.hargasatuan as total,
+                    pro.kodeexternal, pg.nama,pg2.nama as userlogin,ap.reportdisplay from pasiendaftar_t as pd
+                    join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                    join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                    join produk_m as pro on pro.id=pp.produkfk
+                    join pasien_m as ps on ps.id=pd.nocmfk
+                    left join rekanan_m as rk on rk.id=pd.objectrekananfk
+                    INNER JOIN strukresep_t as sr on sr.norec=pp.strukresepfk
+                    left join pegawai_m as pg on pg.id=sr.penulisresepfk
+                    left join pegawai_m as pg2 on pg2.id=pp.objectpegawailoginfk
+                    join stokprodukdetail_t as spd on spd.objectprodukfk=pro.id
+                    join asalproduk_m as ap on ap.id=spd.objectasalprodukfk
+                    where pd.noregistrasi='2208001735' and pp.aturanpakai is not null
+                    GROUP BY  pp.norec,pp.tglpelayanan,pro.namaproduk,ps.namapasien,
+                    rk.namarekanan,pp.hargasatuan,pp.jumlah,
+                    pro.kodeexternal, pg.nama,pg2.nama,ap.reportdisplay")
+            );
+
+        $result = array(
+            'daftar' => $result,
             'message' => 'as@epic',
         );
 

@@ -494,8 +494,8 @@
             "urlDep": "module/Farmasi/LaporanFarmasi/DaftarReturObatAlkesPerunitCtrl"
         },
         {
-            "nameDep": "DaftarReturObatAlkesPerunitCtrl",
-            "urlDep": "module/Farmasi/LaporanFarmasi/DaftarReturObatAlkesPerunitCtrl"
+            "nameDep": "LaporanPemakaianObatCtrl",
+            "urlDep": "module/Farmasi/LaporanFarmasi/LaporanPemakaianObatCtrl"
         },
         {
             "nameDep": "LaporanReturSuplierCtrl",
