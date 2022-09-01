@@ -30,7 +30,7 @@ define(['initialize'], function (initialize) {
             $scope.listJenisKontrol = [
                 { "id": "1", "name": "Rencana Kontrol" },
                 { "id": "2", "name": "SPRI" },
-                { "id": "3", "name": "Rujukan Ke Faskes 2" },
+                { "id": "3", "name": "Rujuk Ke Luar Rumah Sakit Lain" },
                 { "id": "4", "name": "Rujuk Balik" }
             ];
             $scope.listJenisPelayananRujukan = [
