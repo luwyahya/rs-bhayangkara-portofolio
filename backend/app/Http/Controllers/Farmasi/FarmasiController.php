@@ -578,6 +578,8 @@ class FarmasiController extends ApiController
         $dataLogin = $request->all();
         // return($dataLogin);
         // die();
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
         $result = DB::select(
                 DB::raw("SELECT ROW_NUMBER() OVER (ORDER BY  pp.norec) as no,pp.tglpelayanan,pro.namaproduk,ps.namapasien,
                     rk.namarekanan,pp.hargasatuan,pp.jumlah,pp.jumlah*pp.hargasatuan as total,
@@ -592,7 +594,7 @@ class FarmasiController extends ApiController
                     left join pegawai_m as pg2 on pg2.id=pp.objectpegawailoginfk
                     join stokprodukdetail_t as spd on spd.objectprodukfk=pro.id
                     join asalproduk_m as ap on ap.id=spd.objectasalprodukfk
-                    where pd.noregistrasi='2208001735' and pp.aturanpakai is not null
+                    where pp.tglpelayanan between '$tglAwal' and '$tglAkhir' and pp.aturanpakai is not null
                     GROUP BY  pp.norec,pp.tglpelayanan,pro.namaproduk,ps.namapasien,
                     rk.namarekanan,pp.hargasatuan,pp.jumlah,
                     pro.kodeexternal, pg.nama,pg2.nama,ap.reportdisplay")
