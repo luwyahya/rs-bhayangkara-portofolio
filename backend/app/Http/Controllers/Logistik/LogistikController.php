@@ -545,7 +545,7 @@ class LogistikController extends ApiController
             ->JOIN('produk_m as pr', 'pr.id', '=', 'spd.objectprodukfk')
             ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
             ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-            ->JOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
+            ->leftJOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
             ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
             ->select(
                 'sp.nostruk as noterima',
