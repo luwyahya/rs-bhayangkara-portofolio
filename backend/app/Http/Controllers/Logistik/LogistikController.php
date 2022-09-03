@@ -792,7 +792,7 @@ class LogistikController extends ApiController
             ->first();
         $KelTransAddjusment = (int) $this->settingDataFixed('KelTransAddjusment');
         \DB::beginTransaction();
-        // try {
+        try {
             $newSPD = StokProdukDetail::where('norec', $request['norec_spd'])
                 ->where('nostrukterimafk', $request['nostruterimafk'])
                 ->where('objectruanganfk', $request['ruanganfk'])
@@ -805,7 +805,7 @@ class LogistikController extends ApiController
                 ->where('objectprodukfk', $request['produkfk'])
                 ->update([
                     'harganetto1' => $request['harga'],
-                    'objectasalanggaranfk' => $request['asalproduk']
+                    'objectasalprodukfk' => $request['asalproduk']
                 ]);
 
             //## Logging User
@@ -824,10 +824,10 @@ class LogistikController extends ApiController
             $logUser->save();
 
             $transStatus = 'true';
-        // } catch (\Exception $e) {
-        //     $transStatus = 'false';
-        //     $transMessage = "Simpan Gagal";
-        // }
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Simpan Gagal";
+        }
 
         if ($transStatus == 'true') {
             $transMessage = "Simpan Berhasil";
