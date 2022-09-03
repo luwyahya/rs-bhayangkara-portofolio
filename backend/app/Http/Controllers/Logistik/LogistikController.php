@@ -559,7 +559,8 @@ class LogistikController extends ApiController
                 'spd.nobatch',
                 'spd.harganetto1',
                 'spd.norec as norec_spd',
-                'spd.nostrukterimafk'
+                'spd.nostrukterimafk',
+                'spd.objectasalprodukfk'
             )
             ->where('spd.statusenabled', true)
             ->where('pr.statusenabled', true);
@@ -802,7 +803,8 @@ class LogistikController extends ApiController
               StokProdukDetail::where('nostrukterimafk', $request['nostruterimafk'])               
                 ->where('objectprodukfk', $request['produkfk'])
                 ->update([
-                    'harganetto1' => $request['harga']
+                    'harganetto1' => $request['harga'],
+                    'objectasalanggaranfk' => $request['asalproduk']
                 ]);
 
             //## Logging User

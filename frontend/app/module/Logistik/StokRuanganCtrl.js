@@ -520,6 +520,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.namaProduk = $scope.dataSelected.namaProduk;
                 $scope.item.QtyReal = parseFloat($scope.dataSelected.qtyProduk);
                 $scope.hargaSatuan = parseFloat($scope.dataSelected.harga);
+                $scope.item.asalanggaran = {id:$scope.dataSelected.objectasalprodukfk , asalProduk:$scope.dataSelected.asalanggaran}
                 $scope.HargaShow.center().open();      
             }
 
@@ -561,6 +562,11 @@ define(['initialize'], function (initialize) {
                     return
                 }
 
+                if ($scope.item.asalanggaran == undefined) {
+                    toastr.error("Anggaran Belum Dipilih");
+                    return
+                }
+
                
 
                  var objSave = {
@@ -571,7 +577,8 @@ define(['initialize'], function (initialize) {
                     'nostruterimafk': nostruterimafk,
                     'qtyreal' : $scope.item.QtyReal,
                     'qtyad': parseFloat($scope.item.QtyAdjustment),
-                    'harga': parseFloat($scope.hargaSatuan)                    
+                    'harga': parseFloat($scope.hargaSatuan),  
+                    'asalproduk': $scope.item.asalanggaran.id                    
                 }
 
                 medifirstService.post('logistik/save-adjusment-stok2', objSave).then(function (e) {
