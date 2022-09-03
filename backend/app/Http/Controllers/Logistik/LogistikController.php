@@ -646,6 +646,7 @@ class LogistikController extends ApiController
                 'hargajual' => (float)$item->harganetto1 + (((float)$item->harganetto1 * (float)$persenUpHargaSatuan) / 100),
                 'norec_spd' => $item->norec_spd,
                 'nostrukterimafk' => $item->nostrukterimafk,
+                'objectasalprodukfk' => $item->objectasalprodukfk,
             );
         }
         $result = array(
