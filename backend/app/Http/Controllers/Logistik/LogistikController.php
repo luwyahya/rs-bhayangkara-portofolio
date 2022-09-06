@@ -545,7 +545,7 @@ class LogistikController extends ApiController
             ->JOIN('produk_m as pr', 'pr.id', '=', 'spd.objectprodukfk')
             ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
             ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-            ->JOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
+            ->leftJOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
             ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
             ->select(
                 'sp.nostruk as noterima',
@@ -559,7 +559,8 @@ class LogistikController extends ApiController
                 'spd.nobatch',
                 'spd.harganetto1',
                 'spd.norec as norec_spd',
-                'spd.nostrukterimafk'
+                'spd.nostrukterimafk',
+                'spd.objectasalprodukfk'
             )
             ->where('spd.statusenabled', true)
             ->where('pr.statusenabled', true);
@@ -645,6 +646,7 @@ class LogistikController extends ApiController
                 'hargajual' => (float)$item->harganetto1 + (((float)$item->harganetto1 * (float)$persenUpHargaSatuan) / 100),
                 'norec_spd' => $item->norec_spd,
                 'nostrukterimafk' => $item->nostrukterimafk,
+                'objectasalprodukfk' => $item->objectasalprodukfk,
             );
         }
         $result = array(
@@ -802,7 +804,8 @@ class LogistikController extends ApiController
               StokProdukDetail::where('nostrukterimafk', $request['nostruterimafk'])               
                 ->where('objectprodukfk', $request['produkfk'])
                 ->update([
-                    'harganetto1' => $request['harga']
+                    'harganetto1' => $request['harga'],
+                    'objectasalprodukfk' => $request['asalproduk']
                 ]);
 
             //## Logging User
