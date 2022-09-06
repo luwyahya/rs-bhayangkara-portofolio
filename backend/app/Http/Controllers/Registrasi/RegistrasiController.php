@@ -21650,6 +21650,151 @@ GROUP BY y.KET
 
         return $this->respond($data);
     }
+    public function saveDiagnosaInacbg9(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        $dataPegawaiUser = DB::select(
+            DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+                INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+                where lu.id=:idLoginUser"),
+            array(
+                'idLoginUser' => $dataLogin['userData']['id'],
+            )
+        );
+
+        $dataNoregistrasiPd = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec and apd.objectruanganfk=pd.objectruanganlastfk
+                left join diagnosapasien_t dp on dp.noregistrasifk=apd.norec
+                where pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+       
+        // return($dataNoregistrasiPd);
+        // die();
+        
+        $dataDiagnosa = new DiagnosaInacbg();
+        $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+        $dataDiagnosa->kdprofile = 0;
+        $dataDiagnosa->statusenabled = true;
+        $dataDiagnosa->noregistrasifk =  $dataNoregistrasiPd[0]->norec_apd;
+        $dataDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s');
+        $dataDiagnosa->code = $request['detaildiagnosapasien']['code'];
+        $dataDiagnosa->description = $request['detaildiagnosapasien']['description'];
+        $dataDiagnosa->jenisdiagnosainacbgfk = $request['detaildiagnosapasien']['jenisdiagnosainacbgfk'];
+        $dataDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id;
+        $dataDiagnosa->jumlah = $request['detaildiagnosapasien']['jumlah'];
+       
+        // try {
+            $dataDiagnosa->save();
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = "simpan Diagnosa Baru";
+        // }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Data Tersimpan";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        } else {
+            $transMessage = "Data Gagal Disimpan";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveDiagnosaInacbg(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        $dataPegawaiUser = DB::select(
+            DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+                INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+                where lu.id=:idLoginUser"),
+            array(
+                'idLoginUser' => $dataLogin['userData']['id'],
+            )
+        );
+
+        $dataNoregistrasiPd = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec and apd.objectruanganfk=pd.objectruanganlastfk
+                left join diagnosapasien_t dp on dp.noregistrasifk=apd.norec
+                where pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+        $dataNoregistrasi = DB::select(
+            DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec
+                Inner join diagnosainacbg_t dp on dp.noregistrasifk=apd.norec
+                where pd.noregistrasi=:noregistrasi"),
+            array(
+                'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
+            )
+        );
+        // return($dataNoregistrasiPd);
+        // die();
+        
+        $dataDiagnosa = new DiagnosaInacbg();
+        $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+        $dataDiagnosa->kdprofile = 0;
+        $dataDiagnosa->statusenabled = true;
+        $dataDiagnosa->noregistrasifk =  $dataNoregistrasiPd[0]->norec_apd;
+        $dataDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s');
+        $dataDiagnosa->code = $request['detaildiagnosapasien']['code'];
+        $dataDiagnosa->description = $request['detaildiagnosapasien']['description'];
+        $dataDiagnosa->jenisdiagnosainacbgfk = $request['detaildiagnosapasien']['jenisdiagnosainacbgfk'];
+        $dataDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id;
+        if (count($dataNoregistrasi) > 0){
+            $dataDiagnosa->objectjenisdiagnosafk =2;
+        }else{
+            $dataDiagnosa->objectjenisdiagnosafk =1;
+        }
+        // try {
+            $dataDiagnosa->save();
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = "simpan Diagnosa Baru";
+        // }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Data Tersimpan";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        } else {
+            $transMessage = "Data Gagal Disimpan";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'data' => $dataDiagnosa,
+                'as' => '@tukcom',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getPasienMasukSentraVisum(Request $request)
     {
         $req = $request->all();

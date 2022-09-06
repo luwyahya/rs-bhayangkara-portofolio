@@ -2379,6 +2379,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-diagnosa-tindakan-pasien-target', 'Registrasi\RegistrasiController@saveDiagnosaTindakanPasienTarget');
             Route::get('get-anamnesis', 'Registrasi\RegistrasiController@getAnamnesis');
             Route::get('get-resume-medis-inap/{nocm}', 'Registrasi\RegistrasiController@getResumeMedisInap');
+            Route::post('save-diagnosa-inacbg', 'Registrasi\RegistrasiController@saveDiagnosaInacbg');
+            Route::post('save-diagnosa-inacbg9', 'Registrasi\RegistrasiController@saveDiagnosaInacbg9');
 
             Route::get('get-image', 'Registrasi\RegistrasiController@getImage');
             Route::get('store-image-to-folder/{nocm}', 'Registrasi\RegistrasiController@storeImageToFolder');
