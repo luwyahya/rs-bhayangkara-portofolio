@@ -907,6 +907,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var hakkelas = "";
                         var biayanaikkelas = "0";
                         medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+                            $scope.isRouteLoading = false;
                             responData = e.data.dataresponse;
                             toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
                             toastr.info(responData[0].dataresponse.response.cbg.description, 'INACBG');
