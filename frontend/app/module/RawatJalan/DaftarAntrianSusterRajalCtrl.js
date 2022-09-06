@@ -2615,6 +2615,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                             })
                         }
+                        medifirstService.get("sysadmin/logging/save-log-pulang-pasien?norec_pd=" +
+                            $scope.norecPDbuttonSelected
+                        ).then(function (data) {
+
+                        })
                         loadData($scope.item.kondisi);
                         $scope.popUpPulang.close();
                     });
