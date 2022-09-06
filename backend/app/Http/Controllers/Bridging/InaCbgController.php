@@ -978,8 +978,65 @@ class InaCbgController   extends ApiController
         $dataDiagnosa9 = $dataDiagnosa9->get();
         $dataDiagnosa9Inacbg = '';
         foreach ($dataDiagnosa9 as $item2){
-                $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+        }
+
+        $dataDiagnosaInacbg10 = \DB::table('pasiendaftar_t as pd')
+            ->select(
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'apd.objectruanganfk',
+                'ru.namaruangan',
+                'apd.norec as norec_apd',
+                'dtp.norec as norec_diagnosapasien',
+                'pg.namalengkap',
+                'dtp.tglinputdiagnosa',
+                'dtp.code',
+                'dtp.description',
+                'jd.jenisdiagnosa'
+            )
+            ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->join('diagnosainacbg_t as dtp', 'dtp.noregistrasifk', '=', 'apd.norec')
+            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'dtp.objectpegawaifk')
+            ->leftjoin('jenisdiagnosa_m as jd', 'jd.id', '=', 'dtp.objectjenisdiagnosafk')
+            ->where('dtp.jenisdiagnosainacbgfk','=','10')
+            ->where('pd.norec', $noregistrasifk);
+        $dataDiagnosaInacbg10 = $dataDiagnosaInacbg10->get();
+        $dataDiagnosaInacbg10Inacbg = '';
+        foreach ($dataDiagnosaInacbg10 as $item2){
+            $dataDiagnosaInacbg10Inacbg = $dataDiagnosaInacbg10Inacbg . '#' . $item2->code;
+        }
+
+        $dataDiagnosaInacbg9 = \DB::table('pasiendaftar_t as pd')
+            ->select(
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'apd.objectruanganfk',
+                'ru.namaruangan',
+                'apd.norec as norec_apd',
+                'dtp.norec as norec_diagnosapasien',
+                'pg.namalengkap',
+                'dtp.tglinputdiagnosa',
+                'dtp.code',
+                'dtp.description',
+                'dtp.jumlah'
+            )
+            ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->join('diagnosainacbg_t as dtp', 'dtp.noregistrasifk', '=', 'apd.norec')
+            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'dtp.objectpegawaifk')
+            ->where('dtp.jenisdiagnosainacbgfk','=','9')
+            ->where('pd.norec', $noregistrasifk);
+        $dataDiagnosaInacbg9 = $dataDiagnosaInacbg9->get();
+        $dataDiagnosaInacbg9Inacbg = '';
+        foreach ($dataDiagnosaInacbg9 as $item2){
+            if($item2->jumlah > 1){
+                $dataDiagnosaInacbg9Inacbg = $dataDiagnosaInacbg9Inacbg . '#' . $item2->code.'+'.$item2->jumlah;
+            }else{
+                $dataDiagnosaInacbg9Inacbg = $dataDiagnosaInacbg9Inacbg . '#' . $item2->code;
             }
+        }
 
         $result = array(
             'data' => $data,
@@ -988,7 +1045,11 @@ class InaCbgController   extends ApiController
             'dataDiagnosa10'=>$dataDiagnosa10,
             'dataDiagnosa9'=>$dataDiagnosa9,
             'dataDiagnosa10Inacbg'=>substr($dataDiagnosa10Inacbg,1,strlen($dataDiagnosa10Inacbg)-1),
-            'dataDiagnosa9Inacbg'=>substr($dataDiagnosa9Inacbg,1,strlen($dataDiagnosa9Inacbg)-1)
+            'dataDiagnosa9Inacbg'=>substr($dataDiagnosa9Inacbg,1,strlen($dataDiagnosa9Inacbg)-1),
+            'dataDiagnosaInacbg10'=>$dataDiagnosaInacbg10,
+            'dataDiagnosaInacbg10Inacbg'=>substr($dataDiagnosaInacbg10Inacbg,1,strlen($dataDiagnosaInacbg10Inacbg)-1),
+            'dataDiagnosaInacbg9'=>$dataDiagnosaInacbg9,
+            'dataDiagnosaInacbg9Inacbg'=>substr($dataDiagnosaInacbg9Inacbg,1,strlen($dataDiagnosaInacbg9Inacbg)-1),
         );
 
         return $this->respond($result);
