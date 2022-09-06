@@ -21651,6 +21651,65 @@ GROUP BY y.KET
 
         return $this->respond($data);
     }
+    public function deleteDiagnosaInacbg10(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        if ($request['diagnosa']['norec_dp'] != '') {
+            try {
+                $data1 = DiagnosaInacbg::where('norec', $request['diagnosa']['norec_dp'])->delete();
+                $transStatus = 'true';
+            } catch (\Exception $e) {
+                $transStatus = false;
+            }
+           
+            $dataNoregistrasi = DB::select(
+                DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
+                    LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec
+                    Inner join diagnosainacbg_t dp on dp.noregistrasifk=apd.norec
+                    where pd.noregistrasi=:noregistrasi"),
+                array(
+                    'noregistrasi' => $request['diagnosa']['noregistrasi'],
+                )
+            );
+            if (count($dataNoregistrasi) > 0){
+                $data3 = DiagnosaInacbg::where('norec', $dataNoregistrasi[0]->norec_dp)->update(['objectjenisdiagnosafk' => 1]);
+            }
+        }
+        if ($transStatus = 'true') {
+            DB::commit();
+            $transMessage = "Data Terhapus";
+        } else {
+            DB::rollBack();
+            $transMessage = "Data Gagal Dihapus";
+        }
+
+        return $this->setStatusCode(201)->respond([], $transMessage);
+    }
+    public function deleteDiagnosaInacbg9(Request $request)
+    {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        if ($request['diagnosa']['norec_dp'] != '') {
+            try {
+                $data1 = DiagnosaInacbg::where('norec', $request['diagnosa']['norec_dp'])->delete();
+                $transStatus = 'true';
+            } catch (\Exception $e) {
+                $transStatus = false;
+            }
+           
+            
+        }
+        if ($transStatus = 'true') {
+            DB::commit();
+            $transMessage = "Data Terhapus";
+        } else {
+            DB::rollBack();
+            $transMessage = "Data Gagal Dihapus";
+        }
+
+        return $this->setStatusCode(201)->respond([], $transMessage);
+    }
     public function saveDiagnosaInacbg9(Request $request)
     {
         $dataLogin = $request->all();

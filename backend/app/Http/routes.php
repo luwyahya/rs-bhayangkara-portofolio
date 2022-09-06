@@ -2343,6 +2343,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('daftar-antrian-pasien/get-diagnosa-pasien-by-norecapd', 'Registrasi\RegistrasiController@getDiagnosaPasienByNorecAPD');
             Route::post('daftar-antrian-pasien/delete-diagnosa-pasien', 'Registrasi\RegistrasiController@deleteDiagnosaPasien');
             Route::post('daftar-antrian-pasien/delete-diagnosa-pasien-target', 'Registrasi\RegistrasiController@deleteDiagnosaPasienTarget');
+            Route::post('daftar-antrian-pasien/delete-diagnosa-inacbg10', 'Registrasi\RegistrasiController@deleteDiagnosaInacbg10');
+            Route::post('daftar-antrian-pasien/delete-diagnosa-inacbg9', 'Registrasi\RegistrasiController@deleteDiagnosaInacbg9');
             Route::post('daftar-antrian-pasien/set-primary-diagnosa-pasien-target', 'Registrasi\RegistrasiController@setPrimaryDiagnosaPasienTarget');
             Route::get('daftar-antrian-pasien/get-data-diagnosa-pasien', 'Registrasi\RegistrasiController@getDiagnosaPasienByNoreg');
             Route::post('daftar-antrian-pasien/save-diagnosa-array', 'Registrasi\RegistrasiController@saveArrDiagnosaPasien');
