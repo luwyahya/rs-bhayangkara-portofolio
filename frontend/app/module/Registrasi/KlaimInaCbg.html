@@ -619,7 +619,7 @@
                                                                                                                             style="text-align: left;">
                                                                                                                             <button
                                                                                                                                 class="c-button cancel"
-                                                                                                                                ng-click="clickCard(card)"
+                                                                                                                                ng-click="clickCardEklaim(card)"
                                                                                                                                 style="float:left;width:120px">{{card.code}}</button>
                                                                                                                         </div>
                                                                                                                         <!-- <div class="grid_12"
@@ -636,12 +636,6 @@
                                                                                                     </section>
                                                                                                 </div>
                                                                                             </div>
-                                                                                            <div class="grid_4"
-                                                                                                style="margin-top: 16px">
-                                                                                                <button
-                                                                                                    class="primary c-button "
-                                                                                                    ng-click="simpanDiagnosaTarget1()">Simpan</button>
-                                                                                            </div>
                                                                                         </div>
                                                                                     </td>
                                                                                 </tr>
@@ -649,12 +643,11 @@
                                                                                     <th>Tgl. Input </th>
                                                                                     <th>Kode Diagnosa</th>
                                                                                     <th>Nama Diagnosa</th>
-                                                                                    <th>Ruangan</th>
                                                                                     <th>Keterangan</th>
                                                                                     <th>Action</th>
                                                                                 </tr>
                                                                                 <tbody>
-                                                                                    <tr ng-repeat="listx in listDiagnosa9 | orderBy:'id'"
+                                                                                    <tr ng-repeat="listx in listDiagnosa10Inacbg | orderBy:'id'"
                                                                                         ng-init="jawabIndex = $index"
                                                                                         ng-click="go9(listx)">
                                                                                         <td>
@@ -664,29 +657,129 @@
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="keterangan">
-                                                                                                {{listx.kddiagnosatindakan}}
+                                                                                                {{listx.code}}
                                                                                             </div>
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="keterangan">
-                                                                                                {{listx.diagnosatindakan}}
+                                                                                                {{listx.description}}
                                                                                             </div>
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="keterangan">
-                                                                                                {{listx.namaruangan}}
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td>
-                                                                                            <div class="keterangan">
-                                                                                                {{listx.keterangan}}
+                                                                                                {{listx.jenisdiagnosa}}
                                                                                             </div>
                                                                                         </td>
                                                                                         <td>
                                                                                             <div class="keterangan">
                                                                                                 <button
                                                                                                     class="c-button success"
-                                                                                                    ng-click="clickHapus9(listx)"
+                                                                                                    ng-click="clickHapus10DiagnosaInacbg(listx)"
+                                                                                                    style="float:left;width:120px">Hapus</button>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <table style="width:100%;color: #4c5356;"
+                                                                                id="customers">
+                                                                                <tr>
+                                                                                    <td colspan="6">
+                                                                                        <div class="grid_12">
+                                                                                            <div class="grid_4">
+                                                                                                <div class="grid_12">
+                                                                                                    <label c-label
+                                                                                                        item="item"
+                                                                                                        c-label-text="Diagnosa (ICD-9)"></label>
+                                                                                                </div>
+                                                                                                <div class="clear">
+                                                                                                </div>
+
+                                                                                                <div class="grid_12">
+                                                                                                    <input c-text-box
+                                                                                                        type="input"
+                                                                                                        filter=""
+                                                                                                        class="k-textbox"
+                                                                                                        ng-model="item.diagnosisPrimerEklaim2" />
+                                                                                                    <section
+                                                                                                        ng-class="cardViewEklaim2 ? 'show' : 'hide'">
+                                                                                                        <div ng-repeat="card in cardsEklaim2"
+                                                                                                            class="row">
+                                                                                                            <div
+                                                                                                                class="col s12 m6 l4">
+                                                                                                                <div
+                                                                                                                    class="card">
+                                                                                                                    <div
+                                                                                                                        class="card-action">
+                                                                                                                        <div class="grid_8"
+                                                                                                                            style="text-align: left;">
+                                                                                                                            <label
+                                                                                                                                c-label
+                                                                                                                                real>{{card.description}}</label>
+                                                                                                                        </div>
+                                                                                                                        <div class="grid_4"
+                                                                                                                            style="text-align: left;">
+                                                                                                                            <button
+                                                                                                                                class="c-button cancel"
+                                                                                                                                ng-click="clickCardEklaim2(card)"
+                                                                                                                                style="float:left;width:120px">{{card.code}}</button>
+                                                                                                                        </div>
+                                                                                                                        <!-- <div class="grid_12"
+                                                                                                                                                                                                    style="text-align: left;">
+                                                                                                                                                                                                    <label
+                                                                                                                                                                                                        c-label
+                                                                                                                                                                                                        real>{{card.code}}</label>
+                                                                                                                                                                                                </div> -->
+                                                                                                                        <span>{{card.code}}</span>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Tgl. Input </th>
+                                                                                    <th>Kode Diagnosa</th>
+                                                                                    <th>Nama Diagnosa</th>
+                                                                                    <th>Jumlah</th>
+                                                                                    <th>Action</th>
+                                                                                </tr>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="listx in listDiagnosa9Inacbg | orderBy:'id'"
+                                                                                        ng-init="jawabIndex = $index"
+                                                                                        ng-click="go9(listx)">
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.tglinputdiagnosa}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.code}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.description}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                {{listx.jumlah}}
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <div class="keterangan">
+                                                                                                <button
+                                                                                                    class="c-button success"
+                                                                                                    ng-click="clickHapus9DiagnosaInacbg(listx)"
                                                                                                     style="float:left;width:120px">Hapus</button>
                                                                                             </div>
                                                                                         </td>
