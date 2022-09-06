@@ -59,6 +59,7 @@ use App\Transaksi\pasienisoman;
 use App\Transaksi\DokumenPasienMaster;
 use App\Transaksi\DokumenPasienRegistrasi;
 use App\Transaksi\SendTaskAntrol;
+use App\Transaksi\DiagnosaInacbg;
 use App\Transaksi\eisall;
 use Illuminate\Http\Request;
 use App\Traits\PelayananPasienTrait;
