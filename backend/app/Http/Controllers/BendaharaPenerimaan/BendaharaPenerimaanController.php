@@ -383,6 +383,50 @@ class BendaharaPenerimaanController extends ApiController {
         return $this->setStatusCode($result['status'])->respond($result, $transMsg);
     }
 
+    public function simpanVerifKasirpersbm(Request $request){
+
+        $transMsg =null;
+        \DB::beginTransaction();
+        try{
+            $input  = $request->all();
+           
+            
+        
+            foreach ($input['detailSBM'] as $item2){
+                    $updateSBM = StrukBuktiPenerimaan::where('norec', $item2['norec_sbm'])//$input['kdPegawaiLu'])
+                        ->update([
+                            'isverifkasir' => true,
+                            'objectpegawaiverifkasirfk'=>$input['userData']['id'],
+                            'tglverifkasir'=>$input['tglsetor']
+                        ]);
+            }
+
+        $transStatus = true;
+        } catch(\Exception $e){
+            $transStatus= false;
+        }
+
+        $transMsg = "";
+        if ($transStatus == true) {
+            $transMsg = 'Simpan Berhasil';
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMsg,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMsg = 'Simpan Gagal!!';
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMsg,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMsg);
+    }
+
     public function simpanSetoranKasir(Request $request){
 
         $transMsg =null;
@@ -539,6 +583,43 @@ class BendaharaPenerimaanController extends ApiController {
                 "status" => 400,
                 "message"  => $transMsg,
                 "data" => $SC,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMsg);
+    }
+
+    public function batalVerifKasir(Request $request){
+        $transStatus = true;
+        \DB::beginTransaction();
+        $input  = $request->all();
+        try {
+            foreach ($input['details'] as $item){
+                $sbm = StrukBuktiPenerimaan::where('norec', $item['norec_sbm'])
+                        ->update(
+                            [
+                                'isverifkasir' => false,
+                                'objectpegawaiverifkasirfk'=>$input['userData']['id']
+                            ]);
+
+            }
+        } catch (\Exception $e) {
+                $transStatus = false;
+        }
+        if ($transStatus == true) {
+            $transMsg = 'Batal Setor Sukses';
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMsg,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMsg = 'Gagal!!';
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMsg,
                 "as" => 'as@epic',
             );
         }

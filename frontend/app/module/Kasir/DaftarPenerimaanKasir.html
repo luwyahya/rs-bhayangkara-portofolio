@@ -248,6 +248,9 @@
             <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="HapusSetoran()">Setor/Batal Setor</button>
             </div>
+            <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
+                <button class="btnTemplate1 cancel" ng-click="clickVerifKasir()">Verif/Batal Fra Setor</button>
+            </div>
             <!-- <div class="grid_2" style="margin-top: 18px" ng-show="btn_0">
                 <button class="btnTemplate1" ng-click="laporankasirdetailjasper()">Laporan Farmasi Rajal</button>
             </div>
@@ -358,6 +361,39 @@
     </div>
 </div>
 
+<div kendo-window="popUpVerif" k-title="'Masukkan Tanggal Verif'" k-width="300" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Periode"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_12">
+                <!-- AwalPeriode -->
+                <div class="grid_12 padDatePicker">
+                    <input style="width: 100%" k-ng-model="item.tglsetor" kendo-datetimepicker k-max="now"
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div>
+
+                <div class="clear"></div>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <!-- kata kunci confirm -->
+        <div class="dialog_buttons pull-right" style="margin-top:5%">
+            <input type="button" class="confirm_no k-button" value="Kembali" style="width: 70px"
+                ng-click="kembaliVerif()" />
+            &nbsp;
+            <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px"
+                ng-click="lanjutsimpanVerif()" />
+        </div>
+    </div>
+</div>
+
 <div kendo-window="popUp" k-title="'Masukkan Tanggal Setor'" k-width="300" k-visible="false"
     k-on-open="win2visible = true" k-on-close="win2visible = false">
     <div class="panel panel-default container_12" style="padding: 0px 10px;">
@@ -387,95 +423,97 @@
             <input type="button" class="confirm_yes k-button" value="Ya" style="width: 70px"
                 ng-click="lanjutsimpan()" />
         </div>
-        <div kendo-window="popup_editor" k-title="''" k-visible="false" k-width="800" k-height="800">
-            <div class="panel panel-default container_12">
+    </div>
+</div>
+<div kendo-window="popup_editor" k-title="''" k-visible="false" k-width="800" k-height="800">
+    <div class="panel panel-default container_12">
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="No.Registrasi"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_8">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi"
+                    ng-disabled="true" />
+            </div>
+
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="Petugas"></label>
+            </div>
+            <div class="clear"></div>
+
+            <div class="grid_8">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugas" k-data-text-field="'namalengkap'"
+                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="ListDataPegawai" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" c-label-text="Tanggal Pemberangkatan"></label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_8 padDatePicker">
                 <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label item="item" c-label-text="No.Registrasi"></label>
-                    </div>
-                    <div class="clear"></div>
-
-                    <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi"
-                            ng-disabled="true" />
-                    </div>
-
+                    <input style="width: 100%" k-ng-model="item.tglberangkat" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
                 </div>
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label item="item" c-label-text="Petugas"></label>
-                    </div>
-                    <div class="clear"></div>
+            </div>
 
-                    <div class="grid_8">
-                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.petugas"
-                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
-                            k-auto-bind="false" k-data-source="ListDataPegawai" />
-                    </div>
-                </div>
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label item="item" c-label-text="Tanggal Pemberangkatan"></label>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="grid_8 padDatePicker">
-                        <div class="grid_12">
-                            <input style="width: 100%" k-ng-model="item.tglberangkat" kendo-datetimepicker
-                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
-                        </div>
-                    </div>
-
-                </div>
+        </div>
 
 
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label class="label-aja" item="item">No Polisi/Kendaraan</label>
-                    </div>
-                    <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nopol" />
-                    </div>
-                </div>
-
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label class="label-aja" item="item">Tujuan</label>
-                    </div>
-                    <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tujuan" />
-                    </div>
-                </div>
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label class="label-aja" item="item">Keperluan</label>
-                    </div>
-                    <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keperluan" />
-                    </div>
-                </div>
-                <div class="grid_12">
-                    <div class="grid_4">
-                        <label c-label class="label-aja" item="item">Keluarga Pasien</label>
-                    </div>
-                    <div class="grid_8">
-                        <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keluargapasien" />
-                    </div>
-                </div>
-                <div class="grid_3">
-                    <button class="btnTemplate1" style="margin-top: 10px;" ng-click="simpansuratjalan()">Simpan</button>
-                </div>
-
-                <div class="grid_1">
-                </div>
-                <div class="grid_3">
-                    <button class="btnTemplate1" style="margin-top: 10px;" ng-click="cetaksuratjalan()">Cetak</button>
-                </div>
-                <div class="grid_1">
-                </div>
-                <div class="grid_3">
-                    <button class="btnTemplate1" style="margin-top: 10px;" ng-click="kembalirekanan()">Kembali</button>
-                </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label class="label-aja" item="item">No Polisi/Kendaraan</label>
+            </div>
+            <div class="grid_8">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nopol" />
             </div>
         </div>
 
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label class="label-aja" item="item">Tujuan</label>
+            </div>
+            <div class="grid_8">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tujuan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label class="label-aja" item="item">Keperluan</label>
+            </div>
+            <div class="grid_8">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keperluan" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label class="label-aja" item="item">Keluarga Pasien</label>
+            </div>
+            <div class="grid_8">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keluargapasien" />
+            </div>
+        </div>
+        <div class="grid_3">
+            <button class="btnTemplate1" style="margin-top: 10px;" ng-click="simpansuratjalan()">Simpan</button>
+        </div>
+
+        <div class="grid_1">
+        </div>
+        <div class="grid_3">
+            <button class="btnTemplate1" style="margin-top: 10px;" ng-click="cetaksuratjalan()">Cetak</button>
+        </div>
+        <div class="grid_1">
+        </div>
+        <div class="grid_3">
+            <button class="btnTemplate1" style="margin-top: 10px;" ng-click="kembalirekanan()">Kembali</button>
+        </div>
     </div>
+</div>
+
+</div>

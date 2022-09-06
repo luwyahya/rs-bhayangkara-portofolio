@@ -174,7 +174,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             //**POST**//
             Route::post('setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanSetoranKasir');
             Route::post('setoran-kasir-persbm', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanSetoranKasirpersbm');
+            Route::post('verif-kasir-persbm', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanVerifKasirpersbm');
             Route::post('batal-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@batalSetoranKasir');
+            Route::post('batal-verif-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@batalVerifKasir');
             Route::post('simpan-penerimaan-bank', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanBKU');
             Route::post('save-temp-bku', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveTempBukuKasUmum');
             Route::post('save-temp-beritaacara', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveBeritaAcara');

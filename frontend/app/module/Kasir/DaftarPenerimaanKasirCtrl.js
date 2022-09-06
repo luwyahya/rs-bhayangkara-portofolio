@@ -1180,9 +1180,45 @@ define(['initialize'], function (initialize) {
                     alert('Sudah di setor tidak dapat di batalkan!')
                 }
             }
+            $scope.clickVerifKasir = function () {
+                debugger;
+                if ($scope.dataSbnSelected.isverifkasir == true) {
+                    var stt = 'true';
+                    if (confirm('Batalkan Verif ? ')) {
+                        stt = 'true';
+                    } else {
+                        // Do nothing!
+                        stt = 'false'
+                    }
+                    if (stt == 'true') {
+                        debugger;
+                        var objSbm = []
+                        objSbm.push({
+                            'norec_sbm': $scope.dataSbnSelected.noRec,
+                        })
+                        var objSaveNew = {
+                            "details": objSbm
+                        }
 
+                        medifirstService.post('bendaharapenerimaan/batal-verif-kasir',
+                            objSaveNew
+                            // objSave
+                        ).then(function () {
+                            loadData();
+                        })
+                    }
+                } else {
+
+                    $scope.popUpVerif.center().open();
+
+                }
+            }
             $scope.HapusSetoran = function () {
                 debugger;
+                if ($scope.dataSbnSelected.isverifkasir != true) {
+                    toastr.warning('Nomor SBM Belum di Verifikasi...!');
+                    return;
+                }
                 if ($scope.dataSbnSelected.status == 'Setor') {
                     var stt = 'true';
                     if (confirm('Batalkan Setoran ? ')) {
@@ -1224,6 +1260,42 @@ define(['initialize'], function (initialize) {
             $scope.kembali = function () {
 
                 $scope.popUp.close();
+            }
+            $scope.kembaliVerif = function () {
+
+                $scope.popUpVerif.close();
+            }
+
+            $scope.lanjutsimpanVerif = function () {
+                var tgl = moment($scope.item.tglsetor).format('YYYY-MM-DD')
+                var tglAwal = moment($scope.now).format('YYYY-MM-DD HH:mm')
+                var tglAkhir = moment($scope.now).format('YYYY-MM-DD HH:mm')
+                var tglSetor = moment($scope.item.tglsetor).format('YYYY-MM-DD HH:mm')
+                var ttlSsetor = $scope.dataSbnSelected.totalPenerimaan;
+                var objSBM = [];
+                var objSave = [];
+                if ($scope.item.KasirMulti.length == 0) {
+                    alert('isi nama kasir');
+                    return;
+                }
+                objSBM.push({ 'norec_sbm': $scope.dataSbnSelected.noRec })
+                objSave = {
+                    "tglPenerimaan": tgl,
+                    "tglAwal": tglAwal,
+                    "tglAkhir": tglAkhir,
+                    "tglsetor": tglSetor,
+                    "kdPegawai": $scope.item.namaKasir != undefined ? $scope.item.namaKasir.id : $scope.item.KasirMulti[0].id,
+                    "kdPegawaiLu": $scope.item.namaKasir != undefined ? $scope.item.namaKasir.luid : $scope.item.KasirMulti[0].id,
+                    "totalSetoran": ttlSsetor,
+                    // "detailSetoran": objData,
+                    "detailSBM": objSBM
+                }
+                debugger
+                medifirstService.post('bendaharapenerimaan/verif-kasir-persbm', objSave).then(function () {
+                    loadData();
+
+                    $scope.popUpVerif.close();
+                });
             }
 
             $scope.lanjutsimpan = function () {
