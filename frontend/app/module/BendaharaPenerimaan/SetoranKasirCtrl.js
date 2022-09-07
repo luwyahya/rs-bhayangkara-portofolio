@@ -108,7 +108,7 @@ define(['initialize'], function (initialize) {
 				],
 				).then(function (data) {
 					if (data[0].statResponse) {
-						$scope.isRouteLoading = false;					
+						$scope.isRouteLoading = false;
 						var result = data[0].data.data;
 						var result2 = data[1].data.data;
 						var ttlPasien = 0;
@@ -139,7 +139,7 @@ define(['initialize'], function (initialize) {
 								element.noClosing = '-';
 							}
 							ttlPasien = ttlPasien + 1;
-							ttlKlaim = ttlKlaim + parseInt(result[x].totalPenerimaan);
+							ttlKlaim = ttlKlaim + parseFloat(result[x].totalPenerimaan);
 						}
 
 						if (status == "-") {
@@ -233,7 +233,7 @@ define(['initialize'], function (initialize) {
 				$scope.item.caraBayar = undefined;
 			};
 
-			$scope.addD = function () {				
+			$scope.addD = function () {
 				if ($scope.item.jumlahD == 0 || $scope.item.jumlahD == '') {
 					toastr.error('Jumlah tidak boleh kosong')
 					return
@@ -256,7 +256,7 @@ define(['initialize'], function (initialize) {
 					// bankAccount:$scope.item.bankAccount.bankAccountNama,
 					jumlah: $scope.item.jumlahD
 				};
-				addDataDetailD.push(arrayS);				
+				addDataDetailD.push(arrayS);
 				TotalDeposit();
 				$scope.item.cekSetorAllD = false;
 				$scope.item.caraBayarD = undefined;
@@ -277,7 +277,7 @@ define(['initialize'], function (initialize) {
 				} else {
 					toastr.error('Pilih data detail dulu')
 				}
-				Total()				
+				Total()
 			}
 
 			$scope.deleteD = function () {
@@ -294,7 +294,7 @@ define(['initialize'], function (initialize) {
 				} else {
 					toastr.error('Pilih data detail dulu')
 				}
-				TotalDeposit()				
+				TotalDeposit()
 			}
 
 			$scope.$watch('item.jumlah', function (newValue, oldValue) {
@@ -326,7 +326,7 @@ define(['initialize'], function (initialize) {
 			});
 
 			$scope.$watch('item.cekSetorAllD', function (newValue, oldValue) {
-				if (newValue != oldValue) {					
+				if (newValue != oldValue) {
 					if ($scope.item.cekSetorAllD) {
 						if ($scope.item.caraBayarD != undefined) {
 							for (var i = 0; i < $scope.dataCaraBayarD.length; i++) {
@@ -395,11 +395,11 @@ define(['initialize'], function (initialize) {
 				$scope.dataDetailSelect = dataSelectedCaraBayar2;
 			}
 
-			$scope.klikDetailD = function(dataSelectedCaraBayar2D){
+			$scope.klikDetailD = function (dataSelectedCaraBayar2D) {
 				$scope.dataSelectedCaraBayar2D = dataSelectedCaraBayar2D;
 			}
 
-			$scope.klikGridHeadD = function(dataSelectedCaraBayarD){
+			$scope.klikGridHeadD = function (dataSelectedCaraBayarD) {
 				if (dataSelectedCaraBayarD != undefined) {
 					$scope.dataSelectedCaraBayarD = dataSelectedCaraBayarD
 					$scope.item.caraBayarD = { id: $scope.dataSelectedCaraBayarD.idCaraBayar, namaLengkap: $scope.dataSelectedCaraBayarD.caraBayar }
@@ -608,17 +608,17 @@ define(['initialize'], function (initialize) {
 
 				$scope.item.jumlah = '';
 			};
-			
+
 			$scope.Simpan = function () {
 				var a = 0;
-				var yeuh =0;
-				var awal =0;
+				var yeuh = 0;
+				var awal = 0;
 				debugger;
 				var objSave = [];
 				var objData = [];
 				var objRegis = [];
 				var objStr = {};
-				var objstr2= {};
+				var objstr2 = {};
 				for (var i = 0; i < $scope.dataCaraBayar.length; i++) {
 					for (var j = 0; j < $scope.dataCaraBayar[i].detail.length; j++) {
 						objStr = {
@@ -638,9 +638,11 @@ define(['initialize'], function (initialize) {
 					for (let x = 0; x < $scope.dataSetoranKasir.data.length; x++) {
 						const element = $scope.dataSetoranKasir.data[x];
 						if (element.idCaraBayar == Datas.kdCaraBayar) {
-							objSBM.push({ 'norec_sbm': element.noRec,
-										  'noregistrasi': element.noregistrasi,
-										  'objectkelompokpasienlastfk': element.objectkelompokpasienlastfk })
+							objSBM.push({
+								'norec_sbm': element.noRec,
+								'noregistrasi': element.noregistrasi,
+								'objectkelompokpasienlastfk': element.objectkelompokpasienlastfk
+							})
 						}
 					}
 				}
@@ -669,20 +671,20 @@ define(['initialize'], function (initialize) {
 					}
 					for (let i = 0; i < objSBM.length; i++) {
 						var aya = 1;
-						if(objSBM[i].noregistrasi != null){	
+						if (objSBM[i].noregistrasi != null) {
 							for (let r = 0; r < objRegis.length; r++) {
-								if(objSBM[i].noregistrasi == objRegis[r].noregistrasi){
+								if (objSBM[i].noregistrasi == objRegis[r].noregistrasi) {
 									var aya = 0;
 								}
 							}
-							if( aya == 1){
+							if (aya == 1) {
 								objstr2 = {
-									"noregistrasi": objSBM[i].noregistrasi,	
-									"objectkelompokpasienlastfk": objSBM[i].objectkelompokpasienlastfk,							
+									"noregistrasi": objSBM[i].noregistrasi,
+									"objectkelompokpasienlastfk": objSBM[i].objectkelompokpasienlastfk,
 								}
-								objRegis.push(objstr2)	
+								objRegis.push(objstr2)
 							}
-						 	
+
 						}
 					}
 					// for (let i = 0; i < objSBM.length; i++) {
@@ -691,158 +693,158 @@ define(['initialize'], function (initialize) {
 					//             'noregistrasi': objSBM[i].noregistrasi,
 					//             'close': true
 					//          }					
-				 //             medifirstService.post('tatarekening/save-selesai-transaksi', json).then(function (e) {
+					//             medifirstService.post('tatarekening/save-selesai-transaksi', json).then(function (e) {
 
-				 //     		})
+					//     		})
 					// 	}
 					// }
 					// for (let i = 0; i < objSBM.length; i++) {
 					// 	if(objSBM[i].noregistrasi != null){
 					// 		var tglclosing = new Date();
-				 //            tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
-				 //            var objverif = {
-				 //                        "tglclosing" : tglSetor,
-				 //                        // "tglnk": tglnk, 
-				 //                        "pegawaiverif": dataLogin2.id,
-				 //                        "noregistrasi": objSBM[i].noregistrasi
-				 //                };
-				           
+					//            tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
+					//            var objverif = {
+					//                        "tglclosing" : tglSetor,
+					//                        // "tglnk": tglnk, 
+					//                        "pegawaiverif": dataLogin2.id,
+					//                        "noregistrasi": objSBM[i].noregistrasi
+					//                };
+
 					// 	    // var objverif = {
-				 //      //                 "pegawaiverif": dataLogin.id,
-				 //      //                 "noregistrasi": $scope.dataSelected.noregistrasi
-				 //      //           };
-				     		
-				 //          	medifirstService.post('remunerasi/delete-jasapelayanandokter',objverif).then(function(e){
-				 //                   // LoadData();          
-				 //             })
-				 //            medifirstService.post('remunerasi/save-jasapelayanandokter',objverif).then(function(e){     
-				            	
-				 //            })   
-				           
+					//      //                 "pegawaiverif": dataLogin.id,
+					//      //                 "noregistrasi": $scope.dataSelected.noregistrasi
+					//      //           };
+
+					//          	medifirstService.post('remunerasi/delete-jasapelayanandokter',objverif).then(function(e){
+					//                   // LoadData();          
+					//             })
+					//            medifirstService.post('remunerasi/save-jasapelayanandokter',objverif).then(function(e){     
+
+					//            })   
+
 					// 	}
-						
+
 					// }
 					var totalnoregis = 0;
 					for (let i = 0; i < objRegis.length; i++) {
-						if(objRegis[i].noregistrasi != null && objRegis[i].objectkelompokpasienlastfk == 1){
-							totalnoregis = totalnoregis+ 1;
+						if (objRegis[i].noregistrasi != null && objRegis[i].objectkelompokpasienlastfk == 1) {
+							totalnoregis = totalnoregis + 1;
 						}
 					}
 					for (let i = 0; i < objRegis.length; i++) {
-						if(objRegis[i].noregistrasi != null && objRegis[i].objectkelompokpasienlastfk == 1){
+						if (objRegis[i].noregistrasi != null && objRegis[i].objectkelompokpasienlastfk == 1) {
 							var tglclosing = new Date();
-				            tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
-				            var objverif = {
-				                        "tglclosing" : tglSetor,
-				                        // "tglnk": tglnk, 
-				                        "pegawaiverif": dataLogin2.id,
-				                        "noregistrasi": objRegis[i].noregistrasi
-				                };
-				           
-						    // var objverif = {
-				      //                 "pegawaiverif": dataLogin.id,
-				      //                 "noregistrasi": $scope.dataSelected.noregistrasi
-				      //           };
-				     		yeuh =a;
-			                awal =a;
+							tglclosing = moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
+							var objverif = {
+								"tglclosing": tglSetor,
+								// "tglnk": tglnk, 
+								"pegawaiverif": dataLogin2.id,
+								"noregistrasi": objRegis[i].noregistrasi
+							};
+
+							// var objverif = {
+							//                 "pegawaiverif": dataLogin.id,
+							//                 "noregistrasi": $scope.dataSelected.noregistrasi
+							//           };
+							yeuh = a;
+							awal = a;
 							var lengthakhir = totalnoregis;
-			                var lop = true;
-				          	// medifirstService.post('remunerasi/delete-jasapelayanandokter',objverif).then(function(e){
-				          	// 	debugger;
-				              //     var tglclosing = new Date();
-						            // tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
-						            // var objverif = {
-						            //             "tglclosing" : tglSetor,
-						            //             // "tglnk": tglnk, 
-						            //             "pegawaiverif": dataLogin2.id,
-						            //             "noregistrasi": e.data[0].noRegistrasi
-						            //     };
-						           
-								    // var objverif = {
-						      //                 "pegawaiverif": dataLogin.id,
-						      //                 "noregistrasi": $scope.dataSelected.noregistrasi
-						      //           };
-						     		
-						         
-						            medifirstService.post('remunerasi/save-jasapelayanandokterdeletinsert',objverif).then(function(e){     
-						            		yeuh =yeuh+1;
-					                        var ini = (yeuh/lengthakhir)*100;
-					                        var elem = document.getElementById("myBar");
-					                        var width = 0;
-					                        awal = awal +1;
-					                        var id = setInterval(frame, 1);
-					                        function frame() {
-					                            if (width >= ini) {
-					                                clearInterval(id);
-					                            } else {
-					                                width++;
-					                                elem.style.width = width + "%";
-					                                elem.innerHTML = width + "%";
-					                            }
-					                        }
-						            })          
-				             // })
-				             
-				           
+							var lop = true;
+							// medifirstService.post('remunerasi/delete-jasapelayanandokter',objverif).then(function(e){
+							// 	debugger;
+							//     var tglclosing = new Date();
+							// tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
+							// var objverif = {
+							//             "tglclosing" : tglSetor,
+							//             // "tglnk": tglnk, 
+							//             "pegawaiverif": dataLogin2.id,
+							//             "noregistrasi": e.data[0].noRegistrasi
+							//     };
+
+							// var objverif = {
+							//                 "pegawaiverif": dataLogin.id,
+							//                 "noregistrasi": $scope.dataSelected.noregistrasi
+							//           };
+
+
+							medifirstService.post('remunerasi/save-jasapelayanandokterdeletinsert', objverif).then(function (e) {
+								yeuh = yeuh + 1;
+								var ini = (yeuh / lengthakhir) * 100;
+								var elem = document.getElementById("myBar");
+								var width = 0;
+								awal = awal + 1;
+								var id = setInterval(frame, 1);
+								function frame() {
+									if (width >= ini) {
+										clearInterval(id);
+									} else {
+										width++;
+										elem.style.width = width + "%";
+										elem.innerHTML = width + "%";
+									}
+								}
+							})
+							// })
+
+
 						}
-						
+
 					}
 
 					// yeuh =a;
-	    //             awal =a;
+					//             awal =a;
 					// var lengthakhir = totalnoregis;
-	    //             var lop = true;
+					//             var lop = true;
 					// for (let i = 0; i < objSBM.length; i++) {
 					// 	if(objSBM[i].noregistrasi != null){
 					// 		var tglclosing = new Date();
-				 //            tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
-				 //            var objverif = {
-				 //                        "tglclosing" : tglSetor,
-				 //                        // "tglnk": tglnk, 
-				 //                        "pegawaiverif": dataLogin2.id,
-				 //                        "noregistrasi": objSBM[i].noregistrasi
-				 //                };
-				           
+					//            tglclosing =  moment(tglclosing).format('YYYY-MM-DD HH:mm:ss');
+					//            var objverif = {
+					//                        "tglclosing" : tglSetor,
+					//                        // "tglnk": tglnk, 
+					//                        "pegawaiverif": dataLogin2.id,
+					//                        "noregistrasi": objSBM[i].noregistrasi
+					//                };
+
 					// 	    // var objverif = {
-				 //      //                 "pegawaiverif": dataLogin.id,
-				 //      //                 "noregistrasi": $scope.dataSelected.noregistrasi
-				 //      //           };
-				     		
-				         
-				 //            medifirstService.post('remunerasi/save-jasapelayanandokter',objverif).then(function(e){     
-				 //            		yeuh =yeuh+1;
-			  //                       var ini = (yeuh/lengthakhir)*100;
-			  //                       var elem = document.getElementById("myBar");
-			  //                       var width = 0;
-			  //                       awal = awal +1;
-			  //                       var id = setInterval(frame, 1);
-			  //                       function frame() {
-			  //                           if (width >= ini) {
-			  //                               clearInterval(id);
-			  //                           } else {
-			  //                               width++;
-			  //                               elem.style.width = width + "%";
-			  //                               elem.innerHTML = width + "%";
-			  //                           }
-			  //                       }
-				 //            })   
-				           
+					//      //                 "pegawaiverif": dataLogin.id,
+					//      //                 "noregistrasi": $scope.dataSelected.noregistrasi
+					//      //           };
+
+
+					//            medifirstService.post('remunerasi/save-jasapelayanandokter',objverif).then(function(e){     
+					//            		yeuh =yeuh+1;
+					//                       var ini = (yeuh/lengthakhir)*100;
+					//                       var elem = document.getElementById("myBar");
+					//                       var width = 0;
+					//                       awal = awal +1;
+					//                       var id = setInterval(frame, 1);
+					//                       function frame() {
+					//                           if (width >= ini) {
+					//                               clearInterval(id);
+					//                           } else {
+					//                               width++;
+					//                               elem.style.width = width + "%";
+					//                               elem.innerHTML = width + "%";
+					//                           }
+					//                       }
+					//            })   
+
 					// 	}
-						
+
 					// }
-					
+
 					for (let i = 0; i < objSBM.length; i++) {
-						if(objSBM[i].noregistrasi != null){	
-						 		var json = {
-						            'noregistrasi': objSBM[i].noregistrasi,
-						            'close': true
-						         }						
-				              medifirstService.post('tatarekening/save-log-closing', json).then(function (e) {
-				              		
-				              })
+						if (objSBM[i].noregistrasi != null) {
+							var json = {
+								'noregistrasi': objSBM[i].noregistrasi,
+								'close': true
+							}
+							medifirstService.post('tatarekening/save-log-closing', json).then(function (e) {
+
+							})
 						}
 
-					  	
+
 					}
 					// medifirstService.post('sysadmin/general/save-jurnal-setorankasir', data).then(function (e) {})
 					loadData();
