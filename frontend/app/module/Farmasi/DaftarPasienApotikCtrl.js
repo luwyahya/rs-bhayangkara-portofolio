@@ -217,75 +217,75 @@ define(['initialize'], function (initialize) {
                 // }
                 debugger;
                 if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectruanganfk == '796') {
-                    if ($scope.dataSelected.istaskantrol < 5) {
-                        toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
-                        return;
-                    } else {
-                        var a = new Date();
-                        var x = Date.parse(a);
-                        var data = {
-                            kodebooking: $scope.dataSelected.statusschedule,
-                            taskid: 6,
-                            waktu: x
-                        }
-                        var objSave = {
-                            data: data
-                        }
-                        medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
-                            debugger
-                            var arrStr = {
-                                0: $scope.dataSelected.nocm,
-                                1: $scope.dataSelected.namapasien,
-                                2: $scope.dataSelected.jeniskelamin,
-                                3: $scope.dataSelected.noregistrasi,
-                                4: $scope.dataSelected.umur,
-                                5: $scope.dataSelected.klid,
-                                6: $scope.dataSelected.namakelas,
-                                7: $scope.dataSelected.tglregistrasi,
-                                8: $scope.dataSelected.norec,
-                                9: '',
-                                10: $scope.dataSelected.kpid,
-                                11: $scope.dataSelected.statusschedule,
-                            }
-                            cacheHelper.set('TransaksiPelayananApotikCtrl', arrStr);
-                            $state.go('TransaksiPelayananApotik')
-                        })
+                    // if ($scope.dataSelected.istaskantrol < 5) {
+                    //     toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
+                    //     return;
+                    // } else {
+                    //     var a = new Date();
+                    //     var x = Date.parse(a);
+                    //     var data = {
+                    //         kodebooking: $scope.dataSelected.statusschedule,
+                    //         taskid: 6,
+                    //         waktu: x
+                    //     }
+                    //     var objSave = {
+                    //         data: data
+                    //     }
+                    //     medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
+                    //         debugger
+                    var arrStr = {
+                        0: $scope.dataSelected.nocm,
+                        1: $scope.dataSelected.namapasien,
+                        2: $scope.dataSelected.jeniskelamin,
+                        3: $scope.dataSelected.noregistrasi,
+                        4: $scope.dataSelected.umur,
+                        5: $scope.dataSelected.klid,
+                        6: $scope.dataSelected.namakelas,
+                        7: $scope.dataSelected.tglregistrasi,
+                        8: $scope.dataSelected.norec,
+                        9: '',
+                        10: $scope.dataSelected.kpid,
+                        11: $scope.dataSelected.statusschedule,
                     }
+                    cacheHelper.set('TransaksiPelayananApotikCtrl', arrStr);
+                    $state.go('TransaksiPelayananApotik')
+                    // })
+                    // }
                 } else if ($scope.dataSelected.statusschedule != "" && $scope.dataSelected.objectdepartemenfk == 18) {
-                    if ($scope.dataSelected.istaskantrol < 5) {
-                        toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
-                        return;
-                    } else {
-                        var a = new Date();
-                        var x = Date.parse(a);
-                        var data = {
-                            kodebooking: $scope.dataSelected.statusschedule,
-                            taskid: 6,
-                            waktu: x
-                        }
-                        var objSave = {
-                            data: data
-                        }
-                        medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
-                            debugger
-                            var arrStr = {
-                                0: $scope.dataSelected.nocm,
-                                1: $scope.dataSelected.namapasien,
-                                2: $scope.dataSelected.jeniskelamin,
-                                3: $scope.dataSelected.noregistrasi,
-                                4: $scope.dataSelected.umur,
-                                5: $scope.dataSelected.klid,
-                                6: $scope.dataSelected.namakelas,
-                                7: $scope.dataSelected.tglregistrasi,
-                                8: $scope.dataSelected.norec,
-                                9: '',
-                                10: $scope.dataSelected.kpid,
-                                11: $scope.dataSelected.statusschedule,
-                            }
-                            cacheHelper.set('TransaksiPelayananApotikCtrl', arrStr);
-                            $state.go('TransaksiPelayananApotik')
-                        })
+                    // if ($scope.dataSelected.istaskantrol < 5) {
+                    //     toastr.error('Input Obat Tidak Bisa Dilakukan, Task Id Pasien Masih ' + $scope.dataSelected.istaskantrol, 'Info')
+                    //     return;
+                    // } else {
+                    //     var a = new Date();
+                    //     var x = Date.parse(a);
+                    //     var data = {
+                    //         kodebooking: $scope.dataSelected.statusschedule,
+                    //         taskid: 6,
+                    //         waktu: x
+                    //     }
+                    //     var objSave = {
+                    //         data: data
+                    //     }
+                    //     medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
+                    //         debugger
+                    var arrStr = {
+                        0: $scope.dataSelected.nocm,
+                        1: $scope.dataSelected.namapasien,
+                        2: $scope.dataSelected.jeniskelamin,
+                        3: $scope.dataSelected.noregistrasi,
+                        4: $scope.dataSelected.umur,
+                        5: $scope.dataSelected.klid,
+                        6: $scope.dataSelected.namakelas,
+                        7: $scope.dataSelected.tglregistrasi,
+                        8: $scope.dataSelected.norec,
+                        9: '',
+                        10: $scope.dataSelected.kpid,
+                        11: $scope.dataSelected.statusschedule,
                     }
+                    cacheHelper.set('TransaksiPelayananApotikCtrl', arrStr);
+                    $state.go('TransaksiPelayananApotik')
+                    //     })
+                    // }
                 } else {
                     var arrStr = {
                         0: $scope.dataSelected.nocm,
@@ -432,22 +432,23 @@ define(['initialize'], function (initialize) {
                     alert("Jenis Resep HARUS DI PILIH !!!!!!!!!!!!!!!!!!")
                     return;
                 }
-                if ($scope.isTask6 == true) {
-                    var a = new Date();
-                    var x = Date.parse(a);
-                    var data = {
-                        kodebooking: $scope.dataSelected.statusschedule,
-                        taskid: 7,
-                        waktu: x
-                    }
-                    var objSave = {
-                        data: data
-                    }
-                    medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
-                        debugger
-                        init()
-                    })
-                }
+                // dimatikan dulu
+                // if ($scope.isTask6 == true) {
+                //     var a = new Date();
+                //     var x = Date.parse(a);
+                //     var data = {
+                //         kodebooking: $scope.dataSelected.statusschedule,
+                //         taskid: 7,
+                //         waktu: x
+                //     }
+                //     var objSave = {
+                //         data: data
+                //     }
+                //     medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
+                //         debugger
+                //         init()
+                //     })
+                // }
 
                 var objSave = {
                     norecapd: $scope.dataSelected.norec,
