@@ -21803,7 +21803,7 @@ GROUP BY y.KET
             DB::raw("select apd.norec norec_apd, dp.norec norec_dp from pasiendaftar_t pd
                 LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec
                 Inner join diagnosainacbg_t dp on dp.noregistrasifk=apd.norec
-                where pd.noregistrasi=:noregistrasi"),
+                where dp.jenisdiagnosainacbgfk=10 and pd.noregistrasi=:noregistrasi"),
             array(
                 'noregistrasi' => $request['detaildiagnosapasien']['noregistrasifk'],
             )

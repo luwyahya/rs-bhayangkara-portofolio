@@ -455,10 +455,10 @@
         ]
     },
     {
-        "name": "MonitoringRekeningKoranBendaharaPenerimaan",
-        "url": "/TW9uaXRvcmluZ1Jla2VuaW5nS29yYW5CZW5kYWhhcmFQZW5lcmltYWFu",
-        "templateurl": "module/BendaharaPenerimaan/MonitoringRekeningKoranBendaharaPenerimaan.html",
-        "controller": "MonitoringRekeningKoranBendaharaPenerimaanCtrl",
+        "name": "VerifikasiSetoran",
+        "url": "/VmVyaWZpa2FzaVNldG9yYW4=",
+        "templateurl": "module/BendaharaPenerimaan/VerifikasiSetoran.html",
+        "controller": "VerifikasiSetoranCtrl",
         "deps": [{
                 "module": "Services",
                 "define": "Service"

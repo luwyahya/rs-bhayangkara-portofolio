@@ -167,6 +167,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-laporan-penerimaan-detail', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataLaporanPenerimaanDetail');
             Route::get('get-monitoring-klaim-per-bulan', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaim');
             Route::get('get-monitoring-klaim-per-bulan-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaimJaspel');
+            Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
 
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
             //**GET**//
@@ -182,6 +183,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-temp-beritaacara', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveBeritaAcara');
             Route::post('save-lampiran-beritaacara', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveTempLampiranBA');
             Route::post('hapus-bku', 'BendaharaPenerimaan\BendaharaPenerimaanController@hapusBKU');
+            Route::post('verifikasi-Setoran', 'BendaharaPenerimaan\BendaharaPenerimaanController@verifikasiSetoran');
             Route::post('save-target-kinerja', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveTargetKinerja');
             Route::post('setoran-kasir-deposit', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanSetoranKasirDeposit');
             Route::post('batal-setoran-kasir-deposit', 'BendaharaPenerimaan\BendaharaPenerimaanController@batalSetoranKasir');

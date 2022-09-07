@@ -92,8 +92,8 @@
             "urlDep": "module/BendaharaPenerimaan/MonitoringRekeningKoranBendaharaPenerimaanCtrl"
         },
         {
-            "nameDep": "MonitoringRekeningKoranBendaharaPenerimaanCtrl",
-            "urlDep": "module/BendaharaPenerimaan/MonitoringRekeningKoranBendaharaPenerimaanCtrl"
+            "nameDep": "VerifikasiSetoranCtrl",
+            "urlDep": "module/BendaharaPenerimaan/VerifikasiSetoranCtrl"
         },
         {
             "nameDep": "DaftarPembayaranCtrl",

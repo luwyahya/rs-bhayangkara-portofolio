@@ -465,7 +465,7 @@ class BendaharaPenerimaanController extends ApiController {
             $SC->objectpegawaidiclosefk = $input['kdPegawai'];
             $SC->tglclosing = $input['tglsetor'];
             $SC->totaldibayar = $input['totalSetoran'];
-            $SC->objectkelompoktransaksifk = 60;
+            // $SC->objectkelompoktransaksifk = 60;
             $SC->keteranganlainnya = "Setoran Kasir";
             $SC->tglawal = $tglAwal;
             $SC->tglakhir = $tglAkhir;
@@ -483,7 +483,7 @@ class BendaharaPenerimaanController extends ApiController {
             $SH->tglsetortarikdeposit =  $input['tglsetor'];;//$this->getDateTime();
             $SH->objectpegawaitarikdepositfk = $input['kdPegawai'];
             $SH->objectpegawaiterimafk = $this->getCurrentUserID();
-            $SH->objectkelompoktransaksifk =60;
+            // $SH->objectkelompoktransaksifk =60;
             $SH->noclosing = $NorecSc;//$SC->noclosing;
             // $SH->objectcarasetorfk = $item['idCaraSetor'];
             $SH->ketlainya ='Setoran Kasir';
@@ -507,9 +507,9 @@ class BendaharaPenerimaanController extends ApiController {
             //      $strukBuktiPenerimanan->nostrukfk = $strukPelayanan->norec;
             //      $strukBuktiPenerimanan->objectkelompokpasienfk = $strukPelayanan->pasien_daftar->pasien->objectkelompokpasienfk;
             $strukBuktiPenerimanan->objectpegawaipenerimafk = $this->getCurrentLoginID();
-            $strukBuktiPenerimanan->tglsbm =  $input['tglsetor'];;//date('Y-m-d H:i:s');
+            $strukBuktiPenerimanan->tglsbm =  $input['tglsetor'];//date('Y-m-d H:i:s');
             $strukBuktiPenerimanan->totaldibayar =  $input['totalSetoran'];//$input['totalSetoran'];
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = 60;
+            // $strukBuktiPenerimanan->objectkelompoktransaksifk = 60;
             $strukBuktiPenerimanan->nosbm = $this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-' . $this->getDateTime()->format('ym'));
             $strukBuktiPenerimanan->noclosingfk = $NorecSc;
             $strukBuktiPenerimanan->save();
@@ -706,7 +706,6 @@ class BendaharaPenerimaanController extends ApiController {
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMsg);
     }
-
     public function daftarBKU(Request $request){
         $list =  explode ( ',',$this->settingDataFixed('KdTransaksiBendaharaPenerimaan'));
         $kdTrans = [];
@@ -783,6 +782,211 @@ class BendaharaPenerimaanController extends ApiController {
             $dataPenerimaanBank = $dataPenerimaanBank->where('sh.nohitori', $filter['nohitori']);
         }
 //        $dataPenerimaanBank = $dataPenerimaanBank->distinct();
+        $dataPenerimaanBank = $dataPenerimaanBank->get();
+
+
+
+        /** @Function_ Ambil Saldo Satu Bulan Sebelum */
+        $explode =  explode("-", $filter['tglAwal']);
+        $arr1 = $explode[0];
+        $arr2 = $explode[1];
+        if ($arr2 == 1){
+            $arr2 = $explode[1];
+        }else{
+            $arr2 = $explode[1] - 1 ; //bulan kurangi 1
+        }
+        $arr3 = '01'; //ambil tgl 1
+        $arr2 = str_pad($arr2, 2, '0', STR_PAD_LEFT);
+//        $arrayExplode = array($arr1,$arr2,$arr3);
+//        $tglMinSabulan = implode("-", $arrayExplode);
+        $tglMinSabulan = $arr1 . '-' . $arr2 . '-' . $arr3;
+        /** @End_Function */
+
+        $tglAwal= $filter['tglAwal'];
+        $dataSaldo= DB::select(DB::raw(" select sh.tglsetortarikdeposit,
+                     coalesce((spp.totaldibayar ), 0) debit ,
+                     coalesce((sbk.totaldibayar ), 0) kredit           
+                     from strukhistori_t as sh
+                     inner join strukclosing_t as sc on sc.noclosing = sh.noclosing 
+                     left join strukbuktipenerimaan_t as spp on spp.noclosingfk = sc.norec
+                     left join strukbuktipengeluaran_t as sbk on sbk.noclosingfk = sc.norec
+                     inner join kelompoktransaksi_m as kt on kt.id = sc.objectkelompoktransaksifk
+                     inner join mapbkutokelompoktransaksi_m as mbk on mbk.kelompoktransaksifk = kt.id
+                     where sh.tglsetortarikdeposit > '$tglMinSabulan' and sh.tglsetortarikdeposit < '$tglAwal'
+                       and sh.statusenabled=true
+                       and sh.objectkelompoktransaksifk in ($KdTransak)
+                     order by sh.nonhistori asc"));
+        $saldolama=0;
+        $jmlSaldoLama=0;
+        $saldo=0;
+        if (count($dataSaldo) > 0) {
+            foreach ($dataSaldo as $dataSaldoLama) {
+                if ($dataSaldoLama->debit == 0) {
+                    $saldolama = $saldolama + (float)$dataSaldoLama->debit - (float)$dataSaldoLama->kredit;
+                } else {
+                    $saldolama = $saldolama + (float)$dataSaldoLama->debit;
+                }
+                $jmlSaldoLama = $saldolama;
+            }
+            $saldo=$jmlSaldoLama;
+        }
+
+        $result = array();
+        $jumlahD = 0;
+        $jumlahK = 0;
+        $saldoAkhir = 0;
+
+        foreach ($dataPenerimaanBank as $dataPenerimaan){
+            /** @Function_ Non TUNAI Ambil */
+            $norec = $dataPenerimaan->norec_sc;
+            $dataPenerimaan->nontunai = 0;
+            $SBMC = DB::select(DB::raw("
+                 select  spc.noclosingfk,spc.carabayarfk,cb.carabayar,
+                 coalesce((spc.totaldibayar ), 0) totaldibayar
+                 from strukclosingkasir_t as spc 
+                 join carabayar_m as cb on cb.id = spc.carabayarfk
+                 where spc.noclosingfk ='$norec'
+            "));
+
+            if(count($SBMC) > 0){
+                $tunai = 0;
+                $nonTunai = 0;
+                foreach ($SBMC as $itemSbmc){
+                    if($itemSbmc->carabayarfk == "1") {//TUNAI
+                        $tunai = $tunai + (float) $itemSbmc->totaldibayar;
+                    }else{
+                        $nonTunai =$nonTunai +  (float)$itemSbmc->totaldibayar ;
+                    }
+                }
+
+                $dataPenerimaan->debit = $tunai;
+                $dataPenerimaan->nontunai =$nonTunai;
+            }
+            /** @End_Function */
+            if ($dataPenerimaan->debit == 0) {
+                $saldo = $saldo + (float)$dataPenerimaan->debit + (float)$dataPenerimaan->nontunai - (float)$dataPenerimaan->kredit;
+            } else {
+                $saldo = $saldo + (float)$dataPenerimaan->debit + (float)$dataPenerimaan->nontunai;
+            }
+            $jumlahD = $jumlahD + (float)$dataPenerimaan->debit;
+            $jumlahK = $jumlahK +  (float)$dataPenerimaan->kredit;
+            $saldoAkhir = $saldo;
+//            if ($dataPenerimaan->nostrukfk != null){
+//                $status = 'Sudah Di Kompensasi';
+//            }else{
+//                $status = '-';
+//            }
+            $result[] = array(
+                'norec_sh'  =>$dataPenerimaan->norec_sh,
+                'noStruk'  =>$dataPenerimaan->norec,
+                'tglStruk'  =>$dataPenerimaan->tglsetortarikdeposit,
+                'keterangan'  =>$dataPenerimaan->ketlainya,
+                'jenisTransaksi'  =>$dataPenerimaan->kelompoktransaksi,
+                'idJenisTransaksi'  =>$dataPenerimaan->objectkelompoktransaksifk,
+                'kredit'  =>(float) $dataPenerimaan->kredit,
+                'debit'  => (float)$dataPenerimaan->debit,
+                'saldo'  => $saldo,
+                'nontunai'  => $dataPenerimaan->nontunai,
+//                'idPegawai'  =>@$login_user->objectpegawaifk,
+//                'namaPegawai' => @$login_user->pegawai->namalengkap,
+//                'status' => $status,
+//                'idPegawai'  =>@$dataPenerimaan->objectpegawaipenerimafk,
+//                'namaPegawai' => @$dataPenerimaan->namalengkap,
+//                'nostrukfk' => $dataPenerimaan->nostrukfk,
+                // 'objectbankaccountfk' => $dataPenerimaan->objectbankaccountfk,
+                // 'bankaccountnama' => $dataPenerimaan->bankaccountnama,
+                // 'namabankprovider' => $dataPenerimaan->namabankprovider,
+                // 'namapemilik' => $dataPenerimaan->namapemilik,
+                'nohistori' => $dataPenerimaan->nonhistori,
+//                'noclosing' => $dataPenerimaan->noclosing,
+                'notransaksi' => $dataPenerimaan->notransaksi,
+//                'kdmataanggaran' =>$dataPenerimaan->kdchildkeempat,
+//                'mataanggaran' =>$dataPenerimaan->mataanggaran,
+                'nobukti' =>$dataPenerimaan->nobukti,
+                'kdperkiraan' =>$dataPenerimaan->kdperkiraan,
+                'namaperkiraan' =>$dataPenerimaan->namaperkiraan,
+                'kettransaksi' =>$dataPenerimaan->kettransaksi,
+                'penyetor'=>$dataPenerimaan->penyetor
+
+            );
+        }
+        $uhman = array(
+            'data' =>  $result,
+            'saldolama' =>  $jmlSaldoLama,
+            'dataawal' => $dataSaldo,
+            'jumlahD' => $jumlahD,
+            'jumlahK' => $jumlahK,
+            'saldoAkhir' => $saldoAkhir,
+            'message' => "@Uhman"
+        );
+        return $this->respond($uhman);
+    }
+
+    public function daftarSetoranKasir(Request $request){
+        $list =  explode ( ',',$this->settingDataFixed('KdTransaksiBendaharaPenerimaan'));
+        $kdTrans = [];
+        $KdTransak = $this->settingDataFixed('KdTransaksiBendaharaPenerimaan');
+        foreach ($list as $itemTrans){
+            $kdTrans []=  (int)$itemTrans;
+        }
+        $dataPenerimaanBank= \DB::table('strukhistori_t as sh')
+            ->join('strukclosing_t as sc', 'sc.norec', '=', 'sh.noclosing')
+            ->leftjoin ('strukbuktipenerimaan_t as spp',function($join)
+            {
+                $join->on('spp.noclosingfk','=','sc.norec')
+                    ->where('spp.keteranganlainnya', 'like', '%'.'Setoran'.'%');
+            })
+            ->leftjoin('strukbuktipengeluaran_t as sbk', 'sbk.noclosingfk', '=', 'sc.norec')
+            ->leftjoin('loginuser_s as lu', 'lu.id', '=', 'spp.objectpegawaipenerimafk')
+            ->leftjoin('loginuser_s as lu2', 'lu2.id', '=', 'sbk.objectpegawaipembayarfk')
+            ->leftjoin('pegawai_m as p', 'p.id', '=', 'lu.objectpegawaifk')
+            ->leftjoin('pegawai_m as p2', 'p2.id', '=', 'lu2.objectpegawaifk')
+            ->leftjoin('pegawai_m as psetor', 'psetor.id', '=', 'sh.objectpegawaitarikdepositfk')
+            ->leftjoin('kelompoktransaksi_m as kt', 'kt.id', '=', 'sc.objectkelompoktransaksifk')
+            ->leftjoin('mapbkutokelompoktransaksi_m as mbk','mbk.kelompoktransaksifk','=','kt.id')
+            ->select('spp.norec', 'spp.tglsbm', 'spp.keteranganlainnya','spp.nosbm_intern',
+                'spp.objectpegawaipenerimafk','p.namalengkap', 'kt.kelompoktransaksi','spp.nostrukfk',
+                'sc.objectkelompoktransaksifk',
+                'sc.norec as norec_sc',
+                'sc.noclosing','sh.nonhistori','sbk.objectpegawaipembayarfk','p2.namalengkap as pegawaibayar',
+                'sh.ketlainya','sh.norec as norec_sh','sh.kdperkiraan','sh.namaperkiraan','sh.kettransaksi','sh.nobukti','psetor.namalengkap as penyetor',
+                DB::raw(" coalesce((spp.totaldibayar ), 0) debit ,
+                     coalesce((sbk.totaldibayar ), 0) kredit ,
+                    case when spp.nosbm is null then sbk.nosbk else spp.nosbm end as notransaksi,
+                    cast(sh.tglsetortarikdeposit as date)as tglsetortarikdeposit"))
+            ->groupBy('spp.norec','spp.tglsbm','spp.keteranganlainnya','spp.nosbm_intern','spp.objectpegawaipenerimafk','p.namalengkap',
+                      'kt.kelompoktransaksi','spp.nostrukfk','sc.objectkelompoktransaksifk','sc.norec','sc.noclosing','sh.nonhistori',
+                      'sbk.objectpegawaipembayarfk','p2.namalengkap','sh.ketlainya','sh.norec','sh.kdperkiraan',
+                      'sh.namaperkiraan','sh.kettransaksi','sh.nobukti','psetor.namalengkap','spp.totaldibayar','sbk.totaldibayar',
+                      'spp.nosbm','sbk.nosbk','sh.tglsetortarikdeposit','sc.tglclosing')
+            ->orderBy('sc.tglclosing','asc')
+            ->where('sh.statusenabled',true);
+            // ->whereNotIn('sh.objectkelompoktransaksifk',  [154,156,157,127]);
+
+        $filter = $request->all();
+        if($filter['jenisTransaksi']!="" && $filter['jenisTransaksi']!="undefined"){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('sh.objectkelompoktransaksifk', $filter['jenisTransaksi']);
+        }
+        if($filter['noRekening']!="" && $filter['noRekening']!="undefined"){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('spc.namabankprovider', $filter['noRekening']);
+        }
+        if($filter['tglAwal']!=""){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('sh.tglsetortarikdeposit','>=', $filter['tglAwal']." 00:00:00");
+        }
+        if($filter['tglAkhir']!=""){
+            $tgl= $filter['tglAkhir']." 23:59:59";
+            $dataPenerimaanBank = $dataPenerimaanBank->where('sh.tglsetortarikdeposit','<=', $tgl);
+        }
+        if($filter['namaPerkiraan']!="" && $filter['namaPerkiraan']!="undefined"){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('sh.namaperkiraan', $filter['namaPerkiraan']);
+        }
+        if($filter['keterangan']!="" && $filter['keterangan']!="undefined"){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('psetor.namalengkap','like','%'. $filter['keterangan'].'%');
+        }
+        if($filter['nohitori']!="" && $filter['nohitori']!="undefined"){
+            $dataPenerimaanBank = $dataPenerimaanBank->where('sh.nohitori', $filter['nohitori']);
+        }
+
         $dataPenerimaanBank = $dataPenerimaanBank->get();
 
 
@@ -1299,7 +1503,7 @@ class BendaharaPenerimaanController extends ApiController {
             if($request['norec_struk_histori'] != '') {
                 $sH = StrukHistori::where('norec', $request['norec_struk_histori'])->first();
 
-                $strukClosing = StrukClosing::where('noclosing',$sH->noclosing)->first();
+                $strukClosing = StrukClosing::where('norec',$sH->noclosing)->first();
                 $sbm = StrukBuktiPenerimaan::where('noclosingfk',$strukClosing['norec'])
                     ->where('keteranganlainnya','<>','Setoran Kasir')
                     ->where('statusenabled',true)
@@ -1327,6 +1531,57 @@ class BendaharaPenerimaanController extends ApiController {
             );
         } else {
             $transMessage = "Hapus Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function verifikasiSetoran(Request $request) {
+
+        \DB::beginTransaction();
+        try{
+            $input  = $request->all();
+            if($request['norec_struk_histori'] != '') {
+                $sH = StrukHistori::where('norec', $request['norec_struk_histori'])->first();
+                // return($sH->noclosing);
+                // die();
+                $strukClosing = StrukClosing::where('norec',$sH->noclosing)->first();
+                $updatestrukClosing = StrukClosing::where('norec',$sH->noclosing)
+                ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'] ]);
+                $sbm = StrukBuktiPenerimaan::where('noclosingfk',$strukClosing['norec'])
+                    ->where('keteranganlainnya','<>','Setoran Kasir')
+                    ->where('statusenabled',true)
+                    ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'],
+                                'isverifbendahara' => true,
+                                'objectpegawaiverifbendaharafk'=>$input['userData']['id'],
+                                'tglverifbendahara'=>$request['tglsetor'] ]);
+                $disableSH = StrukHistori::where('norec', $request['norec_struk_histori'])->update([
+//                        'statusenabled' => false,
+                          'objectkelompoktransaksifk' => $request['kelompoktransaksi'],
+                    ]
+                );
+
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Verifikasi Berhasil";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'inhuman',
+            );
+        } else {
+            $transMessage = "Verifikasi Gagal";
             DB::rollBack();
             $result = array(
                 'status' => 400,
