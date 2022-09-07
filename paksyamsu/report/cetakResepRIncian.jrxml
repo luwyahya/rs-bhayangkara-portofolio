@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cetakreseprincian" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -177,7 +177,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{noregistrasi}]]></textFieldExpression>
 			</textField>
@@ -186,28 +186,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="120" width="65" height="15" forecolor="#0A0101" uuid="874433be-e3b9-4050-a9d8-28d98171d071"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. RM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="120" width="5" height="15" forecolor="#0A0101" uuid="dd2f1c56-d4aa-4863-be3e-79d93a7988b9"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="89" width="65" height="15" forecolor="#0A0101" uuid="4c6238c9-6e8d-43a4-997c-00fa2413fe20"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Pasien]]></text>
 			</staticText>
@@ -216,28 +216,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namapasienjk}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="89" width="5" height="15" forecolor="#0A0101" uuid="4d1af288-43dd-47a5-8c6b-76c83cbc7a5e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="136" width="65" height="15" forecolor="#0A0101" uuid="298f0538-580f-40f7-97c2-b453d81d1602"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Tanggal Lahir]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="136" width="5" height="15" forecolor="#0A0101" uuid="82c592f2-28cc-475b-bb6d-dd7b9e394681"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -246,7 +246,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
 			</textField>
@@ -255,28 +255,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{umur}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="152" width="65" height="15" forecolor="#0A0101" uuid="1f3ce29a-649a-4e59-9120-9403458faabe"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Umur]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="152" width="5" height="15" forecolor="#0A0101" uuid="743b004f-eb52-4438-b6f9-169e7d36234c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="167" width="65" height="15" forecolor="#0A0101" uuid="7eef6d2d-196c-458b-b096-0cced41c407c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
@@ -285,28 +285,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{alamat}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="167" width="5" height="15" forecolor="#0A0101" uuid="18289149-b04b-47ba-b69b-8a84327dc13d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="158" y="105" width="40" height="15" forecolor="#0A0101" uuid="d474ed6f-0c50-45ce-833f-07184fae3ba7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dokter]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="191" y="105" width="5" height="15" forecolor="#0A0101" uuid="6f74efa4-2b4a-4f88-93db-edf5029a3a0a"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -315,7 +315,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dokter}]]></textFieldExpression>
 			</textField>
@@ -324,28 +324,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ruangan}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="158" y="120" width="40" height="15" forecolor="#0A0101" uuid="ccf1a46e-7ea8-424a-8f6a-c810115b57d2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Ruangan]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="191" y="120" width="5" height="15" forecolor="#0A0101" uuid="e70b6f1e-49c2-4b84-a7e5-4b9b7d6d89d0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="158" y="136" width="40" height="15" forecolor="#0A0101" uuid="c16f4ee2-3136-4852-9f30-52d8fc555362"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Penjamin]]></text>
 			</staticText>
@@ -354,14 +354,14 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{penjamin}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="192" y="136" width="5" height="15" forecolor="#0A0101" uuid="fc13e14c-9fbb-4cc8-b546-36c7dd1834f0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -371,14 +371,14 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 			<staticText>
 				<reportElement mode="Transparent" x="23" y="200" width="110" height="15" forecolor="#0A0101" uuid="e082ff8b-8053-47c1-8c65-b81ca574563d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Barang]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="182" y="200" width="20" height="15" forecolor="#0A0101" uuid="56ebe3e6-ecb0-451c-8cae-267a39b4b571"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Qty]]></text>
 			</staticText>
@@ -396,7 +396,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Tahoma" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{depo}]]></textFieldExpression>
 			</textField>
@@ -405,42 +405,42 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namarekanan}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="192" y="152" width="5" height="15" forecolor="#0A0101" uuid="10e2cb17-8674-40e1-b839-122b781c9714"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="158" y="152" width="33" height="15" forecolor="#0A0101" uuid="8122cbe0-02c5-4adf-a31d-d9eafbdd62ed"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Status]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="129" y="200" width="55" height="15" forecolor="#0A0101" uuid="b3d0226f-9282-481d-b9e4-fdd50afc2a7b"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Aturan Pakai]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="202" y="200" width="54" height="15" forecolor="#0A0101" uuid="dc129bfe-1702-4744-8084-76423ac36cf9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Harga]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="259" y="200" width="60" height="15" forecolor="#0A0101" uuid="198dd739-0ea8-450b-9d62-c6d0fee56dca"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
@@ -459,7 +459,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4478257c-ed60-4488-b114-aadaefc14fda"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namaprodukstandar}]]></textFieldExpression>
 			</textField>
@@ -468,14 +468,14 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jumlah}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="1" width="22" height="10" uuid="851fb817-ad00-4a8a-b64a-50c253f0c2d1"/>
 				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rke}]]></textFieldExpression>
 			</textField>
@@ -484,7 +484,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{aturanpakai}]]></textFieldExpression>
 			</textField>
@@ -493,7 +493,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{hargasatuan} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{hargasatuan})]]></textFieldExpression>
 			</textField>
@@ -502,7 +502,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($F{totalbiaya} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{totalbiaya})]]></textFieldExpression>
 			</textField>
@@ -517,28 +517,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 			<textField>
 				<reportElement x="172" y="67" width="108" height="14" forecolor="#0A0101" uuid="dd9bbe93-55b4-4a11-a6b9-3d64fed72dea"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{printedBy}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="114" y="67" width="54" height="15" forecolor="#0A0101" uuid="8978eac3-c578-41c9-837e-48d2b0184642"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Name	:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="61" y="67" width="48" height="14" forecolor="#0A0101" uuid="899e8efe-f3bb-4538-9a0b-09df7b693d7c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgl}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="3" y="67" width="58" height="15" forecolor="#0A0101" uuid="f07fa9ed-a32d-4240-b174-a10895a2cccb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Tgl Input   :]]></text>
 			</staticText>
@@ -553,7 +553,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Sub Total]]></text>
 			</staticText>
@@ -562,7 +562,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Discount]]></text>
 			</staticText>
@@ -571,28 +571,28 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
+					<font fontName="Tahoma" size="8" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="175" y="-1" width="5" height="15" forecolor="#0A0101" uuid="7982dac6-771b-4a99-8a1c-b4aa53368096"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="175" y="10" width="5" height="15" forecolor="#0A0101" uuid="665cdb04-7ffc-4bc7-89b2-cff448c6dac1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="174" y="33" width="5" height="15" forecolor="#0A0101" uuid="99c3695d-87cb-4d62-a1b6-6da2faf1d506"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -601,7 +601,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
@@ -610,7 +610,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{discount}]]></textFieldExpression>
 			</textField>
@@ -619,7 +619,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1dcec4bb-68ad-4725-b425-8dd3aa02c901"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{total}]]></textFieldExpression>
 			</textField>
@@ -628,7 +628,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -637,14 +637,14 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Tahoma" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Counter ID		: "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement mode="Transparent" x="173" y="46" width="5" height="15" forecolor="#0A0101" uuid="e9b372cb-4ebf-4b95-a762-0f9de49efb40"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
