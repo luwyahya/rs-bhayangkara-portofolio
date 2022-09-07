@@ -97,14 +97,14 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 				<textField>
 					<reportElement x="70" y="0" width="210" height="16" uuid="47a67b42-b3e3-429b-8fcd-950bb5cc17b7"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8" isBold="true"/>
+						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jeniskemasan}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="SubTitle" mode="Transparent" x="2" y="1" width="64" height="15" forecolor="#0A0101" uuid="ab6d5e70-a76e-40ec-9541-8f81801c35f8"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Times New Roman" size="8" isBold="true"/>
+						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Jenis Obat :]]></text>
 				</staticText>
@@ -135,7 +135,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 				<textField>
 					<reportElement x="0" y="15" width="228" height="35" forecolor="#0A0101" uuid="58cdc4f7-dab7-4243-a922-490365c84f75"/>
 					<textElement textAlignment="Left" verticalAlignment="Top">
-						<font fontName="Times New Roman" size="8" isBold="true"/>
+						<font fontName="Tahoma" size="8" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
 				</textField>
@@ -143,7 +143,7 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 			<textField>
 				<reportElement x="50" y="10" width="270" height="20" forecolor="#0A0101" uuid="499a6971-49ed-4840-b17e-9b5694a50e32"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
 			</textField>
@@ -154,21 +154,21 @@ FROM            V_CetakRincianResepAllnew where norec=$P{norec}
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="2" y="62" width="318" height="15" forecolor="#0A0101" uuid="21f66eeb-76fd-427c-83e9-e2f75374f854"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[BUKTI LAYANAN]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="0" y="105" width="65" height="15" forecolor="#0A0101" uuid="f2b41072-5728-4c53-8474-010377f814d8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. Registrasi]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Transparent" x="56" y="105" width="5" height="15" forecolor="#0A0101" uuid="5e504204-ac14-4a57-8e1d-f8b7db311bc0"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
+					<font fontName="Tahoma" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
