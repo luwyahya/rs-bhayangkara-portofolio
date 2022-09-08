@@ -172,6 +172,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.specialProsthesis = false
                 $scope.specialProsthesis = false
                 $scope.specialInvestigation = false
+                $scope.showUnrelated = false
                 medifirstService.get("bridging/bpjs2/cek-sep?nosep=" + set.nosep).then(function (e) {
                     if (e.data.metaData.code === "200") {
                         if (e.data.response.jnsPelayanan == "Rawat Jalan" && set.tipe != 'RJ') {
@@ -1086,6 +1087,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var biayanaikkelas = "0";
                         medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
                             responData = e.data.dataresponse;
+                            if (responData[0].dataresponse.response_inagrouper != undefined) {
+                                toastr.info(responData[0].dataresponse.response_inagrouper.drg_description, 'INACBG');
+                                $scope.isRouteLoading = false;
+                                $scope.showUnrelated = true
+                                return
+                            }
                             toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
                             toastr.info(responData[0].dataresponse.response.cbg.description, 'INACBG');
                             if (responData[0].dataresponse.response.cbg.description == "ERROR: MALE WITH GROUPING CRITERIA NOT MET") {

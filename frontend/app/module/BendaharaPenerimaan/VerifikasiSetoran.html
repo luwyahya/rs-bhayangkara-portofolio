@@ -148,11 +148,22 @@
 			<div class="grid_4">
 
 				<div class="grid_12">
-					<label c-label item="item">Tanggal</label>
+					<label c-label item="item">Tanggal Verif</label>
 				</div>
 				<div class="clear"></div>
 				<div class="grid_12">
 					<input style="width: 100%" k-ng-model="item.tglbku" kendo-date-picker k-max="now"
+						placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+				</div>
+			</div>
+			<div class="grid_8">
+
+				<div class="grid_12">
+					<label c-label item="item">Tanggal Transfer Ke Bank Rumah Sakit</label>
+				</div>
+				<div class="clear"></div>
+				<div class="grid_12">
+					<input style="width: 100%" k-ng-model="item.tglTransferKeBank" kendo-date-picker
 						placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
 				</div>
 			</div>
@@ -177,6 +188,29 @@
 					<div class="grid_12">
 						<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.terbilang"
 							ng-disabled="true" />
+					</div>
+				</div>
+			</div>
+			<div class="grid_12">
+				<div class="grid_6">
+					<div class="grid_12">
+						<label c-label item="item">No Bukti</label>
+					</div>
+					<div class="clear"></div>
+					<div class="grid_12">
+						<input c-text-box type="input" class="k-textbox" ng-model="item.noBukti"
+							ng-disabled="txtDisable" />
+					</div>
+				</div>
+				<div class="grid_6">
+
+					<div class="grid_12">
+						<label c-label item="item">Keterangan</label>
+					</div>
+					<div class="clear"></div>
+
+					<div class="grid_12">
+						<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.ketTransaksi" />
 					</div>
 				</div>
 			</div>

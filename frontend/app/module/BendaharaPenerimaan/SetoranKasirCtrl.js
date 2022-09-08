@@ -1223,6 +1223,10 @@ define(['initialize'], function (initialize) {
 				}
 				for (let i = 0; i < $scope.dataSetoranKasir.data.length; i++) {
 					const element = $scope.dataSetoranKasir.data[i];
+					if (element.tglverifbendahara != null) {
+						toastr.error('Setoran Sudah Diverifikasi Bendahara, Tidak Bisa Batal setor')
+						return
+					}
 					if (element.status == 'Setor') {
 						total = total + parseFloat(element.totalPenerimaan)
 						objSbm.push({

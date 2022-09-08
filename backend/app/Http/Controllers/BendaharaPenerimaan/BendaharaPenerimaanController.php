@@ -140,7 +140,7 @@ class BendaharaPenerimaanController extends ApiController {
                 'kt.kelompoktransaksi as kelTransaksi','sbm.keteranganlainnya as keterangan','p.id as idPegawai','p.namalengkap as namaPenerima',
                 'sc.noclosing as noClosing','sbm.nosbm as noSbm','sv.noverifikasi as noVerifikasi','sc.tglclosing as tglClosing',
                 'sbm.tglsbm as tglSbm','sv.tglverifikasi as tglVerif','sbm.totaldibayar as totalPenerimaan','pd.noregistrasi','ps.namapasien',
-                'sp.norec as norec_sp','ru.id as ruid','ru.namaruangan','sp.namapasien_klien','ps.nocm','sbm.noclosingfk','pd.noregistrasi')
+                'sp.norec as norec_sp','ru.id as ruid','ru.namaruangan','sp.namapasien_klien','ps.nocm','sbm.noclosingfk','pd.noregistrasi','sbm.tglverifbendahara')
             ->whereNotIn('sbm.keteranganlainnya',['Pembayaran Deposit Pasien','Pengembalian Deposit Pasien']);
         //->whereNull('pd.nostruklastfk');
 
@@ -245,6 +245,7 @@ class BendaharaPenerimaanController extends ApiController {
                 'nocm' => $item->nocm,
                 'objectkelompokpasienlastfk' => $item->objectkelompokpasienlastfk,
                 'details' => $details,
+                'tglverifbendahara' =>$item->tglverifbendahara
             );
         }
 
@@ -944,7 +945,7 @@ class BendaharaPenerimaanController extends ApiController {
             ->leftjoin('pegawai_m as psetor', 'psetor.id', '=', 'sh.objectpegawaitarikdepositfk')
             ->leftjoin('kelompoktransaksi_m as kt', 'kt.id', '=', 'sc.objectkelompoktransaksifk')
             ->leftjoin('mapbkutokelompoktransaksi_m as mbk','mbk.kelompoktransaksifk','=','kt.id')
-            ->select('spp.norec', 'spp.tglsbm', 'spp.keteranganlainnya','spp.nosbm_intern',
+            ->select('spp.tgltransferkerekbank','spp.norec', 'spp.tglsbm', 'spp.keteranganlainnya','spp.nosbm_intern',
                 'spp.objectpegawaipenerimafk','p.namalengkap', 'kt.kelompoktransaksi','spp.nostrukfk',
                 'sc.objectkelompoktransaksifk',
                 'sc.norec as norec_sc',
@@ -1111,7 +1112,8 @@ class BendaharaPenerimaanController extends ApiController {
                 'kdperkiraan' =>$dataPenerimaan->kdperkiraan,
                 'namaperkiraan' =>$dataPenerimaan->namaperkiraan,
                 'kettransaksi' =>$dataPenerimaan->kettransaksi,
-                'penyetor'=>$dataPenerimaan->penyetor
+                'penyetor'=>$dataPenerimaan->penyetor,
+                'tgltransferkerekbank' =>$dataPenerimaan->tgltransferkerekbank
 
             );
         }
@@ -1552,13 +1554,18 @@ class BendaharaPenerimaanController extends ApiController {
                 $strukClosing = StrukClosing::where('norec',$sH->noclosing)->first();
                 $updatestrukClosing = StrukClosing::where('norec',$sH->noclosing)
                 ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'] ]);
+                // return($strukClosing['norec']);
+                // die();
                 $sbm = StrukBuktiPenerimaan::where('noclosingfk',$strukClosing['norec'])
-                    ->where('keteranganlainnya','<>','Setoran Kasir')
+                    // ->where('keteranganlainnya','<>','Setoran Kasir')
                     ->where('statusenabled',true)
                     ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'],
                                 'isverifbendahara' => true,
                                 'objectpegawaiverifbendaharafk'=>$input['userData']['id'],
-                                'tglverifbendahara'=>$request['tglsetor'] ]);
+                                'tglverifbendahara'=>$request['tglsetor'],
+                                'tgltransferkerekbank'=>$request['tgltransferkerekbank'],
+                                'nobuktiverif'=>$request['noBukti'],
+                                'keteranganverif'=>$request['ketTransaksi'] ]);
                 $disableSH = StrukHistori::where('norec', $request['norec_struk_histori'])->update([
 //                        'statusenabled' => false,
                           'objectkelompoktransaksifk' => $request['kelompoktransaksi'],

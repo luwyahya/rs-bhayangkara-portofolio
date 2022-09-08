@@ -9,6 +9,7 @@ define(['initialize'], function (initialize) {
 			$scope.dataLogin = medifirstService.getPegawaiLogin();
 			$scope.item.tglAwal = new Date();
 			$scope.item.tglbku = new Date();
+			$scope.item.tglTransferKeBank = new Date();
 			$scope.item.tglAkhir = new Date();
 			$scope.kas = {}
 			$scope.bank = {}
@@ -237,6 +238,10 @@ define(['initialize'], function (initialize) {
 						// template: "#= kendo.toString(new Date(tglStruk), 'MM-dd-yyyy') #", 
 					},
 					{
+						field: "tgltransferkerekbank", title: "Tanggal Transfer Ke Rek Bank", width: "100px",
+						// template: "#= kendo.toString(new Date(tglStruk), 'MM-dd-yyyy') #", 
+					},
+					{
 						field: "nobukti", title: "No. Bukti", width: "130px"
 					},
 					{
@@ -347,6 +352,9 @@ define(['initialize'], function (initialize) {
 						"norec_struk_histori": dataItem.norec_sh,
 						"kelompoktransaksi": $scope.item.jenisTransaksi.kelompoktransaksifk,
 						"tglsetor": moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),
+						"tgltransferkerekbank": moment($scope.item.tglTransferKeBank).format('YYYY-MM-DD HH:mm'),
+						"noBukti": $scope.item.noBukti,
+						"ketTransaksi": $scope.item.ketTransaksi
 					}
 					medifirstService.post('bendaharapenerimaan/verifikasi-Setoran', itemDelete).then(function (e) {
 						if (e.status === 201) {

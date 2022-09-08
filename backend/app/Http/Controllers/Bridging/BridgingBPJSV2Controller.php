@@ -7880,6 +7880,13 @@ class BridgingBPJSV2Controller extends ApiController
         } else {
             $result = (array) json_decode($response);
         }
+        if($result['metadata']->code==201){
+            $data2 = array(
+                'status' =>'ok',
+                'metaData'=>$result['metadata']
+            );
+            return $this->respond($data2);
+        }
         $key=$data.$secretKey.(string)$tStamp;
         return $this->respond($this->stringDecrypt($key,$result));
         return $this->respond($result);

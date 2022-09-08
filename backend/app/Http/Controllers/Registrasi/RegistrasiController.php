@@ -13687,6 +13687,52 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function getDaftarPasienBatalAntrian(Request $request)
+    {
+        $filter = $request->all();
+        $data = \DB::table('antrianpasiendiperiksa_t as apd')
+            ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->select(
+                'apd.norec as norec_apd',
+                'ps.nocm',
+                'ps.namapasien',
+                'pd.noregistrasi',
+                'ru.namaruangan'
+            )
+            ->where('apd.statusenabled', true);
+
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal'] . ' 00:00');
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $data = $data->where('pd.tglregistrasi', '<=', $filter['tglAkhir'] . ' 23:59');
+        }
+        if (isset($filter['noReg']) && $filter['noReg'] != "" && $filter['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'ilike', '%' . $filter['noReg'] . '%');
+        }
+        if (isset($filter['noCm']) && $filter['noCm'] != "" && $filter['noCm'] != "undefined") {
+            $data = $data->where('ps.nocm', 'ilike', '%' . $filter['noCm'] . '%');
+        }
+        if (isset($filter['namaPasien']) && $filter['namaPasien'] != "" && $filter['namaPasien'] != "undefined") {
+            $data = $data->where('ps.namapasien', 'ilike', '%' . $filter['namaPasien'] . '%');
+        }
+        $data = $data->groupBy(
+            'apd.norec',
+            'ps.nocm',
+            'ps.namapasien',
+            'pd.noregistrasi',
+            'ru.namaruangan'
+        );
+
+        $data = $data->get();
+        $result = array(
+            'data' => $data,
+            'message' => 'inhuman',
+        );
+        return $this->respond($result);
+    }
     public function getDaftarPasienBatal(Request $request)
     {
         $filter = $request->all();

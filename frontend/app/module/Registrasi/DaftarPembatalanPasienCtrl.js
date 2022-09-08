@@ -12,6 +12,7 @@ define(['initialize'], function (initialize) {
                 from: $scope.now,
                 until: $scope.now
             };
+            $scope.isTabulasi = '';
             $scope.model = {};
             $scope.findData = function () {
                 $scope.isRouteLoading = true;
@@ -34,7 +35,11 @@ define(['initialize'], function (initialize) {
                 if ($scope.model.cekpilihManual == true) {
                     var online = "&online=" + true
                 }
-                medifirstService.get("registrasi/get-daftar-pasienbatal?" +
+                var rout = "registrasi/get-daftar-pasienbatal?";
+                if ($scope.isTabulasi == 'batalAntrian') {
+                    rout = "registrasi/get-daftar-pasienbatalAntrian?";
+                }
+                medifirstService.get(rout +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir
                     + reg
@@ -42,22 +47,41 @@ define(['initialize'], function (initialize) {
                     + nama
                     + online).then(function (e) {
                         $scope.isRouteLoading = false;
-
-                        $scope.dataPasienBatal = new kendo.data.DataSource({
-                            data: e.data.data,
-                            group: {
-                                field: "tanggalpembatalan",
-                                aggregates: [{
-                                    field: "pembatal",
-                                    aggregate: "count"
-                                }, {
-                                    field: "namalengkap",
-                                    aggregate: "count"
-                                }]
-                            }
-                        });
+                        if ($scope.isTabulasi == 'batalAntrian') {
+                            $scope.dataPasienBatalAntrian = new kendo.data.DataSource({
+                                data: e.data.data,
+                                group: {
+                                    field: "tanggalpembatalan",
+                                    aggregates: [{
+                                        field: "pembatal",
+                                        aggregate: "count"
+                                    }, {
+                                        field: "namalengkap",
+                                        aggregate: "count"
+                                    }]
+                                }
+                            });
+                        } else {
+                            $scope.dataPasienBatal = new kendo.data.DataSource({
+                                data: e.data.data,
+                                group: {
+                                    field: "tanggalpembatalan",
+                                    aggregates: [{
+                                        field: "pembatal",
+                                        aggregate: "count"
+                                    }, {
+                                        field: "namalengkap",
+                                        aggregate: "count"
+                                    }]
+                                }
+                            });
+                        }
                     })
 
+            }
+            $scope.asd = function (kondisi) {
+                debugger
+                $scope.isTabulasi = kondisi
             }
             $scope.findData();
             $scope.mainGridOptions = {
@@ -114,6 +138,49 @@ define(['initialize'], function (initialize) {
                 }, {
                     field: "status",
                     title: "Status"
+                }],
+                selectable: "row",
+                sortable: true
+            }
+            $scope.mainGridOptionsAntrian = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: { fileName: "daftarpasienbatal.xlsx", allPages: true, },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 3;
+                    sheet.mergedCells = ["A1:J1"];
+                    sheet.name = "Orders";
+
+                    var myHeaders = [{
+                        value: "Daftar Pasien Batal",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                    }];
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                columns: [{
+                    field: "norec_apd",
+                    title: " ",
+                    hidden: true
+                }, {
+                    field: "noregistrasi",
+                    title: "No Reg",
+                    hidden: false
+                },
+                {
+                    field: "nocm",
+                    title: "No Rm",
+                    hidden: false
+                },
+                {
+                    field: "namapasien",
+                    title: "Nama Pasien"
+                }, {
+                    field: "namaruangan",
+                    title: "Nama Ruangan"
                 }],
                 selectable: "row",
                 sortable: true

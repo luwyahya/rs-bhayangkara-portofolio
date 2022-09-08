@@ -2362,6 +2362,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-pasienbatal', 'Registrasi\RegistrasiController@getDaftarPasienBatal');
             Route::get('get-daftar-pasien-meninggal', 'Registrasi\RegistrasiController@getDaftarPasienMeninggal');
             Route::get('get-bayi-baru-lahir', 'Registrasi\RegistrasiController@getBayiBaruLahir');
+            Route::get('get-daftar-pasienbatalAntrian', 'Registrasi\RegistrasiController@getDaftarPasienBatalAntrian');
 
             Route::get('get-combo-riwayat-regis', 'Registrasi\RegistrasiController@getComboRiwayatRegis');
             Route::get('get-pasien-by-nocm-riwayat-regis', 'Registrasi\RegistrasiController@getPasienByNoCmRiwayatRegis');
