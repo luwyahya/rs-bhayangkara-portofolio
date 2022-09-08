@@ -208,6 +208,10 @@ define(['initialize'], function (initialize) {
 					toastr.error('Jumlah tidak boleh kosong')
 					return
 				}
+				if ($scope.item.caraSetor == undefined) {
+					toastr.error('Silahkan Pilih Ulang Cara Setor')
+					return
+				}
 
 				var nomor = 0
 				if (addDataDetail.length == 0) {
@@ -414,6 +418,9 @@ define(['initialize'], function (initialize) {
 					$scope.item.caraBayar = { id: $scope.dataSelectedCaraBayar.idCaraBayar, namaLengkap: $scope.dataSelectedCaraBayar.caraBayar }
 					$scope.item.caraSetor = { id: $scope.dataSelectedCaraBayar.idCaraSetor, carasetor: $scope.dataSelectedCaraBayar.caraSetor }
 					$scope.item.jumlah = $scope.dataSelectedCaraBayar.totalPenerimaan;
+					if ($scope.dataSelectedCaraBayar.caraSetor == undefined) {
+						delete $scope.item.caraSetor
+					}
 				}
 			}
 
