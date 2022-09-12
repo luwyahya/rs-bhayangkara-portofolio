@@ -16008,6 +16008,81 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
         return $this->respond($data);
     }
 
+    public function getTopTenDiagnosaDetail(Request $request)
+    {
+        // $dataLogin = $request->all();
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
+        $deptId = '';
+        if (isset($request['idDept']) && $request['idDept'] != "" && $request['idDept'] != "undefined") {
+            $deptId = ' and ru.objectdepartemenfk = ' . $request['idDept'];
+        }
+        $ruId = '';
+        if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+            $ruId = ' and ru.id = ' . $request['idRuangan'];
+        }
+        $diagnosa = '';
+        if (isset($request['kddiagnosa']) && $request['kddiagnosa'] != "" && $request['kddiagnosa'] != "undefined") {
+            $z = $request['kddiagnosa'];
+            $diagnosa = ' and dm.id = '.$z;
+        }
+        $isMPP = '';
+        if ($request['isMPP'] == 1) {
+            $data = DB::select(DB::raw("select dm.kddiagnosa, 
+                dm.namadiagnosa,pd.noregistrasi,pm.namapasien,pkr.pekerjaan,rk.namarekanan
+                from pasiendaftar_t as pd
+                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec
+                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec
+                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                LEFT JOIN jeniskelompokpasien_m as jkm on jkm.id = pm.objectjeniskelompokpasienfk
+                LEFT JOIN jeniskelamin_m as jk on jk.id = pm.objectjeniskelaminfk
+                INNER JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                LEFT JOIN jenisdiagnosa_m as jd on jd.id = ddp.objectjenisdiagnosafk
+                LEFT JOIN pegawai_m as pg on pg.id = apd.objectpegawaifk
+                LEFT JOIN pegawai_m as pg1 on pg1.id = pd.objectpegawaifk
+                LEFT JOIN rekanan_m as rk on rk.id = pd.objectrekananfk
+                INNER JOIN ruangan_m as ru on ru.id = apd.objectruanganfk
+                LEFT JOIN statuskeluar_m as sk on sk.id = pd.objectstatuskeluarfk
+                LEFT JOIN statuspulang_m as sp on sp.id = pd.objectstatuspulangfk
+                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                left join pekerjaan_m as pkr on pkr.id=pm.objectpekerjaanfk
+                left join rekanan_m as rk on rk.id=pd.objectrekananfk
+                WHERE br.pasiendaftarfk is null and pd.tglregistrasi between '$tglAwal' AND '$tglAkhir'
+                $deptId $ruId $diagnosa
+
+            "));
+        } else {
+            $data = DB::select(DB::raw("select dm.kddiagnosa, 
+                dm.namadiagnosa,pd.noregistrasi,ps.namapasien,pkr.pekerjaan,rk.namarekanan
+                from antrianpasiendiperiksa_t as app
+                left join diagnosapasien_t as dp on dp.noregistrasifk = app.norec
+                left join detaildiagnosapasien_t as ddp on ddp.objectdiagnosapasienfk = dp.norec
+                inner join diagnosa_m as dm on ddp.objectdiagnosafk = dm.id
+                inner join pasiendaftar_t as pd on pd.norec = app.noregistrasifk
+                inner join pasien_m as ps on ps.id = pd.nocmfk
+                left join alamat_m as alm on alm.nocmfk = ps.id
+                 left join kecamatan_m as kec on kec.id = alm.objectkecamatanfk
+                left join kotakabupaten_m as kot on kot.id = alm.objectkotakabupatenfk
+                left join propinsi_m as pro on pro.id = alm.objectpropinsifk
+                left join ruangan_m as ru on ru.id = pd.objectruanganlastfk
+                left join pekerjaan_m as pkr on pkr.id=ps.objectpekerjaanfk
+                left join rekanan_m as rk on rk.id=pd.objectrekananfk
+                where 
+                pd.tglregistrasi BETWEEN '$tglAwal' AND '$tglAkhir'
+                $deptId $ruId $diagnosa
+
+            "));
+
+        }
+        
+
+        $results = array(
+            'result' => $data,
+            'message' => 'dy',
+        );
+        return $this->respond($results);
+    }
     public function getTopTenDiagnosa(Request $request)
     {
         // $dataLogin = $request->all();
@@ -16024,8 +16099,8 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
         $isMPP = '';
         if ($request['isMPP'] == 1) {
             $data = DB::select(DB::raw("select * from (
-                select count(x.kddiagnosa)as jumlah,x.kddiagnosa,x.namadiagnosa
-                from (select dm.kddiagnosa, 
+                select count(x.kddiagnosa)as jumlah,x.kddiagnosa,x.namadiagnosa,x.id
+                from (select dm.id,dm.kddiagnosa, 
                 dm.namadiagnosa
                 from pasiendaftar_t as pd
                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec
@@ -16044,16 +16119,16 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                 LEFT JOIN statuspulang_m as sp on sp.id = pd.objectstatuspulangfk
                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
                 WHERE br.pasiendaftarfk is null and pd.tglregistrasi between '$tglAwal' AND '$tglAkhir'
-                $deptId $ruId LIMIT 10
-                )as x GROUP BY x.namadiagnosa ,x.kddiagnosa 
+                $deptId $ruId LIMIT 11
+                )as x GROUP BY x.namadiagnosa ,x.kddiagnosa ,x.id
                 ) as z
                 ORDER BY z.jumlah desc
 
             "));
         } else {
             $data = DB::select(DB::raw("select * from (
-                select count(x.kddiagnosa)as jumlah,x.kddiagnosa,x.namadiagnosa
-                from (select dm.kddiagnosa, 
+                select count(x.kddiagnosa)as jumlah,x.kddiagnosa,x.namadiagnosa,x.id
+                from (select dm.id,dm.kddiagnosa, 
                 dm.namadiagnosa
                 from antrianpasiendiperiksa_t as app
                 left join diagnosapasien_t as dp on dp.noregistrasifk = app.norec
@@ -16068,8 +16143,8 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                 left join ruangan_m as ru on ru.id = pd.objectruanganlastfk
                 where dm.kddiagnosa <> '-'  and
                 pd.tglregistrasi BETWEEN '$tglAwal' AND '$tglAkhir'
-                $deptId $ruId LIMIT 10
-                )as x GROUP BY x.namadiagnosa ,x.kddiagnosa 
+                $deptId $ruId LIMIT 11
+                )as x GROUP BY x.namadiagnosa ,x.kddiagnosa ,x.id
                 ) as z
                 ORDER BY z.jumlah desc
 
@@ -16083,7 +16158,8 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                     'jumlah' => $item->jumlah,
                     'kddiagnosa' => $item->kddiagnosa,
                     'namadiagnosa' => $item->namadiagnosa,
-                    'isMPP'=>$request['isMPP']
+                    'isMPP'=>$request['isMPP'],
+                    'id'=>$item->id
                 );
             }
         } else {

@@ -2659,6 +2659,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-lap-kinerja-kunjungan', 'Registrasi\RegistrasiController@getLaporanKinerjaKunjungan');
                 Route::get('get-data-lap-kinerja-rawat-inap', 'Registrasi\RegistrasiController@getLaporanKinerjaRawatInap');
                 Route::get('get-data-lap-summary-usia', 'Registrasi\RegistrasiController@getLaporanSummaryUsia');
+                Route::get('get-laporan-topten-diagnosa-detail', 'Registrasi\RegistrasiController@getTopTenDiagnosaDetail');
 
                 Route::get('get-pasien-pemeriksaan-kedokteran-forensik', 'Registrasi\RegistrasiController@getPasienPemeriksaanKedokteranForensik');
                 Route::get('get-pegawai-all', 'Registrasi\RegistrasiController@getPegawaiAll');
