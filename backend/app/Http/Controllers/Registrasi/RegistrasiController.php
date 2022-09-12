@@ -14085,6 +14085,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->leftJoin('departemen_m as dpm', 'dpm.id', '=', 'ru.objectdepartemenfk')
             ->leftJoin('pegawai_m as peg', 'peg.id', '=', 'pd.objectpegawaifk')
+            ->leftJoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
             ->select(
                 'ps.nocm',
                 'ps.namapasien',
@@ -14096,7 +14097,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'pd.objectruanganasalfk',
                 'ru.namaruangan',
                 'pd.norec as norec_pd',
-                'apd.objectruanganfk as objectruanganlastfk'
+                'apd.objectruanganfk as objectruanganlastfk',
+                'rk.namarekanan'
             )
             ->whereIN('ru.objectdepartemenfk', [16, 24, 25, 18])
             ->orderBy('apd.tglmasuk', 'DESC')
@@ -14157,6 +14159,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'objectruanganasalfk' => $item->objectruanganasalfk,
                 'namaruangan' => $item->namaruangan,
                 'objectruanganlastfk' => $item->objectruanganlastfk,
+                'namarekanan'=>$item->namarekanan,
                 'details' => $details,
             );
         }

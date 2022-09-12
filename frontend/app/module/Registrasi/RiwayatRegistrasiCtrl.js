@@ -17,18 +17,18 @@ define(['initialize'], function (initialize, pasienServices) {
             $scope.popUp = {}
 
             if ($state.params != undefined) {
-                if ($state.params.nocm != '-' && $state.params.noregistrasi != '-'){
+                if ($state.params.nocm != '-' && $state.params.noregistrasi != '-') {
                     $scope.item.noCm = $state.params.nocm;
                     $scope.item.noRegistrasi = $state.params.noregistrasi;
                     loadData()
                     loadDatas()
                 }
-                    
+
             }
             medifirstService.get("registrasi/get-combo-riwayat-regis", false).then(function (data) {
                 $scope.listDepartemen = data.data.deptrirj;
-                if($state.params.noregistrasi == '-')
-                     $scope.item.departement = { id: $scope.listDepartemen[0].id, namadepartemen: $scope.listDepartemen[0].namadepartemen }
+                if ($state.params.noregistrasi == '-')
+                    $scope.item.departement = { id: $scope.listDepartemen[0].id, namadepartemen: $scope.listDepartemen[0].namadepartemen }
                 $scope.sourceJenisDiagnosisPrimer = data.data.jenisdiagnosa;
                 $scope.sourceJenisDiagnosisPrimer1 = data.data.jenisdiagnosa;
             })
@@ -38,8 +38,8 @@ define(['initialize'], function (initialize, pasienServices) {
             }
 
             $scope.getIsiComboRuangan = function () {
-				$scope.listRuanganfilter = $scope.item.departement.ruangan
-			}
+                $scope.listRuanganfilter = $scope.item.departement.ruangan
+            }
             $scope.showMasterDiagnosa = function () {
                 $state.go("DiagnosaTindakanEdit")
             }
@@ -56,7 +56,7 @@ define(['initialize'], function (initialize, pasienServices) {
             }
 
 
-         
+
 
 
             $scope.findBynoCM = function () {
@@ -209,6 +209,10 @@ define(['initialize'], function (initialize, pasienServices) {
                         aggregates: ["count"],
                         groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)",
                         width: 250
+                    },
+                    {
+                        field: "namarekanan",
+                        title: "Penjamin"
                     },
                     {
                         field: "namalengkap",
@@ -792,7 +796,7 @@ define(['initialize'], function (initialize, pasienServices) {
                 }
                 $scope.now = new Date();
                 var norec_apd
-                if ($scope.item.namaRuangan.norec_apd == undefined){
+                if ($scope.item.namaRuangan.norec_apd == undefined) {
                     norec_apd = $scope.item.namaRuangan.details[0].norec_apd
                 } else {
                     norec_apd = $scope.item.namaRuangan.norec_apd
@@ -814,7 +818,7 @@ define(['initialize'], function (initialize, pasienServices) {
                 }
 
                 medifirstService.post('registrasi/save-diagnosa-pasien', objSave).then(function (e) {
-                    if($scope.item.jenisDiagnosis.id == 1){
+                    if ($scope.item.jenisDiagnosis.id == 1) {
                         medifirstService.post('tatarekening/sync-trandata-new', { noregistrasi: $scope.currentAntrian.noregistrasi }).then(function (e) {
                         }, function (err) {
                         })
@@ -859,7 +863,7 @@ define(['initialize'], function (initialize, pasienServices) {
                     keteranganTindakan = $scope.item.keteranganTindakan
                 }
                 var norec_apd
-                if ($scope.item.namaRuangan1.norec_apd == undefined){
+                if ($scope.item.namaRuangan1.norec_apd == undefined) {
                     norec_apd = $scope.item.namaRuangan1.details[0].norec_apd
                 } else {
                     norec_apd = $scope.item.namaRuangan1.norec_apd
