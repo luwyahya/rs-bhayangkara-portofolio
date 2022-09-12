@@ -386,6 +386,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         "template": "<button class=\"k-button custom-button\" ng-click=\"setdetail(dataItem)\"  style=\"margin:0 0 5px\">#:  'Detail' #</button> ",
                     },
                     {
+                        "field": "noregistrasi",
+                        "title": "Noregistrasi",
+                        "width": "35px",
+                    },
+                    {
                         "field": "tglmasuk",
                         "title": "Tanggal Masuk",
                         "width": "35px",

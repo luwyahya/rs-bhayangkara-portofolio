@@ -14100,7 +14100,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             )
             ->whereIN('ru.objectdepartemenfk', [16, 24, 25, 18])
             ->orderBy('apd.tglmasuk', 'DESC')
-            ->take(1);
+            ->take(10);
         // DB::select(DB::raw('select top 1 ps.nocm, ps.namapasien, pd.noregistrasi, pd.tglregistrasi, pd.objectpegawaifk, peg.namalengkap, pd.tglpulang,pd.objectruanganasalfk, ru.namaruangan, pd.norec as norec_pd, apd.objectruangan
         // from pasien_m as ps
         // INNER JOIN pasiendaftar_t as pd on pd.nocmfk = ps.id
@@ -16080,6 +16080,7 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                     'jumlah' => $item->jumlah,
                     'kddiagnosa' => $item->kddiagnosa,
                     'namadiagnosa' => $item->namadiagnosa,
+                    'isMPP'=>$request['isMPP']
                 );
             }
         } else {
