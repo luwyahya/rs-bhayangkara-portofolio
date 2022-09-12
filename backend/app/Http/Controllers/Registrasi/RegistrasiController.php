@@ -16119,10 +16119,10 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                 LEFT JOIN statuspulang_m as sp on sp.id = pd.objectstatuspulangfk
                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
                 WHERE br.pasiendaftarfk is null and pd.tglregistrasi between '$tglAwal' AND '$tglAkhir'
-                $deptId $ruId LIMIT 11
+                $deptId $ruId 
                 )as x GROUP BY x.namadiagnosa ,x.kddiagnosa ,x.id
                 ) as z
-                ORDER BY z.jumlah desc
+                ORDER BY z.jumlah desc LIMIT 10
 
             "));
         } else {
@@ -16143,10 +16143,10 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
                 left join ruangan_m as ru on ru.id = pd.objectruanganlastfk
                 where dm.kddiagnosa <> '-'  and
                 pd.tglregistrasi BETWEEN '$tglAwal' AND '$tglAkhir'
-                $deptId $ruId LIMIT 11
+                $deptId $ruId 
                 )as x GROUP BY x.namadiagnosa ,x.kddiagnosa ,x.id
                 ) as z
-                ORDER BY z.jumlah desc
+                ORDER BY z.jumlah desc LIMIT 10
 
             "));
 
