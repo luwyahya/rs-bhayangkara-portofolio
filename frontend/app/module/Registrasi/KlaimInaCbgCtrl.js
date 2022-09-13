@@ -173,6 +173,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.specialProsthesis = false
                 $scope.specialInvestigation = false
                 $scope.showUnrelated = false
+                if (set.nosep == '') {
+                    $scope.isRouteLoading = false;
+                    toastr.error('SEP belum di input, silahkan input dulu NOSEP nya...')
+                    return
+                }
                 medifirstService.get("bridging/bpjs2/cek-sep?nosep=" + set.nosep).then(function (e) {
                     if (e.data.metaData.code === "200") {
                         if (e.data.response.jnsPelayanan == "Rawat Jalan" && set.tipe != 'RJ') {
