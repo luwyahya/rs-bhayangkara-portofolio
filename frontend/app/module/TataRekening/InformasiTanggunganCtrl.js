@@ -460,6 +460,7 @@ define(['initialize'], function (initialize) {
 					reg + rm + nm + ins + rg + kp + dk + kls
 					+ '&jmlRows=' + jmlRows
 				).then(function (data) {
+					debugger
 					$scope.isRouteLoading = false;
 					data2 = data.data
 
@@ -555,7 +556,8 @@ define(['initialize'], function (initialize) {
 								"nomor_rm": data2[i].nocm,    //"123-45-28",
 								"nama_pasien": data2[i].namapasien,    //"Efan Andrian",
 								"tgl_lahir": data2[i].tgllahir,    //"1985-01-01 02:00:00",
-								"gender": data2[i].objectjeniskelaminfk    //"2"
+								"gender": data2[i].objectjeniskelaminfk,    //"2"
+								"norec_pd": data2[i].norec
 							}
 							dataSave.push(dataRow)
 						}
@@ -653,7 +655,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// LoadData();				
 				})
 			}
@@ -891,7 +893,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response oke saja
 					var dt1 = {}
 					var dt2 = []
@@ -910,7 +912,7 @@ define(['initialize'], function (initialize) {
 					var objData = {
 						"data": dt2
 					}
-					medifirstService.savebridginginacbg(objData).then(function (e) {
+					medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 						// response simpan ke database	
 						responData = e.data.dataresponse;
 						if (responData[0].dataresponse.metadata.code == 200) {
@@ -1019,7 +1021,7 @@ define(['initialize'], function (initialize) {
 					var objData = {
 						"data": dt2
 					}
-					medifirstService.savebridginginacbg(objData).then(function (e) {
+					medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 						var dt1 = {}
 						var dt2 = []
 
@@ -1044,7 +1046,7 @@ define(['initialize'], function (initialize) {
 						var totaldijamin = "";
 						var hakkelas = "";
 						var biayanaikkelas = "0";
-						medifirstService.savebridginginacbg(objData).then(function (e) {
+						medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 							// simpan response ke database
 							responData = e.data.dataresponse;
 							toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1201,7 +1203,7 @@ define(['initialize'], function (initialize) {
 							var objData = {
 								"data": dt2
 							}
-							medifirstService.savebridginginacbg(objData).then(function (e) {
+							medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 								var dt1 = {}
 								var dt2 = []
 
@@ -1226,7 +1228,7 @@ define(['initialize'], function (initialize) {
 								var totaldijamin = "";
 								var hakkelas = "";
 								var biayanaikkelas = "0";
-								medifirstService.savebridginginacbg(objData).then(function (e) {
+								medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 									// simpan response ke database
 									responData = e.data.dataresponse;
 									toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1323,7 +1325,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// LoadData();				
 				})
 			}
@@ -1393,7 +1395,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// LoadData();				
 				})
 			}
@@ -1428,7 +1430,7 @@ define(['initialize'], function (initialize) {
 				var totaldijamin = "";
 				var hakkelas = "";
 				var biayanaikkelas = "0";
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// simpan response ke database
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1547,7 +1549,7 @@ define(['initialize'], function (initialize) {
 				var biayanaikkelas = "0";
 				var hakkelas = "";
 				var cmglength = "";
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// simpan response ke database
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1765,7 +1767,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response oke saja
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1790,7 +1792,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response oke saja
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1818,7 +1820,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response simpan ke database			
 				})
 			}
@@ -1840,7 +1842,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response simpan ke database	
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1865,7 +1867,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// response simpan ke database	
 					responData = e.data.dataresponse;
 					if (responData[0].dataresponse.metadata.code == 200) {
@@ -1902,7 +1904,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					//
 					responData = e.data.dataresponse;
 					toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
@@ -1928,7 +1930,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// 			
 				})
 			}
@@ -1950,7 +1952,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// 			
 				})
 			}
@@ -1972,7 +1974,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// 			
 				})
 			}
@@ -2003,7 +2005,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					responData = e.data.dataresponse;
 					if (responData[0].dataresponse.metadata.code == 200) {
 						const linkSource = 'data:application/pdf;base64,' + responData[0].dataresponse.data;
@@ -2040,7 +2042,7 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// 			
 				})
 			}
@@ -2062,8 +2064,219 @@ define(['initialize'], function (initialize) {
 				var objData = {
 					"data": dt2
 				}
-				medifirstService.savebridginginacbg(objData).then(function (e) {
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
 					// 			
+				})
+			}
+
+			$scope.groupingMasal = function () {
+				$scope.isRouteLoading = true;
+				if (dataSave.length == 0) {
+					toastr.info('Diagnosa belum di isi semua');
+					return;
+				}
+
+				var dt1 = {}
+				var dt2 = []
+				for (var i = dataSave.length - 1; i >= 0; i--) {
+					dt1 = {
+						"metadata": {
+							"method": "new_claim"
+						},
+						"data": {
+							"nomor_kartu": dataSave[i].nomor_kartu,
+							"nomor_sep": dataSave[i].nomor_sep,
+							"nomor_rm": dataSave[i].nomor_rm,
+							"nama_pasien": dataSave[i].nama_pasien,
+							"tgl_lahir": dataSave[i].tgl_lahir,
+							"gender": dataSave[i].gender
+						}
+					}
+					dt2.push(dt1)
+				}
+
+				var objData = {
+					"data": dt2
+				}
+				// medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function(e)
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+					// LoadData();
+					var dt1 = {}
+					var dt2 = []
+					for (var i = dataSave.length - 1; i >= 0; i--) {
+
+						dt1 = {
+							"metadata": {
+								"method": "set_claim_data",
+								"nomor_sep": dataSave[i].nomor_sep
+							},
+							"data": {
+								"nomor_sep": dataSave[i].nomor_sep,    //"0901R001TEST0001",    
+								"nomor_kartu": dataSave[i].nomor_kartu,    //"233333",    
+								"tgl_masuk": dataSave[i].tgl_masuk,    //"2017-11-20 12:55:00",    
+								"tgl_pulang": dataSave[i].tgl_pulang,    //"2017-12-01 09:55:00",    
+								"jenis_rawat": dataSave[i].jenis_rawat,    //"1",    
+								"kelas_rawat": dataSave[i].kelas_rawat,    //ini adalah kelas tanggungan BPJS   
+								"adl_sub_acute": dataSave[i].adl_sub_acute,    //"15",    
+								"adl_chronic": dataSave[i].adl_chronic,    //"12",    
+								"icu_indikator": dataSave[i].icu_indikator,    //"1",    
+								"icu_los": dataSave[i].icu_los,    //"2",    
+								"ventilator_hour": dataSave[i].ventilator_hour,    //"5",    
+								"upgrade_class_ind": dataSave[i].upgrade_class_ind,    //"1",    
+								"upgrade_class_class": dataSave[i].upgrade_class_class,    //"vip",    
+								"upgrade_class_los": dataSave[i].upgrade_class_los,    //"5",    
+								"add_payment_pct": "75",    //"35",    
+								"birth_weight": dataSave[i].birth_weight,    //"0",    
+								"discharge_status": dataSave[i].discharge_status,    //"1",    
+								"diagnosa": dataSave[i].diagnosa,    //"S71.0#A00.1",    
+								"procedure": dataSave[i].procedure,    //"81.52#88.38",    
+								"tarif_rs": {
+									"prosedur_non_bedah": dataSave[i].tarif_rs.prosedur_non_bedah,    //"300000",      
+									"prosedur_bedah": dataSave[i].tarif_rs.prosedur_bedah,    //"20000000",      
+									"konsultasi": dataSave[i].tarif_rs.konsultasi,    //"300000",      
+									"tenaga_ahli": dataSave[i].tarif_rs.tenaga_ahli,    //"200000",      
+									"keperawatan": dataSave[i].tarif_rs.keperawatan,    // "80000",      
+									"penunjang": dataSave[i].tarif_rs.penunjang,    //"1000000",      
+									"radiologi": dataSave[i].tarif_rs.radiologi,    //"500000",      
+									"laboratorium": dataSave[i].tarif_rs.laboratorium,    //"600000",      
+									"pelayanan_darah": dataSave[i].tarif_rs.pelayanan_darah,    //"150000",      
+									"rehabilitasi": dataSave[i].tarif_rs.rehabilitasi,    //"100000",      
+									"kamar": dataSave[i].tarif_rs.kamar,    //"6000000",      
+									"rawat_intensif": dataSave[i].tarif_rs.rawat_intensif,    //"2500000",      
+									"obat": dataSave[i].tarif_rs.obat,    //"2000000",  
+									"obat_kronis": "0",
+									"obat_kemoterapi": "0",
+									"alkes": dataSave[i].tarif_rs.alkes,    //"500000",      
+									"bmhp": dataSave[i].tarif_rs.bmhp,    //"400000",      
+									"sewa_alat": dataSave[i].tarif_rs.sewa_alat,    //"210000"    
+								},
+								"tarif_poli_eks": dataSave[i].tarif_poli_eks,    //"100000",    
+								"nama_dokter": dataSave[i].nama_dokter,    //"RUDY, DR",    
+								"kode_tarif": dataSave[i].kode_tarif,    //"AP",    
+								"payor_id": dataSave[i].payor_id,    //"3",    
+								"payor_cd": dataSave[i].payor_cd,    //"JKN",    
+								"cob_cd": dataSave[i].cob_cd,    //"0001",    
+								"coder_nik": "123123123123"
+							}
+						}
+						dt2.push(dt1)
+
+					}
+
+					var objData = {
+						"data": dt2
+					}
+					medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+						// LoadData();	
+						var dt1 = {}
+						var dt2 = []
+
+						for (var i = dataSave.length - 1; i >= 0; i--) {
+							dt1 = {
+								"metadata": {
+									"method": "grouper",
+									"stage": "1"
+								},
+								"data": {
+									"nomor_sep": dataSave[i].nomor_sep
+								}
+							}
+							dt2.push(dt1)
+						}
+
+
+
+						var objData = {
+							"data": dt2
+						}
+						medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+							var proporsiPush = []
+							var dijamin = "0"
+							for (var i = dataSave.length - 1; i >= 0; i--) {
+								for (var x = e.data.dataresponse.length - 1; x >= 0; x--) {
+									if (e.data.dataresponse[x].dataresponse.metadata.code != 400) {
+										if (dataSave[i].nomor_sep == e.data.dataresponse[x].datarequest.data.nomor_sep) {
+											dijamin = e.data.dataresponse[x].dataresponse.response.cbg.tariff
+											if (dijamin == undefined) { dijamin = "0" }
+											debugger
+											var dataproposi = {
+												"noregistrasifk": dataSave[i].norec_pd,
+												"totalDijamin": dijamin,//e.data.dataresponse[x].dataresponse.response.cbg.tariff,
+												"biayaNaikkelas": "0",
+												"diagnosa": dataSave[i].diagnosa,
+												"tglcek": moment($scope.now).format('YYYY-MM-DD')
+											}
+											proporsiPush.push(dataproposi)
+										}
+									}
+								}
+							}
+							var objData = {
+								"data": proporsiPush
+							}
+							var objData2 = {
+								"proporsi": proporsiPush
+							}
+							if (objData.data.length == 0) {
+								var dt1 = {}
+								var dt2 = []
+								for (var i = dataSave.length - 1; i >= 0; i--) {
+									dt1 = {
+										"metadata": {
+											"method": "delete_claim"
+										},
+										"data": {
+											"nomor_sep": dataSave[i].nomor_sep,///$scope.dataPasienSelected.nosep,
+											"coder_nik": '123123123123',//dataSave[i].coder_nik   
+										}
+									}
+									dt2.push(dt1)
+								}
+								var objData = {
+									"data": dt2
+								}
+								medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+									//
+									$scope.isRouteLoading = false;
+									responData = e.data.dataresponse;
+									toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
+								})
+							} else {
+								// medifirstService.saveInformasiTanggungan(objData).then(function (e)
+								medifirstService.post('bridging/inacbg/save-informasi-tanggungan', objData2).then(function (e) {
+									debugger
+									//ini untuk proposional kan utang per tindakan
+									var dt1 = {}
+									var dt2 = []
+									for (var i = dataSave.length - 1; i >= 0; i--) {
+										dt1 = {
+											"metadata": {
+												"method": "delete_claim"
+											},
+											"data": {
+												"nomor_sep": dataSave[i].nomor_sep,///$scope.dataPasienSelected.nosep,
+												"coder_nik": '123123123123',//dataSave[i].coder_nik   
+											}
+										}
+										dt2.push(dt1)
+									}
+									var objData = {
+										"data": dt2
+									}
+									medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+										//
+										// 			
+										//
+										$scope.isRouteLoading = false;
+										responData = e.data.dataresponse;
+										toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
+									})
+								})
+							}
+							loadData()
+						})
+					})
+
 				})
 			}
 
