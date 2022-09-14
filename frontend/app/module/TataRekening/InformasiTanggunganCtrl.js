@@ -127,9 +127,9 @@ define(['initialize'], function (initialize) {
 				dataBound: onDataBound,
 				toolbar: [
 					{
-                        text: "export", name: "Export detail",
-                        template: '<button ng-click="exportDetailSTR()" class="k-button k-button-icontext k-grid-upload"><span class="k-icon k-i-excel"></span>Export to Excel</button>'
-                    },
+						text: "export", name: "Export detail",
+						template: '<button ng-click="exportDetailSTR()" class="k-button k-button-icontext k-grid-upload"><span class="k-icon k-i-excel"></span>Export to Excel</button>'
+					},
 
 				],
 				excel: {
@@ -250,86 +250,86 @@ define(['initialize'], function (initialize) {
 					]
 			};
 			$scope.exportDetailSTR = function () {
-                var tempDataExport = [];
-                var rows = [
-                    {
-                        cells: [
-                            { value: "Tgl Registrasi" },
-                            { value: "NoReg" },
-                            { value: "NoRM" },
-                            { value: "Nama Pasien" },
-                            { value: "Nama Dokter" },
-                            { value: "Lama Dirawat" },
-                            { value: "No SEP" },
-                            { value: "Kelas Dijamin" },
-                            { value: "Kelas Terakhir" },
-                            { value: "Tarif INACBG" },
-                            { value: "Biaya Naik Kelas" },
-                            { value: "Total Tagihan" },
-                            { value: "Diagnosa" },
-     
-                        ]
-                    }
-                ];
+				var tempDataExport = [];
+				var rows = [
+					{
+						cells: [
+							{ value: "Tgl Registrasi" },
+							{ value: "NoReg" },
+							{ value: "NoRM" },
+							{ value: "Nama Pasien" },
+							{ value: "Nama Dokter" },
+							{ value: "Lama Dirawat" },
+							{ value: "No SEP" },
+							{ value: "Kelas Dijamin" },
+							{ value: "Kelas Terakhir" },
+							{ value: "Tarif INACBG" },
+							{ value: "Biaya Naik Kelas" },
+							{ value: "Total Tagihan" },
+							{ value: "Diagnosa" },
 
-                tempDataExport = $scope.dataDaftarPasienPulang;
-                tempDataExport.fetch(function () {
-                    var data = this.data();
-                    console.log(data);
-                    for (var i = 0; i < data.length; i++) {
-                        //push single row for every record
-                        rows.push({
-                            cells: [
-                            	{ value: moment(new Date(data[i].tglregistrasi)).format('DD-MM-YYYY') },
-                                { value: data[i].noregistrasi },
-                                { value: data[i].nocm },
-                                { value: data[i].namapasien },
-                                { value: data[i].namadokter },
-                                { value: data[i].lamadirawat },
-                                { value: data[i].nosep },
-                                { value: data[i].namakelas },
-                                { value: data[i].namakelasdaftar },
-                                { value: data[i].totalpiutangpenjamin },
-                                { value: data[i].biayanaikkelas },
-                                { value: data[i].totaltagihan },
-                                { value: data[i].icd10 },
-                                
-                            ]
-                        })
-                    }
-                    var workbook = new kendo.ooxml.Workbook({
-                        sheets: [
-                            {
-                                freezePane: {
-                                    rowSplit: 1
-                                },
-                                columns: [
-                                    // Column settings (width)
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true },
-                                    { autoWidth: true }
-                                ],
-                                // Title of the sheet
-                                title: "Informasi Tanggungan",
-                                // Rows of the sheet
-                                rows: rows
-                            }
-                        ]
-                    });
-                    //save the file as Excel file with extension xlsx
-                    kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Informasi Tanggungan -" + dateHelper.formatDate(new Date(), 'DD-MMM-YYYY') + "	.xlsx" });
-                });
-            };
+						]
+					}
+				];
+
+				tempDataExport = $scope.dataDaftarPasienPulang;
+				tempDataExport.fetch(function () {
+					var data = this.data();
+					console.log(data);
+					for (var i = 0; i < data.length; i++) {
+						//push single row for every record
+						rows.push({
+							cells: [
+								{ value: moment(new Date(data[i].tglregistrasi)).format('DD-MM-YYYY') },
+								{ value: data[i].noregistrasi },
+								{ value: data[i].nocm },
+								{ value: data[i].namapasien },
+								{ value: data[i].namadokter },
+								{ value: data[i].lamadirawat },
+								{ value: data[i].nosep },
+								{ value: data[i].namakelas },
+								{ value: data[i].namakelasdaftar },
+								{ value: data[i].totalpiutangpenjamin },
+								{ value: data[i].biayanaikkelas },
+								{ value: data[i].totaltagihan },
+								{ value: data[i].icd10 },
+
+							]
+						})
+					}
+					var workbook = new kendo.ooxml.Workbook({
+						sheets: [
+							{
+								freezePane: {
+									rowSplit: 1
+								},
+								columns: [
+									// Column settings (width)
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true },
+									{ autoWidth: true }
+								],
+								// Title of the sheet
+								title: "Informasi Tanggungan",
+								// Rows of the sheet
+								rows: rows
+							}
+						]
+					});
+					//save the file as Excel file with extension xlsx
+					kendo.saveAs({ dataURI: workbook.toDataURL(), fileName: "Informasi Tanggungan -" + dateHelper.formatDate(new Date(), 'DD-MMM-YYYY') + "	.xlsx" });
+				});
+			};
 			$scope.dbklik = function (data) {
 				$scope.popupDetail.center().open();
 				var jenis_rawat = 1 //ranap
@@ -457,7 +457,7 @@ define(['initialize'], function (initialize) {
 				medifirstService.get("bridging/inacbg/get-daftar-informasi-tanggungan?" +
 					"tglAwal=" + tglAwal +
 					"&tglAkhir=" + tglAkhir +
-					reg + rm + nm + ins + rg + kp + dk +kls
+					reg + rm + nm + ins + rg + kp + dk + kls
 					+ '&jmlRows=' + jmlRows
 				).then(function (data) {
 					$scope.isRouteLoading = false;
@@ -466,7 +466,7 @@ define(['initialize'], function (initialize) {
 					dataSave = []
 					for (var i = data2.length - 1; i >= 0; i--) {
 						var diff = Math.abs(new Date() - new Date(data2[i].tglregistrasi))
-						var lamadirawat = Math.ceil(diff/1000/60/60/24) + ' hari'
+						var lamadirawat = Math.ceil(diff / 1000 / 60 / 60 / 24) + ' hari'
 						data2[i].lamadirawat = lamadirawat
 
 						if (data2[i].icd10 != false) {
