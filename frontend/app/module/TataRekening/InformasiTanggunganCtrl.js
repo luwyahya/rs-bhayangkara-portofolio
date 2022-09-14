@@ -118,7 +118,7 @@ define(['initialize'], function (initialize) {
 					}
 					var presn = ditanggung * 0.1
 					var totalPersen = ditanggung - presn
-					if (totaltagihan >= totalPersen)
+					if (totaltagihan <= totalPersen)
 						$(row.cells).addClass("koneng");
 				}
 			}
