@@ -277,6 +277,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         })
                     } else {
                         $scope.isRouteLoading = false;
+                        toastr.error(e.data.metaData.message)
+                        return
                     }
                 })
 
