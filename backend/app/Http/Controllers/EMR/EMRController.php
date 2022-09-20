@@ -7336,9 +7336,9 @@ class EMRController  extends ApiController
             $req['filter']['filters'][0]['value'] != "" &&
             $req['filter']['filters'][0]['value'] != "undefined"
         ) {
-            $icdIX = $icdIX
-                ->where('dg.reportdisplay', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
-                ->orWhere('dg.kddiagnosatindakan', 'ilike', $req['filter']['filters'][0]['value'] . '%');
+            $icdIX = $icdIX->where('dg.reportdisplay', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
+                ->orWhere('dg.kddiagnosatindakan', 'ilike', $req['filter']['filters'][0]['value'] . '%')
+                ->where('dg.statusenabled', true);
         }
 
 
