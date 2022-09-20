@@ -89,7 +89,7 @@ define(['initialize'], function (initialize) {
                 })
             };
 
-            $scope.panggil();
+            // $scope.panggil();
 
             $scope.click = function (dataPasienSelected) {
                 var data = dataPasienSelected;
