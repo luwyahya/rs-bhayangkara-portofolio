@@ -3425,6 +3425,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-siklus-gizi', 'SysAdmin\Master\MasterController@getDaftarSiklusGizi');
                 Route::get('get-cek-harga-produk', 'SysAdmin\Master\MasterController@getCekHargaProduk');
 
+                Route::get('get-mapruangantokelas', 'SysAdmin\Master\MasterController@getMapRuanganToKelas');
+                Route::post('delete-mapruangantokelas', 'SysAdmin\Master\MasterController@deleteMapRuanganToKelas');
+                Route::post('update-mapruangantokelas', 'SysAdmin\Master\MasterController@updateMapRuanganToKelas');
+                Route::post('save-mapruangantokelas', 'SysAdmin\Master\MasterController@saveMapRuanganToKelas');
+
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
                 Route::post('save-menu-gizi', 'Gizi\GiziController@saveMenuGizi');

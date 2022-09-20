@@ -6,13 +6,30 @@ define(['initialize'], function (initialize) {
             $scope.item = {};
             $scope.isList = false
             var kolom1 = []
-            var dataSelected =[]
+            var dataSelected = []
             var comboboxorigin = []
 
             loadData()
 
             function loadData() {
                 $scope.isRouteLoading = true;
+                medifirstService.get('registrasi/daftar-antrian-pasien/get-combo').then(function (e) {
+                    $scope.listRuangan = e.data.data
+                    $scope.listKelas = e.data.kelas
+                })
+                var ruanganId = ''
+                if ($scope.item.ruangan)
+                    ruanganId = '?ruangan=' + $scope.item.ruangan.id
+                var kelasId = ''
+                if ($scope.item.kelas) {
+                    if (ruanganId == "")
+                        kelasId = '?kdkelas=' + $scope.item.kelas.id
+                    else
+                        kelasId = '&kdkelas=' + $scope.item.kelas.id
+                }
+                medifirstService.get('sysadmin/master/get-mapruangantokelas' + ruanganId + kelasId).then(function (e) {
+                    $scope.listMapRuanganToKelas = e.data.datas
+                })
                 medifirstService.get("sysadmin/master/get-list_table"
                 ).then(function (e) {
                     let array = e.data.data
@@ -45,12 +62,15 @@ define(['initialize'], function (initialize) {
                 $scope.item.title = z.node.innerText
                 $scope.item.statusenabled = false
 
-                LoadData('-','-')
+                LoadData('-', '-')
             }
-            $scope.CariFilterData = function(e){
-                LoadData($scope.item.field.column_name,$scope.item.filter)
+            $scope.findData = function () {
+                loadData()
             }
-            function LoadData(filterfield,filter){
+            $scope.CariFilterData = function (e) {
+                LoadData($scope.item.field.column_name, $scope.item.filter)
+            }
+            function LoadData(filterfield, filter) {
                 var a = ''
                 if (filterfield != undefined) {
                     a = "&filterfield=" + filterfield
@@ -67,7 +87,7 @@ define(['initialize'], function (initialize) {
                     comboboxorigin = e.data.comboboxorigin
                     for (var i = e.data.kolom1.length - 1; i >= 0; i--) {
                         if (e.data.kolom1[i].type == 'combobox') {
-                            medifirstService.getPart4(e.data.kolom1[i].id,e.data.kolom1[i].column_name, 'sysadmin/master/get-setting-combo', true, true, 20).then(function (data) {
+                            medifirstService.getPart4(e.data.kolom1[i].id, e.data.kolom1[i].column_name, 'sysadmin/master/get-setting-combo', true, true, 20).then(function (data) {
                                 $scope.item.objcbo[data.options.idididid] = data
                             })
                         }
@@ -77,14 +97,14 @@ define(['initialize'], function (initialize) {
                         dataSource: e.data.data,
                         columns: e.data.kolomsetting
                     });
-                     var dataItem = []
+                    var dataItem = []
                     $("#kGrid").data("kendoGrid").setOptions({
                         columns: e.data.kolomsetting,
                         selectable: true,
-                        change: function() {
-                          var dataItem = this.dataItem(this.select());
-                          
-                          dataSelected = dataItem;
+                        change: function () {
+                            var dataItem = this.dataItem(this.select());
+
+                            dataSelected = dataItem;
                         }
                     }, 100);
                     $scope.item.obj = []
@@ -145,8 +165,8 @@ define(['initialize'], function (initialize) {
 
                 })
             }
-            $scope.CariTabel = function(){
-                 $scope.isRouteLoading = true;
+            $scope.CariTabel = function () {
+                $scope.isRouteLoading = true;
                 medifirstService.get("sysadmin/master/get-list_table?namatable=" + $scope.item.cariSubSistem
                 ).then(function (e) {
                     let array = e.data.data
@@ -199,63 +219,63 @@ define(['initialize'], function (initialize) {
                 }, function (error) {
                     $scope.isRouteLoading = false;
                 })
-                delete $scope.item.cariSubSistem 
+                delete $scope.item.cariSubSistem
             }
-            $scope.klikGrid1 = function(data){
+            $scope.klikGrid1 = function (data) {
                 for (var i = 0; i < kolom1.length; i++) {
                     if (kolom1[i].type == 'bit') {
                         if (dataSelected[kolom1[i].column_name] == '1') {
                             $scope.item.obj[kolom1[i].id] = true
-                        }else{
+                        } else {
                             $scope.item.obj[kolom1[i].id] = false
                         }
-                    }else if (kolom1[i].type == 'combobox') {
+                    } else if (kolom1[i].type == 'combobox') {
                         for (var ii = 0; ii < comboboxorigin.length; ii++) {
                             if (dataSelected[kolom1[i].column_name] != null) {
                                 if (comboboxorigin[ii].namafield == kolom1[i].column_name) {
-                                    medifirstService.get("sysadmin/master/get-table-row-detail?id=" + dataSelected[kolom1[i].column_name] + 
-                                        "&table=" + comboboxorigin[ii].tabelrelasi  +
-                                        "&value=" + comboboxorigin[ii].fieldkeytabelrelasi  +
-                                        "&text="  + comboboxorigin[ii].fieldreportdisplaytabelrelasi +
-                                        "&idid="  + kolom1[i].id
-                                        ).then(function (e) {
-                                            $scope.item.obj[e.data[0].idid] =  {value:e.data[0].value,text:e.data[0].text}
+                                    medifirstService.get("sysadmin/master/get-table-row-detail?id=" + dataSelected[kolom1[i].column_name] +
+                                        "&table=" + comboboxorigin[ii].tabelrelasi +
+                                        "&value=" + comboboxorigin[ii].fieldkeytabelrelasi +
+                                        "&text=" + comboboxorigin[ii].fieldreportdisplaytabelrelasi +
+                                        "&idid=" + kolom1[i].id
+                                    ).then(function (e) {
+                                        $scope.item.obj[e.data[0].idid] = { value: e.data[0].value, text: e.data[0].text }
                                     })
                                 }
                             }
                         }
-                        
-                    }else{
+
+                    } else {
                         $scope.item.obj[kolom1[i].id] = dataSelected[kolom1[i].column_name]
                     }
                 }
             }
 
-            $scope.detail = function(data){
+            $scope.detail = function (data) {
                 $scope.popupEntry.center().open();
-                
+
             }
 
-            $scope.addNew = function(data){
+            $scope.addNew = function (data) {
                 $scope.popupEntry.center().open();
                 for (var i = 0; i < kolom1.length; i++) {
                     $scope.item.obj[kolom1[i].id] = ''
-                }                                
+                }
             }
 
             $scope.Save = function () {
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
-                    arrSave.push({ id: kolom1[parseInt(arrobj[i])-1].column_name, values: $scope.item.obj[parseInt(arrobj[i])],data_type:kolom1[parseInt(arrobj[i])-1].data_type })
+                    arrSave.push({ id: kolom1[parseInt(arrobj[i]) - 1].column_name, values: $scope.item.obj[parseInt(arrobj[i])], data_type: kolom1[parseInt(arrobj[i]) - 1].data_type })
                 }
                 var jsonSave = {
                     data: arrSave,
                     table: kolom1[0].table_name,
-                    id : $scope.item.obj[1]
+                    id: $scope.item.obj[1]
                 }
                 medifirstService.post('sysadmin/master/save-table-row', jsonSave).then(function (e) {
-                    LoadData('-','-')
+                    LoadData('-', '-')
                 });
             }
 
@@ -317,7 +337,7 @@ define(['initialize'], function (initialize) {
                     "fieldreportdisplaytabelrelasi": fieldReportDisplay,
                     "keteranganfungsi": $scope.item.keteranganFungsi,
                     "typefield": $scope.item.typeField.id,
-                    "kelompok": $scope.item.kelompok != undefined ?$scope.item.kelompok : null ,
+                    "kelompok": $scope.item.kelompok != undefined ? $scope.item.kelompok : null,
                 }
 
                 var objSave =
@@ -332,8 +352,63 @@ define(['initialize'], function (initialize) {
                 });
             }
 
-            $scope.Batal = function(){
+            $scope.Batal = function () {
                 loadData()
+            }
+
+            $scope.clickHapusMap = function (ai) {
+                debugger
+                var objDelete = {
+                    id: ai.id
+                }
+                medifirstService.post('sysadmin/master/delete-mapruangantokelas', objDelete).then(function (e) {
+                    loadData()
+                })
+            }
+            $scope.clickUpdateMap = function (ai) {
+                debugger
+                var status = "false"
+                if (ai.statusenabled == false)
+                    status = "true"
+                var objDelete = {
+                    id: ai.id,
+                    statusenabled: status
+                }
+                medifirstService.post('sysadmin/master/update-mapruangantokelas', objDelete).then(function (e) {
+                    loadData()
+                })
+            }
+            $scope.clickTambah = function (ai) {
+                if ($scope.item.ruangan == undefined || $scope.item.ruangan == null) {
+                    toastr.error("Ruangan Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kelas == undefined || $scope.item.kelas == null) {
+                    toastr.error("Kelas Harus Di Isi!")
+                    return
+                }
+                debugger
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSave();
+                });
+            }
+            function RealSave() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    namaruangan: $scope.item.ruangan.namaruangan,
+                    idRuangan: $scope.item.ruangan.id,
+                    idKelas: $scope.item.kelas.id
+                }
+                medifirstService.post('sysadmin/master/save-mapruangantokelas', objDelete).then(function (e) {
+                    loadData()
+                    $scope.isRouteLoading = false;
+                })
             }
         }
     ]);

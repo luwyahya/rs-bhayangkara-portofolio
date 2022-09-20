@@ -2066,6 +2066,139 @@ class MasterController extends ApiController{
         return $this->respond($result);
     }
 
+    public function deleteMapRuanganToKelas(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $idMap=$request['id'];
+            $delete = DB::delete("delete from mapruangantokelas_m where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function updateMapRuanganToKelas(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // return($request['statusenabled']);
+            // die();
+            $idMap=$request['id'];
+            $statusenabled=$request['statusenabled'];
+            $delete = DB::delete("update mapruangantokelas_m set statusenabled='$statusenabled' where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Update gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveMapRuanganToKelas(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $maxId = DB::table('mapruangantokelas_m')->find(DB::table('mapruangantokelas_m')->max('id'));
+            $nextId = $maxId->id+1;
+            $rowDataforInsert[] = array(
+                        "id" => (int)$nextId,
+                        "statusenabled" => (bool)"t",
+                        "kodeexternal" => "UNAND",
+                        "namaexternal" => $request['namaruangan'],
+                        "norec" => (int)$nextId,
+                        "reportdisplay" => $request['namaruangan'],
+                        "objectkelasfk" => (int)$request['idKelas'],
+                        "objectruanganfk" => (int)$request['idRuangan'],
+
+                    );
+            $is_saved = DB::table('mapruangantokelas_m')
+                    ->insert($rowDataforInsert);
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getMapRuanganToKelas(Request $request) {
+        $data = \DB::table('mapruangantokelas_m as mp')
+            ->JOIN('kelas_m as kl','kl.id','=','mp.objectkelasfk')
+            ->JOIN('ruangan_m as ru','ru.id','=','mp.objectruanganfk')
+            ->join ('departemen_m as dpt','dpt.id','=','ru.objectdepartemenfk')
+            ->select('mp.id','mp.norec','mp.kodeexternal','ru.id as ruanganid','ru.namaruangan','mp.statusenabled','dpt.namadepartemen','kl.namakelas');
+
+        if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
+            $data = $data->where('dpt.id','=',$request['deptId']);
+        }
+        if(isset($request['kdkelas']) && $request['kdkelas']!="" && $request['kdkelas']!="undefined"){
+            $data = $data->where('kl.id','=', $request['kdkelas']);
+        }
+        if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
+            $data = $data->where('ru.id','=', $request['ruangan']);
+        }
+       
+
+        $data = $data->take(20);
+        $data = $data->orderBy('mp.id');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
+    }
+
     public function getProdukbyIdformap(Request $request){
         $ids = $request->all();
 
