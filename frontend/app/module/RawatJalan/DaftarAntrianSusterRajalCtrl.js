@@ -51,6 +51,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.userID = {};
             $scope.item.kp = 1
             loadCombo()
+            dataKonsul2();
             $scope.cekTelemedicine = function (bool) {
                 if (bool) {
                     $scope.item.isTelemedicine = true
@@ -1026,6 +1027,186 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                     $scope.GridPasienKonsul = new kendo.data.DataSource({
                         data: datasKonsul,
+                        group: $scope.group,
+                        pageSize: 400,
+                        total: data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                });
+            }
+            function dataKonsul2() {
+                var tglAwal = moment($scope.item.periodeAwal).format('YYYY-MM-DD HH:mm:ss');
+                var tglAkhir = moment($scope.item.periodeAkhir).format('YYYY-MM-DD HH:mm:ss');
+
+                var nocm = ""
+                if ($scope.item.noCm2 != undefined) {
+                    var nocm = "&norm=" + $scope.item.noCm2
+                }
+                var nama = ""
+                if ($scope.item.namaPasien2 != undefined) {
+                    var nama = "&nama=" + $scope.item.namaPasien2
+                }
+                var noRegistrasi = ""
+                if ($scope.item.noRegistrasi != undefined) {
+                    var noRegistrasi = "&noreg=" + $scope.item.noRegistrasi
+                }
+                var dokId = ""
+                if ($scope.pegawai.id != undefined) {
+                    var dokId = "&dokId=" + $scope.pegawai.id
+                }
+                var ruangId = ""
+                if ($scope.item.ruangan != undefined) {
+                    var ruangId = "&ruangId=" + $scope.item.ruangan.id
+                }
+                var listRuangan = ""
+
+                if ($scope.item.ruanganMulti.length != 0) {
+                    var a = ""
+                    var b = ""
+                    for (var i = $scope.item.ruanganMulti.length - 1; i >= 0; i--) {
+
+                        var c = $scope.item.ruanganMulti[i].id
+                        b = "," + c
+                        a = a + b
+                    }
+                    listRuangan = a.slice(1, a.length)
+                }
+
+                var statusPeriksa = ""
+                if ($scope.item.Status != undefined) {
+                    var statusPeriksa = "&statusPeriksa=" + $scope.item.Status.id
+                }
+
+                var jmlRow = ""
+                if ($scope.item.rows != undefined) {
+                    jmlRow = "&jmlRow=" + $scope.item.rows
+                }
+                $q.all([
+                    medifirstService.get("rawatjalan/get-daftar-antrian-rajal-data-konsul?" +
+                        "&tglAwal=" + tglAwal +
+                        "&tglAkhir=" + tglAkhir +
+                        "&norm=" + nocm +
+                        "&noreg=" + noRegistrasi +
+                        "&nama=" + nama +
+                        "&ruanganArr=" + listRuangan +
+                        "&istelemedicine=" + isTelemedicine +
+                        ruangId + statusPeriksa +
+                        jmlRow),
+                ]).then(function (data) {
+                    $scope.isRouteLoading = false;
+                    // debugger;
+                    var datasKonsul2 = data[0].data.dataKonsul;
+                    for (var i = 0; i < datasKonsul2.length; i++) {
+                        datasKonsul2[i].no = i + 1
+                        var tanggal = $scope.now;
+                        var tanggalLahir = new Date(datasKonsul2[i].tgllahir);
+                        var umurzz = dateHelper.CountAge(tanggalLahir, tanggal);
+                        datasKonsul2[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
+                        datasKonsul2[i].stts = '-'
+                        datasKonsul2[i].isonline = '-'
+                        if (datasKonsul2[i].noreservasi != undefined) {
+                            if (datasKonsul2[i].istelemedicine == '1') {
+                                datasKonsul2[i].isonline = datasKonsul2[i].notelepon
+                                datasKonsul2[i].kelompokpasien = 'Telemedicine'
+                                datasKonsul2[i].tglregistrasi = datasKonsul2[i].tanggalreservasi
+                            } else {
+                                datasKonsul2[i].isonline = 'Online'
+                                datasKonsul2[i].tglregistrasi = datasKonsul2[i].tanggalreservasi
+                            }
+                        }
+                        if (datasKonsul2[i].tgldipanggilsuster != undefined) {
+                            datasKonsul2[i].stts = 'Di Panggil Perawat'
+                        }
+                        if (datasKonsul2[i].tgldipanggildokter != undefined) {
+                            datasKonsul2[i].stts = 'Di Panggil Dokter'
+                        }
+                        if (datasKonsul2[i].statuslayanan == 'true' || datasKonsul2[i].statuslayanan == true) {
+                            datasKonsul2[i].statlayanan = "✔"
+                        } else {
+                            datasKonsul2[i].statlayanan = ""
+                        }
+                         if (datasKonsul2[i].statuslayanan == 'true' || datasKonsul2[i].statuslayanan == true) {
+                            datasKonsul2[i].statuslayanan = "Sudah di periksa"
+                        } else {
+                            datasKonsul2[i].statuslayanan = "Belum di periksa"
+                        }
+                    }
+                    
+                    $scope.GridPasienKonsul2 = new kendo.data.DataSource({
+                        data: datasKonsul2,
+                        group: $scope.group,
+                        pageSize: 400,
+                        total: data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                    debugger;
+                    if (datasKonsul2.length != 0) {
+                    $scope.winKonsul.center().open()
+                    }
+                    
+
+                });
+            }
+            
+            function datas(tglAwal, tglAkhir, nocm, noRegistrasi, nama, listRuangan, isTelemedicine, ruangId, statusPeriksa, jmlRow) {
+                $q.all([
+                    medifirstService.get("rawatjalan/get-daftar-antrian-rajal-datas?" +
+                        "&tglAwal=" + tglAwal +
+                        "&tglAkhir=" + tglAkhir +
+                        "&norm=" + nocm +
+                        "&noreg=" + noRegistrasi +
+                        "&nama=" + nama +
+                        "&ruanganArr=" + listRuangan +
+                        "&istelemedicine=" + isTelemedicine +
+                        ruangId + statusPeriksa +
+                        jmlRow),
+                ]).then(function (data) {
+                    $scope.isRouteLoading = false;
+                    // debugger;
+                    var datas = data[0].data.data;
+                    for (var i = 0; i < datas.length; i++) {
+                        datas[i].no = i + 1
+                        var tanggal = $scope.now;
+                        var tanggalLahir = new Date(datas[i].tgllahir);
+                        var umurzz = dateHelper.CountAge(tanggalLahir, tanggal);
+                        datas[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
+                        datas[i].stts = '-'
+                        datas[i].isonline = '-'
+                        if (datas[i].noreservasi != undefined) {
+                            if (datas[i].istelemedicine == '1') {
+                                datas[i].isonline = datas[i].notelepon
+                                datas[i].kelompokpasien = 'Telemedicine'
+                                datas[i].tglregistrasi = datas[i].tanggalreservasi
+                            } else {
+                                datas[i].isonline = 'Online'
+                                datas[i].tglregistrasi = datas[i].tanggalreservasi
+                            }
+                        }
+                        if (datas[i].tgldipanggilsuster != undefined) {
+                            datas[i].stts = 'Di Panggil Perawat'
+                        }
+                        if (datas[i].tgldipanggildokter != undefined) {
+                            datas[i].stts = 'Di Panggil Dokter'
+                        }
+                        if (datas[i].statuslayanan == 'true' || datas[i].statuslayanan == true) {
+                            datas[i].statlayanan = "✔"
+                        } else {
+                            datas[i].statlayanan = ""
+                        }
+                    }
+                    
+                    $scope.GridPasien = new kendo.data.DataSource({
+                        data: datas,
                         group: $scope.group,
                         pageSize: 400,
                         total: data.length,
@@ -3217,6 +3398,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             $scope.findData = function () {
                 loadData($scope.item.kondisi)
+                dataKonsul2()
             }
 
             $scope.pemeriksaanPasien = function () {
@@ -4697,6 +4879,160 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     { field: "status", title: "Status", width: 120 },
                     { command: [{ name: "edit", text: "Verifikasi", click: verif }], title: "&nbsp;", width: 120 }
                 ],
+            };
+
+            $scope.konsulOpt2 = {
+
+                pageable: true,
+                scrollable: true,
+                dataBound: onDataBound,
+                columns: [{
+                    "field": "statlayanan",
+                    "title": "✔",
+                    "width": "25px",
+                },
+                // {
+                //     "field":"no",
+                //     "field":"noantrian",
+                //     "title":"No",
+                //     "width":"40px",
+                // },
+                {
+                    "field": "statuspulang",
+                    "title": "Status Pulang",
+                    "width": "90px",
+
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setstatuspulang(dataItem)\"  style=\"margin:0 0 5px\">#:  statuspulang #</button> ",
+                },
+                {
+                    "field": "namekendali",
+                    "title": "Rekam Medis",
+                    "width": "90px",
+
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setNamaKendali(dataItem)\"  style=\"margin:0 0 5px\">#:  namekendali #</button> ",
+                },
+                {
+                    "field": "batalkonsul",
+                    "title": "Batal Konsul",
+                    "width": "90px",
+
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setBatalKonsul(dataItem)\"  style=\"margin:0 0 5px\">#:  batalkonsul #</button> ",
+                },
+                {
+                    "field": "tglregistrasi",
+                    "title": "Tgl Registrasi",
+                    "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
+                    "width": "80px"
+                },
+                {
+                    "field": "nobpjs",
+                    "title": "No BPJS",
+                    "width": "80px"
+                    
+                },
+                {
+                    "field": "noregistrasi",
+                    "title": "No Registrasi",
+                    "width": "80px"
+                    
+                },
+                {
+                    "field": "nocm",
+                    "title": "No. Rekam Medis",
+                    "width": "80px"
+                    
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "umurzz",
+                    "title": "Umur",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "statuspasien",
+                    "title": "Status",
+                    "width": "80px"
+                    
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Dokter",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "residence",
+                    "title": "Dokter Residen",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "jeniskelamin",
+                    "title": "Jenis Kelamin",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Tipe Pembayaran",
+                    "width": "80px"
+                    
+                },
+                {
+                    "field": "alamatlengkap",
+                    "title": "Alamat",
+                    "width": "100px"
+                    
+                },
+                {
+                    "field": "nosep",
+                    "title": "No SEP",
+                    "width": "130px",
+                    attributes: {
+                        class: "#=nosep == '' || nosep == null ? 'gaada' : 'ijo' #"
+                    }
+                },
+                {
+                    "field": "stts",
+                    "title": "Panggil",
+                    "width": "80px"
+                },
+                {
+                    "field": "isonline",
+                    "title": "Status",
+                    "width": "80px"
+                },
+                {
+                    "field": "iskompleks",
+                    "title": "Kompleks",
+                    "width": "50px",
+                    "template": '# if( iskompleks==1 ) {# ✔ # } else {#  #} #'
+
+                },
+                {
+                    "field": "diagnosa",
+                    "title": "Diagnosa",
+                    "width": "80px"
+                },
+                {
+                    "field": "statuslayanan",
+                    "title": "Status Periksa",
+                    "width": "80px"
+                },
+                {
+                    hidden: true,
+                    field: "namaruangan",
+                    title: "Nama Ruangan",
+                    aggregates: ["count"],
+                    groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
+                }
+                ]
             };
 
             function verif(e) {

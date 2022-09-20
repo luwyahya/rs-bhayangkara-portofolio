@@ -1467,6 +1467,38 @@
 
 </form>
 
+<div kendo-window="winKonsul" k-title="'Notifikasi Pasien Konsul Ruangan'" k-width="1700" k-height="450" k-visible="false" k-on-open="win2visible= true" k-on-close="win2visible= true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <fieldset class="effect-shadow" style="border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Daftar Pasien Konsul Ruangan</a>
+            </legend>
+            <div class="grid_1" style="margin-top: 5px">
+                <label c-label real>No RM</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noCm2" ng-keypress="($event.which == 13)? SearchEnter():item.noCm2" />
+            </div>
+            <div class="grid_3" style="margin-top:5px">
+               <label c-label real>Nama Pasien</label>
+               <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namaPasien2" 
+               ng-keypress="($event.which == 13)? SearchEnter():item.namaPasien2" /> 
+            </div>
+            <div class="grid_1" style="margin-top: 20px">
+                <button class="btnTemplate1" ng-click="Detail()"><i class="fa fa-th-list"></i>
+                Rincian   
+                </button>
+            </div>
+            <div class="grid_2" style="margin-top: 5px; margin-left: 20px;">
+                <label c-label c-label-text=""></label>
+                <em style="margin-top:6px;" ng-click='findData()' id="iconButton" data-role="button"
+                 class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span class="k-sprite k-icon k-i-search">Cari</span></em>
+            </div>
+            <div class="grid_12" style="margin-top: 10px">
+                <div id="grid" kendo-grid k-data-source="GridPasienKonsul2" options="konsulOpt2" k-selectable="'row'" k-groupable="'true'" k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" options="columnGrid" k-resizable="'true'" k-sortable="'true'" k-ng-model="dataPasienSelected" ng-click="klickGrid(dataPasienSelected)">  
+                </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
 <div id="tempatLaporan" ng-hide="true"></div>
 <style>
     .k-window-content .k-content {
