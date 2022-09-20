@@ -81,6 +81,18 @@
                                             ng-model="item.judulPenelitian" />
                                     </div>
                                 </div>
+                                <div class="grid_3">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Redaksi"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%;" kendo-combo-box
+                                            k-ng-model="item.redaksi"
+                                            k-data-text-field="'redaksi'" k-data-value-field="'id'"
+                                            k-filter="'contains'" k-auto-bind="false"
+                                            k-data-source="ListRedaksi" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

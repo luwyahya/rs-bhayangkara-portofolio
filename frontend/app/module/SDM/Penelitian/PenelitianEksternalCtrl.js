@@ -51,6 +51,7 @@ define(['initialize'], function(initialize) {
                         var datas = dat.data.datas[0];
                         norec_kpe = datas.norec;
                         $scope.item.nim = datas.nim;
+                        $scope.item.redaksi = datas.redaksi;
                         $scope.item.namaPeneliti = datas.namapeneliti;
                         $scope.item.periodePengajaran = datas.periodepengajaran;                           
                         $scope.item.institusiPendidikan = {id:datas.institusipendidikanfk,institusipendidikan:datas.institusipendidikan};
@@ -109,6 +110,25 @@ define(['initialize'], function(initialize) {
 	         	})
 	        }
 	    }
+
+            $scope.ListRedaksi = [
+                {
+                    "id": 1,
+                    "redaksi": "Dosen"
+                },
+                {
+                    "id": 2,
+                    "redaksi": "Mahasiswa"
+                },
+                {
+                    "id": 3,
+                    "redaksi": "Pegawai/Karyawan"
+                },
+                {
+                    "id": 4,
+                    "redaksi": "Lainnya"
+                }
+            ];
 
 		    $scope.Listketerangan = [
 			  	{
@@ -197,6 +217,11 @@ define(['initialize'], function(initialize) {
                     return;
                 } 
 
+                if ($scope.item.redaksi == undefined) {
+                    alert("Hasil Redaksi Tidak Boleh Kosong!")
+                    return;
+                } 
+
                 if ($scope.item.tanggalPembayaran == undefined) {
                     alert("Hasil Tanggal Pembayaran Tidak Boleh Kosong!")
                     return;
@@ -242,6 +267,7 @@ define(['initialize'], function(initialize) {
 					"fakultasfk":$scope.item.fakultas.id,
 					"institusipendidikanfk":$scope.item.institusiPendidikan.id,
 					"judulpeneltian":$scope.item.judulPenelitian,
+                    "redaksi":$scope.item.redaksi.id,
 					"jurusanpeminatanfk":$scope.item.jurusanPeminatan.id,
 					"laporanpenelitian":$scope.item.laporanPenelitian,
 					"lokasipenelitian":$scope.item.lokasiPenelitian,

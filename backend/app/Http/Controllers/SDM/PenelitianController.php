@@ -134,6 +134,7 @@ class PenelitianController extends ApiController {
             $dataKPE->namapeneliti = $request['data']['namapeneliti'];
             $dataKPE->nim = $request['data']['nim'];
             $dataKPE->nomorkwitansi = $request['data']['nomorkwitansi'];
+            $dataKPE->redaksi = $request['data']['redaksi'];
             $dataKPE->periodepengajaran = $request['data']['periodepengajaran'];
             $dataKPE->tanggalmulai = $request['data']['tanggalmulai'];
             $dataKPE->tanggalpembayaran = $request['data']['tanggalpembayaran'];
