@@ -615,8 +615,15 @@ define(['initialize'], function (initialize) {
 
 				$scope.item.jumlah = '';
 			};
-
 			$scope.Simpan = function () {
+				$scope.popUpPasswprd.center().open();
+			}
+			$scope.savePassword = function () {
+				debugger;
+				if ($scope.item.password != "karambia") {
+					toastr.error("Password Salah!")
+					return;
+				}
 				var a = 0;
 				var yeuh = 0;
 				var awal = 0;
