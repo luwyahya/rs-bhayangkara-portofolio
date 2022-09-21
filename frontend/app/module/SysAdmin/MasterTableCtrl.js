@@ -8,9 +8,13 @@ define(['initialize'], function (initialize) {
             var kolom1 = []
             var dataSelected = []
             var comboboxorigin = []
+            var setUpdate = "";
 
             loadData()
-
+            $scope.listStatus = [
+                { "id": "1", "name": "true" },
+                { "id": "2", "name": "false" },
+            ];
             function loadData() {
                 $scope.isRouteLoading = true;
                 medifirstService.get('registrasi/daftar-antrian-pasien/get-combo').then(function (e) {
@@ -415,23 +419,35 @@ define(['initialize'], function (initialize) {
                 var ruanganId = ''
                 if ($scope.item.ruangan)
                     ruanganId = '?ruangan=' + $scope.item.ruangan.id
-
-                medifirstService.get('sysadmin/master/get-dataruangan' + ruanganId).then(function (e) {
+                var instalasiId = ''
+                if ($scope.item.instalasi) {
+                    if (instalasiId == "")
+                        instalasiId = '?kdInstalasi=' + $scope.item.instalasi.id
+                    else
+                        instalasiId = '&kdInstalasi=' + $scope.item.instalasi.id
+                }
+                medifirstService.get('sysadmin/master/get-dataruangan' + ruanganId + instalasiId).then(function (e) {
                     $scope.listDataRuangan = e.data.datas
                 })
             }
-            $scope.clickUpdateRuangan = function (ai) {
-                debugger
-                var status = "false"
-                if (ai.statusenabled == false)
-                    status = "true"
+            $scope.clickSaveUpdate = function () {
                 var objDelete = {
-                    id: ai.id,
-                    statusenabled: status
+                    id: setUpdate.id,
+                    statusenabled: $scope.item.status.name,
+                    namaruangan: $scope.item.namaRuangan
                 }
                 medifirstService.post('sysadmin/master/update-ruangan', objDelete).then(function (e) {
                     $scope.findDataRuangan()
                 })
+            }
+            $scope.clickUpdateRuangan = function (ai) {
+                debugger
+                setUpdate = ai
+                $scope.item.namaRuangan = ai.namaruangan
+                $scope.item.status = { id: '2', name: 'false' }
+                if (ai.statusenabled == true)
+                    $scope.item.status = { id: '1', name: 'true' }
+                $scope.popupUpdateRuangan.open().center()
             }
             $scope.clickTambahRuangan = function () {
                 $scope.popupTambahRuangan.open().center()

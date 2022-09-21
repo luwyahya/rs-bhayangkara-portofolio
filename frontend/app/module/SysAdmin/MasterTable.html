@@ -131,6 +131,13 @@
                                                 k-data-text-field="'namaruangan'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
                                         </div>
+                                        <div class="grid_4">
+                                            <label c-label item="item" c-label-text="Instalasi"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.instalasi"
+                                                k-data-text-field="'namadepartemen'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false"
+                                                k-data-source="listInstalasi" />
+                                        </div>
                                         <div class="grid_1">
                                             <label c-label c-label-text=""></label>
                                             <em style="margin-top:6px;" ng-click='findDataRuangan()' id="iconButton"
@@ -286,6 +293,35 @@
             </md-content>
         </div>
 
+        <div kendo-window="popupUpdateRuangan" k-title="'Detail'" k-visible="false" k-width="800" k-height="500">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">UPDATE RUANGAN</a>
+                        </legend>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Nama Ruangan"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="item.namaRuangan" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Status Enabled"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.status"
+                                    k-data-text-field="'name'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listStatus" />
+                            </div>
+                            <div class="grid_1">
+                                <label c-label c-label-text=""></label>
+                                <button class="c-button success" ng-click="clickSaveUpdate()"
+                                    style="float:left;width:120px">Simpan</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
         <div kendo-window="popupEntry" k-title="'Detail'" k-visible="false" k-width="800" k-height="500">
             <div class="panel panel-default container_12">
                 <div class="grid_12">
@@ -613,7 +649,7 @@
                 <div class="grid_12">
                     <fieldset class="effect-shadow" style=" border-radius: 4px">
                         <legend id="filterData">
-                            <a ng-click="showAndHide()">DATA MAP RUANGAN TO KELAS</a>
+                            <a ng-click="showAndHide()">Tambah RUANGAN</a>
                         </legend>
                         <div class="grid_12">
                             <div class="grid_3">

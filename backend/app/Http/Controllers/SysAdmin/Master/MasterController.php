@@ -2204,8 +2204,8 @@ class MasterController extends ApiController{
             ->select('ru.id', 'ru.namaruangan', 'ru.objectdepartemenfk','dp.namadepartemen','ru.statusenabled')
             ->whereIn('ru.objectdepartemenfk', [3, 18, 16, 24, 28, 27]);
 
-        if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
-            $data = $data->where('dp.id','=',$request['deptId']);
+        if(isset($request['kdInstalasi']) && $request['kdInstalasi']!="" && $request['kdInstalasi']!="undefined"){
+            $data = $data->where('dp.id','=',$request['kdInstalasi']);
         }
        
         if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
@@ -2232,7 +2232,8 @@ class MasterController extends ApiController{
             // die();
             $idMap=$request['id'];
             $statusenabled=$request['statusenabled'];
-            $delete = DB::delete("update ruangan_m set statusenabled='$statusenabled' where id='$idMap'");
+            $namaruangan=$request['namaruangan'];
+            $delete = DB::delete("update ruangan_m set statusenabled='$statusenabled',namaruangan='$namaruangan' where id='$idMap'");
 
             $transStatus = 'true';
         } catch (\Exception $e) {
