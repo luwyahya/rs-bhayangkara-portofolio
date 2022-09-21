@@ -852,7 +852,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
-                            "diagnosa_inagrouper": $scope.item.dataDiagnosaInacbg10Inacbg,
+                            "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
                             "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
@@ -1030,7 +1030,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
-                            "diagnosa_inagrouper": $scope.item.dataDiagnosaInacbg10Inacbg,
+                            "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
                             "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
