@@ -67,7 +67,7 @@
 
                         <div class="clear"></div>
                         <div class="grid_12 borderBox">
-                            <div id="kGrid" kendo-grid k-data-source="dataFastMoving" k-selectable="'row'"
+                            <div id="kGrid" kendo-grid k-data-source="dataFastMoving" options="mainGridOptions" k-selectable="'row'"
                                 k-columns="columnFast" k-pageable="'true'" k-sortable="'true'"
                                 k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)">
                             </div>
@@ -138,7 +138,7 @@
 
                         <div class="clear"></div>
                         <div class="grid_12 borderBox">
-                            <div id="kGrid" kendo-grid k-data-source="dataSlowMoving" k-selectable="'row'"
+                            <div id="kGrid" kendo-grid k-data-source="dataSlowMoving" options="mainGridOptions2" k-selectable="'row'"
                                 k-columns="columnSlow" k-pageable="'true'" k-sortable="'true'"
                                 k-ng-model="dataPasienSelected" ng-click="click(dataPasienSelected)">
                             </div>

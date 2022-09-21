@@ -124,6 +124,32 @@ define(['initialize'], function(initialize) {
                 })
             };
 
+            $scope.mainGridOptions = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: {
+                    fileName: "Monitoringbarangfastmoving.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Sheet";
+
+                    var myHeaders = [{
+                        value: "Monitoring Barang Fast Moving",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+            }
+
 
             $scope.cariSlow = function() {
                 $scope.isRouteLoading = true;
@@ -170,6 +196,32 @@ define(['initialize'], function(initialize) {
                     });
                 })
             };
+
+            $scope.mainGridOptions2 = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: {
+                    fileName: "Monitoringbarangslowmoving.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Sheet";
+
+                    var myHeaders = [{
+                        value: "Monitoring Barang Slow Moving",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+            }
 
             $scope.kl = function(current) {
                 $scope.current = current;
