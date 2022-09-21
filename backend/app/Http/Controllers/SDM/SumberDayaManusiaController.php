@@ -3413,19 +3413,19 @@ class SumberDayaManusiaController extends ApiController {
     }
     public function getDataComboPesertaDidik(Request $request){
         $dataJenisKelamin = DB::select(DB::raw("select * from jeniskelamin_m
-                where statusenabled=1")
+                where statusenabled='1'")
         );
         $dataAgama = DB::select(DB::raw("select * from agama_m
-                where statusenabled=1")
+                where statusenabled='1'")
         );
         $dataInstitusipPendidikan = DB::select(DB::raw("select * from sdm_institusipendidikan_m
-                where statusenabled=1")
+                where statusenabled='1'")
         );
         $dataJurusan = DB::select(DB::raw("select * from sdm_jurusanpeminatan_m
-                where statusenabled=1")
+                where statusenabled='1'")
         );
         $datafakultas = DB::select(DB::raw("select * from sdm_fakultas_m
-                where statusenabled=1")
+                where statusenabled='1'")
         );
 
         $result = array(
@@ -3449,14 +3449,14 @@ class SumberDayaManusiaController extends ApiController {
         }
 
         $data = DB::select(DB::raw("select a.*,ag.agama,jk.jeniskelamin,sins.institusipendidikan,sjur.jurusanpeminatan,sfak.fakultas ,
-            a.tempatlahir + ', ' + format(a.tanggallahir,'yyyy-MM-dd')  as ttl
+            a.tempatlahir || ', ' || to_char(a.tanggallahir,'yyyy-MM-dd')  as ttl
             from sdm_pesertadidik_t as a
             INNER JOIN agama_m as ag on a.agamafk=ag.id
             INNER JOIN jeniskelamin_m as jk on jk.id=a.jeniskelaminfk
             left JOIN sdm_institusipendidikan_m as sins on sins.id=a.institusipendidikanfk
             left JOIN sdm_jurusanpeminatan_m as sjur on sjur.id=a.jurusanpeminatanfk
             left JOIN sdm_fakultas_m as sfak on sfak.id=a.fakultasfk
-            where a.statusenabled=1 $nama $insts")
+            where a.statusenabled='1' $nama $insts")
         );
         $result = array(
             'data' => $data,
