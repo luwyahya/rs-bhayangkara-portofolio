@@ -16,6 +16,7 @@ define(['initialize'], function (initialize) {
                 medifirstService.get('registrasi/daftar-antrian-pasien/get-combo').then(function (e) {
                     $scope.listRuangan = e.data.data
                     $scope.listKelas = e.data.kelas
+                    $scope.listInstalasi = e.data.dataInstalasi
                 })
                 var ruanganId = ''
                 if ($scope.item.ruangan)
@@ -406,6 +407,68 @@ define(['initialize'], function (initialize) {
                     idKelas: $scope.item.kelas.id
                 }
                 medifirstService.post('sysadmin/master/save-mapruangantokelas', objDelete).then(function (e) {
+                    loadData()
+                    $scope.isRouteLoading = false;
+                })
+            }
+            $scope.findDataRuangan = function () {
+                var ruanganId = ''
+                if ($scope.item.ruangan)
+                    ruanganId = '?ruangan=' + $scope.item.ruangan.id
+
+                medifirstService.get('sysadmin/master/get-dataruangan' + ruanganId).then(function (e) {
+                    $scope.listDataRuangan = e.data.datas
+                })
+            }
+            $scope.clickUpdateRuangan = function (ai) {
+                debugger
+                var status = "false"
+                if (ai.statusenabled == false)
+                    status = "true"
+                var objDelete = {
+                    id: ai.id,
+                    statusenabled: status
+                }
+                medifirstService.post('sysadmin/master/update-ruangan', objDelete).then(function (e) {
+                    $scope.findDataRuangan()
+                })
+            }
+            $scope.clickTambahRuangan = function () {
+                $scope.popupTambahRuangan.open().center()
+            }
+            $scope.clickSaveRuangan = function (ai) {
+                if ($scope.item.namaRuangan == undefined || $scope.item.namaRuangan == null) {
+                    toastr.error("Ruangan Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kodeBPJS == undefined || $scope.item.kodeBPJS == null) {
+                    toastr.error("Kode BPJS Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.instalasi == undefined || $scope.item.instalasi == null) {
+                    toastr.error("Instalasi Harus Di Isi!")
+                    return
+                }
+                debugger
+                $scope.popupTambahRuangan.close();
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSaveRuangan();
+                });
+            }
+            function RealSaveRuangan() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    namaruangan: $scope.item.namaRuangan,
+                    kodeBPJS: $scope.item.kodeBPJS,
+                    instalasi: $scope.item.instalasi.id,
+                }
+                medifirstService.post('sysadmin/master/save-ruangan', objDelete).then(function (e) {
                     loadData()
                     $scope.isRouteLoading = false;
                 })

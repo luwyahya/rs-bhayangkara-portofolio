@@ -2198,6 +2198,111 @@ class MasterController extends ApiController{
 
         return $this->respond($result);
     }
+    public function getDataRuangan(Request $request) {
+        $data = DB::table('ruangan_m as ru')
+            ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+            ->select('ru.id', 'ru.namaruangan', 'ru.objectdepartemenfk','dp.namadepartemen','ru.statusenabled')
+            ->whereIn('ru.objectdepartemenfk', [3, 18, 16, 24, 28, 27]);
+
+        if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
+            $data = $data->where('dp.id','=',$request['deptId']);
+        }
+       
+        if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
+            $data = $data->where('ru.id','=', $request['ruangan']);
+        }
+       
+
+        $data = $data->take(5);
+        $data = $data->orderBy('ru.namaruangan');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
+    }
+    public function updateRuangan(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // return($request['statusenabled']);
+            // die();
+            $idMap=$request['id'];
+            $statusenabled=$request['statusenabled'];
+            $delete = DB::delete("update ruangan_m set statusenabled='$statusenabled' where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Update gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveRuangan(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $maxId = DB::table('ruangan_m')->find(DB::table('ruangan_m')->max('id'));
+            $nextId = $maxId->id+1;
+            $rowDataforInsert[] = array(
+                        "id" => (int)$nextId,
+                        "statusenabled" => (bool)"t",
+                        "kodeexternal" => "UNAND",
+                        "kdinternal" => $request['kodeBPJS'],
+                        "namaexternal" => $request['namaruangan'],
+                        "namaruangan" => $request['namaruangan'],
+                        "norec" => (int)$nextId,
+                        "reportdisplay" => $request['namaruangan'],
+                        "objectdepartemenfk" => (int)$request['instalasi'],
+                        "objectruanganfk" => (int)$request['idRuangan'],
+                        "qruangan" => (int)$nextId,
+                        "tanggal" => date('Y-m-d H:i:s'),
+                        "statusviewdata" => (bool)"t",
+
+                    );
+            $is_saved = DB::table('ruangan_m')
+                    ->insert($rowDataforInsert);
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
 
     public function getProdukbyIdformap(Request $request){
         $ids = $request->all();
