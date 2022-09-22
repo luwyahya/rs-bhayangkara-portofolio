@@ -58,6 +58,7 @@ use App\Transaksi\PlanningPegawaiStatus;
 use App\Transaksi\RiwayatJabatan;
 use App\Transaksi\RiwayatPelatihan;
 use App\Transaksi\RiwayatPendidikan;
+use App\Transaksi\FotoPegawai;
 use App\Transaksi\OrganisasiProfesi;
 use App\Transaksi\RiwayatDikjur;
 use App\Transaksi\TandaJasa;
@@ -1346,6 +1347,7 @@ class SumberDayaManusiaController extends ApiController {
             $dataSip=$request['simpansip'];
             $dataStr=$request['simpanstr'];
             $dataTelp=$request['simpantelp'];
+            $dataPhoto = $request['dataphoto'];
             
 //            return $this->respond($dataKeluargaPegawai);
 
@@ -1684,6 +1686,53 @@ class SumberDayaManusiaController extends ApiController {
                     $dataSaveTelp->nomor = $hideungtelp['noTelp'];
                     $dataSaveTelp->providerfk = $hideungtelp['providerfk'];
                     $dataSaveTelp->save();
+                }
+            }
+            if ($dataPhoto != "") {
+                //cek udah masuk tabel ini atau belum
+                if($dataPhoto[0]['id']==""){
+                    $dataSavePhoto = new FotoPegawai();
+                    $dataSavePhoto->norec = $dataSavePhoto->generateNewId();
+                    $dataSavePhoto->kdprofile = 17;
+                    $dataSavePhoto->statusenabled = 1;
+                    $dataSavePhoto->objectpegawaifk = $IdPegawais;
+                    $dataSavePhoto->foto =$dataPhoto[0]['foto'];
+                    $dataSavePhoto->save();
+                }else{
+                    $cek = FotoPegawai::where('objectpegawaifk', $dataPhoto[0]['id'])
+                        ->get();
+                    foreach($dataPhoto as $auah) {
+                        if (count($cek) == 0) {
+                            if ($auah['foto'] != 'null') {
+                                $dataSavePhoto = new FotoPegawai();
+                                $dataSavePhoto->norec = $dataSavePhoto->generateNewId();
+                                $dataSavePhoto->kdprofile = 17;
+                                $dataSavePhoto->statusenabled = 1;
+                                $dataSavePhoto->objectpegawaifk = $IdPegawais;
+                                $dataSavePhoto->foto = $auah['foto'];
+                                $dataSavePhoto->save();
+                            }
+                        } else {
+                            $dataSavePhoto = FotoPegawai::where('objectpegawaifk', $auah['id'])
+                                ->first();
+                            $dataSavePhoto->foto = $auah['foto'];
+                            $dataSavePhoto->save();
+                        }
+                        // if ($auah['foto'] != null) {
+                        //     if ($auah['id'] == "") {
+                        //         $dataSavePhoto = new FotoPegawai();
+                        //         $dataSavePhoto->norec = $dataSavePhoto->generateNewId();
+                        //         $dataSavePhoto->kdprofile = 17;
+                        //         $dataSavePhoto->statusenabled = 1;
+                        //         $dataSavePhoto->objectpegawaifk = $IdPegawais;
+                        //     } else {
+                        //         $dataSavePhoto = FotoPegawai::where('objectpegawaifk', $auah['id'])
+                        //             ->first();
+                        //     }
+                        //     $dataSavePhoto->foto = $auah['foto'];
+                        //     $dataSavePhoto->save();
+                        // }
+                    }
                 }
             }
 
@@ -5453,7 +5502,7 @@ class SumberDayaManusiaController extends ApiController {
     public function getPendidikan(Request $request) {
         $data = \DB::table('riwayatpendidikan_t as rp')
             ->join('pendidikan_m as p', 'p.id', '=', 'rp.objectpendidikanfk')
-            ->select('p.pendidikan','p.id','rp.jurusan', DB::raw("format(rp.tgllulus, 'yyyy') as tgllulus"))
+            ->select('p.pendidikan','p.id','rp.jurusan', DB::raw("to_char(rp.tgllulus, 'yyyy') as tgllulus"))
             ->where('rp.objectpegawaifk', $request['idPegawai'])
             ->orderBy('rp.tgllulus', 'asc')
             ->get();
@@ -5488,7 +5537,7 @@ class SumberDayaManusiaController extends ApiController {
     }
     public function getTtlIndo(Request $request) {
         $data = \DB::table('pegawai_m as pg')
-            ->select('pg.tempatlahir', 'pg.tgllahir', DB::raw("GETDATE() as tglsekarang"))
+            ->select('pg.tempatlahir', 'pg.tgllahir', DB::raw("NOW()::timestamp as tglsekarang"))
             ->where('pg.id', $request['idPegawai'])
             ->get();
 
@@ -5893,7 +5942,7 @@ class SumberDayaManusiaController extends ApiController {
     }
     public function getDikJur(Request $request) {
         $data = \DB::table('riwayatdikjur_t as rd')
-            ->select(DB::raw("rd.namapenyelenggara ,format(rd.tglselesai, 'yyyy') as tglselesai"))
+            ->select(DB::raw("rd.namapenyelenggara ,to_char(rd.tglselesai, 'yyyy') as tglselesai"))
             ->where('rd.objectpegawaifk', $request['idPegawai'])
             ->get();
 
@@ -5918,7 +5967,8 @@ class SumberDayaManusiaController extends ApiController {
             ->get();
 
         $dataRJ = \DB::table('riwayatjabatan_t as rj')
-            ->select('rj.namajabatan')
+            ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'rj.objectruanganfk')
+            ->select('rj.namajabatan', 'ru.namaruangan')
             ->where('rj.objectpegawaifk', $request['idPegawai'])
             ->get();
         
@@ -5939,6 +5989,11 @@ class SumberDayaManusiaController extends ApiController {
             ->where('kb.objectpegawaifk', $request['idPegawai'])
             ->get();
 
+        $foto = \DB::table('fotopegawai_t as fp')
+            ->select('fp.foto')
+            ->where('fp.objectpegawaifk', $request['idPegawai'])
+            ->get();
+
         $i = 1;
         $j = 1;
         $k = 1;
@@ -5956,7 +6011,7 @@ class SumberDayaManusiaController extends ApiController {
             $i++;
         };
         foreach($dataRJ as $item2) {
-            $rj2 = $j . '. ' . $item2->namajabatan . "\n";
+            $rj2 = $j . '. ' . $item2->namajabatan . ' Ruang ' . $item2->namaruangan . "\n";
             $rj = $rj . $rj2;
             $j++;
         };
@@ -5982,7 +6037,8 @@ class SumberDayaManusiaController extends ApiController {
             'jabatan' => $rj,
             'jasa' => $tj,
             'asing' => $asing,
-            'daerah' => $daerah
+            'daerah' => $daerah,
+            'foto' => $foto
         );
         return $this->respond($result);
     }
