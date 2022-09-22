@@ -14783,7 +14783,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         $dataDetailDiagnosa->objectdiagnosatindakanfk = $request['detaildiagnosatindakanpasien']['objectdiagnosatindakanfk'];
         $dataDetailDiagnosa->objectdiagnosatindakanpasienfk = $dataDiagnosa->norec;
-        $dataDetailDiagnosa->jumlah = null;
+        $dataDetailDiagnosa->jumlah = $request['detaildiagnosatindakanpasien']['jumlah'];
         $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID()
         if (isset($request['detaildiagnosatindakanpasien']['keterangantindakan'])) {
             $dataDetailDiagnosa->keterangantindakan = $request['detaildiagnosatindakanpasien']['keterangantindakan'];

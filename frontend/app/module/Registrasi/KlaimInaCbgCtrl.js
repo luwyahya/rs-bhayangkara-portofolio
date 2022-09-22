@@ -670,14 +670,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     alert("Pilih Kode Diagnosa dan Nama Diagnosa terlebih dahulu!!")
                     return
                 }
-                // if ($scope.item.namaRuangan1.objectruanganfk == undefined) {
-                //     alert("Pilih Nama Ruangan ulang!!")
-                //     return
-                // }
-                // if ($scope.dataSelected1 == undefined) {
-                //     alert("Silahkan Klik Ruangan Di List Diagnosa!!")
-                //     return
-                // }
+
                 var norecDiagnosaTindakanPasien = "";
                 if ($scope.dataSelected1 != undefined) {
                     norecDiagnosaTindakanPasien = $scope.dataSelected1.norec_diagnosapasien
@@ -686,26 +679,37 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if ($scope.item.keteranganTindakan != undefined) {
                     keteranganTindakan = $scope.item.keteranganTindakan
                 }
-                var norec_apd
-
                 $scope.now = new Date();
-                var detaildiagnosatindakanpasien = {
-                    norec_dp: norecDiagnosaTindakanPasien,
-                    noregistrasifk: $scope.item.data[0].noregistrasi,
-                    tglpendaftaran: $scope.item.data[0].tglregistrasi,
-                    objectdiagnosatindakanfk: $scope.item.diagnosisPrimer1.id,
-                    keterangantindakan: keteranganTindakan,
-                }
-                var objSave = {
-                    detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
-                }
+                var confirm = $mdDialog.prompt()
+                    .title('Silahkan Masukan Jumlah Tindakan Dalam 1x Operasi?')
+                    .placeholder('Jumlah Tindakan')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .initialValue('')
+                    .ok('Okay!')
+                    .cancel('Tidak');
+                $mdDialog.show(confirm).then(function (result) {
+                    noantrianLoket = result
+                    var detaildiagnosatindakanpasien = {
+                        norec_dp: norecDiagnosaTindakanPasien,
+                        noregistrasifk: $scope.item.data[0].noregistrasi,
+                        tglpendaftaran: $scope.item.data[0].tglregistrasi,
+                        objectdiagnosatindakanfk: $scope.item.diagnosisPrimer1.id,
+                        keterangantindakan: keteranganTindakan,
+                        jumlah: noantrianLoket
+                    }
+                    var objSave = {
+                        detaildiagnosatindakanpasien: detaildiagnosatindakanpasien,
+                    }
 
-                medifirstService.post('registrasi/save-diagnosa-tindakan-pasien-target', objSave).then(function (e) {
-                    delete $scope.item.diagnosisPrimer1;
-                    $scope.isRouteLoading = false;
-                    $scope.setdetail(set)
-                })
-
+                    medifirstService.post('registrasi/save-diagnosa-tindakan-pasien-target', objSave).then(function (e) {
+                        delete $scope.item.diagnosisPrimer1;
+                        $scope.isRouteLoading = false;
+                        $scope.setdetail(set)
+                    })
+                }, function () {
+                    return
+                });
             }
 
 
@@ -853,7 +857,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
                             "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg, //$scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      
@@ -1031,7 +1035,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
                             "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosaInacbg9Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg, //$scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      

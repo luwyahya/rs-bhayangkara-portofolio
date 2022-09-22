@@ -965,7 +965,8 @@ class InaCbgController   extends ApiController
                 'dt.*',
                 'ddt.keterangantindakan',
                 'pg.namalengkap',
-                'ddt.tglinputdiagnosa'
+                'ddt.tglinputdiagnosa',
+                'ddt.jumlah'
             )
             ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -978,7 +979,12 @@ class InaCbgController   extends ApiController
         $dataDiagnosa9 = $dataDiagnosa9->get();
         $dataDiagnosa9Inacbg = '';
         foreach ($dataDiagnosa9 as $item2){
-            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            // $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            if($item2->jumlah > 1){
+                $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
+            }else{
+                $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            }
         }
 
         $dataDiagnosaInacbg10 = \DB::table('pasiendaftar_t as pd')
