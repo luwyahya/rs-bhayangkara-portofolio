@@ -1,205 +1,217 @@
 <style>
-	.btn-disabled {
-		background-color: red;
-	}
-	.btn-enabled {
-		background-color: green;
-	}
+    .btn-disabled {
+        background-color: red;
+    }
+
+    .btn-enabled {
+        background-color: green;
+    }
 </style>
 <div class="grid_12">
-	<div class="grid_12 headerBox">
-		<h1 style="color: white;"><b>Daftar Produk</b></h1>
-	</div>
-	<div class="grid_12">
-		<div class="grid_2">
-			<div class="grid_12">
-				<label c-label item="item" c-label-text="kd"></label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdProdukScr" ng-keypress="($event.which == 13)? cariFilter():item.kdProdukScr"/>
-			</div>
-		</div>
-		<div class="grid_3">
-			<div class="grid_12">
-				<label c-label item="item" c-label-text="Nama Produk"></label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaProdukScr" ng-keypress="($event.which == 13)? cariFilter():item.namaProdukScr"/>
-			</div>
-		</div>
-		<div class="grid_2">
-			<div class="grid_12">
-				<label c-label item="item" c-label-text="kdIntern"></label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdProdukInternScr" ng-keypress="($event.which == 13)? cariFilter():item.kdProdukInternScr"/>
-			</div>
-		</div>
-		<div class="grid_2">
-			<div class="grid_12">
-				<label c-label item="item" c-label-text="kdBarcode"></label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdBarcodeScr" ng-keypress="($event.which == 13)? cariFilter():item.kdBarcodeScr" />
-			</div>
-		</div>
-		<div class="grid_1">
-			<div class="grid_12">
-				<label c-label item="item" c-label-text="kodeBmn"></label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kodeBmnScr" ng-keypress="($event.which == 13)? cariFilter():item.kodeBmnScr" />
-			</div>
-		</div>
-		<div class="grid_1">
-			<div class="grid_12">
-				<label c-label item="item">Jumlah Row</label>
-			</div>
-			<div class="grid_12">
-				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jumlahRows" />
-			</div>
-		</div>
-		<div class="grid_1">
-			<button class="c-button" style="margin-top: 22px" ng-click="cariFilter()">Cari</button>
-		</div>
-		<div class="grid_12">
-			<div class="grid_12 borderBox">
-				<kendo-grid options="mainGridOptions" k-data-source="dataSource" k-ng-model="current"
-					ng-click="klik(current)">
-				</kendo-grid>
-			</div>
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Daftar Produk</b></h1>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="kd"></label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdProdukScr"
+                    ng-keypress="($event.which == 13)? cariFilter():item.kdProdukScr" />
+            </div>
+        </div>
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Nama Produk"></label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaProdukScr"
+                    ng-keypress="($event.which == 13)? cariFilter():item.namaProdukScr" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="kdIntern"></label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdProdukInternScr"
+                    ng-keypress="($event.which == 13)? cariFilter():item.kdProdukInternScr" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="kdBarcode"></label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kdBarcodeScr"
+                    ng-keypress="($event.which == 13)? cariFilter():item.kdBarcodeScr" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <label c-label item="item" c-label-text="Detail Jenis"></label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.detailJenis"
+                k-data-text-field="'detailjenisproduk'" k-data-value-field="'id'" k-filter="'contains'"
+                k-auto-bind="false" k-data-source="listDetailJenis" />
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="kodeBmn"></label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kodeBmnScr"
+                    ng-keypress="($event.which == 13)? cariFilter():item.kodeBmnScr" />
+            </div>
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label c-label item="item">Jumlah Row</label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jumlahRows" />
+            </div>
+        </div>
+        <div class="grid_1">
+            <button class="c-button" style="margin-top: 22px" ng-click="cariFilter()">Cari</button>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12 borderBox">
+                <kendo-grid options="mainGridOptions" k-data-source="dataSource" k-ng-model="current"
+                    ng-click="klik(current)">
+                </kendo-grid>
+            </div>
 
-		</div>
-	</div>
-	<div class="grid_12">		
-		<div class="grid_4"></div>
-		<div class="grid_2">
-			<button class="c-button" ng-click="buatHarga()">Buat Harga</button>
-		</div>
-		<div class="grid_2">
-			<button class="c-button" ng-click="KelBPJS()">Kelompok Produk BPJS</button>
-		</div>
-		<div class="grid_2">
-			<button class="c-button" ng-click="edit()">Ubah</button>
-		</div>
-		<div class="grid_2">
-			<button class="c-button" ng-click="tambah()">Tambah</button>
-		</div>
-	</div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4"></div>
+        <div class="grid_2">
+            <button class="c-button" ng-click="buatHarga()">Buat Harga</button>
+        </div>
+        <div class="grid_2">
+            <button class="c-button" ng-click="KelBPJS()">Kelompok Produk BPJS</button>
+        </div>
+        <div class="grid_2">
+            <button class="c-button" ng-click="edit()">Ubah</button>
+        </div>
+        <div class="grid_2">
+            <button class="c-button" ng-click="tambah()">Tambah</button>
+        </div>
+    </div>
 </div>
 
 <div kendo-window="popUpHarga" k-title="'Buat Harga'" k-width="700" k-height="280" k-visible="false"
-        k-on-close="customClicked()">
-        <div class="panel panel-default container_12" style="padding: 10px 10px;">
+    k-on-close="customClicked()">
+    <div class="panel panel-default container_12" style="padding: 10px 10px;">
 
-            <div class="panel-body">
+        <div class="panel-body">
 
-                <div class="grid_12 animated containerBorderBox">
+            <div class="grid_12 animated containerBorderBox">
+                <div class="grid_12">
                     <div class="grid_12">
-                        <div class="grid_12">
-                            <div class="grid_3">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Id Produk"></label>
-                                </div>
-                                <div class="clear"></div>
-
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.id" ng-disabled="true" />
-                                </div>
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Id Produk"></label>
                             </div>
-                            <div class="grid_2" style="margin-top: -15px">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Status Enabled"></label>
-                                </div>
-                                <div class="clear"></div>
+                            <div class="clear"></div>
 
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.statusenabled" ng-disabled="true" />
-                                </div>
-                            </div>
-
-                            <div class="grid_7">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Nama Produk"></label>
-                                </div>
-                                <div class="clear"></div>
-
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.namaproduk" ng-disabled="true" />
-                                </div>
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUpHarga.id"
+                                    ng-disabled="true" />
                             </div>
                         </div>
-                        <div class="grid_12">
-                            <div class="grid_3">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Kd Produk"></label>
-                                </div>
-                                <div class="clear"></div>
-
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.kdproduk" ng-disabled="true" />
-                                </div>
+                        <div class="grid_2" style="margin-top: -15px">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Status Enabled"></label>
                             </div>
+                            <div class="clear"></div>
 
-                            <div class="grid_3">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Kd Barcode"></label>
-                                </div>
-                                <div class="clear"></div>
-
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.kdbarcode" ng-disabled="true" />
-                                </div>
-                            </div>
-
-                            <div class="grid_6">
-                                <div class="grid_12">
-                                    <label c-label item="item" c-label-text="Detail Jenis"></label>
-                                </div>
-                                <div class="clear"></div>
-
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.detailjenisproduk" ng-disabled="true" />
-                                </div>
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="popUpHarga.statusenabled" ng-disabled="true" />
                             </div>
                         </div>
-                        <div class="grid_12">
-                        	<div class="grid_6">
-                        		<label c-label c-label-text="namaRuangan" real></label>
-			                    <input style="width: 100%;" kendo-combo-box k-ng-model="popUpHarga.ruangan"
-			                        k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
-			                        k-auto-bind="false" k-data-source="listRuangan" />
-                        	</div>
-                        	<div class="grid_6">
-                        		<div class="grid_12">
-                                    <label c-label item="item" c-label-text="Harga"></label>
-                                </div>
-                                <div class="clear"></div>
 
-                                <div class="grid_12">
-                                    <input c-text-box type="input" filter="" class="k-textbox"
-                                        ng-model="popUpHarga.harga" ng-disabled="false" />
-                                </div>
-                        	</div>
+                        <div class="grid_7">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Nama Produk"></label>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="popUpHarga.namaproduk" ng-disabled="true" />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class=" panel-body">
-                <div class="grid_12">
-                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
-                        <button class="k-button  k-button-icontext k-primary k-grid-update" ng-click="saveHarga()"><span
-                                class="k-icon k-update"></span>Simpan</button>
-                        <button class="k-button  btnHapus k-button-icontext" ng-click="tutupBuatHarga()"><span
-                                class="k-icon k-cancel"></span>Tutup</button>
+                    <div class="grid_12">
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Kd Produk"></label>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="popUpHarga.kdproduk" ng-disabled="true" />
+                            </div>
+                        </div>
+
+                        <div class="grid_3">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Kd Barcode"></label>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="popUpHarga.kdbarcode" ng-disabled="true" />
+                            </div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Detail Jenis"></label>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="popUpHarga.detailjenisproduk" ng-disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12">
+                        <div class="grid_6">
+                            <label c-label c-label-text="namaRuangan" real></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="popUpHarga.ruangan"
+                                k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listRuangan" />
+                        </div>
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <label c-label item="item" c-label-text="Harga"></label>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUpHarga.harga"
+                                    ng-disabled="false" />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class=" panel-body">
+            <div class="grid_12">
+                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                    <button class="k-button  k-button-icontext k-primary k-grid-update" ng-click="saveHarga()"><span
+                            class="k-icon k-update"></span>Simpan</button>
+                    <button class="k-button  btnHapus k-button-icontext" ng-click="tutupBuatHarga()"><span
+                            class="k-icon k-cancel"></span>Tutup</button>
+                </div>
+            </div>
+        </div>
     </div>
+</div>

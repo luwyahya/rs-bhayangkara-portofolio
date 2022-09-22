@@ -37,8 +37,11 @@ define(['initialize'], function (initialize) {
 
 			function loadCombo() {
 				medifirstService.get("sysadmin/general/get-combo-ruangan", false).then(function (data) {
-                    $scope.listRuangan = data.data;
-                });
+					$scope.listRuangan = data.data;
+				});
+				medifirstService.get("sysadmin/general/get-combo-ruangan-general", false).then(function (data) {
+					$scope.listDetailJenis = data.data.dataDetailJenis;
+				});
 			}
 
 			$scope.cariFilter = function () {
@@ -78,19 +81,24 @@ define(['initialize'], function (initialize) {
 					jmlRows = '&jmlRows=' + $scope.item.jumlahRows;
 				}
 				var deptId = JSON.parse(localStorage.getItem('mapLoginUserToRuangan'));
-				if(deptId != null)
-				{
+				if (deptId != null) {
 					deptId = deptId[0].objectdepartemenfk;
-				}else{
-					deptId ="";
+				} else {
+					deptId = "";
 				}
-				
-				
+				var detailJenis = "";
+				if ($scope.item.detailJenis === undefined || $scope.item.detailJenis === null) {
+					detailJenis = "";
+				} else {
+					detailJenis = '&detailJenis=' + $scope.item.detailJenis.id;
+				}
+
+
 				medifirstService.get('sysadmin/master/get-data-produk?kdProduk=' + kode
 					+ '&kdInternal=' + kodeintern
 					+ '&kdBarcode=' + kdBarcode
 					+ '&kdBmn=' + kdBmn
-					+ '&nmProduk=' + NamaProduk + jmlRows + '&nmDepart=' + deptId).then(function (e) {
+					+ '&nmProduk=' + NamaProduk + jmlRows + '&nmDepart=' + deptId + detailJenis).then(function (e) {
 						for (var i = 0; i < e.data.length; i++) {
 							e.data[i].no = i + 1
 						}
@@ -174,7 +182,7 @@ define(['initialize'], function (initialize) {
 
 			$scope.tambah = function () {
 				$state.go("InputProduk")
-			}				
+			}
 
 			$scope.columnProduk = [
 				{
@@ -185,7 +193,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						style: "text-align: center;"
-					}                        					
+					}
 				},
 				{
 					"field": "id",
@@ -195,7 +203,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}   
+					}
 				},
 				{
 					"field": "statusenabled",
@@ -205,7 +213,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}					
+					}
 				},
 				{
 					"field": "namaproduk",
@@ -215,7 +223,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}					
+					}
 				},
 				{
 					"field": "kdproduk",
@@ -225,7 +233,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}					
+					}
 				},
 				{
 					"field": "kdbarcode",
@@ -235,7 +243,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}				
+					}
 				},
 				{
 					"field": "detailjenisproduk",
@@ -245,7 +253,7 @@ define(['initialize'], function (initialize) {
 					attributes: {
 						"class": "table-cell",
 						// style: "text-align: center;"
-					}					
+					}
 				},
 				{
 					"command": [
@@ -254,85 +262,85 @@ define(['initialize'], function (initialize) {
 					],
 					title: "<h3 align=center>Command<h3>",
 					width: "180px",
-				}				
+				}
 			];
 			$scope.mainGridOptions = {
 				pageable: true,
 				columns: $scope.columnProduk,
 				editable: "popup",
 				selectable: "row",
-				scrollable: false,				
+				scrollable: false,
 			};
 			$scope.KelBPJS = function () {
 				$state.go('KelompokProdukBPJS')
 			}
 
-			$scope.buatHarga = function() {
-                if ($scope.item.idx != null){
-                	if ($scope.item.statusenabled == 1){
-		            		medifirstService.get('sysadmin/master/get-cek-harga-produk?idProduk=' + $scope.item.idx).then(function (e) {
-							var result= e.data.data
+			$scope.buatHarga = function () {
+				if ($scope.item.idx != null) {
+					if ($scope.item.statusenabled == 1) {
+						medifirstService.get('sysadmin/master/get-cek-harga-produk?idProduk=' + $scope.item.idx).then(function (e) {
+							var result = e.data.data
 							for (var i = 0; i < result.length; i++) {
 								$scope.cekHarga = result[i].cekharga
 							}
-							if ($scope.cekHarga == 0){
-							$scope.popUpHarga.id = $scope.item.idx
-		                	$scope.popUpHarga.kdproduk = $scope.item.kdproduk
-		                	$scope.popUpHarga.kdbarcode = $scope.item.kdbarcode
-		                	$scope.popUpHarga.deskripsiproduk = $scope.item.deskripsiproduk
-		                	$scope.popUpHarga.namaproduk = $scope.item.namaproduk
-		                	$scope.popUpHarga.detailjenisproduk = $scope.item.detailjenisproduk
-		                	$scope.popUpHarga.statusenabled = $scope.item.statusenabled
-		                	$scope.popUpHarga.center().open()	
-						}
-		                else{
-		                	toastr.error('Produk sudah ada harganya')
-		                }
+							if ($scope.cekHarga == 0) {
+								$scope.popUpHarga.id = $scope.item.idx
+								$scope.popUpHarga.kdproduk = $scope.item.kdproduk
+								$scope.popUpHarga.kdbarcode = $scope.item.kdbarcode
+								$scope.popUpHarga.deskripsiproduk = $scope.item.deskripsiproduk
+								$scope.popUpHarga.namaproduk = $scope.item.namaproduk
+								$scope.popUpHarga.detailjenisproduk = $scope.item.detailjenisproduk
+								$scope.popUpHarga.statusenabled = $scope.item.statusenabled
+								$scope.popUpHarga.center().open()
+							}
+							else {
+								toastr.error('Produk sudah ada harganya')
+							}
 
 						})
-	                }
-	                else{
-	                	toastr.error('Status Enabled 0, pilih yang 1')
-	                }
-                }
-                else {
-                	toastr.error('Data belum dipilih')
-                }
+					}
+					else {
+						toastr.error('Status Enabled 0, pilih yang 1')
+					}
+				}
+				else {
+					toastr.error('Data belum dipilih')
+				}
 			}
 
-			$scope.saveHarga = function() {
-				var x= $scope.popUpHarga.ruangan
-				var y= $scope.popUpHarga.harga
+			$scope.saveHarga = function () {
+				var x = $scope.popUpHarga.ruangan
+				var y = $scope.popUpHarga.harga
 
-                if ($scope.popUpHarga.harga == undefined) {
-                    toastr.error('Harga produk harus di isi')
-                    return
-                }
-                
-                if ($scope.popUpHarga.ruangan == undefined) {
-                    toastr.error('Ruangan harus dipilih')
-                    return
-                }
+				if ($scope.popUpHarga.harga == undefined) {
+					toastr.error('Harga produk harus di isi')
+					return
+				}
+
+				if ($scope.popUpHarga.ruangan == undefined) {
+					toastr.error('Ruangan harus dipilih')
+					return
+				}
 
 
-                var objSave = {
-                    'idproduk': $scope.popUpHarga.id,
-                    'harga':$scope.popUpHarga.harga,
-                    'idRuangan':$scope.popUpHarga.ruangan.id
-                }
-                medifirstService.post('logistik/save-harga-produk',objSave).then(function (e) {
-                	//Logging
-                	medifirstService.postLogging('Inisialisasi Harga', 'idProduk', $scope.popUpHarga.id,  
-                    'Inisialisasi harga produk ' + ' dengan idproduk - ' +$scope.popUpHarga.id +  ' dan namaproduk ' + $scope.popUpHarga.namaproduk + ' seharga Rp ' 
-                    + $scope.popUpHarga.harga).then(function (res) {
-                    })
+				var objSave = {
+					'idproduk': $scope.popUpHarga.id,
+					'harga': $scope.popUpHarga.harga,
+					'idRuangan': $scope.popUpHarga.ruangan.id
+				}
+				medifirstService.post('logistik/save-harga-produk', objSave).then(function (e) {
+					//Logging
+					medifirstService.postLogging('Inisialisasi Harga', 'idProduk', $scope.popUpHarga.id,
+						'Inisialisasi harga produk ' + ' dengan idproduk - ' + $scope.popUpHarga.id + ' dan namaproduk ' + $scope.popUpHarga.namaproduk + ' seharga Rp '
+						+ $scope.popUpHarga.harga).then(function (res) {
+						})
 
-                    tutupBuatHarga();
-                    init();
-                })
+					tutupBuatHarga();
+					init();
+				})
 			}
 
-			$scope.tutupBuatHarga = function() {
+			$scope.tutupBuatHarga = function () {
 				$scope.popUpHarga.close()
 			}
 		}

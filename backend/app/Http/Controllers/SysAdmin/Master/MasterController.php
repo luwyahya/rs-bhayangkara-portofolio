@@ -84,6 +84,9 @@ class MasterController extends ApiController{
             // $data = $data->where('jsm.id','=',277);
             }
         }
+        if(isset($filter['detailJenis']) && !empty($filter['detailJenis'])){
+            $data = $data->where('p.objectdetailjenisprodukfk','=',$filter['detailJenis']);
+        }
 
 
        
