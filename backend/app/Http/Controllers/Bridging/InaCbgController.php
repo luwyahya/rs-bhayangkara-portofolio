@@ -978,12 +978,13 @@ class InaCbgController   extends ApiController
         
         $dataDiagnosa9 = $dataDiagnosa9->get();
         $dataDiagnosa9Inacbg = '';
+        $dataDiagnosa9InacbgImport = '';
         foreach ($dataDiagnosa9 as $item2){
-            // $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
             if($item2->jumlah > 1){
-                $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
             }else{
-                $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan;
             }
         }
 
@@ -1056,6 +1057,7 @@ class InaCbgController   extends ApiController
             'dataDiagnosaInacbg10Inacbg'=>substr($dataDiagnosaInacbg10Inacbg,1,strlen($dataDiagnosaInacbg10Inacbg)-1),
             'dataDiagnosaInacbg9'=>$dataDiagnosaInacbg9,
             'dataDiagnosaInacbg9Inacbg'=>substr($dataDiagnosaInacbg9Inacbg,1,strlen($dataDiagnosaInacbg9Inacbg)-1),
+            'dataDiagnosa9InacbgImport'=>$dataDiagnosa9InacbgImport
         );
 
         return $this->respond($result);

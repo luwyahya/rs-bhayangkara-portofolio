@@ -857,7 +857,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
                             "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg, //$scope.item.dataDiagnosaInacbg9Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      
@@ -1035,7 +1035,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
                             "diagnosa_inagrouper": $scope.item.dataDiagnosa10Inacbg,// $scope.item.dataDiagnosaInacbg10Inacbg,
-                            "procedure_inagrouper": $scope.item.dataDiagnosa9Inacbg, //$scope.item.dataDiagnosaInacbg9Inacbg,
+                            "procedure_inagrouper": $scope.item.dataDiagnosa9InacbgImport, //$scope.item.dataDiagnosaInacbg9Inacbg,
                             "tarif_rs": {
                                 "prosedur_non_bedah": $scope.item.dataTarif.prosedur_non_bedah,
                                 "prosedur_bedah": $scope.item.dataTarif.prosedur_bedah, //"20000000",      
