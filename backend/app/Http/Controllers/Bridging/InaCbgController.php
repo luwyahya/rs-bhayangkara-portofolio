@@ -1092,7 +1092,7 @@ class InaCbgController   extends ApiController
                 $data = $data->where('pas.nokepesertaan', '=', $filter['nosep']);
             }
         }
-        $data = $data->orderBy('pd.tglregistrasi');
+        $data = $data->orderBy('pd.tglregistrasi','desc');
         $data = $data->take(50);
         $data = $data->get();
 

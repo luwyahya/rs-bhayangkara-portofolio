@@ -3434,6 +3434,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('update-ruangan', 'SysAdmin\Master\MasterController@updateRuangan');
                 Route::post('save-ruangan', 'SysAdmin\Master\MasterController@saveRuangan');
 
+                Route::get('get-datakamar', 'SysAdmin\Master\MasterController@getDataKamar');
+                Route::post('update-kamar', 'SysAdmin\Master\MasterController@updateKamar');
+                Route::post('save-kamar', 'SysAdmin\Master\MasterController@saveKamar');
+
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
                 Route::post('save-menu-gizi', 'Gizi\GiziController@saveMenuGizi');

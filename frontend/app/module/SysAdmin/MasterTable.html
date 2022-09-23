@@ -288,6 +288,92 @@
                             </div>
                         </md-content>
                     </md-tab>
+                    <md-tab label="Kamar">
+                        <md-content class="md-padding">
+                            <div class="panel panel-default container_12">
+                                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                    <legend id="filterData">
+                                        <a ng-click="showAndHide()">KAMAR</a>
+                                    </legend>
+                                    <div class="grid_12">
+                                        <div class="grid_4">
+                                            <label c-label item="item" c-label-text="Ruangan"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                                k-data-text-field="'namaruangan'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+                                        </div>
+                                        <div class="grid_1">
+                                            <label c-label c-label-text=""></label>
+                                            <em style="margin-top:6px;" ng-click='findDataKamar()' id="iconButton"
+                                                data-role="button" class="k-button k-button-icon" role="button"
+                                                aria-disabled="false" tabindex="0"><span
+                                                    class="k-sprite k-icon k-i-search">Cari</span></em>
+                                        </div>
+                                        <div class="grid_1">
+                                            <label c-label c-label-text=""></label>
+                                            <button class="c-button success" ng-click="clickTambahKamar()"
+                                                style="float:left;width:120px">Tambah</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <table style="width:100%;color: #4c5356;" id="customers">
+                                            <tr>
+                                                <th>Id Kamar</th>
+                                                <th>Status Enabled</th>
+                                                <th>Nama Kamar</th>
+                                                <th>Nama Ruangan</th>
+                                                <th>Kelas</th>
+                                                <th>Jumlah Bed</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tbody>
+                                                <tr ng-repeat="listx in listDataKamar | orderBy:'id'"
+                                                    ng-init="jawabIndex = $index" ng-click="go9(listx)">
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.id}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.statusenabled}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namakamar}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namaruangan}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namakelas}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.qtybed}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            <button class="c-button success"
+                                                                ng-click="clickUpdateKamar(listx)"
+                                                                style="float:left;width:120px">Update</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </md-content>
+                    </md-tab>
 
                 </md-tabs>
             </md-content>
@@ -670,6 +756,82 @@
                             <div class="grid_1">
                                 <label c-label c-label-text=""></label>
                                 <button class="c-button success" ng-click="clickSaveRuangan()"
+                                    style="float:left;width:120px">Simpan</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div kendo-window="popupTambahKamar" k-title="'Detail'" k-visible="false" k-width="800" k-height="500">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">Tambah Kamar</a>
+                        </legend>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Ruangan"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                    k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listRuangan" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Kelas"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelas"
+                                    k-data-text-field="'namakelas'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listKelas" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Nama Kamar"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaKamar" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Qty Bed"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.qtyBed" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Jumlah Kamar Isi"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="item.jmlKamarIsi" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Jumlah Kamar Kosong"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox"
+                                    ng-model="item.jmlKamarKosong" />
+                            </div>
+                            <div class="grid_1">
+                                <label c-label c-label-text=""></label>
+                                <button class="c-button success" ng-click="clickSaveKamar()"
+                                    style="float:left;width:120px">Simpan</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div kendo-window="popupUpdateKamar" k-title="'Detail'" k-visible="false" k-width="800" k-height="500">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">UPDATE KAMAR</a>
+                        </legend>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Nama Kamar"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaKamar" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Status Enabled"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.status"
+                                    k-data-text-field="'name'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listStatus" />
+                            </div>
+                            <div class="grid_1">
+                                <label c-label c-label-text=""></label>
+                                <button class="c-button success" ng-click="clickSaveUpdateKamar()"
                                     style="float:left;width:120px">Simpan</button>
                             </div>
                         </div>

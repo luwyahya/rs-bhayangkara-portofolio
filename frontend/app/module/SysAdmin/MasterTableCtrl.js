@@ -489,6 +489,94 @@ define(['initialize'], function (initialize) {
                     $scope.isRouteLoading = false;
                 })
             }
+            $scope.findDataKamar = function () {
+                var ruanganId = ''
+                if ($scope.item.ruangan)
+                    ruanganId = '?ruangan=' + $scope.item.ruangan.id
+                var instalasiId = ''
+                if ($scope.item.instalasi) {
+                    if (instalasiId == "")
+                        instalasiId = '?kdInstalasi=' + $scope.item.instalasi.id
+                    else
+                        instalasiId = '&kdInstalasi=' + $scope.item.instalasi.id
+                }
+                medifirstService.get('sysadmin/master/get-datakamar' + ruanganId + instalasiId).then(function (e) {
+                    $scope.listDataKamar = e.data.datas
+                })
+            }
+            $scope.clickUpdateKamar = function (ai) {
+                setUpdate = ai
+                $scope.item.namaKamar = ai.namakamar
+                $scope.item.status = { id: '2', name: 'false' }
+                if (ai.statusenabled == true)
+                    $scope.item.status = { id: '1', name: 'true' }
+                $scope.popupUpdateKamar.open().center()
+            }
+            $scope.clickSaveUpdateKamar = function () {
+                var objDelete = {
+                    id: setUpdate.id,
+                    statusenabled: $scope.item.status.name,
+                    namakamar: $scope.item.namaKamar
+                }
+                medifirstService.post('sysadmin/master/update-kamar', objDelete).then(function (e) {
+                    $scope.findDataKamar()
+                })
+            }
+            $scope.clickTambahKamar = function () {
+                $scope.popupTambahKamar.open().center();
+            }
+            $scope.clickSaveKamar = function (ai) {
+                if ($scope.item.ruangan == undefined || $scope.item.ruangan == null) {
+                    toastr.error("Ruangan Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kelas == undefined || $scope.item.kelas == null) {
+                    toastr.error("Kelas Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.namaKamar == undefined || $scope.item.namaKamar == null) {
+                    toastr.error("Nama Kamar Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.qtyBed == undefined || $scope.item.qtyBed == null) {
+                    toastr.error("qty Bed Kamar Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.jmlKamarIsi == undefined || $scope.item.jmlKamarIsi == null) {
+                    toastr.error("Jumlah Kamar Isi Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.jmlKamarKosong == undefined || $scope.item.jmlKamarKosong == null) {
+                    toastr.error("Jumlah Kamar Kosong Harus Di Isi!")
+                    return
+                }
+                debugger
+                $scope.popupTambahKamar.close();
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSaveKamar();
+                });
+            }
+            function RealSaveKamar() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    namaruangan: $scope.item.ruangan.id,
+                    kelas: $scope.item.kelas.id,
+                    namaKamar: $scope.item.namaKamar,
+                    qtyBed: $scope.item.qtyBed,
+                    jmlKamarIsi: $scope.item.jmlKamarIsi,
+                    jmlKamarKosong: $scope.item.jmlKamarKosong,
+                }
+                medifirstService.post('sysadmin/master/save-kamar', objDelete).then(function (e) {
+                    $scope.findDataKamar()
+                    $scope.isRouteLoading = false;
+                })
+            }
         }
     ]);
 });
