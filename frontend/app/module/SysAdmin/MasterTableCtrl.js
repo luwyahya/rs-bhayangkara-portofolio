@@ -21,6 +21,7 @@ define(['initialize'], function (initialize) {
                     $scope.listRuangan = e.data.data
                     $scope.listKelas = e.data.kelas
                     $scope.listInstalasi = e.data.dataInstalasi
+                    $scope.listKamar = e.data.dataKamar
                 })
                 var ruanganId = ''
                 if ($scope.item.ruangan)
@@ -493,14 +494,21 @@ define(['initialize'], function (initialize) {
                 var ruanganId = ''
                 if ($scope.item.ruangan)
                     ruanganId = '?ruangan=' + $scope.item.ruangan.id
-                var instalasiId = ''
-                if ($scope.item.instalasi) {
-                    if (instalasiId == "")
-                        instalasiId = '?kdInstalasi=' + $scope.item.instalasi.id
+                var kelasId = ''
+                if ($scope.item.kelas) {
+                    if (ruanganId == "")
+                        kelasId = '?kdkelas=' + $scope.item.kelas.id
                     else
-                        instalasiId = '&kdInstalasi=' + $scope.item.instalasi.id
+                        kelasId = '&kdkelas=' + $scope.item.kelas.id
                 }
-                medifirstService.get('sysadmin/master/get-datakamar' + ruanganId + instalasiId).then(function (e) {
+                var kamarId = ''
+                if ($scope.item.kamar) {
+                    if (kelasId == "")
+                        kamarId = '?kamarId=' + $scope.item.kamar.id
+                    else
+                        kamarId = '&kamarId=' + $scope.item.kamar.id
+                }
+                medifirstService.get('sysadmin/master/get-datakamar' + ruanganId + kelasId + kamarId).then(function (e) {
                     $scope.listDataKamar = e.data.datas
                 })
             }

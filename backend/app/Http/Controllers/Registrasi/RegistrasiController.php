@@ -8621,6 +8621,10 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->where('dp.statusenabled', true)
             ->orderBy('dp.namadepartemen')
             ->get();
+        $dataKamar = \DB::table('kamar_m as kr')
+            ->select('kr.id', 'kr.namakamar')
+            ->where('kr.statusenabled', true)
+            ->get();
         $pembatalan = DB::select(DB::raw("select id,name from pembatal_m where statusenabled='true'"));
 
         $result = array(
@@ -8630,6 +8634,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             'kelas' => $kelas,
             'pegawaiLogin' => $dataPegawai->namalengkap,
             'dataInstalasi'=>$dataInstalasi,
+            'dataKamar'=>$dataKamar,
             'message' => 'inhuman',
         );
 

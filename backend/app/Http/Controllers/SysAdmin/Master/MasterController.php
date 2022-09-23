@@ -2316,6 +2316,12 @@ class MasterController extends ApiController{
         if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
             $data = $data->where('ru.id','=', $request['ruangan']);
         }
+        if(isset($request['kdkelas']) && $request['kdkelas']!="" && $request['kdkelas']!="undefined"){
+            $data = $data->where('km.id','=', $request['kdkelas']);
+        }
+         if(isset($request['kamarId']) && $request['kamarId']!="" && $request['kamarId']!="undefined"){
+            $data = $data->where('kr.id','=', $request['kamarId']);
+        }
        
 
         $data = $data->take(5);

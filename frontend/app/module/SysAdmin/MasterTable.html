@@ -302,6 +302,18 @@
                                                 k-data-text-field="'namaruangan'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
                                         </div>
+                                        <div class="grid_4">
+                                            <label c-label item="item" c-label-text="Kelas"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelas"
+                                                k-data-text-field="'namakelas'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas" />
+                                        </div>
+                                        <div class="grid_4">
+                                            <label c-label item="item" c-label-text="Kamar"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.kamar"
+                                                k-data-text-field="'namakamar'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listKamar" />
+                                        </div>
                                         <div class="grid_1">
                                             <label c-label c-label-text=""></label>
                                             <em style="margin-top:6px;" ng-click='findDataKamar()' id="iconButton"
