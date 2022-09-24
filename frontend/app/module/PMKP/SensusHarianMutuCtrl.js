@@ -1898,6 +1898,7 @@ define(['initialize'], function (initialize) {
                                 'denum': denum,
                                 'capaian': capaian,
                                 'keterangan': keterangan,
+                                
                             }
                             dataTea.push(data);
                             // dataARR[o].norec = norecSasaran;
