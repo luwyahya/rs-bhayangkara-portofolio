@@ -965,7 +965,8 @@ class InaCbgController   extends ApiController
                 'dt.*',
                 'ddt.keterangantindakan',
                 'pg.namalengkap',
-                'ddt.tglinputdiagnosa'
+                'ddt.tglinputdiagnosa',
+                'ddt.jumlah'
             )
             ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -977,8 +978,14 @@ class InaCbgController   extends ApiController
         
         $dataDiagnosa9 = $dataDiagnosa9->get();
         $dataDiagnosa9Inacbg = '';
+        $dataDiagnosa9InacbgImport = '';
         foreach ($dataDiagnosa9 as $item2){
             $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            if($item2->jumlah > 1){
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
+            }else{
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan;
+            }
         }
 
         $dataDiagnosaInacbg10 = \DB::table('pasiendaftar_t as pd')
@@ -1050,6 +1057,7 @@ class InaCbgController   extends ApiController
             'dataDiagnosaInacbg10Inacbg'=>substr($dataDiagnosaInacbg10Inacbg,1,strlen($dataDiagnosaInacbg10Inacbg)-1),
             'dataDiagnosaInacbg9'=>$dataDiagnosaInacbg9,
             'dataDiagnosaInacbg9Inacbg'=>substr($dataDiagnosaInacbg9Inacbg,1,strlen($dataDiagnosaInacbg9Inacbg)-1),
+            'dataDiagnosa9InacbgImport'=>$dataDiagnosa9InacbgImport
         );
 
         return $this->respond($result);
@@ -1084,7 +1092,7 @@ class InaCbgController   extends ApiController
                 $data = $data->where('pas.nokepesertaan', '=', $filter['nosep']);
             }
         }
-        $data = $data->orderBy('pd.tglregistrasi');
+        $data = $data->orderBy('pd.tglregistrasi','desc');
         $data = $data->take(50);
         $data = $data->get();
 

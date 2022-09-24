@@ -47,6 +47,7 @@ define(['initialize'], function (initialize) {
                     $scope.ListTahunPajak = dataCombo.tahunpajak;
                     $scope.ListKelompokProdukBpjs = dataCombo.kelompokprodukbpjs;
                     $scope.ListJenisPetugasPelaksana = dataCombo.jenispetugaspelaksana;
+                    $scope.listNamaRuangan = dataCombo.ruangan;
                     $scope.optStatus = {
                         placeholder: "Pilih Kategory...",
                         dataTextField: "kategorypegawai",
@@ -85,6 +86,14 @@ define(['initialize'], function (initialize) {
                     medifirstService.get("sdm/get-data-pegawai-all-sdm", true).then(function (dat) {
                         debugger
                         var dataForGrid = dat.data
+                        for (var i = 0; i < dataForGrid.length; i++) {
+                            if (dataForGrid[i].tglmasuk != null) {
+                                var masakerja = dateHelper.CountAge(new Date(dataForGrid[i].tglmasuk), $scope.now);
+                                dataForGrid[i].masakerja = masakerja.year + ' th, ' + masakerja.month + ' bln, ' + masakerja.day + ' hr';
+                            } else {
+                                dataForGrid[i].masakerja = ''
+                            }
+                        }
                         $scope.daftarPegawai = new kendo.data.DataSource({
                             data: dataForGrid,
                             pageSize: 10,
@@ -103,6 +112,10 @@ define(['initialize'], function (initialize) {
                             if (user.id == vic[i].objectpegawaifk) {
                                 medifirstService.get("sdm/get-data-pegawai-all-sdm?", true).then(function (dat) {
                                     var dataForGrid = dat.data
+                                    for (var i = 0; i < dataForGrid.length; i++) {
+                                        var masakerja = dateHelper.CountAge(new Date(dataForGrid[i].tglmasuk), $scope.now);
+                                        dataForGrid[i].masakerja = masakerja.year + ' th, ' + masakerja.month + ' bln, ' + masakerja.day + ' hr';
+                                    }
                                     $scope.daftarPegawai = new kendo.data.DataSource({
                                         data: dataForGrid,
                                         pageSize: 10,
@@ -134,6 +147,10 @@ define(['initialize'], function (initialize) {
                             medifirstService.get("sdm/get-data-pegawai-all-sdm?idPegawai=" + tampungansesungguhnya, true).then(function (dat) {
                                 debugger
                                 var dataForGrid = dat.data
+                                for (var i = 0; i < dataForGrid.length; i++) {
+                                    var masakerja = dateHelper.CountAge(new Date(dataForGrid[i].tglmasuk), $scope.now);
+                                    dataForGrid[i].masakerja = masakerja.year + ' th, ' + masakerja.month + ' bln, ' + masakerja.day + ' hr';
+                                }
                                 $scope.daftarPegawai = new kendo.data.DataSource({
                                     data: dataForGrid,
                                     pageSize: 10,
@@ -148,6 +165,10 @@ define(['initialize'], function (initialize) {
                             medifirstService.get("sdm/get-data-pegawai-all-sdm?idPegawai2=" + user.id, true).then(function (dat) {
                                 debugger
                                 var dataForGrid = dat.data
+                                for (var i = 0; i < dataForGrid.length; i++) {
+                                    var masakerja = dateHelper.CountAge(new Date(dataForGrid[i].tglmasuk), $scope.now);
+                                    dataForGrid[i].masakerja = masakerja.year + ' th, ' + masakerja.month + ' bln, ' + masakerja.day + ' hr';
+                                }
                                 $scope.daftarPegawai = new kendo.data.DataSource({
                                     data: dataForGrid,
                                     pageSize: 10,
@@ -364,9 +385,9 @@ define(['initialize'], function (initialize) {
                 selectable: 'row',
                 scrollable: true,
                 columns: [
-                    { field: "nippns", title: "Nip", width: "10%" },
+                    // { field: "nippns", title: "Nip", width: "10%" },
                     { field: "namalengkap", title: "Nama Lengkap", width: "25%" },
-                    // { field: "namaexternal", title: "Nama external", width: "25%" },
+                    { field: "jeniskelamin", title: "Jenis Kelamin", width: "25%" },
                     // {
                     //   field: "NamaUser",
                     //   title: "Username", 
@@ -374,26 +395,22 @@ define(['initialize'], function (initialize) {
                     //   hidden: true ,
                     //   // template: "# for(var i=0; i < usernames.length;i++){# usernames.usernames.namaUser #}"
                     // },
-                    { field: "agama", title: "Agama", width: "10%" },
-                    { field: "unitkerja", title: "Unit Kerja", width: "25%" },
+                    { field: "tgllahir", title: "Tgl Lahir", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>" },
+                    { field: "namakategorypegawai", title: "Kategory Pegawai", width: "25%" },
                     { field: "namaruangan", title: "Ruangan", width: "25%" },
                     { field: "jbfungsional", title: "Jabatan Fungsional", width: "20%" },
-                    { field: "golongan", title: "Golongan", width: "20%" },
+                    // { field: "golongan", title: "Golongan", width: "20%" },
                     { field: "pendidikan", title: "Pendidikan", width: "20%" },
-                    { field: "petugasdiklat", title: "Diklat", width: "20%" },
-                    { field: "jbstruktural", title: "Jabatan Internal", width: "20%", hidden: "true" },
-                    { field: "statuspegawai", title: "Status", width: "10%" },
-                    { field: "namakategorypegawai", title: "Kategory", width: "10%" },
-                    { field: "detailkelompokjabatan", title: "Kelompok Jabatan", width: "20%" },
+                    { field: "tglmasuk", title: "Tgl Masuk", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>" },
+                    { field: "masakerja", title: "Masa Kerja", width: "10%" },
+                    { field: "tglberakhirsip", title: "Tgl SIP", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglberakhirsip #')}}</span>" },
+                    { field: "tglberakhirstr", title: "Tgl STR", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglberakhirstr #')}}</span>" },
+                    // { field: "petugasdiklat", title: "Diklat", width: "20%" },
+                    // { field: "jbstruktural", title: "Jabatan Internal", width: "20%", hidden: "true" },
+                    // { field: "statuspegawai", title: "Status", width: "10%" },
+                    // { field: "namakategorypegawai", title: "Kategory", width: "10%" },
+                    // { field: "detailkelompokjabatan", title: "Kelompok Jabatan", width: "20%" },
 
-                    { field: "tglmasuk", title: "TglMasuk", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>" },
-                    { field: "alamat", title: "Alamat", width: "20%" },
-                    { field: "tempatlahir", title: "Tempat Lahir", width: "20%" },
-                    { field: "noidentitas", title: "NIK", width: "20%" },
-                    { field: "nobpjs", title: "No BPJS", width: "20%" },
-                    { field: "nohandphone", title: "No HP", width: "20%" },
-                    { field: "email", title: "Email", width: "20%" },
-                    { field: "jeniskelamin", title: "Jenis Kelamin", width: "20%" },
                 ],
                 // set column width to auto
                 excelExport: function (e) {
@@ -553,18 +570,18 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                    xhr.open('POST', 'http://192.168.0.62:8797/generic/report/pemotonganpajak.pdf');
+                if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                    xhr.open('POST', 'http://192.168.1.7:8797/generic/report/pemotonganpajak.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/pemotonganpajak.pdf');
                 } else if (window.location.hostname.indexOf('192.168.1.116') > -1) {
                     xhr.open('POST', 'http://192.168.1.116:8797/generic/report/pemotonganpajak.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/pemotonganpajak.pdf');
-                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/pemotonganpajak.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/pemotonganpajak.pdf');
+                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/pemotonganpajak.pdf');
+                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                    xhr.open('POST', 'http://10.5.1.2:8797/generic/report/pemotonganpajak.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/pemotonganpajak.pdf');
                 }
@@ -878,6 +895,13 @@ define(['initialize'], function (initialize) {
                 }
             }, true);
 
+            $scope.$watch('item.namaRuangan', function (newVal, oldVal) {
+                if (!newVal) return;
+                if (newVal && newVal !== oldVal) {
+                    applyFilter("objectruangankerjafk", newVal)
+                }
+            }, true);
+
             $scope.$watch('item.tglMasuk', function (newVal, oldVal) {
                 if (!newVal) return;
                 if (newVal && newVal !== oldVal) {
@@ -940,6 +964,12 @@ define(['initialize'], function (initialize) {
                         value: filterValue.kategorypegawai
                     });
                 } else if (filterField === "objectunitkerjapegawaifk") {
+                    currentFilters.push({
+                        field: filterField,
+                        operator: "eq",
+                        value: filterValue.objectunitkerjapegawaifk
+                    });
+                } else if (filterField === "objectruangankerjafk") {
                     currentFilters.push({
                         field: filterField,
                         operator: "eq",
@@ -1171,6 +1201,7 @@ define(['initialize'], function (initialize) {
                 var tahunlulus = ''
                 var notelp = ''
                 var dikjur = ''
+                var tahundikjur = ''
                 var nonformal = ''
                 var jabatan = ''
                 var jasa = ''
@@ -1178,9 +1209,9 @@ define(['initialize'], function (initialize) {
                 var daerah = ''
                 var tglsekarang = ''
                 var qrcode = ''
+                var foto = ''
 
                 var yanglogin = medifirstService.getPegawaiLogin().namaLengkap
-                debugger
                 if ($scope.dataItem.id == undefined) {
                     toastr.error('Data Belum Dipilih !')
                     return
@@ -1205,7 +1236,6 @@ define(['initialize'], function (initialize) {
                                 ttl = dat4.data.ttl
                                 tglsekarang = dat4.data.tglsekarang
                                 medifirstService.get("sdm/get-pendidikan?idPegawai=" + $scope.dataItem.id).then(function (dat5) {
-                                    debugger
                                     if (dat5.data.length > 0) {
                                         pendidikan = dat5.data[0].pendidikan
                                         tahunlulus = dat5.data[0].tahunlulus
@@ -1216,8 +1246,10 @@ define(['initialize'], function (initialize) {
                                         }
 
                                         medifirstService.get("sdm/get-dikjur?idPegawai=" + $scope.dataItem.id).then(function (dat7) {
+                                            debugger
                                             if (dat7.data.length > 0) {
                                                 dikjur = dat7.data[0].dikjur
+                                                tahundikjur = dat7.data[0].tahun
                                             }
                                             medifirstService.get("sdm/get-sisanya?idPegawai=" + $scope.dataItem.id).then(function (dat8) {
                                                 debugger
@@ -1226,6 +1258,7 @@ define(['initialize'], function (initialize) {
                                                 jasa = dat8.data[0].jasa
                                                 asing = dat8.data[0].asing
                                                 daerah = dat8.data[0].daerah
+                                                foto = dat8.data[0].foto[0].foto
 
                                                 qrcode = "Daftar Riwayat Hidup Ini di Cetak Tanggal " + dat4.data.tglsekarang + " Oleh " + yanglogin
 
@@ -1234,9 +1267,9 @@ define(['initialize'], function (initialize) {
                                                 $scope.isRouteLoading = true;
                                                 var data = {
                                                     "gambarLogo": "logodokkes.jpg",
-                                                    "paramKey": ["idPegawai", "jenis", "nama", "jumlahanak", "namaanak", "ttl", "pendidikan", "tahunlulus", "notelp", "dikjur", "nonformal", "jabatan", "jasa", "asing", "daerah", "tglsekarang", "qrcode"],
-                                                    "paramValue": [$scope.dataItem.id, jenis, nama, jumlahanak, namaanak, ttl, pendidikan, tahunlulus, notelp, dikjur, nonformal, jabatan, jasa, asing, daerah, tglsekarang, qrcode],
-                                                    "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
+                                                    "paramKey": ["idPegawai", "jenis", "nama", "jumlahanak", "namaanak", "ttl", "pendidikan", "tahunlulus", "notelp", "dikjur", "nonformal", "jabatan", "jasa", "asing", "daerah", "tglsekarang", "qrcode", "tahundikjur", "foto"],
+                                                    "paramValue": [$scope.dataItem.id, jenis, nama, jumlahanak, namaanak, ttl, pendidikan, tahunlulus, notelp, dikjur, nonformal, jabatan, jasa, asing, daerah, tglsekarang, qrcode, tahundikjur, foto],
+                                                    "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                                                 };
                                                 var xhr = new XMLHttpRequest();
                                                 xhr.onreadystatechange = function () {
@@ -1254,20 +1287,10 @@ define(['initialize'], function (initialize) {
                                                         win.focus();
                                                     }
                                                 }
-                                                if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                                    xhr.open('POST', 'http://192.168.0.62:1002/generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                                                    xhr.open('POST', 'http://192.168.88.56:1002/generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                                    xhr.open('POST', '/jasper1/generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                                    xhr.open('POST', '/jasper1generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
-                                                    xhr.open('POST', 'http://36.92.186.59:1002/generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('172.10.3.68') > -1) {
-                                                    xhr.open('POST', 'http://172.10.3.68:1002/generic/report/riwayathidup.pdf');
-                                                } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
-                                                    xhr.open('POST', 'http://103.93.237.70:1002/generic/report/riwayathidup.pdf');
+                                                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/riwayathidup.pdf');
+                                                } else if (window.location.hostname.indexOf('appsimrs.rsp.unand.ac.id') > -1) {
+                                                    xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/riwayathidup.pdf');
                                                 } else {
                                                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/riwayathidup.pdf');
                                                 }
@@ -1333,21 +1356,22 @@ define(['initialize'], function (initialize) {
                     scrollable: true,
                     selectable: "row",
                     pageable: true,
-                    columns: [{
-                        "field": "no",
-                        "title": "No",
-                        "width": "2%",
-                    },
-                    {
-                        "field": "tglregistrasi",
-                        "title": "Tanggal Registrasi",
-                        "width": "49%",
-                    },
-                    {
-                        "field": "noregistrasi",
-                        "title": "No Registrasi",
-                        "width": "49%",
-                    },
+                    columns: [
+                        {
+                            "field": "no",
+                            "title": "No",
+                            "width": "2%",
+                        },
+                        {
+                            "field": "tglregistrasi",
+                            "title": "Tanggal Registrasi",
+                            "width": "49%",
+                        },
+                        {
+                            "field": "noregistrasi",
+                            "title": "No Registrasi",
+                            "width": "49%",
+                        },
                     ]
                 }
             }
@@ -1397,16 +1421,16 @@ define(['initialize'], function (initialize) {
                             win.focus();
                         }
                     }
-                    if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        xhr.open('POST', 'http://192.168.0.62:8797/generic/report/suratketeranganmedis2.pdf');
+                    if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                        xhr.open('POST', 'http://192.168.1.7:8797/generic/report/suratketeranganmedis2.pdf');
                     } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                         xhr.open('POST', 'http://192.168.88.56:8797/generic/report/suratketeranganmedis2.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/suratketeranganmedis2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/suratketeranganmedis2.pdf');
-                    } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/suratketeranganmedis2.pdf');
+                    } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                        xhr.open('POST', 'http://10.5.1.2:8797/generic/report/suratketeranganmedis2.pdf');
+                    } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                        xhr.open('POST', 'http://202.51.105.98:8797/generic/report/suratketeranganmedis2.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/suratketeranganmedis2.pdf');
                     }
@@ -1548,6 +1572,1095 @@ define(['initialize'], function (initialize) {
                     data: [],
                 });
                 $scope.popUpDokumen.close();
+            }
+            $scope.blah = function (objectpegawaifk, Dokumen) {
+                debugger
+                if (Dokumen == "Data Keluarga") {
+                    medifirstService.get('sdm/get-data-detail-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var keluarga = dat.data.datakeluarga
+                        $scope.sourceKeluarga = new kendo.data.DataSource({
+                            data: keluarga,
+                            pageSize: 50,
+                            total: keluarga.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpKeluarga.center().open()
+                    $scope.columnKeluarga = {
+                        scrollable: true,
+                        selectable: "row",
+                        pageable: true,
+                        columns: [
+                            {
+                                "field": "namalengkap",
+                                "title": "Nama",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "hubungankeluarga",
+                                "title": "Hubungan Keluarga",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "statustanggungan",
+                                "title": "Tertanggung",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "tgllahir",
+                                "title": "Tanggal Lahir",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tgllahir #')}}</span>"
+                            },
+                            {
+                                "field": "pendidikan",
+                                "title": "Pendidikan Terakhir",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "pekerjaan",
+                                "title": "Pekerjaan",
+                                "width": "20%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat Kartu Keluarga", click: LihatKartuKeluarga, imageClass: "k-icon k-i-delete" },
+                                    { text: "Lihat KTP", click: LihatKTP, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatKartuKeluarga(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.kartukeluarga == null) {
+                            toastr.error("Kartu Keluarga Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.kartukeluarga + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    function LihatKTP(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.ktp == null) {
+                            toastr.error("Kartu Keluarga Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.ktp + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliKeluarga = function () {
+                        $scope.sourceKeluarga = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpKeluarga.close();
+                    }
+                }
+                if (Dokumen == "Riwayat Pendidikan") {
+                    medifirstService.get('sdm/get-data-detail-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var pendidikan = dat.data.datapendidikan
+                        $scope.sourcePendidikan = new kendo.data.DataSource({
+                            data: pendidikan,
+                            pageSize: 50,
+                            total: pendidikan.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpPendidikan.center().open()
+                    $scope.columnPendidikan = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "pendidikan",
+                                "title": "Pendidikan",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "namatempatpendidikan",
+                                "title": "Institusi Pendidikan",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "alamattempatpendidikan",
+                                "title": "Alamat",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "tglmasuk",
+                                "title": "Tahun Masuk",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTahun('#: tglmasuk #')}}</span>"
+                            },
+                            {
+                                "field": "tgllulus",
+                                "title": "Tahun Lulus",
+                                "width": "27%",
+                                "template": "<span class='style-left'>{{formatTahun('#: tgllulus #')}}</span>"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat Ijazah", click: LihatIjazahPendidikan, imageClass: "k-icon k-i-read" },
+                                    { text: "Lihat Surat Dikti", click: LihatDiktiPendidikan, imageClass: "k-icon k-i-read" },
+                                    { text: "Lihat Surat Akreditasi", click: LihatAkreditasiPendidikan, imageClass: "k-icon k-i-read" },
+                                ],
+                                title: "",
+                                width: "685px",
+                            }
+                        ]
+                    }
+                    function LihatIjazahPendidikan(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.ijazah == null) {
+                            toastr.error("Ijazah Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.ijazah + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    function LihatDiktiPendidikan(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.suratdikti == null) {
+                            toastr.error("Surat Dikti Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.suratdikti + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    function LihatAkreditasiPendidikan(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.akreditasi == null) {
+                            toastr.error("Surat Akreditasi Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.akreditasi + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliPendidikan = function () {
+                        $scope.sourcePendidikan = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpPendidikan.close();
+                    }
+                }
+                if (Dokumen == "Riwayat Pelatihan") {
+                    medifirstService.get('sdm/get-data-detail-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var pelatihan = dat.data.datapelatihan
+                        $scope.sourcePelatihan = new kendo.data.DataSource({
+                            data: pelatihan,
+                            pageSize: 50,
+                            total: pelatihan.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpPelatihan.center().open()
+                    $scope.columnPelatihan = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "instansipenyelenggara",
+                                "title": "Penyelenggara",
+                                "width": "25%"
+                            },
+                            {
+                                "field": "lokasipelatihan",
+                                "title": "Lokasi",
+                                "width": "18%"
+                            },
+                            {
+                                "field": "namapelatihan",
+                                "title": "Nama Pelatihan",
+                                "width": "35%"
+                            },
+                            {
+                                "field": "tglmulai",
+                                "title": "Tgl Mulai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                            },
+                            {
+                                "field": "tglakhir",
+                                "title": "Tgl Selesai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglakhir #')}}</span>"
+                            },
+                            {
+                                "field": "durasi",
+                                "title": "Durasi(jam)",
+                                "width": "15%"
+                            },
+                            {
+                                "field": "nosertifikat",
+                                "title": "No Sertifikat",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "keterangan",
+                                "title": "Ket",
+                                "width": "20%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat Sertifikat", click: LihatSertifikatPelatihan, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatSertifikatPelatihan(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.sertifikat == null) {
+                            toastr.error("Sertifikat Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.sertifikat + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliPelatihan = function () {
+                        $scope.sourcePelatihan = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpPelatihan.close();
+                    }
+                }
+                if (Dokumen == "Riwayat Jabatan") {
+                    medifirstService.get('sdm/get-data-detail-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var jabatan = dat.data.datajabatan
+                        $scope.sourceJabatan = new kendo.data.DataSource({
+                            data: jabatan,
+                            pageSize: 50,
+                            total: jabatan.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpJabatan.center().open()
+                    $scope.columnJabatan = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "nosk",
+                                "title": "No SK",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "tglsk",
+                                "title": "Tanggal SK",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglsk #')}}</span>"
+                            },
+                            {
+                                "field": "jenisjabatan",
+                                "title": "Jenis Jabatan",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "namajabatan",
+                                "title": "Jabatan",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "pegawaipenanggungjawab",
+                                "title": "Penanda Tangan SK",
+                                "width": "20%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat Sprint", click: LihatSprint, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatSprint(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.sprint == null) {
+                            toastr.error("Sprint Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.sprint + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliJabatan = function () {
+                        $scope.sourceJabatan = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpJabatan.close();
+                    }
+                }
+                if (Dokumen == "SIP") {
+                    medifirstService.get('sdm/get-data-sip-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var sip = dat.data.data
+                        $scope.sourceSip = new kendo.data.DataSource({
+                            data: sip,
+                            pageSize: 50,
+                            total: sip.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpSip.center().open()
+                    $scope.columnSip = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "nosip",
+                                "title": "Nomor SIP",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "berakhirsip",
+                                "title": "Tanggal Berakhir",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: berakhirsip #')}}</span>"
+                            },
+                            {
+                                "field": "namafilesip",
+                                "title": "File SIP",
+                                "width": "30%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: downloadSipStr, imageClass: "k-icon k-delete" }
+                                ],
+                                title: "",
+                                width: "22%",
+                            }
+                        ]
+                    }
+                    function downloadSipStr(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.filesip2 == null) {
+                            toastr.error("Sprint Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.filesip2 + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliSip = function () {
+                        $scope.sourceSip = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpSip.close();
+                    }
+                }
+                if (Dokumen == "STR") {
+                    medifirstService.get('sdm/get-data-str-pegawai?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var str = dat.data.data
+                        $scope.sourceStr = new kendo.data.DataSource({
+                            data: str,
+                            pageSize: 50,
+                            total: str.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpStr.center().open()
+                    $scope.columnStr = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "nostr",
+                                "title": "Nomor STR",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "berakhirstr",
+                                "title": "Tanggal Berakhir",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: berakhirstr #')}}</span>"
+                            },
+                            {
+                                "field": "namafilestr",
+                                "title": "File STR",
+                                "width": "30%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: downloadSipStr2, imageClass: "k-icon k-delete" }
+                                ],
+                                title: "",
+                                width: "22%",
+                            }
+                        ]
+                    }
+                    function downloadSipStr2(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.filestr2 == null) {
+                            toastr.error("Sprint Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.filestr2 + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliStr = function () {
+                        $scope.sourceStr = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpStr.close();
+                    }
+                }
+                if (Dokumen == "SPKK") {
+                    medifirstService.get('sdm/get-data-spkk?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var spkk = dat.data.data
+                        $scope.sourceSpkk = new kendo.data.DataSource({
+                            data: spkk,
+                            pageSize: 50,
+                            total: spkk.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpSpkk.center().open()
+                    $scope.columnSpkk = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "nospkk",
+                                "title": "Nomor SPKK",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "tglberlaku",
+                                "title": "Tanggal Berlaku",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglberlaku #')}}</span>"
+                            }, {
+                                "field": "tglberakhir",
+                                "title": "Tanggal Berakhir",
+                                "width": "20%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglberakhir #')}}</span>"
+                            },
+                            {
+                                "field": "levelspkk",
+                                "title": "Level SPKK",
+                                "width": "30%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: lihatSpkk, imageClass: "k-icon k-delete" }
+                                ],
+                                title: "",
+                                width: "22%",
+                            }
+                        ]
+                    }
+                    function lihatSpkk(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.filespkk == null) {
+                            toastr.error("File Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.filespkk + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliSpkk = function () {
+                        $scope.sourceSpkk = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpSpkk.close();
+                    }
+                }
+                if (Dokumen == "Riwayat Seminar") {
+                    medifirstService.get('sdm/get-data-seminar?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var seminar = dat.data.data
+                        $scope.sourceSeminar = new kendo.data.DataSource({
+                            data: seminar,
+                            pageSize: 50,
+                            total: seminar.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpSeminar.center().open()
+                    $scope.columnSeminar = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "namapenyelenggara",
+                                "title": "Penyelenggara",
+                                "width": "25%"
+                            },
+                            {
+                                "field": "lokasi",
+                                "title": "Lokasi",
+                                "width": "18%"
+                            },
+                            {
+                                "field": "namaseminar",
+                                "title": "Nama Pelatihan",
+                                "width": "35%"
+                            },
+                            {
+                                "field": "tglmulai",
+                                "title": "Tgl Mulai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                            },
+                            {
+                                "field": "tglselesai",
+                                "title": "Tgl Selesai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglselesai #')}}</span>"
+                            },
+                            {
+                                "field": "durasi",
+                                "title": "Durasi(jam)",
+                                "width": "15%"
+                            },
+                            {
+                                "field": "nosertifikat",
+                                "title": "No Sertifikat",
+                                "width": "20%"
+                            },
+                            {
+                                "field": "keterangan",
+                                "title": "Ket",
+                                "width": "20%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat Sertifikat", click: LihatSertifikatSeminar, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatSertifikatSeminar(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.sertifikat == null) {
+                            toastr.error("Sertifikat Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.sertifikat + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliSeminar = function () {
+                        $scope.sourceSeminar = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpSeminar.close();
+                    }
+                }
+                if (Dokumen == "Riwayat Pendidikan Dik / Jur") {
+                    medifirstService.get('sdm/get-data-dikjur?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var dikjur = dat.data.data
+                        $scope.sourceDikjur = new kendo.data.DataSource({
+                            data: dikjur,
+                            pageSize: 50,
+                            total: dikjur.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpDikjur.center().open()
+                    $scope.columnDikjur = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "namapenyelenggara",
+                                "title": "Penyelenggara",
+                                "width": "25%"
+                            },
+                            {
+                                "field": "tglmulai",
+                                "title": "Tgl Mulai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglmulai #')}}</span>"
+                            },
+                            {
+                                "field": "tglselesai",
+                                "title": "Tgl Selesai",
+                                "width": "15%",
+                                "template": "<span class='style-left'>{{formatTanggal('#: tglselesai #')}}</span>"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: LihatSertifikatDikjur, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatSertifikatDikjur(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.sertifikat == null) {
+                            toastr.error("Sertifikat Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.sertifikat + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliDikjur = function () {
+                        $scope.sourceDikjur = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpDikjur.close();
+                    }
+                }
+                if (Dokumen == "Kecakapan Bahasa") {
+                    medifirstService.get('sdm/get-data-kecakapan-bahasa?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var bahasa = dat.data.data
+                        $scope.sourceBahasa = new kendo.data.DataSource({
+                            data: bahasa,
+                            pageSize: 50,
+                            total: bahasa.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpBahasa.center().open()
+                    $scope.columnBahasa = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "jenisbahasa",
+                                "title": "Jenis Bahasa",
+                                "width": "25%"
+                            },
+                            {
+                                "field": "bahasa",
+                                "title": "Bahasa",
+                                "width": "25%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: LihatSertifikatBahasa, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatSertifikatBahasa(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.sertifikat == null) {
+                            toastr.error("Sertifikat Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.sertifikat + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliBahasa = function () {
+                        $scope.sourceBahasa = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpBahasa.close();
+                    }
+                }
+                if (Dokumen == "Organisasi Profesi") {
+                    medifirstService.get('sdm/get-data-organisasi-profesi?idPegawai=' + objectpegawaifk).then(function (dat) {
+                        debugger
+                        var profesi = dat.data.data
+                        $scope.sourceProfesi = new kendo.data.DataSource({
+                            data: profesi,
+                            pageSize: 50,
+                            total: profesi.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    $scope.popUpProfesi.center().open()
+                    $scope.columnProfesi = {
+                        sortable: false,
+                        reorderable: true,
+                        filterable: false,
+                        pageable: true,
+                        columnMenu: false,
+                        resizable: true,
+                        selectable: 'row',
+                        columns: [
+                            {
+                                "field": "nokta",
+                                "title": "No KTA",
+                                "width": "25%"
+                            },
+                            {
+                                "command": [
+                                    { text: "Lihat", click: LihatOrganisasiProfesi, imageClass: "k-icon k-i-delete" },
+                                ],
+                                title: "",
+                                width: "185px",
+                            }
+                        ]
+                    }
+                    function LihatOrganisasiProfesi(e) {
+                        debugger
+                        e.preventDefault();
+                        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                        if (dataItem == undefined) {
+                            alert("Data Belum Dipilih!")
+                            return;
+                        };
+                        if (dataItem.kta == null) {
+                            toastr.error("KTA Tidak Ditemukan!")
+                            return;
+                        };
+                        const win = window.open("", "_blank");
+                        let html = '';
+
+                        html += '<html>';
+                        html += '<body style="margin:0!important">';
+                        html += '<embed width="100%" height="100%" src="' + dataItem.kta + '" type="application/pdf" />';
+                        html += '</body>';
+                        html += '</html>';
+
+                        setTimeout(() => {
+                            win.document.write(html);
+                        }, 0);
+                    }
+                    $scope.kembaliProfesi = function () {
+                        $scope.sourceProfesi = new kendo.data.DataSource({
+                            data: [],
+                        });
+                        $scope.popUpProfesi.close();
+                    }
+                }
             }
             // * BATAS SUCI *//
         }

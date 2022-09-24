@@ -8615,6 +8615,16 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->select('id', 'namakelas')
             ->orderBy('namakelas')
             ->get();
+        $dataInstalasi = \DB::table('departemen_m as dp')
+            ->select('dp.id', 'dp.namadepartemen')
+            ->whereIn('dp.id', array(3, 14, 16, 17, 18, 19, 24, 25, 26, 27, 28, 35))
+            ->where('dp.statusenabled', true)
+            ->orderBy('dp.namadepartemen')
+            ->get();
+        $dataKamar = \DB::table('kamar_m as kr')
+            ->select('kr.id', 'kr.namakamar')
+            ->where('kr.statusenabled', true)
+            ->get();
         $pembatalan = DB::select(DB::raw("select id,name from pembatal_m where statusenabled='true'"));
 
         $result = array(
@@ -8623,6 +8633,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             'jenisdiagnosa' => $jenisDiagnosa,
             'kelas' => $kelas,
             'pegawaiLogin' => $dataPegawai->namalengkap,
+            'dataInstalasi'=>$dataInstalasi,
+            'dataKamar'=>$dataKamar,
             'message' => 'inhuman',
         );
 
@@ -14776,7 +14788,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         $dataDetailDiagnosa->objectdiagnosatindakanfk = $request['detaildiagnosatindakanpasien']['objectdiagnosatindakanfk'];
         $dataDetailDiagnosa->objectdiagnosatindakanpasienfk = $dataDiagnosa->norec;
-        $dataDetailDiagnosa->jumlah = null;
+        $dataDetailDiagnosa->jumlah = $request['detaildiagnosatindakanpasien']['jumlah'];
         $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID()
         if (isset($request['detaildiagnosatindakanpasien']['keterangantindakan'])) {
             $dataDetailDiagnosa->keterangantindakan = $request['detaildiagnosatindakanpasien']['keterangantindakan'];

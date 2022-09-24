@@ -84,6 +84,9 @@ class MasterController extends ApiController{
             // $data = $data->where('jsm.id','=',277);
             }
         }
+        if(isset($filter['detailJenis']) && !empty($filter['detailJenis'])){
+            $data = $data->where('p.objectdetailjenisprodukfk','=',$filter['detailJenis']);
+        }
 
 
        
@@ -1215,12 +1218,11 @@ class MasterController extends ApiController{
         $namaTable = $request['namatable'];
         $data = DB::select(DB::raw(
             "SELECT
-                top 50
                 table_name as kelompok FROM information_schema.tables WHERE 
                 --table_type = 'base table' and 
                 table_name ilike '%_m'
                 and table_name ilike '%$namaTable%'
-                order by table_name"
+                 order by table_name limit 50" 
         ));
         $result = array(
             'data' => $data,
@@ -1374,7 +1376,7 @@ class MasterController extends ApiController{
             $tableRelasi = '';
             $column_name = '';
             foreach ($setting as $epan){
-                if ($epan->namafield == $dataRaw2->COLUMN_NAME){
+                if ($epan->namafield == $dataRaw2->column_name){
                     $tipe = 'combobox';
 //                    $column_name = $epan->namafield;
 //                    $idTabel = $epan->fieldkeytabelrelasi;
@@ -1383,7 +1385,7 @@ class MasterController extends ApiController{
                 }
             }
             if ($tipe == ''){
-                $type =  $dataRaw2->DATA_TYPE;
+                $type =  $dataRaw2->data_type;
             }else{
                 $type =  $tipe;
             }
@@ -1393,51 +1395,51 @@ class MasterController extends ApiController{
 
 
             $width = 0;
-            if  ((float)$dataRaw2->CHARACTER_MAXIMUM_LENGTH == null){
+            if  ((float)$dataRaw2->character_maximum_length== null){
                 $width =11 * 5;
             }else{
-                $width = (float)$dataRaw2->CHARACTER_MAXIMUM_LENGTH * 5;
+                $width = (float)$dataRaw2->character_maximum_length * 5;
             }
             $hide = false;
-            if ($dataRaw2->COLUMN_NAME == 'kodeexternal'){
+            if ($dataRaw2->column_name == 'kodeexternal'){
                 $hide =true;
             }
-            if ($dataRaw2->COLUMN_NAME == 'namaexternal'){
+            if ($dataRaw2->column_name == 'namaexternal'){
                 $hide =true;
             }
-            if ($dataRaw2->COLUMN_NAME == 'norec'){
+            if ($dataRaw2->column_name == 'norec'){
                 $hide =true;
             }
-            if ($dataRaw2->COLUMN_NAME == 'reportdisplay'){
+            if ($dataRaw2->column_name == 'reportdisplay'){
                 $hide =true;
             }
-            if (strpos($dataRaw2->COLUMN_NAME, 'object') !== false) {
+            if (strpos($dataRaw2->column_name, 'object') !== false) {
                 $hide =true;
             }
             $dataColumn[] = array(
-                'field' => $dataRaw2->COLUMN_NAME,
-                'title' => $dataRaw2->COLUMN_NAME,
+                'field' => $dataRaw2->column_name,
+                'title' => $dataRaw2->column_name,
                 'width' => $width ,
                 'hidden' => $hide
             );
 
 
             $dataraw3A[] = array(
-                'table_catalog' => $dataRaw2->TABLE_CATALOG,
-                'table_schema' => $dataRaw2->TABLE_SCHEMA,
-                'table_name' => $dataRaw2->TABLE_NAME,
-                'column_name' => $dataRaw2->COLUMN_NAME,
-                'ordinal_position' => $dataRaw2->ORDINAL_POSITION,
-                'is_nullable' => $dataRaw2->IS_NULLABLE,
-                'data_type' => $dataRaw2->DATA_TYPE,
-                'caption' => $dataRaw2->COLUMN_NAME ,
-                'character_maximum_length' => $dataRaw2->CHARACTER_MAXIMUM_LENGTH ,
+                'table_catalog' => $dataRaw2->table_catalog,
+                'table_schema' => $dataRaw2->table_schema,
+                'table_name' => $dataRaw2->table_name,
+                'column_name' => $dataRaw2->column_name,
+                'ordinal_position' => $dataRaw2->ordinal_position,
+                'is_nullable' => $dataRaw2->is_nullable,
+                'data_type' => $dataRaw2->data_type,
+                'caption' => $dataRaw2->column_name ,
+                'character_maximum_length' => $dataRaw2->character_maximum_length ,
 
 //                'cbotable' => $dataRaw2->tabelrelasi,
 //                'fieldreportdisplaytabelrelasi' => $dataRaw2->fieldreportdisplaytabelrelasi,
 //                'keteranganfungsi' => $dataRaw2->keteranganfungsi,
 //                'namafield' => $dataRaw2->namafield,
-                'id' => $dataRaw2->ORDINAL_POSITION ,
+                'id' => $dataRaw2->ordinal_position ,
 //                'nilaifield' => $dataRaw2->nilaifield ,
 //                'tabelrelasi' => $dataRaw2->tabelrelasi,
 //                'typefield' => $dataRaw2->typefield,
@@ -2204,8 +2206,8 @@ class MasterController extends ApiController{
             ->select('ru.id', 'ru.namaruangan', 'ru.objectdepartemenfk','dp.namadepartemen','ru.statusenabled')
             ->whereIn('ru.objectdepartemenfk', [3, 18, 16, 24, 28, 27]);
 
-        if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
-            $data = $data->where('dp.id','=',$request['deptId']);
+        if(isset($request['kdInstalasi']) && $request['kdInstalasi']!="" && $request['kdInstalasi']!="undefined"){
+            $data = $data->where('dp.id','=',$request['kdInstalasi']);
         }
        
         if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
@@ -2232,7 +2234,8 @@ class MasterController extends ApiController{
             // die();
             $idMap=$request['id'];
             $statusenabled=$request['statusenabled'];
-            $delete = DB::delete("update ruangan_m set statusenabled='$statusenabled' where id='$idMap'");
+            $namaruangan=$request['namaruangan'];
+            $delete = DB::delete("update ruangan_m set statusenabled='$statusenabled',namaruangan='$namaruangan' where id='$idMap'");
 
             $transStatus = 'true';
         } catch (\Exception $e) {
@@ -2279,6 +2282,118 @@ class MasterController extends ApiController{
 
                     );
             $is_saved = DB::table('ruangan_m')
+                    ->insert($rowDataforInsert);
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getDataKamar(Request $request) {
+        $data = DB::table('kamar_m as kr')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'kr.objectruanganfk')
+            ->join('kelas_m as km','km.id','=','kr.objectkelasfk')
+            ->select('ru.objectruanganfk', 'ru.namaruangan', 'kr.namakamar','kr.id','kr.statusenabled','km.namakelas','kr.qtybed');
+
+       
+        if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
+            $data = $data->where('ru.id','=', $request['ruangan']);
+        }
+        if(isset($request['kdkelas']) && $request['kdkelas']!="" && $request['kdkelas']!="undefined"){
+            $data = $data->where('km.id','=', $request['kdkelas']);
+        }
+         if(isset($request['kamarId']) && $request['kamarId']!="" && $request['kamarId']!="undefined"){
+            $data = $data->where('kr.id','=', $request['kamarId']);
+        }
+       
+
+        $data = $data->take(5);
+        $data = $data->orderBy('ru.namaruangan');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
+    }
+    public function updateKamar(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // return($request['statusenabled']);
+            // die();
+            $idMap=$request['id'];
+            $statusenabled=$request['statusenabled'];
+            $namakamar=$request['namakamar'];
+            $delete = DB::delete("update kamar_m set statusenabled='$statusenabled',namakamar='$namakamar' where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Update gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveKamar(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $maxId = DB::table('kamar_m')->find(DB::table('kamar_m')->max('id'));
+            $nextId = $maxId->id+1;
+            $rowDataforInsert[] = array(
+                        "id" => (int)$nextId,
+                        "statusenabled" => (bool)"t",
+                        "kdprofile" => "18",
+                        "kodeexternal" => "UNAND",
+                        "namaexternal" => $request['namaKamar'],
+                        "namakamar" => $request['namaKamar'],
+                        "norec" => (int)$nextId,
+                        "reportdisplay" => $request['namaKamar'],
+                        "objectruanganfk" => (int)$request['namaruangan'],
+                        "objectkelasfk" => (int)$request['kelas'],
+                        "kdkamar" => (int)$nextId,
+                        "qkamar" => (int)$nextId,
+                        // "tanggal" => date('Y-m-d H:i:s'),
+                        "qtybed" => (int)$request['qtyBed'],
+                        "jumlakamarisi" => (int)$request['jmlKamarIsi'],
+                        "jumlakamarkosong" => (int)$request['jmlKamarKosong'],
+
+                    );
+            $is_saved = DB::table('kamar_m')
                     ->insert($rowDataforInsert);
 
             $transStatus = 'true';

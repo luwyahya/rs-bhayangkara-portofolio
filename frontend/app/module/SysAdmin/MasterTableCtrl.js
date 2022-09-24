@@ -8,15 +8,20 @@ define(['initialize'], function (initialize) {
             var kolom1 = []
             var dataSelected = []
             var comboboxorigin = []
+            var setUpdate = "";
 
             loadData()
-
+            $scope.listStatus = [
+                { "id": "1", "name": "true" },
+                { "id": "2", "name": "false" },
+            ];
             function loadData() {
                 $scope.isRouteLoading = true;
                 medifirstService.get('registrasi/daftar-antrian-pasien/get-combo').then(function (e) {
                     $scope.listRuangan = e.data.data
                     $scope.listKelas = e.data.kelas
                     $scope.listInstalasi = e.data.dataInstalasi
+                    $scope.listKamar = e.data.dataKamar
                 })
                 var ruanganId = ''
                 if ($scope.item.ruangan)
@@ -415,23 +420,35 @@ define(['initialize'], function (initialize) {
                 var ruanganId = ''
                 if ($scope.item.ruangan)
                     ruanganId = '?ruangan=' + $scope.item.ruangan.id
-
-                medifirstService.get('sysadmin/master/get-dataruangan' + ruanganId).then(function (e) {
+                var instalasiId = ''
+                if ($scope.item.instalasi) {
+                    if (instalasiId == "")
+                        instalasiId = '?kdInstalasi=' + $scope.item.instalasi.id
+                    else
+                        instalasiId = '&kdInstalasi=' + $scope.item.instalasi.id
+                }
+                medifirstService.get('sysadmin/master/get-dataruangan' + ruanganId + instalasiId).then(function (e) {
                     $scope.listDataRuangan = e.data.datas
                 })
             }
-            $scope.clickUpdateRuangan = function (ai) {
-                debugger
-                var status = "false"
-                if (ai.statusenabled == false)
-                    status = "true"
+            $scope.clickSaveUpdate = function () {
                 var objDelete = {
-                    id: ai.id,
-                    statusenabled: status
+                    id: setUpdate.id,
+                    statusenabled: $scope.item.status.name,
+                    namaruangan: $scope.item.namaRuangan
                 }
                 medifirstService.post('sysadmin/master/update-ruangan', objDelete).then(function (e) {
                     $scope.findDataRuangan()
                 })
+            }
+            $scope.clickUpdateRuangan = function (ai) {
+                debugger
+                setUpdate = ai
+                $scope.item.namaRuangan = ai.namaruangan
+                $scope.item.status = { id: '2', name: 'false' }
+                if (ai.statusenabled == true)
+                    $scope.item.status = { id: '1', name: 'true' }
+                $scope.popupUpdateRuangan.open().center()
             }
             $scope.clickTambahRuangan = function () {
                 $scope.popupTambahRuangan.open().center()
@@ -470,6 +487,101 @@ define(['initialize'], function (initialize) {
                 }
                 medifirstService.post('sysadmin/master/save-ruangan', objDelete).then(function (e) {
                     loadData()
+                    $scope.isRouteLoading = false;
+                })
+            }
+            $scope.findDataKamar = function () {
+                var ruanganId = ''
+                if ($scope.item.ruangan)
+                    ruanganId = '?ruangan=' + $scope.item.ruangan.id
+                var kelasId = ''
+                if ($scope.item.kelas) {
+                    if (ruanganId == "")
+                        kelasId = '?kdkelas=' + $scope.item.kelas.id
+                    else
+                        kelasId = '&kdkelas=' + $scope.item.kelas.id
+                }
+                var kamarId = ''
+                if ($scope.item.kamar) {
+                    if (kelasId == "")
+                        kamarId = '?kamarId=' + $scope.item.kamar.id
+                    else
+                        kamarId = '&kamarId=' + $scope.item.kamar.id
+                }
+                medifirstService.get('sysadmin/master/get-datakamar' + ruanganId + kelasId + kamarId).then(function (e) {
+                    $scope.listDataKamar = e.data.datas
+                })
+            }
+            $scope.clickUpdateKamar = function (ai) {
+                setUpdate = ai
+                $scope.item.namaKamar = ai.namakamar
+                $scope.item.status = { id: '2', name: 'false' }
+                if (ai.statusenabled == true)
+                    $scope.item.status = { id: '1', name: 'true' }
+                $scope.popupUpdateKamar.open().center()
+            }
+            $scope.clickSaveUpdateKamar = function () {
+                var objDelete = {
+                    id: setUpdate.id,
+                    statusenabled: $scope.item.status.name,
+                    namakamar: $scope.item.namaKamar
+                }
+                medifirstService.post('sysadmin/master/update-kamar', objDelete).then(function (e) {
+                    $scope.findDataKamar()
+                })
+            }
+            $scope.clickTambahKamar = function () {
+                $scope.popupTambahKamar.open().center();
+            }
+            $scope.clickSaveKamar = function (ai) {
+                if ($scope.item.ruangan == undefined || $scope.item.ruangan == null) {
+                    toastr.error("Ruangan Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kelas == undefined || $scope.item.kelas == null) {
+                    toastr.error("Kelas Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.namaKamar == undefined || $scope.item.namaKamar == null) {
+                    toastr.error("Nama Kamar Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.qtyBed == undefined || $scope.item.qtyBed == null) {
+                    toastr.error("qty Bed Kamar Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.jmlKamarIsi == undefined || $scope.item.jmlKamarIsi == null) {
+                    toastr.error("Jumlah Kamar Isi Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.jmlKamarKosong == undefined || $scope.item.jmlKamarKosong == null) {
+                    toastr.error("Jumlah Kamar Kosong Harus Di Isi!")
+                    return
+                }
+                debugger
+                $scope.popupTambahKamar.close();
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSaveKamar();
+                });
+            }
+            function RealSaveKamar() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    namaruangan: $scope.item.ruangan.id,
+                    kelas: $scope.item.kelas.id,
+                    namaKamar: $scope.item.namaKamar,
+                    qtyBed: $scope.item.qtyBed,
+                    jmlKamarIsi: $scope.item.jmlKamarIsi,
+                    jmlKamarKosong: $scope.item.jmlKamarKosong,
+                }
+                medifirstService.post('sysadmin/master/save-kamar', objDelete).then(function (e) {
+                    $scope.findDataKamar()
                     $scope.isRouteLoading = false;
                 })
             }

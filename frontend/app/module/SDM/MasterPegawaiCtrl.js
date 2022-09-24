@@ -26,6 +26,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.now = new Date();
             var dataKeluarga = [];
             var dataPegawai = [];
+            var dataPhoto = [];
             var dataRiwayatPendidikan = [];
             var dataRiwayatJabatan = [];
             var dataSip = [];
@@ -3306,6 +3307,18 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     // $scope.itemTelp.push($scope.item.provider2);
                     // $scope.itemTelp[1].nomor=$scope.item.nomor2;
 
+                    if (fotoprofile.length == 0) {
+                        dataPhoto.push({
+                            id: id,
+                            foto: 'null'
+                        })
+                    } else {
+                        dataPhoto.push({
+                            id: id,
+                            foto: fotoprofile[0]
+                        })
+                    }
+
                     var dataTel1 = ''
                     if ($scope.item.nomor1 != undefined && $scope.item.provider1 != undefined && $scope.item.norecTelp1 != undefined && $scope.item.norecTelp1 != "") {
                         dataTel1 = {
@@ -3356,6 +3369,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         riwayatpendidikan: dataRiwayatPendidikan,
                         riwayatpelatihan: dataRiwayatPelatihan,
                         riwayatjabatan: dataRiwayatJabatan,
+                        dataphoto: dataPhoto,
                         // simpansip:dataSip,
                         // simpanstr:dataStr,
                         simpantelp: dataNoTelp,
