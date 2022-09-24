@@ -2531,6 +2531,21 @@ class RawatJalanController extends ApiController
                                 ]
 
                             );
+
+                        $ddddd = PasienDaftar::where('norec', $request['noregistrasifk'])
+                        // ->whereNotNull('tglpulang')
+                        ->update(
+                            [
+                                'objectstatuspulangfk' => $request['objectstatuspulangfk'],
+                                // 'tglpulang' =>  $request['tanggalpulang'],//date('Y-m-d H:i:s')
+                                'tanggalrawat' => $request['tanggalRencakaKontrol'],
+                                'dpjp'=> $request['dpjp'],
+                                'keterangan' => $request['keterangan'],
+                                
+                                
+                            ]
+
+                        );
                     }
                 }
                 if ($request['noregistrasifkapd'] != null) {
@@ -2552,6 +2567,21 @@ class RawatJalanController extends ApiController
                                 [
                                     'objectstatuspulangfk' => $request['objectstatuspulangfk'],
                                     'tglpulang' =>  $tglregistrasi //date('Y-m-d H:i:s')
+                                ]
+
+                            );
+                        $ddddd = PasienDaftar::where('norec', $request['noregistrasifk'])
+                            // ->whereNotNull('tglpulang')
+                            ->update(
+                                [
+                                    'objectstatuspulangfk' => $request['objectstatuspulangfk'],
+                                    // 'tglpulang' =>  $tglregistrasi, //date('Y-m-d H:i:s')
+                                    'tanggalrawat'=> $request['tanggalRencakaKontrol'],
+                                    'dpjp'=> $request['dpjp'],
+                                    'keterangan' => $request['keterangan'],
+
+
+                                    
                                 ]
 
                             );

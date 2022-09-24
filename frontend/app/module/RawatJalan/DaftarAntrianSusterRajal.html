@@ -1154,6 +1154,11 @@
                         <input style="background-color: #eea236;" c-text-box type="input" filter="'char'"
                             class="k-textbox" ng-model="item.noSPRI" />
                     </div>
+                    <div class="grid_6">
+                        <label c-label item="item" c-label-text="Keterangan"></label>
+                        <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                                    ng-model="item.keterangan" />
+                    </div>
                     <div class="grid_6" style="margin-top: 15px">
                         <button class="btnTemplate1 hijau" style="margin-left: 0;"
                             ng-click="generateSuratSPRI()">Terbitkan
