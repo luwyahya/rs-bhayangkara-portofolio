@@ -960,10 +960,10 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             $nocm = " and pm.nocm like " .  "'%" . $request['nocm'] . "%'";
         }
         $dataLogin = $request->all();
-        $data = DB::select(DB::raw("select x.namalengkap as userdaftar,x.noregistrasi,x.nocm,x.namapasien,x.tgllahir,x.jk,x.namakelas,x.dokterpj,x.tglregistrasi,
+        $data = DB::select(DB::raw("select x.namalengkap as userdaftar,x.noregistrasi,x.nocm,x.namapasien,x.tgllahir,x.jk,x.namakelas,x.noreservasi,x.tanggalreservasi,x.notelepon,x.istelemedicine,x.dokterpj,x.tglregistrasi,
                         x.tglpulang,x.namarekanan,x.ruangandaftar,x.iddepartementdaftar,x.idkelompokpasien,x.kelompokpasien,
                         x.alamatlengkap,x.namadepartemen,x.norec,x.dokterapd
-                        from(SELECT pg3.namalengkap,pd.noregistrasi,pm.nocm,pm.namapasien,pm.tgllahir,jk.reportdisplay as jk,
+                        from(SELECT pg3.namalengkap,pd.noregistrasi,pm.nocm,apr.noreservasi,apr.tanggalreservasi,apr.notelepon,pd.istelemedicine,pm.namapasien,pm.tgllahir,jk.reportdisplay as jk,
                                      kl.namakelas,pg.namalengkap as dokterpj,pd.tglregistrasi,pd.tglpulang,rk.namarekanan,
                                      ru.namaruangan as ruangandaftar,ru.id as idruangandaftar,ru.objectdepartemenfk as iddepartementdaftar,
                                      klp.id as idkelompokpasien,klp.kelompokpasien,ar.asalrujukan,
@@ -987,6 +987,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                         left join batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
                         LEFT JOIN diagnosapasien_t as dp on dp.noregistrasifk = apd.norec
                         LEFT JOIN detaildiagnosapasien_t as ddp on ddp.objectdiagnosapasienfk = dp.norec
+                        left join antrianpasienregistrasi_t as apr on apr.noreservasi =pd.statusschedule and apr.nocmfk = pd.nocmfk
                         LEFT JOIN diagnosa_m as dg on dg.id = ddp.objectdiagnosafk
                         inner join logginguser_t as loguser on loguser.noreff = pd.norec
                         inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
@@ -999,9 +1000,9 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                         $userinput
                         $nocm
                         ) as x
-                        GROUP BY x.namalengkap,x.noregistrasi,x.nocm,x.namapasien,x.tgllahir,x.jk,x.namakelas,x.dokterpj,x.tglregistrasi,
-			                     x.tglpulang,x.namarekanan,x.ruangandaftar,x.iddepartementdaftar,x.idkelompokpasien,x.kelompokpasien,
-			                     x.alamatlengkap,x.namadepartemen,x.norec,x.dokterapd
+                        GROUP BY x.namalengkap,x.noregistrasi,x.nocm,x.noreservasi,x.tanggalreservasi,x.notelepon,x.istelemedicine,x.namapasien,x.tgllahir,x.jk,x.namakelas,x.dokterpj,x.tglregistrasi,
+                                 x.tglpulang,x.namarekanan,x.ruangandaftar,x.iddepartementdaftar,x.idkelompokpasien,x.kelompokpasien,
+                                 x.alamatlengkap,x.namadepartemen,x.norec,x.dokterapd
                         order by x.tglregistrasi"));
 
         return $this->respond($data);

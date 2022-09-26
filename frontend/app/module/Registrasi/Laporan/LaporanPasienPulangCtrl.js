@@ -312,6 +312,24 @@ define(['initialize'], function (initialize) {
                                 "title": "Status Pulang",
                                 "width": "100px",
                                 "template": "<span class='style-center'>#: statuspulang #</span>"
+                            },
+                            {
+                                "field": "dpjp",
+                                "title": "DPJP",
+                                "width": "100px",
+                                
+                            },
+                            {
+                                "field": "tanggalrawat",
+                                "title": "Tanggal Rencana Rawat",
+                                "width": "100px",
+                                
+                            },
+                            {
+                                "field": "keterangan",
+                                "title": "Keterangan",
+                                "width": "100px",
+                                
                             }
                         ],
                     sortable: {

@@ -23830,7 +23830,7 @@ select * from (select *,row_number() over (partition by x.noregistrasi order by 
             $data = $data->where('pd.tglregistrasi', '<=', $request['tglAkhir']);
         }
         if (isset($request['idDept']) && $request['idDept'] != "" && $request['idDept'] != "undefined") {
-            $data = $data->where('ru.objectdepartemenfk ', '=', $request['idDept']);
+            $data = $data->where('ru.objectdepartemenfk', '=', $request['idDept']);
         }
         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
             $data = $data->where('ru.id', '=', $request['idRuangan']);

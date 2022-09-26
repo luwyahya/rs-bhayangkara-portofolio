@@ -2678,6 +2678,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var kondisikeluar = ""
                 if ($scope.item.kondisiKeluar != undefined)
                     kondisikeluar = $scope.item.kondisiKeluar.id
+                var kodeDokter = ""
+                if ($scope.item.kodeDokter != undefined) {
+                    kodeDokter = $scope.item.kodeDokter.nama
+                }
                 var objectpenyebabkematianfk = ""
                 if ($scope.item.penyebabKematian != undefined)
                     objectpenyebabkematianfk = $scope.item.penyebabKematian.id
@@ -2716,6 +2720,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     'objectkondisipasienfk': kondisikeluar,
                     'objectpenyebabkematianfk': objectpenyebabkematianfk,
                     'tglmeninggal': tglMeninggal,
+                    'keterangan': $scope.item.keterangan,
+                    'tanggalRencakaKontrol': moment($scope.item.tanggalRencakaKontrol).format('YYYY-MM-DD HH:mm:ss'),
+                    'dpjp': kodeDokter,
                 };
 
                 if ($scope.pulang.statuspulang.id == 13 && $scope.objectruanganfkSelected == 569) {
