@@ -77,13 +77,21 @@ define(['initialize'], function (initialize) {
                     resizable: true,
                     columnMenu: true,
                     columns: [
+                        // {
+                        //     title: "Jumlah Pasien",
+                        //     field: "jumlah"
+                        // },
+                        // {
+                        //     title: "Status Pasien",
+                        //     field: "statuspasien"
+                        // }
                         {
-                            title: "Jumlah Pasien",
-                            field: "jumlah"
+                            title: "Jenis Kegiatan",
+                            field: "statuspasien"
                         },
                         {
-                            title: "Status Pasien",
-                            field: "statuspasien"
+                            title: "Jumlah",
+                            field: "jumlah"
                         }
                     ]
                 })
