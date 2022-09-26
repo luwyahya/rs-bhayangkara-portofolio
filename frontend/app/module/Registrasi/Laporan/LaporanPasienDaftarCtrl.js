@@ -180,6 +180,18 @@ define(['initialize'], function (initialize) {
                                 day = umur.day
                             var usia = (umur.year * 12) + umur.month;
                             datas[i].umur = thn + ' thn ' + bln + ' bln ' + day + ' hr '
+                            datas[i].isonline = '-'
+                            debugger;
+                            if (datas[i].noreservasi != undefined) {
+                                if (datas[i].istelemedicine == '1') {
+                                    datas[i].isonline = datas[i].notelepon
+                                    datas[i].kelompokpasien = 'Telemedicine'
+                                    datas[i].tglregistrasi = datas[i].tanggalreservasi
+                                } else {
+                                    datas[i].isonline = 'Online'
+                                    datas[i].tglregistrasi = datas[i].tanggalreservasi
+                                }
+                            }
                         }
                         $scope.sourceLaporan = new kendo.data.DataSource({
                             data: datas,
@@ -468,7 +480,13 @@ define(['initialize'], function (initialize) {
             //         }
             //     ]
             // });
+            var onDataBound = function () {
+                $('td').each(function () {
+                    if ($(this).text() == '-') { $(this).addClass('red') }
+                    if ($(this).text() == 'Online') { $(this).addClass('koneng') }
 
+                })
+            }
             $scope.columnLaporan = {
                 toolbar: [
                     "excel",
@@ -490,6 +508,7 @@ define(['initialize'], function (initialize) {
                 },
                 sortable: true,
                 pageable: true,
+                dataBound: onDataBound,
                 selectable: "row",
                 columns: [
 
@@ -576,6 +595,11 @@ define(['initialize'], function (initialize) {
                         "field": "userdaftar",
                         "title": "User Daftar",
                         "width": "400px"
+                    },
+                    {
+                    "field": "isonline",
+                    "title": "Status",
+                    "width": "80px"
                     }
                 ]
             }
