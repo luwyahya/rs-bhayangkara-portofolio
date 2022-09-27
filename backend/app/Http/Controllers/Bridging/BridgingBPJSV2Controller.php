@@ -6138,6 +6138,8 @@ class BridgingBPJSV2Controller extends ApiController
             $result = (array) json_decode($response);
         }
       
+        $key=$data.$secretKey.(string)$tStamp;
+        $result =$this->stringDecryptVclaim($key,$result);
         return $this->respond($result);
     }
 
