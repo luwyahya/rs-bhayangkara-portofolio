@@ -2097,7 +2097,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                 $noregistrasi = substr($item->nodaftar, 11);
                 // $ruanganid = $
                 $data1 = \DB::table('pasiendaftar_t as pd')
-                    ->select('dg.kddiagnosa', 'pd.noregistrasi', 'dg.namadiagnosa', 'ddp.objectjenisdiagnosafk', 'sp.kdstatuspulang', 'sp.statuspulang', 'apd.objectruanganfk')
+                    ->select('dg.kddiagnosa', 'pd.noregistrasi','pd.dpjp','pd.tanggalrawat','pd.keterangan', 'dg.namadiagnosa', 'ddp.objectjenisdiagnosafk', 'sp.kdstatuspulang', 'sp.statuspulang', 'apd.objectruanganfk')
                     ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                     ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                     ->leftJoin('statuspulang_m as sp', 'sp.id', '=', 'pd.objectstatuspulangfk')
