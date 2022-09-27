@@ -2516,7 +2516,7 @@ class RawatJalanController extends ApiController
 
 
         DB::beginTransaction();
-        // try {
+        try {
             if ($request['objectstatuspulangfk'] == 13) {
                 if ($sudahmasukinap === '0') {
                     if ($request['noregistrasifk'] != null) {
@@ -2631,9 +2631,9 @@ class RawatJalanController extends ApiController
 
 
             $transStatus = 'true';
-        // } catch (\Exception $e) {
-        //     $transStatus = 'false';
-        // }
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
 
         if ($transStatus == 'true') {
 
