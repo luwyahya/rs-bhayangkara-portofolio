@@ -105,6 +105,10 @@
       "urlDep": "module/SDM/Pendidikan/MasterKategoriPendidikanCtrl"
     },
     {
+      "nameDep": "MasterInstitusiPendidikanCtrl",
+      "urlDep": "module/SDM/Pendidikan/MasterInstitusiPendidikanCtrl"
+    }, 
+    {
       "nameDep": "MasterJurusanPeminatanCtrl",
       "urlDep": "module/SDM/Pendidikan/MasterJurusanPeminatanCtrl"
     },

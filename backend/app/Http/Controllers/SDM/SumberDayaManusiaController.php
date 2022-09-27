@@ -31,6 +31,7 @@ use App\Master\PemotonganPajak;
 use App\Master\PegawaiJadwalKerja;
 use App\Master\Pekerjaan;
 use App\Master\Pendidikan;
+use App\Master\SdmInstitusiPendidikan;
 use App\Transaksi\RekapTransferGaji;
 use App\Transaksi\RiwayatSpkk;
 use App\Transaksi\RiwayatSeminar;
@@ -3347,7 +3348,15 @@ class SumberDayaManusiaController extends ApiController {
         );
         return $result;
     }
+    public function getInstitusiDiklatKategory(Request $request){
+        $data = SdmInstitusiPendidikan::get();
 
+        $result = array(
+            'data' => $data,
+            'by' => 'asepic',
+        );
+        return $result;
+    }
     public function saveDiklatKategory(Request $request){
         DB::beginTransaction();
         try{
@@ -3379,6 +3388,50 @@ class SumberDayaManusiaController extends ApiController {
                 'status' => 201,
                 'message' => $transMessage,
                 'result' => $TP,
+                'as' => 'asepic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'asepic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveInstitusiKategory(Request $request){
+        DB::beginTransaction();
+        try{
+            $newId = SdmInstitusiPendidikan::max('id') +1 ;
+            if ($request['id'] == ''){
+                $institusi = new SdmInstitusiPendidikan();
+                $institusi->id = $newId;
+                $institusi->kdprofile = 0;
+                $institusi->norec = $institusi->generateNewId();
+            }else{
+                $institusi = SdmInstitusiPendidikan::where('id', $request['id'])->first();
+            }
+            $institusi->statusenabled =  $request['statusenabled'];
+            $institusi->kodeexternal = $newId;
+            $institusi->namaexternal = $request['institusipendidikan'];
+            $institusi->institusipendidikan = $request['institusipendidikan'];
+            $institusi->id = $newId;
+            $institusi->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Institusi Pendidikan Kategory";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'result' => $institusi,
                 'as' => 'asepic',
             );
         } else {
