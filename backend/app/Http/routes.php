@@ -1524,6 +1524,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-jadwal-operasi', 'Laboratorium\LaboratoriumController@saveJadwalOperasi');
             Route::post('save-jadwal-operasi-gabung', 'Laboratorium\LaboratoriumController@saveJadwalOperasiGabung');
             Route::post('unverif-jadwal-operasi', 'Laboratorium\LaboratoriumController@unVerif');
+            Route::post('delete-jadwal-operasi', 'Laboratorium\LaboratoriumController@delete');
 
             Route::post('hapus-jadwal-operasi', 'Laboratorium\LaboratoriumController@hapusJadwalOperasi');
             Route::post('update-jadwal-operasi', 'Laboratorium\LaboratoriumController@updateJadwalOperasi');

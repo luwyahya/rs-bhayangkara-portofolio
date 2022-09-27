@@ -293,6 +293,28 @@ class LaboratoriumController extends ApiController
 
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+     public function delete(Request $request){
+        $dataLogin = $request->all();
+        
+        if (!empty($request['norec_so'])) {
+            $data2=StrukOrder::where('norec',$request['norec_so'] )
+                    ->update(
+                        [
+                            'statusenabled' => false
+                        ]
+                    ); 
+                $transMessage = "Data Berhasil Di Delete";
+            }else{
+                $transMessage = "Data Gagal Di Delete";
+            }
+            $result = array(
+                "data2" =>$data2,
+                "status" => 201,
+                "message" => $transMessage,
+            );
+
+            return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function unVerif(Request $request) {
         $dataLogin = $request->all();
         

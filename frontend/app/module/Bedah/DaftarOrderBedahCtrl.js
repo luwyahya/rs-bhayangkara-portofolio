@@ -703,6 +703,19 @@ define(['initialize'], function (initialize) {
                         init();
                     })
             }
+            $scope.delete = function () {
+                debugger;
+                if ($scope.dataSelected == undefined) {
+                    toastr.error('Pilih data dulu');
+                    return
+                }
+                noregistrasi = $scope.dataSelected.noregistrasi;
+                norec_so = $scope.dataSelected.norec_so,
+                    medifirstService.post('laboratorium/delete-jadwal-operasi?noregistrasi=' + noregistrasi + '&norec_so=' + norec_so).then(function (e) {
+                    var x = e
+                    init();
+                })
+            }
 
             function loadDataVerif() {
                 tempnorecjkn = '';
