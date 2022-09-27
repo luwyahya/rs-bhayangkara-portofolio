@@ -2188,6 +2188,9 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
                             'tgllahir' => $item->tgllahir,
                             'inap' => $item->inap,
                             'statuspulang' => $statp,
+                            'dpjp'=>$item1->dpjp,
+                            'tanggalrawat'=>$item1->tanggalrawat,
+                            'keterangan'=>$item1->keterangan,
                             // 'statuspulang'=>$data1->statuspulang,
                             'diagnosa' => $diag,
                         );
