@@ -479,7 +479,7 @@ define(['initialize'], function (initialize) {
 							var upgrade_class_ind = 0
 							var upgrade_class_class = ''
 							var add_payment_pct = 0
-							if (data2[i].nokelasdijamin != data2[i].nokelasdaftar) {
+							if (data2[i].nokelasdijamin > data2[i].nokelasdaftar) {
 								upgrade_class_ind = 1
 								upgrade_class_class = data2[i].namakelasdaftar
 								add_payment_pct = 0
