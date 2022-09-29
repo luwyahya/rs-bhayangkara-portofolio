@@ -1947,7 +1947,7 @@ FROM            pasien_m INNER JOIN
                 $ruangId = ' and ru.id=' . $request['ruangId'];
             }
             if (isset($request['noreg']) && $request['noreg'] != "" && $request['noreg'] != "undefined") {
-                $noreg = ' and pd.noregistrasi =' . $request['noreg'];
+                $noreg = " and pd.noregistrasi like '%" . $request['noreg']. "%'";
             }
             if (isset($request['norm']) && $request['norm'] != "" && $request['norm'] != "undefined") {
                 $norm = " and ps.nocm like '%" . $request['norm'] . "%'";
