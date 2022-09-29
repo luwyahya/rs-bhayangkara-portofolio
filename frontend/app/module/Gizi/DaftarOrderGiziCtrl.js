@@ -15,6 +15,15 @@ define(['initialize'], function (initialize) {
             var dataMenuSiklus = [];
             var data2 = [];
             var addDataDetail = [];
+            $scope.listMakananTambahan = [
+            { text:'Putih Telur(6 Butir)', value:'Putih Telur(6 Butir)'},
+            { text:'PUTIH TELUR (3 Butir)', value:'PUTIH TELUR (3 Butir)'},
+            { text:'PUTIH TELUR (2 Butir)', value:'PUTIH TELUR (2 Butir)'},
+            { text:'PUTIH TELUR (1 Butir)', value:'PUTIH TELUR (1 Butir)'},
+            { text:'BUAH ', value:'BUAH '},
+            { text:'SUSU', value:'SUSU'},
+            { text:'JUS BUAH', value:'JUS BUAH'},
+            ];
             $scope.istempatLaporan = true;
             $scope.istempatLaporan2 = true;
 
@@ -499,11 +508,11 @@ define(['initialize'], function (initialize) {
                     "template": "<span class='style-left'>{{formatTanggal('#: tglmenu #')}}</span>"
                     // "template": "<span class='style-center'>{{formatTanggalNoTime('#: tglmenu #')}}</span>"
                 },
-                {
-                    "field": "jeniswaktu",
-                    "title": "Jenis Waktu",
-                    "width": "60px"
-                },
+                // {
+                //     "field": "jeniswaktu",
+                //     "title": "Jenis Waktu",
+                //     "width": "60px"
+                // },
                 {
                     "field": "tglregistrasi",
                     "title": "Tgl Regis",
@@ -546,6 +555,44 @@ define(['initialize'], function (initialize) {
                     "field": "ruanganasal",
                     "title": "Ruangan Asal",
                     "width": "80px",
+                },
+                {
+                    "field": "nobed",
+                    "title": "No Bed Ruangan",
+                    "width": "80px",
+                },
+                {
+                    // // "field": "pagi",
+                    // "title": "Pagi",
+                    // "width": "80px",
+                    // "template": '# if( pagi==true) {#  # } else {# #= - # #} #'
+                    "field": "pagi",
+                    "title": "Pagi",
+                    "width": "80px",
+                    "template": '# if( pagi==true) {# ✅ # } else {# - #} #'
+                },
+
+                {
+                    "field": "siang",
+                    "title": "Siang",
+                    "width": "80px",
+                    "template": '# if( siang==true) {# ✅ # } else {# - #} #'
+                },
+                {
+                    "field": "malam",
+                    "title": "Malam",
+                    "width": "80px",
+                    "template": '# if( malam==true) {# ✅ # } else {# - #} #'
+                },
+                {
+                    "field": "makanantambahan",
+                    "title": "Makanan Tambahan",
+                    "width": "80px"
+                },
+                {
+                    "field": "kalori",
+                    "title": "Kalori",
+                    "width": "80px"
                 },
                 {
                     "field": "namakelas",
@@ -1548,7 +1595,11 @@ define(['initialize'], function (initialize) {
                 $scope.pop.kategoriDiet = { id: select.objectkategorydietfk, kategorydiet: select.kategorydiet }
                 $scope.pop.keterangan = select.keteranganlainnya
                 $scope.pop.pengorder = select.pegawaiorder
-
+                 $scope.pop.pagi = select.pagi
+                $scope.pop.siang = select.siang
+                $scope.pop.malam = select.malam
+                $scope.pop.kalori = select.kalori
+                $scope.pop.makananTambahan = { value: select.makanantambahan, text: select.makanantambahan }
                 $scope.popUpOrder.center().open()
                 // cacheHelper.set('cacheEditOrderGizi', cache);
                 // $state.go('EditOrderGizi')
@@ -1575,7 +1626,26 @@ define(['initialize'], function (initialize) {
                     toastr.error('Jenis Waktu belum di pilih')
                     return
                 }
-
+                var pagi = false;
+                if ($scope.pop.pagi == true && $scope.pop.pagi != undefined) {
+                    pagi = $scope.pop.pagi;
+                }
+                var siang = false;
+                if ($scope.pop.siang == true && $scope.pop.siang != undefined) {
+                    siang = $scope.pop.siang;
+                }
+                var malam = false;
+                if ($scope.pop.malam == true && $scope.pop.malam != undefined) {
+                    malam = $scope.pop.malam;
+                }
+                var makananTambahan ='';
+                if ($scope.pop.makananTambahan !='' && $scope.pop.makananTambahan != undefined) {
+                    makananTambahan = $scope.pop.makananTambahan.value;
+                }
+                var kalori = '';
+                if ($scope.pop.kalori != '' && $scope.pop.kalori != undefined) {
+                    kalori = $scope.pop.kalori;
+                }
                 var ket = ''
                 if ($scope.pop.keterangan != undefined) {
                     ket = $scope.pop.keterangan
@@ -1594,7 +1664,12 @@ define(['initialize'], function (initialize) {
                         "keterangan": ket,
                         "objectjenisdietfk": $scope.pop.jenisDiet.id,
                         "objectjenisdietfk1": jd1,
-                        "objectjenisdietfk2": jd2
+                        "objectjenisdietfk2": jd2,
+                        "pagi": pagi,
+                        "siang": siang,
+                        "malam": malam,
+                        "kalori": kalori,
+                        "makananTambahan": makananTambahan
                     }
                 }
 

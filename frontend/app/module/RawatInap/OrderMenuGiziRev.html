@@ -197,10 +197,17 @@
 					</div> -->
 				<!-- </fieldset> -->
 				<!-- </div> -->
-				<div class="grid_12">
+				<!-- <div class="grid_12">
 					<input style="width: 100%;" kendo-combo-box k-data-source="listJenisWaktu"
 						k-ng-model="item.jenisWaktu" k-data-text-field="'jeniswaktu'" k-filter="'contains'"
 						k-data-value-field="'id'" k-auto-bind="false" />
+				</div> -->
+				<div class="grid_12">
+					<!-- <label c-label item="item">Pagi</label> -->
+					<input type="checkbox" ng-model="item.pagi">Pagi</input>
+					<input type="checkbox" ng-model="item.siang">Siang</input>
+					<input type="checkbox" ng-model="item.malam">Malam</input>
+
 				</div>
 			</div>
 			<div class="grid_6" style="margin-bottom:1px">
@@ -272,6 +279,29 @@
 					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.keterangan" />
 				</div>
 			</div>
+			<div class="grid_6">
+				<div class="grid_12">
+					<label c-label item="item">Kalori</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kalori" />
+				</div>
+			</div>
+			<div class="grid_6">
+				<div class="grid_12">
+					<label c-label item="item">Makanan Tambahan</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input style="width: 100%;" kendo-combo-box k-data-source="listMakananTambahan"
+						k-ng-model="item.makananTambahan" k-data-text-field="'text'" k-filter="'contains'"
+						k-data-value-field="'value'" k-auto-bind="false" />
+				</div>
+			</div>
+		</div>
 		</div>
 
 		<div class="grid_12">
