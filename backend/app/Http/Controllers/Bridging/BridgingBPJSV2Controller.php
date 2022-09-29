@@ -8231,7 +8231,7 @@ class BridgingBPJSV2Controller extends ApiController
     public function BatalAntrianMjkn(Request $request) {
         $kdbooking = $request['kodebooking'];
         $keterangan=$request['keterangan'];
-        return($request);
+        return($request['data']);
         die();
      
         
