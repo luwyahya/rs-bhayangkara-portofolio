@@ -65,6 +65,101 @@ class LaporanRekamMedisController extends   ApiController
         $data = $data->get();
         return $this->respond($data);
     }
+    public function getLaporanMonitoringKlaim(Request $request)
+    { 
+        ini_set('max_execution_time', 1500);
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
+        $data10 = [];
+        $namaRuangan = DB::select(DB::raw("
+            SELECT ru.namaruangan,ru.id
+            FROM pasiendaftar_t pd 
+            LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+            LEFT JOIN monitoringdataklaim_t mdj on  mdj.BIAYANOSEP=pa.nosep
+            LEFT JOIN ruangan_m ru on ru.id=pd.objectruanganlastfk
+            where pd.tglpulang between '$tglAwal' and '$tglAkhir' and objectkelompokpasienlastfk=2 AND ru.objectdepartemenfk in (16,18,24) and pd.statusenabled=true
+            GROUP BY ru.namaruangan,ru.id ORDER BY ru.namaruangan desc"));
+
+        foreach ($namaRuangan as $item) {
+            $tarifRS = DB::select(DB::raw("
+                SELECT sum(mdj.BIAYABYTARIFRS) as tarifrs,sum(mdj.BIAYABYSETUJUI) as diabayarbpjs,
+                sum(mdj.BIAYABYTOPUP) as topup
+                FROM pasiendaftar_t pd 
+                LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+                LEFT JOIN monitoringdataklaim_t mdj on  mdj.BIAYANOSEP=pa.nosep
+                LEFT JOIN ruangan_m ru on ru.id=pd.objectruanganlastfk
+                where pd.tglpulang between '$tglAwal' and '$tglAkhir' and objectkelompokpasienlastfk=2 AND ru.objectdepartemenfk in (16,18,24) and pd.statusenabled=true
+                and ru.id= '$item->id'"));
+            $tarifPending = DB::select(DB::raw("
+                SELECT sum(mdj.BIAYABYPENGAJUAN) as pending
+                FROM pasiendaftar_t pd 
+                LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+                LEFT JOIN monitoringdataklaim_t mdj on  mdj.BIAYANOSEP=pa.nosep
+                LEFT JOIN ruangan_m ru on ru.id=pd.objectruanganlastfk
+                where pd.tglpulang between '$tglAwal' and '$tglAkhir' and objectkelompokpasienlastfk=2 AND ru.objectdepartemenfk in (16,18,24) and pd.statusenabled=true
+                and ru.id= '$item->id' AND mdj.pesertastatus ilike '%Pending%'"));
+            $detailTarifRS = DB::select(DB::raw("
+                SELECT  mdj.BIAYANOSEP, mdj.INACBGKODE, mdj.INACBGNAMA, mdj.BIAYABYPENGAJUAN, mdj.BIAYABYSETUJUI,
+            mdj.BIAYABYTARIFGRUPER, mdj.BIAYABYTARIFRS, mdj.BIAYABYTOPUP, mdj.BIAYAKELASRAWAT, mdj.BIAYANOFPK, 
+            mdj.PESERTANAMA, mdj.PESERTANOKARTU, 
+                                    mdj.PESERTANOMR, mdj.PESERTAPOLI, mdj.PESERTASTATUS, mdj.PESERTATGLPULANG, 
+            mdj.PESERTATGLSEP, mdj.JENISPELAYANAN, mdj.TGLNOFPK,pa.nosep,pd.tglregistrasi,pd.noregistrasi,ru.namaruangan,
+            pd.statusenabled, 0 as tarifrstidakdiklaim
+                FROM pasiendaftar_t pd 
+                LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+                LEFT JOIN monitoringdataklaim_t mdj on  mdj.BIAYANOSEP=pa.nosep
+                LEFT JOIN ruangan_m ru on ru.id=pd.objectruanganlastfk
+                where pd.tglpulang between '$tglAwal' and '$tglAkhir' and objectkelompokpasienlastfk=2 AND ru.objectdepartemenfk in (16,18,24) and pd.statusenabled=true
+                and ru.id= '$item->id'"));
+            $dataTidakDiklaim = DB::select(DB::raw("
+                select sum(x.subtotal) as total from(
+                select pd.noregistrasi,pd.norec,pp.hargajual,pp.hargadiscount,
+                pp.jasa,pp.jumlah,(pp.hargajual-pp.hargadiscount)*pp.jumlah as subtotal from pasiendaftar_t as pd
+                join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+                left join monitoringdataklaim_t as mdk on mdk.biayanosep=pa.nosep
+                where pd.tglpulang between '$tglAwal' and '$tglAkhir' and pd.objectkelompokpasienlastfk=2 and pd.statusenabled=true
+                and pd.objectruanganlastfk= '$item->id' and mdk.biayanosep is null) as x"));
+            // return((float)$tarifRS['0']->tarifrs);
+            // die();
+            foreach ($detailTarifRS as $valueDetail) {
+                if($valueDetail->biayanosep==null){
+                    $dataTidakDiklaimNoregistrasi = DB::select(DB::raw("
+                        select sum(x.subtotal) as total from(
+                        select pd.noregistrasi,pd.norec,pp.hargajual,pp.hargadiscount,
+                        pp.jasa,pp.jumlah,(pp.hargajual-pp.hargadiscount)*pp.jumlah as subtotal from pasiendaftar_t as pd
+                        join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                        join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                        LEFT JOIN pemakaianasuransi_t pa on pd.norec=pa.noregistrasifk
+                        left join monitoringdataklaim_t as mdk on mdk.biayanosep=pa.nosep
+                        where pd.tglpulang between '$tglAwal' and '$tglAkhir' and pd.objectkelompokpasienlastfk=2 and pd.statusenabled=true
+                        and pd.objectruanganlastfk= '$item->id' and mdk.biayanosep is null and pd.noregistrasi='$valueDetail->noregistrasi') as x"));
+                    $valueDetail->tarifrstidakdiklaim = (float)$dataTidakDiklaimNoregistrasi['0']->total;
+                    $valueDetail->biayabysetujui = 0;
+                    $valueDetail->biayabytarifrs = 0;
+                }
+                $valueDetail->biayabysetujui = (float)$valueDetail->biayabysetujui;
+                $valueDetail->biayabytarifrs = (float)$valueDetail->biayabytarifrs;
+            }
+             $data10[] = array(
+                'namaruangan' => $item->namaruangan,
+                'tarifRS'=>(float)$tarifRS['0']->tarifrs,
+                'diabayarbpjs'=>(float)$tarifRS['0']->diabayarbpjs,
+                'topup'=>(float)$tarifRS['0']->topup,
+                'tarifPending'=>(float)$tarifPending['0']->pending,
+                'dataTidakDiklaim'=>(float)$dataTidakDiklaim['0']->total,
+                'detailTarifRS'=>$detailTarifRS
+            );
+        }
+
+        
+        $result = array(
+            'data' => $data10,
+            'message' => 'Snaps',
+        );
+        return $this->respond($result);
+    }
     public function getComboMappingRL(Request $request)
     {
         $dataLogin = $request->all();

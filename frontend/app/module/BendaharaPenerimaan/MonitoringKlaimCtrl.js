@@ -209,94 +209,94 @@ define(['initialize'], function (initialize) {
 				columns:
 					[
 						{
-							"field": "BIAYANOSEP",
+							"field": "biayanosep",
 							"title": "NOSEP",
 							"width": "10%"
 						},
 						{
-							"field": "BIAYANOFPK",
+							"field": "biayanofpk",
 							"title": "NO FPK",
 							"width": "10%"
 						},
 						{
-							"field": "PESERTANAMA",
+							"field": "pesertanama",
 							"title": "Nama Pasien",
 							"width": "20%",
-							"template": "<span class='style-left'>#: PESERTANAMA #</span>"
+							"template": "<span class='style-left'>#: pesertanama #</span>"
 						},
 						{
-							"field": "INACBGNAMA",
+							"field": "inacbgnama",
 							"title": "Nama Inacbg",
 							"width": "20%",
-							"template": "<span class='style-center'>#: INACBGNAMA #</span>"
+							"template": "<span class='style-center'>#: inacbgnama #</span>"
 						},
 						{
-							"field": "PESERTANOKARTU",
+							"field": "pesertanokartu",
 							"title": "Nokartu",
 							"width": "150px",
-							"template": "<span class='style-left'>#: PESERTANOKARTU #</span>"
+							"template": "<span class='style-left'>#: pesertanokartu #</span>"
 						},
 						{
-							"field": "PESERTANOMR",
+							"field": "pesertanomr",
 							"title": "NOMR",
 							"width": "15%",
-							"template": "<span class='style-left'>#: PESERTANOMR #</span>"
+							"template": "<span class='style-left'>#: pesertanomr #</span>"
 						},
 						{
-							"field": "PESERTAPOLI",
+							"field": "namaruangan",
 							"title": "Poli",
 							"width": "100px",
-							"template": "<span class='style-left'>#: PESERTAPOLI #</span>"
+							"template": "<span class='style-left'>#: namaruangan #</span>"
 						},
 						{
-							"field": "BIAYAKELASRAWAT",
+							"field": "biayakelasrawat",
 							"title": "Kelas Rawat",
 							"width": "100px",
-							"template": "<span class='style-left'>#: BIAYAKELASRAWAT #</span>"
+							"template": "<span class='style-left'>#: biayakelasrawat #</span>"
 						},
 						{
-							"field": "PESERTASTATUS",
+							"field": "pesertastatus",
 							"title": "Status",
 							"width": "100px",
-							"template": "<span class='style-left'>#: PESERTASTATUS #</span>"
+							"template": "<span class='style-left'>#: pesertastatus #</span>"
 						},
 						{
-							"field": "BIAYABYTARIFRS",
+							"field": "biayabytarifrs",
 							"title": "Biaya Tarif RS",
 							"width": "100px",
-							"template": "<span class='style-left'>#: BIAYABYTARIFRS #</span>"
+							"template": "<span class='style-left'>#: biayabytarifrs #</span>"
 						},
 						{
-							"field": "BIAYABYPENGAJUAN",
+							"field": "biayabypengajuan",
 							"title": "Biaya Pengajuan",
 							"width": "100px",
-							"template": "<span class='style-left'>#: BIAYABYPENGAJUAN #</span>"
+							"template": "<span class='style-left'>#: biayabypengajuan #</span>"
 						},
 						{
-							"field": "BIAYABYSETUJUI",
+							"field": "biayabysetujui",
 							"title": "Biaya Setujui",
 							"width": "100px",
-							"template": "<span class='style-left'>#: BIAYABYSETUJUI #</span>"
+							"template": "<span class='style-left'>#: biayabysetujui #</span>"
 
 
 						},
 						{
-							"field": "PESERTATGLSEP",
+							"field": "pesertatglsep",
 							"title": "Tanggal SEP",
 							"width": "100px",
-							"template": "<span class='style-left'>#: PESERTATGLSEP #</span>"
+							"template": "<span class='style-left'>#: pesertatglsep #</span>"
 						},
 						{
-							"field": "JENISPELAYANAN",
+							"field": "jenispelayanan",
 							"title": "Tanggal Pulang",
 							"width": "100px",
-							"template": "<span class='style-left'>#: JENISPELAYANAN #</span>"
+							"template": "<span class='style-left'>#: jenispelayanan #</span>"
 						},
 						{
-							"field": "TGLNOFPK",
+							"field": "tglnofpk",
 							"title": "Tanggal NoFpk",
 							"width": "100px",
-							"template": "<span class='style-left'>#: TGLNOFPK #</span>"
+							"template": "<span class='style-left'>#: tglnofpk #</span>"
 						}
 					]
 			};
@@ -431,8 +431,8 @@ define(['initialize'], function (initialize) {
 					var subTotalA = 0;
 					var subTotalB = 0;
 					for (var z = data2.length - 1; z >= 0; z--) {
-						subTotalA = subTotalA + parseFloat(data2[z].BIAYABYSETUJUI)
-						subTotalB = subTotalB + parseFloat(data2[z].BIAYABYTARIFRS)
+						subTotalA = subTotalA + parseFloat(data2[z].biayabysetujui)
+						subTotalB = subTotalB + parseFloat(data2[z].biayabytarifrs)
 					}
 
 					$scope.totalDisetujui = subTotalA;
@@ -488,43 +488,171 @@ define(['initialize'], function (initialize) {
 						elem.innerHTML = width + "%";
 					}
 				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Klaim RI"
+				$scope.popupStatus.open().center()
 				loadData();
+
+			}
+			$scope.SearchDataRiPending = function () {
+				$scope.isRouteLoading = true;
+				$scope.isHasil = false;
+				a = 1;
+				yeuh = 1;
+				awal = 1;
+				var ini = 0;
+				var elem = document.getElementById("myBar");
+				var width = 0;
+				awal = awal + 1;
+				var id = setInterval(frame, 1);
+				function frame() {
+					if (width >= ini) {
+						clearInterval(id);
+					} else {
+						width++;
+						elem.style.width = width + "%";
+						elem.innerHTML = width + "%";
+					}
+				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Pending RI"
+				loadDataRiPending();
+
+			}
+			$scope.SearchDataRjPending = function () {
+				$scope.isRouteLoading = true;
+				$scope.isHasil = false;
+				a = 1;
+				yeuh = 1;
+				awal = 1;
+				var ini = 0;
+				var elem = document.getElementById("myBar");
+				var width = 0;
+				awal = awal + 1;
+				var id = setInterval(frame, 1);
+				function frame() {
+					if (width >= ini) {
+						clearInterval(id);
+					} else {
+						width++;
+						elem.style.width = width + "%";
+						elem.innerHTML = width + "%";
+					}
+				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Pending RJ"
+				loadDataRjPending();
+
+			}
+			$scope.SearchDataRj = function () {
+				$scope.isRouteLoading = true;
+				$scope.isHasil = false;
+				a = 1;
+				yeuh = 1;
+				awal = 1;
+				var ini = 0;
+				var elem = document.getElementById("myBar");
+				var width = 0;
+				awal = awal + 1;
+				var id = setInterval(frame, 1);
+				function frame() {
+					if (width >= ini) {
+						clearInterval(id);
+					} else {
+						width++;
+						elem.style.width = width + "%";
+						elem.innerHTML = width + "%";
+					}
+				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Klaim RJ"
+				loadDataRj();
+
+			}
+			$scope.SearchDataRiProsesKlaim = function () {
+				$scope.isRouteLoading = true;
+				$scope.isHasil = false;
+				a = 1;
+				yeuh = 1;
+				awal = 1;
+				var ini = 0;
+				var elem = document.getElementById("myBar");
+				var width = 0;
+				awal = awal + 1;
+				var id = setInterval(frame, 1);
+				function frame() {
+					if (width >= ini) {
+						clearInterval(id);
+					} else {
+						width++;
+						elem.style.width = width + "%";
+						elem.innerHTML = width + "%";
+					}
+				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Verifikasi RI"
+				loadDataRiProsesKlaim();
+
+			}
+			$scope.SearchDataRjProsesKlaim = function () {
+				$scope.isRouteLoading = true;
+				$scope.isHasil = false;
+				a = 1;
+				yeuh = 1;
+				awal = 1;
+				var ini = 0;
+				var elem = document.getElementById("myBar");
+				var width = 0;
+				awal = awal + 1;
+				var id = setInterval(frame, 1);
+				function frame() {
+					if (width >= ini) {
+						clearInterval(id);
+					} else {
+						width++;
+						elem.style.width = width + "%";
+						elem.innerHTML = width + "%";
+					}
+				}
+				$scope.statusPenarikanData = "Proses Penarikan Data Verifikasi RJ"
+				loadDataRjProsesKlaim();
 
 			}
 			var a = 1;
 			function startProgres() {
 				loadData();
 			}
+			function startProgresRj() {
+				loadDataRj();
+			}
+			function startProgresRiPending() {
+				loadDataRiPending();
+			}
+			function startProgresRjPending() {
+				loadDataRjPending();
+			}
+			function startProgresRiProsesKlaim() {
+				loadDataRiProsesKlaim();
+			}
+			function startProgresRjProsesKlaim() {
+				loadDataRjProsesKlaim();
+			}
 			var yeuh = 1;
 			var awal = 1;
 			function loadData() {
 				$scope.isRouteLoading = true;
-
-				var jnspelayanan = "";
-				if ($scope.item.jenispelayanan == 1) {
-					jnspelayanan = 1
-				}
-				else if ($scope.item.jenispelayanan == 2) {
-					jnspelayanan = 2
-				}
-
 				var dataget = {
-					jenispelayanan: jnspelayanan,
+					jenispelayanan: 1,
 					tahun: $scope.item.tahun,
 					bulan: $scope.item.bulan.mm,
-					status: $scope.item.statusKlaim.value
+					status: 3
 				}
 				yeuh = a;
 				awal = a;
 				// debugger
-				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate();
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
 				// var lengthakhir = 32;
 				var lop = true;
 
 				for (; a < lengthakhir; a++) {
 
 
-					medifirstService.get("bridging/bpjs/get-monitoring-klaim-per-bulan?tglsep="
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
 						+ dataget.tahun + "-" + dataget.bulan + "-" + a
 						+ "&jenispelayanan="
 						+ dataget.jenispelayanan
@@ -610,11 +738,613 @@ define(['initialize'], function (initialize) {
 						}
 						a = a + 1
 						startProgres();
+						if (a == lengthakhir)
+							$scope.SearchDataRj()
 						// var chacePeriode = tglAwal + "~" + tglAkhir;
 						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
 					}, function (err) {
 						debugger
 						startProgres();
+						// $scope.isRouteLoading = false;
+					});
+					if (lop == true) {
+						break;
+					}
+
+				}
+				$scope.isRouteLoading = false;
+			};
+			function loadDataRiPending() {
+				$scope.isRouteLoading = true;
+				var dataget = {
+					jenispelayanan: 1,
+					tahun: $scope.item.tahun,
+					bulan: $scope.item.bulan.mm,
+					status: 2
+				}
+				yeuh = a;
+				awal = a;
+				// debugger
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
+				// var lengthakhir = 32;
+				var lop = true;
+
+				for (; a < lengthakhir; a++) {
+
+
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
+						+ dataget.tahun + "-" + dataget.bulan + "-" + a
+						+ "&jenispelayanan="
+						+ dataget.jenispelayanan
+						+ "&status="
+						+ dataget.status
+					).then(function (data) {
+						lop = false
+						if (data == "cURL Error #:OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to new-api.bpjs-kesehatan.go.id:8080 ") {
+							startProgresRiPending();
+						} else if (data == "cURL Error #:Failed to connect to new-api.bpjs-kesehatan.go.id port 8080: Timed out") {
+							startProgresRiPending();
+						} else if (data.status == 500) {
+							startProgresRiPending();
+						}
+						$scope.isRouteLoading = false;
+
+						// datas=data.data.response.klaim;
+
+						// data2.push(data.data.response.klaim[i])
+						if (data.data.metaData.code == 200) {
+							for (var b = 0; b < data.data.response.klaim.length; b++) {
+								// debugger;
+								$scope.isRouteLoading = true;
+
+								// data2.push(data.data.response.klaim[b])
+								// jmlKlaim =0;
+								// // jmlKlaim = $jmlKlaim + float($dataSaldoLama->debit);
+								if ($scope.item.noFpk == undefined || $scope.item.noFpk == "") {
+									data.data.response.klaim[b] = data.data.response.klaim[b];
+									data2.push(data.data.response.klaim[b])
+								} else {
+									var noFpk = $scope.item.noFpk;
+									if (data.data.response.klaim[b].noFPK.match(noFpk)) {
+										data2.push(data.data.response.klaim[b])
+									}
+									// dataB = data.data.response.klaim[b].noFpk.match(/^noFpk.*$/);
+									// data2.push(dataB)
+									// data2.push(data.data.response.klaim[b].noFpk.match(/noFpk.*/)
+								}
+								$scope.isRouteLoading = false;
+							}
+						}
+
+						$scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+							// data: data.data,
+							data: data2,
+							pageSize: 10,
+							total: data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+									}
+								}
+							}
+						});
+
+						var subTotalA = 0;
+						var subTotalB = 0;
+						for (var z = data2.length - 1; z >= 0; z--) {
+							subTotalA = subTotalA + parseFloat(data2[z].biaya.bySetujui)
+							subTotalB = subTotalB + parseFloat(data2[z].biaya.byTarifRS)
+						}
+
+						$scope.totalDisetujui = subTotalA;
+						$scope.totalTarifRs = subTotalB;
+						$scope.surplusDefisit = $scope.totalDisetujui - $scope.totalTarifRs;
+
+						yeuh = yeuh + 1;
+						var ini = (yeuh / lengthakhir) * 100;
+						var elem = document.getElementById("myBar");
+						var width = 0;
+						awal = awal + 1;
+						var id = setInterval(frame, 1);
+						function frame() {
+							if (width >= ini) {
+								clearInterval(id);
+							} else {
+								width++;
+								elem.style.width = width + "%";
+								elem.innerHTML = width + "%";
+							}
+						}
+						a = a + 1
+						startProgresRiPending();
+						if (a == lengthakhir)
+							$scope.SearchDataRjPending()
+						// var chacePeriode = tglAwal + "~" + tglAkhir;
+						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
+					}, function (err) {
+						debugger
+						startProgresRiPending();
+						// $scope.isRouteLoading = false;
+					});
+					if (lop == true) {
+						break;
+					}
+
+				}
+				$scope.isRouteLoading = false;
+			};
+			function loadDataRjPending() {
+				$scope.isRouteLoading = true;
+				var dataget = {
+					jenispelayanan: 2,
+					tahun: $scope.item.tahun,
+					bulan: $scope.item.bulan.mm,
+					status: 2
+				}
+				yeuh = a;
+				awal = a;
+				// debugger
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
+				// var lengthakhir = 32;
+				var lop = true;
+
+				for (; a < lengthakhir; a++) {
+
+
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
+						+ dataget.tahun + "-" + dataget.bulan + "-" + a
+						+ "&jenispelayanan="
+						+ dataget.jenispelayanan
+						+ "&status="
+						+ dataget.status
+					).then(function (data) {
+						lop = false
+						if (data == "cURL Error #:OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to new-api.bpjs-kesehatan.go.id:8080 ") {
+							startProgresRjPending();
+						} else if (data == "cURL Error #:Failed to connect to new-api.bpjs-kesehatan.go.id port 8080: Timed out") {
+							startProgresRjPending();
+						} else if (data.status == 500) {
+							startProgresRjPending();
+						}
+						$scope.isRouteLoading = false;
+
+						// datas=data.data.response.klaim;
+
+						// data2.push(data.data.response.klaim[i])
+						if (data.data.metaData.code == 200) {
+							for (var b = 0; b < data.data.response.klaim.length; b++) {
+								// debugger;
+								$scope.isRouteLoading = true;
+
+								// data2.push(data.data.response.klaim[b])
+								// jmlKlaim =0;
+								// // jmlKlaim = $jmlKlaim + float($dataSaldoLama->debit);
+								if ($scope.item.noFpk == undefined || $scope.item.noFpk == "") {
+									data.data.response.klaim[b] = data.data.response.klaim[b];
+									data2.push(data.data.response.klaim[b])
+								} else {
+									var noFpk = $scope.item.noFpk;
+									if (data.data.response.klaim[b].noFPK.match(noFpk)) {
+										data2.push(data.data.response.klaim[b])
+									}
+									// dataB = data.data.response.klaim[b].noFpk.match(/^noFpk.*$/);
+									// data2.push(dataB)
+									// data2.push(data.data.response.klaim[b].noFpk.match(/noFpk.*/)
+								}
+								$scope.isRouteLoading = false;
+							}
+						}
+
+						$scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+							// data: data.data,
+							data: data2,
+							pageSize: 10,
+							total: data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+									}
+								}
+							}
+						});
+
+						var subTotalA = 0;
+						var subTotalB = 0;
+						for (var z = data2.length - 1; z >= 0; z--) {
+							subTotalA = subTotalA + parseFloat(data2[z].biaya.bySetujui)
+							subTotalB = subTotalB + parseFloat(data2[z].biaya.byTarifRS)
+						}
+
+						$scope.totalDisetujui = subTotalA;
+						$scope.totalTarifRs = subTotalB;
+						$scope.surplusDefisit = $scope.totalDisetujui - $scope.totalTarifRs;
+
+						yeuh = yeuh + 1;
+						var ini = (yeuh / lengthakhir) * 100;
+						var elem = document.getElementById("myBar");
+						var width = 0;
+						awal = awal + 1;
+						var id = setInterval(frame, 1);
+						function frame() {
+							if (width >= ini) {
+								clearInterval(id);
+							} else {
+								width++;
+								elem.style.width = width + "%";
+								elem.innerHTML = width + "%";
+							}
+						}
+						a = a + 1
+						startProgresRjPending();
+						if (a == lengthakhir)
+							$scope.SearchDataRiProsesKlaim()
+						// var chacePeriode = tglAwal + "~" + tglAkhir;
+						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
+					}, function (err) {
+						debugger
+						startProgresRjPending();
+						// $scope.isRouteLoading = false;
+					});
+					if (lop == true) {
+						break;
+					}
+
+				}
+				$scope.isRouteLoading = false;
+			};
+			function loadDataRj() {
+				$scope.isRouteLoading = true;
+				var dataget = {
+					jenispelayanan: 2,
+					tahun: $scope.item.tahun,
+					bulan: $scope.item.bulan.mm,
+					status: 3
+				}
+				yeuh = a;
+				awal = a;
+				// debugger
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
+				// var lengthakhir = 32;
+				var lop = true;
+
+				for (; a < lengthakhir; a++) {
+
+
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
+						+ dataget.tahun + "-" + dataget.bulan + "-" + a
+						+ "&jenispelayanan="
+						+ dataget.jenispelayanan
+						+ "&status="
+						+ dataget.status
+					).then(function (data) {
+						lop = false
+						if (data == "cURL Error #:OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to new-api.bpjs-kesehatan.go.id:8080 ") {
+							startProgresRj();
+						} else if (data == "cURL Error #:Failed to connect to new-api.bpjs-kesehatan.go.id port 8080: Timed out") {
+							startProgresRj();
+						} else if (data.status == 500) {
+							startProgresRj();
+						}
+						$scope.isRouteLoading = false;
+
+						// datas=data.data.response.klaim;
+
+						// data2.push(data.data.response.klaim[i])
+						if (data.data.metaData.code == 200) {
+							for (var b = 0; b < data.data.response.klaim.length; b++) {
+								// debugger;
+								$scope.isRouteLoading = true;
+
+								// data2.push(data.data.response.klaim[b])
+								// jmlKlaim =0;
+								// // jmlKlaim = $jmlKlaim + float($dataSaldoLama->debit);
+								if ($scope.item.noFpk == undefined || $scope.item.noFpk == "") {
+									data.data.response.klaim[b] = data.data.response.klaim[b];
+									data2.push(data.data.response.klaim[b])
+								} else {
+									var noFpk = $scope.item.noFpk;
+									if (data.data.response.klaim[b].noFPK.match(noFpk)) {
+										data2.push(data.data.response.klaim[b])
+									}
+									// dataB = data.data.response.klaim[b].noFpk.match(/^noFpk.*$/);
+									// data2.push(dataB)
+									// data2.push(data.data.response.klaim[b].noFpk.match(/noFpk.*/)
+								}
+								$scope.isRouteLoading = false;
+							}
+						}
+
+						$scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+							// data: data.data,
+							data: data2,
+							pageSize: 10,
+							total: data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+									}
+								}
+							}
+						});
+
+						var subTotalA = 0;
+						var subTotalB = 0;
+						for (var z = data2.length - 1; z >= 0; z--) {
+							subTotalA = subTotalA + parseFloat(data2[z].biaya.bySetujui)
+							subTotalB = subTotalB + parseFloat(data2[z].biaya.byTarifRS)
+						}
+
+						$scope.totalDisetujui = subTotalA;
+						$scope.totalTarifRs = subTotalB;
+						$scope.surplusDefisit = $scope.totalDisetujui - $scope.totalTarifRs;
+
+						yeuh = yeuh + 1;
+						var ini = (yeuh / lengthakhir) * 100;
+						var elem = document.getElementById("myBar");
+						var width = 0;
+						awal = awal + 1;
+						var id = setInterval(frame, 1);
+						function frame() {
+							if (width >= ini) {
+								clearInterval(id);
+							} else {
+								width++;
+								elem.style.width = width + "%";
+								elem.innerHTML = width + "%";
+							}
+						}
+						a = a + 1
+						startProgresRj();
+						if (a == lengthakhir)
+							$scope.SearchDataRiPending()
+						// var chacePeriode = tglAwal + "~" + tglAkhir;
+						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
+					}, function (err) {
+						debugger
+						startProgresRj();
+						// $scope.isRouteLoading = false;
+					});
+					if (lop == true) {
+						break;
+					}
+
+				}
+				$scope.isRouteLoading = false;
+			};
+			function loadDataRiProsesKlaim() {
+				$scope.isRouteLoading = true;
+				var dataget = {
+					jenispelayanan: 1,
+					tahun: $scope.item.tahun,
+					bulan: $scope.item.bulan.mm,
+					status: 1
+				}
+				yeuh = a;
+				awal = a;
+				// debugger
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
+				// var lengthakhir = 32;
+				var lop = true;
+
+				for (; a < lengthakhir; a++) {
+
+
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
+						+ dataget.tahun + "-" + dataget.bulan + "-" + a
+						+ "&jenispelayanan="
+						+ dataget.jenispelayanan
+						+ "&status="
+						+ dataget.status
+					).then(function (data) {
+						lop = false
+						if (data == "cURL Error #:OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to new-api.bpjs-kesehatan.go.id:8080 ") {
+							startProgresRiProsesKlaim();
+						} else if (data == "cURL Error #:Failed to connect to new-api.bpjs-kesehatan.go.id port 8080: Timed out") {
+							startProgresRiProsesKlaim();
+						} else if (data.status == 500) {
+							startProgresRiProsesKlaim();
+						}
+						$scope.isRouteLoading = false;
+
+						// datas=data.data.response.klaim;
+
+						// data2.push(data.data.response.klaim[i])
+						if (data.data.metaData.code == 200) {
+							for (var b = 0; b < data.data.response.klaim.length; b++) {
+								// debugger;
+								$scope.isRouteLoading = true;
+
+								// data2.push(data.data.response.klaim[b])
+								// jmlKlaim =0;
+								// // jmlKlaim = $jmlKlaim + float($dataSaldoLama->debit);
+								if ($scope.item.noFpk == undefined || $scope.item.noFpk == "") {
+									data.data.response.klaim[b] = data.data.response.klaim[b];
+									data2.push(data.data.response.klaim[b])
+								} else {
+									var noFpk = $scope.item.noFpk;
+									if (data.data.response.klaim[b].noFPK.match(noFpk)) {
+										data2.push(data.data.response.klaim[b])
+									}
+									// dataB = data.data.response.klaim[b].noFpk.match(/^noFpk.*$/);
+									// data2.push(dataB)
+									// data2.push(data.data.response.klaim[b].noFpk.match(/noFpk.*/)
+								}
+								$scope.isRouteLoading = false;
+							}
+						}
+
+						$scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+							// data: data.data,
+							data: data2,
+							pageSize: 10,
+							total: data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+									}
+								}
+							}
+						});
+
+						var subTotalA = 0;
+						var subTotalB = 0;
+						for (var z = data2.length - 1; z >= 0; z--) {
+							subTotalA = subTotalA + parseFloat(data2[z].biaya.bySetujui)
+							subTotalB = subTotalB + parseFloat(data2[z].biaya.byTarifRS)
+						}
+
+						$scope.totalDisetujui = subTotalA;
+						$scope.totalTarifRs = subTotalB;
+						$scope.surplusDefisit = $scope.totalDisetujui - $scope.totalTarifRs;
+
+						yeuh = yeuh + 1;
+						var ini = (yeuh / lengthakhir) * 100;
+						var elem = document.getElementById("myBar");
+						var width = 0;
+						awal = awal + 1;
+						var id = setInterval(frame, 1);
+						function frame() {
+							if (width >= ini) {
+								clearInterval(id);
+							} else {
+								width++;
+								elem.style.width = width + "%";
+								elem.innerHTML = width + "%";
+							}
+						}
+						a = a + 1
+						startProgresRiProsesKlaim();
+						if (a == lengthakhir)
+							$scope.SearchDataRjProsesKlaim()
+						// var chacePeriode = tglAwal + "~" + tglAkhir;
+						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
+					}, function (err) {
+						debugger
+						startProgresRiProsesKlaim();
+						// $scope.isRouteLoading = false;
+					});
+					if (lop == true) {
+						break;
+					}
+
+				}
+				$scope.isRouteLoading = false;
+			};
+			function loadDataRjProsesKlaim() {
+				$scope.isRouteLoading = true;
+				var dataget = {
+					jenispelayanan: 2,
+					tahun: $scope.item.tahun,
+					bulan: $scope.item.bulan.mm,
+					status: 1
+				}
+				yeuh = a;
+				awal = a;
+				// debugger
+				var lengthakhir = new Date(dataget.tahun, dataget.bulan, 0).getDate() + 1;
+				// var lengthakhir = 32;
+				var lop = true;
+
+				for (; a < lengthakhir; a++) {
+
+
+					medifirstService.get("bridging/bpjs2/get-monitoring-klaim-per-bulan?tglsep="
+						+ dataget.tahun + "-" + dataget.bulan + "-" + a
+						+ "&jenispelayanan="
+						+ dataget.jenispelayanan
+						+ "&status="
+						+ dataget.status
+					).then(function (data) {
+						lop = false
+						if (data == "cURL Error #:OpenSSL SSL_connect: SSL_ERROR_SYSCALL in connection to new-api.bpjs-kesehatan.go.id:8080 ") {
+							startProgresRjProsesKlaim();
+						} else if (data == "cURL Error #:Failed to connect to new-api.bpjs-kesehatan.go.id port 8080: Timed out") {
+							startProgresRjProsesKlaim();
+						} else if (data.status == 500) {
+							startProgresRjProsesKlaim();
+						}
+						$scope.isRouteLoading = false;
+
+						// datas=data.data.response.klaim;
+
+						// data2.push(data.data.response.klaim[i])
+						if (data.data.metaData.code == 200) {
+							for (var b = 0; b < data.data.response.klaim.length; b++) {
+								// debugger;
+								$scope.isRouteLoading = true;
+
+								// data2.push(data.data.response.klaim[b])
+								// jmlKlaim =0;
+								// // jmlKlaim = $jmlKlaim + float($dataSaldoLama->debit);
+								if ($scope.item.noFpk == undefined || $scope.item.noFpk == "") {
+									data.data.response.klaim[b] = data.data.response.klaim[b];
+									data2.push(data.data.response.klaim[b])
+								} else {
+									var noFpk = $scope.item.noFpk;
+									if (data.data.response.klaim[b].noFPK.match(noFpk)) {
+										data2.push(data.data.response.klaim[b])
+									}
+									// dataB = data.data.response.klaim[b].noFpk.match(/^noFpk.*$/);
+									// data2.push(dataB)
+									// data2.push(data.data.response.klaim[b].noFpk.match(/noFpk.*/)
+								}
+								$scope.isRouteLoading = false;
+							}
+						}
+
+						$scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+							// data: data.data,
+							data: data2,
+							pageSize: 10,
+							total: data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+									}
+								}
+							}
+						});
+
+						var subTotalA = 0;
+						var subTotalB = 0;
+						for (var z = data2.length - 1; z >= 0; z--) {
+							subTotalA = subTotalA + parseFloat(data2[z].biaya.bySetujui)
+							subTotalB = subTotalB + parseFloat(data2[z].biaya.byTarifRS)
+						}
+
+						$scope.totalDisetujui = subTotalA;
+						$scope.totalTarifRs = subTotalB;
+						$scope.surplusDefisit = $scope.totalDisetujui - $scope.totalTarifRs;
+
+						yeuh = yeuh + 1;
+						var ini = (yeuh / lengthakhir) * 100;
+						var elem = document.getElementById("myBar");
+						var width = 0;
+						awal = awal + 1;
+						var id = setInterval(frame, 1);
+						function frame() {
+							if (width >= ini) {
+								clearInterval(id);
+							} else {
+								width++;
+								elem.style.width = width + "%";
+								elem.innerHTML = width + "%";
+							}
+						}
+						a = a + 1
+						startProgresRjProsesKlaim();
+						if (a == lengthakhir)
+							$scope.popupStatus.close()
+						// var chacePeriode = tglAwal + "~" + tglAkhir;
+						// cacheHelper.set('InformasiKlaimBpjs', chacePeriode);
+					}, function (err) {
+						debugger
+						startProgresRjProsesKlaim();
 						// $scope.isRouteLoading = false;
 					});
 					if (lop == true) {

@@ -1664,14 +1664,14 @@ class BendaharaPenerimaanController extends ApiController {
             $a = $request['push'];
             foreach ($a as $key ) {
                 DB::table('monitoringdataklaim_t')
-                ->where('BIAYANOSEP',$key['noSEP'])
-                ->whereNull('TGLNOFPK')
+                ->where('biayanosep',$key['noSEP'])
+                ->whereNull('tglnofpk')
                 ->delete();
                 $TGLNOFPK = null;
                 if($key['status']=="Klaim"){
                     $data = \DB::table('monitoringdataklaim_t')
-                    ->where('BIAYANOSEP',$key['noSEP'])
-                    ->whereNotNull('TGLNOFPK')
+                    ->where('biayanosep',$key['noSEP'])
+                    ->whereNotNull('tglnofpk')
                     ->get();
                     $a = 0;
                     foreach ($data as $lop) {
@@ -1682,48 +1682,48 @@ class BendaharaPenerimaanController extends ApiController {
                     if($a == 0){
                         $TGLNOFPK = date('Y-m-d');
                         DB::table('monitoringdataklaim_t')->insert(
-                            array('BIAYANOSEP' => $key['noSEP'],
-                            'INACBGKODE' => $key['Inacbg']['kode'],
-                            'INACBGNAMA' => $key['Inacbg']['nama'],
-                            'BIAYABYPENGAJUAN' => $key['biaya']['byPengajuan'],
-                            'BIAYABYSETUJUI' => $key['biaya']['bySetujui'],
-                            'BIAYABYTARIFGRUPER' => $key['biaya']['byTarifGruper'],
-                            'BIAYABYTARIFRS' => $key['biaya']['byTarifRS'],
-                            'BIAYABYTOPUP' => $key['biaya']['byTopup'],
-                            'BIAYAKELASRAWAT' => $key['kelasRawat'],
-                            'BIAYANOFPK' => $key['noFPK'],
-                            'PESERTANAMA' => $key['peserta']['nama'],
-                            'PESERTANOKARTU' => $key['peserta']['noKartu'],
-                            'PESERTANOMR' => $key['peserta']['noMR'],
-                            'PESERTAPOLI' => $key['poli'],
-                            'PESERTASTATUS' => $key['status'],
-                            'PESERTATGLPULANG' => $key['tglPulang'],
-                            'PESERTATGLSEP' => $key['tglSep'],
-                            'JENISPELAYANAN' => $request['jnspelayanan'],
-                            'TGLNOFPK' => $TGLNOFPK,
+                            array('biayanosep' => $key['noSEP'],
+                            'inacbgkode' => $key['Inacbg']['kode'],
+                            'inacbgnama' => $key['Inacbg']['nama'],
+                            'biayabypengajuan' => $key['biaya']['byPengajuan'],
+                            'biayabysetujui' => $key['biaya']['bySetujui'],
+                            'biayabytarifgruper' => $key['biaya']['byTarifGruper'],
+                            'biayabytarifrs' => $key['biaya']['byTarifRS'],
+                            'biayabytopup' => $key['biaya']['byTopup'],
+                            'biayakelasrawat' => $key['kelasRawat'],
+                            'biayanofpk' => $key['noFPK'],
+                            'pesertanama' => $key['peserta']['nama'],
+                            'pesertanokartu' => $key['peserta']['noKartu'],
+                            'pesertanomr' => $key['peserta']['noMR'],
+                            'pesertapoli' => $key['poli'],
+                            'pesertastatus' => $key['status'],
+                            'pesertatglpulang' => $key['tglPulang'],
+                            'pesertatglsep' => $key['tglSep'],
+                            'jenispelayanan' => $request['jnspelayanan'],
+                            'tglnofpk' => $TGLNOFPK,
                             )
                         );
                     }
                 }else{
                     DB::table('monitoringdataklaim_t')->insert(
-                        array('BIAYANOSEP' => $key['noSEP'],
-                        'INACBGKODE' => $key['Inacbg']['kode'],
-                        'INACBGNAMA' => $key['Inacbg']['nama'],
-                        'BIAYABYPENGAJUAN' => $key['biaya']['byPengajuan'],
-                        'BIAYABYSETUJUI' => $key['biaya']['bySetujui'],
-                        'BIAYABYTARIFGRUPER' => $key['biaya']['byTarifGruper'],
-                        'BIAYABYTARIFRS' => $key['biaya']['byTarifRS'],
-                        'BIAYABYTOPUP' => $key['biaya']['byTopup'],
-                        'BIAYAKELASRAWAT' => $key['kelasRawat'],
-                        'BIAYANOFPK' => $key['noFPK'],
-                        'PESERTANAMA' => $key['peserta']['nama'],
-                        'PESERTANOKARTU' => $key['peserta']['noKartu'],
-                        'PESERTANOMR' => $key['peserta']['noMR'],
-                        'PESERTAPOLI' => $key['poli'],
-                        'PESERTASTATUS' => $key['status'],
-                        'PESERTATGLPULANG' => $key['tglPulang'],
-                        'PESERTATGLSEP' => $key['tglSep'],
-                        'JENISPELAYANAN' => $request['jnspelayanan'],
+                        array('biayanosep' => $key['noSEP'],
+                        'inacbgkode' => $key['Inacbg']['kode'],
+                        'inacbgnama' => $key['Inacbg']['nama'],
+                        'biayabypengajuan' => $key['biaya']['byPengajuan'],
+                        'biayabysetujui' => $key['biaya']['bySetujui'],
+                        'biayabytarifgruper' => $key['biaya']['byTarifGruper'],
+                        'biayabytarifrs' => $key['biaya']['byTarifRS'],
+                        'biayabytopup' => $key['biaya']['byTopup'],
+                        'biayakelasrawat' => $key['kelasRawat'],
+                        'biayanofpk' => $key['noFPK'],
+                        'pesertanama' => $key['peserta']['nama'],
+                        'pesertanokartu' => $key['peserta']['noKartu'],
+                        'pesertanomr' => $key['peserta']['noMR'],
+                        'pesertapoli' => $key['poli'],
+                        'pesertastatus' => $key['status'],
+                        'pesertatglpulang' => $key['tglPulang'],
+                        'pesertatglsep' => $key['tglSep'],
+                        'jenispelayanan' => $request['jnspelayanan'],
                         )
                     );
                 }

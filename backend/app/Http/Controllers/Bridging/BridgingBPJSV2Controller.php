@@ -6138,6 +6138,8 @@ class BridgingBPJSV2Controller extends ApiController
             $result = (array) json_decode($response);
         }
       
+        $key=$data.$secretKey.(string)$tStamp;
+        $result =$this->stringDecryptVclaim($key,$result);
         return $this->respond($result);
     }
 
@@ -8227,9 +8229,9 @@ class BridgingBPJSV2Controller extends ApiController
         
     }
     public function BatalAntrianMjkn(Request $request) {
-        $kdbooking = $request['kodebooking'];
-        $keterangan=$request['keterangan'];
-        // return($kdbooking);
+        $kdbooking = $request['data']['kodebooking'];
+        $keterangan=$request['data']['keterangan'];
+        // return($request['data']['kodebooking']);
         // die();
      
         
@@ -8448,7 +8450,7 @@ class BridgingBPJSV2Controller extends ApiController
     }
     public function SavePasienMjkn(Request $request) {
         // $token = $request['x-token'];
-        $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RS Unand terlebih dahulu',
+        $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RSB Cianjur terlebih dahulu',
             'code' => 201,);
                 $result = array(
                     
