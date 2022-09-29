@@ -23821,7 +23821,7 @@ select * from (select *,row_number() over (partition by x.noregistrasi order by 
             ->leftjoin('alamat_m as alm ', 'alm.nocmfk', '=', 'pm.id')
             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftjoin('batalregistrasi_t as btl', 'btl.pasiendaftarfk', '=', 'pd.norec')
-            ->select(DB::raw('count(pd.norec) as jumlah,pd.statuspasien,ru.objectdepartemenfk'));
+            ->select(DB::raw(" count(pd.norec) as jumlah, (case when pd.statuspasien ='' then 'LAMA' else pd.statuspasien end) as statuspasien ,ru.objectdepartemenfk"));
 
         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
             $data = $data->where('pd.tglregistrasi', '>=', $request['tglAwal']);
