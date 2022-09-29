@@ -8231,8 +8231,8 @@ class BridgingBPJSV2Controller extends ApiController
     public function BatalAntrianMjkn(Request $request) {
         $kdbooking = $request['kodebooking'];
         $keterangan=$request['keterangan'];
-        // return($kdbooking);
-        // die();
+        return($kdbooking);
+        die();
      
         
         $dataSlotingJkn = DB::select(DB::raw("select pd.norec,pd.istaskantrol,pd.statusenabled from pasiendaftar_t as pd 
@@ -8450,7 +8450,7 @@ class BridgingBPJSV2Controller extends ApiController
     }
     public function SavePasienMjkn(Request $request) {
         // $token = $request['x-token'];
-        $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RS Unand terlebih dahulu',
+        $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RSB Cianjur terlebih dahulu',
             'code' => 201,);
                 $result = array(
                     
