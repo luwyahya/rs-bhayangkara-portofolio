@@ -8229,10 +8229,10 @@ class BridgingBPJSV2Controller extends ApiController
         
     }
     public function BatalAntrianMjkn(Request $request) {
-        $kdbooking = $request['kodebooking'];
-        $keterangan=$request['keterangan'];
-        return($request['data']['kodebooking']);
-        die();
+        $kdbooking = $request['data']['kodebooking'];
+        $keterangan=$request['data']['keterangan'];
+        // return($request['data']['kodebooking']);
+        // die();
      
         
         $dataSlotingJkn = DB::select(DB::raw("select pd.norec,pd.istaskantrol,pd.statusenabled from pasiendaftar_t as pd 
