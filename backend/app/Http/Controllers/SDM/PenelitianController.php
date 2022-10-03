@@ -211,7 +211,7 @@ class PenelitianController extends ApiController {
                  INNER JOIN jurusanpeminatan_m as jp on jp.id = pe.jurusanpeminatanfk
                  INNER JOIN sdm_fakultas_m as fa on fa.id = pe.fakultasfk
                  INNER JOIN sdm_institusipendidikan_m as ip on ip.id = pe.institusipendidikanfk
-                 where pe.tanggalmulai >= '$tglAwal' and pe.tanggalmulai <= '$tglAkhir' and pe.statusenabled = 1
+                 where pe.tanggalmulai >= '$tglAwal' and pe.tanggalmulai <= '$tglAkhir' and pe.statusenabled = true
                  $NamaPeneliti
                  $Fakultas
                  $InstitusiPendidikan")
@@ -483,7 +483,7 @@ class PenelitianController extends ApiController {
         $data = DB::select(DB::raw("select pe.*,pg.namalengkap,pg.nip_pns
                  from kegiatanpenelitianpegawai_t as pe 
                  INNER JOIN pegawai_m as pg on pg.id = pe.pegawaifk
-                 where pe.tanggalmulai >= '$tglAwal' and pe.tanggalmulai <= '$tglAkhir' and pe.statusenabled = 1
+                 where pe.tanggalmulai >= '$tglAwal' and pe.tanggalmulai <= '$tglAkhir' and pe.statusenabled = true
                  $NamaPeneliti
                  $JudulPenelitian
                  $UnitKerja")
