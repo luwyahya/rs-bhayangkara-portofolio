@@ -914,6 +914,14 @@ define(['initialize'], function (initialize) {
 
                     });
 
+                    medifirstService.get("farmasi/get-produkdata?" +
+                    "produkfk=" + $scope.item.produk.id +
+                    "&ruanganfk=" + $scope.item.ruangan.id +
+                    "&noregis=" + $scope.item.noRegistrasi, true).then(function(dat) {
+                    $scope.data = dat.data.data;
+                    debugger;
+                });
+
             }
             $scope.getNilaiKonversi = function () {
                 $scope.item.nilaiKonversi = $scope.item.satuan.nilaikonversi
@@ -1209,6 +1217,13 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.jumlah == 0 && $scope.checkDonasi == false && $scope.item.stok != 0) {
                     alert("Jumlah harus di isi!")
                     return;
+                }
+                debugger;
+                 if ($scope.model.kronis != false && $scope.model.kronis != undefined || $scope.model.kronisall != false && $scope.model.kronisall != undefined) {
+                    if ($scope.data == true) {
+                    alert("Obat Ini Kurang Dari 1 Bulan!")
+                    return;
+                    }
                 }
                 if ($scope.item.hargaSatuan == 0 && $scope.checkDonasi == false && $scope.item.stok != 0) {
                     alert("Harga Satuan tidak memiliki harga!")

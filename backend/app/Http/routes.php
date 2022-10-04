@@ -1127,6 +1127,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-info-stok', 'Farmasi\PelayananResepController@getInformasiStok');
             Route::get('get-info-stok-showup', 'Farmasi\PelayananResepController@getInformasiStokByNoterima');
             Route::get('get-produkdetail', 'Farmasi\PelayananResepController@getProdukDetail');
+            Route::get('get-produkdata', 'Farmasi\PelayananResepController@getProdukData');
             Route::post('save-stock-merger', 'Farmasi\PelayananResepController@StokMerger');
             Route::get('get-jenis-obat', 'Farmasi\PelayananResepController@getJenisObat');
             Route::post('save-pelayananobat', 'Farmasi\PelayananResepController@SimpanPelayananObat');

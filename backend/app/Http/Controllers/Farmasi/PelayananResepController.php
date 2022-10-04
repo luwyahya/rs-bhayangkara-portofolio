@@ -30,7 +30,7 @@ use App\Transaksi\StrukOrderBatalVerifDetail;
 use Illuminate\Http\Request;
 use App\Traits\Valet;
 use DB;
-
+use Carbon\Carbon;
 use App\Transaksi\PelayananObatTap;
 use App\Transaksi\StrukOrder;
 use App\Transaksi\StrukResep;
@@ -2742,7 +2742,31 @@ class PelayananResepController extends ApiController
     }
 
 
+    public function getProdukData(Request $request)
+       {
 
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] == 555 && $request['ruanganfk'] != "undefined") {
+            $now = Carbon::now();
+            $newDateTime = Carbon::now()->subDays(30);
+            $noregis = $request['noregis'];
+            $produk = $request['produkfk'];
+            $data = DB::select(DB::raw("select pd.noregistrasi,tglpelayanan,* from pelayananpasienobatkronis_t as pp inner join antrianpasiendiperiksa_t as apd on apd.norec=pp.noregistrasifk inner join pasiendaftar_t as pd on pd.norec=apd.noregistrasifk inner join produk_m as pr on pr.id=pp.produkfk inner join ruangan_m as ru on ru.id=apd.objectruanganfk where pd.noregistrasi='$noregis' and pr.id='$produk' and tglpelayanan between '$newDateTime' and '$now'"));
+
+            if(isset($data) !="" && $data !="undefined" && $data != []){
+                    $data = true;
+                }else{
+                    $data = false;
+                }
+            }else{
+                $data = false;
+            }
+
+            $result = array(
+                'data'=> $data,
+            );
+            return $this->respond($result);
+
+       }
 
     // 
     public function getProdukDetail(Request $request)
