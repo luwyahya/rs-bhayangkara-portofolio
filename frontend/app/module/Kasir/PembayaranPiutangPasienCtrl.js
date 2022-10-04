@@ -73,7 +73,8 @@ define(['initialize'], function(initialize) {
 				var obj = {
 					pageFrom: "PembayaranPiutangKasir",
             		noRegistrasi : $scope.dataParams.noRegistrasi,
-            		jumlahBayar : $scope.item.jumlahBayar 
+            		jumlahBayar : $scope.item.jumlahBayar,
+            		namaPasien : $scope.item.namaPasien
             	}
 
                 $state.go(stateName, {
