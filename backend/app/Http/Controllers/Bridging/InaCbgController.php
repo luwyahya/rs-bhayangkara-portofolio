@@ -1064,7 +1064,7 @@ class InaCbgController   extends ApiController
     }
     public function getCariHistoryDaftarPasien(Request $request)
     {
-        $data = \DB::table('pasiendaftar_t as pd')
+        $data = \DB::table('pasiendaftar_ as pd')
                 ->join('pemakaianasuransi_t as pas', 'pas.noregistrasifk', '=', 'pd.norec')
                 ->leftjoin('batalregistrasi_t as br', 'br.pasiendaftarfk', '=', 'pd.norec')
                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')

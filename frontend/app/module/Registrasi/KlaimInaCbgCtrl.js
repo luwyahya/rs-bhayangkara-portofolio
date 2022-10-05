@@ -283,7 +283,148 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 })
 
             }
+            $scope.columnDaftarPasienPulang = {
+                toolbar: [
+                    "excel",
 
+                ],
+                excel: {
+                    fileName: "DaftarRegistrasiPasien.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:K1"];
+                    sheet.name = "Orders";
+
+                    var myHeaders = [{
+                        value: "Daftar Registrasi Pasien",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                selectable: 'row',
+                dataBound: onDataBound,
+                pageable: true,
+                // sortable: true,
+                // resizable: true,
+                columns: [{
+                    "field": "no",
+                    "title": "No",
+                    "width": "30px",
+                },
+                {
+                    "field": "tglregistrasi",
+                    "title": "Tgl Registrasi",
+                    "width": "80px",
+                    // "template": "<span class='style-center'>#: tglregistrasi #</span>"
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
+                },
+                {
+                    "field": "noregistrasi",
+                    "title": "NoReg",
+                    "width": "90px"
+                },
+                {
+                    "field": "nocm",
+                    "title": "NoRM",
+                    "width": "70px",
+                    "template": "<span class='style-center'>#: nocm #</span>"
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "150px",
+                    "template": "<span class='style-left'>#: namapasien #</span>",
+                    attributes: {
+                        class: "#=noreservasi != null ? 'hejo' : 'green' #"
+                    },
+                },
+                {
+                    "field": "namaruangan",
+                    "title": "Nama Ruangan",
+                    "width": "150px",
+                    "template": "<span class='style-left'>#: namaruangan #</span>"
+                },
+                {
+                    "field": "namakelas",
+                    "title": "Kelas ",
+                    "width": "80px",
+                    // "template": '# if( kelasditanggung==null) {# - # } else {# #= kelasditanggung # #} #'
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Nama Dokter",
+                    "width": "150px",
+                    "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Kelompok Pasien",
+                    "width": "100px",
+                    "template": "<span class='style-left'>#: kelompokpasien #</span>"
+                },
+                {
+                    "field": "namarekanan",
+                    "title": "Penjamin",
+                    "width": "100px",
+                    "template": '# if( namarekanan==null) {# - # } else {# #= namarekanan # #} #'
+                },
+                {
+                    "field": "jaminankhusus",
+                    "title": "Jaminan Khusus",
+                    "width": "100px",
+                    "template": '# if( jaminankhusus==null) {# - # } else {# #= jaminankhusus # #} #'
+                },
+                {
+                    "field": "tglpulang",
+                    "title": "Tgl Pulang",
+                    "width": "80px",
+                    // "template": "<span class='style-center'>#: tglpulang #</span>"
+                    "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
+                },
+                {
+                    "field": "kelasditanggung",
+                    "title": "Kelas Ditanggung",
+                    "width": "80px",
+                    "template": '# if( kelasditanggung==null) {# - # } else {# #= kelasditanggung # #} #'
+                },
+                {
+                    "field": "nosep",
+                    "title": "No SEP",
+                    "width": "150px",
+                    "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
+                },
+                {
+                    "title": "Upload Dokumen",
+                    "width": "100px",
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
+                },
+                {
+                    "field": "isdiagnosis",
+                    "title": "Diagnosis",
+                    "width": "300px",
+                    "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
+                },
+                {
+                    hidden: true,
+                    "field": "ppkrujukan",
+                    "title": "PPK",
+                    "width": "150px",
+                },
+                {
+                    hidden: true,
+                    "field": "deptid",
+                    "title": "DeptId",
+                    "width": "150px",
+                },
+                ]
+            };
 
             $scope.clickKembali = function () {
                 if ($scope.formGridHistory == true) {

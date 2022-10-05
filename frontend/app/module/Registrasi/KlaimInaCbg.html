@@ -137,7 +137,7 @@
         <md-content>
             <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
 
-                <md-tab label="Klaim " md-on-select="onTabChanges(0)">
+                <md-tab label="Klaim" md-on-select="onTabChanges(0)">
                     <md-content class="md-padding">
                         <div class="grid_12" style="margin-top: 10px;">
                             <div class="grid_12">
@@ -965,6 +965,35 @@
                                         </tr>
                                     </tbody>
                                 </table> -->
+                            </div>
+                        </div>
+                    </md-content>
+                </md-tab>
+                <md-tab label="Daftar Send Claim" md-on-select="onTabChanges(1)">
+                    <md-content class="md-padding">
+                        <div class="grid_12" style="margin-top: 10px;">
+                            <div class="grid_12">
+                                <div class="grid_12 headerBox">
+                                    <h1 style="color: white;"><b>Daftar Send Claim</b></h1>
+                                </div>
+                                <div class="clear"></div>
+                                <br />
+                                <br>
+                                <div class="grid_12">
+                                    <!-- <div class="grid_12 headerBox">
+                                        <p>Daftar</p>
+                                    </div> -->
+                                    <div class="clear"></div>
+                                    <!-- grid table -->
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid id="kGrid" data-source="dataDaftarPasienPulang"
+                                            options="columnDaftarPasienPulang" k-pageable="'true'" k-sortable="'true'"
+                                            k-resizable="'true'" k-selectable="'row'" on-change="onChange(data)"
+                                            k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)">
+                                        </kendo-grid>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
                             </div>
                         </div>
                     </md-content>

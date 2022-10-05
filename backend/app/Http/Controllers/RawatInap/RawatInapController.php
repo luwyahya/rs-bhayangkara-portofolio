@@ -266,7 +266,7 @@ class RawatInapController extends ApiController
                  apd.objectasalrujukanfk,case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as namaruanganasal, 
                  case when jd.id=1 then dg.namadiagnosa else '-' end as diagnosa,ru.objectruanganfk as koderuangancovid,pd.objectkomorbidfk,
                  case when pd.objectkasuspenyakitlastfk=1 then 'Non Covid' else ksp.kasuspenyakit end as kasuspenyakit,
-                 hg.totalpiutangpenjamin,hg.biayanaikkelas
+                 hg.totalpiutangpenjamin,hg.biayanaikkelas,0 as totaltagihan
                  from antrianpasiendiperiksa_t as apd
                  inner join pasiendaftar_t as pd on pd.norec = apd.noregistrasifk and pd.objectruanganlastfk = apd.objectruanganfk
              --    left join batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
@@ -309,9 +309,26 @@ class RawatInapController extends ApiController
         //                }
         //            }
         //        }
+        foreach ($data as $item){
+            $item->totaltagihan = $this->getTotalBiaya($item->noregistrasi);
+        }
         return $this->respond($data);
     }
-
+    protected  function getTotalBiaya ($noregis){
+        $data = DB::select(DB::raw("SELECT 
+            sum((((pp.hargasatuan - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is not null then pp.jasa else 0 end ) 
+            -(CASE WHEN (pp.produkfk = 402611) THEN pp.hargasatuan ELSE (0) END * pp.jumlah)) as total
+            FROM
+            pelayananpasien_t AS pp
+            INNER JOIN antrianpasiendiperiksa_t AS apd ON pp.noregistrasifk= apd.norec
+            INNER JOIN pasiendaftar_t AS pd ON apd.noregistrasifk = pd.norec
+            WHERE pd.noregistrasi='$noregis'"));
+        $total = 0;
+        if(count($data )> 0){
+            $total = (float) $data[0]->total;
+        }
+        return $total;
+    }
 
     public function getRuanganBlokDepo(Request $request)
     {

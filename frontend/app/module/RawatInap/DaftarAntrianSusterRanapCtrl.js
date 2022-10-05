@@ -546,6 +546,18 @@ define(['initialize'], function (initialize) {
                     "width": "80px"
                 },
                 {
+                    "field": "totaltagihan",
+                    "title": "Biaya RS",
+                    "width": "80px",
+                    "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totaltagihan #', 'Rp. ')}}</span>",
+                },
+                {
+                    "field": "totalpiutangpenjamin",
+                    "title": "Tarif Inacbg",
+                    "width": "80px",
+                    "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totalpiutangpenjamin #', 'Rp. ')}}</span>",
+                },
+                {
                     "field": "bedah",
                     "title": "bedah",
                     "width": "80px",
@@ -567,7 +579,11 @@ define(['initialize'], function (initialize) {
                 }
                 ]
             };
-
+            $scope.formatRupiah = function (value, currency) {
+                if (value == 'null')
+                    value = 0
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
             $scope.Page = {
                 refresh: true,
                 pageSizes: true,
