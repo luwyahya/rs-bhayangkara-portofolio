@@ -288,6 +288,7 @@ class RawatInapController extends ApiController
                 left join diagnosa_m AS dg ON dg.id = ddp.objectdiagnosafk 
                 left join jenisdiagnosa_m AS jd ON jd.id = ddp.objectjenisdiagnosafk
                 left join kasuspenyakit_m AS ksp ON ksp.id = pd.objectkasuspenyakitlastfk
+                left join informasitanggungansementara_t as hg on hg.noregistrasifk=pd.norec
                  --where br.norec is null 
                  where pd.statusenabled = 'y'
                 --and dept.id in (16,  17,  35) 
