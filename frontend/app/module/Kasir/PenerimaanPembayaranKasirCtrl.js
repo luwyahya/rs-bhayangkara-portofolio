@@ -255,11 +255,14 @@ define(['initialize'], function (initialize) {
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "cicilanPasien",
-                        jumlahBayar: $scope.dataParams.jumlahBayar
+                        jumlahBayar: $scope.dataParams.jumlahBayar,
+                        namaPasien: $scope.dataParams.namaPasien
+
                     }
+                    debugger
                     //$scope.defaultPage = "DaftarPasienPulangKasir";
                     $scope.defaultPage = "DaftarPiutangKasir";
-                    urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=cicilanPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
+                    urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&namaPasien=" +$scope.dataParams.namaPasien + "&tipePembayaran=cicilanPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
                     break;
             }
 
@@ -274,6 +277,7 @@ define(['initialize'], function (initialize) {
                         $scope.item.biayaAdministrasi = 0;
                         $scope.item.diskon = 0;
                         $scope.item.totalTagihan = $scope.item.jumlahBayar;
+                        $scope.item.namaPasien = $scope.dataParams.namaPasien;
                         $scope.item.jumlahBayarFix = ($scope.item.totalTagihan - $scope.item.diskon) + $scope.item.biayaAdministrasi;
                         $scope.item.totalFixBayar = 0
                         $scope.item.nominal = $scope.setDefaultNominal();
@@ -319,12 +323,12 @@ define(['initialize'], function (initialize) {
                         });
                     } else {
                         var dataObjPost = {};
-                        var diterimadari = $scope.item.terimaDari;
+                        var diterimadari = $scope.item.namaPasien;;
                         debugger;
                         if (diterimadari == undefined) {
                             diterimadari = "-";
                         } else {
-                            diterimadari = $scope.item.terimaDari;
+                            diterimadari = $scope.item.namaPasien;;
                         }
                         dataObjPost = {
                             parameterTambahan: $scope.dataPrevPage,

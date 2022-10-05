@@ -10,6 +10,15 @@ define(['initialize'], function (initialize) {
 			$scope.item.periodeAwal = $scope.now;
 			$scope.item.periodeAkhir = $scope.now;
 			$scope.item.tanggalOrderGizi = $scope.now;
+			$scope.listMakananTambahan = [
+			{ text:'Putih Telur(6 Butir)', value:'Putih Telur(6 Butir)'},
+			{ text:'PUTIH TELUR (3 Butir)', value:'PUTIH TELUR (3 Butir)'},
+			{ text:'PUTIH TELUR (2 Butir)', value:'PUTIH TELUR (2 Butir)'},
+			{ text:'PUTIH TELUR (1 Butir)', value:'PUTIH TELUR (1 Butir)'},
+			{ text:'BUAH ', value:'BUAH '},
+			{ text:'SUSU', value:'SUSU'},
+			{ text:'JUS BUAH', value:'JUS BUAH'},
+			];
 			$scope.x = 0;
 			var dataOrderFix = [];
 			var data2 = []
@@ -811,6 +820,11 @@ define(['initialize'], function (initialize) {
 							"tglmenu": new moment($scope.item.tanggalOrderGizi).format('YYYY-MM-DD HH:mm'),
 							"qtyproduk": $scope.selectedData.length,
 							"details": $scope.selectedData,
+							"makanantambahan": $scope.item.makananTambahan,
+							"kalori": $scope.item.kalori,
+							"pagi": $scope.item.pagi,
+							"siang": $scope.item.siang,
+							"malam": $scope.item.malam,
 							"jeniswaktufk": $scope.item.jenisWaktu.id// element.id
 						}
 						
@@ -864,10 +878,10 @@ define(['initialize'], function (initialize) {
 							return
 						}
 
-						if ($scope.item.jenisWaktu == undefined) {
-							toastr.error('Jenis Waktu belum di pilih')
-							return
-						}
+						// if ($scope.item.jenisWaktu == undefined) {
+						// 	toastr.error('Jenis Waktu belum di pilih')
+						// 	return
+						// }
 
 						
 						if ($scope.item.jenisOrder.id == 1) {
@@ -894,11 +908,37 @@ define(['initialize'], function (initialize) {
 							if ($scope.item.keterangan != undefined) {
 								ket = $scope.item.keterangan
 							}
+							var kalori = '';
+							if ($scope.item.kalori != undefined) {
+								kalori = $scope.item.kalori
+							}
+							var pagi = false;
+							if ($scope.item.pagi == true) {
+								pagi = true;
+							}
+							var siang = false;
+							if ($scope.item.siang == true) {
+								siang = true;
+							}
+							var malam = false;
+							if ($scope.item.malam == true) {
+								malam = true;
+							}
+							debugger;
+							var makananTambahan='';
+							if ($scope.item.makananTambahan != undefined) {
+								makananTambahan = $scope.item.makananTambahan.value
+							}
 							$scope.tombolSimpanVis = true;
 							
 							
 									for (var i = 0; i < $scope.selectedData.length; i++) {
 										$scope.selectedData[i].keterangan = ket
+										$scope.selectedData[i].kalori = kalori
+										$scope.selectedData[i].pagi = pagi
+										$scope.selectedData[i].siang = siang
+										$scope.selectedData[i].malam = malam
+										$scope.selectedData[i].makananTambahan = makananTambahan
 										$scope.selectedData[i].volume = null
 										$scope.selectedData[i].cc = null
 										$scope.selectedData[i].objectjenisdietfk = $scope.item.jenisDiet.id;
@@ -913,7 +953,7 @@ define(['initialize'], function (initialize) {
 												"tglmenu": new moment($scope.item.tanggalOrderGizi).format('YYYY-MM-DD HH:mm'),
 												"qtyproduk": $scope.selectedData.length,
 												"details": $scope.selectedData,
-												"jeniswaktufk": $scope.item.jenisWaktu.id// element.id
+												// "jeniswaktufk": $scope.item.jenisWaktu.id// element.id
 											}
 											
 											var data = {
@@ -943,7 +983,12 @@ define(['initialize'], function (initialize) {
 										"objectkategorydietfk": data2[i].kategorydietfk,
 										"volume": data2[i].volume,
 										"cc": data2[i].cc,
-										"keterangan": data2[i].keterangan
+										"keterangan": data2[i].keterangan,
+										"makanantambahan": data2[i].makananTambahan,
+										"kalori": data2[i].kalori,
+										"pagi": data2[i].pagi,
+										"siang": data2[i].siang,
+										"malam": data2[i].malam
 									})
 									jnsWaktu =data2[i].jenisWaktu;
 								}

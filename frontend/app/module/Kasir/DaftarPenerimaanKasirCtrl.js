@@ -633,6 +633,12 @@ define(['initialize'], function (initialize) {
                     "width": "80px"
                 },
                 {
+                    "field": "diterimadari",
+                    "title": "Di Terimadari",
+                    "template": "<span class='style-left'>#: diterimadari #</span>",
+                    "width": "80px"
+                },
+                {
                     "field": "namapasien_klien",
                     "title": "Deskripsi",
                     "template": "<span class='style-left'>#: namapasien_klien #</span>",

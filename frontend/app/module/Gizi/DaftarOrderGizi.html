@@ -146,7 +146,7 @@
 
 
 		
-			<div class="grid_1">
+			<!-- <div class="grid_1">
 					<div class="grid_12">
 						<label c-label item="item" c-label-text="Jenis Waktu"></label>
 					</div>
@@ -155,7 +155,7 @@
 					<div class="grid_12">
 						<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisWaktu" k-data-text-field="'jeniswaktu'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisWaktu" />
 					</div>
-				</div>
+				</div> -->
 			<div class="grid_1">
 					<div class="grid_12">
 						<label c-label item="item" c-label-text="Kategori Diet"></label>
@@ -460,10 +460,17 @@
 					</div> -->
 				<!-- </fieldset> -->
 				<!-- </div> -->
-				<div class="grid_12">
+				<!-- <div class="grid_12">
 					<input style="width: 100%;" kendo-combo-box k-data-source="listJenisWaktu"
 						k-ng-model="pop.jenisWaktu" k-data-text-field="'jeniswaktu'" k-filter="'contains'"
 						k-data-value-field="'id'" k-auto-bind="false" />
+				</div> -->
+				<div class="grid_12">
+					<!-- <label c-label item="item">Pagi</label> -->
+					<input type="checkbox" ng-model="pop.pagi">Pagi</input>
+					<input type="checkbox" ng-model="pop.siang">Siang</input>
+					<input type="checkbox" ng-model="pop.malam">Malam</input>
+
 				</div>
 			</div>
 			<div class="grid_4" style="margin-bottom:1px">
@@ -505,6 +512,28 @@
 					<input style="width: 100%;" kendo-combo-box k-data-source="listKategoriDiet"
 						k-ng-model="pop.kategoriDiet" k-data-text-field="'kategorydiet'" k-filter="'contains'"
 						k-data-value-field="'id'" k-auto-bind="false" />
+				</div>
+			</div>
+			<div class="grid_6">
+				<div class="grid_12">
+					<label c-label item="item">Kalori</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="pop.kalori" />
+				</div>
+			</div>
+			<div class="grid_6">
+				<div class="grid_12">
+					<label c-label item="item">Makanan Tambahan</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input style="width: 100%;" kendo-combo-box k-data-source="listMakananTambahan"
+						k-ng-model="pop.makananTambahan" k-data-text-field="'text'" k-filter="'contains'"
+						k-data-value-field="'value'" k-auto-bind="false" />
 				</div>
 			</div>
 			<div class="grid_8">

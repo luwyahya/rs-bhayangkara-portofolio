@@ -457,6 +457,11 @@ class GiziController extends ApiController
 
                 $dataOP->objectkategorydietfk = $itemDetails['objectkategorydietfk'];
                 //                    $dataOP->objectketerangandietfk =$itemDetails['objectprodukfk'];
+                $dataOP->pagi = $itemDetails['pagi'];
+                $dataOP->siang = $itemDetails['siang'];
+                $dataOP->malam = $itemDetails['malam'];
+                $dataOP->kalori = $itemDetails['kalori'];
+                $dataOP->makanantambahan = $itemDetails['makananTambahan'];
                 $dataOP->keteranganlainnya = $itemDetails['keterangan']; //'Order Gizi';
                 $dataOP->keteranganlainnya_quo = 'Order Gizi';
                 $dataOP->statusgizi = $item['jenisorder'];
@@ -585,6 +590,11 @@ class GiziController extends ApiController
                 $dataOP->noregistrasifk = $itemDetails['norec_pd'];
                 $dataOP->noorderfk = $dataSOnorec;
                 $dataOP->qtyproduk = 1;
+                $dataOP->pagi = $itemDetails['pagi'];
+                $dataOP->siang = $itemDetails['siang'];
+                $dataOP->malam = $itemDetails['malam'];
+                $dataOP->kalori = $itemDetails['kalori'];
+                $dataOP->makanantambahan = $itemDetails['makananTambahan'];
                 $dataOP->qtyprodukinuse = $itemDetails['cc'];
                 $dataOP->jumlah = $itemDetails['volume'];
                 $dataOP->objectkelasfk = $itemDetails['objectkelasfk'];
@@ -1002,6 +1012,10 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
 
         $data = \DB::table('orderpelayanan_t as op')
             ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'op.noregistrasifk')
+            ->join ('antrianpasiendiperiksa_t as apd', function($join){
+                $join->on('apd.noregistrasifk','=','pd.norec');
+                $join->on('pd.objectruanganlastfk','=','apd.objectruanganfk');
+                })
             ->join('ruangan_m as ru', 'ru.id', '=', 'op.objectruanganfk')
             ->join('pasien_m as ps', 'ps.id', '=', 'op.nocmfk')
             ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
@@ -1046,6 +1060,7 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
                 'pd.noregistrasi',
                 'so.objectpegawaiorderfk',
                 'pg.namalengkap as pegawaiorder',
+                'apd.nobed',
                 'sk.nokirim',
                 'sk.qtyproduk',
                 'pd.norec as norec_pd',
@@ -1054,10 +1069,15 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
                 'sk.nokirim',
                 'ru2.namaruangan as ruangantujuan',
                 'jw.jeniswaktu',
-                'op.objectjeniswaktufk',
+                // 'op.objectjeniswaktufk',
                 'pd.tglpulang',
                 'op.objectjenisdietfk1',
-                'op.objectjenisdietfk2'
+                'op.objectjenisdietfk2',
+                'op.pagi',
+                'op.siang',
+                'op.malam',
+                'op.kalori',
+                'op.makanantambahan'
                 // DB::raw("case when op.strukkirimfk is not null then 'Sudah Dikirim'  else '-' end as statuskirim,case when (select top (1) namadiagnosa from v_diagnosaPasien where noregistrasi = pd.noregistrasi and idjd= 1) is null then '-' else (select top (1) namadiagnosa from v_diagnosaPasien where noregistrasi = pd.noregistrasi and idjd= 1) end  as diagnosa,jd1.jenisdiet as jenisdiet1,jd2.jenisdiet as jenisdiet2 ")
             )
 
@@ -1927,7 +1947,7 @@ FROM            pasien_m INNER JOIN
                 $ruangId = ' and ru.id=' . $request['ruangId'];
             }
             if (isset($request['noreg']) && $request['noreg'] != "" && $request['noreg'] != "undefined") {
-                $noreg = ' and pd.noregistrasi =' . $request['noreg'];
+                $noreg = " and pd.noregistrasi like '%" . $request['noreg']. "%'";
             }
             if (isset($request['norm']) && $request['norm'] != "" && $request['norm'] != "undefined") {
                 $norm = " and ps.nocm like '%" . $request['norm'] . "%'";
@@ -1937,7 +1957,7 @@ FROM            pasien_m INNER JOIN
                 $nama = " and ps.namapasien like '%" . $request['nama'] . "%'";
             }
             $detail = DB::select(DB::raw("
-                    SELECT        op.noorderfk, op.objectjenisdietfk, jd.jenisdiet, op.objectjeniswaktufk, jw.jeniswaktu, op.objectkategorydietfk, kt.kategorydiet, op.keteranganlainnya, op.statusgizi AS jenisorder, op.qtyprodukinuse AS cc, op.jumlah AS volume, 
+                    SELECT        op.noorderfk, op.pagi,op.siang, op.malam, op.kalori, op.makanantambahan, op.objectjenisdietfk, jd.jenisdiet, op.objectjeniswaktufk, jw.jeniswaktu, op.objectkategorydietfk, kt.kategorydiet, op.keteranganlainnya, op.statusgizi AS jenisorder, op.qtyprodukinuse AS cc, op.jumlah AS volume, 
                                             op.objectkelasfk, kls.namakelas, ru.namaruangan AS ruangorder, op.objectruanganfk, ps.nocm, pd.noregistrasi, ps.namapasien, sk.nokirim, pd.norec AS norec_pd, ps.id AS nocmfk, op.norec AS norec_op, op.objectjenisdietfk1, 
                                             op.objectjenisdietfk2, jenisdiet_m.jenisdiet AS jenisdiet1, jenisdiet_m_1.jenisdiet AS jenisdiet2
                     FROM            orderpelayanan_t AS op INNER JOIN
@@ -1945,6 +1965,7 @@ FROM            pasien_m INNER JOIN
                                      jeniswaktu_m AS jw ON jw.id = op.objectjeniswaktufk LEFT OUTER JOIN
                                      kategorydiet_m AS kt ON kt.id = op.objectkategorydietfk INNER JOIN
                                      pasiendaftar_t AS pd ON pd.norec = op.noregistrasifk INNER JOIN
+                                     antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and pd.objectruanganlastfk = apd.objectruanganfk INNER JOIN
                                      pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
                                      kelas_m AS kls ON kls.id = op.objectkelasfk INNER JOIN
                                      ruangan_m AS ru ON ru.id = op.objectruanganfk LEFT OUTER JOIN
@@ -2147,6 +2168,11 @@ FROM            pasien_m INNER JOIN
                     'objectjenisdietfk' => $request['orderpelayanan']['objectjenisdietfk'],
                     'objectjenisdietfk1' => $request['orderpelayanan']['objectjenisdietfk1'],
                     'objectjenisdietfk2' => $request['orderpelayanan']['objectjenisdietfk2'],
+                    'pagi' => $request['orderpelayanan']['pagi'],
+                    'siang' => $request['orderpelayanan']['siang'],
+                    'malam' => $request['orderpelayanan']['malam'],
+                    'kalori' => $request['orderpelayanan']['kalori'],
+                    'makanantambahan' => $request['orderpelayanan']['makananTambahan'],
                 ]
             );
 
