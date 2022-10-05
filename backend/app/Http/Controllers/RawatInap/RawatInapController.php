@@ -265,7 +265,8 @@ class RawatInapController extends ApiController
                  pd.norec as norec_pd, apd.tglmasuk, apd.norec as norec_apd, row_number() over (partition by pd.noregistrasi order by apd.tglmasuk desc) as rownum ,
                  apd.objectasalrujukanfk,case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as namaruanganasal, 
                  case when jd.id=1 then dg.namadiagnosa else '-' end as diagnosa,ru.objectruanganfk as koderuangancovid,pd.objectkomorbidfk,
-                 case when pd.objectkasuspenyakitlastfk=1 then 'Non Covid' else ksp.kasuspenyakit end as kasuspenyakit
+                 case when pd.objectkasuspenyakitlastfk=1 then 'Non Covid' else ksp.kasuspenyakit end as kasuspenyakit,
+                 hg.totalpiutangpenjamin,hg.biayanaikkelas
                  from antrianpasiendiperiksa_t as apd
                  inner join pasiendaftar_t as pd on pd.norec = apd.noregistrasifk and pd.objectruanganlastfk = apd.objectruanganfk
              --    left join batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
