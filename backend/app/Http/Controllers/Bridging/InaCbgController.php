@@ -1739,13 +1739,13 @@ class InaCbgController   extends ApiController
             ->whereNull('pd.tglpulang');
 
         $filter = $request->all();
-        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
-            $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal']);
-        }
-        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
-            $tgl = $filter['tglAkhir'];//." 23:59:59";
-            $data = $data->where('pd.tglregistrasi', '<=', $tgl);
-        }
+        // if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+        //     $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal']);
+        // }
+        // if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+        //     $tgl = $filter['tglAkhir'];//." 23:59:59";
+        //     $data = $data->where('pd.tglregistrasi', '<=', $tgl);
+        // }
         if (isset($filter['deptId']) && $filter['deptId'] != "" && $filter['deptId'] != "undefined") {
             $data = $data->where('dept.id', '=', $filter['deptId']);
         }
@@ -1799,8 +1799,9 @@ class InaCbgController   extends ApiController
             ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
             ->select('dg.kddiagnosa','apd.objectasalrujukanfk','pd.norec')
             ->wherein('dp.objectjenisdiagnosafk',array(1,2))
-            ->where('pd.tglregistrasi', '>=', $filter['tglAwal'])
-            ->where('pd.tglregistrasi', '<=', $filter['tglAkhir'])
+            // ->where('pd.tglregistrasi', '>=', $filter['tglAwal'])
+            // ->where('pd.tglregistrasi', '<=', $filter['tglAkhir'])
+            ->whereNull('pd.tglpulang')
             ->get();
         foreach ($data as $item){
             $dtdt = '';
@@ -1829,8 +1830,9 @@ class InaCbgController   extends ApiController
             ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
             ->select('dg.kddiagnosatindakan','pd.norec')
             //            ->where('apd.noregistrasifk',$data[$i]->norec)
-            ->where('pd.tglregistrasi', '>=', $filter['tglAwal'])
-            ->where('pd.tglregistrasi', '<=', $filter['tglAkhir'])
+            // ->where('pd.tglregistrasi', '>=', $filter['tglAwal'])
+            // ->where('pd.tglregistrasi', '<=', $filter['tglAkhir'])
+            ->whereNull('pd.tglpulang')
             ->get();
         foreach ($data as $item){
             $dtdt = '';
@@ -1843,8 +1845,8 @@ class InaCbgController   extends ApiController
             $i= $i + 1 ;
         }
 
-        $tglawalawal = $filter['tglAwal'];
-        $tglakhirakhir = $filter['tglAkhir'];
+        // $tglawalawal = $filter['tglAwal'];
+        // $tglakhirakhir = $filter['tglAkhir'];
         $kelompokPasien=$filter['kelId'];
         $dataTarif16 = DB::select(DB::raw("select pd.norec, 
             sum(((pp.hargajual - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah)+ case when pp.jasa is null then 0 else pp.jasa end) as ttl,kpb.namaexternal
@@ -1856,11 +1858,11 @@ class InaCbgController   extends ApiController
             INNER JOIN kelompokprodukbpjs_m as kpb on kpb.id=pr.objectkelompokprodukbpjsfk
             left join kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
             left join batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-            where br.norec is null  and 
-            pd.tglregistrasi >= '$tglawalawal' and pd.tglregistrasi <= '$tglakhirakhir' and kp.id in ($kelompokPasien)
+            where br.norec is null  and pd.tglpulang is null
+             and kp.id in ($kelompokPasien)
             group  by pd.norec,kpb.namaexternal order by pd.norec")
         );
-
+// pd.tglregistrasi >= '$tglawalawal' and pd.tglregistrasi <= '$tglakhirakhir'
 //        return $this->respond($dataTarif16);
         $i = 0 ;
         $prosedur_non_bedah ='';

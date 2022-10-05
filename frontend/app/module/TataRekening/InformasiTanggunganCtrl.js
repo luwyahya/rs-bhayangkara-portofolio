@@ -455,8 +455,8 @@ define(['initialize'], function (initialize) {
 				}
 
 				medifirstService.get("bridging/inacbg/get-daftar-informasi-tanggungan?" +
-					"tglAwal=" + tglAwal +
-					"&tglAkhir=" + tglAkhir +
+					// "tglAwal=" + tglAwal +
+					// "&tglAkhir=" + tglAkhir +
 					reg + rm + nm + ins + rg + kp + dk + kls
 					+ '&jmlRows=' + jmlRows
 				).then(function (data) {
