@@ -132,7 +132,12 @@
                 </div>
             </div> -->
         </div>
+       <!--  <div class="grid_2">
+        </div> -->
         <div class="grid_2">
+            <button class="btnTemplate1" ng-click="gantiNamaRuangan()"><i class="fa fa-edit"></i>Edit Ruangan
+            
+            </button>
         </div>
         <div class="grid_2">
             <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-plus"></i>Kembali
@@ -1036,6 +1041,31 @@
             </div>
         </div>
     </div>
+
+     <div kendo-window="popUpOrder" k-title="'Nama Ruangan'" k-width="750" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+            <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label item="item">Ruangan</label>
+                </div>
+
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-data-source="listnamaruangan"
+                        k-ng-model="item.ruangan" k-data-text-field="'namaruangan'" k-filter="'contains'"
+                        k-data-value-field="'id'" k-auto-bind="false" />
+                </div>
+            </div>
+        </div>
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:20px">
+            <kendo-button class="k-primary" icon="'k-icon k-update'" ng-click='SaveOrderFix()'
+                ng-hide="tombolSimpanVis">Simpan</kendo-button>
+            <kendo-button icon="'k-icon k-cancel'" ng-click='BatalOrder()'>Batal</kendo-button>
+            <!-- <button class="k-primary" ng-click="SaveOrderFix()"  ng-hide="tombolSimpanVis"><span class="k-icon k-update"></span>Simpan</button>
+                    <button ng-click="BatalOrder()" ><span class="k-icon k-cancel"></span>Batal</button> -->
+        </div>
+        <!-- </div> -->
+    </div>s
 
     <div kendo-window="popUpDosisObat" k-title="'Obat'" k-width="1000" k-height="500" k-visible="false">
         <div class="grid_12">

@@ -935,6 +935,77 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             }
 
+            $scope.gantiNamaRuangan = function() {
+                noregistrasi = $scope.modelGrid.noregistrasi
+                medifirstService.get("emr/get-combo-ruangan/" + noregistrasi, false).then(function (data) {
+                    debugger;
+                    $scope.listnamaruangan = data.data.namaruangan
+                    $scope.item.namaruangan = data.data.ruangan
+                    $scope.noregistrasi = data.data.noregistrasi
+                    debugger;
+                    //  $scope.popUpOrder.close();
+                    //  return;
+                    // } else {
+                      
+                    // }
+                    // $scope.listJenisWaktu = data.data.jeniswaktu;
+                     $scope.popUpOrder.center().open();
+
+                });
+                  
+            }
+
+            $scope.SaveOrderFix = function () {
+                if ($scope.item.ruangan == undefined) {
+                    toastr.error('Ruangan belum di pilih !')
+                    return
+                }
+                $scope.tombolSimpanVis = true;
+
+                var objSave = {
+                        "norec": $scope.item.ruangan.norec,
+                        "noregis": $scope.noregistrasi.noregistrasi
+                       
+                }
+                debugger
+
+
+                medifirstService.post('emr/update-ruangan', objSave).then(function (result) {
+                    $scope.tombolSimpanVis = false;
+                    $scope.pop = {}
+                    $scope.popUpOrder.close();
+                    loadData()
+                    init();
+                }, function (error) {
+                    $scope.tombolSimpanVis = false;
+                })
+            }
+
+            function clear() {
+                // delete $scope.item.no
+                // $scope.item.tanggalOrderGizi = $scope.now
+                // delete $scope.item.jenisDiet
+                // delete $scope.item.jenisDiet1
+                // delete $scope.item.jenisDiet2
+                // delete $scope.item.kategoriDiet
+                // delete $scope.item.volume
+                // delete $scope.item.cc
+                // delete $scope.item.keterangan
+            }
+
+            $scope.BatalOrder = function () {
+
+                data2 = []
+                $scope.souceOrder = new kendo.data.DataSource({
+                    data: data2
+                });
+                clear();
+
+                $scope.popUpOrder.close();
+                kosongkan();
+                dataOrderFix = [];
+            }
+
             function init() {
                 $scope.item.pemeriksaanFisik = "KU : \nKES : \nGCS :        , E :        , M :        , V : \nTD :        , N :        , P :        , SO2 :        , T : \n\nKEPALA / LEHER : \n\nTHORAK : \n\nABDOMEN : \n\nEKSTREMITAS :";
                 $scope.isRouteLoading = true;
