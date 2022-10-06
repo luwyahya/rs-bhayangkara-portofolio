@@ -1098,6 +1098,38 @@ class InaCbgController   extends ApiController
 
         return $this->respond($data);
     }
+    public function getCariDaftarSendClaim(Request $request)
+    {
+        $data = \DB::table('pasiendaftar_t as pd')
+                ->join('pemakaianasuransi_t as pas', 'pas.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('batalregistrasi_t as br', 'br.pasiendaftarfk', '=', 'pd.norec')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                // ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+                ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+                ->leftJoin('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+                ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
+                ->select('pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi',
+                DB::raw("to_char( pd.tglregistrasi, 'DD/TMMon/YYYY' ) as tglmasuk,
+                        to_char( pd.tglpulang, 'DD/TMMon/YYYY' ) as tglpulang,
+                        case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
+                        case when ru.objectdepartemenfk=16 then 'RI' else 'RJ' end as tipe,
+                        hg.status as statusgrouping,ps.nocm,ps.namapasien,row_number() over(ORDER BY pd.tglpulang asc) as no,
+                        hg.totalbiayars,hg.totalpiutangpenjamin,hg.biayanaikkelas"))
+                ->whereNull('br.norec')
+                ->where('pd.objectrekananfk','<>','5906')
+                ->where('hg.status','=','SEND CLAIM')
+                ->whereNotNull('pd.tglpulang');
+        $filter = $request->all();
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->whereBetween('pd.tglpulang', [$filter['tglAwal'] . ' 00:00', $filter['tglAkhir'] . ' 23:59']);
+        }
+        // $data = $data->orderBy('pd.tglregistrasi','desc');
+        // $data = $data->take(50);
+        $data = $data->get();
+
+        return $this->respond($data);
+    }
     public function getCariDaftarPasien(Request $request)
     {
         $data = \DB::table('pasiendaftar_t as pd')

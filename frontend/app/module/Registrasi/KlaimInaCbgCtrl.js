@@ -8,6 +8,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.dataVOloaded = true;
             $scope.now = new Date();
             $scope.item = {};
+            $scope.item.periodeAwal = $scope.now
+            $scope.item.periodeAkhir = new Date();
             $scope.isRouteLoading = false;
             $scope.formCari = true
             $scope.formGrid = false
@@ -52,6 +54,26 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             }
             $scope.findData = function () {
                 loadData()
+            }
+            $scope.SearchData = function () {
+                $scope.isRouteLoading = true;
+                var tglAwal = moment($scope.item.periodeAwal).format('YYYY-MM-DD');
+                var tglAkhir = moment($scope.item.periodeAkhir).format('YYYY-MM-DD');
+                medifirstService.get("bridging/inacbg/get-cari-daftar-pasien-sendClaim?" + "tglAwal=" + tglAwal +
+                    "&tglAkhir=" + tglAkhir).then(function (e) {
+                        $scope.isRouteLoading = false;
+                        var data2 = e.data
+                        $scope.dataDaftarPasienPulang = new kendo.data.DataSource({
+                            data: data2,
+                            // group: $scope.group,
+                            pageSize: 100,
+                            total: data2.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {}
+                            }
+                        });
+                    })
             }
 
             $scope.$watch('item.diagnosisPrimerEklaim', function (newVal, oldVal) {
@@ -319,11 +341,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "width": "30px",
                 },
                 {
-                    "field": "tglregistrasi",
+                    "field": "tglmasuk",
                     "title": "Tgl Registrasi",
                     "width": "80px",
                     // "template": "<span class='style-center'>#: tglregistrasi #</span>"
-                    "template": "<span class='style-left'>{{formatTanggal('#: tglregistrasi #')}}</span>"
+                    // "template": "<span class='style-left'>{{formatTanggal('#: tglmasuk #')}}</span>"
                 },
                 {
                     "field": "noregistrasi",
@@ -341,58 +363,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "title": "Nama Pasien",
                     "width": "150px",
                     "template": "<span class='style-left'>#: namapasien #</span>",
-                    attributes: {
-                        class: "#=noreservasi != null ? 'hejo' : 'green' #"
-                    },
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Nama Ruangan",
-                    "width": "150px",
-                    "template": "<span class='style-left'>#: namaruangan #</span>"
-                },
-                {
-                    "field": "namakelas",
-                    "title": "Kelas ",
-                    "width": "80px",
-                    // "template": '# if( kelasditanggung==null) {# - # } else {# #= kelasditanggung # #} #'
-                },
-                {
-                    "field": "namadokter",
-                    "title": "Nama Dokter",
-                    "width": "150px",
-                    "template": '# if( namadokter==null) {# - # } else {# #= namadokter # #} #'
-                },
-                {
-                    "field": "kelompokpasien",
-                    "title": "Kelompok Pasien",
-                    "width": "100px",
-                    "template": "<span class='style-left'>#: kelompokpasien #</span>"
-                },
-                {
-                    "field": "namarekanan",
-                    "title": "Penjamin",
-                    "width": "100px",
-                    "template": '# if( namarekanan==null) {# - # } else {# #= namarekanan # #} #'
-                },
-                {
-                    "field": "jaminankhusus",
-                    "title": "Jaminan Khusus",
-                    "width": "100px",
-                    "template": '# if( jaminankhusus==null) {# - # } else {# #= jaminankhusus # #} #'
                 },
                 {
                     "field": "tglpulang",
                     "title": "Tgl Pulang",
                     "width": "80px",
                     // "template": "<span class='style-center'>#: tglpulang #</span>"
-                    "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
-                },
-                {
-                    "field": "kelasditanggung",
-                    "title": "Kelas Ditanggung",
-                    "width": "80px",
-                    "template": '# if( kelasditanggung==null) {# - # } else {# #= kelasditanggung # #} #'
+                    // "template": "<span class='style-left'>{{formatTanggal('#: tglpulang #')}}</span>"
                 },
                 {
                     "field": "nosep",
@@ -401,27 +378,25 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
                 },
                 {
-                    "title": "Upload Dokumen",
-                    "width": "100px",
-                    "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
-                },
-                {
-                    "field": "isdiagnosis",
-                    "title": "Diagnosis",
-                    "width": "300px",
-                    "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
-                },
-                {
-                    hidden: true,
-                    "field": "ppkrujukan",
-                    "title": "PPK",
+                    "field": "statusgrouping",
+                    "title": "Status Grouping",
                     "width": "150px",
+                    "template": '# if( statusgrouping==null || statusgrouping=="") {# - # } else {# #= statusgrouping # #} #'
                 },
                 {
-                    hidden: true,
-                    "field": "deptid",
-                    "title": "DeptId",
-                    "width": "150px",
+                    "field": "totalbiayars",
+                    "title": "Biaya RS",
+                    "width": "150px"
+                },
+                {
+                    "field": "totalpiutangpenjamin",
+                    "title": "Klaim Inacbg",
+                    "width": "150px"
+                },
+                {
+                    "field": "biayanaikkelas",
+                    "title": "Biaya Naik Kelas",
+                    "width": "150px"
                 },
                 ]
             };
