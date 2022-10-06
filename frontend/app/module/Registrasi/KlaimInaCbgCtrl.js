@@ -27,6 +27,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             var noantrianLoket = 0;
 
             $scope.formatRupiah = function (value, currency) {
+                if (value == 'null')
+                    value = 0
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
             medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function (data) {
@@ -386,16 +388,29 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 {
                     "field": "totalbiayars",
                     "title": "Biaya RS",
-                    "width": "150px"
+                    "width": "150px",
+                    "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totalbiayars #', 'Rp. ')}}</span>",
                 },
                 {
                     "field": "totalpiutangpenjamin",
                     "title": "Klaim Inacbg",
-                    "width": "150px"
+                    "width": "150px",
+                    "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: totalpiutangpenjamin #', 'Rp. ')}}</span>",
                 },
                 {
                     "field": "biayanaikkelas",
                     "title": "Biaya Naik Kelas",
+                    "width": "150px",
+                    "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: biayanaikkelas #', 'Rp. ')}}</span>",
+                },
+                {
+                    "field": "cbgdescription",
+                    "title": "Description",
+                    "width": "150px"
+                },
+                {
+                    "field": "isdiagnosis",
+                    "title": "Diagnosa",
                     "width": "150px"
                 },
                 ]

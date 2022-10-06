@@ -1115,7 +1115,8 @@ class InaCbgController   extends ApiController
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
                         case when ru.objectdepartemenfk=16 then 'RI' else 'RJ' end as tipe,
                         hg.status as statusgrouping,ps.nocm,ps.namapasien,row_number() over(ORDER BY pd.tglpulang asc) as no,
-                        hg.totalbiayars,hg.totalpiutangpenjamin,hg.biayanaikkelas"))
+                        hg.totalbiayars,hg.totalpiutangpenjamin,hg.biayanaikkelas,hg.cbgdescription,
+                        pd.norec"))
                 ->whereNull('br.norec')
                 ->where('pd.objectrekananfk','<>','5906')
                 ->where('hg.status','=','SEND CLAIM')
@@ -1127,8 +1128,35 @@ class InaCbgController   extends ApiController
         // $data = $data->orderBy('pd.tglregistrasi','desc');
         // $data = $data->take(50);
         $data = $data->get();
+        $data2 = [];
+        foreach ($data as $key => $value) {
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+                ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+                ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->where('ddp.objectjenisdiagnosafk', 1)
+                ->where('apd.noregistrasifk', $value->norec)
+                ->select('dg.namadiagnosa')
+                ->first();
+            if (!empty($diagnosa)) {
+                foreach ($diagnosa as $key2) {
+                    // return($key2);
+                    $value->isdiagnosis = $key2;
+                }
+            } else {
+                $value->isdiagnosis = false;
+            }
+            $data2[] =  $value;
 
-        return $this->respond($data);
+            // $i = $i+1;
+        }
+
+        for ($i = count($data2) - 1; $i >= 0; $i--) {
+            if (isset($filter['isnotdiagnosis']) && $filter['isnotdiagnosis'] != "" && $filter['isnotdiagnosis'] != "undefined" && $filter['isnotdiagnosis'] != 'false' && $data2[$i]->isdiagnosis == true) {
+                array_splice($data2, $i, 1);
+            }
+        }
+
+        return $this->respond($data2);
     }
     public function getCariDaftarPasien(Request $request)
     {
