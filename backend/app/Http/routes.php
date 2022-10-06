@@ -1086,6 +1086,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-vital-sign-pengkajian', 'EMR\EMRController@getVitalSignForPengkajian');
             Route::get('get-norecIGD', 'EMR\EMRController@getnorecIGD');
             Route::get('get-norecLast', 'EMR\EMRController@getnorecruanganlast');
+            Route::get('get-combo-ruangan/{noregistrasi}', 'EMR\EMRController@getcomboruangan');
+            Route::post('update-ruangan', 'EMR\EMRController@updateRuangan');
         });
 
         Route::group(['prefix' => 'farmasi'], function () {

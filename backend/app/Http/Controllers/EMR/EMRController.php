@@ -660,6 +660,125 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
+    public function getcomboruangan(Request $request, $noregistrasi){
+
+        $data = \DB::table('resumemedis_t as rm')
+            ->select(
+                'pd.nocmfk',
+                'pd.noregistrasi'
+            )
+            ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
+            ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->leftJoin('antrianpasiendiperiksa_t as apd1', 'apd1.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('strukresep_t as sr', 'sr.pasienfk', '=', 'apd.norec')
+            ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->Join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->Join('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
+            ->leftJoin('pegawai_m as pg1', 'pg1.id', '=', 'pd.objectpegawaifk')
+            ->leftJoin('asalrujukan_m as ar', 'apd.objectasalrujukanfk', '=', 'ar.id')
+            ->where('rm.statusenabled', true)
+            ->where('pd.noregistrasi', $noregistrasi);
+           
+            $data = $data->take(1);
+            $data = $data->get(1);
+            foreach($data as $datas){
+                 $noregistrasi = array(
+                    'noregistrasi'=>$datas->noregistrasi
+                );
+            }
+
+            $ruangan = \DB::table('ruangan_m as rm')
+            ->join('antrianpasiendiperiksa_t as apd','apd.objectruanganfk','=','rm.id')
+            ->join('pasiendaftar_t as pd','pd.norec','=','apd.noregistrasifk')
+            ->select('rm.namaruangan','rm.id','apd.objectruanganfk','apd.norec')
+            ->where('pd.noregistrasi','=',$noregistrasi)
+            ->where('rm.statusenabled','=','true')
+            ->distinct()
+            ->get();
+
+            $result = array(
+                'namaruangan'=>$ruangan,
+                'ruangan'=>$data,
+                'noregistrasi'=>$noregistrasi,
+            );
+
+            return $this->respond($result);
+     }
+
+     public function updateRuangan(Request $request){
+        
+       DB::beginTransaction();
+       try{
+        $noregistrasi = $request['noregis'];
+        $data = \DB::table('resumemedis_t as rm')
+            ->select(
+                'rm.norec'
+            )
+            ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
+            ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->leftJoin('antrianpasiendiperiksa_t as apd1', 'apd1.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('strukresep_t as sr', 'sr.pasienfk', '=', 'apd.norec')
+            ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->Join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->Join('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
+            ->leftJoin('pegawai_m as pg1', 'pg1.id', '=', 'pd.objectpegawaifk')
+            ->leftJoin('asalrujukan_m as ar', 'apd.objectasalrujukanfk', '=', 'ar.id')
+            ->where('rm.statusenabled', true)
+            ->where('pd.noregistrasi', $noregistrasi);
+            $data = $data->take(1);
+            $data = $data->get(1);
+
+            foreach($data as $datas){
+                $datas2 = array(
+                 'norec'=>$datas->norec
+                 );
+            }
+
+            
+            // return($datas2['norec']);
+            // die();
+            $updatedata = ResumeMedis::where('norec',$datas2['norec'])->update(
+                   ['noregistrasifk'=> $request['norec']]
+
+                );
+
+            // return($updatedata);
+            // die();
+
+            
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Berhasil di simpan!";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "data" => $updatedata,
+                //                "keys" => $keys,
+                //                "dtdt" => $dtdt,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = "Gagal di simpan!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "data" => $updatedata,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+     }
+
     public function getDiagnosaKeperawatan(Request $request)
     {
         $data = \DB::table('diagnosakeperawatan_m as dp')
