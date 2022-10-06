@@ -5060,13 +5060,12 @@ FROM     mappingrlmorbiditas_m as mpr INNER JOIN
                 'ps.objectkesatuanfk',
                 'pd.objectkelompokpasienlastfk',
                 'app.objectstatuspulangfk',
-                DB::raw('datediff(year,ps.tgllahir,GETDATE()) as umuryear,datediff(MONTH,ps.tgllahir,GETDATE()) as umurmonth,datediff(DAY,ps.tgllahir,GETDATE()) as  umurday,(mpr.golongansebabpenyakit) as golongansebabpenyakit
+                DB::raw('EXTRACT(YEAR FROM current_date)-EXTRACT(YEAR FROM ps.tgllahir) AS umuryear,EXTRACT(MONTH FROM current_date)-EXTRACT(MONTH FROM ps.tgllahir) as umurmonth,EXTRACT(DAY FROM current_date)-EXTRACT(DAY FROM ps.tgllahir) as  umurday,(mpr.golongansebabpenyakit) as golongansebabpenyakit
                        ')
             )
             ->wherein('dpm.id', [18, 28])
             // ->where('dbn.nodtd', '214,9')
             ->distinct();
-
 
         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
             $data = $data->where('pd.tglregistrasi', '>=', $request['tglAwal']);
@@ -6681,12 +6680,11 @@ FROM     mappingrlmorbiditas_m as mpr INNER JOIN
                 'ps.objectkesatuanfk',
                 'pd.objectkelompokpasienlastfk',
                 'app.objectstatuspulangfk',
-                DB::raw('datediff(year,ps.tgllahir,GETDATE()) as umuryear,datediff(MONTH,ps.tgllahir,GETDATE()) as umurmonth,datediff(DAY,ps.tgllahir,GETDATE()) as  umurday,(mpr.golongansebabpenyakit) as golongansebabpenyakit
+                DB::raw('EXTRACT(YEAR FROM current_date)-EXTRACT(YEAR FROM ps.tgllahir) AS umuryear,EXTRACT(MONTH FROM current_date)-EXTRACT(MONTH FROM ps.tgllahir) as umurmonth,EXTRACT(DAY FROM current_date)-EXTRACT(DAY FROM ps.tgllahir) as  umurday,(mpr.golongansebabpenyakit) as golongansebabpenyakit
                        ')
             )
             ->wherein('dpm.id', [16])
             ->distinct();
-
 
         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
             $data = $data->where('pd.tglregistrasi', '>=', $request['tglAwal']);
