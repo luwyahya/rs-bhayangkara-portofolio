@@ -980,6 +980,45 @@
                                 <br />
                                 <br>
                                 <div class="grid_12">
+                                    <!-- Periode Pulang -->
+                                    <div class="grid_3">
+                                        <div class="grid_12">
+                                            <label c-label item="item" c-label-text="Periode Tanggal Pulang"></label>
+                                        </div>
+                                        <div class="clear"></div>
+
+                                        <div class="grid_12">
+                                            <!-- AwalPeriode -->
+                                            <div class="grid_6 padDatePicker">
+                                                <input style="width: 100%" k-ng-model="item.periodeAwal"
+                                                    kendo-datetimepicker k-max="now" placeholer="yyyy-MM-dd HH:mm"
+                                                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                                            </div>
+
+                                            <!-- AkhirPeriode -->
+                                            <div class="grid_6 padDatePicker">
+                                                <input style="width: 100%" k-ng-model="item.periodeAkhir"
+                                                    kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm"
+                                                    k-format="'yyyy-MM-dd HH:mm'" />
+                                            </div>
+                                            <div class="clear"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Button Search -->
+                                    <div class="grid_1">
+                                        <div class="grid_12">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                        <div class="clear"></div>
+
+                                        <div class="grid_12">
+                                            <button class="btnTemplate1" style="margin-left: 0;"
+                                                ng-click="SearchData()"> <i class="fa fa-search"></i>Cari</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid_12">
                                     <!-- <div class="grid_12 headerBox">
                                         <p>Daftar</p>
                                     </div> -->
