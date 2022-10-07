@@ -763,11 +763,11 @@ class TagihanController  extends ApiController
         }
         return $this->respond([], $transMsg);
     }
-    public function detailTagihan($noRegister, Request $request)
+   public function detailTagihan($noRegister, Request $request)
     {
        
         $delete = TempBilling::where('noregistrasi', $noRegister)->delete();
-        //        ini_set('max_execution_time', 3000); //6 minutes
+        // //        ini_set('max_execution_time', 3000); //6 minutes
         $dataRuangan = \DB::table('pasiendaftar_t as pd')
             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftjoin('antrianpasiendiperiksa_t as apd', function ($leftjoin) {
@@ -796,6 +796,7 @@ class TagihanController  extends ApiController
         }
         // return($isi);
         // die();
+        $terbilangtotalBillingNonDiskon = '';
         $pelayanan = [];
         $pelayanan = \DB::table('pasiendaftar_t as pd')
             ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
@@ -919,22 +920,27 @@ class TagihanController  extends ApiController
             };
             $pelayanan = $pelayanan->whereNull('pp.aturanpakai');
         }
+
+        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+            $pelayanan = $pelayanan->where('pp.strukfk',$request['norecverifikasi']);
+        };
+           
         $pelayanan = $pelayanan->get();
 
 
 
-        //        return $this->respond($pelayanan);
+        // //        return $this->respond($pelayanan);
 
-        //        if (is_null($pelayanan[0]->kdprofile)==true){
-        //            $pelayanandetail = \DB::table('pasiendaftar_t as pd')
-        //                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-        //                ->join('pelayananpasiendetail_t as ppd', 'ppd.noregistrasifk', '=', 'apd.norec')
-        //                ->join('komponenharga_m as kh', 'kh.id', '=', 'ppd.komponenhargafk')
-        //                ->select('ppd.pelayananpasien as norec_pp', 'ppd.norec', 'kh.komponenharga', 'ppd.jumlah', 'ppd.hargasatuan', 'ppd.hargadiscount')
-        //                ->where('pd.noregistrasi', $noRegister)
-        //                ->orderBy('ppd.tglpelayanan')
-        //                ->get();
-        //        }
+        // //        if (is_null($pelayanan[0]->kdprofile)==true){
+        // //            $pelayanandetail = \DB::table('pasiendaftar_t as pd')
+        // //                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+        // //                ->join('pelayananpasiendetail_t as ppd', 'ppd.noregistrasifk', '=', 'apd.norec')
+        // //                ->join('komponenharga_m as kh', 'kh.id', '=', 'ppd.komponenhargafk')
+        // //                ->select('ppd.pelayananpasien as norec_pp', 'ppd.norec', 'kh.komponenharga', 'ppd.jumlah', 'ppd.hargasatuan', 'ppd.hargadiscount')
+        // //                ->where('pd.noregistrasi', $noRegister)
+        // //                ->orderBy('ppd.tglpelayanan')
+        // //                ->get();
+        // //        }
 
         $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
@@ -946,52 +952,86 @@ class TagihanController  extends ApiController
             ->orderBy('jpp.kodeexternal', 'desc')
             ->where('pd.noregistrasi', $noRegister)
             ->get();
-
-        $sudahBayar = DB::select(
-            // DB::raw("
-            // select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
-            // join strukpelayanan_t as sp on sbm.nostrukfk=sp.norec
-            // join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
-            // where sbm.keteranganlainnya='Pembayaran Tagihan Pasien' and pd.noregistrasi=:noregistrasi;
-            // "),
-             DB::raw("
-            select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
-            join strukpelayanan_t as sp on sbm.nostrukfk=sp.norec
-            join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
-            where sbm.keteranganlainnya in ('Pembayaran Tagihan Pasien','Pembayaran Cicilan Tagihan Pasien') and pd.noregistrasi=:noregistrasi;
-            "),
-            array(
-                'noregistrasi' => $noRegister,
-            )
-        );
-        // return($sudahBayar[0]->sudahbayar);
-        // die();
-        if ($request['jenisdata'] == 'bill') {
-            $pelayanankelasdijamin = DB::select(
+        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+            $sudahBayar = DB::select(
                 DB::raw("
-                select pp.norec, pd.noregistrasi,pd.objectkelasfk,kls_pd.namakelas,asp.objectkelasdijaminfk,
-                kls_dijamin.namakelas as namakelas_dijamin,pp.hargajual, case when qtydetailresep is null then pp.jumlah else qtydetailresep end as jumlah,
-                case when hnpk.harganetto2 is null then pp.hargajual else hnpk.harganetto2 end as harga_kelasdijamin
-                from pasiendaftar_t as pd
-                LEFT JOIN pemakaianasuransi_t as pas on pas.noregistrasifk=pd.norec
-                left join asuransipasien_m as asp on asp.id=pas.objectasuransipasienfk
-                left join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
-                left join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                left join harganettoprodukbykelas_m as hnpk on hnpk.objectprodukfk=pp.produkfk and hnpk.objectkelasfk=asp.objectkelasdijaminfk
-                left join kelas_m as kls_pd on kls_pd.id=pd.objectkelasfk
-                left join kelas_m as kls_dijamin on kls_dijamin.id=asp.objectkelasdijaminfk
-                where noregistrasi=:noregistrasi;
-            "),
-                array(
-                    'noregistrasi' => $noRegister,
-                )
+                select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
+                join strukpelayanan_t as sp on sbm.nostrukfk=sp.norec
+                join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
+                where sbm.keteranganlainnya in ('Pembayaran Tagihan Pasien','Pembayaran Cicilan Tagihan Pasien') and pd.noregistrasi=:noregistrasi and sp.norec=:norec;
+                "),
+                    array(
+                        'noregistrasi' => $noRegister,
+                        'norec'=> $request['norecverifikasi']
+                    )
+            );
+        }else{
+             $sudahBayar = DB::select(
+                DB::raw("
+                select sum(sbm.totaldibayar) sudahbayar from strukbuktipenerimaan_t as sbm
+                join strukpelayanan_t as sp on sbm.nostrukfk=sp.norec
+                join pasiendaftar_t as pd on pd.norec=sp.noregistrasifk
+                where sbm.keteranganlainnya in ('Pembayaran Tagihan Pasien','Pembayaran Cicilan Tagihan Pasien') and pd.noregistrasi=:noregistrasi;
+                "),
+                    array(
+                        'noregistrasi' => $noRegister,
+                    )
             );
         }
-        $totototol = 0;
-        // return($pelayanan);
-        // die();
-        $totalBillingNonDiskon = 0;
-        $totalDiskon = 0;
+           
+       
+        // // return($sudahBayar[0]->sudahbayar);
+        // // die();
+            if ($request['jenisdata'] == 'bill') {
+                if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+                    $pelayanankelasdijamin = DB::select(
+                        DB::raw("
+                        select pp.norec, pd.noregistrasi,pd.objectkelasfk,kls_pd.namakelas,asp.objectkelasdijaminfk,
+                        kls_dijamin.namakelas as namakelas_dijamin,pp.hargajual, case when qtydetailresep is null then pp.jumlah else qtydetailresep end as jumlah,
+                        case when hnpk.harganetto2 is null then pp.hargajual else hnpk.harganetto2 end as harga_kelasdijamin
+                        from pasiendaftar_t as pd
+                        LEFT JOIN pemakaianasuransi_t as pas on pas.noregistrasifk=pd.norec
+                        left join asuransipasien_m as asp on asp.id=pas.objectasuransipasienfk
+                        left join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                        left join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                        left join harganettoprodukbykelas_m as hnpk on hnpk.objectprodukfk=pp.produkfk and hnpk.objectkelasfk=asp.objectkelasdijaminfk
+                        left join kelas_m as kls_pd on kls_pd.id=pd.objectkelasfk
+                        left join kelas_m as kls_dijamin on kls_dijamin.id=asp.objectkelasdijaminfk
+                        where noregistrasi=:noregistrasi and pp.strukfk=:strukfk;
+                    "),
+                        array(
+                            'noregistrasi' => $noRegister,                            
+                            'strukfk'=> $request['norecverifikasi']
+                        )
+                    );
+                }else{
+                    $pelayanankelasdijamin = DB::select(
+                        DB::raw("
+                        select pp.norec, pd.noregistrasi,pd.objectkelasfk,kls_pd.namakelas,asp.objectkelasdijaminfk,
+                        kls_dijamin.namakelas as namakelas_dijamin,pp.hargajual, case when qtydetailresep is null then pp.jumlah else qtydetailresep end as jumlah,
+                        case when hnpk.harganetto2 is null then pp.hargajual else hnpk.harganetto2 end as harga_kelasdijamin
+                        from pasiendaftar_t as pd
+                        LEFT JOIN pemakaianasuransi_t as pas on pas.noregistrasifk=pd.norec
+                        left join asuransipasien_m as asp on asp.id=pas.objectasuransipasienfk
+                        left join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                        left join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                        left join harganettoprodukbykelas_m as hnpk on hnpk.objectprodukfk=pp.produkfk and hnpk.objectkelasfk=asp.objectkelasdijaminfk
+                        left join kelas_m as kls_pd on kls_pd.id=pd.objectkelasfk
+                        left join kelas_m as kls_dijamin on kls_dijamin.id=asp.objectkelasdijaminfk
+                        where noregistrasi=:noregistrasi;
+                    "),
+                        array(
+                            'noregistrasi' => $noRegister,
+                        )
+                    );
+                }
+               
+            }
+            $totototol = 0;
+            // return($pelayanan);
+            // die();
+            $totalBillingNonDiskon = 0;
+            $totalDiskon = 0;
         if (count($pelayanan) > 0) {
             $alamat = [];
             $alamat = \DB::table('alamat_m as al')
@@ -1048,7 +1088,7 @@ class TagihanController  extends ApiController
                 // }else{
                 //     foreach ($pelayananpetugas as $hahaha) {
                 //         // $i+$i+1;
-                //         if ($hahaha->pelayananpasien == $value->norec) {
+                //         if ($hahaha->pelayananpasien == $value->norec) { 
                 //             $NamaDokter = $hahaha->namalengkap;
                 //         }
                 //     }
@@ -1278,61 +1318,109 @@ class TagihanController  extends ApiController
                 }
             }
         }
+        if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+            $dataTotalBill = DB::select(
+                    DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                        from pasiendaftar_t as pd
+                        INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                        INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                        where  pd.noregistrasi=:noregistrasi and pp.produkfk not in (402611) and pp.strukfk=:strukfk;
+                    "),
+                    array(  
+                        'noregistrasi' => $noRegister,
+                        'strukfk'=>$request['norecverifikasi']
+                    )
+                );
 
-        $dataTotalBill = DB::select(
-            DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
-                from pasiendaftar_t as pd
-                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
-                INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where  pd.noregistrasi=:noregistrasi and pp.produkfk not in (402611) ;
-            "),
-            array(
-                'noregistrasi' => $noRegister,
-            )
-        );
-
+        }else{
+            $dataTotalBill = DB::select(
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                        from pasiendaftar_t as pd
+                        INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                        INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                        where  pd.noregistrasi=:noregistrasi and pp.produkfk not in (402611) ;
+                    "),
+                array(
+                    'noregistrasi' => $noRegister
+                )
+            );
+        }
+       
         $totalBilling = 0;
         $totalBilling = $dataTotalBill[0]->total;
         $terbilang = "";
         if ($totalBilling != 0.0) {
             $terbilang = $this->makeTerbilang($totalBilling);
-            $terbilangtotalBillingNonDiskon = $this->makeTerbilang($totalBillingNonDiskon);
+            // $terbilangtotalBillingNonDiskon = $this->makeTerbilang($totalBillingNonDiskon);
+            $terbilangtotalBillingNonDiskon = $this->makeTerbilang($totalBilling);
         }
 
-
-        $dataTotaldibayar = DB::select(
-            DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
-                from pasiendaftar_t as pd
-                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
-                INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                INNER JOIN strukpelayanan_t as sp on sp.norec=pp.strukfk
-                where  pd.noregistrasi=:noregistrasi and sp.nosbmlastfk is not null and pp.produkfk not in (402611);
-            "),
-            array(
-                'noregistrasi' => $noRegister,
-            )
-        );
+        if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
+            $dataTotaldibayar = DB::select(
+                        DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                            from pasiendaftar_t as pd
+                            INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                            INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                            INNER JOIN strukpelayanan_t as sp on sp.norec=pp.strukfk
+                            where  pd.noregistrasi=:noregistrasi and sp.nosbmlastfk is not null and pp.produkfk not in (402611) and pp.strukfk=:strukfk;
+                        "),
+                        array(
+                            'noregistrasi' => $noRegister,
+                            'strukfk' => $request['norecverifikasi']
+                        )
+                    );
+        }else{
+            $dataTotaldibayar = DB::select(
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                            from pasiendaftar_t as pd
+                            INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                            INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                            INNER JOIN strukpelayanan_t as sp on sp.norec=pp.strukfk
+                            where  pd.noregistrasi=:noregistrasi and sp.nosbmlastfk is not null and pp.produkfk not in (402611);
+                        "),
+                array(
+                    'noregistrasi' => $noRegister,
+                )
+            );
+        }
+        
+       
         $dibayar = 0;
         $dibayar = $dataTotaldibayar[0]->total;
-
-        $dataTotalverif = DB::select(
-            DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
-                from pasiendaftar_t as pd
-                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
-                INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where  pd.noregistrasi=:noregistrasi and pp.strukfk is not null and pp.produkfk not in (402611)
-            "),
-            array(
-                'noregistrasi' => $noRegister,
-            )
-        );
+        if (isset($request['norecverifikasi']) && $request['norecverifikasi'] != "" && $request['norecverifikasi'] != "undefined") {
+            
+            $dataTotalverif = DB::select(
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                    from pasiendaftar_t as pd
+                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                    INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                    where  pd.noregistrasi=:noregistrasi and pp.strukfk is not null and pp.produkfk not in (402611) and pp.strukfk=:strukfk
+                "),
+                array(
+                    'noregistrasi' => $noRegister,
+                    'strukfk' => $request['norecverifikasi']
+                )
+            );
+        }else{
+                 $dataTotalverif = DB::select(
+                DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
+                    from pasiendaftar_t as pd
+                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                    INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
+                    where  pd.noregistrasi=:noregistrasi and pp.strukfk is not null and pp.produkfk not in (402611)
+                "),
+                array(
+                    'noregistrasi' => $noRegister
+                )
+            );
+        }
         $diverif = 0;
         $diverif = $dataTotalverif[0]->total;
 
 
         if (count($pelayanan) > 0) {
             $komponen = [];
-            if ($pelayanan[0]->nostruklastfk == null && $isRawatInap) {
+            if ($pelayanan[0]->nostruklastfk == null  && $isRawatInap) {
                 $biayaAdministrasi = number_format($totalBilling * $this->getPercentageBiayaAdmin(), 0, '', '');
                 //                $detail = array(
                 //                    'norec' => 'norecAdmin',
@@ -1488,7 +1576,8 @@ class TagihanController  extends ApiController
                 'totalBillingNonDiskon'=>$totalBillingNonDiskon,
                 'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon
             );
-        } else {
+        }
+         else {
             $pelayanan = \DB::table('pasiendaftar_t as pd')
                 ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                 ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
@@ -1594,11 +1683,14 @@ class TagihanController  extends ApiController
                 )
                 ->where('pd.noregistrasi', $noRegister)
                 ->orderBy('pp.tglpelayanan', 'pp.rke');
+                if(isset($request['norecverifikasi']) && $request['norecverifikasi']!="" && $request['norecverifikasi']!="undefined"){
+                    $pelayanan = $pelayanan->where('pp.strukfk',$request['norecverifikasi']);
+                };
+           
 
-
-            //            if(isset($request['idruangan']) && $request['idruangan']!="" && $request['idruangan']!="undefined"){
-            //                $pelayanan = $pelayanan->where('apd.objectruanganfk',$request['idruangan']);
-            //            };
+        //     //            if(isset($request['idruangan']) && $request['idruangan']!="" && $request['idruangan']!="undefined"){
+        //     //                $pelayanan = $pelayanan->where('apd.objectruanganfk',$request['idruangan']);
+        //     //            };
             $pelayanan = $pelayanan->first();
 
             $isRawatInap = false;
@@ -1619,10 +1711,10 @@ class TagihanController  extends ApiController
             }
             try {
                 $rekanan = [];
-                //                $rekanan = \DB::table('rekanan_m as al')
-                //                    ->select('al.namarekanan')
-                //                    ->where('al.id', $pelayanan[0]->rekananid)
-                //                    ->first();
+        //         //                $rekanan = \DB::table('rekanan_m as al')
+        //         //                    ->select('al.namarekanan')
+        //         //                    ->where('al.id', $pelayanan[0]->rekananid)
+        //         //                    ->first();
                 $penjamin = $pelayanan->namarekanan;
             } catch (\Exception $e) {
                 $penjamin = '-';

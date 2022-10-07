@@ -1860,6 +1860,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             // function simpan tindakan
             $scope.Save = function () {
                 debugger
+                $scope.hideBtnSimpan = false;
                 // if($scope.item.pasien.objectruanganfk == 309) {
                 //     if($scope.item.poneksudah == false) {
                 //         toastr.error('Jenis Penyakit Ponek IGD Belum Diinput !')
@@ -2138,7 +2139,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         if (x.data.data == 'lolos') {
                             medifirstService.post('tatarekening/tindakan/save-tindakan', JSON.stringify(objSave)).then(function (e) {
                                 //  $scope.isSimpan = true;
-                                // $scope.isNext = true;
+                                // $scope.isNext = true;                                
+                                $scope.hideBtnSimpan = true;
                                 if (e.data.PP.length > 0) {
                                     var objSaves = {
                                         "datas": e.data.PP,

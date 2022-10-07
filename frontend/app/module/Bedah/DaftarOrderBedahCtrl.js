@@ -778,7 +778,7 @@ define(['initialize'], function (initialize) {
                     $scope.item.dokterOperasi = { id: data.dokteroperatorfk, namalengkap: data.namadokter };
                     $scope.item.dokterVerif = { id: data.dokteranestesi, namalengkap: data.namadokteranestesi };
                     $scope.item1.jenistindakan = data.jenistindakan;
-                    $scope.item.jam = moment(data.jam).format('HH:mm');
+                    $scope.item.jam =  data.jam ;
                     $scope.item1.ok = data.ok;
                     $scope.item1.petugasok = data.petugasok;
                     $scope.item.tglmulai = moment(data.mulaiop).format('YYYY-MM-DD HH:mm');
