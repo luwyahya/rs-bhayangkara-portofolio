@@ -420,7 +420,10 @@ define(['initialize'], function (initialize) {
                                     var res = str.split("~");
                                     arrPush[x].value = res[1]
 
-                                } else {
+                                } else if(dataLoad[i].type == "datetime"){
+                                    arrPush[x].value = moment(dataLoad[i].valuei).format('DD-MMM-YYYY HH:mm:ss')
+                                }
+                                else {
                                     arrPush[x].value = dataLoad[i].value
                                 }
 
