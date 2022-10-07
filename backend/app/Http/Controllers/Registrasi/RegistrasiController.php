@@ -19786,33 +19786,10 @@ GROUP BY y.KET
     }
     public function getPasienPemeriksaanKedokteranForensik(Request $request)
     {
-        $data = \DB::table('pasiendaftar_t as pd')
-            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-            ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-            ->leftjoin('alamat_m as alm', 'alm.nocmfk', '=', 'ps.id')
-            ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
-            ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
-            ->leftjoin('pendidikan_m as pnd', 'pnd.id', '=', 'ps.objectpendidikanfk')
-            ->join('jenispelayanan_m as jp', 'jp.id', '=', 'pd.jenispelayanan')
-            ->leftjoin('pekerjaan_m as pk', 'pk.id', '=', 'ps.objectpekerjaanfk')
-            ->select(
-                'pd.noregistrasi',
-                'pd.norec as norec_pd',
-                'ps.nocm',
-                'ps.namapasien',
-                'pd.tglregistrasi',
-                'jk.jeniskelamin',
-                'ps.tgllahir',
-                'alm.alamatlengkap',
-                'kls.namakelas',
-                'ru.namaruangan',
-                'pnd.pendidikan',
-                'jp.jenispelayanan',
-                'pk.pekerjaan'
-            )
-            ->where('pd.norec', $request['norec_pd'])
-            ->get();
+         $norec = $request['norec_pd'];
 
+        $data = DB::select(DB::raw(" select pd.noregistrasi, pd.norec as norec_pd, ps.nocm, ps.namapasien, pd.tglregistrasi, jk.jeniskelamin, ps.tgllahir, alm.alamatlengkap, kls.namakelas, ru.namaruangan, pnd.pendidikan, jp.jenispelayanan, pk.pekerjaan from pasiendaftar_t as pd inner join pasien_m as ps on ps.id = pd.nocmfk left join jeniskelamin_m as jk on jk.id = ps.objectjeniskelaminfk left join alamat_m as alm on alm.nocmfk = ps.id inner join kelas_m as kls on kls.id = pd.objectkelasfk inner join ruangan_m as ru on ru.id = pd.objectruanganlastfk left join pendidikan_m as pnd on pnd.id = ps.objectpendidikanfk left join jenispelayanan_m as jp on jp.id::varchar = pd.jenispelayanan left join pekerjaan_m as pk on pk.id = ps.objectpekerjaanfk where pd.norec='$norec'"));
+        
         return $this->respond($data);
     }
     public function savePemeriksaanDokterForensik(Request $request)
