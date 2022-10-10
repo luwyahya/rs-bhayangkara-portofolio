@@ -1016,6 +1016,7 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
                 $join->on('apd.noregistrasifk','=','pd.norec');
                 $join->on('pd.objectruanganlastfk','=','apd.objectruanganfk');
                 })
+            ->join('tempattidur_m as tt','tt.objectkamarfk','=','apd.objectkamarfk')
             ->join('ruangan_m as ru', 'ru.id', '=', 'op.objectruanganfk')
             ->join('pasien_m as ps', 'ps.id', '=', 'op.nocmfk')
             ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
@@ -1059,6 +1060,7 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
                 'kls.namakelas',
                 'pd.noregistrasi',
                 'so.objectpegawaiorderfk',
+                'tt.namaexternal',
                 'pg.namalengkap as pegawaiorder',
                 'apd.nobed',
                 'sk.nokirim',
