@@ -2422,7 +2422,7 @@ class RadiologiController extends ApiController
             'pg.namalengkap as dokterpengirim',
             'pg1.namalengkap as dokterpemeriksa',
             'pg.id as iddokterpengirim',
-            DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, DATEDIFF(d, ps.tgllahir, GETDATE()) as umur,'Z' as flag")
+            DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, DATE_PART('day', ps.tgllahir-NOW()) as umur,'Z' as flag")
         )
             // ->where('ru.objectdepartemenfk', 3)
             ->groupBy(
@@ -2498,9 +2498,9 @@ class RadiologiController extends ApiController
 
                 // foreach ($data as $pp) {
                 //     if ($pp->flag == 'Y') {
-                        // $flaglab = $pp->flag;
-                        // $tglhasil = $pp->tglhasil;
-                        // $tglcetak = $pp->tglcetak;
+                // $flaglab = $pp->flag;
+                // $tglhasil = $pp->tglhasil;
+                // $tglcetak = $pp->tglcetak;
                 //     } else {
                 //         $tglhasil = $pp->tglhasil;
                 //         $tglcetak = $pp->tglcetak;
@@ -2508,9 +2508,9 @@ class RadiologiController extends ApiController
                 // }
                 // $data='';
                 $data[] = array(
-                    'flaglab'=>"",
-                    'tglhasil'=>"",
-                    'tglcetak'=>""
+                    'flaglab' => "",
+                    'tglhasil' => "",
+                    'tglcetak' => ""
                 );
                 $resultp =  array(
                     'data' => $data,
@@ -2589,14 +2589,27 @@ class RadiologiController extends ApiController
     public function getRincianPelayananLabRM2hasil(Request $request)
     {
         ini_set('max_execution_time', 500); //6 minutes
-        
-                $data = DB::select(DB::raw("SELECT DISTINCT hh.flag, hh.tglhasil, hh.tglcetak, pasiendaftar_t.noregistrasi, pp.norec,antrianpasiendiperiksa_t.objectruanganfk
-                FROM            pelayananpasien_t AS pp INNER JOIN
-                                        antrianpasiendiperiksa_t ON pp.noregistrasifk = antrianpasiendiperiksa_t.norec INNER JOIN
-                                        pasiendaftar_t ON antrianpasiendiperiksa_t.noregistrasifk = pasiendaftar_t.norec inner JOIN
-                                        hasillaboratorium_t AS hh ON hh.norecpelayanan = pp.norec
-                WHERE        (pasiendaftar_t.noregistrasi = '$request->noregistrasi') and antrianpasiendiperiksa_t.objectruanganfk='575'
-                order by pp.norec,hh.flag "));
+
+
+        if (isset($request->nocm) && $request->nocm != "" && $request->nocm != "undefined") {
+            $data = DB::select(DB::raw("SELECT DISTINCT hh.flag, hh.tglhasil, hh.tglcetak, pasiendaftar_t.noregistrasi, pp.norec,antrianpasiendiperiksa_t.objectruanganfk
+            FROM            pelayananpasien_t AS pp INNER JOIN
+                                    antrianpasiendiperiksa_t ON pp.noregistrasifk = antrianpasiendiperiksa_t.norec INNER JOIN
+                                    pasiendaftar_t ON antrianpasiendiperiksa_t.noregistrasifk = pasiendaftar_t.norec inner JOIN
+                                    hasillaboratorium_t AS hh ON hh.norecpelayanan = pp.norec
+                                    inner join pasien_m as ps on ps.id = pasiendaftar_t.nocmfk
+            WHERE        (ps.nocm = '$request->nocm') and antrianpasiendiperiksa_t.objectruanganfk='575'
+            order by pp.norec,hh.flag "));
+        } else {
+            $data = DB::select(DB::raw("SELECT DISTINCT hh.flag, hh.tglhasil, hh.tglcetak, pasiendaftar_t.noregistrasi, pp.norec,antrianpasiendiperiksa_t.objectruanganfk
+            FROM            pelayananpasien_t AS pp INNER JOIN
+                                    antrianpasiendiperiksa_t ON pp.noregistrasifk = antrianpasiendiperiksa_t.norec INNER JOIN
+                                    pasiendaftar_t ON antrianpasiendiperiksa_t.noregistrasifk = pasiendaftar_t.norec inner JOIN
+                                    hasillaboratorium_t AS hh ON hh.norecpelayanan = pp.norec
+            WHERE        (pasiendaftar_t.noregistrasi = '$request->noregistrasi') and antrianpasiendiperiksa_t.objectruanganfk='575'
+            order by pp.norec,hh.flag "));
+        }
+
 
         $dataTea = array(
             'data' => $data,

@@ -4976,5 +4976,55 @@ class GeneralController extends ApiController
         return $this->respond($result);
     }
 
+    public function getTindakanWithDetail(Request $request)
+    {
+        $kdProfile = (int) $this->getDataKdProfile($request);
+        $detail = \DB::table('detailjenisproduk_m')
+        ->select('id', 'detailjenisproduk')
+        // ->where('kdprofile', $kdProfile)
+        ->where('statusenabled', true)
+            ->get();
+        $data = \DB::table('mapruangantoproduk_m as mpr')
+        ->join('produk_m as prd', 'prd.id', '=', 'mpr.objectprodukfk')
+        ->select(
+            'mpr.objectprodukfk as id',
+            'prd.namaproduk',
+            'prd.objectdetailjenisprodukfk',
+            'mpr.objectruanganfk',
+            'prd.namaproduk'
+        )
+            // ->where('mpr.kdprofile', $kdProfile)
+            ->where('mpr.objectruanganfk', $request['idRuangan'])
+            ->where('mpr.statusenabled', true)
+            ->where('prd.statusenabled', true)
+            ->orderBy('prd.namaproduk', 'ASC')
+            ->get();
+        foreach ($detail as $key => $value) {
+            $value->details = [];
+        }
+        $i = 0;
+        foreach ($detail as $value) {
+            foreach ($data as $value2) {
+                if ($detail[$i]->id == $value2->objectdetailjenisprodukfk) {
+                    $detail[$i]->details[] = $value2; //array('namaproduk' =>  $value2->namaproduk, );
+                }
+            }
+            $i++;
+        }
+
+        for ($i = count($detail) - 1; $i >= 0; $i--) {
+            if (count($detail[$i]->details) == 0) {
+                array_splice($detail, $i, 1);
+            }
+        }
+        $result = array(
+            'data' => $data,
+            'details' => $detail,
+            'message' => 'ramdanegie',
+        );
+
+        return $this->respond($result);
+    }
+
 
 }

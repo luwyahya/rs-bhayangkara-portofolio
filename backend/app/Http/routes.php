@@ -3328,6 +3328,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-status-pekerjaan-simrs', 'SysAdmin\GeneralController@getStatusPekerjaanSIMRS');
                 Route::get('get-combo-pegawai-simrs', 'SysAdmin\GeneralController@getDataPegawaiGeneralSIMRS');
                 Route::get('get-combo-jabatan', 'SysAdmin\GeneralController@getComboJabatanPegawai');
+                Route::get('get-tindakan-with-details', 'SysAdmin\GeneralController@getTindakanWithDetail');
                 // GET //
 
                 // POST //
