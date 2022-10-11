@@ -359,17 +359,17 @@ trait PelayananPasienTrait
     }
     protected function getIdConsumerAntrol()
     {
-        $set = "28397";
+        $set = "15241";
         return $set;
     }
     protected function getPasswordConsumerAntrol()
     {
-        $set = "9gFF7F4096";
+        $set = "1pP469D661";
         return $set;
     }
     protected function getUserKeyAntrol()
     {
-        $set = "71bc7217d0984215df44db0f49a373a9";
+        $set = "49411b103d7802fc2cd065ad718350f2";
         return $set;
     }
     protected function getUserKeyVclaim()
@@ -384,8 +384,8 @@ trait PelayananPasienTrait
     }
     protected function getUrlBrigdingAntrol()
     {
-        $set = "https://apijkn-dev.bpjs-kesehatan.go.id/antreanrs_dev/"; //ini untuk devlp
-        // $set = "https://apijkn.bpjs-kesehatan.go.id/antreanrs/";
+        // $set = "https://apijkn-dev.bpjs-kesehatan.go.id/antreanrs_dev/"; //ini untuk devlp
+        $set = "https://apijkn.bpjs-kesehatan.go.id/antreanrs/";
         return $set;
     }
     protected function getPasswordConsumerBPJS()

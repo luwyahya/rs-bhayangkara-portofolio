@@ -99,6 +99,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-data-closing-jurnal', 'Akuntansi\AkuntansiController@SaveClosingJurnal');
             Route::post('save-batal-closing-jurnal', 'Akuntansi\AkuntansiController@SaveBatalClosingJurnal');
             Route::post('save-data-master-coa', 'Akuntansi\AkuntansiController@SaveDataChartOfAccount'); //done
+            Route::post('hapus-data-master-coa', 'Akuntansi\AkuntansiController@HapusDataChartOfAccount'); //done
             Route::post('save-bengkel-jurnal', 'Akuntansi\AkuntansiController@BengkelJurnal');
             Route::post('save-hapus-double-jurnal', 'Akuntansi\AkuntansiController@HapusDoubleJurnal');
             //            Route::post('save-jurnal-pembayaran_tagihan', 'Akuntansi\AkuntansiController@PostingJurnal_pembayaran_tagihan');
