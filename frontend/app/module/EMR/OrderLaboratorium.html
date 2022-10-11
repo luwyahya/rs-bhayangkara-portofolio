@@ -1,0 +1,434 @@
+<style type="text/css">
+     .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+	.red {
+		background-color: #EBB2A2;
+		color: #000000;
+		/*font-weight: bold;*/
+	}
+
+	.green {
+		background-color: #19DDE0;
+		color: #000000;
+		/*font-weight: bold;*/
+	}
+
+	.dark-red {
+		background-color: #e8a88b;
+		color: #000000;
+		/*font-weight: bold;*/
+	}
+    
+    .dark-green {
+        background-color: #17c1c4;
+		color: #000000;
+    }
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+
+    fieldset {
+        border: 1px solid #c8c8c8;
+        background-color: #ffffff;
+        color: #333333;
+    }
+
+    fieldset legend a {
+        padding: 0.571em 1em;
+        border: 1px solid #c8c8c8;
+        color: #333333;
+        background-color: #f4f4f4;
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        border-radius: 3px;
+        -moz-transition: background-color 0.2s;
+        -o-transition: background-color 0.2s;
+        -webkit-transition: background-color 0.2s;
+        transition: background-color 0.2s;
+    }
+
+    fieldset legend a .fieldset-toggler {
+        float: none;
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 0.5em;
+        color: #848484;
+    }
+
+    fieldset .fieldset-toggleable legend a:hover {
+        background-color: #dbdbdb;
+        border: 1px solid #dbdbdb;
+        color: #333333;
+    }
+
+    .warnaa {
+        color: #848484;
+    }
+
+    fieldset .fieldset-toggleable .fieldset-legend a:hover .fieldset-toggler {
+        color: #333333;
+    }
+
+    md-checkbox {
+        box-sizing: border-box;
+        display: inline-block;
+        margin-bottom: 0;
+        white-space: nowrap;
+        cursor: pointer;
+        outline: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        position: relative;
+        min-width: 20px;
+        min-height: 20px;
+        margin-left: 0;
+        margin-right: 10px;
+    }
+
+
+	.demo22:empty {
+    margin: auto;
+		width: 500px;
+		height: 200px; /* change height to see repeat-y behavior */
+    
+		background-image:
+				linear-gradient( lightgray 20px, transparent 0 ),
+			linear-gradient( 100deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5) 50%, rgba(255, 255, 255, 0) 80% ),
+			linear-gradient( lightgray 20px, transparent 0 ),
+			linear-gradient( lightgray 20px, transparent 0 ),
+			linear-gradient( lightgray 20px, transparent 0 ),
+			linear-gradient( lightgray 20px, transparent 0 );
+
+		background-repeat: repeat-y;
+
+		background-size:
+			50px 100px, /* circle */
+			50px 200px, /* highlight */
+			150px 200px,
+			350px 200px,
+			350px 200px,
+			350px 200px;
+
+		background-position:
+			0 0, /* circle */
+			0 0, /* highlight */
+			120px 0,
+			120px 40px,
+			120px 80px,
+			120px 120px;
+
+		animation: shine 1s infinite;
+	}
+
+	@keyframes shine {
+		to {
+			background-position:
+				0 0,
+				100% 0, /* move highlight to right */
+				120px 0,
+				120px 40px,
+				120px 80px,
+				120px 120px;
+		}
+	}
+</style>
+
+<div ng-show="dataVOloaded">
+
+    <div class="grid_12">
+
+        <div class="panel panel-default">
+            <div class="panel-heading" style="font-size: 18px;" c-translate>Order Penunjang Laboratorium</div>
+            <div class="grid_12" ng-show="inputOrder">
+
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <fieldset>
+                                <legend>Ruangan</legend>
+                                <div class="grid_12">
+                                    <div class="grid_6">
+                                        <label c-label item="model" c-label-text="tglOrder"></label>
+                                        <input style="width: 100%" k-ng-model="item.tglPelayanan" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                                    <div class="grid_6">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Ruangan Asal</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input c-text-box type="input" filter="" class="k-textbox"
+                                                ng-model="item.ruanganAsal" ng-disabled="true" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Ruangan Tujuan</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input kendo-combo-box k-ng-model="item.ruangantujuan"
+                                                k-data-text-field="'namaruangan'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false"
+                                                k-data-source="listRuanganTujuan"
+                                                k-on-change="getProduk(item.ruangantujuan)" />
+
+                                        </div>
+                                    </div>
+
+
+                                    <div class="grid_12" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Keterangan</label>
+                                        </div>
+                                        <div class="grid_12" style="margin-top: 5px;">
+                                            <textarea class="k-textbox" type="input" ng-model="item.keterangan"
+                                                maxlength="8000"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="grid_3" style="margin-top: 15px;">
+                                        <input type="checkbox" class="k-checkbox" id="iscito" ng-model="item.iscito"
+                                            ng-click="cekCito(item.iscito)">
+                                        <label class="k-checkbox-label" for="iscito"><b>Status Cito</b></label>
+                                    </div>
+
+                                    <div class="grid_4" style="margin-top: 15px;">
+                                        <input type="checkbox" class="k-checkbox" id="pemeriksaanKeluar"
+                                            ng-model="item.pemeriksaanKeluar"
+                                            ng-click="cekpemeriksaanKeluar(item.pemeriksaanKeluar)">
+                                        <label class="k-checkbox-label" for="pemeriksaanKeluar"><b>Pemeriksaan
+                                                Luar</b></label>
+                                    </div>
+                                    <div class="grid_3" style="margin-top: 15px;">
+                                        <input type="checkbox" class="k-checkbox" id="isPaket" ng-model="item.paket"
+                                            value="true" ng-click="cekPaket(item.paket)">
+                                        <label class="k-checkbox-label" for="isPaket"><b>Paket</b></label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <button class="btnTemplate1" ng-click="Simpan()" ng-hide="isSimpan"> <i
+                                        class="fa fa-save"></i>Simpan</button>
+                            </div>
+                            <div class="grid_3">
+                                <button class="btnTemplate1" ng-click="BatalOrder()"><i class="fa fa-refresh">
+                                    </i> Batal</button>
+                            </div>
+                            <div class="grid_3">
+                                <button class="btnTemplate1" ng-click="riwayat()"><i class="fa fa-list">
+                                    </i>Riwayat</button>
+                            </div>
+                            <div class="grid_3">
+                                <button class="btnTemplate1" ng-click="kembali()"><i
+                                        class="fa fa-arrow-left"></i>Kembali</button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="grid_8">
+                        <fieldset>
+                            <legend>Detail Pemeriksaan</legend>
+                            <div class="grid_12" ng-show="!listProdukCek.length > 0">
+                                <div class="demo22"></div>
+                            </div>
+                            <div class="grid_12" ng-show="listProdukCek.length > 0">
+                                <div class="grid_3">
+                                    <label c-label item="item">Filter Layanan</label>
+                                    <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.filterLayanan" />
+                                </div>
+                                <div class="grid_1">
+                                    <label c-label c-label-text=""></label>
+                                    <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button"
+                                        class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+                                            class="k-sprite k-icon k-i-cancel">Refresh</span></em>
+                                </div>
+                                <!-- <div class="grid_8" style="margin-top:25px;">
+                                    <label><b> {{pilihLayanan}}</b> Layanan terpilih </label>
+                                </div> -->
+                                <div class="grid_12" ng-repeat="list in listProdukCek | orderBy:'id'"
+                                    style="padding: 10px;">
+                                    <b>{{list.detailjenisproduk}}</b>
+                                    <div class="grid_12" style="padding-top: 5px;">
+                                        <div ng-repeat="jawab in list.details | orderBy:'namaproduk'">
+                                            <div class="grid_4">
+                                                <md-checkbox ng-model="item.layanan[jawab.id]"
+                                                    aria-label="{{jawab.namaproduk}}"  ng-click="getTotal(jawab,bool)">
+                                                    {{jawab.namaproduk}}
+                                                </md-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+            
+
+                </div>
+              
+            </div>
+            <div class="grid_12" ng-show="riwayatForm">
+                <br>
+                <div class="grid_12 headerBox">
+                    <p>Daftar Order Penunjang Laboratorium</p>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12 borderBox">
+                        <div id="kGrid" kendo-grid k-data-source="dataGridRiwayat" k-selectable="'row'"
+                            k-columns="columnGridRiwayat" k-pageable="'true'" k-sortable="'true'"
+                            k-ng-model="dataSelectedRiwayat">
+                            <div k-detail-template>
+                                <kendo-tabstrip>
+                                    <div>
+                                        <div kendo-grid k-options="detailGridOptions(dataItem)"></div>
+                                    </div>
+                                </kendo-tabstrip>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid_12">
+                    <div class="grid_6"></div>
+                    <div class="grid_2">
+
+                        <button class="btnTemplate1" ng-click="LihatHasil('LaboratoriumPasien.InputHasilKlinik')"> <i
+                                class="fa fa-heartbeat"></i>Lihat
+                            Hasil</button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="newOrder()"><i class="fa fa-refresh"></i>Order
+                            Baru</button>
+                    </div>
+                    <div class="grid_1">
+                        <button class="btnTemplate1 cancel" ng-click="hapusOrder()"><i
+                                class="fa fa-trash"></i>Hapus</button>
+                    </div>
+                    <div class="grid_1">
+                        <button class="btnTemplate1" is-back><i class="fa fa-arrow-left"></i>Kembali</button>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12 headerBox">
+                        <div class="panel-heading" style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil Laboratorium
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12 borderBox">
+                
+                        <kendo-grid data-source="dataGridLab" options="columnGridLab" style="width: auto;" k-sortable="'true'"
+                            k-groupable="true"></kendo-grid>
+                        <!-- <div id="kGrid" kendo-grid k-data-source="dataGridLab" k-selectable="'row'"
+                                            k-columns="columnGridLab" k-pageable="'true'" k-sortable="'true'"> -->
+                    </div>
+                </div>
+                 
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div kendo-window="popUpPaket" k-title="'Paket'" k-width="1000" k-visible="false" k-on-close="customClicked()">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+
+        <fieldset class="effect-shadow" style=" border-radius: 4px;margin-top:10px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Daftar Paket Tindakan</a>
+            </legend>
+            <div class="grid_12">
+
+                <div class="grid_12" style="margin-top: 10px">
+
+                    <div class="grid_6">
+                        <div class="grid_12">
+                            <label c-label item="item" c-label-text="Nama Paket"></label>
+                        </div>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="paket.namaPaket" />
+                        </div>
+                    </div>
+
+                    <div class="grid_1">
+                        <label c-label c-label-text=""></label>
+
+                        <em style="margin-top:6px;" ng-click='resetFilterPaket()' id="iconButton" data-role="button"
+                            class="k-button k-button-icon k-primary" role="button" aria-disabled="false"
+                            tabindex="0"><span class="k-sprite k-icon k-i-cancel"></span></em>
+
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 10px">
+                <div id="gridPaket" kendo-grid k-data-source="sourcePaket" k-selectable="'row'" k-pageable="'true'"
+                    options="optionsPaket" k-ng-model="dataPaketSelect" ng-click="klikPaket(dataPaketSelect)">
+                    <div k-detail-template>
+                        <kendo-tabstrip>
+                            <div>
+                                <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
+                                    k-selectable="'row'">
+                                </div>
+                            </div>
+                        </kendo-tabstrip>
+                    </div>
+                </div>
+            </div>
+
+
+        </fieldset>
+        <div class="grid_12">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <img ng-show="loading" style="margin-top:10px"
+                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+
+                <button class="k-button k-primary  k-button-icontext" ng-click="tambahPaket()"><span
+                        class="k-icon fa fa-edit"></span>Tambah</button>
+                <button class="k-button  btnHapus k-button-icontext" ng-click="tutupPaket()"><span
+                        class="k-icon k-cancel"></span>Tutup</button>
+            </div>
+        </div>
+    </div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+</div>

@@ -1105,6 +1105,50 @@
             }
         ]
     },
+        {
+        "name": "RekamMedis.OrderLaboratorium",
+        "url": "/OrderLaboratorium",
+        "templateurl": "module/EMR/OrderLaboratorium.html",
+        "controller": "OrderLaboratoriumCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            }
+        ]
+    },
+      {
+        "name": "RekamMedis.OrderRadiologi",
+        "url": "/OrderRadiologi",
+        "templateurl": "module/EMR/OrderRadiologi.html",
+        "controller": "OrderRadiologiCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            },
+            {
+                "define": "RekamMedisCtrl"
+            }
+        ]
+    },
     {
         "name": "DaftarPasienMasihDirawat",
         "url": "/RGFmdGFyUGFzaWVuTWFzaWhEaXJhd2F0",

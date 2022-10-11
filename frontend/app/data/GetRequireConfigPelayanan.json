@@ -19,6 +19,17 @@
             "nameDep": "RegistrasiPasienBaruLangsungCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienBaruLangsungCtrl"
         },
+        
+        {
+            "nameDep": "OrderLaboratoriumCtrl",
+            "urlDep": "module/EMR/OrderLaboratoriumCtrl"
+        },
+        
+        {
+            "nameDep": "OrderRadiologiCtrl",
+            "urlDep": "module/EMR/OrderRadiologiCtrl"
+        },
+        
         {
             "nameDep": "RegistrasiPasienLamaCtrl",
             "urlDep": "module/Registrasi/RegistrasiPasienLamaCtrl"
