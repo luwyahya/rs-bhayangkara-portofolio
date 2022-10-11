@@ -577,18 +577,9 @@ define(['initialize'], function (initialize) {
 
                 var objSave =
                 {
-                    "id": idCoa,
-                    "statusenabled": $scope.item.statusenabled.id == 1 ? true : false,
-                    "objectjenisaccountfk": objectjenisaccountfk,
-                    "objectkategoryaccountfk": objectkategoryaccountfk,
-                    "objectstatusaccountfk": objectstatusaccountfk,
-                    "objectstrukturaccountfk": objectstrukturaccountfk,
-                    "kdaccount": $scope.item.noakun,
-                    "namaaccount": $scope.item.namaAkun,
-                    "saldonormaladd": $scope.item.saldoAdd.saldo,
-                    "saldonormalmin": $scope.item.saldoMin.saldo,
+                    "id": idCoa
                 }
-                medifirstService.post('akuntansi/save-data-master-coa', objSave).then(function (e) {
+                medifirstService.post('akuntansi/hapus-data-master-coa', objSave).then(function (e) {
                     init()
                     $scope.Batal()
                 })

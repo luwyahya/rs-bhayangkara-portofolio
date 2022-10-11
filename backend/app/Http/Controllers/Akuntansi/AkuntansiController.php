@@ -1275,6 +1275,7 @@ class AkuntansiController extends ApiController{
             ->leftJOIN('strukturaccount_m as sta','sta.id','=','coa.objectstrukturaccountfk')
             ->JOIN('suratkeputusan_m as sk','sk.id','=','coa.suratkeputusanfk')
             ->where('sk.statusenabled','=',1)
+            ->where('coa.statusenabled','=',1)
             ->orderBy('coa.noaccount');
 
 
@@ -1344,6 +1345,43 @@ class AkuntansiController extends ApiController{
             $result = array(
                 "status" => 400,
 //                "data" => $newPJT,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
+    public function HapusDataChartOfAccount(Request $request) {
+        DB::beginTransaction();
+        $dataLogin = $request->all();
+        
+        try {
+            if ($request['id'] != ''){
+                $data = ChartOfAccount::where('id', $request['id'])
+                ->update([
+                    'statusenabled' => false
+                ]);
+            }
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+        $transMessage = "";
+
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . " Berhasil" ;
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
                 "as" => 'as@epic',
             );
         }
