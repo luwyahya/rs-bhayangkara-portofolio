@@ -1304,6 +1304,7 @@ class AkuntansiController extends ApiController{
                 $newCOA->kdprofile = 1;
                 $newCOA->norec = $norecHead;
                 $newCOA->qaccount = $newID;
+                $newCOA->suratkeputusanfk = 3157;
             }else{
 
                 $newCOA =  ChartOfAccount::where('id',$request['id'])->first();

@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4_Landscape_5" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="63ba2d7d-2e6b-4800-9b68-73f14b756577">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="tglawal" class="java.lang.String"/>
 	<parameter name="tglakhir" class="java.lang.String"/>
 	<parameter name="kondisi" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[SELECT        distinct noregistrasi, nokirim, qtykirim, keteranganlainnyakirim, cc, volume, tglregistrasi, tgllahir, tgllahirnew, namapasien, nocm, ruanganasal2, jeniswaktu, jenisdiet,jenisdiet1,jenisdiet2, qtyproduk, namakelas, kategorydiet, tglorder, jammakan, keterangan, 
+		<![CDATA[SELECT        distinct noregistrasi, nokirim, qtykirim, keteranganlainnyakirim, cc, volume, tglregistrasi, tgllahir, tgllahirnew, namapasien, nocm, ruanganasal2, jenisdiet,jenisdiet1,jenisdiet2, qtyproduk, namakelas, kategorydiet, tglorder, jammakan, keterangan, 
                          diagnosa, jeniskelamin, norec, umur
 FROM            v_labelgizi 
 where  $P!{kondisi}
 order by ruanganasal2]]>
 	</queryString>
 	<field name="tglorder" class="java.lang.String">
-		<property name="property.name" value="value"/>
-	</field>
-	<field name="jeniswaktu" class="java.lang.String">
 		<property name="property.name" value="value"/>
 	</field>
 	<field name="nocm" class="java.lang.String">
@@ -46,6 +43,9 @@ order by ruanganasal2]]>
 		<property name="property.name" value="value"/>
 	</field>
 	<field name="diagnosa" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jammakan" class="java.lang.String">
 		<property name="property.name" value="value"/>
 	</field>
 	<variable name="norurut" class="java.lang.Integer" calculation="Count">
@@ -230,7 +230,7 @@ order by ruanganasal2]]>
 				<textElement>
 					<font size="6"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{jeniswaktu}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{jammakan}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="176" y="-1" width="46" height="11" uuid="09287f7c-8301-4bcc-a1dd-7b247c8723c0">

@@ -557,7 +557,7 @@ define(['initialize'], function (initialize) {
                     "width": "80px",
                 },
                 {
-                    "field": "nobed",
+                    "field": "namaexternal",
                     "title": "No Bed Ruangan",
                     "width": "80px",
                 },
@@ -1397,6 +1397,12 @@ define(['initialize'], function (initialize) {
                             win.focus();
                         }
                     }
+
+                    // if (window.location.hostname.indexOf('localhost') > -1) {
+                    //     xhr.open('POST', 'http://127.0.0.1:1237/generic/report/labelGizi.pdf');
+                    // } else  {
+                    //     xhr.open('POST', '/jasper1/generic/report/labelGizi.pdf');
+                    // }
 
                     if (window.location.hostname.indexOf('192.168.0.62') > -1) {
                         xhr.open('POST', 'http://192.168.0.62:1002/generic/report/labelGizi.pdf');

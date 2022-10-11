@@ -8641,6 +8641,7 @@ class TagihanController  extends ApiController
             ->select(
                 'pd.norec',
                 'pd.noregistrasi',
+                'pd.objectstatus',
                 'pd.tglpulang',
                 'pd.nostruklastfk',
                 'pd.nosbmlastfk',
