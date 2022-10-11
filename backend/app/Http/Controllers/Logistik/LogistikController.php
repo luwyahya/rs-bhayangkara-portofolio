@@ -14970,7 +14970,7 @@ class LogistikController extends ApiController
             $data = $data->where('ru2.id', '=', $request['ruangantujuanfk']);
         }
         if (isset($request['namaproduk']) && $request['namaproduk'] != "" && $request['namaproduk'] != "undefined") {
-            $data = $data->where('pr.namaproduk', 'ilike', '%' . $request['namaproduk']);
+            $data = $data->where('pr.namaproduk', 'ilike', '%' . $request['namaproduk'] . '%');
         }
 
         if (isset($request['jenisProduk']) && $request['jenisProduk'] != "" && $request['jenisProduk'] != "undefined") {
