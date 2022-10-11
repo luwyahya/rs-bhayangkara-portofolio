@@ -367,3 +367,15 @@
 
     </div>
 </div>
+<div kendo-window="popupPassword" k-title="'Password'" k-width="400" k-height="200" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="grid_12">
+        <div class="grid_12">
+            <label c-label item="item ">Password</label>
+        </div>
+        <div class="grid_12">
+            <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password" />
+        </div>
+    </div>
+    <button class="k-button" ng-click="HapusCoa()" style="float:right;margin-top:4%">Hapus</button>
+</div>

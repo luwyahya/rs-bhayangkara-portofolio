@@ -9,6 +9,7 @@ define(['initialize'], function (initialize) {
             var pegawaiUser = {}
             LoadCache();
             loadCombo();
+            $scope.item.pegawaiLogin = medifirstService.getPegawaiLogin();
 
             function LoadCache() {
                 init();
@@ -533,6 +534,20 @@ define(['initialize'], function (initialize) {
             }
             $scope.Hapus = function () {
                 var idCoa = ''
+                if ($scope.item.id != undefined) {
+                    idCoa = $scope.item.id
+                } else {
+                    toastr.error('Grid Belum Diklik')
+                    return
+                }
+                $scope.popupPassword.center().open()
+            }
+            $scope.HapusCoa = function () {
+                if ($scope.item.password != "donatelo") {
+                    toastr.error("Password Salah!")
+                    return;
+                }
+                var idCoa = ''
                 if ($scope.item.id != undefined)
                     idCoa = $scope.item.id
 
@@ -580,8 +595,20 @@ define(['initialize'], function (initialize) {
                     "id": idCoa
                 }
                 medifirstService.post('akuntansi/hapus-data-master-coa', objSave).then(function (e) {
+                    $scope.saveLogging('Hapus Acount COA', 'id COA',
+                        idCoa, 'Dihapus Oleh ' + $scope.item.pegawaiLogin.id)
                     init()
                     $scope.Batal()
+                    $scope.popupPassword.close()
+                })
+            }
+            $scope.saveLogging = function (jenis, referensi, noreff, ket) {
+                medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis +
+                    "&referensi=" + referensi +
+                    "&noreff=" + noreff +
+                    "&keterangan=" + ket
+                ).then(function (data) {
+
                 })
             }
             //***********************************

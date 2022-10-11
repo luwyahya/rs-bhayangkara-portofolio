@@ -1275,7 +1275,7 @@ class AkuntansiController extends ApiController{
             ->leftJOIN('strukturaccount_m as sta','sta.id','=','coa.objectstrukturaccountfk')
             ->JOIN('suratkeputusan_m as sk','sk.id','=','coa.suratkeputusanfk')
             ->where('sk.statusenabled','=',1)
-            ->where('coa.statusenabled','=',1)
+            // ->where('coa.statusenabled','=',1)
             ->orderBy('coa.noaccount');
 
 
