@@ -12528,7 +12528,35 @@ class TagihanController  extends ApiController
         }
 
 
-        $data = DB::select(DB::raw("select * from  V_DaftarPasienPulangBelumTutupFaktur where tglregistrasi  between '$tglAwal' and '$tglAkhir'
+        $data = DB::select(DB::raw("select * from(SELECT DISTINCT 0 AS no,
+                    pasien_m.nocm,
+                    pasiendaftar_t.isclosing,
+                    pasien_m.namapasien,
+                    pasiendaftar_t.tglregistrasi,
+                    pasiendaftar_t.tglpulang,
+                    pasiendaftar_t.noregistrasi,
+                    ruangan_m.namaruangan,
+                    pasiendaftar_t.statuspasien,
+                    statuspulang_m.statuspulang,
+                    pasiendaftar_t.objectstatuspulangfk,
+                    pasiendaftar_t.objectrekananfk,
+                    pasiendaftar_t.objectkelompokpasienlastfk,
+                    ruangan_m.objectdepartemenfk,
+                        CASE
+                            WHEN pasiendaftar_t.isclosing IS NULL THEN 'Belum Tutup Faktur'::text
+                            ELSE 'Belum Tutup Faktur'::text
+                        END AS tutupfaktur,
+                    rekanan_m.namarekanan,
+                    kelompokpasien_m.kelompokpasien,
+                    pasiendaftar_t.objectruanganlastfk
+                   FROM pasiendaftar_t
+                     LEFT JOIN ruangan_m ON ruangan_m.id = pasiendaftar_t.objectruanganlastfk
+                     LEFT JOIN pasien_m ON pasiendaftar_t.nocmfk = pasien_m.id
+                     LEFT JOIN kelas_m ON pasiendaftar_t.objectkelasfk = kelas_m.id
+                     LEFT JOIN rekanan_m ON pasiendaftar_t.objectrekananfk = rekanan_m.id
+                     LEFT JOIN kelompokpasien_m ON pasiendaftar_t.objectkelompokpasienlastfk = kelompokpasien_m.id
+                     LEFT JOIN statuspulang_m ON pasiendaftar_t.objectstatuspulangfk = statuspulang_m.id
+                  WHERE pasiendaftar_t.tglpulang IS NOT NULL AND pasiendaftar_t.isclosing IS NULL) as datas where tglregistrasi  between '$tglAwal' and '$tglAkhir'
                 $paramDep 
                 $paramRuangan  
                 $paramRekanan
