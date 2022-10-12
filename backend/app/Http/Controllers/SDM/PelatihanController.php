@@ -338,8 +338,7 @@ class PelatihanController extends ApiController {
         $jeniskelamin = JenisKelamin::where('statusenabled',true)->get();
         $narasumber = Narasumber::where('statusenabled',true)->get();
         $UnitKerja = UnitKerjaPegawai::where('statusenabled',true)->get();
-        $RuanganPelatihan = Ruangan::where('id',222)
-                            ->where('statusenabled', true)
+        $RuanganPelatihan = Pelatihan::where('statusenabled', true)
                             ->get();
 
         $dataLoginFull = \DB::table('mappegawaijabatantounitkerja_m as mp')
