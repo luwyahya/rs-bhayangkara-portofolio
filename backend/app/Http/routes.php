@@ -3104,6 +3104,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-pelaksanaan-pelatihan', 'SDM\PelatihanController@GetDaftarPelaksanaanPelatihan');
                 Route::get('get-data-detail-evaluasi-penyelenggara', 'SDM\PelatihanController@getDetailEvaluasiPenyelenggara');
                 Route::get('get-detail-evaluasi-narasumber-kompetensi', 'SDM\PelatihanController@getDetailEvaluasiNarasumber');
+                Route::get('get-penyelengara-kategory', 'SDM\PelatihanController@getPenyelenggaraKategory');
                 Route::get('get-daftar-evaluasi-penyelenggara', 'SDM\PelatihanController@getDaftarEvaluasiPenyelenggara');
                 Route::get('get-daftar-evaluasi-narasumber', 'SDM\PelatihanController@getDaftarEvaluasiNarasumber');
                 Route::get('get-daftar-narasumber', 'SDM\PelatihanController@getDataNarasumber');
@@ -3125,6 +3126,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('delete-data-pelatihan', 'SDM\SumberDayaManusiaController@deleteDataPelatihan');
                 Route::post('hapus-evaluasi-penyelenggara', 'SDM\PelatihanController@hapusDataEvaluasiPenyelenggara');
                 Route::post('hapus-evaluasi-narasumber', 'SDM\PelatihanController@hapusDataEvaluasiNarasumberKompetensi');
+                Route::post('save-daftar-penyelenggara-kategory', 'SDM\PelatihanController@savePenyelenggaraKategory');
                 Route::post('save-data-narasumber', 'SDM\PelatihanController@saveDataNarasumber');
                 Route::post('hapus-data-narasumber', 'SDM\PelatihanController@hapusNarasumber');
                 /*END POST*/

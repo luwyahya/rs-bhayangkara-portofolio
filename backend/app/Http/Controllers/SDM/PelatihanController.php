@@ -30,6 +30,7 @@ use App\Transaksi\EvaluasiPenyelenggara;
 use App\Transaksi\EvaluasiPenyelenggaraDetail;
 use App\Transaksi\IndikatorRensar;
 use App\Transaksi\LoggingUser;
+use App\Master\Pelatihan;
 use App\Transaksi\MonitoringPengajuanPelatihan;
 use App\Transaksi\MonitoringPengajuanPelatihanDetail;
 use App\Transaksi\PelatihanJPL;
@@ -2383,6 +2384,57 @@ class PelatihanController extends ApiController {
                 'NorecEvaluasi' => $idPP,
                 'message'  => $transStatus,
                 'as' => 'ea@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+     public function getPenyelenggaraKategory(Request $request){
+        $data = Pelatihan::all();
+
+        return $this->respond($data);
+    }
+    public function savePenyelenggaraKategory(Request $request){
+        DB::beginTransaction();
+        try{
+            $newId = Pelatihan::max('id') +1 ;
+            if ($request['id'] == ''){
+
+                $pelatihan = new Pelatihan();
+                $pelatihan->id = $newId;
+                $pelatihan->kdprofile = 0;
+                $pelatihan->norec = $pelatihan->generateNewId();
+            }else{
+                $pelatihan = Pelatihan::where('id', $request['id'])->first();
+            }
+            $pelatihan->statusenabled =  $request['statusenabled'];
+            $pelatihan->kodeexternal = $newId;
+            $pelatihan->namaexternal = $request['institusipelatihan'];
+            $pelatihan->institusipelatihan = $request['institusipelatihan'];
+            $pelatihan->id = $newId;
+            $pelatihan->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Penyelenggara Kategory";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'result' => $pelatihan,
+                'as' => 'asepic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'asepic',
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
