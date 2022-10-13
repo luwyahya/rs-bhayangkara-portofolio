@@ -447,6 +447,12 @@
                                     k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'"
                                     k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisTransaksi" />
                             </div>
+                            <div class="grid_3">
+                                <label name="produk" c-label item="item" c-label-text="Mata Anggaran"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.mataAnggaran"
+                                    k-data-text-field="'namamataanggaran'" k-data-value-field="'id'"
+                                    k-filter="'contains'" k-auto-bind="false" k-data-source="listMataAnggaran" />
+                            </div>
                         </div>
                         <fieldset class="effect-shadow" style=" border-radius: 4px;background-color: aqua;">
                             <legend id="filterData">

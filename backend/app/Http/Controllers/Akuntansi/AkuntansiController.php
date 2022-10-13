@@ -1316,6 +1316,7 @@ class AkuntansiController extends ApiController{
             $newCOA->objectdepartemenfk = $request['objectdepartemenfk'];
             $newCOA->objectruanganfk = $request['objectruanganfk'];
             $newCOA->objectkelompoktransaksifk = $request['objectkelompoktransaksifk'];
+            $newCOA->objectmataanggaranfk = $request['objectmataanggaranfk'];
             $newCOA->save();
 
 

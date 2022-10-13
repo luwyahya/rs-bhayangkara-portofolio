@@ -48,7 +48,7 @@ define(['initialize'], function (initialize) {
                 medifirstService.get("bendaharapenerimaan/get-data-combo?keterangan=Penerimaan BP")
                     .then(function (dat) {
                         $scope.listJenisTransaksi = dat.data.kelompoktransaksi;
-
+                        $scope.listMataAnggaran = dat.data.mastreMataAnggaran;
                     });
             }
             $scope.getIsiComboRuangan = function () {
@@ -1166,6 +1166,7 @@ define(['initialize'], function (initialize) {
                 var kdInstalasi = null
                 var kdRuangan = null
                 var kdKelompokTransaksi = null
+                var kdMataAnggaran = null
                 if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit === '') {
                     toastr.error('Account Debit Belum Di Pilih', 'Peringatan');
                     return;
@@ -1199,6 +1200,10 @@ define(['initialize'], function (initialize) {
                     kdKelompokTransaksi = $scope.item.jenisTransaksi.kelompoktransaksifk
                 }
 
+                if ($scope.item.mataAnggaran != undefined && $scope.item.mataAnggaran != '') {
+                    kdMataAnggaran = $scope.item.mataAnggaran.id
+                }
+
                 var objSave =
                 {
                     id: "",
@@ -1209,6 +1214,7 @@ define(['initialize'], function (initialize) {
                     objectdepartemenfk: kdInstalasi,
                     objectruanganfk: kdRuangan,
                     objectkelompoktransaksifk: kdKelompokTransaksi,
+                    objectmataanggaranfk: kdMataAnggaran,
                 }
 
                 medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {

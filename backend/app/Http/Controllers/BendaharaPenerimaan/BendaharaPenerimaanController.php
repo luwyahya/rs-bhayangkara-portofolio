@@ -82,6 +82,12 @@ class BendaharaPenerimaanController extends ApiController {
             ->orderBy('m.mataanggaran')
             ->get();
 
+        $mastreMataAnggaran= \DB::table('mataanggaran_m as m')
+            ->select('m.namamataanggaran','m.id')
+            ->where('m.statusenabled',true)
+            ->orderBy('m.namamataanggaran')
+            ->get();
+
         $caraBayar = \DB::table('carabayar_m')
             ->select('id','carabayar as caraBayar','carabayar as namaExternal')
             ->where('statusenabled',true)
@@ -118,6 +124,7 @@ class BendaharaPenerimaanController extends ApiController {
             'listbankaccount' => $listBankAccount,
             'asalproduk'=>$asalProduk,
             'ruangan'=>$Ruangan,
+            'mastreMataAnggaran'=>$mastreMataAnggaran,
             'message' => 'inhuman',
         );
         return $this->respond($result);
