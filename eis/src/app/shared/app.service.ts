@@ -47,9 +47,9 @@ export class AppService {
       this.urlLogin = 'http://10.10.20.167:8000/service/medifirst2000/auth/sign-in';
       this.urlLogout = 'http://10.10.20.167:8000/service/medifirst2000/auth/sign-out';
     }  else {
-      this.urlPrefix = 'http://10.8.8.8/service/medifirst2000/';
-      this.urlLogin = 'http://10.8.8.8/service/medifirst2000/auth/sign-in';
-      this.urlLogout = 'http://10.8.8.8/service/medifirst2000/auth/sign-out';
+      this.urlPrefix = '/service/medifirst2000/';
+      this.urlLogin = '/service/medifirst2000/auth/sign-in';
+      this.urlLogout = '/service/medifirst2000/auth/sign-out';
     }
   }
 
