@@ -818,7 +818,7 @@ define(['initialize'], function (initialize) {
                     // },
                 },
                 {
-                    "title": "<h3 align=center>" + $scope.getBulan() + "<h3>",
+                    "title": "<h3 align=center>" + $scope.getBulan2() + "<h3>",
                     "columns": $scope.createColumn222(),
                     "filterable": false,
                     attributes: {
@@ -1017,7 +1017,7 @@ define(['initialize'], function (initialize) {
                     // },
                 },
                 {
-                    "title": $scope.getBulan(),
+                    "title": $scope.getBulan2(),
                     "columns": $scope.createColumn2222(),
                     "filterable": false,
                     attributes: {
@@ -1558,6 +1558,10 @@ define(['initialize'], function (initialize) {
                 $scope.bulanString = moment($scope.item.bulan).format("MMMM YYYY")
                 return $scope.bulanString;
             }
+            $scope.getBulan2 = function () {
+                $scope.bulanString = moment($scope.item2.bulan).format("MMMM YYYY")
+                return $scope.bulanString;
+            }
 
             function getHeader() {
                 var kolomTitle = "Capaian : " + DateHelper.getBulanFormatted(new Date($scope.item.bulan));
@@ -1705,7 +1709,15 @@ define(['initialize'], function (initialize) {
                             if (colDateIdx <= 31) {
                                 var date = dateHelper.getFormatMonthPicker($scope.item.bulan) + "-" + Tglset //$scope.selectedData.listTgl
                             }
-                            $scope.pushKeArray($scope.selectedData.no, norecSasaran, $scope.selectedData.id, $scope.selectedData.indikator, $scope.selectedData.listTgl, date, e.currentTarget.innerText, num, denum, capaian, $scope.selectedData.keterangan, $scope.selectedData.numeratordenominator);
+                            var date2 = null;
+                                let jam = new Date().getHours();
+                                let menit = new Date().getMinutes();
+                                let detik = new Date().getSeconds();
+                                debugger
+                                if (colDateIdx <= 31) {
+                                    var date2 = dateHelper.getFormatMonthPicker($scope.item2.bulan) + "-" + Tglset +" "+jam+":"+menit+":"+detik //$scope.selectedData.listTgl
+                                }
+                            $scope.pushKeArray($scope.selectedData.no, norecSasaran, $scope.selectedData.id, $scope.selectedData.indikator, $scope.selectedData.listTgl, date, date2, e.currentTarget.innerText, num, denum, capaian, $scope.selectedData.keterangan, $scope.selectedData.numeratordenominator);
                         }
                     }
                 });
@@ -1794,7 +1806,15 @@ define(['initialize'], function (initialize) {
                                 if (colDateIdx <= 31) {
                                     var date = dateHelper.getFormatMonthPicker($scope.item.bulan) + "-" + Tglset //$scope.selectedData.listTgl
                                 }
-                                $scope.pushKeArray($scope.selectedData.no, norecSasaran, $scope.selectedData.id, $scope.selectedData.indikator, $scope.selectedData.listTgl, date, e.currentTarget.innerText, num, denum, capaian, $scope.selectedData.keterangan, $scope.selectedData.numeratordenominator);
+                                var date2 = null;
+                                let jam = new Date().getHours();
+                                let menit = new Date().getMinutes();
+                                let detik = new Date().getSeconds();
+                                debugger
+                                if (colDateIdx <= 31) {
+                                    var date2 = dateHelper.getFormatMonthPicker($scope.item2.bulan) + "-" + Tglset +" "+jam+":"+menit+":"+detik //$scope.selectedData.listTgl
+                                }
+                                $scope.pushKeArray($scope.selectedData.no, norecSasaran, $scope.selectedData.id, $scope.selectedData.indikator, $scope.selectedData.listTgl, date, date2, e.currentTarget.innerText, num, denum, capaian, $scope.selectedData.keterangan, $scope.selectedData.numeratordenominator);
                             }
                         }
                     });
@@ -1860,7 +1880,7 @@ define(['initialize'], function (initialize) {
                 })
             }
 
-            $scope.pushKeArray = function (no, norec, id, indikator, list, date, isi, num, denum, capaian, keterangan, ND) {
+            $scope.pushKeArray = function (no, norec, id, indikator, list, date, date2, isi, num, denum, capaian, keterangan, ND) {
                 for (let i = 0; i < arrGroup.length; i++) {
                     const element = arrGroup[i];
                     if (isi == '') {
@@ -1892,8 +1912,8 @@ define(['initialize'], function (initialize) {
                                 'indikatorfk': id,
                                 'norecSasaran': norec,
                                 'isi': isi,
-                                'tglnilai': date,
-                                'tgl': date,
+                                'tglnilai': date2,
+                                'tgl': date2,
                                 'num': num,
                                 'denum': denum,
                                 'capaian': capaian,

@@ -3395,7 +3395,7 @@ class PMKPController extends ApiController
         $dataSatu = \DB::table('sasaranmutu_t as sm')
             ->join('indikatorrensar_m as ir','ir.id','=','sm.indikatorfk')
             ->join('ruanganindikatorrensar_t as ri','ri.indikatorrensarfk','=','ir.id')
-            ->select(DB::raw("distinct sm.tglnilai, sm.tgl, CASE WHEN sm.keterangan = 'DENUM' THEN SUM(CAST(sm.nilai AS INT)) ELSE 0 END AS nilai, sm.num, sm.denum, sm.capaian, ir.denominator as keterangan, ir.indikator, ir.denominator, ir.numerator,'DENUM' as ND,ir.nourut, CASE WHEN ir.otomatisdenum::integer=1 THEN 'Y' ELSE 'N' END AS flag, ir.id as ind_id"))
+            ->select(DB::raw("distinct sm.tglnilai, sm.tgl, CASE WHEN sm.keterangan = 'DENUM' THEN SUM(CAST(sm.nilai AS INT)) ELSE 0 END AS datas, sm.nilai, sm.num, sm.denum, sm.capaian, ir.denominator as keterangan, ir.indikator, ir.denominator, ir.numerator,'DENUM' as ND,ir.nourut, CASE WHEN ir.otomatisdenum::integer=1 THEN 'Y' ELSE 'N' END AS flag, ir.id as ind_id"))
             ->where('ir.statusenabled', true)
             ->whereNotNull('sm.ruanganfk')
             ->whereNotNull('ir.nourut');
@@ -3429,12 +3429,12 @@ class PMKPController extends ApiController
             $dataSatu = $dataSatu->where('ir.keteranganmaster','=', 2);
         }
 
-        $dataSatu = $dataSatu->groupBy('sm.tglnilai', 'sm.tgl', 'sm.keterangan', 'sm.num', 'sm.denum', 'sm.capaian', 'ir.numerator', 'ir.indikator', 'ir.denominator', 'ir.numerator', 'ir.nourut', 'ir.otomatisdenum', 'ir.id');
+        $dataSatu = $dataSatu->groupBy('sm.tglnilai','sm.nilai', 'sm.tgl', 'sm.keterangan', 'sm.num', 'sm.denum', 'sm.capaian', 'ir.numerator', 'ir.indikator', 'ir.denominator', 'ir.numerator', 'ir.nourut', 'ir.otomatisdenum', 'ir.id');
         // $dataSatu = $dataSatu->groupby('sm.tglnilai', 'sm.tgl', 'sm.num', 'sm.denum', 'sm.capaian', 'sm.keterangan', 'ir.indikator', 'ir.denominator', 'ir.numerator','ir.nourut');
         $data = \DB::table('sasaranmutu_t as sm')
             ->join('indikatorrensar_m as ir','ir.id','=','sm.indikatorfk')
             ->join('ruanganindikatorrensar_t as ri','ri.indikatorrensarfk','=','ir.id')
-            ->select(DB::raw("distinct sm.tglnilai, sm.tgl, CASE WHEN sm.keterangan = 'NUM' THEN SUM(CAST(sm.nilai AS INT)) ELSE 0 END AS nilai, sm.num, sm.denum, sm.capaian, ir.numerator as keterangan, ir.indikator, ir.denominator, ir.numerator,'NUM' as ND,ir.nourut, CASE WHEN ir.otomatisnum::integer =1 THEN 'Y' ELSE 'N' END AS flag, ir.id as ind_id"))
+            ->select(DB::raw("distinct sm.tglnilai, sm.tgl, CASE WHEN sm.keterangan = 'NUM' THEN SUM(CAST(sm.nilai AS INT)) ELSE 0 END AS datas, sm.nilai, sm.num, sm.denum, sm.capaian, ir.numerator as keterangan, ir.indikator, ir.denominator, ir.numerator,'NUM' as ND,ir.nourut, CASE WHEN ir.otomatisnum::integer =1 THEN 'Y' ELSE 'N' END AS flag, ir.id as ind_id"))
             ->where('ir.statusenabled', true)
             ->whereNotNull('sm.ruanganfk')
             ->whereNotNull('ir.nourut')
@@ -3476,9 +3476,10 @@ class PMKPController extends ApiController
             $data = $data->where('ir.keteranganmaster','=', 2);
         }
 
-        $data = $data->groupBy('sm.tglnilai', 'sm.tgl', 'sm.keterangan', 'sm.num', 'sm.denum', 'sm.capaian', 'ir.numerator', 'ir.indikator', 'ir.denominator', 'ir.numerator', 'ir.nourut', 'ir.otomatisnum', 'ir.id');
+        $data = $data->groupBy('sm.tglnilai','sm.nilai', 'sm.tgl', 'sm.keterangan', 'sm.num', 'sm.denum', 'sm.capaian', 'ir.numerator', 'ir.indikator', 'ir.denominator', 'ir.numerator', 'ir.nourut', 'ir.otomatisnum', 'ir.id');
         // $data = $data->groupby('sm.tglnilai', 'sm.tgl', 'sm.num', 'sm.denum', 'sm.capaian', 'sm.keterangan', 'ir.indikator', 'ir.denominator', 'ir.numerator','ir.nourut');
         $data = $data->orderBy('nourut','asc');
+        $data = $data->orderBy('tglnilai','asc');
         // $data = $data->orderBy('ND','desc');
         //        $data = $data->distinct();
         // $data = $data->orderBy('sm.indikatorfk' ,'asc');
