@@ -1,0 +1,414 @@
+<section class="content-header">
+  <h1>
+    Persediaan
+    <small>{{now |date}}</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="/dashboad-pendapatan"><i class="fa fa-home"></i>Dashboard Persediaan</a></li>
+    <!-- <li class="active">Dashboard</li> -->
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <mk-box header="Pemakaian Obat " styleClass="box" boxColor="#00a65a" headerStyleClass="box-header">
+        <div class="ui-g-12">
+
+          <p-table #dts [value]="dataSourcePemakaianObat" sortMode="single" (onSort)="onSort()"
+            [globalFilterFields]="['namaproduk']" [rowsPerPageOptions]="[5,10,20]" scrollable="true" [paginator]="true"
+            [rows]="5">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder=" Filter"
+                  (input)="dts.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width:4em">No</th>
+                <th>Nama Produk</th>
+                <th>Jumlah </th>
+                <th>Total </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-index="rowIndex+1" let-rowData let-rowIndex="rowIndex">
+              <tr>
+                <td style="width:4em">{{index}}</td>
+                <td>{{rowData.namaproduk}}</td>
+                <td>{{rowData.jumlah}}</td>
+                <td>{{ rowData.total}}</td>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <tr>
+                <td colspan="2"> Total</td>
+                <td>{{totalPemakainObat}}</td>
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mk-box>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-6">
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="fa fa-cubes"></i>
+          <h3 class="box-title">Stok Rumah Sakit</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-panel header="Daftar Barang" [toggleable]="true" [collapsed]="false">
+            <p-table #dt [columns]="columnStok" [value]="dataSourceStok" [rows]="10" [paginator]="true"
+              [rowsPerPageOptions]="[5,10,20]" [loading]="loadingInfoStok" loadingIcon="fa fa-spinner">
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="40" placeholder="Filter"
+                    (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th style="width:4em">No</th>
+                  <th style="width:20em">Nama Produk</th>
+                  <th>Satuan</th>
+                  <th>Stok Tersedia</th>
+                  <th style="width:8em"></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-index="rowIndex+1" let-rowData let-columns="columns">
+                <tr>
+                  <td>{{index}}</td>
+                  <td>{{rowData.namaproduk}}</td>
+                  <td>{{rowData.satuanstandar}}</td>
+                  <td>{{rowData.qtyproduk}}</td>
+                  <td>
+                    <button pButton icon="pi pi-search" label="Detail" (click)="selectedGridStok(rowData)"></button>
+                  </td>
+                </tr>
+              </ng-template>
+
+            </p-table>
+            <p-dialog header="Detail Informasi Stok" [(visible)]="showDetailStok" [modal]="true" [responsive]="true"
+              [width]="1200" [minWidth]="100" [minY]="50" [maximizable]="true" [baseZIndex]="10000" [positionTop]="100"
+              appendTo="body">
+              <p-table #tb [columns]="columnStokDetail" [value]="dataSourceDetailStok" [rows]="10" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,50]" [loading]="loading" [lazy]="false" loadingIcon="fa fa-spinner">
+                <ng-template pTemplate="caption">
+                  <div style="text-align: right">
+                    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="40" placeholder="Filter"
+                      (input)="tb.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                  </div>
+                </ng-template>
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th style="width:4em">No</th>
+
+                    <th style="width:20em">Nama Ruangan</th>
+                    <th style="width:20em">Nama Produk</th>
+                    <th>Satuan</th>
+                    <th>Stok </th>
+             
+
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-index2="rowIndex+1" let-rowData let-columns="columns">
+                  <!-- <tr>
+                    <td>
+                      {{index2}}
+                    </td>
+                    <td *ngFor="let col of columns">
+                      {{rowData[col.field]}}
+                    </td>
+                  </tr> -->
+                  <tr>
+                    <td>{{index2}}</td>
+                    <td>{{rowData.namaruangan}}</td>
+                    <td>{{rowData.namaproduk}}</td>
+                    <td>{{rowData.satuanstandar}}</td>
+                    <td>   {{formatRpHighChart(rowData.qtyproduk)}}</td>
+
+                  </tr>
+                </ng-template>
+                <!-- <ng-template pTemplate="footer">
+                    <tr>
+                      <td colspan="8">Total</td>
+                      <td>{{totalTotal}}</td>
+                    </tr>
+                  </ng-template> -->
+              </p-table>
+            </p-dialog>
+          </p-panel>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <div class="box box-info">
+        <div class="box-header">
+          <i class="fa fa-cubes"></i>
+          <h3 class="box-title">10 Besar Pemakaian Obat </h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <div [chart]="chart10PemakaianObat"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-warning">
+        <div class="box-header">
+          <i class="fa fa-cubes"></i>
+          <h3 class="box-title">Penerimaan Barang Harian</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-panel header="Daftar Penerimaan" [toggleable]="true" [collapsed]="false">
+            <p-table #dt2 [columns]="columnPenerimaan" [value]="dataSourcePenerimaan" [rows]="10" [paginator]="true"
+              [rowsPerPageOptions]="[5,10,20]" [loading]="loadingPenerimaan" loadingIcon="fa fa-spinner"
+              expandableRows="true" dataKey="nostruk">
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="40" placeholder="Filter"
+                    (input)="dt2.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th style="width: 3em"></th>
+                  <th style="width:4em">No</th>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-index2="rowIndex+1" let-rowData let-columns="columns">
+                <tr>
+                  <td>
+                    <a href="#" [pRowToggler]="rowData">
+                      <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                    </a>
+                  </td>
+                  <td>
+                    {{index2}}
+                  </td>
+                  <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="7">Total</td>
+                  <td>{{totalPenerimaan}}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
+                <p-table [value]="rowData.details">
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <!-- <th style="width:4em">No</th> -->
+                      <th style="width:20em">Nama Produk</th>
+                      <th style="width:10em">Satuan</th>
+                      <th style="width:5em">Qty</th>
+                      <th style="width:10em">Harga Satuan</th>
+                      <th style="width:10em">Diskon</th>
+                      <th style="width:10em">PPN</th>
+                      <th style="width:20em">Total</th>
+                      <th style="width:20em">Tgl Kadaluarsa</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-index="rowIndex+1" let-rowData let-columns="columns">
+                    <tr>
+                      <!-- <td>{{index}}</td> -->
+                      <td>{{rowData.namaproduk}}</td>
+                      <td>{{rowData.satuanstandar}}</td>
+                      <td>{{rowData.qtyproduk}}</td>
+                      <td>{{rowData.hargasatuan}}</td>
+                      <td>{{rowData.hargadiscount}}</td>
+                      <td>{{rowData.hargappn}}</td>
+                      <td>{{rowData.total}}</td>
+                      <td>{{rowData.tglkadaluarsa}}</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </ng-template>
+            </p-table>
+
+          </p-panel>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-danger">
+        <div class="box-header">
+          <i class="fa fa-cubes"></i>
+          <h3 class="box-title">Pengeluaran Barang Harian</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-panel header="Daftar Pengeluaran" [toggleable]="true" [collapsed]="false">
+            <p-table #dt3 [columns]="columnPengeluaran" [value]="dataSourcePengeluaran" [rows]="10" [paginator]="true"
+              [rowsPerPageOptions]="[5,10,20]" [loading]="loadingPengeluaran" loadingIcon="fa fa-spinner"
+              expandableRows="true" dataKey="nostruk">
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                  <input type="text" pInputText size="40" placeholder="Filter"
+                    (input)="dt3.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header" let-columns>
+                <tr>
+                  <th style="width:4em">No</th>
+                  <th *ngFor="let col of columns">
+                    {{col.header}}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-index2="rowIndex+1" let-rowData let-columns="columns">
+                <tr>
+                  <td>
+                    {{index2}}
+                  </td>
+                  <td *ngFor="let col of columns">
+                    {{rowData[col.field]}}
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="10">Total</td>
+                  <!-- <td>{{totalPengeluaranQty}}</td>
+                  <td>{{totalPengeluaranHarga}}</td> -->
+                  <td>{{totalPengeluaran}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-panel>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>

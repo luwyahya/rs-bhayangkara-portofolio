@@ -1,0 +1,46 @@
+<div class="hold-transition login-page " [ngStyle]="{background: 'url(assets/img/welcomeScreenNew.jpg)'}">
+    <div class="login-box">
+        <div class="login-logo">
+            <a routerLink="/home">
+                <div [style.color]="'white'" style="font-size: 25px;"> <b style="color:#3f51b5">EIS</b> RUMAH SAKIT UNIVERSITAS ANDALAS</div>
+            </a>
+        </div>
+        <!-- <p-toast></p-toast> -->
+        <p-growl></p-growl>
+        <mat-card class="example-card">
+            <mat-card-header>
+                <mat-card-title>Silahkan Login Anda</mat-card-title>
+            </mat-card-header>
+            <p-progressSpinner *ngIf="showLoading" class="loading-style"></p-progressSpinner>
+            <mat-card-content>
+                <form class="example-form">
+
+                    <table class="example-full-width" cellspacing="0">
+                        <tr>
+                            <td>
+                              
+                                <mat-form-field class="example-full-width">
+                                    <input (keydown)="keyDownFunction($event)" matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-form-field class="example-full-width">
+                                    <input (keydown)="keyDownFunction($event)" matInput placeholder="Password" [(ngModel)]="password" type="password" name="password" required>
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+                <mat-checkbox class="example-margin" [(ngModel)]="checked">Ingatkan Saya</mat-checkbox>
+                <!-- <mat-spinner></mat-spinner> -->
+
+                <mat-card-actions>
+                    <button mat-raised-button (click)="login()" class="btn btn-profil btn-round btn-block" (keydown)="keyDownFunction($event)" color="primary">Login</button>
+                </mat-card-actions>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

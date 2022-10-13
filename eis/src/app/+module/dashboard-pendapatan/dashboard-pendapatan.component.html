@@ -1,0 +1,645 @@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+
+
+<section class="content-header">
+  <div class="row">
+    <div class="col-12 col-md-7">
+      <span style="font-size: 24px;">
+        Dashboard Pendapatan
+      </span>
+    </div>
+    <div class="col-12 col-md-5">
+      <div class="col-12 col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Periode Awal</mat-label>
+          <input matInput [matDatepicker]="picker" placeholder="Periode Awal" [(ngModel)]="item.tglAwal"
+            (dateChange)="getDataByTglAwal( $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+      <div class="col-12 col-md-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Periode Akhir</mat-label>
+          <input matInput [matDatepicker]="picker2" placeholder="Periode Akhir" [(ngModel)]="item.tglAkhir"
+            (dateChange)="getDataByTglAkhir( $event)">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <!-- <ol class="breadcrumb">
+    <li><a routerLink="/dashboad-pendapatan"><i class="fa fa-home"></i>Dashboard Pendapatan</a></li>
+  </ol> -->
+</section>
+<!-- <section class="content-header">
+  <h1>
+    Pendapatan
+    <small>{{now |date}}</small>
+  </h1>
+ 
+</section> -->
+<section class="content">
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <mk-box header="Pendapatan Rumah Sakit" styleClass="box" boxColor="yellow" headerStyleClass="box-header">
+        <div class="ui-g-12">
+          <p-progressSpinner *ngIf="isShowTrend" class="loading-style"></p-progressSpinner>
+          <!-- <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
+          <div [chart]="chartPendapatan" id="container"></div>
+        </div>
+      </mk-box>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <mk-box header="Pendapatan PerInstalasi" styleClass="box" boxColor="#00a65a" headerStyleClass="box-header">
+        <div class="ui-g-12">
+
+          <p-table #dt [columns]="colsPendapatan" [value]="dataSouceInstalasiPend" sortMode="single"
+            [globalFilterFields]="['namadepartemen']" [rowsPerPageOptions]="[5,10,20]" scrollable="true"
+            [paginator]="true" [rows]="5">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder=" Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+            </ng-template>
+
+            <!-- <ng-template pTemplate="header">
+              <tr>
+                <th>Nama Instalasi</th>
+                <th>Jumlah </th>
+              </tr>
+            </ng-template> -->
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                  {{col.header}}
+                  <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                    ariaLabelDesc="Activate to sort in descending order"
+                    ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <!-- <tr>
+
+                <td>{{rowData.namadepartemen}}</td>
+                <td>{{rowData.total}}</td>
+
+
+              </tr> -->
+              <tr>
+                <td *ngFor="let col of columns">
+                  {{rowData[col.field]}}
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <tr>
+                <td>Total</td>
+                <td>{{totalPerinstalasi}}</td>
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mk-box>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-xs-6">
+      <mk-tabs>
+        <mk-tabs-header>
+          <i class="fa fa-bar-chart"></i>Pendapatan PerJenis Pasien</mk-tabs-header>
+        <mk-tab>
+          <mk-tab-header>Pie </mk-tab-header>
+          <mk-tab-content>
+            <div [chart]="chartPerKelompokPasienPie"></div>
+          </mk-tab-content>
+        </mk-tab>
+        <mk-tab>
+          <mk-tab-header>Bar</mk-tab-header>
+          <mk-tab-content>
+            <div [chart]="chartPerKelompokPasien"></div>
+          </mk-tab-content>
+        </mk-tab>
+      </mk-tabs>
+      <!-- <div class="box box-warning">
+        <div class="box-header">
+          <i class="fa fa-bar-chart"></i>
+          <h3 class="box-title">Pendapatan PerJenis Pasien</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+            
+          <div [chart]="chartPerKelompokPasien"></div>
+          <div [chart]="chartPerKelompokPasienPie"></div>
+        </div>
+      </div> -->
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <mk-tabs [activeTabIndex]="1">
+        <mk-tabs-header>
+          <i class="fa fa-bar-chart"></i>Penerimaan Rumah Sakit </mk-tabs-header>
+        <mk-tab>
+          <mk-tab-header>Total All : {{totalPenerimaanKasir}}</mk-tab-header>
+
+        </mk-tab>
+        <mk-tab>
+          <mk-tab-header>Layanan </mk-tab-header>
+          <mk-tab-content>
+            <div [chart]="chartPenerimaan"></div>
+          </mk-tab-content>
+        </mk-tab>
+        <mk-tab>
+          <mk-tab-header>Non Layanan</mk-tab-header>
+          <mk-tab-content>
+            <div [chart]="chartPenerimaanNonLayanan"></div>
+          </mk-tab-content>
+        </mk-tab>
+
+
+      </mk-tabs>
+
+      <!-- <div class="box box-danger">
+        <div class="box-header">
+          <i class="fa fa-bar-chart"></i>
+          <h3 class="box-title">Penerimaan Rumah Sakit</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <div [chart]="chartPenerimaan"></div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <mk-box header="Trend Pendapatan" styleClass="box" boxColor="red" headerStyleClass="box-header">
+        <div class="ui-g-12">
+          <p-progressSpinner *ngIf="isShowTrendPen" class="loading-style"></p-progressSpinner>
+          <div [chart]="chartTrendPendapatan"></div>
+        </div>
+      </mk-box>
+    </div>
+  </div>
+      <mk-box header="Realisasi Anggaran" styleClass="box" boxColor="#00a65a" headerStyleClass="box-header">
+        <div class="col-lg-12 col-xs-12">
+          <mat-form-field appearance="fill">
+            <mat-label>Berdasarkan</mat-label>
+            <mat-select [(ngModel)]="item.anggaranTipe" (selectionChange)="changeAnggaran($event)">
+              <mat-option *ngFor="let food of listAnggaran" [value]="food">
+                {{food.nama}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-12 col-xs-12">
+
+          <p-table #dt [value]="dataSourceAnggaran"  (onSort)="onSort()"
+            [globalFilterFields]="['desk','kd']" [rowsPerPageOptions]="[5,10,20]" scrollable="true"
+            [paginator]="true" [rows]="5">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+                <input type="text" pInputText size="50" placeholder=" Filter"
+                  (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+              </div>
+            </ng-template>
+            <ng-template pTemplate="colgroup">
+              <colgroup>
+                <col style="width: 30px">
+                <col style="width: 40px">
+                <col style="width: 40px">
+                <col style="width: 30px">
+                <col style="width: 10px">
+                <col style="width: 30px">
+                <col style="width: 10px">
+                <col style="width: 30px">
+                <col style="width: 10px">
+                <col style="width: 30px">
+                <col style="width: 10px">
+              </colgroup>
+            </ng-template>
+            <ng-template pTemplate="header">
+
+              <tr>
+                <!-- <th style="width: 200px;">{{item.bukuRegisTipe != undefined ? item.bukuRegisTipe.nama : 'Ruangan'}}</th> -->
+                <th  rowspan="2">Kode</th>
+                <th  rowspan="2">Jenis Belanja</th>
+                <th  rowspan="2" >Pagu DIPA</th>
+                <th  colspan="2">Realisasi s/d bulan lalu </th>
+                <th  colspan="2">Realisasi bulan ini </th>
+                <th  colspan="2">Realisasi s/d bulan ini </th>
+                <th  colspan="2">Sisa Dana </th>
+
+              </tr>
+              <tr>
+
+                <th>Total</th>
+                <th>%</th>
+                <th>Total</th>
+                <th>%</th>
+                <th>Total</th>
+                <th>%</th>
+                <th>Total</th>
+                <th>%</th>
+
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+              
+              <tr>
+                <!-- <td *ngIf="rowGroupRegister[rowData.namaruangan].index === rowIndex"
+                  [attr.rowspan]="rowGroupRegister[rowData.namaruangan].size" style="font-weight: bold;width: 200px;">
+                  {{rowData.namaruangan}}
+                </td> -->
+                <td style="width: 200px;">{{rowData.kd}}</td>
+                <td style="width: 70px;">{{rowData.desk}}</td>
+                <td style="width: 100px;">{{rowData.dipa}}</td>
+                <td style="width: 70px;">{{rowData.bulanlalu}}</td>
+                <td style="width: 70px;">{{rowData.persenbulanlalu}}</td>
+                <td style="width: 100px;">{{rowData.bulanini}}</td>
+                <td style="width: 70px;">{{rowData.persenbulanini}}</td>
+                <td style="width: 100px;">{{rowData.sdbulanini}}</td>
+                <td style="width: 70px;">{{rowData.persensdini}}</td>
+                <td style="width: 100px;">{{rowData.sisadana}}</td>
+                <td style="width: 70px;">{{rowData.persensisa}}</td>                                
+
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </mk-box>
+  <!-- <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-danger">
+        <div class="box-header">
+          <i class="fa fa-bar-chart"></i>
+          <h3 class="box-title">Target & Realisasi Pendapatan </h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-progressSpinner *ngIf="isShowCapaianTarget" class="loading-style"></p-progressSpinner>
+          <div [chart]="chartTargetRealisiRJ"></div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-progressSpinner *ngIf="isShowCapaianTarget" class="loading-style"></p-progressSpinner>
+          <div [chart]="chartTargetRealisiRI"></div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-panel header="Data Table Target & Realisasi" [toggleable]="true" [collapsed]="false">
+            <p-table [columns]="cols" [value]="dataGridRealisasiFix" selectionMode="single" [(selection)]="selectedCar1"
+              [rows]="5" [paginator]="true" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,20]" [loading]="loadingGridRealisasi"
+              loadingIcon="fa fa-spinner" expandableRows="true" sortField="group" sortMode="single" (onSort)="onSort()">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="center" rowspan="4"> <span style="font-weight:bold">Pelayanan</span></th>
+                  <th class="center" colspan="2"><span style="font-weight:bold">Target</span></th>
+                  <th class="center" colspan="2"><span style="font-weight:bold">Capaian</span></th>
+                </tr>
+                <tr>
+                  <th class="center"> <span style="font-weight:bold">Volume</span></th>
+                  <th class="center"> <span style="font-weight:bold">Rp</span></th>
+                  <th class="center"> <span style="font-weight:bold">Volume</span></th>
+                  <th class="center"> <span style="font-weight:bold">Rp</span></th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr class="ui-widget-header" *ngIf="rowGroupMetadata[rowData.group].index === rowIndex">
+                  <td colspan="5">
+                    <span style="font-weight:bold">{{rowData.group}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{rowData.keterangan}}</td>
+                  <td>{{rowData.volumetarget}}</td>
+                  <td>{{rowData.totaltarget}}</td>
+                  <td>{{rowData.volume}}</td>
+                  <td>{{rowData.total}}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td colspan="2">KINERJA LAYANAN RUMAH SAKIT</td>
+                  <td>{{totaltargetall}}</td>
+                  <td></td>
+                  <td>{{totalcapaianall}}</td>
+                </tr>
+                <tr>
+                  <td colspan="2">KINERJA USAHA LAINNYA</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td colspan="2">TOTAL KINERJA BLU</td>
+                  <td>{{totaltargetall}}</td>
+                  <td></td>
+                  <td>{{totalcapaianall}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 col-xs-12">
+      <div class="box box-default">
+        <div class="box-header">
+          <i class="fa fa-bar-chart"></i>
+          <h3 class="box-title">Target & Realisasi Pendapatan Farmasi</h3>
+          <div class="box-tools pull-right">
+            <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+              <div class="btn-group">
+                <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <i class="fa fa-bars"></i>
+                </button>
+                <ul class="dropdown-menu pull-right" role="menu">
+                  <li>
+                    <a href="#">Add new event</a>
+                  </li>
+                  <li>
+                    <a href="#">Clear events</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">View calendar</a>
+                  </li>
+                </ul>
+              </div>
+              <button class="btn btn-default btn-sm" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+              </button>
+              <button class="btn btn-default btn-sm" data-widget="remove">
+                <i class="fa fa-times"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="box-body chart-responsive">
+          <p-progressSpinner *ngIf="isloadingFarmasi" class="loading-style"></p-progressSpinner>
+          <div [chart]="chartTargetRealisiFarmasi"></div>
+        </div>
+      <div class="box-body chart-responsive">
+          <p-panel header="Data Table Target & Realisasi Farmasi" [toggleable]="true" [collapsed]="false">
+            <p-table [columns]="cols" [value]="dataSourceGridFarmasi" selectionMode="single" [(selection)]="selectedCar1"
+              [rows]="5" [paginator]="true" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,20]" [loading]="isloadingFarmasi"
+              loadingIcon="fa fa-spinner" expandableRows="true"  sortField="grouping" sortMode="single" (onSort)="onSortFarmasi()">
+        
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="center"> <span style="font-weight:bold">Uraian Unit/Kode Program/Kegiatan</span></th>
+                  <th class="center" rowspan="2"><span style="font-weight:bold">Target</span></th>
+                  <th class="center" rowspan="2"><span style="font-weight:bold">Realisasi</span></th>
+                </tr>
+                <tr>
+                  <th class="center"> <span style="font-weight:bold">Akun Pendapatan</span></th>
+
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr class="ui-widget-header" *ngIf="rowGroupMetadataFarmasi[rowData.grouping].index === rowIndex">
+                  <td colspan="5">
+                    <span style="font-weight:bold">{{rowData.grouping}}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{rowData.pelayanan}}</td>
+                  <td>{{rowData.targetrupiah}}</td>
+                  <td>{{rowData.total}}</td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="footer">
+                <tr>
+                  <td >TOTAL</td>
+                  <td>{{targetfarmasi}}</td>
+                  <td>{{capaianfarmasi}}</td>
+                </tr>
+              
+              </ng-template>
+            </p-table>
+          </p-panel>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-12 col-xs-12">
+        <div class="box box-warning">
+          <div class="box-header">
+            <i class="fa fa-bar-chart"></i>
+            <h3 class="box-title">Target & Realisasi Pendapatan Usaha Lainnya</h3>
+            <div class="box-tools pull-right">
+              <div class="btn-group" id="realtime" data-toggle="btn-toggle">
+                <div class="btn-group">
+                  <button class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bars"></i>
+                  </button>
+                  <ul class="dropdown-menu pull-right" role="menu">
+                    <li>
+                      <a href="#">Add new event</a>
+                    </li>
+                    <li>
+                      <a href="#">Clear events</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="#">View calendar</a>
+                    </li>
+                  </ul>
+                </div>
+                <button class="btn btn-default btn-sm" data-widget="collapse">
+                  <i class="fa fa-minus"></i>
+                </button>
+                <button class="btn btn-default btn-sm" data-widget="remove">
+                  <i class="fa fa-times"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="box-body chart-responsive">
+            <p-progressSpinner *ngIf="isloadingFarmasi" class="loading-style"></p-progressSpinner>
+            <div [chart]="chartUsahaLainnya"></div>
+          </div>
+        <div class="box-body chart-responsive">
+            <p-panel header="Data Table Target & Realisasi Usaha Lain" [toggleable]="true" [collapsed]="false">
+              <p-table [columns]="cols" [value]="dataSourceUsahaLain" selectionMode="single" [(selection)]="selectedCar1"
+                [rows]="5" [paginator]="true" [totalRecords]="totalRecords" [rowsPerPageOptions]="[5,10,20]" [loading]="isloadingFarmasi"
+                loadingIcon="fa fa-spinner" expandableRows="true"  sortField="jenis" sortMode="single" (onSort)="onSortUsaha()">
+          
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="center"> <span style="font-weight:bold">Uraian Unit/Kode Program/Kegiatan</span></th>
+                    <th class="center" rowspan="2"><span style="font-weight:bold">Target</span></th>
+                    <th class="center" rowspan="2"><span style="font-weight:bold">Realisasi</span></th>
+                  </tr>
+                  <tr>
+                    <th class="center"> <span style="font-weight:bold">Akun Pendapatan</span></th>
+  
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                  <tr class="ui-widget-header" *ngIf="rowGroupMetadataUsahaLain[rowData.jenis].index === rowIndex">
+                    <td colspan="5">
+                      <span style="font-weight:bold">{{rowData.jenis}}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{{rowData.pelayanan}}</td>
+                    <td>{{rowData.targetrupiah}}</td>
+                    <td>{{rowData.totalcapaian}}</td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="footer">
+                  <tr>
+                    <td >TOTAL</td>
+                    <td>{{totaltargetusahalain}}</td>
+                    <td>{{totalcapaianusahalain}}</td>
+                  </tr>
+                
+                </ng-template>
+              </p-table>
+            </p-panel>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  <p-dialog header="{{ namaRuangan }}" [(visible)]="isDetails" [modal]="true" [responsive]="true" [width]="1100"
+    [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000" appendTo="body">
+
+    <!-- <p-sidebar [(visible)]="isDetails" styleClass="ui-sidebar-lg"  position="top"  [style]="{height:'auto' ,'z-index':'5000'}"> -->
+    <!-- <h3>{{ namaRuangan }}</h3> -->
+    <div class="ui-g-12">
+
+      <p-table #dts [columns]="colsDetailPen" [value]="dsDetailPasien" sortMode="single"
+      [globalFilterFields]="['namapasien','nocm']" [rowsPerPageOptions]="[5,10,20]" scrollable="true" [paginator]="true"
+        [rows]="5">
+        <ng-template pTemplate="caption">
+          <div style="text-align: right">
+            <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+            <input type="text" pInputText size="50" placeholder=" Filter"
+              (input)="dts.filterGlobal($event.target.value, 'contains')" style="width:auto">
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+              {{col.header}}
+              <p-sortIcon [field]="col.field" ariaLabel="Activate to sort"
+                ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order">
+              </p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+
+          <tr>
+            <td *ngFor="let col of columns">
+              {{ col.header =='Total' ? formatRp(rowData[col.field]) : rowData[col.field] }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <tr>
+            <td>Total</td>
+            <td>{{formatRp(totalDetailPen)}}</td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <!-- </p-sidebar> -->
+  </p-dialog>
+
+</section>
