@@ -24,7 +24,6 @@ use App\Master\EditDiagnosa;
 use App\Master\EditNoDtd;
 use App\Transaksi\VerifKSO;
 use App\Transaksi\tempVerifKSO;
-
 class LaporanRekamMedisController extends   ApiController
 {
     use Valet;
