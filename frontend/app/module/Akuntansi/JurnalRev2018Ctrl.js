@@ -34,6 +34,25 @@ define(['initialize'], function (initialize) {
                 //     pegawaiUser = dat.data.datalogin
                 // });
                 // $scope.listJenisRacikan = [{id:1,jenisracikan:'Puyer'}]
+                medifirstService.getPart("sysadmin/general/get-produk", true, true, 20).then(function (data) {
+                    //      $scope.listTindakanAntibiotik = data;
+                    //      $scope.listTindakan = data;
+                    $scope.listProduk = data;
+                });
+                medifirstService.getPart("sysadmin/general/get-datacombo-rekanan", true, true, 20).then(function (data) {
+                    $scope.listRekanan = data;
+                });
+                medifirstService.get("registrasi/daftar-registrasi/get-data-combo-operator", false).then(function (data) {
+                    $scope.listDepartemen = data.data.departemen;
+                });
+                medifirstService.get("bendaharapenerimaan/get-data-combo?keterangan=Penerimaan BP")
+                    .then(function (dat) {
+                        $scope.listJenisTransaksi = dat.data.kelompoktransaksi;
+                        $scope.listMataAnggaran = dat.data.mastreMataAnggaran;
+                    });
+            }
+            $scope.getIsiComboRuangan = function () {
+                $scope.listRuangan = $scope.item.instalasi.ruangan
             }
             function init() {
                 $scope.isRouteLoading = true;
@@ -369,6 +388,21 @@ define(['initialize'], function (initialize) {
                 });
                 $scope.popupPosting.center().open();
             }
+            $scope.mappingJurnal = function () {
+                $scope.isRouteLoading = true;
+                medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                    $scope.isRouteLoading = false;
+                    data2 = dat.data
+                    $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                        data: data2,
+                        pageSize: 20
+                    });
+                });
+                medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
+                    $scope.listAkun = data;
+                })
+                $scope.popupMappingJurnal.center().open()
+            }
 
             $scope.cetakPostingJurnal = function () {
                 var tglAwal = moment($scope.item.tglAwal).format('YYYY-MM-DD hh:mm');
@@ -595,6 +629,62 @@ define(['initialize'], function (initialize) {
                         // "groupFooterTemplate": "#=sum#",
                         template: "<span class='style-right'>{{formatRupiah('#: hargasatuank #', '')}}</span>"
                     }
+                ]
+            }
+            $scope.columnPopUpExcelMapJurnal = {
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Detail Posting  " + moment($scope.item.tglAwal).format('DD/MMM/YYYY'),
+                    allPages: true,
+                },
+                sortable: false,
+                reorderable: true,
+                filterable: false,
+                pageable: true,
+                columnMenu: false,
+                resizable: true,
+                selectable: 'row',
+                columns: [
+                    {
+                        "field": "id",
+                        "title": "ID",
+                        "width": "20px"
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Produk",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namarekanan",
+                        "title": "Penjamin",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namadepartemen",
+                        "title": "Instalasi",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namaruangan",
+                        "title": "Ruangan",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "kelompoktransaksi",
+                        "title": "Kelompok",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namaaccountdebit",
+                        "title": "Nama Account Debit",
+                        "width": "130px"
+                    },
+                    {
+                        "field": "namaaccountkredit",
+                        "title": "Nama Account Kredit",
+                        "width": "130px"
+                    },
                 ]
             }
 
@@ -1066,6 +1156,76 @@ define(['initialize'], function (initialize) {
 
                 medifirstService.post('akuntansi/save-posting-jurnalv1', objSave).then(function (e) {
                     $scope.dataSelected.posted = e.data.data.noposting
+                })
+            }
+            $scope.saveMapJurnal = function () {
+                var accDebit = null
+                var accKredit = null
+                var kdProduk = null
+                var kdPenjamin = null
+                var kdInstalasi = null
+                var kdRuangan = null
+                var kdKelompokTransaksi = null
+                var kdMataAnggaran = null
+                if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit === '') {
+                    toastr.error('Account Debit Belum Di Pilih', 'Peringatan');
+                    return;
+                } else {
+                    accDebit = $scope.item.kdAkunDebit.id
+                }
+                if ($scope.item.kdAkunKredit == undefined || $scope.item.kdAkunKredit === '') {
+                    toastr.error('Account Kredit Belum Di Pilih', 'Peringatan');
+                    return;
+                } else {
+                    accKredit = $scope.item.kdAkunKredit.id
+                }
+
+                if ($scope.item.namaProduk != undefined && $scope.item.namaProduk != '') {
+                    kdProduk = $scope.item.namaProduk.id
+                }
+
+                if ($scope.item.rekanan != undefined && $scope.item.rekanan != '') {
+                    kdPenjamin = $scope.item.rekanan.id
+                }
+
+                if ($scope.item.instalasi != undefined && $scope.item.instalasi != '') {
+                    kdInstalasi = $scope.item.instalasi.id
+                }
+
+                if ($scope.item.ruangan != undefined && $scope.item.ruangan != '') {
+                    kdRuangan = $scope.item.ruangan.id
+                }
+
+                if ($scope.item.jenisTransaksi != undefined && $scope.item.jenisTransaksi != '') {
+                    kdKelompokTransaksi = $scope.item.jenisTransaksi.kelompoktransaksifk
+                }
+
+                if ($scope.item.mataAnggaran != undefined && $scope.item.mataAnggaran != '') {
+                    kdMataAnggaran = $scope.item.mataAnggaran.id
+                }
+
+                var objSave =
+                {
+                    id: "",
+                    objectcoadebitfk: accDebit,
+                    objectcoakreditfk: accKredit,
+                    objectprodukfk: kdProduk,
+                    objectpenjaminfk: kdPenjamin,
+                    objectdepartemenfk: kdInstalasi,
+                    objectruanganfk: kdRuangan,
+                    objectkelompoktransaksifk: kdKelompokTransaksi,
+                    objectmataanggaranfk: kdMataAnggaran,
+                }
+
+                medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {
+                    medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        data2 = dat.data
+                        $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                            data: data2,
+                            pageSize: 20
+                        });
+                    });
                 })
             }
             $scope.saveUnPostingJurnal = function () {

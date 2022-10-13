@@ -2484,30 +2484,34 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 if($r_NewPD['jadwal']!=''){
                     
                     if($dataStatusPasien=="BARU" && $r_NewPD['norec_pd']==''){
-                        if($r_NewPD['isjenispasienantrol']=='JKN'){
-                            $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
-                            $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
-                            $noantrianLoket=$r_NewPD['noantrianLoket'];
-                            $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
-                                                where jenis='B' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
-                                                and '$tglAkhir' "));
-                            if(!empty($dataKiosk)){
-                                $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
-                                $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
-                            }
+                        // if($r_NewPD['isjenispasienantrol']=='JKN'){
+                        //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
+                        //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
+                        //     $noantrianLoket=$r_NewPD['noantrianLoket'];
+                        //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
+                        //                         where jenis='B' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
+                        //                         and '$tglAkhir' "));
+                        //     if(!empty($dataKiosk)){
+                        //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
+                        //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
+                        //     }
                             
-                        }else if($r_NewPD['isjenispasienantrol']=='NON JKN'){
-                            $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
-                            $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
-                            $noantrianLoket=$r_NewPD['noantrianLoket'];
-                            $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
-                                                where jenis='A' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
-                                                and '$tglAkhir' "));
-                            if(!empty($dataKiosk)){
-                                $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
-                                $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
-                            }
-                        }
+                        // }else if($r_NewPD['isjenispasienantrol']=='NON JKN'){
+                        //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
+                        //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
+                        //     $noantrianLoket=$r_NewPD['noantrianLoket'];
+                        //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
+                        //                         where jenis='A' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
+                        //                         and '$tglAkhir' "));
+                        //     if(!empty($dataKiosk)){
+                        //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
+                        //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
+                        //     }
+                        // }
+                        $tglTaskSatu = Carbon::now()->subMinute(10)->format('Y-m-d H:i:s');
+                        $tglTaskDua = Carbon::now()->subMinute(5)->format('Y-m-d H:i:s');
+                        $timewaktuTask1=strtotime($tglTaskSatu) * 1000;
+                        $timewaktuTask2=strtotime($tglTaskDua) * 1000;
                         if(!empty($dataKiosk)){
                             // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
                             //         ->update([

@@ -1,0 +1,221 @@
+<section class="content-header">
+  <div class="col-12 col-md-8">
+    <span style="font-size: 24px;">
+      Dashboard Back Office
+    </span>
+  </div>
+  <div class="col-12 col-md-4">
+    <div class="col-12 col-md-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Periode Awal</mat-label>
+        <input matInput [matDatepicker]="picker" placeholder="Periode Awal" [(ngModel)]="item.tglAwal"
+          (dateChange)="getDataByTglAwal( $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+
+      </mat-form-field>
+    </div>
+    <div class="col-12 col-md-6">
+      <mat-form-field appearance="fill">
+        <mat-label>Periode Akhir</mat-label>
+        <input matInput [matDatepicker]="picker2" placeholder="Periode Akhir" [(ngModel)]="item.tglAkhir"
+          (dateChange)="getDataByTglAkhir( $event)">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+
+      </mat-form-field>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard PPI</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Daftar Kepatuhan Cuci Tangan" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="#FFCC00" contentStyleClasses="table-responsive">
+              <table class="table table-bordered table-hover">
+                <tbody>
+                  <tr>
+                    <th style="text-align: center;">No </th>
+                    <th style="text-align: center;">Nama Ruang</th>
+                    <th style="text-align: center;">Total yang Patuh (%)</th>
+                  </tr>
+                  <tr *ngFor="let items of listKepatuhan; index as i">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ items.namaruangan }}</td>
+                    <td style="text-align: center;">{{ items.total }} </td>
+                  </tr>
+                </tbody>
+                <tr>
+                  <th colspan="2" style="font-weight:bold;text-align: center;"> Total</th>
+                  <td style="font-weight:bold;text-align: center">
+                    {{ item.totalAll }}
+                  </td>
+                </tr>
+                <tr>
+                  <th colspan="2" style="font-weight:bold;text-align: center">Rata-rata</th>
+                  <td style="font-weight:bold;text-align: center">
+                    {{ item.rata2All }}
+                  </td>
+                </tr>
+              </table>
+              <br>
+              <p style="margin-top: 10px;"> Kepatuhan Cuci Tangan = {{ item.totalAll }} / {{listKepatuhan.length }} *
+                100% =
+                {{ item.rata2All }}%</p>
+            </mk-box>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Grafik Kepatuhan Cuci Tangan" styleClass="box" boxColor="#00a65a" [isRemovable]="false"
+              headerStyleClass="box-header">
+              <!-- <div [chart]="chartGrading"></div> -->
+              <div [chart]="chartKepatuhan"></div>
+            </mk-box>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard PMKP</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Jenis Insiden" styleClass="box" boxColor="#8a2be2" headerStyleClass="box-header">
+              <div [chart]="chartInsiden"></div>
+            </mk-box>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Grading" styleClass="box" boxColor="#00a65a" headerStyleClass="box-header">
+              <div [chart]="chartGrading"></div>
+            </mk-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Laundry</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Penerimaan & Distribusi Linen Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="#FFCC00" contentStyleClasses="table-responsive">
+              <div [chart]="chartLaundry"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-xs-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Sanitasi</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Permohonan Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="rgb(255, 116, 116)" contentStyleClasses="table-responsive">
+              <div [chart]="chartSanitasi"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-xs-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard IPSRS</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Permohonan Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="rgb(153, 158, 255)" contentStyleClasses="table-responsive">
+              <div [chart]="chartIPSRS"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Administrasi Sistem (IT)</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Permohonan Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="red" contentStyleClasses="table-responsive">
+              <div [chart]="chartIT"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Diklat</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Penerimaan Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="pink" contentStyleClasses="table-responsive">
+              <div [chart]="chartDiklat"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Gizi</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-12 col-xs-12">
+            <mk-box header="Trend Order Kirim Menu Gizi Pertahun {{ item.tahun }}" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="blue" contentStyleClasses="table-responsive">
+              <div [chart]="chartGizi"></div>
+            </mk-box>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+   <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header" style="padding: .75rem 1.25rem;">
+          <h5 class="text-center">Dashboard Asset</h5>
+        </div>
+        <div class="card-block">
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Berdasarkan Asal Produk" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="red" contentStyleClasses="table-responsive">
+              <div [chart]="chartAsal"></div>
+            </mk-box>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <mk-box header="Berdasarkan Jenis Produk" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+              boxColor="orange" contentStyleClasses="table-responsive">
+              <div [chart]="chartJenisProduk"></div>
+            </mk-box>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

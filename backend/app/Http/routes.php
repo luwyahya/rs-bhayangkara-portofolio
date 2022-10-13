@@ -91,6 +91,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-combo-coa-part', 'Akuntansi\AkuntansiController@getCoaSaeutik');
             Route::get('get-data-jurnal-umum-2018', 'Akuntansi\AkuntansiController@getDataJurnalUmumRev2019'); //done
             Route::get('get-data-sal', 'Akuntansi\AkuntansiController@getDataSal'); //done
+            Route::get('get-data-map-jurnal', 'Akuntansi\AkuntansiController@getDataMapJurnal'); //done
             /*END GET*/
 
             /*POST*/
@@ -110,6 +111,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-unposting-jurnalv1/', 'Akuntansi\AkuntansiController@UnPostingJurnalRev2018');
             Route::post('save-data-sal', 'Akuntansi\AkuntansiController@SaveDataSal'); //done
             Route::post('delete-data-sal', 'Akuntansi\AkuntansiController@deleteDataSal'); //done
+            Route::post('save-map-jurnal', 'Akuntansi\AkuntansiController@saveMapJurnal');
             /*END POST*/
         });
         Route::group(['prefix' => 'ambulance'], function () {
