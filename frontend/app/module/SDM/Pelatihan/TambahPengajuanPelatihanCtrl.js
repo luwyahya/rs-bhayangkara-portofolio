@@ -35,7 +35,8 @@ define(['initialize'], function(initialize) {
 	            	$scope.listJenisPelatihan=dat.jenispelatihan;
 	            	$scope.listNarasumber=dat.narasumber;
 	            	$scope.listRuangan=dat.ruanganpelatihan
-	            	$scope.item.Ruangan={id: dat.ruanganpelatihan[0].id, namaruangan: dat.ruanganpelatihan[0].namaruangan}
+	            	$scope.item.Ruangan={id: dat.ruanganpelatihan[0].id, institusipelatihan: dat.ruanganpelatihan[0].institusipelatihan}
+	            	// $scope.item.Ruangan={id: dat.ruanganpelatihan[0].id, namaruangan: dat.ruanganpelatihan[0].namaruangan}
 	            	$scope.item.UnitKerjaId = dataLogin.objectunitkerjapegawaifk;
 					$scope.item.UnitKerja = dataLogin.unitkerjapegawai;
 	            });

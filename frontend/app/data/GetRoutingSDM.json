@@ -501,6 +501,26 @@
     ]
   },
   {
+    "name": "MasterPenyelenggara",
+    "url": "/TWFzdGVyUGVueWVsZW5nZ2FyYQ==",
+    "templateurl": "module/SDM/Pendidikan/MasterPenyelenggara.html",
+    "controller": "MasterPenyelenggaraCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]
+  },
+  {
     "name": "MasterJurusanPeminatan",
     "url": "/TWFzdGVySnVydXNhblBlbWluYXRhbg==",
     "templateurl": "module/SDM/Pendidikan/MasterJurusanPeminatan.html",

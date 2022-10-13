@@ -91,6 +91,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-combo-coa-part', 'Akuntansi\AkuntansiController@getCoaSaeutik');
             Route::get('get-data-jurnal-umum-2018', 'Akuntansi\AkuntansiController@getDataJurnalUmumRev2019'); //done
             Route::get('get-data-sal', 'Akuntansi\AkuntansiController@getDataSal'); //done
+            Route::get('get-data-map-jurnal', 'Akuntansi\AkuntansiController@getDataMapJurnal'); //done
             /*END GET*/
 
             /*POST*/
@@ -99,6 +100,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-data-closing-jurnal', 'Akuntansi\AkuntansiController@SaveClosingJurnal');
             Route::post('save-batal-closing-jurnal', 'Akuntansi\AkuntansiController@SaveBatalClosingJurnal');
             Route::post('save-data-master-coa', 'Akuntansi\AkuntansiController@SaveDataChartOfAccount'); //done
+            Route::post('hapus-data-master-coa', 'Akuntansi\AkuntansiController@HapusDataChartOfAccount'); //done
             Route::post('save-bengkel-jurnal', 'Akuntansi\AkuntansiController@BengkelJurnal');
             Route::post('save-hapus-double-jurnal', 'Akuntansi\AkuntansiController@HapusDoubleJurnal');
             //            Route::post('save-jurnal-pembayaran_tagihan', 'Akuntansi\AkuntansiController@PostingJurnal_pembayaran_tagihan');
@@ -109,6 +111,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-unposting-jurnalv1/', 'Akuntansi\AkuntansiController@UnPostingJurnalRev2018');
             Route::post('save-data-sal', 'Akuntansi\AkuntansiController@SaveDataSal'); //done
             Route::post('delete-data-sal', 'Akuntansi\AkuntansiController@deleteDataSal'); //done
+            Route::post('save-map-jurnal', 'Akuntansi\AkuntansiController@saveMapJurnal');
             /*END POST*/
         });
         Route::group(['prefix' => 'ambulance'], function () {
@@ -3103,6 +3106,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-pelaksanaan-pelatihan', 'SDM\PelatihanController@GetDaftarPelaksanaanPelatihan');
                 Route::get('get-data-detail-evaluasi-penyelenggara', 'SDM\PelatihanController@getDetailEvaluasiPenyelenggara');
                 Route::get('get-detail-evaluasi-narasumber-kompetensi', 'SDM\PelatihanController@getDetailEvaluasiNarasumber');
+                Route::get('get-penyelengara-kategory', 'SDM\PelatihanController@getPenyelenggaraKategory');
                 Route::get('get-daftar-evaluasi-penyelenggara', 'SDM\PelatihanController@getDaftarEvaluasiPenyelenggara');
                 Route::get('get-daftar-evaluasi-narasumber', 'SDM\PelatihanController@getDaftarEvaluasiNarasumber');
                 Route::get('get-daftar-narasumber', 'SDM\PelatihanController@getDataNarasumber');
@@ -3124,6 +3128,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('delete-data-pelatihan', 'SDM\SumberDayaManusiaController@deleteDataPelatihan');
                 Route::post('hapus-evaluasi-penyelenggara', 'SDM\PelatihanController@hapusDataEvaluasiPenyelenggara');
                 Route::post('hapus-evaluasi-narasumber', 'SDM\PelatihanController@hapusDataEvaluasiNarasumberKompetensi');
+                Route::post('save-daftar-penyelenggara-kategory', 'SDM\PelatihanController@savePenyelenggaraKategory');
                 Route::post('save-data-narasumber', 'SDM\PelatihanController@saveDataNarasumber');
                 Route::post('hapus-data-narasumber', 'SDM\PelatihanController@hapusNarasumber');
                 /*END POST*/

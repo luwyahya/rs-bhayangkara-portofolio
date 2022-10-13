@@ -107,7 +107,11 @@
     {
       "nameDep": "MasterInstitusiPendidikanCtrl",
       "urlDep": "module/SDM/Pendidikan/MasterInstitusiPendidikanCtrl"
-    }, 
+    },
+    {
+      "nameDep": "MasterPenyelenggaraCtrl",
+      "urlDep": "module/SDM/Pendidikan/MasterPenyelenggaraCtrl"
+    },  
     {
       "nameDep": "MasterJurusanPeminatanCtrl",
       "urlDep": "module/SDM/Pendidikan/MasterJurusanPeminatanCtrl"

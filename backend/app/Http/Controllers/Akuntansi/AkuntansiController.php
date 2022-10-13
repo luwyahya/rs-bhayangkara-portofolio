@@ -15,6 +15,7 @@ namespace App\Http\Controllers\Akuntansi;
 use App\Http\Controllers\ApiController;
 use App\Master\ChartOfAccount;
 use App\Master\TargetIndikator;
+use App\Master\MapJurnal;
 use App\Traits\Valet;
 use App\Transaksi\PostingSaldoAwal;
 use App\Transaksi\PostingJurnalTransaksiD;
@@ -409,7 +410,7 @@ class AkuntansiController extends ApiController{
 
     public function getDetailJurnalRev2018BukuBesar(Request $request) {
         $data = DB::select(DB::raw("select pj.nojurnal,coa.noaccount,
-                case when pjd.hargasatuand = 0 then '--- ' + coa.namaaccount else coa.namaaccount end as namaaccount,
+                case when pjd.hargasatuand = 0 then '--- ' || coa.namaaccount else coa.namaaccount end as namaaccount,
                 pj.namaproduktransaksi as keteranganlainnya,pjd.hargasatuand,pjd.hargasatuank from postingjurnal_t as pj
                 INNER JOIN postingjurnald_t as pjd on pj.norec=pjd.norecrelated
                 INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk
@@ -1275,6 +1276,7 @@ class AkuntansiController extends ApiController{
             ->leftJOIN('strukturaccount_m as sta','sta.id','=','coa.objectstrukturaccountfk')
             ->JOIN('suratkeputusan_m as sk','sk.id','=','coa.suratkeputusanfk')
             ->where('sk.statusenabled','=',1)
+            // ->where('coa.statusenabled','=',1)
             ->orderBy('coa.noaccount');
 
 
@@ -1288,7 +1290,62 @@ class AkuntansiController extends ApiController{
         $data = $data->get();
         return $this->respond($data);
     }
+    public function saveMapJurnal(Request $request) {
+        DB::beginTransaction();
+        $dataLogin = $request->all();
 
+        try {
+            if ($request['id'] == ''){
+                $lasID =  MapJurnal::max('id');
+                $newID = $lasID + 1;
+
+                $newCOA = new MapJurnal();
+                $norecHead = $newCOA->generateNewId();
+                $newCOA->norec = $norecHead;
+                $newCOA->id = $newID;
+                $newCOA->kdprofile = 1;
+            }else{
+
+                $newCOA =  MapJurnal::where('id',$request['id'])->first();
+            }
+            $newCOA->objectcoadebitfk = $request['objectcoadebitfk'];
+            $newCOA->objectcoakreditfk = $request['objectcoakreditfk'];
+            $newCOA->statusenabled = $request['statusenabled'];
+            $newCOA->objectprodukfk = $request['objectprodukfk'];
+            $newCOA->objectpenjaminfk = $request['objectpenjaminfk'];
+            $newCOA->objectdepartemenfk = $request['objectdepartemenfk'];
+            $newCOA->objectruanganfk = $request['objectruanganfk'];
+            $newCOA->objectkelompoktransaksifk = $request['objectkelompoktransaksifk'];
+            $newCOA->save();
+
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+        $transMessage = "";
+
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . " Berhasil" ;
+            DB::commit();
+            $result = array(
+                "status" => 201,
+//                "data" => $newPJT,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+//                "data" => $newPJT,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
     public function SaveDataChartOfAccount(Request $request) {
         DB::beginTransaction();
         $dataLogin = $request->all();
@@ -1344,6 +1401,43 @@ class AkuntansiController extends ApiController{
             $result = array(
                 "status" => 400,
 //                "data" => $newPJT,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
+    public function HapusDataChartOfAccount(Request $request) {
+        DB::beginTransaction();
+        $dataLogin = $request->all();
+        
+        try {
+            if ($request['id'] != ''){
+                $data = ChartOfAccount::where('id', $request['id'])
+                ->update([
+                    'statusenabled' => false
+                ]);
+            }
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+        $transMessage = "";
+
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . " Berhasil" ;
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
                 "as" => 'as@epic',
             );
         }
@@ -2566,7 +2660,7 @@ class AkuntansiController extends ApiController{
     }
     public function getDetailJurnalRev2018(Request $request) {
         $data = DB::select(DB::raw("select pj.norec, pjd.objectaccountfk as accountid, pj.nojurnal,coa.noaccount,
-                case when pjd.hargasatuand = 0 then '--- ' + coa.namaaccount else coa.namaaccount end as namaaccount,
+                case when pjd.hargasatuand = 0 then '--- ' || coa.namaaccount else coa.namaaccount end as namaaccount,
                 pj.namaproduktransaksi as keteranganlainnya,pjd.hargasatuand,pjd.hargasatuank from postingjurnaltransaksi_t as pj
                 INNER JOIN postingjurnaltransaksid_t as pjd on pj.norec=pjd.norecrelated
                 INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk
@@ -2577,15 +2671,33 @@ class AkuntansiController extends ApiController{
         );
         return $this->respond($data);
     }
+    public function getDataMapJurnal(Request $request) {
+        $data = DB::select(DB::raw("select mj.id,pd.namaproduk,coadebit.namaaccount as namaaccountdebit,
+                coakredit.namaaccount as namaaccountkredit,rk.namarekanan,
+                dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi from mapjurnal_m as mj
+                left join produk_m as pd on pd.id=mj.objectprodukfk
+                left join chartofaccount_m as coadebit on coadebit.id=mj.objectcoadebitfk
+                left join chartofaccount_m as coakredit on coakredit.id=mj.objectcoakreditfk
+                left join rekanan_m as rk on rk.id=mj.objectpenjaminfk
+                left join departemen_m as dp on dp.id=mj.objectdepartemenfk
+                left join ruangan_m as ru on ru.id=mj.objectruanganfk
+                left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
+                ")
+            // array(
+            //     'nojurnal' => $request['id'],
+            // )
+        );
+        return $this->respond($data);
+    }
     public function getDetailJurnalPosting(Request $request) {
         $data = DB::select(DB::raw("select pjd.objectaccountfk as accountid, coa.noaccount,
-                case when pjd.hargasatuand = 0 then '--- ' + coa.namaaccount else coa.namaaccount end as namaaccount,
+                case when pjd.hargasatuand = 0 then '--- ' || coa.namaaccount else coa.namaaccount end as namaaccount,
                 sum(pjd.hargasatuand) as hargasatuand,sum(pjd.hargasatuank) as hargasatuank, '' as keteranganlainnya,
                 '' as nojurnal from postingjurnaltransaksi_t as pj
                 INNER JOIN postingjurnaltransaksid_t as pjd on pj.norec=pjd.norecrelated
                 INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk
                 where pj.nojurnal_intern=:nojurnal
-                group by pjd.objectaccountfk, coa.noaccount,case when pjd.hargasatuand = 0 then '--- ' + coa.namaaccount else coa.namaaccount end 
+                group by pjd.objectaccountfk, coa.noaccount,case when pjd.hargasatuand = 0 then '--- ' || coa.namaaccount else coa.namaaccount end 
                 order by sum(pjd.hargasatuank);"),
             array(
                 'nojurnal' => $request['nojurnal'],
@@ -2854,12 +2966,13 @@ class AkuntansiController extends ApiController{
         if(isset($req['keterangan']) && $req['keterangan']!="" && $req['keterangan']!="undefined"){
             $filterKeterangan=' and pj.keteranganlainnya ilike \'%' . $req['keterangan'] .'%\'';
         }
+      
         $dataHead = DB::select(DB::raw("
                     select x.tgl,x.nojurnal_intern as nojurnal,x.keteranganlainnya as kelompok,
                     x.nojurnal_posted as posted,
                     cast(sum(x.debet) AS float) as debet, cast(sum(x.kredit) AS float) as kredit from 
-                    (select convert(varchar, pj.tglbuktitransaksi, 23) as tgl,coa.noaccount,coa.namaaccount,(pjd.hargasatuand) as debet,
-                    (pjd.hargasatuank) as kredit,pj.deskripsiproduktransaksi,convert(varchar, pj.tglbuktitransaksi, 23) as tgl2,
+                    (select to_char(pj.tglbuktitransaksi, 'DD-MM-YYYY') as tgl,coa.noaccount,coa.namaaccount,(pjd.hargasatuand) as debet,
+                    (pjd.hargasatuank) as kredit,pj.deskripsiproduktransaksi,to_char(pj.tglbuktitransaksi, 'DD-MM-YYYY') as tgl2,
                     coa.id as coaid,pj.keteranganlainnya,pj.nojurnal_intern,
                     posted.nojurnal_intern as nojurnal_posted,posted.tglbuktitransaksi  as tglposting,posted.nojurnal
                     from postingjurnaltransaksi_t as pj

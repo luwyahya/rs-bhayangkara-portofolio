@@ -9,6 +9,7 @@ define(['initialize'], function (initialize) {
             var pegawaiUser = {}
             LoadCache();
             loadCombo();
+            $scope.item.pegawaiLogin = medifirstService.getPegawaiLogin();
 
             function LoadCache() {
                 init();
@@ -60,7 +61,7 @@ define(['initialize'], function (initialize) {
                     $scope.listStatusEnabled = [{ id: 1, statusenabled: 'True' }, { id: 2, statusenabled: 'False' }]
                 });
             }
-           
+
             $scope.cariFilter = function () {
                 init();
             }
@@ -152,7 +153,7 @@ define(['initialize'], function (initialize) {
                     ym: tgltgl,
                 }
 
-                medifirstService.post('akuntansi/save-data-saldo-awal',objSave).then(function (e) {
+                medifirstService.post('akuntansi/save-data-saldo-awal', objSave).then(function (e) {
                     $scope.item.tglSaldo = $scope.now;
                     $scope.item.saldoDebet = 0
                     $scope.item.saldoKredit = 0
@@ -181,7 +182,7 @@ define(['initialize'], function (initialize) {
                 var objSave = {
                     head: $scope.item.norecSaldo
                 }
-                medifirstService.post('akuntansi/save-hapus-saldo-awal',objSave).then(function (e) {
+                medifirstService.post('akuntansi/save-hapus-saldo-awal', objSave).then(function (e) {
                     medifirstService.get("akuntansi/get-data-daftar-saldo-awal?coaid=" + $scope.item.id, true).then(function (dat) {
                         for (var i = dat.data.length - 1; i >= 0; i--) {
                             dat.data[i].no = i + 1
@@ -513,7 +514,7 @@ define(['initialize'], function (initialize) {
                     "saldonormaladd": $scope.item.saldoAdd.saldo,
                     "saldonormalmin": $scope.item.saldoMin.saldo,
                 }
-                medifirstService.post('akuntansi/save-data-master-coa',objSave).then(function (e) {
+                medifirstService.post('akuntansi/save-data-master-coa', objSave).then(function (e) {
                     init()
                     $scope.Batal()
                 })
@@ -530,6 +531,85 @@ define(['initialize'], function (initialize) {
                 delete $scope.item.kategory
                 delete $scope.item.status
                 delete $scope.item.struktur
+            }
+            $scope.Hapus = function () {
+                var idCoa = ''
+                if ($scope.item.id != undefined) {
+                    idCoa = $scope.item.id
+                } else {
+                    toastr.error('Grid Belum Diklik')
+                    return
+                }
+                $scope.popupPassword.center().open()
+            }
+            $scope.HapusCoa = function () {
+                if ($scope.item.password != "donatelo") {
+                    toastr.error("Password Salah!")
+                    return;
+                }
+                var idCoa = ''
+                if ($scope.item.id != undefined)
+                    idCoa = $scope.item.id
+
+                if ($scope.item.noakun == undefined) {
+                    toastr.error('Kode Akun harus di isi')
+                    return
+                }
+                if ($scope.item.namaAkun == undefined) {
+                    toastr.error('Nama Akun harus di isi')
+                    return
+                }
+
+                if ($scope.item.statusenabled == undefined) {
+                    toastr.error('Status enabled belum di pilih')
+                    return
+                }
+
+                if ($scope.item.saldoAdd == undefined) {
+                    toastr.error('Saldo (+) belum di pilih')
+                    return
+                }
+                if ($scope.item.saldoMin == undefined) {
+                    toastr.error('Saldo (-) belum di pilih')
+                    return
+                }
+
+                var objectjenisaccountfk = null
+                if ($scope.item.jenis != undefined)
+                    objectjenisaccountfk = $scope.item.jenis.id
+
+                var objectkategoryaccountfk = null
+                if ($scope.item.kategory != undefined)
+                    objectkategoryaccountfk = $scope.item.kategory.id
+
+                var objectstatusaccountfk = null
+                if ($scope.item.status != undefined)
+                    objectstatusaccountfk = $scope.item.status.id
+
+                var objectstrukturaccountfk = null
+                if ($scope.item.struktur != undefined)
+                    objectstrukturaccountfk = $scope.item.struktur.id
+
+                var objSave =
+                {
+                    "id": idCoa
+                }
+                medifirstService.post('akuntansi/hapus-data-master-coa', objSave).then(function (e) {
+                    $scope.saveLogging('Hapus Acount COA', 'id COA',
+                        idCoa, 'Dihapus Oleh ' + $scope.item.pegawaiLogin.id)
+                    init()
+                    $scope.Batal()
+                    $scope.popupPassword.close()
+                })
+            }
+            $scope.saveLogging = function (jenis, referensi, noreff, ket) {
+                medifirstService.get("sysadmin/logging/save-log-all?jenislog=" + jenis +
+                    "&referensi=" + referensi +
+                    "&noreff=" + noreff +
+                    "&keterangan=" + ket
+                ).then(function (data) {
+
+                })
             }
             //***********************************
         }
