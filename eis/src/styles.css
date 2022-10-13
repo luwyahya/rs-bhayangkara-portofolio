@@ -1,0 +1,316 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import url('assets/dist/css/AdminLTE.css'); */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+.table-bordered > thead > tr > th,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > tbody > tr > td,
+.table-bordered > tfoot > tr > td {
+  border-color: #eae3e3;
+}
+
+.user-block {
+  padding: 15px;
+}
+.user-block:last-child {
+  margin-bottom: 5px;
+}
+.user-block:before,
+.user-block:after {
+  content: " ";
+  display: table;
+}
+.user-block:after {
+  clear: both;
+}
+.user-block img {
+  width: 75px;
+  height: 75px;
+  float: left;
+  border: 3px solid #ccc;
+}
+
+.user-block .username,
+.user-block .usergender,
+.user-block .userage,
+.user-block .useramount,
+.user-block .description,
+.user-block .comment {
+  display: block;
+  margin-left: 90px;
+}
+.user-block .username {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+}
+.user-block .useramount {
+  font-size: 23px;
+  font-weight: 900;
+  margin-top: 10px;
+  border-top: 1px solid #ccc;
+}
+.user-block .userage {
+  color: #444;
+  font-size: 13px;
+  padding-bottom: 0;
+}
+.user-block .description {
+  color: #444;
+  font-size: 13px;
+}
+.user-block.user-block-sm .username,
+.user-block.user-block-sm .description,
+.user-block.user-block-sm .comment {
+  margin-left: 40px;
+}
+.user-block.user-block-sm .username {
+  font-size: 14px;
+}
+.user-block:hover {
+  background: #f7f7f7;
+}
+.img-sm,
+.img-md,
+.img-lg,
+.box-comments .box-comment img,
+.user-block.user-block-sm img {
+  float: left;
+}
+.img-sm,
+.box-comments .box-comment img,
+.user-block.user-block-sm img {
+  width: 30px !important;
+  height: 30px !important;
+}
+.logossss {
+  width: 100px;
+  height: 100px;
+  
+
+  background: url(./assets/img/faviconrsab.ico) center center no-repeat; 
+}
+
+
+  /* 
+  loader */
+  
+  .splash-logo {
+    left: 50%;
+    top: 50%;
+    margin-left: -26px;
+    margin-top: -30px;
+    z-index: 2;
+    position: absolute;
+    width: 54px;
+}
+
+.splash-loader,
+.splash-loader:before,
+.splash-loader:after {
+  left: 50%;
+  top: 50%;
+  margin-left: -45px;
+  margin-top: -45px;
+  position: absolute;
+  vertical-align: middle;
+  background: #005EFF;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.splash-loader:before {
+  content: "";
+  animation: bounce 1.5s infinite;
+}
+.splash-loader:after {
+  content: "";
+  animation: bounce 1.5s -0.4s infinite;
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    -webkit-transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.splash-screen {
+    background-color: #f3f3f3;
+    height: 100%;
+}
+.ui-autocomplete .ui-autocomplete-dropdown {
+  width: 2em;
+  background-color: #c0c0c0; }
+.ui-autocomplete .ui-autocomplete-dropdown:not(.ui-state-disabled):hover {
+    background-color: #999999; }
+  .ui-autocomplete .ui-autocomplete-dropdown:not(.ui-state-disabled):active {
+    background-color: #999999; }
+  .ui-autocomplete .ui-autocomplete-dropdown .fa {
+    background: none;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-indent: 0px !important;
+    text-align: center; }
+   .ui-autocomplete .ui-autocomplete-dropdown .fa:before {
+      content: ""; }
+  .ui-autocomplete .ui-autocomplete-dropdown.ui-button-icon-only .ui-button-text {
+    padding: 0.308em; }
+ .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container {
+  padding: 0.308em; }
+ .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container:not(.ui-state-disabled):hover {
+    border: 1px solid #afafaf; }
+  .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container:not(.ui-state-disabled).ui-state-focus {
+    border: 1px solid #2196F3;
+    -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2); }
+ .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-input-token {
+    padding: 0 .25em 0 0;
+    vertical-align: top; }
+   .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-input-token input {
+      font-size: 13px;
+      padding: 0;
+      margin: 0; }
+ .ui-autocomplete.ui-autocomplete-multiple .ui-autocomplete-multiple-container .ui-autocomplete-token {
+    font-size: 11px;
+    vertical-align: top; }
+
+.loading-style {
+  /* display: block;
+  margin-left: auto;
+  margin-right: auto; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+@font-face {
+  font-family: 'Comfortaa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:  url("assets/font/Comporta_web.woff2") format("woff");
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+  /* font-family: 'Comfortaa';
+  src: url("../font/Comporta_web.woff2") format("woff"); */
+}
+@font-face {
+  font-family: 'Comfortaa';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src:  url("assets/font/Comporta_web_latin.woff2") format("woff");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  /* font-family: 'Comfortaa';
+  src: url("../font/Comporta_web.woff2") format("woff"); */
+}
+body {
+  font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+  /* color: #777777; */
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  font-size: 13px;
+ }
+ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+}
+ body,
+ html {
+   height: 100%;
+   font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+ }
+
+mat-card {
+ /* font-family: Roboto,"Helvetica Neue",sans-serif; */
+ font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+}
+
+.card {
+  border-radius: 5px;
+  -webkit-box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+  box-shadow: 0 1px 20px 0 rgba(69,90,100,.08);
+  border: none;
+  margin-bottom: 30px;
+}
+.card {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+}
+.card .card-header {
+  background-color: transparent;
+  border-bottom: none;
+  padding: 25px 20px;
+}
+.card .card-header {
+  background-color: transparent;
+  border-bottom: none;
+  padding: 25px 20px;
+}
+.card-header:first-child {
+  border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
+}
+.card-header {
+  padding: .75rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(0,0,0,.03);
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+.card .card-header h5 {
+  margin-bottom: 0;
+  color: #505458;
+  font-size: 18px;
+  font-weight: 600;
+  display: inline-block;
+  margin-right: 10px;
+  line-height: 1.4;
+}
+.text-center {
+  text-align: center;
+}
+.card .card-header+.card-block, .card .card-header+.card-block-big {
+  padding-top: 0;
+}
+.card-block {
+  padding: 1.25rem;
+}

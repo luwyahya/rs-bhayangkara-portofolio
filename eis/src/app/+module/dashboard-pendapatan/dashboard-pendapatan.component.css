@@ -1,0 +1,34 @@
+.redPpanel > .ui-panel-titlebar {
+    background: red;
+    }
+    .center {
+        text-align: center;
+        width: 100%;
+        font-weight: bold;
+    }
+    .ui-datatable .ui-datatable-thead > tr > th {
+        background: red;
+    }
+    .mat-form-field {
+        display: inline-block;
+        position: relative;
+        text-align: left;
+        width: 100%;
+    }
+    .ui-sidebar-top {
+        height: auto;
+    }
+    body .ui-sidebar-top {
+        height: auto;
+    }
+.ui-sidebar{
+    z-index: 2000;
+}   
+body .ui-sidebar{
+    z-index: 2000;
+}     
+
+body .ui-widget-overlay .ui-sidebar-mask{
+    z-index: -1;
+
+}

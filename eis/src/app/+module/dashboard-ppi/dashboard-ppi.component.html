@@ -1,0 +1,66 @@
+<section class="content-header">
+  <h1>
+    Dashboard PPI
+    <small>
+      <mat-form-field appearance="fill">
+        <mat-label>Bulan</mat-label>
+        <input matInput [matDatepicker]="dp" [formControl]="date">
+        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+        <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler($event)"
+          (monthSelected)="chosenMonthHandler($event, dp)" panelClass="example-month-picker">
+        </mat-datepicker>
+      </mat-form-field>
+
+    </small>
+
+  </h1>
+
+  <ol class="breadcrumb">
+    <li><a routerLink="/dashboard-ppi"><i class="fa fa-home"></i>Dashboard PPI </a></li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <section class="col-lg-6 connectedSortable">
+      <mk-box header="Daftar Kepatuhan Cuci Tangan" [isCollapsable]="true" [isRemovable]="false" styleClass="box"
+        boxColor="#FFCC00" contentStyleClasses="table-responsive">
+        <table class="table table-bordered table-hover">
+          <tbody>
+            <tr>
+              <th style="text-align: center;">No </th>
+              <th style="text-align: center;">Nama Ruang</th>
+              <th style="text-align: center;">Total yang Patuh (%)</th>
+            </tr>
+            <tr *ngFor="let items of listKepatuhan; index as i">
+              <td>{{ i + 1 }}</td>
+              <td>{{ items.namaruangan }}</td>
+              <td style="text-align: center;">{{ items.total }} </td>
+            </tr>
+          </tbody>
+          <tr>
+            <th colspan="2" style="font-weight:bold;text-align: center;"> Total</th>
+            <td style="font-weight:bold;text-align: center">
+              {{ item.totalAll }}
+            </td>
+          </tr>
+          <tr>
+            <th colspan="2" style="font-weight:bold;text-align: center">Rata-rata</th>
+            <td style="font-weight:bold;text-align: center">
+              {{ item.rata2All }}
+            </td>
+          </tr>
+        </table>
+        <br>
+        <p style="margin-top: 10px;"> Kepatuhan Cuci Tangan = {{ item.totalAll }} / {{listKepatuhan.length }} * 100% =
+          {{ item.rata2All }}%</p>
+      </mk-box>
+    </section>
+    <section class="col-lg-6 connectedSortable">
+      <mk-box header="Grafik Kepatuhan Cuci Tangan" styleClass="box" boxColor="#00a65a" [isRemovable]="false"
+        headerStyleClass="box-header">
+        <!-- <div [chart]="chartGrading"></div> -->
+        <div [chart]="chartKepatuhan"></div>
+      </mk-box>
+    </section>
+  </div>
+</section>

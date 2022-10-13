@@ -1,0 +1,51 @@
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+  }
+  
+  .example-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+  }
+  
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  .loading-style {
+    /* display: block;
+    margin-left: auto;
+    margin-right: auto; */
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: -50px;
+    margin-left: 700px;
+    height: 100%;
+  }
+  .agm-map {
+    height: 300px;
+  }
+
+  .buttonLuhur{
+    display:inline-block;
+    margin-top:-5px;
+  }
+  .total {
+    background: #7B8D8E !important;
+    background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #7B8D8E), color-stop(1, rgb(127, 179, 182))) !important;
+    background: -ms-linear-gradient(bottom, #7B8D8E, rgb(127, 179, 182)) !important;
+    background: -moz-linear-gradient(center bottom, #f39c12 0%, rgb(127, 179, 182) 100%) !important;
+    background: -o-linear-gradient(rgb(127, 179, 182), #7B8D8E) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='rgb(127, 179, 182)', endColorstr='#7B8D8E', GradientType=0) !important;
+    color: #fff;
+  }
+  
