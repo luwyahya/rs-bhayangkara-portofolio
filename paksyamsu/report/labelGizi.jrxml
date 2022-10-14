@@ -155,7 +155,7 @@ FROM            V_LABELGIZI where norec in($P!{norec})]]>
 				<textFieldExpression><![CDATA[$F{namaexternal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="ElementGroupBottom" x="-2" y="0" width="32" height="11" uuid="8c0735e7-cf8e-41ca-826e-0c711d0c04d5"/>
+				<reportElement stretchType="ElementGroupBottom" x="-6" y="0" width="40" height="11" uuid="8c0735e7-cf8e-41ca-826e-0c711d0c04d5"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
