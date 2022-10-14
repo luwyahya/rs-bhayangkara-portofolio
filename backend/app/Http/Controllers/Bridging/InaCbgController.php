@@ -1102,6 +1102,7 @@ class InaCbgController   extends ApiController
     {
         $data = \DB::table('pasiendaftar_t as pd')
                 ->join('pemakaianasuransi_t as pas', 'pas.noregistrasifk', '=', 'pd.norec')
+                ->leftJoin('diagnosa_m as dg','dg.id','=','pas.objectdiagnosafk')
                 ->leftjoin('batalregistrasi_t as br', 'br.pasiendaftarfk', '=', 'pd.norec')
                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
@@ -1109,7 +1110,7 @@ class InaCbgController   extends ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
                 ->leftJoin('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
                 ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
-                ->select('pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi',
+                ->select('pas.nosep','dg.kddiagnosa','hg.cbgcode','pas.namadpjp','pas.nokepesertaan','pd.noregistrasi',
                 DB::raw("to_char( pd.tglregistrasi, 'DD/TMMon/YYYY' ) as tglmasuk,
                         to_char( pd.tglpulang, 'DD/TMMon/YYYY' ) as tglpulang,
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,

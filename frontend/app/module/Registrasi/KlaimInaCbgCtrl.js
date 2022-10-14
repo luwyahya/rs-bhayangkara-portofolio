@@ -366,6 +366,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "width": "150px",
                     "template": "<span class='style-left'>#: namapasien #</span>",
                 },
+                 {
+                    "field": "namadpjp",
+                    "title": "Nama DPJP",
+                    "width": "70px",
+                    "template": "<span class='style-center'>#: namadpjp #</span>"
+                },
                 {
                     "field": "tglpulang",
                     "title": "Tgl Pulang",
@@ -404,9 +410,21 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "template": "<span class='style-right' style='font-weight:bold'>{{formatRupiah('#: biayanaikkelas #', 'Rp. ')}}</span>",
                 },
                 {
+                    "field": "cbgcode",
+                    "title": "Kode CBG",
+                    "width": "70px",
+                    "template": "<span class='style-center'>#: cbgcode #</span>"
+                },
+                {
                     "field": "cbgdescription",
                     "title": "Description",
                     "width": "150px"
+                },
+                {
+                    "field": "kddiagnosa",
+                    "title": "Kode Diagnosa",
+                    "width": "70px",
+                    "template": "<span class='style-center'>#: kddiagnosa #</span>"
                 },
                 {
                     "field": "isdiagnosis",
