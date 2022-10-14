@@ -1,20 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="212" pageHeight="100" columnWidth="208" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="297" pageHeight="128" columnWidth="293" leftMargin="2" rightMargin="2" topMargin="2" bottomMargin="2" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value="Vl9MQUJFTEdJWkkgLDE1LDE1LDYxZTU1OWExLTU1ZDEtNDY4Ni04M2E3LWU5MWQ3NDIxYzQyNDs="/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="ireport.zoom" value="3.9930000000000305"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.unit." value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="cm"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="350"/>
@@ -87,101 +78,157 @@ FROM            V_LABELGIZI where norec in($P!{norec})]]>
 		<band height="76">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="0" width="205" height="10" forecolor="#0A0101" uuid="bcc1fcb3-cd3d-40e4-beec-7969db8e0a9f"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="0" width="205" height="10" forecolor="#0A0101" uuid="bcc1fcb3-cd3d-40e4-beec-7969db8e0a9f"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="20" width="95" height="10" forecolor="#0A0101" uuid="582048b8-bcb3-4a7c-bb12-a3221615d7af"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="36" width="95" height="10" forecolor="#0A0101" uuid="582048b8-bcb3-4a7c-bb12-a3221615d7af"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="30" width="205" height="10" forecolor="#0A0101" uuid="ef2559cd-8ca3-45bd-9e84-1614b5590e59"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="50" width="205" height="10" forecolor="#0A0101" uuid="ef2559cd-8ca3-45bd-9e84-1614b5590e59"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ruanganasal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="40" width="35" height="10" forecolor="#0A0101" uuid="24a3f6ae-943e-43ff-883e-036dc51bf15e"/>
+				<reportElement stretchType="ElementGroupBottom" x="3" y="66" width="35" height="10" forecolor="#0A0101" uuid="24a3f6ae-943e-43ff-883e-036dc51bf15e"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kategorydiet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="50" width="205" height="10" forecolor="#0A0101" uuid="19923ceb-7cec-48b6-a919-de08d0e151a6"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{keteranganlainnyakirim}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="5" y="10" width="95" height="10" forecolor="#0A0101" uuid="dad01271-fc9d-4e07-ad9c-f5a79b6d3146"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="20" width="95" height="10" forecolor="#0A0101" uuid="dad01271-fc9d-4e07-ad9c-f5a79b6d3146"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tgllahirNew}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="100" y="10" width="110" height="10" forecolor="#0A0101" uuid="4ab924d2-63d4-47e0-91cb-b6f71de5faa0"/>
+				<reportElement stretchType="ElementGroupBottom" x="194" y="20" width="86" height="10" forecolor="#0A0101" uuid="4ab924d2-63d4-47e0-91cb-b6f71de5faa0"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement stretchType="ElementGroupBottom" x="29" y="65" width="171" height="11" uuid="e20439e3-3f31-4472-b922-ecf106e96657"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[SEBAIKNYA DIKONSUMSI SEBELUM 2 JAM]]></text>
-			</staticText>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="20" y="40" width="74" height="10" forecolor="#0A0101" uuid="8a46b49b-57f4-4a21-918e-77ceb4e58ef7"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="66" width="74" height="10" forecolor="#0A0101" uuid="8a46b49b-57f4-4a21-918e-77ceb4e58ef7"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="80" y="40" width="74" height="10" forecolor="#0A0101" uuid="584048dc-784b-4b31-a9e1-436010cd126b"/>
+				<reportElement stretchType="ElementGroupBottom" x="140" y="66" width="74" height="10" forecolor="#0A0101" uuid="584048dc-784b-4b31-a9e1-436010cd126b"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="140" y="40" width="60" height="10" forecolor="#0A0101" uuid="542ad68f-bd95-41c3-8db7-25694910c497"/>
+				<reportElement stretchType="ElementGroupBottom" x="230" y="66" width="60" height="10" forecolor="#0A0101" uuid="542ad68f-bd95-41c3-8db7-25694910c497"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="100" y="20" width="74" height="10" forecolor="#0A0101" uuid="c54ab00c-601e-4828-8d34-dbe7fcb85850"/>
+				<reportElement stretchType="ElementGroupBottom" x="220" y="36" width="74" height="10" forecolor="#0A0101" uuid="c54ab00c-601e-4828-8d34-dbe7fcb85850"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jammakan}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="100" y="0" width="74" height="10" forecolor="#0A0101" uuid="253097cb-3fee-4ad6-8cc2-52b6f9cf85cf"/>
+				<reportElement stretchType="ElementGroupBottom" x="200" y="0" width="74" height="10" forecolor="#0A0101" uuid="253097cb-3fee-4ad6-8cc2-52b6f9cf85cf"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namaexternal}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="-2" y="0" width="32" height="11" uuid="8c0735e7-cf8e-41ca-826e-0c711d0c04d5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="-2" y="20" width="40" height="11" uuid="8c1a811b-662e-4db0-b73c-bdc828a0325a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl Lahir:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="-6" y="36" width="44" height="11" uuid="e7fb7044-b01e-49d4-8af3-a9c234efa9ab"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No RM:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="-2" y="50" width="44" height="11" uuid="43f8785f-2a21-4bc2-a2da-625d296c967d"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ruangan:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="160" y="20" width="34" height="11" uuid="60e00dcb-f443-422e-a1f1-549300b02d4a"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Umur:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="160" y="0" width="40" height="11" uuid="79bbceeb-26a0-4cb8-8c96-2e5e9b6c199f"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No Bed:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="160" y="36" width="61" height="11" uuid="d6ce6e4b-fe77-45c3-9dad-0f7a4e8b202c"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Waktu Makan:]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="14" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="30" width="171" height="11" uuid="e20439e3-3f31-4472-b922-ecf106e96657"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEBAIKNYA DIKONSUMSI SEBELUM 2 JAM]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="4" width="205" height="10" forecolor="#0A0101" uuid="19923ceb-7cec-48b6-a919-de08d0e151a6"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keteranganlainnyakirim}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="3" y="4" width="44" height="11" uuid="c370dfa0-a617-42d8-b551-165d355564cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Keterangan:]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 </jasperReport>
