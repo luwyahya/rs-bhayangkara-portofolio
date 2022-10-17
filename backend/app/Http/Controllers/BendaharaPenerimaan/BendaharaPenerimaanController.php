@@ -930,6 +930,27 @@ class BendaharaPenerimaanController extends ApiController {
         return $this->respond($uhman);
     }
 
+    public function daftarKelompokTransaksi(Request $request){
+        $data =  DB::select(DB::raw(" SELECT mj.id,pd.namaproduk,rk.namarekanan,
+                dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,
+                cf.namaaccount as namaaccountdebit,cf2.namaaccount as namaaccountkredit,ma.namamataanggaran,
+                mj.objectkelompoktransaksifk from mapjurnal_m as mj
+                left join produk_m as pd on pd.id=mj.objectprodukfk
+                left join rekanan_m as rk on rk.id=mj.objectpenjaminfk
+                left join departemen_m as dp on dp.id=mj.objectdepartemenfk
+                left join ruangan_m as ru on ru.id=mj.objectruanganfk
+                left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
+                left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
+                left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
+                left join mataanggaran_m as ma on ma.id=mj.objectmataanggaranfk
+                where mj.objectkelompoktransaksifk is not null
+        "));
+         $result = array(
+            'data' => $data,
+            'message' => 'tukangkomputer',
+        );
+        return $this->respond($result);
+    }
     public function daftarSetoranKasir(Request $request){
         $list =  explode ( ',',$this->settingDataFixed('KdTransaksiBendaharaPenerimaan'));
         $kdTrans = [];

@@ -1304,13 +1304,14 @@ class AkuntansiController extends ApiController{
                 $newCOA->norec = $norecHead;
                 $newCOA->id = $newID;
                 $newCOA->kdprofile = 1;
+                $newCOA->statusenabled= true;
             }else{
 
                 $newCOA =  MapJurnal::where('id',$request['id'])->first();
             }
             $newCOA->objectcoadebitfk = $request['objectcoadebitfk'];
             $newCOA->objectcoakreditfk = $request['objectcoakreditfk'];
-            $newCOA->statusenabled = $request['statusenabled'];
+            // $newCOA->statusenabled = $request['statusenabled'];
             $newCOA->objectprodukfk = $request['objectprodukfk'];
             $newCOA->objectpenjaminfk = $request['objectpenjaminfk'];
             $newCOA->objectdepartemenfk = $request['objectdepartemenfk'];

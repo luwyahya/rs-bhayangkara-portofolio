@@ -171,6 +171,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-monitoring-klaim-per-bulan', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaim');
             Route::get('get-monitoring-klaim-per-bulan-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaimJaspel');
             Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
+            Route::get('get-daftar-kelompok-transaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksi');
 
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
             //**GET**//

@@ -1,7 +1,7 @@
 define(['initialize'], function (initialize) {
 	'use strict';
-	initialize.controller('VerifikasiSetoranCtrl', ['$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-		function ($scope, $state, cacheHelper, dateHelper, medifirstService) {
+	initialize.controller('VerifikasiSetoranCtrl', ['$scope', '$state', '$mdDialog', 'CacheHelper', 'DateHelper', 'MedifirstService',
+		function ($scope, $state, $mdDialog, cacheHelper, dateHelper, medifirstService) {
 			$scope.now = new Date();
 			$scope.item = {};
 			$scope.isRouteLoading = false;
@@ -16,6 +16,7 @@ define(['initialize'], function (initialize) {
 			$scope.lampiran = {}
 			$scope.kas.periode = new Date()
 			var tempTr = '';
+			var kdKelompokTransaksi
 			loadCombo();
 			showButton();
 			loadCache();
@@ -174,6 +175,94 @@ define(['initialize'], function (initialize) {
 					});
 
 				});
+				// grid kelompok transaksi
+				medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi'
+				).then(function (data) {
+					debugger
+					var result = []
+					result = data.data
+					$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
+						data: result.data,//data,
+						//pageSize: 10,
+						total: result.data.length,
+						serverPaging: false,
+						schema: {
+							model: {
+								fields: {
+									jasa: { type: "nontunai" }
+								}
+							}
+						},
+
+					});
+
+				});
+			};
+
+			$scope.columnGridKelompokTransaksi = {
+				excel: {
+					fileName: "Buku Kas UMUM " + moment($scope.item.tglAwal).format('DD/MMM/YYYY') + "-"
+						+ moment($scope.item.tglAwal).format('DD/MMM/YYYY') + ".xlsx",
+					allPages: true,
+				},
+				excelExport: function (e) {
+					var sheet = e.workbook.sheets[0];
+					sheet.frozenRows = 2;
+					sheet.mergedCells = ["A1:H1"];
+					sheet.name = "Orders";
+
+					var myHeaders = [{
+						value: "Buku Kas Umum",
+						fontSize: 20,
+						textAlign: "center",
+						background: "#ffffff",
+						// color:"#ffffff"
+					}];
+
+					sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+				},
+				sortable: false,
+				reorderable: true,
+				filterable: false,
+				pageable: true,
+				columnMenu: false,
+				resizable: true,
+				selectable: 'row',
+				columns: [
+					{
+						field: "namaproduk", title: "Nama Produk", width: "150px"
+					},
+					{
+						field: "namarekanan", title: "Nama Rekanan", width: "150px"
+					},
+					{
+						field: "namaruangan", title: "Nama Ruangan", width: "150px"
+					},
+					{
+						field: "kelompoktransaksi", title: "Nama kelompok transaksi", width: "150px"
+					},
+					{
+						field: "namaaccountdebit", title: "Nama Account Debit", width: "150px"
+					},
+					{
+						field: "namaaccountkredit", title: "Nama Account Kredit", width: "150px"
+					},
+					{
+						field: "namamataanggaran", title: "Nama Mata Anggaran", width: "150px"
+					}
+				],
+				sortable: {
+					mode: "single",
+					allowUnsort: false,
+				},
+				pageable: {
+					messages: {
+						display: "Menampilkan {0} - {1} data dari {2} data"
+					},
+					refresh: true,
+					pageSizes: true,
+					buttonCount: 5
+				}
 			};
 
 			$scope.columnGrid = {
@@ -332,6 +421,7 @@ define(['initialize'], function (initialize) {
 					tempTr = dataItem
 					$scope.item.jumlahRp = tempTr.debit
 					$scope.popUpVerifikasi.center().open()
+					$scope.item.kelompoktransaksi = ""
 				}
 			}
 
@@ -350,7 +440,7 @@ define(['initialize'], function (initialize) {
 				if (stt) {
 					var itemDelete = {
 						"norec_struk_histori": dataItem.norec_sh,
-						"kelompoktransaksi": $scope.item.jenisTransaksi.kelompoktransaksifk,
+						"kelompoktransaksi": kdKelompokTransaksi,
 						"tglsetor": moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),
 						"tgltransferkerekbank": moment($scope.item.tglTransferKeBank).format('YYYY-MM-DD HH:mm'),
 						"noBukti": $scope.item.noBukti,
@@ -585,7 +675,25 @@ define(['initialize'], function (initialize) {
 				$scope.item.terbilang = '';
 
 			}
-
+			$scope.klikGridKelompokTransaksi = function (dataSelectedKelompokTransaksi) {
+				kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
+				$scope.popUpVerifikasi.close()
+				var confirm = $mdDialog.prompt()
+					.title('Silahkan Masukan Nomor Antrian Loket Pasien?')
+					.placeholder('No Antrian')
+					.ariaLabel('Lucky day')
+					.cancel('Tidak')
+					.initialValue(dataSelectedKelompokTransaksi.kelompoktransaksi)
+					.ok('Okay!')
+					.cancel('Tidak');
+				$mdDialog.show(confirm).then(function (result) {
+					kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
+					$scope.item.kelompoktransaksi = dataSelectedKelompokTransaksi.kelompoktransaksi
+					$scope.popUpVerifikasi.center().open()
+				}, function () {
+					return
+				});
+			}
 			$scope.Detail = function () {
 				$scope.txtDisable = false
 				// $scope.showBtnSimpan = true
