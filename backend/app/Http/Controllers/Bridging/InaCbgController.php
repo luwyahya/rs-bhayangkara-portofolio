@@ -1132,7 +1132,7 @@ class InaCbgController   extends ApiController
         $data = $data->get();
         $data2 = [];
         foreach ($data as $key => $value) {
-            $diagnosa = \DB::table('santrianpasiendiperiksa_t AS apd')
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
                 ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
                 ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
                 ->where('ddp.objectjenisdiagnosafk', 1)
