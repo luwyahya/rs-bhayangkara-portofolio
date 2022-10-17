@@ -99,7 +99,7 @@ FROM            V_LABELGIZI where norec in($P!{norec})]]>
 				<textFieldExpression><![CDATA[$F{ruanganasal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="3" y="66" width="35" height="10" forecolor="#0A0101" uuid="24a3f6ae-943e-43ff-883e-036dc51bf15e"/>
+				<reportElement stretchType="ElementGroupBottom" x="3" y="66" width="35" height="10" forecolor="#FFFFFF" uuid="24a3f6ae-943e-43ff-883e-036dc51bf15e"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
@@ -120,21 +120,21 @@ FROM            V_LABELGIZI where norec in($P!{norec})]]>
 				<textFieldExpression><![CDATA[$F{umur}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="50" y="66" width="74" height="10" forecolor="#0A0101" uuid="8a46b49b-57f4-4a21-918e-77ceb4e58ef7"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="66" width="74" height="10" forecolor="#FFFFFF" uuid="8a46b49b-57f4-4a21-918e-77ceb4e58ef7"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="140" y="66" width="74" height="10" forecolor="#0A0101" uuid="584048dc-784b-4b31-a9e1-436010cd126b"/>
+				<reportElement stretchType="ElementGroupBottom" x="140" y="66" width="74" height="10" forecolor="#FFFFFF" uuid="584048dc-784b-4b31-a9e1-436010cd126b"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="230" y="66" width="60" height="10" forecolor="#0A0101" uuid="542ad68f-bd95-41c3-8db7-25694910c497"/>
+				<reportElement stretchType="ElementGroupBottom" x="230" y="66" width="60" height="10" forecolor="#FFFFFF" uuid="542ad68f-bd95-41c3-8db7-25694910c497"/>
 				<textElement textAlignment="Left" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
@@ -203,31 +203,31 @@ FROM            V_LABELGIZI where norec in($P!{norec})]]>
 				</textElement>
 				<text><![CDATA[Waktu Makan:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement stretchType="ElementGroupBottom" x="3" y="65" width="44" height="11" uuid="c370dfa0-a617-42d8-b551-165d355564cd"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Keterangan:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="65" width="205" height="10" forecolor="#0A0101" uuid="19923ceb-7cec-48b6-a919-de08d0e151a6"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="Times New Roman" size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keteranganlainnyakirim}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
 		<band height="48" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement stretchType="ElementGroupBottom" x="50" y="30" width="171" height="11" uuid="e20439e3-3f31-4472-b922-ecf106e96657"/>
+				<reportElement stretchType="ElementGroupBottom" x="50" y="20" width="171" height="11" uuid="e20439e3-3f31-4472-b922-ecf106e96657"/>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SEBAIKNYA DIKONSUMSI SEBELUM 2 JAM]]></text>
-			</staticText>
-			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="50" y="4" width="205" height="10" forecolor="#0A0101" uuid="19923ceb-7cec-48b6-a919-de08d0e151a6"/>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{keteranganlainnyakirim}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement stretchType="ElementGroupBottom" x="3" y="4" width="44" height="11" uuid="c370dfa0-a617-42d8-b551-165d355564cd"/>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Times New Roman" size="8" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Keterangan:]]></text>
 			</staticText>
 		</band>
 	</columnFooter>

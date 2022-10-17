@@ -1108,9 +1108,10 @@ class InaCbgController   extends ApiController
                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
                 // ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+                ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                 ->leftJoin('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
                 ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
-                ->select('pas.nosep','dg.kddiagnosa','hg.cbgcode','pas.namadpjp','pas.nokepesertaan','pd.noregistrasi',
+                ->select('pas.nosep','dg.kddiagnosa','hg.cbgcode','pg.namalengkap as namadpjp','pas.nokepesertaan','pd.noregistrasi',
                 DB::raw("to_char( pd.tglregistrasi, 'DD/TMMon/YYYY' ) as tglmasuk,
                         to_char( pd.tglpulang, 'DD/TMMon/YYYY' ) as tglpulang,
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
@@ -1131,7 +1132,7 @@ class InaCbgController   extends ApiController
         $data = $data->get();
         $data2 = [];
         foreach ($data as $key => $value) {
-            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+            $diagnosa = \DB::table('santrianpasiendiperiksa_t AS apd')
                 ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
                 ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
                 ->where('ddp.objectjenisdiagnosafk', 1)
