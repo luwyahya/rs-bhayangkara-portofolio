@@ -53,6 +53,9 @@ define(['initialize'], function (initialize) {
             }
             $scope.getIsiComboRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan
+                $scope.sourceRuangan = new kendo.data.DataSource({
+                    data: $scope.listRuangan
+                });
             }
             function init() {
                 $scope.isRouteLoading = true;
@@ -1203,30 +1206,63 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.mataAnggaran != undefined && $scope.item.mataAnggaran != '') {
                     kdMataAnggaran = $scope.item.mataAnggaran.id
                 }
-
-                var objSave =
-                {
-                    id: "",
-                    objectcoadebitfk: accDebit,
-                    objectcoakreditfk: accKredit,
-                    objectprodukfk: kdProduk,
-                    objectpenjaminfk: kdPenjamin,
-                    objectdepartemenfk: kdInstalasi,
-                    objectruanganfk: kdRuangan,
-                    objectkelompoktransaksifk: kdKelompokTransaksi,
-                    objectmataanggaranfk: kdMataAnggaran,
-                }
-
-                medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {
-                    medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
-                        $scope.isRouteLoading = false;
-                        data2 = dat.data
-                        $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
-                            data: data2,
-                            pageSize: 20
-                        });
+                debugger
+                var tempData = [];
+                if ($scope.selectedData2.length > 0) {
+                    $scope.selectedData2.forEach(function (items) {
+                        var objSave =
+                        {
+                            id: "",
+                            objectcoadebitfk: accDebit,
+                            objectcoakreditfk: accKredit,
+                            objectprodukfk: kdProduk,
+                            objectpenjaminfk: kdPenjamin,
+                            objectdepartemenfk: kdInstalasi,
+                            objectruanganfk: items.id,
+                            objectkelompoktransaksifk: kdKelompokTransaksi,
+                            objectmataanggaranfk: kdMataAnggaran,
+                        }
+                        tempData.push(objSave);
                     });
-                })
+                    var objPush = {
+                        "loop": tempData
+                    };
+                    debugger
+                    medifirstService.post('akuntansi/save-map-jurnal-loop', objPush).then(function (e) {
+                        medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                            $scope.isRouteLoading = false;
+                            data2 = dat.data
+                            $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                                data: data2,
+                                pageSize: 20
+                            });
+                        });
+                    })
+                } else {
+                    var objSave =
+                    {
+                        id: "",
+                        objectcoadebitfk: accDebit,
+                        objectcoakreditfk: accKredit,
+                        objectprodukfk: kdProduk,
+                        objectpenjaminfk: kdPenjamin,
+                        objectdepartemenfk: kdInstalasi,
+                        objectruanganfk: kdRuangan,
+                        objectkelompoktransaksifk: kdKelompokTransaksi,
+                        objectmataanggaranfk: kdMataAnggaran,
+                    }
+
+                    medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {
+                        medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                            $scope.isRouteLoading = false;
+                            data2 = dat.data
+                            $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                                data: data2,
+                                pageSize: 20
+                            });
+                        });
+                    })
+                }
             }
             $scope.saveUnPostingJurnal = function () {
 
@@ -1239,7 +1275,50 @@ define(['initialize'], function (initialize) {
                     $scope.dataSelected.posted = ''
                 })
             }
+            $scope.columnRuangan = [{
+                "template": "<input type='checkbox' class='checkbox' ng-click='onClickSatu($event)' />",
+                "width": 40
+            },
+            {
+                "field": "ruangan",
+                "title": "Nama Ruangan",
+                "width": "200px",
+            },
+            ];
+            $scope.selectedData2 = [];
+            $scope.onClickSatu = function (e) {
+                var element = $(e.currentTarget);
+                var checked = element.is(':checked'),
+                    row = element.closest('tr'),
+                    grid = $("#Kgrid").data("kendoGrid"),
+                    // grid = $("#grid").data("kendoGrid"),
+                    dataItem = grid.dataItem(row);
 
+                // $scope.selectedData[dataItem.noRec] = checked;
+                if (checked) {
+                    var result = $.grep($scope.selectedData2, function (e) {
+                        return e.id == dataItem.id;
+                    });
+                    if (result.length == 0) {
+                        $scope.selectedData2.push(dataItem);
+                    } else {
+                        for (var i = 0; i < $scope.selectedData2.length; i++)
+                            if ($scope.selectedData2[i].id === dataItem.id) {
+                                $scope.selectedData2.splice(i, 1);
+                                break;
+                            }
+                        $scope.selectedData2.push(dataItem);
+                    }
+                    row.addClass("k-state-selected");
+                } else {
+                    for (var i = 0; i < $scope.selectedData2.length; i++)
+                        if ($scope.selectedData2[i].id === dataItem.id) {
+                            $scope.selectedData2.splice(i, 1);
+                            break;
+                        }
+                    row.removeClass("k-state-selected");
+                }
+            }
             //***********************************
 
         }
