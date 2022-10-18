@@ -1104,20 +1104,20 @@ define(['initialize'], function (initialize) {
                     return;
                 }
                 if ($scope.dataSelectedPopUpAPD != undefined) {
-                    // var a = new Date();
-                    // var x = Date.parse(a);
-                    // var data = {
-                    //     kodebooking: statusschedule,
-                    //     taskid: 7,
-                    //     waktu: x
-                    // }
-                    // var objSave = {
-                    //     data: data
-                    // }
-                    // medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
-                    //     debugger
+                    var a = new Date();
+                    var x = Date.parse(a);
+                    var data = {
+                        kodebooking: statusschedule,
+                        taskid: 7,
+                        waktu: x
+                    }
+                    var objSave = {
+                        data: data
+                    }
+                    medifirstService.post('bridging/bpjs2/mjkn/antrian/UpdateWaktuTaskId', objSave).then(function (e) {
+                        debugger
 
-                    // })
+                    })
                     // * Validasi Untuk Sekali Bayar
                     //medifirstService.getDataTableTransaksi("tatarekening/get-sudah-verif?noregistrasi="+
                     //$scope.dataSelected.noregistrasi, true).then(function(dat){                           
