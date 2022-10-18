@@ -1229,6 +1229,11 @@ define(['initialize'], function (initialize) {
                     };
                     debugger
                     medifirstService.post('akuntansi/save-map-jurnal-loop', objPush).then(function (e) {
+                        $scope.selectedData2 = [];
+                        $scope.item.instalasi = ""
+                        $scope.sourceRuangan = new kendo.data.DataSource({
+                            data: []
+                        });
                         medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
                             $scope.isRouteLoading = false;
                             data2 = dat.data
