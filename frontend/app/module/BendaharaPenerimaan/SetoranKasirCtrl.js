@@ -862,6 +862,8 @@ define(['initialize'], function (initialize) {
 					}
 					// medifirstService.post('sysadmin/general/save-jurnal-setorankasir', data).then(function (e) {})
 					loadData();
+					$scope.popUpPasswprd.close();
+					$scope.item.password = "";
 				})
 			};
 

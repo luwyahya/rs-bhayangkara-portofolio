@@ -132,7 +132,7 @@
 	k-on-open="win2visible = true" k-on-close="win2visible = false">
 	<div class="panel panel-default container_12" style="padding: 0px 10px;">
 		<div class="grid_12">
-			<div class="grid_12">
+			<!-- <div class="grid_12">
 				<div class="grid_12">
 					<label c-label item="item">Kelompok Transaksi</label>
 				</div>
@@ -142,6 +142,18 @@
 					<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksi"
 						k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
 						k-auto-bind="false" k-data-source="listJenisTransaksi" ng-disabled="txtDisable" />
+				</div>
+			</div> -->
+			<div class="grid_12">
+
+				<div class="grid_12">
+					<label c-label item="item">Kelompok Transaksi</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kelompoktransaksi"
+						ng-disabled="true" />
 				</div>
 			</div>
 
@@ -212,6 +224,17 @@
 					<div class="grid_12">
 						<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.ketTransaksi" />
 					</div>
+				</div>
+			</div>
+			<div class="grid_12">
+				<div class="grid_12 headerBox">
+					<p>Map Jurnal</p>
+					<kendo-grid id="kGrids" class="max-height" k-groupable="true"
+						data-source="dataSourceKelompokTransaksi" options="columnGridKelompokTransaksi"
+						k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+						k-ng-model="dataSelectedKelompokTransaksi"
+						ng-click="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
+					</kendo-grid>
 				</div>
 			</div>
 			<!-- </fieldset> -->

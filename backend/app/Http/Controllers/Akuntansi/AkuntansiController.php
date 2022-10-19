@@ -1304,13 +1304,14 @@ class AkuntansiController extends ApiController{
                 $newCOA->norec = $norecHead;
                 $newCOA->id = $newID;
                 $newCOA->kdprofile = 1;
+                $newCOA->statusenabled= true;
             }else{
 
                 $newCOA =  MapJurnal::where('id',$request['id'])->first();
             }
             $newCOA->objectcoadebitfk = $request['objectcoadebitfk'];
             $newCOA->objectcoakreditfk = $request['objectcoakreditfk'];
-            $newCOA->statusenabled = $request['statusenabled'];
+            // $newCOA->statusenabled = $request['statusenabled'];
             $newCOA->objectprodukfk = $request['objectprodukfk'];
             $newCOA->objectpenjaminfk = $request['objectpenjaminfk'];
             $newCOA->objectdepartemenfk = $request['objectdepartemenfk'];
@@ -1332,7 +1333,6 @@ class AkuntansiController extends ApiController{
             DB::commit();
             $result = array(
                 "status" => 201,
-//                "data" => $newPJT,
                 "as" => 'as@epic',
             );
         } else {
@@ -1340,7 +1340,65 @@ class AkuntansiController extends ApiController{
             DB::rollBack();
             $result = array(
                 "status" => 400,
-//                "data" => $newPJT,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
+    public function saveMapJurnalLoop(Request $request) {
+        DB::beginTransaction();
+        $dataLogin = $request->all();
+
+        try {
+            foreach ($request['loop'] as $item) {
+                if ($item['id'] == ''){
+                    $lasID =  MapJurnal::max('id');
+                    $newID = $lasID + 1;
+
+                    $newCOA = new MapJurnal();
+                    $norecHead = $newCOA->generateNewId();
+                    $newCOA->norec = $norecHead;
+                    $newCOA->id = $newID;
+                    $newCOA->kdprofile = 1;
+                    $newCOA->statusenabled= true;
+                }else{
+
+                    $newCOA =  MapJurnal::where('id',$item['id'])->first();
+                }
+                $newCOA->objectcoadebitfk = $item['objectcoadebitfk'];
+                $newCOA->objectcoakreditfk = $item['objectcoakreditfk'];
+                // $newCOA->statusenabled = $request['statusenabled'];
+                $newCOA->objectprodukfk = $item['objectprodukfk'];
+                $newCOA->objectpenjaminfk = $item['objectpenjaminfk'];
+                $newCOA->objectdepartemenfk = $item['objectdepartemenfk'];
+                $newCOA->objectruanganfk = $item['objectruanganfk'];
+                $newCOA->objectkelompoktransaksifk = $item['objectkelompoktransaksifk'];
+                $newCOA->objectmataanggaranfk = $item['objectmataanggaranfk'];
+                $newCOA->save();
+            }
+            
+
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+        $transMessage = "";
+
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . " Berhasil" ;
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
                 "as" => 'as@epic',
             );
         }
