@@ -421,7 +421,7 @@ define(['initialize'], function (initialize) {
                                     arrPush[x].value = res[1]
 
                                 } else if(dataLoad[i].type == "datetime"){
-                                    arrPush[x].value = moment(dataLoad[i].valuei).format('DD-MMM-YYYY HH:mm:ss')
+                                    arrPush[x].value = moment(dataLoad[i].value).format('DD-MMM-YYYY HH:mm:ss')
                                 }
                                 else {
                                     arrPush[x].value = dataLoad[i].value
