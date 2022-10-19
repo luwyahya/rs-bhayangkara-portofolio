@@ -172,14 +172,15 @@
                         <button class="c-button" ng-click="saveUnPostingJurnal()">Batal Posting</button>
                     </div>
                     <div class="grid_2">
-                        <button class="k-button  k-button-icontext k-primary k-grid-update"
-                            ng-click="perbaikanJurnal2()">Perbaiki
+                        <button class="c-button" ng-click="perbaikanJurnal2()">Perbaiki
                             Jurnal</button>
                     </div>
                     <div class="grid_2">
-                        <button class="k-button  k-button-icontext k-primary k-grid-update"
-                            ng-click="mappingJurnal()">Mapping
+                        <button class="c-button" ng-click="mappingJurnal()">Mapping
                             Jurnal</button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="c-button" ng-click="settingJurnal()">Setting Jurnal</button>
                     </div>
                 </div>
                 <div class="grid_12">
@@ -308,6 +309,47 @@
                 </div>
 
 
+            </div>
+        </div>
+        <div kendo-window="popupSettingJurnal" k-title="'Setting Jurnal'" k-visible="false" k-width="1000"
+            k-height="550">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">Setting Jurnal</a>
+                        </legend>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <label c-label>Jenis Jurnal</label>
+                                </div>
+                                <div class="grid_3" style="margin-left: 5px">
+                                    <input type="radio" name="umum" id="1" class="k-radio" ng-model="item.kp" value="1">
+                                    <label class="k-radio-label" for="1">Per Penjamin</label>
+                                </div>
+                                <div class="grid_3">
+                                    <input type="radio" name="suspect" id="2" class="k-radio" ng-model="item.kp"
+                                        value="2">
+                                    <label class="k-radio-label" for="2">Penjamin & Instalasi</label>
+                                </div>
+                                <div class="grid_3">
+                                    <input type="radio" name="confirm" id="3" class="k-radio" ng-model="item.kp"
+                                        value="3">
+                                    <label class="k-radio-label" for="3">Penjamin, Instalasi, & Ruangan</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                    <div class="grid_12">
+                        <div class="k-edit-buttons  k-state-default pull-left" style="margin-top:10px">
+                            <button class="k-button  k-button-icontext k-primary k-grid-update"
+                                ng-click="saveSetJurnal()"></span>Simpan</button>
+                        </div>
+                    </div>
+                    </fieldset>
+                </div>
             </div>
         </div>
         <div kendo-window="popupPosting" k-title="'Jurnal Detail'" k-visible="false" k-width="1000" k-height="550">

@@ -391,6 +391,39 @@ define(['initialize'], function (initialize) {
                 });
                 $scope.popupPosting.center().open();
             }
+            $scope.settingJurnal = function () {
+                $scope.popupSettingJurnal.center().open()
+            }
+            $scope.saveSetJurnal = function () {
+                debugger
+                if ($scope.item.kp == undefined) {
+                    toastr.error('Setting Jurnal Belum Di Pilih', 'Peringatan');
+                    return;
+                }
+                var data = {
+                    "iddatafixed": 1272,
+                    "namafield": "seeting jurnal",
+                    "nilai": $scope.item.kp,
+                    "tabelrelasi": null,
+                    "kodeexternal": null,
+                    "namaexternal": null,
+                    "reportdisplay": null,
+                    "fieldkeytabelrelasi": null,
+                    "fieldreportdisplaytabelrelasi": null,
+                    "keteranganfungsi": "Setting Jurnal",
+                    "typefield": "string",
+                }
+
+                var objSave =
+                {
+                    datafixed: data
+                }
+
+                medifirstService.post('sysadmin/settingdatafixed/post-settingdatafixe', objSave).then(function (e) {
+
+
+                });
+            }
             $scope.mappingJurnal = function () {
                 $scope.isRouteLoading = true;
                 medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {

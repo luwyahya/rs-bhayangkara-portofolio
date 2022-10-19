@@ -679,8 +679,8 @@ define(['initialize'], function (initialize) {
 				kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
 				$scope.popUpVerifikasi.close()
 				var confirm = $mdDialog.prompt()
-					.title('Silahkan Masukan Nomor Antrian Loket Pasien?')
-					.placeholder('No Antrian')
+					.title('Kelompok Transaksi Yang Anda Pilih Adalah...')
+					.placeholder('Kelompok Transaksi')
 					.ariaLabel('Lucky day')
 					.cancel('Tidak')
 					.initialValue(dataSelectedKelompokTransaksi.kelompoktransaksi)

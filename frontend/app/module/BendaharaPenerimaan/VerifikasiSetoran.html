@@ -128,7 +128,7 @@
 <div class="grid_12" style="margin-top:60px">
 	<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
 </div>
-<div kendo-window="popUpVerifikasi" k-title="'Pilih Kelompok Transaksi'" k-width="650" k-height="500" k-visible="false"
+<div kendo-window="popUpVerifikasi" k-title="'Pilih Kelompok Transaksi'" k-width="1000" k-height="500" k-visible="false"
 	k-on-open="win2visible = true" k-on-close="win2visible = false">
 	<div class="panel panel-default container_12" style="padding: 0px 10px;">
 		<div class="grid_12">
@@ -233,7 +233,7 @@
 						data-source="dataSourceKelompokTransaksi" options="columnGridKelompokTransaksi"
 						k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
 						k-ng-model="dataSelectedKelompokTransaksi"
-						ng-click="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
+						ng-dblclick="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
 					</kendo-grid>
 				</div>
 			</div>
