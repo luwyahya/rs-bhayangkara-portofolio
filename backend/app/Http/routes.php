@@ -2553,6 +2553,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-laporan-pasien-daftar-user', 'Registrasi\LaporanRegistrasiController@getDataLaporanPasienDaftarUser');
                 Route::get('get-laporan-pasien-daftar-unand', 'Registrasi\LaporanRegistrasiController@getDataLaporanPasienDaftarUnand');
                 Route::get('get-laporan-pelayanan-pasien', 'Registrasi\LaporanRegistrasiController@getDataLaporanPelayananPasien');
+                Route::post('save-ruangan-data', 'Registrasi\LaporanRegistrasiController@saveRuanganData');
+                Route::post('save-edit-ruangan', 'Registrasi\LaporanRegistrasiController@saveEditRuangan');
+                Route::post('save-delete-ruangan', 'Registrasi\LaporanRegistrasiController@saveDeleteRuangan');
 
                 Route::get('get-data-combo-tindakan', 'Registrasi\LaporanRegistrasiController@getTindakan');
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');
