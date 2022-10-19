@@ -30,6 +30,8 @@ use App\Transaksi\OrderPelayanan;
 use App\Transaksi\OrderProduk;
 use App\Master\Pegawai;
 use App\Traits\Valet;
+use App\Master\Skbeddinamis;
+use App\Master\RuanganBed;
 use PHPExcel;
 use phpDocumentor\Reflection\Types\Null_;
 use Webpatser\Uuid\Uuid;
@@ -180,6 +182,13 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             ->orderBy('ru.namaruangan')
             ->get();
 
+        $dataRuanganBed = \DB::table('ruangan_m as ru')
+            ->where('ru.statusenabled', true)
+            //            ->where('ru.objectdepartemenfk', '16')
+            ->where('ru.objectdepartemenfk', 16)
+            ->orderBy('ru.namaruangan')
+            ->get();
+
         $dataRuanganJalan = \DB::table('ruangan_m as ru')
             ->where('ru.statusenabled', true)
             ->whereIn('ru.objectdepartemenfk', [18, 28, 24, 3, 27])
@@ -242,6 +251,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             'jaminankhusus' => $datajaminankhusus,
             'kasir' => $dataKasir,
             'diagonsa' => $dataDiagnosa,
+            'dataRuanganBed' => $dataRuanganBed,
             'jenisdiagnosa' => $dataJenisDiagnosa,
             'petugaspe' => $dataPetugasPe,
             'ruanganjalan' => $dataRuanganJalan,
@@ -514,6 +524,11 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             }
             $kunjLPjiwa=$kunjLjiwa+$kunjPjiwa;
         }
+
+        $dataBed =DB::select(DB::raw("SELECT * FROM 
+           (SELECT skbeddinamis_m.id,to_char(skbeddinamis_m.tglaktif, 'yyyy-MM') AS bulanregis, to_char(skbeddinamis_m.tglnonaktif, 'yyyy-MM') AS bulannonaktip, skbeddinamis_m.jmlbed, skbeddinamis_m.koderuangan, ruangan_m.namaruangan
+            FROM skbeddinamis_m INNER JOIN ruangan_m ON skbeddinamis_m.koderuangan = ruangan_m.id::VARCHAR) as x 
+       "));
 
         $dataRI = \DB::table('antrianpasiendiperiksa_t as apd')
             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
@@ -800,6 +815,7 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             'gdr' => (float)number_format($gdr,2),
             'ndr' => (float) number_format($ndr,2),
             'dataTTD'=>$dataTTD,
+            'dataBed' => $dataBed,
             'datakunjL'=>$datakunjL
         );
         $result = array(
@@ -807,6 +823,108 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
             'message' => 'tukangkomputer',
         );
         return $this->respond($result);
+    }
+
+   public function saveRuanganData(Request $request){
+       
+        try {
+                    $data = new Skbeddinamis();
+                    $data->koderuangan = $request['koderuangan'];
+                    $data->tglaktif = $request['tgl'];
+                    $data->jmlbed = $request['jumlah'];
+                    $data->statusenabled = 1;
+                    $data->save();
+                    $transStatus ='true';
+            } catch (Exception $e) {
+            $transStatus = 'false';
+            }           
+            $transMessage = 'Sukses';
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        }else{
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+        
+    }
+
+    public function saveEditRuangan(Request $request){
+
+      try {
+              $data = Skbeddinamis::where('id',$request['id'])
+              ->update([
+                'koderuangan' => $request['koderuangan'],
+                'tglaktif'=> $request['tgl'],
+                'jmlbed' => $request['jumlah'],
+              ]);
+              $transStatus ='true';
+            } catch (Exception $e) {
+            $transStatus = 'false';
+            }           
+            $transMessage = 'Sukses';
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        }else{
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+        
+
+    }
+
+    public function saveDeleteRuangan(Request $request){
+
+        try {
+              $data = DB::table('skbeddinamis_m')
+              ->where('id',$request['ID'])
+              ->delete();
+              $transStatus ='true';
+            } catch (Exception $e) {
+            $transStatus = 'false';
+            }           
+            $transMessage = 'Sukses';
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'as@epic',
+            );
+        }else{
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
     public function getDataLaporanPasienDaftarUnand(Request $request)
     {

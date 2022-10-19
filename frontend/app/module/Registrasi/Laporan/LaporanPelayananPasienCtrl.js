@@ -40,6 +40,9 @@ define(['initialize'], function (initialize) {
 
             //debugger;
             $scope.date = new Date();
+            var date2 = moment(date2).format('DD HH:mm');
+            // $scope.date2 = moment(date2).format('YYYY-MM-DD HH:mm');
+            // var tanggals2 = DateHelper.getDateTimeFormatted3($scope.date2);
             var tanggals = DateHelper.getDateTimeFormatted3($scope.date);
 
             //Tanggal Default
@@ -99,6 +102,37 @@ define(['initialize'], function (initialize) {
                 // }   
             };
 
+
+            $scope.editData = function (data) {
+                debugger;
+                // $scope.Detail = function () {
+                if ($scope.dataSelected.koderuangan == undefined) {
+                    window.messageContainer.error("Data Belum Dipilih !")
+                    return
+                    }
+                   
+                    var arrStr = {
+                        0: $scope.item.id = $scope.dataSelected.id,
+                        1: $scope.item.namaexternal = $scope.dataSelected.namaruangan,
+                        2: $scope.item.tgl = $scope.dataSelected.bulanregis + "-" + date2,
+                        3: $scope.item.jumlah = $scope.dataSelected.jmlbed,
+                    }
+                    $scope.edit.center().open();
+                    
+            }
+
+            $scope.Detail = function (data) {
+                LoadData()
+                $scope.winDialogss.center().open();
+
+            }
+
+            $scope.DetailForm = function (data) {
+
+                $scope.winDialogs.center().open();
+
+            }
+
             medifirstService.get("registrasi/laporan/get-data-combo-laporan").then(function (dat) {
 
                 // $scope.listPegawai = dat.data.dokter;
@@ -106,9 +140,71 @@ define(['initialize'], function (initialize) {
                 // $scope.listPegawaiKasir = dat.data.kasir;
                 //$scope.dataLogin = dat.data.datalogin[0];
                 $scope.listPasien = dat.data.kelompokpasien;
+
+                $scope.listBed = dat.data.dataRuanganBed;
                 // $scope.listJenisLap = [{ id: 1, names: "Laporan Penerimaan Kasir Harian" },
                 // { id: 2, names: "Laporan Penerimaan Kasir Perusahaan" }];
             });
+
+            $scope.simpanRuanganBed = function (data) {
+                debugger
+                var objsave = {
+                    "statusenabled": true,
+                    "koderuangan": $scope.item.namaexternal.id,
+                    "jumlah": $scope.item.jumlah != undefined ? $scope.item.jumlah : 0,
+                    "tgl": moment($scope.item.tgl).format('YYYY-MM-DD HH:mm'),
+                }
+                debugger
+                medifirstService.post('registrasi/laporan/save-ruangan-data', objsave).then(function (e) {
+                    $scope.item = {}
+                })
+                LoadData()
+                $scope.winDialogs.close();
+
+            }
+
+
+
+
+            $scope.simpanEdit = function (data) {
+                if ($scope.item.namaexternal == undefined) {
+                 window.messageContainer.error("Data Belum Dipilih !")
+                    return
+                }
+                var objsave = {
+                    "statusenabled": true,
+                    "id": $scope.item.id,
+                    "koderuangan": $scope.item.namaexternal.id,
+                    "jumlah": $scope.item.jumlah != undefined ? $scope.item.jumlah : 0,
+                    "tgl": moment($scope.item.tgl).format('YYYY-MM-DD HH:mm'),
+                }
+                debugger
+                medifirstService.post('registrasi/laporan/save-edit-ruangan', objsave).then(function (e) {
+                    $scope.item = {}
+                })
+                LoadData()
+                $scope.edit.close();
+            }
+
+            $scope.saveDelete = function (data) {
+                debugger;
+                // $scope.Detail = function () {
+                if ($scope.dataSelected.koderuangan == undefined) {
+                    window.messageContainer.error("Data Belum Dipilih !")
+                    return
+                    }
+                   
+                    var arrStr = {
+                        ID: $scope.item.id = $scope.dataSelected.id,
+                    }
+
+                     medifirstService.post('registrasi/laporan/save-delete-ruangan', arrStr).then(function (e) {
+                    $scope.item.id = {}
+                })
+                LoadData()
+            }
+
+
             $scope.getIsiComboRuangan = function () {
                 $scope.listRuangan = $scope.item.departement.ruangan
             }
@@ -248,6 +344,25 @@ define(['initialize'], function (initialize) {
                     });
                     $scope.dataPasienDetail = {
                         data: data.data.data[0].dataTTD,
+                        pageSize: 10,
+                        total: data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        },
+                        aggregate: [
+                            { field: 'jmlPasienBaru', aggregate: 'sum' },
+                        ],
+                        refresh: true,
+                        selectable: true,
+                        refresh: true,
+                        groupable: true,
+                        allowCopy: true,
+                    }
+                     $scope.dataJumlahBed = {
+                        data: data.data.data[0].dataBed,
                         pageSize: 10,
                         total: data.length,
                         serverPaging: false,
@@ -516,6 +631,46 @@ define(['initialize'], function (initialize) {
                         ]
                     },
                 ]
+            }
+
+            $scope.columnBed = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: { fileName: "laporanpelayananpasien.xlsx", allPages: true, },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 3;
+                    sheet.mergedCells = ["A1:J1"];
+                    sheet.name = "Orders";
+                    sheet.columns = 1;
+                    var myHeaders = [{
+                        value: "Laporan Pasien Daftar",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                    }];
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                sortable: true,
+                pageable: true,
+                selectable: "row",
+                columns: [{
+                    "field": "namaruangan",
+                    "title": "POLIKLINIK",
+                    "width": "50px"
+                },
+                {
+                    "field": "jmlbed",
+                    "title": "Jumlah Bed",
+                    "width": "50px"
+                },
+                {
+                    "field": "bulanregis",
+                    "title": "Tahun Bulan",
+                    "width": "50px"
+                },
+                ],
             }
 
             $scope.detailTempatTidur = function (dataPasienSelected) {

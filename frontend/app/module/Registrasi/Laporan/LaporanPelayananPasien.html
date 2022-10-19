@@ -96,5 +96,95 @@
 		</div>
 	</div>
 </div>
+<div class="grid_2">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="Detail()"><i
+                    class="fa fa-th-list"></i>Detail</button>
+            <!-- <c-button style="width: 100%; padding:0px, margin:0px;" ng-click="Detail()" position="'right'">
+                <span class="title">Rincian</span>
+            </c-button> -->
+        </div>
 
+<div kendo-window="winDialogss" k-title="'Detail'" k-width="1500" k-height="600" k-visible="false">
+	<div class="grid_12">
+		<div class="grid_12" style="margin-top:10px">
+			<div class="grid_12 headerBox">
+				<p>Detail </p>
+			</div>
+			<div class="clear"></div>
+
+			<div class="grid_12 borderBox">
+				<kendo-grid id="kGrid" data-source="dataJumlahBed" options="columnBed"
+					k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelected"
+					ng-click="klik(dataSelected)">
+				</kendo-grid>
+			</div>
+		</div>
+	</div>
+	<div class="grid_2">
+	    <button class="btnTemplate1" style="margin-left: 0;" ng-click="DetailForm()"><i
+	            class="fa fa-plus"></i>Tambah</button>
+	    <!-- <c-button style="width: 100%; padding:0px, margin:0px;" ng-click="Detail()" position="'right'">
+	        <span class="title">Rincian</span>
+	    </c-button> -->
+	</div>
+	<div class="grid_2">
+	    <button class="btnTemplate1" style="margin-left: 30;" ng-click="editData()"><i
+	            class="fa fa-arrow-right"></i>Edit</button>
+	    <!-- <c-button style="width: 100%; padding:0px, margin:0px;" ng-click="Detail()" position="'right'">
+	        <span class="title">Rincian</span>
+	    </c-button> -->
+	</div>
+	<div class="grid_2"></div>
+	<div class="grid_2">
+	    <button class="btnTemplate1 cancel" style="margin-left: 10;" ng-click="saveDelete()"><i
+	            class="fa fa-trash"></i>Hapus</button>
+	    <!-- <c-button style="width: 100%; padding:0px, margin:0px;" ng-click="Detail()" position="'right'">
+	        <span class="title">Rincian</span>
+	    </c-button> -->
+	</div>
+</div>
+
+<div kendo-window="winDialogs" k-title="'Ruangan'" k-width="800" k-height="400" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_12">
+            <label c-label item="item ">Nama Bed</label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaexternal"
+                        k-data-text-field="'namaexternal'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listBed" />
+        </div>
+        <div class="grid_12">
+            <label c-label item="item ">Bulan</label>
+            <input style="width: 100%" k-ng-model="item.tgl" kendo-datetimepicker k-max="now"
+                placeholder="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_12">
+            <label c-label item="item ">Jumlah</label>
+            <input c-text-box type="number" filter="'number'" class="k-textbox" ng-model="item.jumlah" />
+        </div>
+        <div class="clear">
+            <button class="k-button" ng-click="simpanRuanganBed(item)" style="float:right;margin-top:4%">Simpan</button>
+    </div>
+</div>
+
+<div kendo-window="edit" k-title="'Ruangan'" k-width="800" k-height="400" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_12">
+            <label c-label item="item ">Nama Bed</label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaexternal"
+                        k-data-text-field="'namaexternal'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listBed" />
+        </div>
+        <div class="grid_12">
+            <label c-label item="item ">Bulan</label>
+            <input style="width: 100%" ng-model="item.tgl" kendo-datetimepicker k-max="now"
+                placeholder="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+        <div class="grid_12">
+            <label c-label item="item ">Jumlah</label>
+            <input c-text-box type="number" filter="'number'" class="k-textbox" ng-model="item.jumlah" />
+        </div>
+        <div class="clear">
+            <button class="k-button" ng-click="simpanEdit(item)" style="float:right;margin-top:4%">Simpan</button>
+    </div>
+</div>
 <!-- </div> -->
