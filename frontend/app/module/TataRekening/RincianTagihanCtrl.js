@@ -1991,7 +1991,7 @@ define(['initialize'], function (initialize) {
                     medifirstService.get("tatarekening/get-data-login-cetakan").then(function (e) {
                         var kelas = $scope.item.kelasRawat;
                         var sisa = "Rp 0,00";
-                        if($scope.item.bayar = null){
+                        if($scope.item.bayar == null){
                             $scope.item.bayar = 0;
                         }
                         var bayar = "Rp " + parseFloat($scope.item.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
