@@ -3605,6 +3605,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('batal-verifikasi-tagihan', 'TataRekening\TagihanController@batalVerifikasiTagihan');
             Route::get('verifikasi-tagihan2/{noRegister}', 'TataRekening\TagihanController@verifikasiTagihan2');
             Route::get('detail-tagihan-verifikasi/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasi');
+            Route::get('detail-tagihan-verifikasipenjamin/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasipenjamin');
             Route::post('simpan-verifikasi-tagihan/{noRegister}', 'TataRekening\TagihanController@simpanVerifikasiTagihan');
             Route::post('simpan-verifikasi-tagihan-tatarekening', 'TataRekening\TagihanController@simpanVerifikasiTagihanTatarekening');
             Route::post('simpan-verifikasi-tagihan-inacbg/{noRegister}', 'Transaksi\TataRekening\TagihanRev2Controller@simpanVerifikasiTagihanInacbg');  //done
@@ -3635,6 +3636,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-penyakit-ponek-igd', 'TataRekening\TagihanController@getDataPenyakitPonekIGD');
             Route::get('get-data-penyakit-ponek-igd-rekap', 'TataRekening\TagihanController@getDataPenyakitPonekIGDRekap');
             Route::post('save-plapon', 'TataRekening\TagihanController@simpanPlapon');
+            Route::post('simpan-verifikasi-tagihan-tatarekening-penjamin-pertindakan', 'TataRekening\TagihanController@simpanVerifikasiTagihanPenjaminPertindakan');
+          
             // @all 
             Route::get('get-data-passien-batal', 'TataRekening\TagihanController@getDataLaporanPasienBatalRegis');
             Route::get('get-data-passien-unclose-faktur', 'TataRekening\TagihanController@getDataLaporanPasienUncloseFaktur');
