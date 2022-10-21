@@ -40,7 +40,7 @@ define(['initialize'], function (initialize) {
             var dataLogin = [];
             var KelompokUser = [];
             var idKelompokPasienLastfk = "";
-
+            var datapenjamin =[];
             var dataLayanan = [];
             var dataResep = [];
             var ruangaan2 = {};
@@ -1947,6 +1947,27 @@ define(['initialize'], function (initialize) {
                 } else if ($scope.item.cetakx == "belum") {
                     y = '&cetakx=belum'
                 }
+            
+                medifirstService.get("tatarekening/detail-tagihan-verifikasipenjamin/" + $scope.item.noRegistrasi ).then(function(data) { 
+                       
+                        $scope.totalpasien  = 0
+                        $scope.totalpenjamin1  = 0
+                        $scope.totalpenjamin2  = 0
+                        if (data.statResponse) { 
+                            $scope.aya = true
+                            datapenjamin = data.data.details;
+                            for (var j = datapenjamin.length - 1; j >= 0; j--) {                       
+                              $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat(datapenjamin[j].pasien)
+                              $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat(datapenjamin[j].penjamin1)
+                              $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat(datapenjamin[j].penjamin2)
+                            }                    
+                        }
+                        
+                        $scope.totalpasien=  parseFloat( $scope.totalpasien).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        $scope.totalpenjamin1=   parseFloat( $scope.totalpenjamin1).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        $scope.totalpenjamin2=   parseFloat( $scope.totalpenjamin2).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        $scope.isRouteLoading = false; 
+                });
                 medifirstService.get("tatarekening/detail-tagihan/" + $scope.item.noRegistrasi + '?jenisdata=bill' + y).then(function (dat) {
                     for (var i = 0; i < dat.data.details.length; i++) {
                         if (dat.data.details[i].dokter == '' || dat.data.details[i].dokter == undefined || dat.data.details[i].dokter == "-") {
@@ -1956,30 +1977,76 @@ define(['initialize'], function (initialize) {
                             }
                         }
                     }
-                    var billing = "Rp " + parseFloat(dat.data.totalBillingNonDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                    var deposit = "Rp " + parseFloat($scope.item.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                    var totalDiskon = "Rp " + parseFloat(dat.data.totalDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    if($scope.aya = false){
+                        var billing = "Rp " + parseFloat(dat.data.totalBillingNonDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        var deposit = "Rp " + parseFloat($scope.item.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        var totalDiskon = "Rp " + parseFloat(dat.data.totalDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");                   
+                    }else{
+                        var billing =  parseFloat(dat.data.totalBillingNonDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        var deposit =  parseFloat($scope.item.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        var totalDiskon =  parseFloat(dat.data.totalDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                   
+                    }
                     var terbilang = dat.data.terbilangtotalBillingNonDiskon
                     medifirstService.get("tatarekening/get-data-login-cetakan").then(function (e) {
                         var kelas = $scope.item.kelasRawat;
                         var sisa = "Rp 0,00";
                         var bayar = "Rp " + parseFloat($scope.item.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                        if (bayar == "Rp NaN") {
-                            bayar = "Rp 0,00";
-                        }
-                        if ($scope.item.jenisPasien == "BPJS") {
-                            kelas = $scope.item.kelasPenjamin
-                            bayar = "Rp " + parseFloat($scope.item.sudahbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                            // bayar = "0"
-                        }
-                        if ($scope.item.deposit > 0) {
-                            sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
-                            if (sisa > 0) {
-                                sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                            } else {
-                                sisa = "RP 0,00";
+                          if($scope.aya = false){
+                              bayar = " 0,00";
+                            if (bayar == "Rp NaN") {
+                                bayar = " 0,00";
                             }
-                        }
+                            if ($scope.item.jenisPasien == "BPJS") {
+                                kelas = $scope.item.kelasPenjamin
+                                bayar =  parseFloat($scope.item.sudahbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                // bayar = "0"
+                            }
+                            if ($scope.item.deposit > 0) {
+                                // sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
+                                // if (sisa > 0) {
+                                //     sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                // } else {
+                                //     sisa = "RP 0,00";
+                                // }
+                                var sisa = parseFloat($scope.item.bayar) +  $scope.item.deposit;
+
+                                sisa = sisa -parseFloat($scope.item.billing);
+                                // sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
+                                if (sisa > 0) {
+                                    sisa =   parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                } else {
+                                    sisa = " 0,00";
+                                }
+                            }
+                        }else{
+                                if (bayar == "Rp NaN") {
+                                bayar = "Rp 0,00";
+                            }
+                            if ($scope.item.jenisPasien == "BPJS") {
+                                kelas = $scope.item.kelasPenjamin
+                                bayar = "Rp " + parseFloat($scope.item.sudahbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                // bayar = "0"
+                            }
+                            if ($scope.item.deposit > 0) {
+                                // sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
+                                // if (sisa > 0) {
+                                //     sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                // } else {
+                                //     sisa = "RP 0,00";
+                                // }
+                                var sisa = parseFloat($scope.item.bayar) +  $scope.item.deposit;
+
+                                sisa = sisa -parseFloat($scope.item.billing);
+                                // sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
+                                if (sisa > 0) {
+                                    sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                } else {
+                                    sisa = "RP 0,00";
+                                }
+                            }
+                          }
+                       
                         var nosep = "-";
                         if ($scope.item.nosep != "" && $scope.item.nosep != null) {
                             nosep = $scope.item.nosep
@@ -1995,11 +2062,11 @@ define(['initialize'], function (initialize) {
 
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
-                            "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon"],
-                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
-                                $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon
+                            "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon","totalpasien","totalpenjamin1","totalpenjamin2"],
+                            "paramValue": ["RUMAH SAKIT MEDIKA DJAYA", "1980-12-25 00:00:00", "Jalan Parit Haji Husin 1 Blok MD No. 1 Telp: 0561- 5688558", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
+                                $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon,$scope.totalpasien,$scope.totalpenjamin1,$scope.totalpenjamin2
                             ],
-                            "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                            "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", ""]
                         };
 
                         var xhr = new XMLHttpRequest();
@@ -2018,34 +2085,25 @@ define(['initialize'], function (initialize) {
                             }
                         }
                         if ($scope.item.jenisPasien == "BPJS") {
-                            if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rincianbilling.pdf');
+                             
+                            if (window.location.hostname.indexOf('localhost') > -1) {
+                               xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
                             } else {
-                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
+                                xhr.open('POST', '/jasper1/generic/report/rincianbilling.pdf');
                             }
                         } else if ($scope.item.jenisPasien == "Umum/Pribadi") {
-                            if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rincianbilling.pdf');
+                             
+                            if (window.location.hostname.indexOf('localhost') > -1) {
+                                  xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
                             } else {
-                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
+                               xhr.open('POST', '/jasper1/generic/report/rincianbilling.pdf');
                             }
                         } else {
-                            if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rincianbilling.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rincianbilling.pdf');
+                            
+                             if (window.location.hostname.indexOf('localhost') > -1) {
+                                  xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbillingpenjamin.pdf');
                             } else {
-                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
+                               xhr.open('POST', '/jasper1/generic/report/rincianbillingpenjamin.pdf');
                             }
                         }
                         // set `Content-Type` header
