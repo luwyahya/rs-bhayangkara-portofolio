@@ -2059,15 +2059,26 @@ define(['initialize'], function (initialize) {
                         } else {
                             x = " noregistrasi='" + $scope.item.noRegistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai') order by jenisproduk,ruangantindakan,tglpelayanan,namaproduk"
                         }
-
-                        var data = {
+                        if($scope.aya = false){
+                            var data = {
                             "gambarLogo": "logodokkes.jpg",
-                            "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon","totalpasien","totalpenjamin1","totalpenjamin2"],
-                            "paramValue":  ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
-                                $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon,$scope.totalpasien,$scope.totalpenjamin1,$scope.totalpenjamin2
+                            "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon"],
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
+                                $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon
                             ],
-                            "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", ""]
-                        };
+                            "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        };}else{
+
+                            var data = {
+                                "gambarLogo": "logodokkes.jpg",
+                                "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon","totalpasien","totalpenjamin1","totalpenjamin2"],
+                                "paramValue":  ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
+                                    $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon,$scope.totalpasien,$scope.totalpenjamin1,$scope.totalpenjamin2
+                                ],
+                                "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", ""]
+                            };
+                        }
+                    
 
                         var xhr = new XMLHttpRequest();
                         xhr.onreadystatechange = function () {
