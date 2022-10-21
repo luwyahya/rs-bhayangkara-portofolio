@@ -1996,8 +1996,9 @@ define(['initialize'], function (initialize) {
                         }
                         var bayar = "Rp " + parseFloat($scope.item.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                           if($scope.aya = false){
-                              bayar = " 0,00";
-                           
+                               if (bayar == "Rp NaN") {
+                                bayar = "Rp. 0,00";
+                            }
                             if ($scope.item.jenisPasien == "BPJS") {
                                 kelas = $scope.item.kelasPenjamin
                                 bayar =  parseFloat($scope.item.sudahbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
@@ -2033,7 +2034,7 @@ define(['initialize'], function (initialize) {
                                 // bayar = "0"
                             }
                              if (bayar == "Rp NaN") {
-                                bayar = " 0,00";
+                                bayar = "Rp. 0,00";
                             }
                             if ($scope.item.deposit > 0) {
                                 // sisa = $scope.item.deposit - parseFloat($scope.item.bayar)
