@@ -2059,7 +2059,7 @@ define(['initialize'], function (initialize) {
                         } else {
                             x = " noregistrasi='" + $scope.item.noRegistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai') order by jenisproduk,ruangantindakan,tglpelayanan,namaproduk"
                         }
-                        if($scope.aya = false){
+                        if($scope.aya == false){
                             var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon"],
