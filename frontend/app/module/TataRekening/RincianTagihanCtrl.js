@@ -2063,7 +2063,7 @@ define(['initialize'], function (initialize) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon","totalpasien","totalpenjamin1","totalpenjamin2"],
-                            "paramValue": ["RUMAH SAKIT MEDIKA DJAYA", "1980-12-25 00:00:00", "Jalan Parit Haji Husin 1 Blok MD No. 1 Telp: 0561- 5688558", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
+                            "paramValue":  ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataLogin.userData.namauser.toString(), $scope.item.noRegistrasi,
                                 $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, terbilang, bayar, nosep, x, totalDiskon,$scope.totalpasien,$scope.totalpenjamin1,$scope.totalpenjamin2
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","", "", ""]
