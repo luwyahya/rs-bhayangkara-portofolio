@@ -214,6 +214,331 @@ class KasirController extends ApiController{
         );
         return $this->respond($result);
     }
+
+    public function getLaporanPendapatan(Request $request){
+
+        $filter = $request->all();
+        // $tglAwal = $request['tglAwal'];
+        // $tglAkhir = $request['tglAkhir'];
+        // $idDept = $request['idDepartemen'];
+        // $idRuangan = $request['idRuangan'];
+        // $idDokter = $request['idDokter'];
+        // $idKelompok = $request['idKelompok'];
+        // if (isset($filter['idDepartemen']) && $filter['idDepartemen'] != "" && $filter['idDepartemen'] != "undefined") {
+        //     $datas = "where pp.tglregistrasi', '>=', $filter['idDepartemen']";
+        // }
+
+        // $data = DB::select(DB::raw("SELECT
+        // ROW_NUMBER() OVER() as no,
+        // pp.tglregistrasi AS tglpelayanan,
+        // ps.nocm,
+        // dp.namaexternal,
+        // ps.namapasien,
+        // case when pg.namaexternal ='dl' then 'Dokter Luar' else 'Dokter Dalam' end as tipedokter,
+        // ru.namaexternal AS namaruangan,
+        // km.kelompokpasien,
+        // pg.namalengkap AS namadokter,
+        // pp.hargajual AS harga,
+        // pp.jumlah AS qty,
+        // pp.hargajual * pp.jumlah AS totalbayar,
+        // pr.namaexternal as namaproduk,
+        // case when sc.noclosing is not null then 'Lunas' else  ' ' end as noclosing
+        // FROM
+        // pasiendaftar_t AS pd
+        // LEFT JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
+        // LEFT JOIN pelayananpasien_t AS pp ON pp.noregistrasifk = apd.norec
+        // LEFT JOIN kelompokpasien_m AS km ON km.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN pegawai_m AS pg ON pg.ID = apd.objectpegawaifk
+        // LEFT JOIN ruangan_m AS ru ON ru.ID = apd.objectruanganfk
+        // LEFT JOIN departemen_m AS dp ON dp.ID = ru.objectdepartemenfk
+        // LEFT JOIN produk_m AS pr ON pr.ID = pp.produkfk
+        // LEFT JOIN detailjenisproduk_m AS djp ON djp.ID = pr.objectdetailjenisprodukfk
+        // LEFT JOIN jenisproduk_m AS jp ON jp.ID = djp.objectjenisprodukfk
+        // LEFT JOIN kelompokproduk_m AS kp ON kp.ID = jp.objectkelompokprodukfk
+        // LEFT JOIN pasien_m AS ps ON ps.ID = pd.nocmfk
+        // LEFT JOIN kelompokpasien_m AS kps ON kps.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN strukpelayanan_t AS sp ON sp.norec = pp.strukfk
+        // INNER JOIN strukbuktipenerimaan_t AS sbm ON sbm.nostrukfk = sp.norec
+        // LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+        // where sc.noclosing is not null and pp.tglregistrasi between :tglAwal and :tglAkhir as x $datas
+        // "), array(
+        //     'tglAwal' => $request['tglAwal'],
+        //     'tglAkhir' => $request['tglAkhir']
+        // ));
+        $filter = $request->all();
+        $data = \DB::table('pasiendaftar_t as pd')
+        ->leftJoin('antrianpasiendiperiksa_t as apd','apd.noregistrasifk', '=','pd.norec')
+        ->leftjoin('pelayananpasien_t as pp','pp.noregistrasifk','=','apd.norec')
+        ->leftJoin('kelompokpasien_m as km','km.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('pegawai_m as pg','pg.id','=','apd.objectpegawaifk')
+        ->leftjoin('ruangan_m as ru','ru.id','=','apd.objectruanganfk')
+        ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
+        ->leftjoin('produk_m as pr','pr.id','=','pp.produkfk')
+        ->leftjoin('detailjenisproduk_m as djp','djp.id','=','pr.objectdetailjenisprodukfk')
+        ->leftjoin('jenisproduk_m as jp','jp.id','=','djp.objectjenisprodukfk')
+        ->leftjoin('kelompokproduk_m as kp','kp.id','=','jp.objectkelompokprodukfk')
+        ->leftjoin('pasien_m as ps','ps.id','=','pd.nocmfk')
+        ->leftjoin('kelompokpasien_m as kps','kps.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('strukpelayanan_t as sp','sp.norec','=','pp.strukfk')
+        ->leftjoin('strukbuktipenerimaan_t as sbm','sbm.nostrukfk','=','sp.norec')
+        ->leftjoin('strukclosing_t as sc','sc.norec','=','sbm.noclosingfk')
+        ->select(
+           DB::raw("
+        ROW_NUMBER() OVER() as no,
+        pp.tglregistrasi AS tglpelayanan,
+        ps.nocm,
+        dp.namaexternal,
+        ps.namapasien,
+        case when pg.namaexternal ='dl' then 'Dokter Luar' else 'Dokter Dalam' end as tipedokter,
+        ru.namaexternal AS namaruangan,
+        km.kelompokpasien,
+        pg.namalengkap AS namadokter,
+        pp.hargajual AS harga,
+        pp.jumlah AS qty,
+        pp.hargajual * pp.jumlah AS totalbayar,
+        pr.namaexternal as namaproduk,
+        case when sc.noclosing is not null then 'Lunas' else  ' ' end as noclosing")
+        )
+        ->where('sc.noclosing','!=',null);
+        
+        
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '>=', $filter['tglAwal']);
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '<=', $filter['tglAkhir']);
+        }
+        if (isset($filter['idDepartemen']) && $filter['idDepartemen'] != "" && $filter['idDepartemen'] != "undefined") {
+            $data = $data->where('dp.id', '=', $filter['idDepartemen']);
+        }
+        if (isset($filter['TipeDokter']) && $filter['TipeDokter'] != "" && $filter['TipeDokter'] != "undefined") {
+            $data = $data->where('pg.namaexternal', '=', 'dl');
+        }
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['idRuangan']);
+        }
+        if (isset($filter['idDokter']) && $filter['idDokter'] != "" && $filter['idDokter'] != "undefined") {
+            $data = $data->where('pg.id', '=', $filter['idDokter']);
+        }
+        if (isset($filter['idKelompok']) && $filter['idKelompok'] != "" && $filter['idKelompok'] != "undefined") {
+            $data = $data->where('kps.id', '=', $filter['idKelompok']);
+        }
+
+        $data = $data->groupBy('pp.tglregistrasi', 'ps.nocm', 'dp.namaexternal', 'ps.namapasien', 'pg.namaexternal', 'ru.namaexternal',
+            'km.kelompokpasien', 'pg.namalengkap',
+            'pp.hargajual', 'pp.jumlah', 'pr.namaexternal', 'pp.hargajual', 'sc.noclosing');
+        $data = $data->get();
+
+        return $this->respond($data);
+
+
+    }
+
+    public function getRekaPendapatan(Request $request){
+        //  $data = DB::select(DB::raw("SELECT
+        //     ROW_NUMBER() OVER() as no,
+        // ps.nocm,
+        //         dp.namadepartemen,
+        // ru.namaexternal AS namaruangan,
+        // km.kelompokpasien,
+        // pg.namalengkap AS namadokter,
+        // pp.hargajual * pp.jumlah AS totalbayar
+        // FROM
+        // pasiendaftar_t AS pd
+        // LEFT JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
+        // LEFT JOIN pelayananpasien_t AS pp ON pp.noregistrasifk = apd.norec
+        // LEFT JOIN kelompokpasien_m AS km ON km.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN pegawai_m AS pg ON pg.ID = apd.objectpegawaifk
+        // LEFT JOIN ruangan_m AS ru ON ru.ID = apd.objectruanganfk
+        // LEFT JOIN departemen_m AS dp ON dp.ID = ru.objectdepartemenfk
+        // LEFT JOIN produk_m AS pr ON pr.ID = pp.produkfk
+        // LEFT JOIN detailjenisproduk_m AS djp ON djp.ID = pr.objectdetailjenisprodukfk
+        // LEFT JOIN jenisproduk_m AS jp ON jp.ID = djp.objectjenisprodukfk
+        // LEFT JOIN kelompokproduk_m AS kp ON kp.ID = jp.objectkelompokprodukfk
+        // LEFT JOIN pasien_m AS ps ON ps.ID = pd.nocmfk
+        // LEFT JOIN kelompokpasien_m AS kps ON kps.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN strukpelayanan_t AS sp ON sp.norec = pp.strukfk
+        // INNER JOIN strukbuktipenerimaan_t AS sbm ON sbm.nostrukfk = sp.norec
+        // LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+        // where sc.noclosing is not null
+        // "));
+
+         $filter = $request->all();
+         $data = \DB::table('pasiendaftar_t as pd')
+        ->leftJoin('antrianpasiendiperiksa_t as apd','apd.noregistrasifk', '=','pd.norec')
+        ->leftjoin('pelayananpasien_t as pp','pp.noregistrasifk','=','apd.norec')
+        ->leftJoin('kelompokpasien_m as km','km.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('pegawai_m as pg','pg.id','=','apd.objectpegawaifk')
+        ->leftjoin('ruangan_m as ru','ru.id','=','apd.objectruanganfk')
+        ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
+        ->leftjoin('produk_m as pr','pr.id','=','pp.produkfk')
+        ->leftjoin('detailjenisproduk_m as djp','djp.id','=','pr.objectdetailjenisprodukfk')
+        ->leftjoin('jenisproduk_m as jp','jp.id','=','djp.objectjenisprodukfk')
+        ->leftjoin('kelompokproduk_m as kp','kp.id','=','jp.objectkelompokprodukfk')
+        ->leftjoin('pasien_m as ps','ps.id','=','pd.nocmfk')
+        ->leftjoin('kelompokpasien_m as kps','kps.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('strukpelayanan_t as sp','sp.norec','=','pp.strukfk')
+        ->leftjoin('strukbuktipenerimaan_t as sbm','sbm.nostrukfk','=','sp.norec')
+        ->leftjoin('strukclosing_t as sc','sc.norec','=','sbm.noclosingfk')
+        ->select(
+           DB::raw("
+        ROW_NUMBER() OVER() as no,
+        pp.tglregistrasi AS tglpelayanan,
+        ps.nocm,
+        dp.namaexternal,
+        dp.namadepartemen,
+        ps.namapasien,
+        case when pg.namaexternal ='dl' then 'Dokter Luar' else 'Dokter Dalam' end as tipedokter,
+        ru.namaexternal AS namaruangan,
+        km.kelompokpasien,
+        pg.namalengkap AS namadokter,
+        pp.hargajual AS harga,
+        pp.jumlah AS qty,
+        pp.hargajual * pp.jumlah AS totalbayar,
+        pr.namaexternal as namaproduk,
+        case when sc.noclosing is not null then 'Lunas' else  ' ' end as noclosing")
+        )
+        ->where('sc.noclosing','!=',null);
+        
+        
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '>=', $filter['tglAwal']);
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '<=', $filter['tglAkhir']);
+        }
+        if (isset($filter['idDepartemen']) && $filter['idDepartemen'] != "" && $filter['idDepartemen'] != "undefined") {
+            $data = $data->where('dp.id', '=', $filter['idDepartemen']);
+        }
+        if (isset($filter['TipeDokter']) && $filter['TipeDokter'] != "" && $filter['TipeDokter'] != "undefined") {
+            $data = $data->where('pg.namaexternal', '=', 'dl');
+        }
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['idRuangan']);
+        }
+        if (isset($filter['idDokter']) && $filter['idDokter'] != "" && $filter['idDokter'] != "undefined") {
+            $data = $data->where('pg.id', '=', $filter['idDokter']);
+        }
+        if (isset($filter['idKelompok']) && $filter['idKelompok'] != "" && $filter['idKelompok'] != "undefined") {
+            $data = $data->where('kps.id', '=', $filter['idKelompok']);
+        }
+
+        $data = $data->groupBy('pp.tglregistrasi', 'dp.namadepartemen', 'ps.nocm', 'dp.namaexternal', 'ps.namapasien', 'pg.namaexternal', 'ru.namaexternal',
+            'km.kelompokpasien', 'pg.namalengkap',
+            'pp.hargajual', 'pp.jumlah', 'pr.namaexternal', 'pp.hargajual', 'sc.noclosing');
+        $data = $data->get();
+
+        return $this->respond($data);
+
+        // return $this->respond($data);
+
+
+
+
+    }
+
+    public function getRekaPendapatanKeuangan(Request $request){
+        // $data = DB::select(DB::raw("SELECT
+        // ROW_NUMBER() OVER() as no,
+        // pp.tglregistrasi AS tglpelayanan,
+        // ps.nocm,
+        // dp.namaexternal,
+        // ps.namapasien,
+        // case when pg.namaexternal ='dl' then 'Dokter Luar' else 'Dokter Dalam' end as tipedokter,
+        // ru.namaexternal AS namaruangan,
+        // km.kelompokpasien,
+        // pg.namalengkap AS namadokter,
+        // pp.hargajual AS harga,
+        // pp.jumlah AS qty,
+        // pp.hargajual * pp.jumlah AS totalbayar,
+        // case when sc.noclosing is not null then 'Lunas' else  ' ' end as noclosing
+        // FROM
+        // pasiendaftar_t AS pd
+        // LEFT JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
+        // LEFT JOIN pelayananpasien_t AS pp ON pp.noregistrasifk = apd.norec
+        // LEFT JOIN kelompokpasien_m AS km ON km.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN pegawai_m AS pg ON pg.ID = apd.objectpegawaifk
+        // LEFT JOIN ruangan_m AS ru ON ru.ID = apd.objectruanganfk
+        // LEFT JOIN departemen_m AS dp ON dp.ID = ru.objectdepartemenfk
+        // LEFT JOIN produk_m AS pr ON pr.ID = pp.produkfk
+        // LEFT JOIN detailjenisproduk_m AS djp ON djp.ID = pr.objectdetailjenisprodukfk
+        // LEFT JOIN jenisproduk_m AS jp ON jp.ID = djp.objectjenisprodukfk
+        // LEFT JOIN kelompokproduk_m AS kp ON kp.ID = jp.objectkelompokprodukfk
+        // LEFT JOIN pasien_m AS ps ON ps.ID = pd.nocmfk
+        // LEFT JOIN kelompokpasien_m AS kps ON kps.ID = pd.objectkelompokpasienlastfk
+        // LEFT JOIN strukpelayanan_t AS sp ON sp.norec = pp.strukfk
+        // INNER JOIN strukbuktipenerimaan_t AS sbm ON sbm.nostrukfk = sp.norec
+        // LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+        // where sc.noclosing is not null
+        // "));
+
+        // return $this->respond($data);
+
+        $data = \DB::table('pasiendaftar_t as pd')
+        ->leftJoin('antrianpasiendiperiksa_t as apd','apd.noregistrasifk', '=','pd.norec')
+        ->leftjoin('pelayananpasien_t as pp','pp.noregistrasifk','=','apd.norec')
+        ->leftJoin('kelompokpasien_m as km','km.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('pegawai_m as pg','pg.id','=','apd.objectpegawaifk')
+        ->leftjoin('ruangan_m as ru','ru.id','=','apd.objectruanganfk')
+        ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
+        ->leftjoin('produk_m as pr','pr.id','=','pp.produkfk')
+        ->leftjoin('detailjenisproduk_m as djp','djp.id','=','pr.objectdetailjenisprodukfk')
+        ->leftjoin('jenisproduk_m as jp','jp.id','=','djp.objectjenisprodukfk')
+        ->leftjoin('kelompokproduk_m as kp','kp.id','=','jp.objectkelompokprodukfk')
+        ->leftjoin('pasien_m as ps','ps.id','=','pd.nocmfk')
+        ->leftjoin('kelompokpasien_m as kps','kps.id','=','pd.objectkelompokpasienlastfk')
+        ->leftjoin('strukpelayanan_t as sp','sp.norec','=','pp.strukfk')
+        ->leftjoin('strukbuktipenerimaan_t as sbm','sbm.nostrukfk','=','sp.norec')
+        ->leftjoin('strukclosing_t as sc','sc.norec','=','sbm.noclosingfk')
+        ->select(
+           DB::raw("
+        ROW_NUMBER() OVER() as no,
+        pp.tglregistrasi AS tglpelayanan,
+        ps.nocm,
+        dp.namaexternal,
+        ps.namapasien,
+        case when pg.namaexternal ='dl' then 'Dokter Luar' else 'Dokter Dalam' end as tipedokter,
+        ru.namaexternal AS namaruangan,
+        km.kelompokpasien,
+        pg.namalengkap AS namadokter,
+        pp.hargajual AS harga,
+        pp.jumlah AS qty,
+        pp.hargajual * pp.jumlah AS totalbayar,
+        pr.namaexternal as namaproduk,
+        case when sc.noclosing is not null then 'Lunas' else  ' ' end as noclosing")
+        )
+        ->where('sc.noclosing','!=',null);
+        
+        
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '>=', $filter['tglAwal']);
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $data = $data->where('pp.tglregistrasi', '<=', $filter['tglAkhir']);
+        }
+        if (isset($filter['idDepartemen']) && $filter['idDepartemen'] != "" && $filter['idDepartemen'] != "undefined") {
+            $data = $data->where('dp.id', '=', $filter['idDepartemen']);
+        }
+        if (isset($filter['TipeDokter']) && $filter['TipeDokter'] != "" && $filter['TipeDokter'] != "undefined") {
+            $data = $data->where('pg.namaexternal', '=', 'dl');
+        }
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['idRuangan']);
+        }
+        if (isset($filter['idDokter']) && $filter['idDokter'] != "" && $filter['idDokter'] != "undefined") {
+            $data = $data->where('pg.id', '=', $filter['idDokter']);
+        }
+        if (isset($filter['idKelompok']) && $filter['idKelompok'] != "" && $filter['idKelompok'] != "undefined") {
+            $data = $data->where('kps.id', '=', $filter['idKelompok']);
+        }
+
+        $data = $data->groupBy('pp.tglregistrasi', 'ps.nocm', 'dp.namaexternal', 'ps.namapasien', 'pg.namaexternal', 'ru.namaexternal',
+            'km.kelompokpasien', 'pg.namalengkap',
+            'pp.hargajual', 'pp.jumlah', 'pr.namaexternal', 'pp.hargajual', 'sc.noclosing');
+        $data = $data->get();
+
+        return $this->respond($data);
+    }
     
     public function getDataComboKasirSelect(Request $request) {
         $dataLogin=$request->all();

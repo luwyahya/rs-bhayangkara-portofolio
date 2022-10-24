@@ -55,6 +55,9 @@ use DB;
 use App\Transaksi\PostingJurnalTransaksi;
 use App\Transaksi\LogAcc;
 use App\Traits\SettingDataFixedTrait;
+
+use App\Transaksi\PembayaranTindakanPerpenjamin;
+
 use Carbon\Carbon;
 
 class TagihanController  extends ApiController
@@ -5156,6 +5159,7 @@ class TagihanController  extends ApiController
     }
     public function getDataComboDaftarRegPasien(Request $request)
     {
+  
         $dataLogin = $request->all();
         $dataInstalasi = \DB::table('departemen_m as dp')
             //            ->whereIn('dp.id', array(3, 14, 16, 17, 18, 19, 24, 25, 26, 27, 28, 35))
@@ -5297,7 +5301,13 @@ class TagihanController  extends ApiController
             ->where('kp.statusenabled', true)
             ->orderBy('kp.id')
             ->get();
-
+        $dataRekanan2 = \DB::table('mapkelompokpasientopenjamin_m as mkp')
+            ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
+            ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
+            ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
+            
+            ->where('mkp.statusenabled', true)
+            ->get();
         $result = array(
             'departemen' => $dataDepartemen,
             'kelompokpasien' => $dataKelompok,
@@ -5320,6 +5330,7 @@ class TagihanController  extends ApiController
             'ruanganjalan' => $dataRuanganJalan,
             'kddiagnosa' => $kdDiagnosa,
             'kesatuan' =>  $kesatuan,
+            'rekanan2' =>  $dataRekanan2,
             'message' => 'as@epic',
         );
 
@@ -15095,5 +15106,295 @@ class TagihanController  extends ApiController
 
 
         return $this->respond($result);
+    }
+    public function detailTagihanVerifikasipenjamin($noRegister, Request $request)
+    {
+        $dataRuangan = \DB::table('pasiendaftar_t as pd')
+        ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+        ->select('ru.namaruangan as namaruangan')
+        ->where('pd.noregistrasi', $noRegister)
+            ->first();
+
+        $pelayanan = [];
+        $datasudahada = \DB::table('pembayarantindakanperpenjamin_t as pd')
+        ->where('pd.noregistrasi', $noRegister)
+            ->take(1)
+            ->get();
+        $ada = false;
+        if (count($datasudahada) > 0) {
+            $ada = true;
+        }
+        $dataRekanan2 = \DB::table('mapkelompokpasientopenjamin_m as mkp')
+        ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
+        ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
+        ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
+
+        ->where('mkp.statusenabled', true)
+        ->get();
+        if ($ada) {
+            $pelayanan = \DB::table('pasiendaftar_t as pd')
+            ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+            ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+            ->leftjoin('pembayarantindakanperpenjamin_t as ptp', 'ptp.norecpp', '=', 'pp.norec')
+            ->leftjoin('rekanan_m as rk', DB::raw("rk.id::varchar "), '=', 'ptp.idrekanan1')
+            ->leftjoin('kelompokpasien_m as kp',  DB::raw("kp.id::varchar "), '=', 'ptp.jenis1')
+            ->leftjoin('rekanan_m as rk2', DB::raw("rk2.id::varchar "), '=', 'ptp.idrekanan2')
+            ->leftjoin('kelompokpasien_m as kp2', DB::raw("kp2.id::varchar "), '=', 'ptp.jenis2')
+
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->select(
+                'pp.norec',
+                'pp.tglpelayanan',
+                'pp.rke',
+                'pr.id as prid',
+                'pr.namaproduk',
+                'pp.jumlah',
+                'kl.id as klid',
+                'kl.namakelas',
+                'ru.id as ruid',
+                'ru.namaruangan',
+                'pp.produkfk',
+                'pp.hargajual',
+                'pp.hargadiscount',
+                'apd.norec as norec_apd',
+                'pp.jasa',
+                'pd.nocmfk',
+                'pd.nostruklastfk',
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'pd.norec as norec_pd',
+                'pd.tglpulang',
+                'pd.objectrekananfk as rekananid',
+                'pp.jasa',
+                'pd.kdprofile',
+                'pp.aturanpakai',
+                'pp.iscito',
+                'pd.statuspasien',
+                'pp.isparamedis',
+                'ptp.pasien',
+                'ptp.penjamin1',
+                'ptp.penjamin2',
+                'rk.namarekanan',
+                'rk2.namarekanan as namarekanan2',
+                'ptp.idrekanan1',
+                'ptp.idrekanan2',
+                'ptp.jenis1',
+                'ptp.jenis2',
+                'kp.kelompokpasien',
+                'kp2.kelompokpasien as kelompokpasien2'
+            )
+
+                ->where('pd.noregistrasi', $noRegister)
+                ->orderBy('pp.tglpelayanan', 'pp.rke');
+            if (isset($request['pelayanan']) && $request['pelayanan'] != "" && $request['pelayanan'] != "undefined") {
+                $pelayanan = $pelayanan->where('pr.namaproduk', 'like', $request['pelayanan']);
+            };
+            $pelayanan = $pelayanan->get();
+        } else {
+            $pelayanan = \DB::table('pasiendaftar_t as pd')
+            ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+            ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->select(
+                'pp.norec',
+                'pp.tglpelayanan',
+                'pp.rke',
+                'pr.id as prid',
+                'pr.namaproduk',
+                'pp.jumlah',
+                'kl.id as klid',
+                'kl.namakelas',
+                'ru.id as ruid',
+                'ru.namaruangan',
+                'pp.produkfk',
+                'pp.hargajual',
+                'pp.hargadiscount',
+                'apd.norec as norec_apd',
+                'pp.jasa',
+                'pd.nocmfk',
+                'pd.nostruklastfk',
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'pd.norec as norec_pd',
+                'pd.tglpulang',
+                'pd.objectrekananfk as rekananid',
+                'pp.jasa',
+                'pd.kdprofile',
+                'pp.aturanpakai',
+                'pp.iscito',
+                'pd.statuspasien',
+                'pp.isparamedis'
+            )
+
+                ->where('pd.noregistrasi', $noRegister)
+                ->orderBy('pp.tglpelayanan', 'pp.rke');
+            if (isset($request['pelayanan']) && $request['pelayanan'] != "" && $request['pelayanan'] != "undefined") {
+                $pelayanan = $pelayanan->where('pr.namaproduk', 'like', $request['pelayanan']);
+            };
+            $pelayanan = $pelayanan->get();
+        }
+
+
+
+        if (count($pelayanan) > 0) {
+
+            $totalBilling = 0;
+            $norecAPD = '';
+            $norecSP = '';
+            $details = array();
+            $dibayar = 0;
+            $diverif = 0;
+            foreach ($pelayanan as $value) {
+                if ($value->produkfk == $this->getProdukIdDeposit()) {
+                    continue;
+                }
+                if ($value->namaproduk == null) {
+                    continue;
+                }
+                $jasa = 0;
+                if (isset($value->jasa) && $value->jasa != "" && $value->jasa != "undefined") {
+                    $jasa = $value->jasa;
+                }
+                $kmpn = [];
+
+                $harga = (float)$value->hargajual;
+                $diskon = (float)$value->hargadiscount;
+                if ($ada) {
+                    $pasien = 0;
+                    $penjamin1 = 0;
+                    $penjamin2 = 0;
+                    if ($value->penjamin1 != null) {
+                        $pasien = $value->pasien;
+                    }
+
+                    if ($value->penjamin1 != null) {
+                        $penjamin1 = $value->penjamin1;
+                    }
+
+                    if ($value->penjamin2 != null) {
+                        $penjamin2 = $value->penjamin2;
+                    }
+
+                    $detail = array(
+                        'norec' => $value->norec,
+                        'tglPelayanan' => $value->tglpelayanan,
+                        'namaPelayanan' => $value->namaproduk,
+                        'jumlah' => $value->jumlah,
+
+                        'ruanganTindakan' => $value->namaruangan,
+                        'harga' => $harga,
+                        'total' => (($harga - $diskon) * $value->jumlah) + $jasa,
+                        'pasien' => $pasien,
+                        'penjamin1' => $penjamin1,
+                        'penjamin2' => $penjamin2,
+                        'ruid' => $value->ruid,
+                        'prid' => $value->prid,
+                        'klid' => $value->klid,
+                        'norec_apd' => $value->norec_apd,
+                        'norec_pd' => $value->norec_pd,
+                        'rekanan1' => $value->namarekanan,
+                        'rekanan2' => $value->namarekanan2,
+                        'idrekanan1' => $value->idrekanan1,
+                        'idrekanan2' => $value->idrekanan2,
+                        'jenis1' => $value->jenis1,
+                        'jenis2' => $value->jenis2,
+                        'kelompokpasien' => $value->kelompokpasien,
+                        'kelompokpasien2' => $value->kelompokpasien2
+
+                    );
+                } else {
+                    $detail = array(
+                        'norec' => $value->norec,
+                        'tglPelayanan' => $value->tglpelayanan,
+                        'namaPelayanan' => $value->namaproduk,
+                        'jumlah' => $value->jumlah,
+
+                        'ruanganTindakan' => $value->namaruangan,
+                        'harga' => $harga,
+                        'total' => (($harga - $diskon) * $value->jumlah) + $jasa,
+                        'pasien' => 0,
+                        'penjamin1'
+                        => (($harga - $diskon) * $value->jumlah) + $jasa,
+                        'penjamin2' => 0,
+
+                        'ruid' => $value->ruid,
+                        'prid' => $value->prid,
+                        'klid' => $value->klid,
+                        'norec_apd' => $value->norec_apd,
+                        'norec_pd' => $value->norec_pd,
+                        'rekanan1' => '',
+                        'rekanan2' => '',
+                        'idrekanan1' => '',
+                        'idrekanan2' => '',
+                        'jenis1' => '',
+                        'jenis2' => '',
+                        'kelompokpasien' => '',
+                        'kelompokpasien2' =>
+                        '',
+
+                    );
+                }
+                $details[] = $detail;
+            }
+        }
+
+        $arrHsil = array(
+            'details' => $details
+        );
+        return $this->respond($arrHsil);
+    }
+    public function simpanVerifikasiTagihanPenjaminPertindakan(Request $request)
+    {
+
+        try {
+            DB::beginTransaction();
+
+            $delete = PembayaranTindakanPerpenjamin::where('noregistrasi', $request['noregistrasi'])->delete();
+            foreach ($request['data'] as $item) {
+                $SPPenjamin = new PembayaranTindakanPerpenjamin();
+                $SPPenjamin->norec = $SPPenjamin->generateNewId();
+                $SPPenjamin->norecpp = $item['norec'];
+                $SPPenjamin->harga = $item['harga'];
+                $SPPenjamin->qty = (float)$item['jumlah'];
+                $SPPenjamin->total = $item['total'];
+                $SPPenjamin->pasien = $item['pasien'];
+                $SPPenjamin->penjamin1 = $item['penjamin1'];
+                $SPPenjamin->penjamin2 = $item['penjamin2'];
+                $SPPenjamin->idrekanan1 = $request['penjamin1'];
+                $SPPenjamin->idrekanan2 = $request['penjamin2'];
+                $SPPenjamin->jenis1 = $request['jenis1'];
+                $SPPenjamin->jenis2 = $request['jenis2'];
+                $SPPenjamin->noregistrasi = $request['noregistrasi'];
+
+                $SPPenjamin->save();
+            }
+            $transStatus = true;
+            $transMsg = "TransaksiBerhasil";
+        } catch (\Exception $e) {
+            $transStatus = false;
+            $transMsg = "Transaksi Gagal  ";
+        }
+
+
+        if ($transStatus) {
+            $this->setStatusCode(201);
+            $transMsg = "Transaksi Berhasil";
+            $result = array(
+                "status" => 201,
+                "message" => $transMsg,
+                // "data1" => $datakelompok1, 
+                "as" => 'as@epic',
+            );
+            DB::commit();
+        } else {
+            $this->setStatusCode(400);
+            DB::rollBack();
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMsg);
     }
 }

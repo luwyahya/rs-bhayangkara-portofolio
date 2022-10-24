@@ -1,7 +1,7 @@
-define(['initialize'], function (initialize) {
+define(['initialize'], function(initialize) {
     'use strict';
     initialize.controller('VerifikasiTagihanCtrl', ['$state', '$q', '$scope', 'MedifirstService', '$mdDialog',
-        function ($state, $q, $scope, medifirstService, $mdDialog) {
+        function($state, $q, $scope, medifirstService, $mdDialog) {
             $scope.isRouteLoading = false;
             $scope.now = new Date();
             $scope.nowFormated = moment($scope.now).format('DD-MM-YYYY');
@@ -34,18 +34,23 @@ define(['initialize'], function (initialize) {
             var hargasatuan = '';
             var norec_ppd = ''
             var norec_pp = ''
+            var datapenjamin =[];
+            var tempnorec='';
+             $scope.totalpasien  = 0
+             $scope.totalpenjamin1  = 0
+             $scope.totalpenjamin2  = 0
             FormLoad();
 
-            $scope.formatRupiah = function (value, currency) {
+            $scope.formatRupiah = function(value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.formatTanggal = function (tanggal) {
+            $scope.formatTanggal = function(tanggal) {
 
                 return moment(tanggal).format('DD-MMM-YYYY HH:mm');
             }
 
-            $scope.formatTanggalAjah = function (tanggal) {
+            $scope.formatTanggalAjah = function(tanggal) {
 
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
@@ -67,7 +72,7 @@ define(['initialize'], function (initialize) {
             }
 
             function LoadCombo() {
-                medifirstService.get("tatarekening/get-data-login?noRegistrasi=" + $scope.dataParams.noRegistrasi).then(function (e) {
+                medifirstService.get("tatarekening/get-data-login?noRegistrasi=" + $scope.dataParams.noRegistrasi).then(function(e) {
                     dataLogin = e.data.datalogin;
                     KelompokUser = e.data.kelompokuser;
                     $scope.listRuangAPD = e.data.listRuangan
@@ -77,7 +82,7 @@ define(['initialize'], function (initialize) {
             function init() {
                 $q.all([
                     medifirstService.get("tatarekening/verifikasi-tagihan2/" + $scope.dataParams.noRegistrasi)
-                ]).then(function (data) {
+                ]).then(function(data) {
                     DataRespone = data[0]
                     if (data[0].statResponse) {
                         // $scope.item = data[0];
@@ -108,9 +113,9 @@ define(['initialize'], function (initialize) {
                 dataLayanan = [];
                 dataResep = [];
                 $q.all([
-                    medifirstService.get("tatarekening/detail-tagihan-verifikasi/" + $scope.dataParams.noRegistrasi)
-                ])
-                    .then(function (data2) {
+                        medifirstService.get("tatarekening/detail-tagihan-verifikasi/" + $scope.dataParams.noRegistrasi)
+                    ])
+                    .then(function(data2) {
 
                         if (data2[0].statResponse) {
                             dataLayanan = [];
@@ -140,13 +145,13 @@ define(['initialize'], function (initialize) {
                                     if (data2[0].data.details[i].aturanpakai == null) {
                                         nourutlayanan = nourutlayanan + 1
                                         data2[0].data.details[i].no = nourutlayanan
-                                        // dataLayanan[] = data[0].details[i]
+                                            // dataLayanan[] = data[0].details[i]
                                         dataLayanan.push(data2[0].data.details[i])
                                     } else {
                                         nourutresep = nourutresep + nourutresep
                                         data2[0].data.details[i].no = nourutresep
                                         dataResep.push(data2[0].data.details[i])
-                                        // dataResep[] = data[0].details[i]
+                                            // dataResep[] = data[0].details[i]
                                     }
                                 }
                             }
@@ -154,9 +159,9 @@ define(['initialize'], function (initialize) {
                             $scope.dataRincianTagihan = new kendo.data.DataSource({
                                 data: dataLayanan, //details,
                                 group: [
-                                    //{field: "ruanganTindakan"}
-                                ]
-                                // pageSize: 20,
+                                        //{field: "ruanganTindakan"}
+                                    ]
+                                    // pageSize: 20,
 
                                 // pageSize: 10,
                             });
@@ -205,7 +210,7 @@ define(['initialize'], function (initialize) {
                 // 		modelItemAkuntansi.getDataTableTransaksi("tatarekening/detail-tagihan-verifikasi/"+ $scope.dataParams.noRegistrasi + '?jenisdata=resep')
                 // 		])
                 // 	.then(function(data3) {
-                // 		//debugger
+                // 		//
                 // 		var datas = data3.data;
                 // 		if (data3[0].statResponse){
                 // 			dataResep=[];
@@ -265,10 +270,10 @@ define(['initialize'], function (initialize) {
                 // }								
             }
 
-            $scope.checkboxClicked = function (dat) {
+            $scope.checkboxClicked = function(dat) {
 
                 if (dat) {
-                    debugger;
+                    ;
                     $scope.item.datachecklist = []
                     for (var i = 0; i < dataLayanan.length; i++) {
                         $scope.item.datachecklist.push(dataLayanan[i])
@@ -297,8 +302,6 @@ define(['initialize'], function (initialize) {
                         $scope.item.totalKlaim = totpiutang;
                         if (biayanaikkelas != 0) {
                             $scope.item.jumlahBayar = biayanaikkelas - parseFloat($scope.item.deposit)
-                        } else {
-                            $scope.item.jumlahBayar = 0;
                         }
                     } else if ($scope.item.jenisPasien != 'Umum/Pribadi') {
                         $scope.item.totalKlaim = total - bar;
@@ -331,8 +334,6 @@ define(['initialize'], function (initialize) {
                             $scope.item.totalKlaim = totpiutang;
                             if (biayanaikkelas != 0) {
                                 $scope.item.jumlahBayar = biayanaikkelas - parseFloat($scope.item.deposit)
-                            } else {
-                                $scope.item.jumlahBayar = 0;
                             }
                         } else if ($scope.item.jenisPasien != 'Umum/Pribadi') {
                             $scope.item.totalKlaim = total - bar;
@@ -369,10 +370,10 @@ define(['initialize'], function (initialize) {
                 });
 
             }
-            $scope.checkboxClicked2 = function (dat) {
+            $scope.checkboxClicked2 = function(dat) {
 
                 if (dat) {
-                    debugger;
+                    ;
 
                     $scope.item.datachecklist = []
                     if ($scope.item.kasusbaru) {
@@ -473,10 +474,10 @@ define(['initialize'], function (initialize) {
 
             }
 
-            $scope.checkboxClickedKasusCorona = function (dat) {
+            $scope.checkboxClickedKasusCorona = function(dat) {
                 $scope.isCorona = true;
                 if (dat) {
-                    debugger;
+                    ;
                     $scope.item.datachecklist = []
                     for (var i = 0; i < dataLayanan.length; i++) {
                         $scope.item.datachecklist.push(dataLayanan[i])
@@ -621,7 +622,7 @@ define(['initialize'], function (initialize) {
 
 
             $scope.selectedData2 = [];
-            $scope.onClickSatu = function (e, param) {
+            $scope.onClickSatu = function(e, param) {
                 var tol = 0;
                 var bar = 0;
                 var element = $(e.currentTarget);
@@ -639,7 +640,7 @@ define(['initialize'], function (initialize) {
 
                 // $scope.selectedData[dataItem.noRec] = checked;
                 if (checked) {
-                    var result = $.grep($scope.selectedData2, function (e) {
+                    var result = $.grep($scope.selectedData2, function(e) {
                         return e.norec == dataItem.norec;
                     });
                     if (result.length == 0) {
@@ -695,83 +696,83 @@ define(['initialize'], function (initialize) {
             $scope.columnRincianTagihan = {
                 selectable: "multiple",
                 columns: [{
-                    // "title": "<input type='checkbox' class='checkbox' ng-click='selectAll($event,1)' />",
-                    "template": "<input type='checkbox' class='checkbox' ng-click='onClickSatu($event,1)' ng-checked='checklisteuy'/>",
-                    width: "30px"
-                },
-                {
-                    "field": "tglPelayanan",
-                    "title": "Tanggal",
-                    "width": "100px",
-                    "template": "<span class='style-left'>{{formatTanggal('#: tglPelayanan #')}}</span>"
-                    // "template": "#= new moment(new Date(tglPelayanan)).format('DD-MM-YYYY HH:mm') #",
-                },
-                {
-                    "field": "namaPelayanan",
-                    "title": "Nama Pelayanan",
-                    "width": "200px",
-                },
-                {
-                    "field": "kelasTindakan",
-                    "title": "Kelas",
-                    "width": "100px",
-                },
-                {
-                    "field": "dokter",
-                    "title": "Dokter",
-                    "width": "170px",
-                },
-                {
-                    "field": "ruanganTindakan",
-                    "title": "Ruangan",
-                    "width": "200px",
-                },
-                {
-                    "field": "jumlah",
-                    "title": "Qty",
-                    "width": "50px",
-                    "template": "<span class='style-right'>#: jumlah #</span>"
-                },
-                {
-                    "field": "harga",
-                    "title": "Harga",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
-                },
-                {
-                    "field": "diskon",
-                    "title": "Harga Diskon",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: diskon #', '')}}</span>"
-                },
-                {
-                    "field": "jasa",
-                    "title": "Jasa",
-                    "width": "100px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>"
-                },
-                {
-                    "field": "total",
-                    "title": "Total",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                },
-                {
-                    "field": "piutangpenjamin",
-                    "title": "Piutang Penjamin",
-                    "width": "120px"
-                },
-                {
-                    "field": "statuscito",
-                    "title": "Status Cito",
-                    "width": "80px",
-                    "attributes": { class: "text-center" },
-                },
-                {
-                    "field": "strukfk",
-                    "title": "NoStruk/NoSbm",
-                    "width": "120px"
-                }
+                        // "title": "<input type='checkbox' class='checkbox' ng-click='selectAll($event,1)' />",
+                        "template": "<input type='checkbox' class='checkbox' ng-click='onClickSatu($event,1)' ng-checked='checklisteuy'/>",
+                        width: "30px"
+                    },
+                    {
+                        "field": "tglPelayanan",
+                        "title": "Tanggal",
+                        "width": "100px",
+                        "template": "<span class='style-left'>{{formatTanggal('#: tglPelayanan #')}}</span>"
+                            // "template": "#= new moment(new Date(tglPelayanan)).format('DD-MM-YYYY HH:mm') #",
+                    },
+                    {
+                        "field": "namaPelayanan",
+                        "title": "Nama Pelayanan",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "kelasTindakan",
+                        "title": "Kelas",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "dokter",
+                        "title": "Dokter",
+                        "width": "170px",
+                    },
+                    {
+                        "field": "ruanganTindakan",
+                        "title": "Ruangan",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "50px",
+                        "template": "<span class='style-right'>#: jumlah #</span>"
+                    },
+                    {
+                        "field": "harga",
+                        "title": "Harga",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
+                    },
+                    {
+                        "field": "diskon",
+                        "title": "Harga Diskon",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: diskon #', '')}}</span>"
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>"
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    },
+                    {
+                        "field": "piutangpenjamin",
+                        "title": "Piutang Penjamin",
+                        "width": "120px"
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "80px",
+                        "attributes": { class: "text-center" },
+                    },
+                    {
+                        "field": "strukfk",
+                        "title": "NoStruk/NoSbm",
+                        "width": "120px"
+                    }
                 ],
                 sortable: {
                     mode: "single",
@@ -780,79 +781,156 @@ define(['initialize'], function (initialize) {
             }
 
             $scope.columnRincianTagihan1 = {
+                
+                pageable: true,
+                // editable: true,
+                serverPaging: true,
                 columns: [{
-                    // "title": "<input type='checkbox' class='checkbox' ng-click='selectAll(2)' />",
-                    "template": "<input type='checkbox' class='checkbox' ng-click='onClickSatu($event,2)' />",
-                    width: "30px"
-                },
-                {
-                    "field": "tglPelayanan",
-                    "title": "Tanggal",
-                    "width": "100px",
-                    "template": "<span class='style-left'>{{formatTanggal('#: tglPelayanan #')}}</span>"
-                    // "template": "#= new moment(new Date(tglPelayanan)).format('DD-MM-YYYY HH:mm') #",
-                },
-                {
-                    "field": "namaPelayanan",
-                    "title": "Nama Pelayanan",
-                    "width": "200px",
-                },
-                {
-                    "field": "kelasTindakan",
-                    "title": "Kelas",
-                    "width": "100px",
-                },
-                {
-                    "field": "dokter",
-                    "title": "Dokter",
-                    "width": "170px",
-                },
-                {
-                    "field": "ruanganTindakan",
-                    "title": "Ruangan",
-                    "width": "200px",
-                },
-                {
-                    "field": "jumlah",
-                    "title": "Qty",
-                    "width": "50px",
-                    "template": "<span class='style-right'>#: jumlah #</span>"
-                },
-                {
-                    "field": "harga",
-                    "title": "Harga",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
-                },
-                {
-                    "field": "diskon",
-                    "title": "Harga Diskon",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: diskon #', '')}}</span>"
-                },
-                {
-                    "field": "jasa",
-                    "title": "Jasa",
-                    "width": "100px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>"
-                },
-                {
-                    "field": "total",
-                    "title": "Total",
-                    "width": "120px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
-                },
-                {
-                    "field": "statuscito",
-                    "title": "Status Cito",
-                    "width": "80px",
-                    "attributes": { class: "text-center" },
-                },
-                {
-                    "field": "strukfk",
-                    "title": "NoStruk/NoSbm",
-                    "width": "120px"
+                        // "title": "<input type='checkbox' class='checkbox' ng-click='selectAll(2)' />",
+                        "template": "<input type='checkbox' class='checkbox' ng-click='onClickSatu($event,2)' />",
+                        width: "30px"
+                    },
+                    {
+                        "field": "tglPelayanan",
+                        "title": "Tanggal",
+                        "width": "100px",
+                        "template": "<span class='style-left'>{{formatTanggal('#: tglPelayanan #')}}</span>"
+                            // "template": "#= new moment(new Date(tglPelayanan)).format('DD-MM-YYYY HH:mm') #",
+                    },
+                    {
+                        "field": "namaPelayanan",
+                        "title": "Nama Pelayanan",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "kelasTindakan",
+                        "title": "Kelas",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "dokter",
+                        "title": "Dokter",
+                        "width": "170px",
+                    },
+                    {
+                        "field": "ruanganTindakan",
+                        "title": "Ruangan",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "50px",
+                        "template": "<span class='style-right'>#: jumlah #</span>"
+                    },
+                    {
+                        "field": "harga",
+                        "title": "Harga",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
+                    },
+                    {
+                        "field": "diskon",
+                        "title": "Harga Diskon",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: diskon #', '')}}</span>"
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>"
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "80px",
+                        "attributes": { class: "text-center" },
+                    },
+                    {
+                        "field": "strukfk",
+                        "title": "NoStruk/NoSbm",
+                        "width": "120px"
+                    }
+                ],
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false,
                 }
+            }
+            $scope.columnRincianTagihanpenjamin = {
+                selectable: "row",
+              
+              
+                columns: [ 
+                    {
+                        "field": "tglPelayanan",
+                        "title": "Tanggal",
+                        "width": "100px",
+                        "template": "<span class='style-left'>{{formatTanggal('#: tglPelayanan #')}}</span>"
+                            // "template": "#= new moment(new Date(tglPelayanan)).format('DD-MM-YYYY HH:mm') #",
+                    },
+                    {
+                        "field": "namaPelayanan",
+                        "title": "Nama Pelayanan",
+                        "width": "200px",
+                         filterable: {
+                            cell: {
+                                operator: "contains",
+                                suggestionOperator: "contains"
+                            }
+                        }
+                    },
+                    
+                    {
+                        "field": "ruanganTindakan",
+                        "title": "Ruangan",
+                        "width": "200px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "50px",
+                        "template": "<span class='style-right'>#: jumlah #</span>"
+                    },
+                    {
+                        "field": "harga",
+                        "title": "Harga",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
+                    },
+                    
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "120px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
+                    },
+                    {
+                        "field": "pasien",
+                        "title": "Pasien",
+                        "width": "120px",
+                         "template": "<span class='style-right'>{{formatRupiah('#: pasien #', '')}}</span>"
+                    },
+                     {
+                        "field": "penjamin1",
+                        "title": "Penjamin1",
+                        "width": "120px",
+                         "template": "<span class='style-right'>{{formatRupiah('#: penjamin1 #', '')}}</span>"
+                    },
+                    
+                    {
+                        "field": "penjamin2",
+                        "title": "Penjamin2",
+                        "width": "120px",
+                         "template": "<span class='style-right'>{{formatRupiah('#: penjamin2 #', '')}}</span>"
+                    }
                 ],
                 sortable: {
                     mode: "single",
@@ -867,14 +945,14 @@ define(['initialize'], function (initialize) {
             // }
             // showButton();
 
-            $scope.Cetak = function () {
+            $scope.Cetak = function() {
                 $scope.pageCetak = true;
                 $scope.showBtnCetak = false;
                 $scope.showBtnSimpan = false;
 
                 $scope.totalBayarFormated = formatRupiah($scope.item.jumlahBayar, "Rp.");
             }
-            $scope.DetailTagihan = function () {
+            $scope.DetailTagihan = function() {
                 var obj = {
                     noRegistrasi: $scope.dataParams.noRegistrasi
                 }
@@ -884,12 +962,12 @@ define(['initialize'], function (initialize) {
                 });
             }
 
-            $scope.Save = function () {
+            $scope.Save = function() {
                 // if (isVerifAll == true) {
                 // 	SaveAll()
                 // }else{
                 savePIlih()
-                // }
+                    // }
             }
 
 
@@ -903,11 +981,11 @@ define(['initialize'], function (initialize) {
 
                 if (isValid.status) {
                     medifirstService.post('tatarekening/simpan-verifikasi-tagihan/', $scope.item)
-                        .then(function (e) {
+                        .then(function(e) {
                             $scope.SaveLogUser();
                             window.history.back();
                             $scope.tombolSaveIlang = true;
-                        }, function () {
+                        }, function() {
 
                         });
                 } else {
@@ -929,15 +1007,15 @@ define(['initialize'], function (initialize) {
                     "data": $scope.item,
                     "corona": $scope.isCorona,
                 }
-                medifirstService.post('tatarekening/simpan-verifikasi-tagihan-tatarekening', objSave).then(function (e) {
-                    debugger;
+                medifirstService.post('tatarekening/simpan-verifikasi-tagihan-tatarekening', objSave).then(function(e) {
+                    ;
                     var objverif = {
                         // "data": $scope.selectedData,
                         "pegawaiverif": dataLogin.userData.id,
                         // "penjamin" : $scope.item.namaPenjamin,
                         "noregistrasi": $scope.item.noRegistrasi
                     };
-                    //          debugger;
+                    //          ;
                     //          var a = "";
                     //          a = $scope.item.jenisPasien.match(/Umum/);
 
@@ -967,7 +1045,7 @@ define(['initialize'], function (initialize) {
                             .ariaLabel('Lucky day')
                             .cancel('Batal')
                             .ok('Ok')
-                        $mdDialog.show(confirm).then(function () {
+                        $mdDialog.show(confirm).then(function() {
                             var obj = {
                                 noRegistrasi: e.data.result.norec
                             }
@@ -981,25 +1059,25 @@ define(['initialize'], function (initialize) {
                         window.history.back();
                     }
 
-                }, function (error) {
+                }, function(error) {
                     $scope.tombolSaveIlang = true;
                 });
             }
 
             function syncTransdata() {
 
-                medifirstService.post('tatarekening/sync-trandata-new', { noregistrasi: $scope.item.noRegistrasi }).then(function (e) {
+                medifirstService.post('tatarekening/sync-trandata-new', { noregistrasi: $scope.item.noRegistrasi }).then(function(e) {
                     // $scope.isRouteLoading = false
-                }, function (err) {
+                }, function(err) {
                     // $scope.isRouteLoading = false
                 })
             }
 
-            $scope.SaveLogUser = function () {
+            $scope.SaveLogUser = function() {
                 medifirstService.get("sysadmin/logging/save-log-verifikasi-tarek?noregistrasi=" +
-                    $scope.item.noRegistrasi).then(function (data) { })
+                    $scope.item.noRegistrasi).then(function(data) {})
             }
-            $scope.Back = function () {
+            $scope.Back = function() {
                 if ($scope.pageCetak) {
                     $scope.pageCetak = false;
                     // $scope.showBtnCetak = true;
@@ -1013,26 +1091,26 @@ define(['initialize'], function (initialize) {
                 data: []
             });
             $scope.columnKelengkapanDokumen = [{
-                "field": "No",
-                "title": "No"
-            },
-            {
-                "field": "Check",
-                "title": "Check"
-            },
-            {
-                "field": "Nama",
-                "title": "Nama"
-            },
-            {
-                "field": "Dokumen",
-                "title": "Dokumen"
-            }
+                    "field": "No",
+                    "title": "No"
+                },
+                {
+                    "field": "Check",
+                    "title": "Check"
+                },
+                {
+                    "field": "Nama",
+                    "title": "Nama"
+                },
+                {
+                    "field": "Dokumen",
+                    "title": "Dokumen"
+                }
             ];
 
             //create pdf kwintans pembayaran
-            $scope.getPDF = function (selector) {
-                kendo.drawing.drawDOM($(selector)).then(function (group) {
+            $scope.getPDF = function(selector) {
+                kendo.drawing.drawDOM($(selector)).then(function(group) {
                     kendo.drawing.pdf.saveAs(group, "Kwintansi-Pembayaran-" + $scope.nowFormated + ".pdf");
                 });
             }
@@ -1041,33 +1119,22 @@ define(['initialize'], function (initialize) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
 
-            $scope.$watch('item.totalKlaim', function (newValue, oldValue) {
+            $scope.$watch('item.totalKlaim', function(newValue, oldValue) {
                 // if ($scope.item.cekJumlahBayar == false) {
                 $scope.item.jumlahBayar = $scope.item.billing - newValue - $scope.item.deposit;
-                // if ($scope.item.jenisPasien == 'BPJS') {
-                if (biayanaikkelas != 0) {
-                    $scope.item.jumlahBayar = biayanaikkelas - parseFloat($scope.item.deposit)
-                } else {
-                    // $scope.item.jumlahBayar = $scope.item.billing
-                    $scope.item.jumlahBayar = 0;
-                    // $scope.item.totalKlaim = 0
+                if ($scope.item.jenisPasien == 'BPJS') {
+                    if (biayanaikkelas != 0) {
+                        $scope.item.jumlahBayar = biayanaikkelas - parseFloat($scope.item.deposit)
+                    } else {
+                        $scope.item.jumlahBayar = $scope.item.billing
+                        $scope.item.totalKlaim = 0
+                    }
                 }
-                // }
-                // }
-                // hayang dihurungkeun si resti
-                // $scope.item.jumlahBayar = $scope.item.billing - newValue - $scope.item.deposit;
-                // if ($scope.item.jenisPasien == 'BPJS') {
-                //     if (biayanaikkelas != 0) {
-                //         $scope.item.jumlahBayar = biayanaikkelas - parseFloat($scope.item.deposit)
-                //     } else {
-                //         $scope.item.jumlahBayar = $scope.item.billing
-                //         $scope.item.totalKlaim = 0
-                //     }
                 // }
 
             });
 
-            $scope.showDiscountTagihan = function () {
+            $scope.showDiscountTagihan = function() {
                 $scope.item.totalTagihan = $scope.item.billing;
                 $scope.popupDiscount.center().open();
                 // Get current actions
@@ -1078,11 +1145,54 @@ define(['initialize'], function (initialize) {
                 $scope.popupDiscount.setOptions({ actions: actions });
 
             }
-            $scope.BatalDiskonTagihan = function () {
+            $scope.BatalDiskonTagihan = function() {
                 $scope.popupDiscount.close();
             }
+             $scope.showjaminanpertindakan = function() { 
+                $scope.popupjaminapertindakan.center().open(); 
+                  medifirstService.get("tatarekening/get-data-combo-daftarregpasien", false).then(function(data) {
+                    $scope.listRekanan2 = data.data.rekanan2;
+                  });
+                   $q.all([
+                        medifirstService.get("tatarekening/detail-tagihan-verifikasipenjamin/" + $scope.item.noRegistrasi + '?' + strRUanganFilter)
+                    ])
+                    .then(function(data) {
 
-            $scope.showKomponenHarga = function () {
+                        if (data[0].statResponse) {
+                            
+                          
+                            var dibayar = 0
+                            verifTotal = 0
+                            var nourutlayanan = 0
+                            var nourutresep = 0
+                            $scope.item.rekanan1 = {id: data[0].data.details[0].idrekanan1 , namarekanan:data[0].data.details[0].rekanan1 , id_kelompokpasien:data[0].data.details[0].jenis1}
+                            $scope.item.rekanan2 = {id: data[0].data.details[0].idrekanan2 , namarekanan:data[0].data.details[0].rekanan2,  id_kelompokpasien:data[0].data.details[0].jenis2}
+                            datapenjamin = data[0].data.details;
+                            $scope.totalpasien  = 0
+                            $scope.totalpenjamin1  = 0
+                            $scope.totalpenjamin2  = 0
+                            for (var j = datapenjamin.length - 1; j >= 0; j--) {
+                       
+                               $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat(datapenjamin[j].pasien)
+                              $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat(datapenjamin[j].penjamin1)
+                              $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat(datapenjamin[j].penjamin2)
+                            
+                            }
+                            $scope.listPelayanan = data[0].data.details;
+                            $scope.dataRincianTagihanpenjamin = new kendo.data.DataSource({
+                                data: data[0].data.details, //details,
+                                group: [ 
+                                ],
+                                pageSize: 20, 
+                            });
+                            
+                        }
+                        $scope.isRouteLoading = false;
+
+                    });
+            }
+
+            $scope.showKomponenHarga = function() {
                 if ($scope.dataSelected == undefined) {
                     messageContainer.error("Pilih pelayanan dahulu!");
                     return;
@@ -1108,36 +1218,36 @@ define(['initialize'], function (initialize) {
 
             function loadKomponen() {
                 medifirstService.get("tatarekening/get-komponenharga-pelayanan?norec_pp=" + $scope.dataSelected.norec).
-                    then(function (data) {
-                        $scope.sourceKomponens = new kendo.data.DataSource({
-                            data: data.data.data,
-                            serverPaging: false,
-                            pageSize: 10,
-                            schema: {
-                                model: {
-                                    fields: {
-                                        komponenharga: { type: "string" },
-                                        jumlah: { type: "number" },
-                                        hargasatuan: { type: "number" },
-                                        hargadiscount: { type: "number" },
-                                        jasa: { type: "number" },
+                then(function(data) {
+                    $scope.sourceKomponens = new kendo.data.DataSource({
+                        data: data.data.data,
+                        serverPaging: false,
+                        pageSize: 10,
+                        schema: {
+                            model: {
+                                fields: {
+                                    komponenharga: { type: "string" },
+                                    jumlah: { type: "number" },
+                                    hargasatuan: { type: "number" },
+                                    hargadiscount: { type: "number" },
+                                    jasa: { type: "number" },
 
-                                    }
                                 }
-                            },
-                            aggregate: [
-                                { field: 'hargasatuan', aggregate: 'sum' },
-                                { field: 'hargadiscount', aggregate: 'sum' },
-                                { field: 'jasa', aggregate: 'sum' },
-                            ]
+                            }
+                        },
+                        aggregate: [
+                            { field: 'hargasatuan', aggregate: 'sum' },
+                            { field: 'hargadiscount', aggregate: 'sum' },
+                            { field: 'jasa', aggregate: 'sum' },
+                        ]
 
-
-                        });
-                        // $scope.sourceKomponens = data.data.data;
 
                     });
+                    // $scope.sourceKomponens = data.data.data;
+
+                });
             }
-            $scope.klikKomponen = function (dataSelectedKomponen) {
+            $scope.klikKomponen = function(dataSelectedKomponen) {
                 if (dataSelectedKomponen.komponenharga != "Jasa Sarana") {
                     // $scope.button = false;
                     // $scope.billing = false;
@@ -1164,46 +1274,46 @@ define(['initialize'], function (initialize) {
                 // pageable: true,
                 selectable: "row",
                 columns: [{
-                    "field": "komponenharga",
-                    "title": "Komponen",
-                    "width": "100px",
-                },
-                {
-                    "field": "jumlah",
-                    "title": "Jumlah",
-                    "width": "50px"
-                },
-                {
-                    "field": "hargasatuan",
-                    "title": "Harga Satuan",
-                    "width": "80px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>",
-                    aggregates: ["sum"],
-                    footerTemplate: "<span class='style-right'> {{formatRupiah('#:data.hargasatuan.sum  #', '')}}</span>"
-                },
-                {
-                    "field": "hargadiscount",
-                    "title": "Diskon",
-                    "width": "80px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>",
-                    aggregates: ["sum"],
-                    footerTemplate: "<span class='style-right'> {{formatRupiah('#:data.hargadiscount.sum  #', '')}}</span>"
-                },
-                {
-                    "field": "jasa",
-                    "title": "Jasa Cito",
-                    "width": "80px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>",
-                    aggregates: ["sum"],
-                    footerTemplate: "<span class='style-right'>{{formatRupiah('#:data.jasa.sum  #', '')}}</span>"
-                },
+                        "field": "komponenharga",
+                        "title": "Komponen",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Jumlah",
+                        "width": "50px"
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "<span class='style-right'> {{formatRupiah('#:data.hargasatuan.sum  #', '')}}</span>"
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Diskon",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "<span class='style-right'> {{formatRupiah('#:data.hargadiscount.sum  #', '')}}</span>"
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa Cito",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>",
+                        aggregates: ["sum"],
+                        footerTemplate: "<span class='style-right'>{{formatRupiah('#:data.jasa.sum  #', '')}}</span>"
+                    },
                 ],
                 sortable: {
                     mode: "single",
                     allowUnsort: false,
                 },
             };
-            $scope.$watch('item.persenDiscount', function (newValue, oldValue) {
+            $scope.$watch('item.persenDiscount', function(newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.persenDiscount > 100) {
                         $scope.item.persenDiscount = "";
@@ -1211,7 +1321,51 @@ define(['initialize'], function (initialize) {
                     $scope.item.diskonKomponen = ((parseFloat($scope.item.komponenDis)) * $scope.item.persenDiscount) / 100
                 }
             })
-            $scope.$watch('item.persenDiscountProposi', function (newValue, oldValue) {
+            $scope.$watch('item.pelayanan', function(newValue, oldValue) {
+                if (newValue != null) {
+                     
+                   strRUanganFilter='?pelayanan=' + $scope.item.pelayanan.namaPelayanan;
+                }else{
+                    strRUanganFilter='';
+                }
+                 medifirstService.get("tatarekening/detail-tagihan-verifikasipenjamin/" + $scope.item.noRegistrasi + strRUanganFilter)
+                        .then(function(data) {
+                                         
+                        
+                            var dibayar = 0
+                            verifTotal = 0
+                            var nourutlayanan = 0
+                            var nourutresep = 0
+                            for (var i = data.data.details.length - 1; i >= 0; i--) {
+                                for (var j = datapenjamin.length - 1; j >= 0; j--) {
+                                    if(data.data.details[i].norec == datapenjamin[j].norec){
+                                        data.data.details[i]=datapenjamin[j]
+                                    }
+                                }
+                            }
+                            $scope.totalpasien  = 0
+                            $scope.totalpenjamin1  = 0
+                            $scope.totalpenjamin2  = 0
+                            for (var j = datapenjamin.length - 1; j >= 0; j--) {
+                       
+                               $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat(datapenjamin[j].pasien)
+                              $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat(datapenjamin[j].penjamin1)
+                              $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat(datapenjamin[j].penjamin2)
+                            
+                            }
+                            $scope.dataRincianTagihanpenjamin = new kendo.data.DataSource({
+                                data: data.data.details, //details,
+                                group: [ 
+                                ],
+                                pageSize: 20, 
+                            });
+                            
+                       
+                        $scope.isRouteLoading = false;
+
+                        })
+            })
+            $scope.$watch('item.persenDiscountProposi', function(newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.persenDiscountProposi > 100) {
                         $scope.item.persenDiscountProposi = "";
@@ -1219,7 +1373,7 @@ define(['initialize'], function (initialize) {
                     $scope.item.diskonRp = ((parseFloat($scope.item.totalHarga)) * $scope.item.persenDiscountProposi) / 100
                 }
             })
-            $scope.$watch('item.persenDiscountProposiTagihan', function (newValue, oldValue) {
+            $scope.$watch('item.persenDiscountProposiTagihan', function(newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.persenDiscountProposiTagihan > 100) {
                         $scope.item.persenDiscountProposiTagihan = 0;
@@ -1227,7 +1381,7 @@ define(['initialize'], function (initialize) {
                     $scope.item.diskonRpTagihan = ((parseFloat($scope.item.totalTagihan)) * $scope.item.persenDiscountProposiTagihan) / 100
                 }
             })
-            $scope.$watch('item.diskonRp', function (newValue, oldValue) {
+            $scope.$watch('item.diskonRp', function(newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.diskonRp > $scope.item.totalHarga) {
                         $scope.item.diskonRp = 0;
@@ -1236,7 +1390,7 @@ define(['initialize'], function (initialize) {
                     // $scope.item.persenDiscountProposi = ((parseFloat($scope.item.diskonRp)) / $scope.item.totalHarga) * 100
                 }
             })
-            $scope.$watch('item.diskonRpTagihan', function (newValue, oldValue) {
+            $scope.$watch('item.diskonRpTagihan', function(newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.diskonRpTagihan > $scope.item.totalTagihan) {
                         $scope.item.diskonRpTagihan = 0;
@@ -1245,8 +1399,8 @@ define(['initialize'], function (initialize) {
                     // $scope.item.persenDiscountProposi = ((parseFloat($scope.item.diskonRp)) / $scope.item.totalHarga) * 100
                 }
             })
-            $scope.UpdateDiskonTagihan = function () {
-                debugger;
+            $scope.UpdateDiskonTagihan = function() {
+                ;
                 if ($scope.item.password != "jambalroti") {
                     toastr.error("Password Salah!")
                     return;
@@ -1258,7 +1412,7 @@ define(['initialize'], function (initialize) {
                         noregistrasi: $scope.item.noRegistrasi,
                         hargadiskon: $scope.item.diskonRpTagihan,
                     }
-                    medifirstService.post('tatarekening/save-diskon-tagihan', objSave).then(function (data) {
+                    medifirstService.post('tatarekening/save-diskon-tagihan', objSave).then(function(data) {
                         init();
                         // $scope.saveLogging('Diskon Layanan', 'norec Pelayanan Pasien', norec_pp, 'menu Detail Tagihan')
                         // loadKomponen();
@@ -1269,7 +1423,7 @@ define(['initialize'], function (initialize) {
                     $scope.dtTanggal = false;
                 }
             }
-            $scope.UpdateDiskonPorposi = function () {
+            $scope.UpdateDiskonPorposi = function() {
                 if ($scope.item.password != "jambalroti") {
                     toastr.error("Password Salah!")
                     return;
@@ -1282,10 +1436,10 @@ define(['initialize'], function (initialize) {
                         hargadiskon: $scope.item.diskonRp,
                         hargakomponen: $scope.item.totalHarga,
                     }
-                    medifirstService.post('tatarekening/save-update-harga-diskon-proposi', objSave).then(function (data) {
+                    medifirstService.post('tatarekening/save-update-harga-diskon-proposi', objSave).then(function(data) {
                         init();
                         $scope.saveLogging('Diskon Layanan', 'norec Pelayanan Pasien', norec_pp, 'menu Detail Tagihan')
-                        // loadKomponen();
+                            // loadKomponen();
                     });
                     $scope.button = true;
                     $scope.billing = true;
@@ -1293,7 +1447,7 @@ define(['initialize'], function (initialize) {
                     $scope.dtTanggal = false;
                 }
             }
-            $scope.UpdateDiskon = function () {
+            $scope.UpdateDiskon = function() {
                 if (strukfk != " / ") {
                     alert('Sudah di Verifikasi Tatarekening tidak bisa diskon!')
                     return
@@ -1312,10 +1466,10 @@ define(['initialize'], function (initialize) {
                         hargakomponen: $scope.item.komponenDis,
                         hargajasa: $scope.item.JasaKomponen,
                     }
-                    medifirstService.post('tatarekening/save-update-harga-diskon-komponen', objSave).then(function (data) {
+                    medifirstService.post('tatarekening/save-update-harga-diskon-komponen', objSave).then(function(data) {
                         init();
                         $scope.saveLogging('Diskon Layanan', 'norec Pelayanan Pasien', norec_pp, 'menu Detail Tagihan')
-                        // loadKomponen();
+                            // loadKomponen();
                     });
                     $scope.button = true;
                     $scope.billing = true;
@@ -1332,10 +1486,10 @@ define(['initialize'], function (initialize) {
                     }
                 }
             }
-            $scope.BatalDiskon = function () {
+            $scope.BatalDiskon = function() {
                 $scope.popupKomponen.center().close();
             }
-            $scope.CariFilterRuanganLayanan = function () {
+            $scope.CariFilterRuanganLayanan = function() {
                 $scope.isRouteLoading = true;
 
                 strRUanganFilter = '';
@@ -1352,9 +1506,9 @@ define(['initialize'], function (initialize) {
                 dataLayanan = [];
                 dataResep = [];
                 $q.all([
-                    medifirstService.get("tatarekening/detail-tagihan-verifikasi/" + $scope.item.noRegistrasi + '?' + strRUanganFilter)
-                ])
-                    .then(function (data) {
+                        medifirstService.get("tatarekening/detail-tagihan-verifikasi/" + $scope.item.noRegistrasi + '?' + strRUanganFilter)
+                    ])
+                    .then(function(data) {
 
                         if (data[0].statResponse) {
                             dataLayanan = [];
@@ -1376,13 +1530,13 @@ define(['initialize'], function (initialize) {
                                     if (data[0].data.details[i].aturanpakai == null) {
                                         nourutlayanan = nourutlayanan + 1
                                         data[0].data.details[i].no = nourutlayanan
-                                        // dataLayanan[] = data[0].details[i]
+                                            // dataLayanan[] = data[0].details[i]
                                         dataLayanan.push(data[0].data.details[i])
                                     } else {
                                         nourutresep = nourutresep + nourutresep
                                         data[0].data.details[i].no = nourutresep
                                         dataResep.push(data[0].data.details[i])
-                                        // dataResep[] = data[0].details[i]
+                                            // dataResep[] = data[0].details[i]
                                     }
                                 }
                             }
@@ -1412,7 +1566,7 @@ define(['initialize'], function (initialize) {
                     });
             }
 
-            $scope.rekapTagihan = function () {
+            $scope.rekapTagihan = function() {
 
                 var obj = {
                     noRegistrasi: $scope.dataParams.noRegistrasi
@@ -1423,13 +1577,13 @@ define(['initialize'], function (initialize) {
                 });
             }
             $scope.multi = {}
-            $scope.klikMultiPenjamin = function (e) {
+            $scope.klikMultiPenjamin = function(e) {
                 if ($scope.item.billing == 0) {
                     toastr.error('Ceklis Verifikasi dlu')
                     return
                 }
                 if (e == true) {
-                    medifirstService.get("tatarekening/get-data-combo-daftarregpasien", false).then(function (data) {
+                    medifirstService.get("tatarekening/get-data-combo-daftarregpasien", false).then(function(data) {
                         $scope.listKelompokPasien = data.data.kelompokpasien;
                         for (var i = 0; i < $scope.listKelompokPasien.length; i++) {
                             if ($scope.listKelompokPasien[i].kelompokpasien == $scope.item.jenisPasien) {
@@ -1445,25 +1599,25 @@ define(['initialize'], function (initialize) {
                 }
 
             }
-            $scope.klikJumlahBayar = function (e) {
+            $scope.klikJumlahBayar = function(e) {
 
 
                 $scope.popupJumlahBayar.center().open()
 
 
             }
-            $scope.BatalJumlahbayar = function () {
+            $scope.BatalJumlahbayar = function() {
                 $scope.item.jumlahBayar = $scope.item.billing;
                 $scope.popupJumlahBayar.close()
             }
-            $scope.Simpanjumlahbayar = function () {
+            $scope.Simpanjumlahbayar = function() {
                 $scope.popupJumlahBayar.close()
             }
 
-            $scope.$watch('multi.kelompokPasien', function (e) {
+            $scope.$watch('multi.kelompokPasien', function(e) {
                 if (e === undefined) return;
                 medifirstService.get("registrasi/get-penjaminbykelompokpasien?kdKelompokPasien=" + e.id)
-                    .then(function (z) {
+                    .then(function(z) {
                         $scope.listRekanan = z.data.rekanan;
                         if (e.kelompokpasien == 'Umum/Pribadi') {
                             $scope.multi.rekanan = '';
@@ -1481,43 +1635,43 @@ define(['initialize'], function (initialize) {
                 selectable: "row",
                 pageable: true,
                 columns: [{
-                    field: "no",
-                    title: "No",
-                    width: "30px",
+                        field: "no",
+                        title: "No",
+                        width: "30px",
 
-                },
-                {
-                    field: "kelompokpasien",
-                    title: "Jenis",
-                    width: "100px",
+                    },
+                    {
+                        field: "kelompokpasien",
+                        title: "Jenis",
+                        width: "100px",
 
-                },
-                {
-                    field: "namarekanan",
-                    title: "Penjamin",
-                    width: "200px",
-                    // footerTemplate: "Total",
-                },
-                {
-                    field: "klaim",
-                    title: "Total Klaim",
-                    width: "100px",
-                    "template": "<span class='style-right'>{{formatRupiah('#: klaim #', '')}}</span>",
-                    attributes: { style: "text-align:right;" },
-                    // aggregates: ["sum"],
-                    // footerTemplate: "<span > {{formatRupiah('#:data.klaim.sum  #', '')}}</span>"
+                    },
+                    {
+                        field: "namarekanan",
+                        title: "Penjamin",
+                        width: "200px",
+                        // footerTemplate: "Total",
+                    },
+                    {
+                        field: "klaim",
+                        title: "Total Klaim",
+                        width: "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: klaim #', '')}}</span>",
+                        attributes: { style: "text-align:right;" },
+                        // aggregates: ["sum"],
+                        // footerTemplate: "<span > {{formatRupiah('#:data.klaim.sum  #', '')}}</span>"
 
-                }
+                    }
                 ],
                 sortable: {
                     mode: "single",
                     allowUnsort: false,
                 },
             };
-            $scope.formatRupiah = function (value, currency) {
+            $scope.formatRupiah = function(value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
-            $scope.addPenjamin = function () {
+            $scope.addPenjamin = function() {
 
                 if ($scope.multi.kelompokPasien == undefined) {
                     toastr.error("Pilih jenis pasien");
@@ -1619,7 +1773,7 @@ define(['initialize'], function (initialize) {
                 $scope.multi.totalKlaim = $scope.item.billing - $scope.multi.totalFixClaim;
                 $scope.batalPenjamin();
             }
-            $scope.klikPenjamin = function (dataPenjaminSelect) {
+            $scope.klikPenjamin = function(dataPenjaminSelect) {
                 var dataKelompok = [];
                 var dataRekanan = [];
                 //no:no,
@@ -1642,7 +1796,7 @@ define(['initialize'], function (initialize) {
                 $scope.multi.totalKlaim = dataPenjaminSelect.klaim
 
             }
-            $scope.hapusPenjamin = function () {
+            $scope.hapusPenjamin = function() {
                 if ($scope.dataPenjaminSelect == undefined) {
                     toastr.error("Pilih data dulu!")
                     return;
@@ -1686,20 +1840,20 @@ define(['initialize'], function (initialize) {
                 }
                 $scope.batalPenjamin();
             }
-            $scope.batalPenjamin = function () {
+            $scope.batalPenjamin = function() {
 
                 $scope.multi.kelompokPasien = undefined
                 $scope.multi.rekanan = ''
-                // delete $scope.multi.totalKlaim
+                    // delete $scope.multi.totalKlaim
                 $scope.multi.no = undefined
 
             }
-            $scope.saveMulti = function () {
+            $scope.saveMulti = function() {
                 $scope.item.multiPenjamin = arrayMultiPenjamin
                 $scope.item.totalKlaim = $scope.multi.totalFixClaim
                 $scope.popUpMulti.close()
             }
-            $scope.tutupMulti = function () {
+            $scope.tutupMulti = function() {
 
                 $scope.multi.kelompokPasien = undefined
                 $scope.multi.rekanan = ''
@@ -1718,7 +1872,134 @@ define(['initialize'], function (initialize) {
 
             }
 
+            $scope.klikGrid2 = function(data) {
+                $scope.popupinput.center().open();
+                $scope.item.totalbayartotal = data.total;
+                $scope.item.totalbayarpasien = data.pasien;
+                $scope.item.totalbayarpenjamin1 = data.penjamin1;
+                $scope.item.totalbayarpenjamin2 = data.penjamin2;
+                tempnorec = data.norec;
 
+            }
+             $scope.$watch('item.totalbayarpasien', function(newValue, oldValue) {
+            
+                 $scope.item.totalbayarpenjamin1 = parseFloat($scope.item.totalbayartotal)-parseFloat($scope.item.totalbayarpasien)-parseFloat($scope.item.totalbayarpenjamin2)
+            });
+            
+             $scope.$watch('item.totalbayarpenjamin1', function(newValue, oldValue) {
+                 $scope.item.totalbayarpenjamin2 = parseFloat($scope.item.totalbayartotal)-parseFloat($scope.item.totalbayarpenjamin1)-parseFloat($scope.item.totalbayarpasien)
+
+            });
+             $scope.$watch('item.totalbayarpenjamin2', function(newValue, oldValue) {
+                 $scope.item.totalbayarpenjamin1 = parseFloat($scope.item.totalbayartotal)-parseFloat($scope.item.totalbayarpenjamin2)-parseFloat($scope.item.totalbayarpasien)
+
+            });
+            $scope.simpanpelayananpenjamin = function(){
+                for (var i = datapenjamin.length - 1; i >= 0; i--) {
+                    if(datapenjamin[i].norec == tempnorec){
+                        datapenjamin[i].total = $scope.item.totalbayartotal;
+                        datapenjamin[i].pasien = $scope.item.totalbayarpasien;
+                        datapenjamin[i].penjamin1 = $scope.item.totalbayarpenjamin1;
+                        datapenjamin[i].penjamin2 = $scope.item.totalbayarpenjamin2;
+                    }
+                }
+                 $scope.totalpasien  = 0
+                $scope.totalpenjamin1  = 0
+                $scope.totalpenjamin2  = 0
+                for (var j = datapenjamin.length - 1; j >= 0; j--) {
+            
+                    $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat(datapenjamin[j].pasien)
+                    $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat(datapenjamin[j].penjamin1)
+                    $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat(datapenjamin[j].penjamin2)
+                
+                }
+                $scope.dataRincianTagihanpenjamin = new kendo.data.DataSource({
+                                data: datapenjamin, //details,
+                    group: [ 
+                    ],
+                    pageSize: 20, 
+                });
+                 $scope.tutuppelayananpenjamin();
+            }
+            $scope.tutuppelayananpenjamin = function(){
+                $scope.popupinput.close();
+            }
+            $scope.simpanpenjaminall = function () {
+                var penjamin1 =''
+                var jenis1 =''
+                if($scope.item.rekanan1 != null || $scope.item.rekanan1 != undefined){
+                    penjamin1 = $scope.item.rekanan1.id
+                    jenis1 = $scope.item.rekanan1.id_kelompokpasien
+                    
+                }else{
+                    alert('Pilih Penjamin 1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                    return
+                }
+                 var penjamin2 =''
+                 var jenis2 =''
+                if($scope.item.rekanan2 != null || $scope.item.rekanan2 != undefined){
+                    penjamin2 = $scope.item.rekanan2.id
+                    jenis2 = $scope.item.rekanan2.id_kelompokpasien
+                }
+                 var objSave = {
+                    "data": datapenjamin,
+                    "penjamin1": penjamin1,
+                    "penjamin2": penjamin2,
+                    "jenis1": jenis1,
+                    "jenis2": jenis2,
+                    "noregistrasi":$scope.dataParams.noRegistrasi
+                }
+                medifirstService.post('tatarekening/simpan-verifikasi-tagihan-tatarekening-penjamin-pertindakan', objSave).then(function(e) {
+                    var data = {};
+                    var nomor = 0
+                    arrayMultiPenjamin = []
+                   if($scope.item.rekanan1 != '' && $scope.item.rekanan1 != undefined){
+                        data = {
+                            no: nomor+1,
+                            kelompokpasienfk: datapenjamin[0].jenis1,
+                            kelompokpasien:  datapenjamin[0].kelompokpasien,
+                            klaim: parseFloat($scope.totalpenjamin1),
+                            rekananfk: datapenjamin[0].idrekanan1,
+                            namarekanan: datapenjamin[0].rekanan1,
+                        }
+                        arrayMultiPenjamin.push(data)
+                   }
+                    if($scope.item.rekanan2 != '' && $scope.item.rekanan2 != undefined){
+                        data = {
+                            no: nomor+1,
+                            kelompokpasienfk: datapenjamin[0].jenis2,
+                            kelompokpasien:  datapenjamin[0].kelompokpasien,
+                            klaim: parseFloat($scope.totalpenjamin2),
+                            rekananfk: datapenjamin[0].idrekanan2,
+                            namarekanan: datapenjamin[0].rekanan2,
+                        }
+                        arrayMultiPenjamin.push(data)
+                   }
+                       
+                    
+                   $scope.item.totalKlaim = parseFloat($scope.totalpenjamin2) + parseFloat($scope.totalpenjamin1)
+                   $scope.item.cekMultiPenjamin = true;
+                   $scope.item.cekJumlahBayar = true;
+
+                    $scope.dataSourcePenjamin = new kendo.data.DataSource({
+                        data: arrayMultiPenjamin,
+                        serverPaging: false,
+                        pageSize: 10, 
+                    });
+
+                    $scope.multi.totalFixClaim = 0;
+                    $scope.multi.totalFixClaimRp = 0;
+                    for (var i = 0; i < arrayMultiPenjamin.length; i++) {
+                        $scope.multi.totalFixClaim = parseFloat($scope.multi.totalFixClaim) + parseFloat(arrayMultiPenjamin[i].klaim);
+                        $scope.multi.totalFixClaimRp = $scope.formatRupiah($scope.multi.totalFixClaim, '')
+                    }
+
+                    $scope.multi.totalKlaim = $scope.item.billing - $scope.multi.totalFixClaim;
+                    $scope.popupjaminapertindakan.close();
+                    $scope.item.jumlahBayar =  $scope.totalpasien
+                })
+
+            }
         }
     ]);
 });

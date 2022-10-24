@@ -7,6 +7,7 @@ define(['initialize'], function (initialize) {
       $scope.now = new Date();
       $scope.dataSelected = {};
       $scope.item = {};
+      $scope.item.kondisi = '';
       FormLoad()
 
       function FormLoad() {
@@ -30,6 +31,15 @@ define(['initialize'], function (initialize) {
         $scope.listRuangan = $scope.item.departement.ruangan
       }
 
+      var kondisi = '';
+      if (kondisi == '' || kondisi == undefined ) {
+        $scope.item.kondisi = 'datalaporanpendapatan';
+      }
+      debugger
+      $scope.findData = function () {
+        LoadData($scope.item.kondisi)
+      }
+
       //Laporan Pendapatan
       $scope.CariLapPendapatan = function () {
         $scope.laporanPendapatan = true;
@@ -47,9 +57,56 @@ define(['initialize'], function (initialize) {
         LoadData()
       }
 
-      function LoadData() {
+      $scope.asd = function (kondisi) {
+                LoadData(kondisi)
+            }
 
-        $scope.isRouteLoading = true;
+      function LoadData(kondisi) {
+
+         $scope.isRouteLoading = true;
+        var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
+        var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');
+        var ruanganId = "";
+        if ($scope.item.ruangan != undefined) {
+          ruanganId = "&idRuangan=" + $scope.item.ruangan.id;
+        }
+        debugger
+        var departemen = "";
+        if ($scope.item.departement != undefined && $scope.item.departement != "") {
+           departemen = "&idDepartemen=" + $scope.item.departement.id;
+        }
+        var TipeDokter = "";
+        if ($scope.item.TipeDokter != undefined && $scope.item.TipeDokter != "") {
+            if ($scope.item.TipeDokter.id == 2) {
+                TipeDokter = 2;
+            }
+           
+        }
+        debugger
+        var dokter = "";
+        if ($scope.item.namaPegawai != undefined) {
+          dokter = "&idDokter=" + $scope.item.namaPegawai.id;
+        }
+        var kelompokPasien = "";
+        if ($scope.item.kelompokPasien != undefined) {
+          if ($scope.item.kelompokPasien.kelompokpasien == 'Non BPJS') {
+            kelompokPasien = "&kelompokPasien=153"
+          } else {
+            kelompokPasien = "&kelompokPasien=" + $scope.item.kelompokPasien.id;
+          }
+        }
+        if (kondisi == 'datalaporanpendapatan') {
+            $scope.item.kondisi = kondisi
+            datas(tglAwal, tglAkhir, departemen, ruanganId, dokter, kelompokPasien, TipeDokter)
+        }
+        else if (kondisi == 'datarekappendapatan') {
+            $scope.item.kondisi = kondisi
+            datarekappendapatan(tglAwal, tglAkhir, ruanganId, departemen, ruanganId, dokter, kelompokPasien, TipeDokter)
+        }
+        else if (kondisi == 'datapendapatankeuangan') {
+            $scope.item.kondisi = kondisi
+            datapendapatankeuangan(tglAwal, tglAkhir, ruanganId, departemen, ruanganId, dokter, kelompokPasien, TipeDokter)
+        }
         var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm');
         var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm');;        
 
@@ -115,6 +172,98 @@ define(['initialize'], function (initialize) {
       $scope.Perbaharui = function () {
         $scope.ClearSearch();
       }
+
+       function datas(tglAwal, tglAkhir, departemen, ruanganId, dokter, kelompokPasien, TipeDokter) {
+            debugger
+                medifirstService.get("kasir/get-laporan-pendapatan?" +'tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&idDepartemen=' + departemen + '&TipeDokter='+ TipeDokter + '&idRuangan=' + ruanganId + '&idDokter=' + dokter + '&kelompokPasien=' + kelompokPasien).then(function (data) {
+                // $scope.isRouteLoading = false;
+                debugger;
+                var datas = data.data;
+                debugger
+                // if (datas.noclosing == null) {
+                //     datas.noclosing ='belum bayar'
+                // }else{
+                //     datas.noclosing ='udah bayar'
+                // }
+                $scope.GridLaporanPendapatan = new kendo.data.DataSource({
+                    data: datas,
+                    group: $scope.group,
+                    pageSize: 400,
+                    total: data.length,
+                    serverPaging: false,
+                    schema: {
+                            model: {
+                                fields: {
+                                    totalbayar: { type: "number" }
+                                }
+                            }
+                        },
+                        aggregate: [
+                            { field: 'totalbayar', aggregate: 'sum' },
+                        ]
+                    });
+            });
+        }
+
+     function datarekappendapatan(tglAwal, tglAkhir, departemen, ruanganId, dokter, kelompokPasien, TipeDokter) {
+                 $scope.isRouteLoading = true;
+                medifirstService.get("kasir/get-rekap-pendapatan?" + 'tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&idDepartemen=' + departemen + '&TipeDokter='+ TipeDokter + '&idRuangan=' + ruanganId + '&idDokter=' + dokter + '&idKelompok=' + kelompokPasien).then(function (data) {
+                // $scope.isRouteLoading = true;
+                debugger;
+                var datas = data.data;
+                debugger
+                $scope.GridRekaPendapatan = new kendo.data.DataSource({
+                    data: datas,
+                    group: $scope.group,
+                    pageSize: 400,
+                    total: data.length,
+                    serverPaging: false,
+                    schema: {
+                            model: {
+                                fields: {
+                                    totalbayar: { type: "number" }
+                                }
+                            }
+                        },
+                        aggregate: [
+                            { field: 'totalbayar', aggregate: 'sum' },
+                        ]
+                    });
+            });
+
+        }
+
+    function datapendapatankeuangan(tglAwal, tglAkhir, departemen, ruanganId, dokter, kelompokPasien, TipeDokter) {
+             $scope.isRouteLoading = true;
+            medifirstService.get("kasir/get-rekap-pendapatan-keuangan?" +'tglAwal=' + tglAwal + '&tglAkhir=' + tglAkhir + '&idDepartemen=' + departemen + '&TipeDokter='+ TipeDokter + '&idRuangan=' + ruanganId + '&idDokter=' + dokter + '&idKelompok=' + kelompokPasien).then(function (data) {
+            // $scope.isRouteLoading = true;
+            debugger;
+            var datas = data.data;
+            debugger
+            // if (datas.noclosing == null) {
+            //     datas.noclosing ='belum bayar'
+            // }else{
+            //     datas.noclosing ='udah bayar'
+            // }
+            $scope.GridRekaPendapatanKeuangan = new kendo.data.DataSource({
+                data: datas,
+                group: $scope.group,
+                pageSize: 400,
+                total: data.length,
+                serverPaging: false,
+                schema: {
+                        model: {
+                            fields: {
+                                totalbayar: { type: "number" }
+                            }
+                        }
+                    },
+                    aggregate: [
+                        { field: 'totalbayar', aggregate: 'sum' },
+                    ]
+                });
+        });
+    }
 
       //fungsi clear kriteria search
       $scope.ClearSearch = function () {
@@ -191,6 +340,290 @@ define(['initialize'], function (initialize) {
         reloadDataGrid(tempData);
 
       }
+
+       $scope.formatRupiah = function (value, currency) {
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
+
+       $scope.aggregate = [{
+                field: "totalbayar",
+                aggregate: "sum"
+            }]
+
+      $scope.mainGridLaporanPendapatan = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: {
+                    fileName: "LaporanPendapatan.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Sheet";
+
+                    var myHeaders = [{
+                        value: "Laporan Pendapatan",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                scrollable: true,
+                sortable: true,
+                pageable: true,
+                selectable: "row",
+                // dataBound: onDataBound,
+                columns: [
+                {
+                    "field": "no",
+                    "title": "No",
+                    "template": "<span class='style-center'>#: no #</span>",
+                    "width": "60px",
+                },
+                {
+                    "field": "tglpelayanan",
+                    "title": "Tanggal Pelayanan",
+                    "template": "#= new moment(new Date(tglpelayanan)).format('DD-MM-YYYY HH:mm') #",
+                    "width": "90px",
+                },
+                {
+                    "field": "nocm",
+                    "title": "No Rekam Medis",
+                    "width": "100px",
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "80px"
+                },
+                {
+                    "field": "namaexternal",
+                    "title": "Instalasi",
+                    "width": "80px"
+                },
+                {
+                    "field": "namaruangan",
+                    "title": "Nama Ruangan",
+                    "width": "80px"
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Kelompok Pasien",
+                    "width": "80px"
+                },
+                {
+                    "field": "tipedokter",
+                    "title": "Tipe Dokter",
+                    "width": "100px"
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Petugas Pelaksana",
+                    "width": "100px"
+                },
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Pelayanan",
+                    "width": "80px"
+                },
+                {
+                    "field": "harga",
+                    "title": "Harga",
+                    "width": "100px",
+                    "template": "<span class='style-right'>{{formatRupiah('#: data.harga#', 'Rp.')}}</span>",
+                },
+                {
+                    "field": "qty",
+                    "title": "QTY",
+                    "width": "100px",
+                    groupFooterTemplate: "Jumlah",
+                    footerTemplate: "Total Bayar"
+                },
+                {
+                    "field": "totalbayar",
+                    "title": "Total Biaya",
+                    "template": "<span class='style-right'>{{formatRupiah('#: data.totalbayar#', 'Rp.')}}</span>",
+                    "width": "100px",
+                    aggregates: ["sum"],
+                    footerTemplate: "#: data.totalbayar.sum #",
+                    footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.totalbayar.sum #', 'Rp.')}}</span>",
+                    footerAttributes: { style: "text-align: right;" }
+                },
+                {
+                    "field": "noclosing",
+                    "title": "Status Bayar",
+                    "width": "60px"
+                }
+                ]
+            }
+      $scope.mainGridRekapPendapatan = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: {
+                    fileName: "RekapPendapatan.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Sheet";
+
+                    var myHeaders = [{
+                        value: "Rekap Pendapatan",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                scrollable: true,
+                // dataBound: onDataBound,
+                columns: [
+                {
+                    "field": "no",
+                    "title": "No",
+                    "width": "60px",
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Nama Dokter",
+                    "width": "90px",
+                },
+                {
+                    "field": "nocm",
+                    "title": "Rekam Medis",
+                    "width": "100px",
+                },
+                {
+                    "field": "namadepartemen",
+                    "title": "Department",
+                    "width": "80px"
+                },
+                {
+                    "field": "namaruangan",
+                    "title": "Nama Ruangan",
+                    "width": "80px",
+                    groupFooterTemplate: "Jumlah",
+                    footerTemplate: "Total Pendapatan"
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Kelopompok Pasien",
+                    "width": "80px",
+                    aggregates: ["sum"],
+                    footerTemplate: "#: data.totalbayar.sum #",
+                    footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.totalbayar.sum #', 'Rp.')}}</span>",
+                    footerAttributes: { style: "text-align: right;" }
+                }
+                ]
+            }
+      $scope.mainGridRekapPendapatanKeuangan = {
+                toolbar: [
+                    "excel",
+                ],
+                excel: {
+                    fileName: "RekapPendapatanKeuangan.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Sheet";
+
+                    var myHeaders = [{
+                        value: "Rekap Pendapatan Keuangan",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
+                scrollable: true,
+                // dataBound: onDataBound,
+                columns: [
+                {
+                    "field": "no",
+                    "title": "No",
+                    "width": "60px",
+                },
+                 {
+                    "field": "namaruangan",
+                    "title": "Nama Ruangan",
+                    "width": "80px"
+                },
+                {
+                    "field": "tglpelayanan",
+                    "title": "Tgl Pelayanan",
+                    "template": "#= new moment(new Date(tglpelayanan)).format('DD-MM-YYYY HH:mm') #",
+                    "width": "90px",
+                },
+                {
+                    "field": "nocm",
+                    "title": "No Rekam Medis",
+                    "width": "100px",
+                },
+                {
+                    "field": "namapasien",
+                    "title": "Nama Pasien",
+                    "width": "80px"
+                },
+                {
+                    "field": "namaexternal",
+                    "title": "Instalasi",
+                    "width": "80px"
+                },
+                {
+                    "field": "kelompokpasien",
+                    "title": "Kelompok Pasien",
+                    "width": "80px"
+                },
+                {
+                    "field": "tipedokter",
+                    "title": "Tipe Dokter",
+                    "width": "100px"
+                },
+                {
+                    "field": "namadokter",
+                    "title": "Petugas Pelakasana",
+                    "width": "100px"
+                },
+                {
+                    "field": "qty",
+                    "title": "QTY",
+                    "width": "100px",
+                    groupFooterTemplate: "Jumlah",
+                    footerTemplate: "Total Pendapatan"
+                },
+                {
+                    "field": "harga",
+                    "title": "Harga",
+                    "template": "<span class='style-right'>{{formatRupiah('#: data.harga#', 'Rp.')}}</span>",
+                    "width": "80px",
+                    aggregates: ["sum"],
+                    footerTemplate: "#: data.totalbayar.sum #",
+                    footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.totalbayar.sum #', 'Rp.')}}</span>",
+                    footerAttributes: { style: "text-align: right;" }
+                },
+                {
+                    "field": "noclosing",
+                    "title": "Status Bayar",
+                    "width": "60px"
+                }
+                ]
+            }
 
 
 
