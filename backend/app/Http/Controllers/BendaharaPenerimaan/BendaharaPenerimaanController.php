@@ -242,7 +242,7 @@ class BendaharaPenerimaanController extends ApiController {
                 'noVerifikasi' => $item->noVerifikasi,
                 'tglClosing' => $item->tglClosing,
                 'norec_sp' => $item->norec_sp,
-                'totalPenerimaan' => $item->totalPenerimaan,
+                'totalPenerimaan' => (float)$item->totalPenerimaan,
                 'namapasien' => $item->namapasien,
                 'ruid' => $item->ruid,
                 'namaruangan' => $item->namaruangan,

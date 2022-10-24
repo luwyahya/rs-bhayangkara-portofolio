@@ -414,6 +414,10 @@ define(['initialize'], function (initialize) {
 
 			$scope.klikGridHead = function (dataSelectedCaraBayar) {
 				if (dataSelectedCaraBayar != undefined) {
+					if (dataSelectedCaraBayar.sisa == 0) {
+						toastr.error('Sisa Setoran Kosong', 'Info');
+						return
+					}
 					$scope.dataSelectedCaraBayar = dataSelectedCaraBayar
 					$scope.item.caraBayar = { id: $scope.dataSelectedCaraBayar.idCaraBayar, namaLengkap: $scope.dataSelectedCaraBayar.caraBayar }
 					$scope.item.caraSetor = { id: $scope.dataSelectedCaraBayar.idCaraSetor, carasetor: $scope.dataSelectedCaraBayar.caraSetor }
@@ -609,6 +613,10 @@ define(['initialize'], function (initialize) {
 					$scope.dataCaraBayar = dataDetail2
 					$scope.listCaraBayar = caraBayararr1;
 				};
+				if (ttlKlaim - ttlSsetor < 0) {
+					toastr.error('Total Setor Melebihi Total Penerimaan', 'Info');
+					return
+				}
 				$scope.item.totalSubTotal = "Rp. " + parseFloat(ttlKlaim).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 				$scope.item.totalSetoran = "Rp. " + parseFloat(ttlSsetor).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
 				$scope.item.sisa = "Rp. " + parseFloat(ttlKlaim - ttlSsetor).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
