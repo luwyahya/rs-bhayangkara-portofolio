@@ -46,25 +46,35 @@
         <input style="width: 100%;" kendo-combo-box k-ng-model="item.TipeDokter" k-data-text-field="'tipedokter'"
             k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listTipeDokter" />
     </div>
+    <div class="grid_1">
+        <div class="grid_12">
+            <label>&nbsp;</label>
+        </div>
+        <div class="clear"></div>
+
+        <div class="grid_12">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="findData()">Cari</button>
+        </div>
+    </div>
 </div>
 
 <div class="grid_12">
     <div class="grid_12" style="float:right">
-        <div class="grid_3 " style="margin-top: 25px ">
+        <!-- <div class="grid_3 " style="margin-top: 25px ">
             <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakLaporanPendapatan()">
                 <span class="title">Laporan Pendapatan</span>
             </button>
-        </div>
+        </div> -->
         <!-- <div class="grid_3 " style="margin-top: 25px ">
             <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakLaporanPendapatanPerDokter()">
                 <span class="title">Laporan Pendapatan Per Dokter</span>
             </button>
         </div> -->
-        <div class="grid_3 " style="margin-top: 25px ">
+        <!-- <div class="grid_3 " style="margin-top: 25px ">
             <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakRekapPendapatan()">
                 <span class="title">Rekap Pendapatan</span>
             </button>
-        </div>
+        </div> -->
 
         <!-- <div class="grid_3 " style="margin-top: 25px ">
             <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakLaporanPendapatanFFS()">
@@ -147,7 +157,7 @@
                 <span class="title">Rekap Fee For Service Rawat Edelweis</span>
             </button>
         </div> -->
-        <div class="grid_3 " style="margin-top: 25px ">
+        <!-- <div class="grid_3 " style="margin-top: 25px ">
             <button class="c-button" ng-show="!isLoading" item="item" is-validate
                 ng-click="CetakRekapPendapatanKeuangan()">
                 <span class="title">Rekap Pendapatan Keuangan</span>
@@ -157,7 +167,57 @@
             <button class="c-button" ng-show="!isLoading" item="item" is-validate ng-click="CetakRekapPendapatanKsm()">
                 <span class="title">Laporan Pendapatan KSM</span>
             </button>
-        </div>
+        </div> -->
+        <div class="grid_12">
+                <div ng-cloak>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                            <md-tab label="Laporan Pendapatan" ng-click="asd('datalaporanpendapatan')">
+                                <md-content class="md-padding">
+                                    <div class="grid_12">
+                                        <div class="grid_12 borderBox">
+                                            <kendo-grid id="grid" data-source="GridLaporanPendapatan" options="mainGridLaporanPendapatan"
+                                                k-pageable="'true'" k-sortable="'true'" k-groupable="'true'"
+                                                k-resizable="'true'" k-selectable="'row'"
+                                                k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)"
+                                                ng-dblclick="klikdua(dataSelected)">
+                                            </kendo-grid>
+                                        </div>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Rekap Pendapatan" ng-click="asd('datarekappendapatan')">
+                                <md-content class="md-padding">
+                                    <div class="grid_12">
+                                        <div class="grid_12 borderBox">
+                                            <kendo-grid id="grid" data-source="GridRekaPendapatan"
+                                                options="mainGridRekapPendapatan" k-pageable="'true'" k-sortable="'true'"
+                                                k-groupable="'true'" k-resizable="'true'" k-selectable="'row'"
+                                                k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)"
+                                                ng-dblclick="klikdua(dataSelected)">
+                                            </kendo-grid>
+                                        </div>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Rekap Pendapatan Keuangan" ng-click="asd('datapendapatankeuangan')">
+                                <md-content class="md-padding">
+                                    <div class="grid_12">
+                                        <div class="grid_12 borderBox">
+                                            <kendo-grid id="grid" data-source="GridRekaPendapatanKeuangan"
+                                                options="mainGridRekapPendapatanKeuangan" k-pageable="'true'" k-sortable="'true'"
+                                                k-groupable="'true'" k-resizable="'true'" k-selectable="'row'"
+                                                k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)"
+                                                ng-dblclick="klikdua(dataSelected)">
+                                            </kendo-grid>
+                                        </div>
+                                    </div>
+                                </md-content>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
+                </div>
+            </div>
     </div>
 </div>
 <!-- <div class="grid_12" style="float:right"> -->

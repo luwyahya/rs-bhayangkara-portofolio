@@ -1363,6 +1363,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             // GET
 
             Route::get('get-data-combo-kasir', 'Kasir\KasirController@getDataComboKasir');
+            Route::get('get-laporan-pendapatan', 'Kasir\KasirController@getLaporanPendapatan');
+            Route::get('get-rekap-pendapatan', 'Kasir\KasirController@getRekaPendapatan');
+            Route::get('get-rekap-pendapatan-keuangan', 'Kasir\KasirController@getLaporanPendapatan');
             Route::get('get-data-combo-kasir-select', 'Kasir\KasirController@getDataComboKasirSelect');
             Route::get('get-data-combo-kasir1', 'Kasir\KasirController@getDataComboKasir1');
             Route::get('daftar-tagihan-non-layanan', 'Kasir\KasirController@daftarTagihanNonLayanan');
