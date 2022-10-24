@@ -184,6 +184,10 @@ class KasirController extends ApiController{
             ->where('statusenabled',1)
             ->whereIn('id',$arrKode)
             ->get();
+        $listBank = \DB::table('bank_m')
+            ->select('id','nama')
+            ->where('statusenabled',true)
+            ->get();
 
         $result = array(
             'ruangan' => $dataRuangan,
@@ -205,6 +209,7 @@ class KasirController extends ApiController{
             'kelfix' => $kelTransNonFIX,
             'rekanan' => $rekanan,
             'dataPegawaiAll' => $dataPegawaiAll,
+            'listbank' => $listBank,
             'message' => 'ihuman@epic'
         );
         return $this->respond($result);
@@ -2550,6 +2555,14 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                 $SBPCB->nosbmfk = $strukBuktiPenerimanan->norec;
                 $SBPCB->objectcarabayarfk = $pembayaran['caraBayar']['id'];
                 $SBPCB->totaldibayar = $pembayaran['nominal'];
+
+                if($pembayaran['caraBayar']['id']==3){
+                    if(isset($pembayaran['detailBank'])){
+                        $SBPCB->nokartuaccount = $pembayaran['detailBank']['noKartu'];
+                        $SBPCB->namabankprovider = $pembayaran['detailBank']['namaBank'];
+                        $SBPCB->namapemilik = $pembayaran['detailBank']['namaKartu'];
+                    }
+                }
 
 //                if(isset($pembayaran['detailBank'])){
 //                    $SBPCB->objectjeniskartufk = $pembayaran['detailBank']['jenisKartu']['id'];
