@@ -424,6 +424,21 @@ define(['initialize'], function (initialize) {
 
                 });
             }
+            $scope.SearchData = function () {
+                $scope.isRouteLoading = true;
+                var kel = ""
+                if ($scope.item.jenisTransaksiCari != undefined) {
+                    var kel = "?kel=" + $scope.item.jenisTransaksiCari.kelompoktransaksifk
+                }
+                medifirstService.get("akuntansi/get-data-map-jurnal" + kel, true).then(function (dat) {
+                    $scope.isRouteLoading = false;
+                    data2 = dat.data
+                    $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                        data: data2,
+                        pageSize: 20
+                    });
+                });
+            }
             $scope.mappingJurnal = function () {
                 $scope.isRouteLoading = true;
                 medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
@@ -1092,6 +1107,15 @@ define(['initialize'], function (initialize) {
                     $scope.popupEntry.center().close();
                 })
             }
+            $scope.klikPopUpMapJurnal = function (x) {
+                $scope.item.namaProduk = ""
+                $scope.item.rekanan = { id: x.objectpenjaminfk, namarekanan: x.namarekanan }
+                $scope.item.instalasi = { id: x.objectdepartemenfk, departemen: x.namadepartemen }
+                $scope.item.jenisTransaksi = { id: x.kelompoktransaksi, kelompoktransaksi: x.objectkelompoktransaksifk }
+                $scope.item.mataAnggaran = { id: x.objectmataanggaranfk, namamataanggaran: x.namamataanggaran }
+                $scope.item.kdAkunDebit = { id: x.objectcoadebitfk, noaccount: x.namaaccountdebit }
+                $scope.item.kdAkunKredit = { id: x.objectcoakreditfk, noaccount: x.namaaccountkredit }
+            }
             $scope.klikPopUp = function (dataSelectedPopUp) {
                 $scope.item.no = dataSelectedPopUp.no
                 $scope.listAkun = [{ id: dataSelectedPopUp.accountid, noaccount: dataSelectedPopUp.noaccount, namaaccount: dataSelectedPopUp.namaaccount2 }]
@@ -1106,6 +1130,13 @@ define(['initialize'], function (initialize) {
                 $scope.item.debet = 0
                 $scope.item.kredit = 0
                 $scope.item.keterangan = ""
+                $scope.item.namaProduk = ""
+                $scope.item.rekanan = ""
+                $scope.item.instalasi = ""
+                $scope.item.jenisTransaksi = ""
+                $scope.item.mataAnggaran = ""
+                $scope.item.kdAkunDebit = ""
+                $scope.item.kdAkunKredit = ""
                 medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
                     $scope.listAkun = data;
                 })
