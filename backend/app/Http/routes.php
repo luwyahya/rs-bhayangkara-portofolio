@@ -3144,6 +3144,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::group(['prefix' => 'pendidikan'], function () {
                 Route::get('get-daftar-diklat-kategory', 'SDM\SumberDayaManusiaController@getDaftarDiklatKategory');
                 Route::get('get-institusi-diklat-kategory', 'SDM\SumberDayaManusiaController@getInstitusiDiklatKategory');
+                Route::get('get-fakultas-kategory', 'SDM\SumberDayaManusiaController@getFakultasKategory');
+                Route::get('get-jurusan-kategory', 'SDM\SumberDayaManusiaController@getJurusanKategory');
                 Route::get('get-daftar-diklat-jurusan', 'SDM\SumberDayaManusiaController@getDaftarDiklatJurusan');
                 Route::get('get-combo-map-kategori', 'SDM\SumberDayaManusiaController@getDataComboMapKategoriPendidikanToProgramPendidikan');
                 Route::get('get-dcbo-pesertadidik', 'SDM\SumberDayaManusiaController@getDataComboPesertaDidik');
@@ -3157,6 +3159,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-daftar-diklat-jurusan', 'SDM\SumberDayaManusiaController@saveDiklatJurusan');
                 Route::post('save-daftar-diklat-kategory', 'SDM\SumberDayaManusiaController@saveDiklatKategory');
                 Route::post('save-daftar-institusi-kategory', 'SDM\SumberDayaManusiaController@saveInstitusiKategory');
+                Route::post('save-daftar-fakultas-kategory', 'SDM\SumberDayaManusiaController@saveFakultasKategory');
+                Route::post('save-daftar-jurusan-kategory', 'SDM\SumberDayaManusiaController@saveJurusanKategory');
                 Route::post('save-pesertadidik', 'SDM\SumberDayaManusiaController@savePesertaDidik');
                 Route::post('hapus-peserta-didik', 'SDM\SumberDayaManusiaController@hapusPesertaDidik');
             });

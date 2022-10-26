@@ -109,6 +109,14 @@
       "urlDep": "module/SDM/Pendidikan/MasterInstitusiPendidikanCtrl"
     },
     {
+      "nameDep": "MasterFakultasCtrl",
+      "urlDep": "module/SDM/Pendidikan/MasterFakultasCtrl"
+    },
+    {
+      "nameDep": "MasterJurusanCtrl",
+      "urlDep": "module/SDM/Pendidikan/MasterJurusanCtrl"
+    },
+    {
       "nameDep": "MasterPenyelenggaraCtrl",
       "urlDep": "module/SDM/Pendidikan/MasterPenyelenggaraCtrl"
     },  
