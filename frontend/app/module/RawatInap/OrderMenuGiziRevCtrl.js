@@ -6,6 +6,7 @@ define(['initialize'], function (initialize) {
 			// $scope.item.jenisdiet =[]
 			$scope.now = new Date();
 			$scope.item = {};
+			$scope.item2 = {};
 			$scope.listJenisOrder = [{ "id": 1, "name": "Order Makan" }]; //, { "id": 2, "name": "Order Susu" }
 			$scope.item.periodeAwal = $scope.now;
 			$scope.item.periodeAkhir = $scope.now;
@@ -612,11 +613,15 @@ define(['initialize'], function (initialize) {
 
 				if ($scope.selectedData.length > 0) {
 					$scope.item.namapasiengizi = $scope.selectedData[x].namapasien;
+					$scope.item.noregistrasi = $scope.selectedData[x].noregistrasi;
 					// for (let i = 0; i < $scope.selectedData.length; i++) {
-						medifirstService.get("gizi/get-pertanyaan-pmkp?norec_pd=" + $scope.selectedData[x].norec_pd
+						medifirstService.get("gizi/get-pertanyaan-pmkp?norec_pd=" + $scope.selectedData[x].norec_pd + "&noreg=" + $scope.selectedData[x].noregistrasi
 						).then(function (e) {
 							x += 1; 
 							$scope.x = x;
+							$scope.item2.pagi = e.data.datas[0].pagi;
+							$scope.item2.siang = e.data.datas[0].siang;
+							$scope.item2.malam = e.data.datas[0].malam;
 							if(e.data.data.length > 0){
 								$scope.item.norec_op = e.data.data[0].norec_op;
 								$scope.popUpPertanyaan.center().open();
@@ -914,15 +919,30 @@ define(['initialize'], function (initialize) {
 							}
 							var pagi = false;
 							if ($scope.item.pagi == true) {
-								pagi = true;
+								if ($scope.item2.pagi == true) {
+								toastr.error('Anda sudah pesan jam pagi !')
+								return
+								}else{
+									pagi = true;
+								}
 							}
 							var siang = false;
 							if ($scope.item.siang == true) {
-								siang = true;
+								if ($scope.item2.siang == true) {
+								toastr.error('Anda sudah pesan jam siang !')
+								return
+								}else{
+									siang = true;
+								}
 							}
 							var malam = false;
 							if ($scope.item.malam == true) {
-								malam = true;
+								if ($scope.item2.malam == true) {
+								toastr.error('Anda sudah pesan jam malam !')
+								return
+								}else{
+									malam = true;
+								}
 							}
 							debugger;
 							var makananTambahan='';

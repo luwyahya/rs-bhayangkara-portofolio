@@ -501,6 +501,46 @@
     ]
   },
   {
+    "name": "MasterFakultas",
+    "url": "/TWFzdGVyRmFrdWx0YXNDdHJs",
+    "templateurl": "module/SDM/Pendidikan/MasterFakultas.html",
+    "controller": "MasterFakultasCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]
+  },
+  {
+    "name": "MasterJurusan",
+    "url": "/TWFzdGVySnVydXNhbkN0cmw=",
+    "templateurl": "module/SDM/Pendidikan/MasterJurusan.html",
+    "controller": "MasterJurusanCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]
+  },
+  {
     "name": "MasterPenyelenggara",
     "url": "/TWFzdGVyUGVueWVsZW5nZ2FyYQ==",
     "templateurl": "module/SDM/Pendidikan/MasterPenyelenggara.html",

@@ -10,7 +10,7 @@ define(['initialize'], function (initialize) {
             $scope.item.periodeAkhir = new Date();
             $scope.item.tanggalPulang = new Date();
             // $scope.dataPasienSelected = {};
-            $scope.item.jmlRows = 50
+            $scope.item.jmlRows = 500
             $scope.isRouteLoading = false;
             var dataMenuSiklus = [];
             var data2 = [];
@@ -253,6 +253,18 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.nama != undefined) {
                     var nm = "&nama=" + $scope.item.nama
                 }
+                var pagi = ""
+                if ($scope.item.pagi == true) {
+                    var pagi = "&pagi=" + $scope.item.pagi
+                }
+                var siang = ""
+                if ($scope.item.siang == true) {
+                    var siang = "&siang=" + $scope.item.siang
+                }
+                var malam = ""
+                if ($scope.item.malam == true) {
+                    var malam = "&malam=" + $scope.item.malam
+                }
                 var ins = ""
                 if ($scope.item.instalasi != undefined) {
                     var ins = "&deptId=" + $scope.item.instalasi.id
@@ -297,7 +309,7 @@ define(['initialize'], function (initialize) {
                 medifirstService.get("gizi/get-daftar-order?" +
                     "tglAwal=" + tglAwal +
                     "&tglAkhir=" + tglAkhir +
-                    reg + rm + nm + ins + rg + kp + dk + noorder +
+                    reg + rm + nm + pagi + siang + malam + ins + rg + kp + dk + noorder +
                     jenisDietId + kategoriDiet + jenisWaktuId +
                     jmlRows + isPulang)
                     .then(function (data) {

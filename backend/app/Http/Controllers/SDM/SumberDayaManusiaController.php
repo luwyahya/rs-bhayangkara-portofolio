@@ -31,6 +31,7 @@ use App\Master\PemotonganPajak;
 use App\Master\PegawaiJadwalKerja;
 use App\Master\Pekerjaan;
 use App\Master\Pendidikan;
+use App\Master\SdmFakultas;
 use App\Master\SdmInstitusiPendidikan;
 use App\Transaksi\RekapTransferGaji;
 use App\Transaksi\RiwayatSpkk;
@@ -3357,6 +3358,30 @@ class SumberDayaManusiaController extends ApiController {
         );
         return $result;
     }
+
+    public function getFakultasKategory(Request $request){
+        $data = \DB::table('sdm_fakultas_m as ru')
+        ->get();
+
+        $result = array(
+            'data' => $data,
+            'by' => 'asepic',
+        );
+
+        return $result;
+
+    }
+
+    public function getJurusanKategory(Request $request){
+        $data = JurusanPeminatan::get();
+
+        $result = array(
+            'data' => $data,
+            'by' => 'asepic',
+        );
+        return $result;
+    }
+
     public function saveDiklatKategory(Request $request){
         DB::beginTransaction();
         try{
@@ -3432,6 +3457,93 @@ class SumberDayaManusiaController extends ApiController {
                 'status' => 201,
                 'message' => $transMessage,
                 'result' => $institusi,
+                'as' => 'asepic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'asepic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveFakultasKategory(Request $request){
+        DB::beginTransaction();
+        try{
+            $newId = SdmFakultas::max('id') +1 ;
+            if ($request['id'] == ''){
+                $fakultas = new SdmFakultas();
+                $fakultas->id = $newId;
+                $fakultas->kdprofile = 0;
+                $fakultas->norec = $fakultas->generateNewId();
+            }else{
+                $fakultas = SdmFakultas::where('id', $request['id'])->first();
+            }
+            $fakultas->statusenabled =  $request['statusenabled'];
+            $fakultas->kodeexternal = $newId;
+            $fakultas->fakultas = $request['fakultas'];
+            $fakultas->reportdisplay = $request['fakultas'];
+            $fakultas->id = $newId;
+            $fakultas->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Fakultas Kategory";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'result' => $fakultas,
+                'as' => 'asepic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'asepic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveJurusanKategory(Request $request){
+        DB::beginTransaction();
+        try{
+            $newId = JurusanPeminatan::max('id') +1 ;
+            if ($request['id'] == ''){
+                $jurusanpeminatan = new JurusanPeminatan();
+                $jurusanpeminatan->id = $newId;
+                $jurusanpeminatan->kdprofile = 0;
+                $jurusanpeminatan->norec = $jurusanpeminatan->generateNewId();
+            }else{
+                $jurusanpeminatan = JurusanPeminatan::where('id', $request['id'])->first();
+            }
+            $jurusanpeminatan->statusenabled =  $request['statusenabled'];
+            $jurusanpeminatan->kodeexternal = $newId;
+            $jurusanpeminatan->jurusanpeminatan = $request['jurusanpeminatan'];
+            $jurusanpeminatan->id = $newId;
+            $jurusanpeminatan->save();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Jurusan Peminatan Kategory";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'result' => $jurusanpeminatan,
                 'as' => 'asepic',
             );
         } else {

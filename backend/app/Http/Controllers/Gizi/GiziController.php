@@ -113,8 +113,115 @@ class GiziController extends ApiController
             ->where('op.noregistrasifk', $request['norec_pd'])
             ->get();
         
+        $datas = \DB::table('orderpelayanan_t as op')
+            ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'op.noregistrasifk')
+            ->join ('antrianpasiendiperiksa_t as apd', function($join){
+                $join->on('apd.noregistrasifk','=','pd.norec');
+                $join->on('pd.objectruanganlastfk','=','apd.objectruanganfk');
+                })
+            ->join('tempattidur_m as tt','tt.nomorbed','=','apd.nobed')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'op.objectruanganfk')
+            ->join('pasien_m as ps', 'ps.id', '=', 'op.nocmfk')
+            ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->join('strukorder_t as so', 'so.norec', '=', 'op.strukorderfk')
+            ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+            ->leftjoin('strukkirim_t as sk', 'sk.norec', '=', 'op.strukkirimfk')
+            ->leftjoin('jeniswaktu_m as jw', 'jw.id', '=', 'op.objectjeniswaktufk')
+            ->leftjoin('jenisdiet_m as jd', 'jd.id', '=', 'op.objectjenisdietfk')
+            ->leftjoin('jenisdiet_m as jd1', 'jd1.id', '=', 'op.objectjenisdietfk1')
+            ->leftjoin('jenisdiet_m as jd2', 'jd2.id', '=', 'op.objectjenisdietfk2')
+            ->leftjoin('kategorydiet_m as kd', 'kd.id', '=', 'op.objectkategorydietfk')
+            ->leftjoin('kelas_m as kls', 'kls.id', '=', 'op.objectkelasfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+            // ->join('kamar_m as kmr','kmr.objectruanganfk','=','ru.id')
+            // ->join ('kelas_m as kl','kl.id','=','kmr.objectkelasfk')
+            // ->join ('tempattidur_m as tt','tt.objectkamarfk','=','kmr.id')
+            // ->select('kmr.id','kmr.namakamar','kl.id as id_kelas','kl.namakelas','ru.id as id_ruangan',
+            //     'ru.namaruangan','kmr.jumlakamarisi','kmr.qtybed')
+            // ->where('kmr.objectruanganfk', $request['idRuangan'])
+            // ->where('kmr.objectkelasfk', $request['idKelas'])
+            // ->where('tt.objectstatusbedfk','=','2')
+            // ->where('tt.objectstatusbedfktriger','=','5')
+            // // ->join('antrianpasiendiperiksa_t as apd', 'pd.norec', '=', 'apd.noregistrasifk')
+            // // ->leftJoin(
+            // //     'orderpelayanan_t as ops',
+            // //     'ops.noregistrasifk',
+            // //     '=',
+            // //     DB::raw("pd.norec and ops.keteranganlainnya_quo = 'Order Gizi'")
+            // // )
+            // // ->leftjoin(
+            // //     'registrasipelayananpasien_t as rpp',
+            // //     'rpp.noregistrasifk',
+            // //     '=',
+            // //     DB::raw("pd.norec and rpp.objectruanganfk=apd.objectruanganfk")
+            // // )
+            // // ->leftjoin('tempattidur_m as tt', 'tt.id', '=', 'rpp.objecttempattidurfk')
+            // select distinct "kmr"."id", "kmr"."namakamar", "kl"."id" as "id_kelas", "kl"."namakelas","tt"."namaexternal", "ru"."id" as "id_ruangan", "ru"."namaruangan", "kmr"."jumlakamarisi", "kmr"."qtybed" from "kamar_m" as "kmr" inner join "ruangan_m" as "ru" on "ru"."id" = "kmr"."objectruanganfk" inner join "kelas_m" as "kl" on "kl"."id" = "kmr"."objectkelasfk" inner join "tempattidur_m" as "tt" on "tt"."objectkamarfk" = "kmr"."id" where "kmr"."objectruanganfk" = '901' and "kmr"."objectkelasfk" = '2' and "tt"."objectstatusbedfk" = 2 and "tt"."objectstatusbedfktriger" = '5' and "tt"."statusenabled" = '1' and "kmr"."statusenabled" = '1'
+            ->select(
+                'so.norec as norec_so',
+                'op.norec as norec_op',
+                'so.noorder',
+                'so.tglorder',
+                'so.tglpelayananawal as tglmenu',
+                'pd.tglregistrasi',
+                'ps.tgllahir',
+                'ps.namapasien',
+                'ps.nocm',
+                'ps.id as nocmfk',
+                'ru.namaruangan as ruanganasal',
+                'jk.jeniskelamin',
+                'op.objectruanganfk',
+                'jw.jeniswaktu',
+                'jd.jenisdiet',
+                'op.strukorderfk',
+                'op.objectkategorydietfk',
+                'kd.kategorydiet',
+                'op.qtyproduk',
+                'op.objectjeniswaktufk',
+                'op.objectjenisdietfk',
+                'op.keteranganlainnya',
+                'op.statusgizi as jenisorder',
+                'op.qtyprodukinuse as cc',
+                'op.jumlah as volume',
+                'op.objectkelasfk',
+                //'op.jeniswaktu',
+                'kls.namakelas',
+                'pd.noregistrasi',
+                'so.objectpegawaiorderfk',
+                'tt.namaexternal',
+                'pg.namalengkap as pegawaiorder',
+                'sk.nokirim',
+                'sk.qtyproduk',
+                'pd.norec as norec_pd',
+                'so.objectruangantujuanfk',
+                'op.strukkirimfk',
+                'sk.nokirim',
+                'ru2.namaruangan as ruangantujuan',
+                'jw.jeniswaktu',
+                'op.objectjeniswaktufk',
+                'pd.tglpulang',
+                'op.objectjenisdietfk1',
+                'op.objectjenisdietfk2',
+                'op.pagi',
+                'op.siang',
+                'op.malam',
+                'op.kalori',
+                'op.makanantambahan'
+                // DB::raw("case when op.strukkirimfk is not null then 'Sudah Dikirim'  else '-' end as statuskirim,case when (select top (1) namadiagnosa from v_diagnosaPasien where noregistrasi = pd.noregistrasi and idjd= 1) is null then '-' else (select top (1) namadiagnosa from v_diagnosaPasien where noregistrasi = pd.noregistrasi and idjd= 1) end  as diagnosa,jd1.jenisdiet as jenisdiet1,jd2.jenisdiet as jenisdiet2 ")
+            )
+
+            ->where('so.statusenabled', true)
+            ->where('so.objectkelompoktransaksifk', 8)
+            ->where('pd.noregistrasi',$request['noreg'])
+            ->where('so.tglpelayananawal','>=',date("Y-m-d 00:00:00"))
+            ->where('so.tglpelayananawal','<=',date("Y-m-d 23:59:59"));
+            $datas = $datas->whereNull('pd.tglpulang');
+            $datas = $datas->orderBy('so.noorder', 'ru.namaruangan');
+            $datas = $datas->get();
+        
         $result = array(
             'data' => $data,
+            'datas' => $datas,
             'message' => 'inhuman',
         );
         return $this->respond($result);
@@ -1111,6 +1218,16 @@ FROM MenuGizi_t INNER JOIN produk_m ON MenuGizi_t.idproduk = produk_m.id INNER J
         }
         if (isset($request['kategoriDietId']) && $request['kategoriDietId'] != "" && $request['kategoriDietId'] != "undefined") {
             $data = $data->where('op.objectkategorydietfk', '=', $request['kategoriDietId']);
+        }
+
+        if (isset($request['pagi']) && $request['pagi'] != "" && $request['pagi'] != "undefined") {
+            $data = $data->where('op.pagi',true);
+        }
+        if (isset($request['siang']) && $request['siang'] != "" && $request['siang'] != "undefined") {
+            $data = $data->where('op.siang',true);
+        }
+        if (isset($request['malam']) && $request['malam'] != "" && $request['malam'] != "undefined") {
+            $data = $data->where('op.malam',true);
         }
 
         if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
