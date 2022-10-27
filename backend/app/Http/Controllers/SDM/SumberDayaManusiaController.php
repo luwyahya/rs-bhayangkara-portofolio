@@ -423,7 +423,7 @@ class SumberDayaManusiaController extends ApiController {
     public function getEditUpdatePegawai (Request $request) {
         $data = \DB::table('rekaptransfergaji_t as rtg')
             ->join('pegawai_m as pg', 'pg.id', '=', 'rtg.idpegawai')
-            ->select('rtg.idpegawai', 'rtg.cekupdate', 'pg.salary', 'pg.namalengkap', 'pg.bankrekeningnomor', 'pg.kategorypegawai')
+            ->select('rtg.idpegawai', 'rtg.cekupdate', 'pg.salary', 'pg.namalengkap', 'pg.bankrekeningnomor', 'pg.bangrekeningnomordua', 'pg.kategorypegawai')
             ->where('pg.statusenabled', true)
             ->whereNotIn('pg.id',[2,890,27676,27733,27746])
             ->where('pg.kedudukanfk', 1);
@@ -467,6 +467,7 @@ class SumberDayaManusiaController extends ApiController {
             $data = \DB::table('rekaptransfergaji_t as pg')
             ->select('pg.*',
                 DB::raw('case when pg.norekening is null then \'-\' else pg.norekening end as nomorrekening2,
+                         case when pg.norekeningdua is null then \'-\' else pg.norekeningdua end norekeningdua,
                          case when pg.salary is null then \'0\' else pg.salary end as salary2,
                          ROW_NUMBER() OVER (ORDER BY pg.namapegawai) AS no
                          '))
@@ -590,6 +591,7 @@ class SumberDayaManusiaController extends ApiController {
                 $dataAnyar->namapegawai = $item['namapegawai'];
                 $dataAnyar->kategorypegawai = $item['kategorypegawai'];
                 $dataAnyar->norekening = $item['norekening'];
+                $dataAnyar->norekeningdua = $item['norekeningdua'];
                 $dataAnyar->salary = $item['salary'];
                 $dataAnyar->statusenabled = true;
                 $dataAnyar->cekupdate = $item['cekupdate'] + 1;

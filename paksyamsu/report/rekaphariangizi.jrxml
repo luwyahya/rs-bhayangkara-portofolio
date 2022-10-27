@@ -106,7 +106,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[No.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="169" y="48" width="51" height="16" uuid="4bebb714-a0b3-4da3-b849-47a506415d01">
+				<reportElement x="130" y="48" width="70" height="16" uuid="4bebb714-a0b3-4da3-b849-47a506415d01">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -115,7 +115,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[Tgl Order]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="92" y="48" width="58" height="16" uuid="89c930d2-e944-48c8-bb4f-354079e00b3e">
+				<reportElement x="60" y="48" width="58" height="16" uuid="89c930d2-e944-48c8-bb4f-354079e00b3e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -133,7 +133,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[NO RM]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="226" y="48" width="66" height="16" uuid="10938fcf-529a-432d-9a58-95974cf1aa51">
+				<reportElement x="222" y="48" width="66" height="16" uuid="10938fcf-529a-432d-9a58-95974cf1aa51">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -151,7 +151,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[Ruangan Asal]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="406" y="48" width="36" height="16" uuid="6a3ebbc3-804d-4511-811e-b1997116a4ac">
+				<reportElement x="400" y="48" width="36" height="16" uuid="6a3ebbc3-804d-4511-811e-b1997116a4ac">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -178,7 +178,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[Diet 1]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="533" y="48" width="36" height="16" uuid="a189a36f-22e7-4e1c-87c8-6e081cd36d90">
+				<reportElement x="545" y="48" width="36" height="16" uuid="a189a36f-22e7-4e1c-87c8-6e081cd36d90">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -196,7 +196,7 @@ order by ruanganasal2]]>
 				<text><![CDATA[Diet 3]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="746" y="48" width="48" height="16" uuid="2b87ed88-3504-4c6e-8730-462f5b6c798b">
+				<reportElement x="740" y="48" width="48" height="16" uuid="2b87ed88-3504-4c6e-8730-462f5b6c798b">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -216,7 +216,7 @@ order by ruanganasal2]]>
 		</band>
 	</title>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="26" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="20" y="-1" width="41" height="21" uuid="49483021-a8b1-465a-9593-7fab3c1f72fc"/>
@@ -226,14 +226,14 @@ order by ruanganasal2]]>
 				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="62" y="1" width="141" height="11" uuid="7e2cbba1-8472-4594-a1c1-b02a388f4487"/>
+				<reportElement x="60" y="0" width="70" height="19" uuid="7e2cbba1-8472-4594-a1c1-b02a388f4487"/>
 				<textElement>
-					<font size="6"/>
+					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jammakan}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="176" y="-1" width="46" height="11" uuid="09287f7c-8301-4bcc-a1dd-7b247c8723c0">
+				<reportElement x="130" y="1" width="90" height="11" uuid="09287f7c-8301-4bcc-a1dd-7b247c8723c0">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
@@ -242,7 +242,7 @@ order by ruanganasal2]]>
 				<textFieldExpression><![CDATA[$F{tglorder}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement isPrintRepeatedValues="false" x="222" y="0" width="116" height="21" uuid="100a9c3b-692e-4dfe-8b70-0cafe75f1e06">
+				<reportElement isPrintRepeatedValues="false" x="222" y="0" width="102" height="21" uuid="100a9c3b-692e-4dfe-8b70-0cafe75f1e06">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -251,42 +251,42 @@ order by ruanganasal2]]>
 				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="339" y="0" width="76" height="21" uuid="3bd238dd-f15b-41ed-80a2-7dc8fa2a2325"/>
+				<reportElement x="324" y="0" width="76" height="21" uuid="3bd238dd-f15b-41ed-80a2-7dc8fa2a2325"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{ruanganasal2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="408" y="0" width="35" height="12" uuid="a8a64bdb-24d3-4739-981e-496197404d70"/>
+				<reportElement x="401" y="0" width="34" height="20" uuid="a8a64bdb-24d3-4739-981e-496197404d70"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namakelas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="446" y="1" width="44" height="12" uuid="55124846-8063-49bf-aaa7-4821d2c74cd2"/>
+				<reportElement x="436" y="0" width="44" height="21" uuid="55124846-8063-49bf-aaa7-4821d2c74cd2"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kategorydiet}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="475" y="1" width="64" height="12" uuid="00c24217-0a1c-4baf-84ff-d3146082ecea"/>
+				<reportElement x="484" y="1" width="50" height="20" uuid="00c24217-0a1c-4baf-84ff-d3146082ecea"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="530" y="1" width="66" height="13" uuid="b49780b7-f311-47f4-8652-aeddea3030b2"/>
+				<reportElement x="540" y="1" width="50" height="20" uuid="b49780b7-f311-47f4-8652-aeddea3030b2"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{jenisdiet1}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="595" y="1" width="70" height="14" uuid="1c8afd94-7885-4112-bbf1-566f46a4e9f5"/>
+				<reportElement x="592" y="2" width="60" height="19" uuid="1c8afd94-7885-4112-bbf1-566f46a4e9f5"/>
 				<textElement>
 					<font size="7"/>
 				</textElement>
@@ -302,7 +302,7 @@ order by ruanganasal2]]>
 				<textFieldExpression><![CDATA[$F{keteranganlainnyakirim}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="740" y="1" width="78" height="19" uuid="a8f9a74c-cf2e-487c-b049-e2836b9feca0">
+				<reportElement x="740" y="1" width="62" height="19" uuid="a8f9a74c-cf2e-487c-b049-e2836b9feca0">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
@@ -311,7 +311,7 @@ order by ruanganasal2]]>
 				<textFieldExpression><![CDATA[$F{diagnosa}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="1" y="19" width="800" height="2" uuid="19845c8d-b93d-47dd-91f2-1a5e933f5f34">
+				<reportElement x="1" y="24" width="800" height="2" uuid="19845c8d-b93d-47dd-91f2-1a5e933f5f34">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
