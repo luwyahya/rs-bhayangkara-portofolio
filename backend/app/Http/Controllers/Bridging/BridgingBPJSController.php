@@ -1963,13 +1963,13 @@ class BridgingBPJSController extends ApiController
         if(isset($req['kdDiagnosa']) &&
             $req['kdDiagnosa']!="" &&
             $req['kdDiagnosa']!="undefined"){
-            $datRek = $datRek->where('dg.kddiagnosa','like','%'. $req['kdDiagnosa'] .'%' );
+            $datRek = $datRek->where('dg.kddiagnosa','ilike','%'. $req['kdDiagnosa'] .'%' );
         }
         if(isset($req['filter']['filters'][0]['value']) &&
             $req['filter']['filters'][0]['value']!="" &&
             $req['filter']['filters'][0]['value']!="undefined"){
             $datRek = $datRek
-                ->where('dg.kddiagnosa','like','%'.$req['filter']['filters'][0]['value'].'%' );
+                ->where('dg.kddiagnosa','ilike','%'.$req['filter']['filters'][0]['value'].'%' );
 //                ->orWhere('dg.kddiagnosatindakan','ilike',$req['filter']['filters'][0]['value'].'%' )  ;
         }
 

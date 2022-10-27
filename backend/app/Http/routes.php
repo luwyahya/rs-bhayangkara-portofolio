@@ -1093,7 +1093,22 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-norecLast', 'EMR\EMRController@getnorecruanganlast');
             Route::get('get-combo-ruangan/{noregistrasi}', 'EMR\EMRController@getcomboruangan');
             Route::post('update-ruangan', 'EMR\EMRController@updateRuangan');
+            
         });
+        Route::post('cp/save-cp-dinamis', 'ClinicalPathway\CPController@SaveTransaksiCP');
+        Route::get('cp/get-cp-transaksi-detail', 'ClinicalPathway\CPController@getEMRTransaksiDetail');
+        Route::get('cp/get-detail-diagnosa-pasien', 'ClinicalPathway\CPController@getDiagnosaPasien');
+        Route::get('cp/get-list-cp', 'ClinicalPathway\CPController@getListCP');
+        Route::get('cp/get-list-diagnosa-cp', 'ClinicalPathway\CPController@getListDiagnosaCP');
+        Route::get('cp/get-produk-part', 'ClinicalPathway\CPController@getProduk');
+        Route::get('cp/get-form-target', 'ClinicalPathway\CPController@getFormTarget');
+        Route::post('cp/save-mapping', 'ClinicalPathway\CPController@saveMapping');
+        Route::post('cp/save-caption', 'ClinicalPathway\CPController@saveCaption');
+        Route::get('cp/get-mapping', 'ClinicalPathway\CPController@getMapping');
+        Route::get('cp/get-caption', 'ClinicalPathway\CPController@getCaption');
+        Route::post('cp/hapus-mapping', 'ClinicalPathway\CPController@hapusMapping');
+        Route::get('cp/get-colorchk', 'ClinicalPathway\CPController@getColorCheckBox');
+        Route::get('cp/get-kegiatan-uraian', 'ClinicalPathway\CPController@getKegiatanDanUraiannya');
 
         Route::group(['prefix' => 'farmasi'], function () {
             Route::post('save-antrian', 'Farmasi\PelayananResepController@simpanantrian');

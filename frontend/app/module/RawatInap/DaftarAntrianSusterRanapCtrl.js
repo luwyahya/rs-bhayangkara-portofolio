@@ -460,10 +460,20 @@ define(['initialize'], function (initialize) {
                 },
                 selectable: 'row',
                 pageable: true,
-                columns: [{
+                columns: [
+                     {
+                   "command": [
+                        {
+                            text: " ",
+                            click: cipherPol2,
+                            imageClass: "clinic fa fa-stethoscope"
+                        }],
+                        title: "",
+                        width: "70px",
+                    },{
                     "field": "no",
                     "title": "No",
-                    "width": "20px",
+                    "width": "25px",
                 },
                 {
                     "field": "tglregistrasi",
@@ -579,6 +589,29 @@ define(['initialize'], function (initialize) {
                 }
                 ]
             };
+             function cipherPol2(e) {
+                e.preventDefault();
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+                 cacheHelper.set('cacheCP', {
+                        0: dataItem.noregistrasi,
+                        1: dataItem.norec_pd,
+                        2: dataItem.norec_apd,
+                        3: '',
+                        4: '',
+                        5: '',
+                        6: '',
+                        7: '',
+                        8: '',
+                        9: '',
+                        10: ''
+                    }
+                )
+                 var url = $state.href("CPHead");
+                // $state.go("CPHead")
+                 window.open(globalThis.location.origin + "/app/"+ url,'_blank').focus();    
+
+            }
             $scope.formatRupiah = function (value, currency) {
                 if (value == 'null')
                     value = 0

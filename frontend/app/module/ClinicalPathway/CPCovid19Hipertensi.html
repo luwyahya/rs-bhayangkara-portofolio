@@ -1,0 +1,954 @@
+<style type="text/css">
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+
+        height: 26px;
+
+
+    }
+
+    .k-slider {
+
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+
+    .activeBtn {
+        background-color: #10c4b2;
+        color: #ffffff;
+    }
+
+    legend b {
+        color: #41abf2;
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+    .tab { 
+       display:inline-block; 
+       margin-left: 40px; 
+    }
+
+    .ratakiri { 
+       display:inline-block; 
+       margin-left: 0px; 
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+    hr {
+    border: 1px dashed #cccccc;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: 100%;
+}
+</style>
+
+<!-- <div class="grid_1"></div> -->
+<div class="grid_12">
+    <div class="grid_12">
+
+        <div class="grid_12" style="margin-top: 10px;">
+            
+            <div class="grid_12" ng-show="showCP">
+                <fieldset style="margin-top: 10px;">
+                    <div class="panel panel-default panel-white">
+                        <div class="panel-body">
+                            <div class="grid_6">
+                                 <div class="grid_12" style="margin-top:5px">
+                                    <label c-label real>COVID19 HIPERTENSI</label>
+                                    <!-- <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                        ng-model="item.obj[18000996]" /> -->
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="grid_12" ng-show="showCP">
+                <fieldset style="margin-top: 10px; ">              
+                    <div class="grid_12" style="margin-top: 20px">
+                            <table style="width:100%;">
+                                <tr>
+                                    <th rowspan="5" style="text-align: center;width: 25%">KEGIATAN</th>
+                                    <th rowspan="5" style="text-align: center;width: 35%">URAIAN KEGIATAN</th>
+                                    <th colspan="7" style="text-align: center;font-weight: bold;width: 20%">HARI PENYAKIT</th>
+                                    <!-- <th colspan="7" style="text-align: center;font-weight: bold;width: 20%">HARI PENYAKIT</th> -->
+                                    <th rowspan="5" style="text-align: center;width: 20%">Biaya (RP)</th>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000276]"  id="item.obj[18000276]">
+                                    <label class="k-checkbox-label" for="item.obj[18000276]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000277]"  id="item.obj[18000277]"> 
+                                    <label class="k-checkbox-label" for="item.obj[18000277]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000278]"  id="item.obj[18000278]">
+                                    <label class="k-checkbox-label" for="item.obj[18000278]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000279]"  id="item.obj[18000279]">
+                                    <label class="k-checkbox-label" for="item.obj[18000279]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000280]"  id="item.obj[18000280]">
+                                    <label class="k-checkbox-label" for="item.obj[18000280]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000281]"  id="item.obj[18000281]">
+                                    <label class="k-checkbox-label" for="item.obj[18000281]">
+                                        &nbsp;</label></th>
+                                    <th><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000282]"  id="item.obj[18000282]">
+                                    <label class="k-checkbox-label" for="item.obj[18000282]">
+                                        &nbsp;</label></th>
+                                </tr>
+                                <tr>
+                                    <td th colspan="7" style="text-align: center;font-weight: bold;width: 70px">HARI RAWAT</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>3</td>
+                                    <td>4</td>
+                                    <td>5</td>
+                                    <td>6</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">1. Asesmen Awal</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold"><span class="tab">ASESMEN AWAL MEDIS</span></td>
+                                    <td colspan="8"></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold"><span class="tab">ASESMEN AWAL KEPERAWATAN </span></td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">2. LABORATORIUM</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">3. RADIOLOGI/IMAGING </td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">4. KONSULTASI</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">5. ASESMEN LANJUTAN</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td > <span class="tab"> a. Asesmen Medis</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                
+                                <tr>
+                                    <td > <span class="tab"> b. Asesmen Keperawatan</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td > <span class="tab"> c. Asesmen Gizi</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" > <span class="tab"> d. Asesemen Farmasi</td>
+                                    <td>Telaah Resep </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000283]"  id="item.obj[18000283]" ng-click='openLink(18000283)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000283]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000284]"  id="item.obj[18000284]" ng-click='openLink(18000284)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000284]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000285]"  id="item.obj[18000285]" ng-click='openLink(18000285)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000285]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000286]"  id="item.obj[18000286]" ng-click='openLink(18000286)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000286]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000287]"  id="item.obj[18000287]" ng-click='openLink(18000287)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000287]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000288]"  id="item.obj[18000288]" ng-click='openLink(18000288)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000288]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000289]"  id="item.obj[18000289]" ng-click='openLink(18000289)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000289]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td>Telaah Resep Rekonsiliasi Obat</td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000290]"  id="item.obj[18000290]"  ng-click='openLink(18000290)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000290]">
+                                        &nbsp;</label></td>
+                                    <td><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000291]"  id="item.obj[18000291]"  ng-click='openLink(18000291)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000291]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000292]"  id="item.obj[18000292]"  ng-click='openLink(18000292)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000292]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000293]"  id="item.obj[18000293]"  ng-click='openLink(18000293)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000293]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000294]"  id="item.obj[18000294]"  ng-click='openLink(18000294)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000294]">
+                                        &nbsp;</label></td>
+                                    <td><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000295]"  id="item.obj[18000295]"  ng-click='openLink(18000295)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000295]">
+                                        &nbsp;</label></td>
+                                    <td><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000296]"  id="item.obj[18000296]"  ng-click='openLink(18000296)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000296]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">6. DIAGNOSIS</td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td > <span class="tab">a. Diagnosa Medis</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td > <span class="tab">b.Diagnosa Keperawatan</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                    
+                                </tr>
+                                
+                                <tr>
+                                    <td > <span class="tab">c. Diagnosa Gizi</td>
+                                    <td colspan="8"></td>
+                                     
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">7. DISCHARGE PLANNING</td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">8. EDUKASI TERINTEGRASI </td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">a. EDUKASI/ INFORMASI MEDIS</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  EDUKASI & KONSELING GIZI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">c.  EDUKASI KEPERAWATAN</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">d.  EDUKASI FARMASI GIZI</span></td>
+                                    <td>Informasi Obat </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000297]"  id="item.obj[18000297]" ng-click='openLink(18000297)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000297]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000298]"  id="item.obj[18000298]" ng-click='openLink(18000298)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000298]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000299]"  id="item.obj[18000299]" ng-click='openLink(18000299)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000299]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000300]"  id="item.obj[18000300]" ng-click='openLink(18000300)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000300]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000301]"  id="item.obj[18000301]" ng-click='openLink(18000301)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000301]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000302]"  id="item.obj[18000302]" ng-click='openLink(18000302)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000302]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000303]"  id="item.obj[18000303]" ng-click='openLink(18000303)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000303]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td  style="font-weight: bold">PENGISIAN FORMULIR INFORMASI DAN   EDUKASI TERINTEGRASI </td>
+                                     <td>Lembar Edukasi Terintegrasi </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000304]"  id="item.obj[18000304]" ng-click='openLink(18000304)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000304]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000305]"  id="item.obj[18000305]" ng-click='openLink(18000305)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000305]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000306]"  id="item.obj[18000306]" ng-click='openLink(18000306)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000306]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000307]"  id="item.obj[18000307]" ng-click='openLink(18000307)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000307]">
+                                        &nbsp;</label></td>
+                                    <td  style="background-color: #FF0000;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000308]"  id="item.obj[18000308]" ng-click='openLink(18000308)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000308]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000309]"  id="item.obj[18000309]" ng-click='openLink(18000309)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000309]">
+                                        &nbsp;</label></td>
+                                    <td><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000310]"  id="item.obj[18000310]" ng-click='openLink(18000310)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000310]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">9 . TERAPI/ MEDIKAMENTOSA </td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">a.  INJEKSI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  CAIRAN INFUS</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">c.  OBAT ORAL</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">d.  RECTAL</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">10. TATA LAKSANA/INTERVENSI </td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">a.  TATA LAKSANA/ INTERVENSI MEDIS</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  TATA LAKSANA/INTERVENSI KEPERAWATANGIZI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">c.  TATA LAKSANA/INTERVENSI GIZI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">d. TATA LAKSANA/INTERVENSI FARMASI</span></td>
+                                    <td>komendasi kepada DPJP  </td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000311]"  id="item.obj[18000311]" ng-click='openLink(18000311)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000311]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000312]"  id="item.obj[18000312]" ng-click='openLink(18000312)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000312]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000313]"  id="item.obj[18000313]" ng-click='openLink(18000313)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000313]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000314]"  id="item.obj[18000314]" ng-click='openLink(18000314)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000314]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000315]"  id="item.obj[18000315]" ng-click='openLink(18000315)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000315]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000316]"  id="item.obj[18000316]" ng-click='openLink(18000316)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000316]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000317]"  id="item.obj[18000317]" ng-click='openLink(18000317)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000317]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"> 11. MONITORING & EVALUASI</td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">a.  DOKTER DPJP</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  KEPERAWATAN</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">c.  GIZI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3" style="font-weight: bold"><span class="tab">d.  FARMASI</span></td>
+                                    <td>Monitoring Interaksi Obat </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000318]"  id="item.obj[18000318]" ng-click='openLink(18000318)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000318]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000319]"  id="item.obj[18000319]" ng-click='openLink(18000319)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000319]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000320]"  id="item.obj[18000320]" ng-click='openLink(18000320)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000320]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000321]"  id="item.obj[18000321]" ng-click='openLink(18000321)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000321]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000322]"  id="item.obj[18000322]" ng-click='openLink(18000322)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000322]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000323]"  id="item.obj[18000323]" ng-click='openLink(18000323)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000323]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000408]"  id="item.obj[18000408]" ng-click='openLink(18000408)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000408]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td>Monitoring Efek Samping Obat</td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000324]"  id="item.obj[18000324]" ng-click='openLink(18000324)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000324]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000325]"  id="item.obj[18000325]" ng-click='openLink(18000325)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000325]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000326]"  id="item.obj[18000326]" ng-click='openLink(18000326)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000326]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000327]"  id="item.obj[18000327]" ng-click='openLink(18000327)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000327]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000328]"  id="item.obj[18000328]" ng-click='openLink(18000328)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000328]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000329]"  id="item.obj[18000329]" ng-click='openLink(18000329)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000329]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000330]"  id="item.obj[18000330]" ng-click='openLink(18000330)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000330]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td>Pemantauan Terapi Obat</td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000331]"  id="item.obj[18000331]" ng-click='openLink(18000331)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000331]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000332]"  id="item.obj[18000332]" ng-click='openLink(18000332)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000332]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000333]"  id="item.obj[18000333]" ng-click='openLink(18000333)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000333]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000334]"  id="item.obj[18000334]" ng-click='openLink(18000334)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000334]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000335]"  id="item.obj[18000335]" ng-click='openLink(18000335)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000335]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000336]"  id="item.obj[18000336]" ng-click='openLink(18000336)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000336]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #00FF00;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000337]"  id="item.obj[18000337]" ng-click='openLink(18000337)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000337]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">12. MOBILISASI / REHABILITASI </td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab"> a.  MEDIS</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  KEPERAWATAN</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab"> c.  FISIOTERAPI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">13. OUTCOME/HASIL </td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">a.  MEDIS</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">b.  KEPERAWATAN</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold"><span class="tab">c.  GIZI</span></td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" style="font-weight: bold"><span class="tab">d.  FARMASI</span></td>
+                                    <td>Terapi obat sesuai indikasi </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000338]"  id="item.obj[18000338]" ng-click='openLink(18000338)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000338]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000339]"  id="item.obj[18000339]" ng-click='openLink(18000339)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000339]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000340]"  id="item.obj[18000340]" ng-click='openLink(18000340)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000340]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000341]"  id="item.obj[18000341]" ng-click='openLink(18000341)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000341]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000342]"  id="item.obj[18000342]" ng-click='openLink(18000342)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000342]">
+                                        &nbsp;</label></td>
+                                    <td><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000343]"  id="item.obj[18000343]" ng-click='openLink(18000343)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000343]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000344]"  id="item.obj[18000344]" ng-click='openLink(18000344)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000344]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Obat rasional </td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000345]"  id="item.obj[18000345]" ng-click='openLink(18000345)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000345]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000346]"  id="item.obj[18000346]" ng-click='openLink(18000346)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000346]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;" ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000347]"  id="item.obj[18000347]" ng-click='openLink(18000347)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000347]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000348]"  id="item.obj[18000348]" ng-click='openLink(18000348)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000348]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000349]"  id="item.obj[18000349]" ng-click='openLink(18000349)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000349]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000350]"  id="item.obj[18000350]" ng-click='openLink(18000350)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000350]">
+                                        &nbsp;</label></td>
+                                    <td style="background-color: #FF0000;"><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000351]"  id="item.obj[18000351]" ng-click='openLink(18000351)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000351]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-weight: bold">14.  KRITERIA PULANG</td>
+                                    <td colspan="8"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3" style="font-weight: bold">15. RENCANA PULANG / EDUKASI PELAYANAN LANJUTAN</td>
+                                </tr>
+                                <tr><td>Resume Medis dan Keperawatan </td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000352]"  id="item.obj[18000352]" ng-click='openLink(18000352)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000352]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000353]"  id="item.obj[18000353]" ng-click='openLink(18000353)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000353]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000354]"  id="item.obj[18000354]" ng-click='openLink(18000354)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000354]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000355]"  id="item.obj[18000355]" ng-click='openLink(18000355)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000355]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000356]"  id="item.obj[18000356]" ng-click='openLink(18000356)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000356]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000357]"  id="item.obj[18000357]" ng-click='openLink(18000357)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000357]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000358]"  id="item.obj[18000358]" ng-click='openLink(18000358)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000358]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td>Penjelasan diberikan sesuai dengan keadaan umum pasien </td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000359]"  id="item.obj[18000359]" ng-click='openLink(18000359)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000359]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000360]"  id="item.obj[18000360]" ng-click='openLink(18000360)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000360]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000361]"  id="item.obj[18000361]" ng-click='openLink(18000361)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000361]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000362]"  id="item.obj[18000362]" ng-click='openLink(18000362)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000362]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000363]"  id="item.obj[18000363]" ng-click='openLink(18000363)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000363]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000364]"  id="item.obj[18000364]" ng-click='openLink(18000364)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000364]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000365]"  id="item.obj[18000365]" ng-click='openLink(18000365)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000365]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    
+                                    <td>Surat pengantar control</td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000366]"  id="item.obj[18000366]" ng-click='openLink(18000366)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000366]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000367]"  id="item.obj[18000367]" ng-click='openLink(18000367)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000367]">
+                                        &nbsp;</label></td>
+                                    <td  ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000368]"  id="item.obj[18000368]" ng-click='openLink(18000368)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000368]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000369]"  id="item.obj[18000369]" ng-click='openLink(18000369)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000369]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000370]"  id="item.obj[18000370]" ng-click='openLink(18000370)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000370]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000371]"  id="item.obj[18000371]" ng-click='openLink(18000371)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000371]">
+                                        &nbsp;</label></td>
+                                    <td ><input type="checkbox" class="k-checkbox"
+                                        ng-model="item.obj[18000372]"  id="item.obj[18000372]" ng-click='openLink(18000372)'>
+                                    <label class="k-checkbox-label" for="item.obj[18000372]">
+                                        &nbsp;</label></td>
+                                     
+                                    <td > </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"style="font-weight: bold">VARIAN</td>
+                                    <td colspan="7"></td>
+                                    <td></td>
+                                </tr>
+                            
+
+                                
+
+                            </table>
+
+                        </div>
+                    </fieldset>
+                </div>  
+                    <div class="grid_12" ng-show="showCP">                          
+                        <div class="grid_4">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Dokter Penanggung jawab pelayanan </span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000988]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000989]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                        <div class="grid_4">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Perawat Penanggung Jawab </span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000990]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000991]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                        <div class="grid_4">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Pelaksana Verifikasi</span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000992]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000993]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+       
+        <div class="grid_12" ng-show="showCP">
+            <div class="grid_9"></div>
+            <div class="grid_3" style="margin-top: 22px" >
+                    <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
