@@ -66,6 +66,45 @@ define(['initialize'], function (initialize) {
                 }, function (error) {
                     $scope.isRouteLoading = false;
                 })
+                medifirstService.get("sysadmin/master/get-dataaccountbank", true).then(function (dat) {
+                    $scope.isRouteLoading = false;
+                    let data2 = dat.data.datas
+                    $scope.dataMapAccount = new kendo.data.DataSource({
+                        data: data2,
+                        pageSize: 20
+                    });
+                });
+            }
+            $scope.columnMapAccount = {
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Detail Posting  " + moment($scope.item.tglAwal).format('DD/MMM/YYYY'),
+                    allPages: true,
+                },
+                sortable: false,
+                reorderable: true,
+                filterable: false,
+                pageable: true,
+                columnMenu: false,
+                resizable: true,
+                selectable: 'row',
+                columns: [
+                    {
+                        "field": "id",
+                        "title": "ID",
+                        "width": "20px"
+                    },
+                    {
+                        "field": "nama",
+                        "title": "Nama Bank",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namaaccount",
+                        "title": "Nama Account",
+                        "width": "60px"
+                    },
+                ]
             }
             function onSelect(z) {
                 var data3 = z.sender.dataSource._data
@@ -538,6 +577,71 @@ define(['initialize'], function (initialize) {
             }
             $scope.clickTambahKamar = function () {
                 $scope.popupTambahKamar.open().center();
+            }
+            $scope.clickBatal = function () {
+                $scope.item.bank = ""
+                $scope.item.kdAkunDebit = ""
+            }
+            $scope.clickHapus = function () {
+                debugger
+                if ($scope.dataSelectedMapAccount == undefined) {
+                    toastr.error("Data Belum Dipilih!")
+                    return
+                }
+
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealHapusAccountBank();
+                });
+            }
+            function RealHapusAccountBank() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    id: $scope.dataSelectedMapAccount.id,
+                }
+                medifirstService.post('sysadmin/master/hapus-map-account-bank', objDelete).then(function (e) {
+                    $scope.isRouteLoading = false;
+                })
+            }
+            $scope.klikMapAccount = function (x) {
+                debugger
+                $scope.item.bank = { id: x.id, nama: x.nama }
+                $scope.item.kdAkunDebit = { id: x.id, noaccount: x.noaccount }
+                // $scope.item.kdAkunDebit = { id: x.id, namaaccount: x.namaaccount }
+            }
+            $scope.clickSaveAccountBank = function () {
+                if ($scope.item.bank == undefined || $scope.item.bank == null) {
+                    toastr.error("Bank Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit == null) {
+                    toastr.error("Bank Harus Di Isi!")
+                    return
+                }
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSaveAccountBank();
+                });
+            }
+            function RealSaveAccountBank() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    objectbankfk: $scope.item.bank.id,
+                    objectcoafk: $scope.item.kdAkunDebit.id
+                }
+                medifirstService.post('sysadmin/master/save-map-account-bank', objDelete).then(function (e) {
+                    $scope.isRouteLoading = false;
+                })
             }
             $scope.clickSaveKamar = function (ai) {
                 if ($scope.item.ruangan == undefined || $scope.item.ruangan == null) {

@@ -2378,7 +2378,7 @@ class MasterController extends ApiController{
                         "id" => (int)$nextId,
                         "statusenabled" => (bool)"t",
                         "kdprofile" => "18",
-                        "kodeexternal" => "UNAND",
+                        "kodeexternal" => "Cianjur",
                         "namaexternal" => $request['namaKamar'],
                         "namakamar" => $request['namaKamar'],
                         "norec" => (int)$nextId,
@@ -2417,6 +2417,93 @@ class MasterController extends ApiController{
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveMapAccountBank(Request $request){
+        DB::beginTransaction();
+        try {
+            $maxId = DB::table('mapaccountbank_m')->find(DB::table('mapaccountbank_m')->max('id'));
+            $nextId = $maxId->id+1;
+            $rowDataforInsert[] = array(
+                        "id" => (int)$nextId,
+                        "statusenabled" => (bool)"t",
+                        "kdprofile" => "18",
+                        "kodeexternal" => "Cianjur",
+                        "objectcoafk" => $request['objectcoafk'],
+                        "norec" => (int)$nextId,
+                        "objectbankfk" => $request['objectbankfk']
+                    );
+            $is_saved = DB::table('mapaccountbank_m')
+                    ->insert($rowDataforInsert);
+              $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function hapusMapAccountBank(Request $request){
+        DB::beginTransaction();
+        try {
+            $idMap=$request['id'];
+            $delete = DB::delete("delete from mapaccountbank_m where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getDataAccountBank(Request $request) {
+        $data = DB::table('mapaccountbank_m as kr')
+            ->join('bank_m as ba', 'ba.id', '=', 'kr.objectbankfk')
+            ->join('chartofaccount_m as coa','coa.id','=','kr.objectcoafk')
+            ->select('kr.id','ba.nama', 'coa.namaaccount','coa.noaccount');
+
+       
+        
+       
+
+        $data = $data->take(5);
+        $data = $data->orderBy('ba.nama');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
     }
 
     public function getProdukbyIdformap(Request $request){

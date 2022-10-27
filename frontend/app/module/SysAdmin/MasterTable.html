@@ -402,7 +402,7 @@
                                         </div>
                                     </div>
                                     <div class="grid_12">
-                                        <div class="grid_4">
+                                        <div class="grid_2">
                                             <div class="grid_12">
                                                 <label c-label item="item" c-label-text="Kode Akun"></label>
                                             </div>
@@ -424,11 +424,30 @@
                                                     k-data-source="" />
                                             </div>
                                         </div>
-                                        <div class="grid_4">
-                                            <div class="grid_12">
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
                                                 <button class="c-button success" ng-click="clickSaveAccountBank()"
                                                     style="float:left;width:120px">Simpan</button>
                                             </div>
+                                        </div>
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickBatal()"
+                                                    style="float:left;width:120px">Batal</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickHapus()"
+                                                    style="float:left;width:120px">Hapus</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid_12 ">
+                                            <kendo-grid k-data-source="dataMapAccount" k-selectable="'row'"
+                                                options="columnMapAccount" k-pageable="'true'" k-sortable="'true'"
+                                                k-ng-model="dataSelectedMapAccount"
+                                                ng-click="klikMapAccount(dataSelectedMapAccount)">
+                                            </kendo-grid>
                                         </div>
                                     </div>
                                 </fieldset>
