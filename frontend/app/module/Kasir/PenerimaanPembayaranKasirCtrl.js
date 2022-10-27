@@ -109,6 +109,18 @@ define(['initialize'], function (initialize) {
                         $scope.item.noKartu = "";
                         $scope.item.namaKartu = "";
                         $scope.item.jenisKartu = "";
+                        $scope.item.namaBank = "";
+                    } else if ($scope.showTransfer) {
+                        tempDataCaraBayar.detailPembayaran = [{
+                            "noKartu": $scope.item.noKartu,
+                            "namaBank": $scope.item.namaBank,
+                            "namaKartu": $scope.item.namaKartu,
+                        }]
+
+                        $scope.item.noKartu = "";
+                        $scope.item.namaKartu = "";
+                        $scope.item.jenisKartu = "";
+                        $scope.item.namaBank = "";
                     } else {
                         tempDataCaraBayar.detailPembayaran = [{}]
                     }
@@ -262,7 +274,7 @@ define(['initialize'], function (initialize) {
                     debugger
                     //$scope.defaultPage = "DaftarPasienPulangKasir";
                     $scope.defaultPage = "DaftarPiutangKasir";
-                    urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&namaPasien=" +$scope.dataParams.namaPasien + "&tipePembayaran=cicilanPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
+                    urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&namaPasien=" + $scope.dataParams.namaPasien + "&tipePembayaran=cicilanPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
                     break;
             }
 
@@ -286,6 +298,7 @@ define(['initialize'], function (initialize) {
                     if (data[1].statResponse) {
                         $scope.listJenisKartu = data[1].data.jeniskartu;
                         $scope.listCaraBayar = data[1].data.carabayar
+                        $scope.listNamaBank = data[1].data.listbank;
                     }
                     $scope.item.TglBayar = moment($scope.now).format('YYYY-MM-DD HH:mm')
                 });
@@ -345,31 +358,55 @@ define(['initialize'], function (initialize) {
                         var arrObjPembayaran = [];
                         for (var i = 0; i < $scope.daftarBayar._data.length; i++) {
                             var objPembayaran = {};
+                            if ($scope.daftarBayar._data[i].id == 3) {
+                                if ($scope.daftarBayar._data[i].detailPembayaran[0].noKartu != undefined) {
+                                    objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
 
-                            if ($scope.daftarBayar._data[i].detailPembayaran[0].noKartu != undefined) {
-                                objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
+                                    objPembayaran.caraBayar = {
+                                        id: $scope.daftarBayar._data[i].id
+                                    };
 
-                                objPembayaran.caraBayar = {
-                                    id: $scope.daftarBayar._data[i].id
-                                };
 
-                                var jenisKartu = {
-                                    id: $scope.daftarBayar._data[i].detailPembayaran[0].jenisKartu.id
-                                }
+                                    objPembayaran.detailBank = {
+                                        noKartu: $scope.daftarBayar._data[i].detailPembayaran[0].noKartu,
+                                        namaBank: $scope.daftarBayar._data[i].detailPembayaran[0].namaBank.id,
+                                        namaKartu: $scope.daftarBayar._data[i].detailPembayaran[0].namaKartu,
+                                    }
+                                } else {
 
-                                objPembayaran.detailBank = {
-                                    noKartu: $scope.daftarBayar._data[i].detailPembayaran[0].noKartu,
-                                    namaKartu: $scope.daftarBayar._data[i].detailPembayaran[0].namaKartu,
-                                    jenisKartu: jenisKartu
+                                    objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
+
+                                    objPembayaran.caraBayar = {
+                                        id: $scope.daftarBayar._data[i].id
+                                    };
+
                                 }
                             } else {
+                                if ($scope.daftarBayar._data[i].detailPembayaran[0].noKartu != undefined) {
+                                    objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
 
-                                objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
+                                    objPembayaran.caraBayar = {
+                                        id: $scope.daftarBayar._data[i].id
+                                    };
 
-                                objPembayaran.caraBayar = {
-                                    id: $scope.daftarBayar._data[i].id
-                                };
+                                    var jenisKartu = {
+                                        id: $scope.daftarBayar._data[i].detailPembayaran[0].jenisKartu.id
+                                    }
 
+                                    objPembayaran.detailBank = {
+                                        noKartu: $scope.daftarBayar._data[i].detailPembayaran[0].noKartu,
+                                        namaKartu: $scope.daftarBayar._data[i].detailPembayaran[0].namaKartu,
+                                        jenisKartu: jenisKartu
+                                    }
+                                } else {
+
+                                    objPembayaran.nominal = $scope.daftarBayar._data[i].nominal;
+
+                                    objPembayaran.caraBayar = {
+                                        id: $scope.daftarBayar._data[i].id
+                                    };
+
+                                }
                             }
                             arrObjPembayaran.push(objPembayaran);
                         }
@@ -650,7 +687,13 @@ define(['initialize'], function (initialize) {
                     dataPasien: JSON.stringify(obj)
                 });
             }
-
+            $scope.$watch('item.caraBayar', function (newValue, oldValue) {
+                if (newValue.id == 3) {
+                    $scope.showTransfer = true
+                } else {
+                    $scope.showTransfer = false
+                }
+            });
 
             $scope.$watch('item.biayaAdministrasi', function (newValue, oldValue) {
                 $scope.item.jumlahBayarFix = ($scope.item.totalTagihan - $scope.item.diskon) + parseInt(newValue);

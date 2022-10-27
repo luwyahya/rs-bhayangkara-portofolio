@@ -2731,9 +2731,15 @@ class AkuntansiController extends ApiController{
         return $this->respond($data);
     }
     public function getDataMapJurnal(Request $request) {
+        $kel = '';
+        if (isset($request['kel']) && $request['kel'] != "" && $request['kel'] != "undefined") {
+            $kel = ' where kt.id =  ' . $request['kel'];
+        }
         $data = DB::select(DB::raw("select mj.id,pd.namaproduk,coadebit.namaaccount as namaaccountdebit,
                 coakredit.namaaccount as namaaccountkredit,rk.namarekanan,
-                dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi from mapjurnal_m as mj
+                dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,mj.objectpenjaminfk,
+                mj.objectdepartemenfk,mj.objectkelompoktransaksifk,
+                mj.objectmataanggaranfk,mt.namamataanggaran,mj.objectcoadebitfk,mj.objectcoakreditfk from mapjurnal_m as mj
                 left join produk_m as pd on pd.id=mj.objectprodukfk
                 left join chartofaccount_m as coadebit on coadebit.id=mj.objectcoadebitfk
                 left join chartofaccount_m as coakredit on coakredit.id=mj.objectcoakreditfk
@@ -2741,6 +2747,8 @@ class AkuntansiController extends ApiController{
                 left join departemen_m as dp on dp.id=mj.objectdepartemenfk
                 left join ruangan_m as ru on ru.id=mj.objectruanganfk
                 left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
+                left join mataanggaran_m as mt on mt.id=mj.objectmataanggaranfk
+                $kel
                 ")
             // array(
             //     'nojurnal' => $request['id'],

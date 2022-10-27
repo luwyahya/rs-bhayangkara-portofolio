@@ -242,7 +242,7 @@ class BendaharaPenerimaanController extends ApiController {
                 'noVerifikasi' => $item->noVerifikasi,
                 'tglClosing' => $item->tglClosing,
                 'norec_sp' => $item->norec_sp,
-                'totalPenerimaan' => $item->totalPenerimaan,
+                'totalPenerimaan' => (float)$item->totalPenerimaan,
                 'namapasien' => $item->namapasien,
                 'ruid' => $item->ruid,
                 'namaruangan' => $item->namaruangan,
@@ -473,7 +473,7 @@ class BendaharaPenerimaanController extends ApiController {
             $SC->objectpegawaidiclosefk = $input['kdPegawai'];
             $SC->tglclosing = $input['tglsetor'];
             $SC->totaldibayar = $input['totalSetoran'];
-            // $SC->objectkelompoktransaksifk = 60;
+            $SC->objectkelompoktransaksifk = 60;
             $SC->keteranganlainnya = "Setoran Kasir";
             $SC->tglawal = $tglAwal;
             $SC->tglakhir = $tglAkhir;
@@ -491,7 +491,7 @@ class BendaharaPenerimaanController extends ApiController {
             $SH->tglsetortarikdeposit =  $input['tglsetor'];;//$this->getDateTime();
             $SH->objectpegawaitarikdepositfk = $input['kdPegawai'];
             $SH->objectpegawaiterimafk = $this->getCurrentUserID();
-            // $SH->objectkelompoktransaksifk =60;
+            $SH->objectkelompoktransaksifk =60;
             $SH->noclosing = $NorecSc;//$SC->noclosing;
             // $SH->objectcarasetorfk = $item['idCaraSetor'];
             $SH->ketlainya ='Setoran Kasir';
@@ -517,7 +517,7 @@ class BendaharaPenerimaanController extends ApiController {
             $strukBuktiPenerimanan->objectpegawaipenerimafk = $this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm =  $input['tglsetor'];//date('Y-m-d H:i:s');
             $strukBuktiPenerimanan->totaldibayar =  $input['totalSetoran'];//$input['totalSetoran'];
-            // $strukBuktiPenerimanan->objectkelompoktransaksifk = 60;
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = 60;
             $strukBuktiPenerimanan->nosbm = $this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-' . $this->getDateTime()->format('ym'));
             $strukBuktiPenerimanan->noclosingfk = $NorecSc;
             $strukBuktiPenerimanan->save();
@@ -931,22 +931,263 @@ class BendaharaPenerimaanController extends ApiController {
     }
 
     public function daftarKelompokTransaksi(Request $request){
-        $data =  DB::select(DB::raw(" SELECT mj.id,pd.namaproduk,rk.namarekanan,
-                dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,
-                cf.namaaccount as namaaccountdebit,cf2.namaaccount as namaaccountkredit,ma.namamataanggaran,
-                mj.objectkelompoktransaksifk from mapjurnal_m as mj
-                left join produk_m as pd on pd.id=mj.objectprodukfk
-                left join rekanan_m as rk on rk.id=mj.objectpenjaminfk
-                left join departemen_m as dp on dp.id=mj.objectdepartemenfk
-                left join ruangan_m as ru on ru.id=mj.objectruanganfk
-                left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
-                left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
-                left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
-                left join mataanggaran_m as ma on ma.id=mj.objectmataanggaranfk
-                where mj.objectkelompoktransaksifk is not null
-        "));
+        $idSetting= (int)$this->settingDataFixed('seeting jurnal');
+        $norec_closing=$request['norec_closing'];
+        if($idSetting==1){
+            $detailSetor= DB::select(DB::raw("SELECT
+                            pd.objectkelompokpasienlastfk,
+                            sbm.norec AS noRec,
+                            sbm.noclosingfk,
+                            sbm.totaldibayar::numeric AS totalPenerimaan,
+                            sbm.nosbm,
+                            pd.objectrekananfk,
+                            kt.kelompoktransaksi,
+                            ru.namaruangan,
+                            rk.namarekanan,
+                            sbm.noverifikasiveriffk,
+                            rk2.namarekanan as namarekanan2,
+                            sppd.totalppenjamin
+                        FROM
+                            strukbuktipenerimaan_t AS sbm
+                            INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                            LEFT JOIN strukpelayananpenjamin_t as spp on spp.nostrukfk=sp.norec
+                            LEFT JOIN strukpelayananpenjamindetail_t as sppd on sppd.strukpelayananpenjaminfk=spp.norec
+                            LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
+                            LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
+                            LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
+                            LEFT JOIN pegawai_m AS p ON p.id = lu.objectpegawaifk
+                            LEFT JOIN pasien_m AS ps ON ps.id = sp.nocmfk
+                            LEFT JOIN strukbuktipenerimaancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
+                            LEFT JOIN carabayar_m AS cb ON cb.id = sbmcr.objectcarabayarfk
+                            LEFT JOIN kelompoktransaksi_m AS kt ON kt.id = sbm.objectkelompoktransaksifk
+                            LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+                            LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
+                            left join rekanan_m as rk on rk.id=sppd.kdrekananpenjamin
+                            left join rekanan_m as rk2 on rk2.id=pd.objectrekananfk
+                        WHERE
+                            sbm.noclosingfk='$norec_closing'"));
+
+            $data10=[];
+            foreach($detailSetor as $key){
+                $namarekanan=$key->namarekanan;
+                $totalPenerimaan=(float)$key->totalppenjamin;
+                if($key->namarekanan==null){
+                    $namarekanan="UMUM";
+                    if($key->namarekanan2==null){
+                        $namarekanan="UMUM";
+                    }else{
+                        $namarekanan=$key->namarekanan2;
+                        $totalPenerimaan=(float)$key->totalpenerimaan;
+                    }
+                }
+                $data10[] = array(
+                        'noRec'=> $key->norec,
+                        'totalPenerimaan'=> (float)$totalPenerimaan,
+                        'nosbm'=> $key->nosbm,
+                        'kelompoktransaksi'=> $key->kelompoktransaksi,
+                        'namarekanan'=> $namarekanan,
+                        'namaruangan'=>$key->namaruangan,
+                        'noverifikasiveriffk'=>$key->noverifikasiveriffk
+                    );
+            }
+        }else if($idSetting==2){
+            $detailSetor= DB::select(DB::raw("SELECT
+                    dp.id,
+                    dp.namadepartemen,
+                    case when pp.jasa is null then (pp.hargasatuan * pp.jumlah) else (pp.hargasatuan * pp.jumlah) + pp.jasa end as total,
+                    pd.objectkelompokpasienlastfk,
+                    sbm.norec AS noRec,
+                    sbm.noclosingfk,
+                    sbm.totaldibayar :: NUMERIC AS totalPenerimaan,
+                    sbm.nosbm,
+                    pd.objectrekananfk,
+                    kt.kelompoktransaksi,
+                    ru.namaruangan,
+                    rk.namarekanan,
+                    sbm.noverifikasiveriffk,
+                    rk2.namarekanan AS namarekanan2,
+                    sppd.totalppenjamin 
+                FROM
+                    strukbuktipenerimaan_t AS sbm
+                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayananpenjamin_t AS spp ON spp.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayananpenjamindetail_t AS sppd ON sppd.strukpelayananpenjaminfk = spp.norec
+                    LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
+                    LEFT JOIN loginuser_s AS lu ON lu.ID = sbm.objectpegawaipenerimafk
+                    LEFT JOIN pegawai_m AS P ON P.ID = lu.objectpegawaifk
+                    LEFT JOIN pasien_m AS ps ON ps.ID = sp.nocmfk
+                    LEFT JOIN strukbuktipenerimaancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
+                    LEFT JOIN carabayar_m AS cb ON cb.ID = sbmcr.objectcarabayarfk
+                    LEFT JOIN kelompoktransaksi_m AS kt ON kt.ID = sbm.objectkelompoktransaksifk
+                    LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+                    LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
+                    LEFT JOIN rekanan_m AS rk ON rk.ID = sppd.kdrekananpenjamin
+                    LEFT JOIN rekanan_m AS rk2 ON rk2.ID = pd.objectrekananfk 
+                    left join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                    LEFT JOIN ruangan_m AS ru ON ru.ID = apd.objectruanganfk
+                    LEFT JOIN departemen_m AS dp ON dp.ID = ru.objectdepartemenfk
+                    INNER join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec AND
+                    pp.strukfk=sp.norec
+                WHERE
+                    sbm.noclosingfk='$norec_closing'"));
+
+                $data10=[];
+                $sama = false;
+                foreach($detailSetor as $key){
+                    $namarekanan=$key->namarekanan;
+                    $totalPenerimaan=(float)$key->totalppenjamin;
+                    $sama=false;
+                    $i = 0;
+                    if($key->namarekanan==null){
+                        $namarekanan="UMUM";
+                        if($key->namarekanan2==null){
+                            $namarekanan="UMUM";
+                        }else{
+                            $namarekanan=$key->namarekanan2;
+                            $totalPenerimaan=(float)$key->total;
+                        }
+                    }
+                    foreach ($data10 as $items) {
+                        if ($items['namaruangan'] == $key->namadepartemen && $items['namarekanan'] == $namarekanan) {
+                            $sama = true;
+                            $data10[$i]['totalPenerimaan']=(float)$items['totalPenerimaan']+(float)$totalPenerimaan;
+                            break;
+                        }
+                        $i = $i + 1;
+                    }
+                    if ($sama == false) {
+                        $data10[] = array(
+                                'noRec'=> $key->norec,
+                                'totalPenerimaan'=> (float)$totalPenerimaan,
+                                'nosbm'=> $key->nosbm,
+                                'kelompoktransaksi'=> $key->kelompoktransaksi,
+                                'namarekanan'=> $namarekanan,
+                                'namaruangan'=>$key->namadepartemen,
+                                'noverifikasiveriffk'=>$key->noverifikasiveriffk
+                            );
+                    }
+                }
+        }else if($idSetting==3){
+            $detailSetor= DB::select(DB::raw("SELECT
+                    dp.id,
+                    dp.namadepartemen,
+                    case when pp.jasa is null then (pp.hargasatuan * pp.jumlah) else (pp.hargasatuan * pp.jumlah) + pp.jasa end as total,
+                    pd.objectkelompokpasienlastfk,
+                    sbm.norec AS noRec,
+                    sbm.noclosingfk,
+                    sbm.totaldibayar :: NUMERIC AS totalPenerimaan,
+                    sbm.nosbm,
+                    pd.objectrekananfk,
+                    kt.kelompoktransaksi,
+                    ru.namaruangan,
+                    rk.namarekanan,
+                    sbm.noverifikasiveriffk,
+                    rk2.namarekanan AS namarekanan2,
+                    sppd.totalppenjamin 
+                FROM
+                    strukbuktipenerimaan_t AS sbm
+                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayananpenjamin_t AS spp ON spp.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayananpenjamindetail_t AS sppd ON sppd.strukpelayananpenjaminfk = spp.norec
+                    LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
+                    LEFT JOIN loginuser_s AS lu ON lu.ID = sbm.objectpegawaipenerimafk
+                    LEFT JOIN pegawai_m AS P ON P.ID = lu.objectpegawaifk
+                    LEFT JOIN pasien_m AS ps ON ps.ID = sp.nocmfk
+                    LEFT JOIN strukbuktipenerimaancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
+                    LEFT JOIN carabayar_m AS cb ON cb.ID = sbmcr.objectcarabayarfk
+                    LEFT JOIN kelompoktransaksi_m AS kt ON kt.ID = sbm.objectkelompoktransaksifk
+                    LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+                    LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
+                    LEFT JOIN rekanan_m AS rk ON rk.ID = sppd.kdrekananpenjamin
+                    LEFT JOIN rekanan_m AS rk2 ON rk2.ID = pd.objectrekananfk 
+                    left join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+                    LEFT JOIN ruangan_m AS ru ON ru.ID = apd.objectruanganfk
+                    LEFT JOIN departemen_m AS dp ON dp.ID = ru.objectdepartemenfk
+                    INNER join pelayananpasien_t as pp on pp.noregistrasifk=apd.norec AND
+                    pp.strukfk=sp.norec
+                WHERE
+                    sbm.noclosingfk='$norec_closing'"));
+
+                $data10=[];
+                $sama = false;
+                foreach($detailSetor as $key){
+                    $namarekanan=$key->namarekanan;
+                    $totalPenerimaan=(float)$key->totalppenjamin;
+                    $sama=false;
+                    $i = 0;
+                    if($key->namarekanan==null){
+                        $namarekanan="UMUM";
+                        if($key->namarekanan2==null){
+                            $namarekanan="UMUM";
+                        }else{
+                            $namarekanan=$key->namarekanan2;
+                            $totalPenerimaan=(float)$key->total;
+                        }
+                    }
+                    foreach ($data10 as $items) {
+                        if ($items['namaruangan'] == $key->namaruangan && $items['namarekanan'] == $namarekanan) {
+                            $sama = true;
+                            $data10[$i]['totalPenerimaan']=(float)$items['totalPenerimaan']+(float)$totalPenerimaan;
+                            break;
+                        }
+                        $i = $i + 1;
+                    }
+                    if ($sama == false) {
+                        $data10[] = array(
+                                'noRec'=> $key->norec,
+                                'totalPenerimaan'=> (float)$totalPenerimaan,
+                                'nosbm'=> $key->nosbm,
+                                'kelompoktransaksi'=> $key->kelompoktransaksi,
+                                'namarekanan'=> $namarekanan,
+                                'namaruangan'=>$key->namaruangan,
+                                'noverifikasiveriffk'=>$key->noverifikasiveriffk
+                            );
+                    }
+                }
+        }
+        
+        // $dataIn='';
+        // return($detailSetor);
+        // die();
+        // if($idSetting==1){
+        //     foreach ($detailSetor as $value) {
+        //         $dataIn = $dataIn .','. $value->objectrekananfk;
+        //     }
+        //     $dataIn=substr($dataIn,1,strlen($dataIn)-1);
+        //     $data =  DB::select(DB::raw(" SELECT mj.id,pd.namaproduk,rk.namarekanan,
+        //             dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,
+        //             cf.namaaccount as namaaccountdebit,cf2.namaaccount as namaaccountkredit,ma.namamataanggaran,
+        //             mj.objectkelompoktransaksifk,kt.kelompoktransaksi from mapjurnal_m as mj
+        //             left join produk_m as pd on pd.id=mj.objectprodukfk
+        //             left join rekanan_m as rk on rk.id=mj.objectpenjaminfk
+        //             left join departemen_m as dp on dp.id=mj.objectdepartemenfk
+        //             left join ruangan_m as ru on ru.id=mj.objectruanganfk
+        //             left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
+        //             left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
+        //             left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
+        //             left join mataanggaran_m as ma on ma.id=mj.objectmataanggaranfk
+        //             where mj.objectkelompoktransaksifk is not null and mj.objectpenjaminfk in ($dataIn)
+        //     "));
+        // }
+        // return($data);
+        // die();
+
+        // $data =  DB::select(DB::raw(" SELECT mj.id,pd.namaproduk,rk.namarekanan,
+        //         dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,
+        //         cf.namaaccount as namaaccountdebit,cf2.namaaccount as namaaccountkredit,ma.namamataanggaran,
+        //         mj.objectkelompoktransaksifk from mapjurnal_m as mj
+        //         left join produk_m as pd on pd.id=mj.objectprodukfk
+        //         left join rekanan_m as rk on rk.id=mj.objectpenjaminfk
+        //         left join departemen_m as dp on dp.id=mj.objectdepartemenfk
+        //         left join ruangan_m as ru on ru.id=mj.objectruanganfk
+        //         left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
+        //         left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
+        //         left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
+        //         left join mataanggaran_m as ma on ma.id=mj.objectmataanggaranfk
+        //         where mj.objectkelompoktransaksifk is not null
+        // "));
          $result = array(
-            'data' => $data,
+            'data' => $data10,
             'message' => 'tukangkomputer',
         );
         return $this->respond($result);
@@ -979,6 +1220,7 @@ class BendaharaPenerimaanController extends ApiController {
                 'sc.norec as norec_sc',
                 'sc.noclosing','sh.nonhistori','sbk.objectpegawaipembayarfk','p2.namalengkap as pegawaibayar',
                 'sh.ketlainya','sh.norec as norec_sh','sh.kdperkiraan','sh.namaperkiraan','sh.kettransaksi','sh.nobukti','psetor.namalengkap as penyetor',
+                'spp.noverifikasiveriffk',
                 DB::raw(" coalesce((spp.totaldibayar ), 0) debit ,
                      coalesce((sbk.totaldibayar ), 0) kredit ,
                     case when spp.nosbm is null then sbk.nosbk else spp.nosbm end as notransaksi,
@@ -987,7 +1229,7 @@ class BendaharaPenerimaanController extends ApiController {
                       'kt.kelompoktransaksi','spp.nostrukfk','sc.objectkelompoktransaksifk','sc.norec','sc.noclosing','sh.nonhistori',
                       'sbk.objectpegawaipembayarfk','p2.namalengkap','sh.ketlainya','sh.norec','sh.kdperkiraan',
                       'sh.namaperkiraan','sh.kettransaksi','sh.nobukti','psetor.namalengkap','spp.totaldibayar','sbk.totaldibayar',
-                      'spp.nosbm','sbk.nosbk','sh.tglsetortarikdeposit','sc.tglclosing')
+                      'spp.nosbm','sbk.nosbk','sh.tglsetortarikdeposit','sc.tglclosing','spp.noverifikasiveriffk')
             ->orderBy('sc.tglclosing','asc')
             ->where('sh.statusenabled',true);
             // ->whereNotIn('sh.objectkelompoktransaksifk',  [154,156,157,127]);
@@ -1132,7 +1374,7 @@ class BendaharaPenerimaanController extends ApiController {
                 // 'namabankprovider' => $dataPenerimaan->namabankprovider,
                 // 'namapemilik' => $dataPenerimaan->namapemilik,
                 'nohistori' => $dataPenerimaan->nonhistori,
-//                'noclosing' => $dataPenerimaan->noclosing,
+               'norec_closing' => $dataPenerimaan->norec_sc,
                 'notransaksi' => $dataPenerimaan->notransaksi,
 //                'kdmataanggaran' =>$dataPenerimaan->kdchildkeempat,
 //                'mataanggaran' =>$dataPenerimaan->mataanggaran,
@@ -1141,8 +1383,8 @@ class BendaharaPenerimaanController extends ApiController {
                 'namaperkiraan' =>$dataPenerimaan->namaperkiraan,
                 'kettransaksi' =>$dataPenerimaan->kettransaksi,
                 'penyetor'=>$dataPenerimaan->penyetor,
-                'tgltransferkerekbank' =>$dataPenerimaan->tgltransferkerekbank
-
+                'tgltransferkerekbank' =>$dataPenerimaan->tgltransferkerekbank,
+                'noverifikasiveriffk' => $dataPenerimaan->noverifikasiveriffk
             );
         }
         $uhman = array(
@@ -1575,31 +1817,20 @@ class BendaharaPenerimaanController extends ApiController {
         \DB::beginTransaction();
         try{
             $input  = $request->all();
-            if($request['norec_struk_histori'] != '') {
-                $sH = StrukHistori::where('norec', $request['norec_struk_histori'])->first();
-                // return($sH->noclosing);
-                // die();
-                $strukClosing = StrukClosing::where('norec',$sH->noclosing)->first();
-                $updatestrukClosing = StrukClosing::where('norec',$sH->noclosing)
-                ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'] ]);
-                // return($strukClosing['norec']);
-                // die();
-                $sbm = StrukBuktiPenerimaan::where('noclosingfk',$strukClosing['norec'])
+            if($request['norec_closing'] != '') {
+                $getNorec = new StrukBuktiPenerimaan();
+                $newGetNorec = $getNorec->generateNewId();
+                $sbm = StrukBuktiPenerimaan::where('noclosingfk',$request['norec_closing'])
                     // ->where('keteranganlainnya','<>','Setoran Kasir')
                     ->where('statusenabled',true)
-                    ->update([ 'objectkelompoktransaksifk' => $request['kelompoktransaksi'],
+                    ->update([ 
                                 'isverifbendahara' => true,
                                 'objectpegawaiverifbendaharafk'=>$input['userData']['id'],
                                 'tglverifbendahara'=>$request['tglsetor'],
                                 'tgltransferkerekbank'=>$request['tgltransferkerekbank'],
                                 'nobuktiverif'=>$request['noBukti'],
-                                'keteranganverif'=>$request['ketTransaksi'] ]);
-                $disableSH = StrukHistori::where('norec', $request['norec_struk_histori'])->update([
-//                        'statusenabled' => false,
-                          'objectkelompoktransaksifk' => $request['kelompoktransaksi'],
-                    ]
-                );
-
+                                'keteranganverif'=>$request['ketTransaksi'],
+                                'noverifikasiveriffk'=>$newGetNorec ]);
             }
             $transStatus = 'true';
         } catch (\Exception $e) {

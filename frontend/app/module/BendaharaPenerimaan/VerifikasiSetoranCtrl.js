@@ -175,28 +175,7 @@ define(['initialize'], function (initialize) {
 					});
 
 				});
-				// grid kelompok transaksi
-				medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi'
-				).then(function (data) {
-					debugger
-					var result = []
-					result = data.data
-					$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
-						data: result.data,//data,
-						//pageSize: 10,
-						total: result.data.length,
-						serverPaging: false,
-						schema: {
-							model: {
-								fields: {
-									jasa: { type: "nontunai" }
-								}
-							}
-						},
 
-					});
-
-				});
 			};
 
 			$scope.columnGridKelompokTransaksi = {
@@ -230,7 +209,7 @@ define(['initialize'], function (initialize) {
 				selectable: 'row',
 				columns: [
 					{
-						field: "namaproduk", title: "Nama Produk", width: "150px"
+						field: "nosbm", title: "No SBM", width: "150px"
 					},
 					{
 						field: "namarekanan", title: "Nama Rekanan", width: "150px"
@@ -242,13 +221,12 @@ define(['initialize'], function (initialize) {
 						field: "kelompoktransaksi", title: "Nama kelompok transaksi", width: "150px"
 					},
 					{
-						field: "namaaccountdebit", title: "Nama Account Debit", width: "150px"
+						field: "totalpenerimaan", title: "Account Debit", width: "150px",
+						"template": "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>"
 					},
 					{
-						field: "namaaccountkredit", title: "Nama Account Kredit", width: "150px"
-					},
-					{
-						field: "namamataanggaran", title: "Nama Mata Anggaran", width: "150px"
+						field: "totalpenerimaan", title: "Account Kredit", width: "150px",
+						template: "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>",
 					}
 				],
 				sortable: {
@@ -422,12 +400,38 @@ define(['initialize'], function (initialize) {
 					$scope.item.jumlahRp = tempTr.debit
 					$scope.popUpVerifikasi.center().open()
 					$scope.item.kelompoktransaksi = ""
+					// grid kelompok transaksi
+					medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
+					).then(function (data) {
+						debugger
+						var result = []
+						result = data.data
+						$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
+							data: result.data,//data,
+							//pageSize: 10,
+							total: result.data.length,
+							serverPaging: false,
+							schema: {
+								model: {
+									fields: {
+										jasa: { type: "nontunai" }
+									}
+								}
+							},
+
+						});
+
+					});
 				}
 			}
 
 			$scope.SaveKelompokTransaksi = function () {
 				debugger
 				var dataItem = tempTr;
+				if (dataItem.noverifikasiveriffk != null) {
+					toastr.info('Transaksi Sudah Di Verifikasi')
+					return
+				}
 				var stt = 'false'
 				if (confirm('Yakin mau Verifikasi data ini? ')) {
 					// Save it!
@@ -439,8 +443,7 @@ define(['initialize'], function (initialize) {
 				}
 				if (stt) {
 					var itemDelete = {
-						"norec_struk_histori": dataItem.norec_sh,
-						"kelompoktransaksi": kdKelompokTransaksi,
+						"norec_closing": dataItem.norec_closing,
 						"tglsetor": moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),
 						"tgltransferkerekbank": moment($scope.item.tglTransferKeBank).format('YYYY-MM-DD HH:mm'),
 						"noBukti": $scope.item.noBukti,
@@ -676,23 +679,23 @@ define(['initialize'], function (initialize) {
 
 			}
 			$scope.klikGridKelompokTransaksi = function (dataSelectedKelompokTransaksi) {
-				kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
-				$scope.popUpVerifikasi.close()
-				var confirm = $mdDialog.prompt()
-					.title('Kelompok Transaksi Yang Anda Pilih Adalah...')
-					.placeholder('Kelompok Transaksi')
-					.ariaLabel('Lucky day')
-					.cancel('Tidak')
-					.initialValue(dataSelectedKelompokTransaksi.kelompoktransaksi)
-					.ok('Okay!')
-					.cancel('Tidak');
-				$mdDialog.show(confirm).then(function (result) {
-					kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
-					$scope.item.kelompoktransaksi = dataSelectedKelompokTransaksi.kelompoktransaksi
-					$scope.popUpVerifikasi.center().open()
-				}, function () {
-					return
-				});
+				// kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
+				// $scope.popUpVerifikasi.close()
+				// var confirm = $mdDialog.prompt()
+				// 	.title('Kelompok Transaksi Yang Anda Pilih Adalah...')
+				// 	.placeholder('Kelompok Transaksi')
+				// 	.ariaLabel('Lucky day')
+				// 	.cancel('Tidak')
+				// 	.initialValue(dataSelectedKelompokTransaksi.kelompoktransaksi)
+				// 	.ok('Okay!')
+				// 	.cancel('Tidak');
+				// $mdDialog.show(confirm).then(function (result) {
+				// 	kdKelompokTransaksi = dataSelectedKelompokTransaksi.objectkelompoktransaksifk
+				// 	$scope.item.kelompoktransaksi = dataSelectedKelompokTransaksi.kelompoktransaksi
+				// 	$scope.popUpVerifikasi.center().open()
+				// }, function () {
+				// 	return
+				// });
 			}
 			$scope.Detail = function () {
 				$scope.txtDisable = false
