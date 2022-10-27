@@ -499,7 +499,7 @@
                         <div class="grid_12">
                             <div kendo-grid id="Kgrid" k-data-source="sourceRuangan" k-selectable="'row'"
                                 k-columns="columnRuangan" k-pageable="'true'" k-sortable="'true'"
-                                k-ng-model="dataSelectedRuangan">
+                                k-ng-model="dataSelectedRuangan" ng-click="klikGrid(dataSelected)">
                             </div>
                         </div>
                         <fieldset class="effect-shadow" style=" border-radius: 4px;background-color: aqua;">
@@ -553,12 +553,16 @@
                             </div>
                         </fieldset>
                         <div class="grid_12">
-                            <div class="grid_4">
-                                <button class="btnTemplate1" style="margin-left: 0;" ng-click="saveMapJurnal()"> <i
+                            <div class="grid_3" style="margin-left: 5px;">
+                                <button class="btnTemplate1" style="margin-left: 5px;" ng-click="saveMapJurnal()"> <i
                                         class="fa fa-search"></i>Simpan</button>
                             </div>
-                            <div class="grid_4">
-                                <button class="btnTemplate1" ng-click="batal()">Batal</button>
+                            <div class="grid_3" style="margin-left: 5px;">
+                                <button class="btnTemplate1" style="margin-left: 5px;" ng-click="batal()">Batal</button>
+                            </div>
+                            <div class="grid_3" style="margin-left: 5px;">
+                                <button class="btnTemplate1" style="margin-left: 5px;"
+                                    ng-click="hapusMapJurnal()">Hapus</button>
                             </div>
                         </div>
                     </fieldset>

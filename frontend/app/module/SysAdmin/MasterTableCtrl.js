@@ -591,7 +591,7 @@ define(['initialize'], function (initialize) {
 
                 var confirm = $mdDialog.confirm()
                     .title('Peringatan')
-                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .textContent('Apakah Anda Yakin Tetap Menghapus Data?')
                     .ariaLabel('Lucky day')
                     .cancel('Tidak')
                     .ok('Ya')
@@ -606,6 +606,7 @@ define(['initialize'], function (initialize) {
                 }
                 medifirstService.post('sysadmin/master/hapus-map-account-bank', objDelete).then(function (e) {
                     $scope.isRouteLoading = false;
+                    loadData()
                 })
             }
             $scope.klikMapAccount = function (x) {

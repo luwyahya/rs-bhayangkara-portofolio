@@ -1,7 +1,7 @@
 define(['initialize'], function (initialize) {
     'use strict';
-    initialize.controller('JurnalRev2018Ctrl', ['$q', '$rootScope', '$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function ($q, $rootScope, $scope, $state, cacheHelper, dateHelper, medifirstService) {
+    initialize.controller('JurnalRev2018Ctrl', ['$q', '$rootScope', '$scope', '$mdDialog', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
+        function ($q, $rootScope, $scope, $mdDialog, $state, cacheHelper, dateHelper, medifirstService) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
@@ -322,7 +322,8 @@ define(['initialize'], function (initialize) {
                     pageSize: 20
                 });
             }
-            // $scope.klikGrid = function(dataSelected){
+            $scope.klikGrid = function (dataSelected) {
+            }
             $scope.DetailJurnal = function () {
                 $scope.item.nojurnal = $scope.dataSelected.nojurnal
                 $scope.item.tanggal = $scope.dataSelected.tgl
@@ -1139,6 +1140,31 @@ define(['initialize'], function (initialize) {
                 $scope.item.kdAkunKredit = ""
                 medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
                     $scope.listAkun = data;
+                })
+            }
+            $scope.hapusMapJurnal = function () {
+                if ($scope.dataSelectedPopUpMapJurnal == undefined) {
+                    toastr.error("Data Belum Dipilih!")
+                    return
+                }
+                $scope.popupMappingJurnal.close();
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menghapus Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    $scope.popupMappingJurnal.center().open();
+                    RealHapusAccountBank();
+                });
+            }
+            function RealHapusAccountBank() {
+                var objDelete = {
+                    id: $scope.dataSelectedPopUpMapJurnal.id,
+                }
+                medifirstService.post('akuntansi/hapus-map-jurnal', objDelete).then(function (e) {
+
                 })
             }
             $scope.hapus = function () {

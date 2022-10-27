@@ -2730,6 +2730,34 @@ class AkuntansiController extends ApiController{
         );
         return $this->respond($data);
     }
+    public function hapusMapJurnal(Request $request){
+        DB::beginTransaction();
+        try {
+            $idMap=$request['id'];
+            $delete = DB::delete("delete from mapjurnal_m where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getDataMapJurnal(Request $request) {
         $kel = '';
         if (isset($request['kel']) && $request['kel'] != "" && $request['kel'] != "undefined") {
