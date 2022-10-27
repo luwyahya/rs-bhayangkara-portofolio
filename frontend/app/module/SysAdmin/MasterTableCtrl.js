@@ -23,6 +23,12 @@ define(['initialize'], function (initialize) {
                     $scope.listInstalasi = e.data.dataInstalasi
                     $scope.listKamar = e.data.dataKamar
                 })
+                medifirstService.get('kasir/get-data-combo-kasir').then(function (e) {
+                    $scope.listBank = e.data.listbank
+                })
+                medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
+                    $scope.listAkun = data;
+                })
                 var ruanganId = ''
                 if ($scope.item.ruangan)
                     ruanganId = '?ruangan=' + $scope.item.ruangan.id

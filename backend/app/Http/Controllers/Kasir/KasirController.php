@@ -2886,6 +2886,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                         $SBPCB->nokartuaccount = $pembayaran['detailBank']['noKartu'];
                         $SBPCB->namabankprovider = $pembayaran['detailBank']['namaBank'];
                         $SBPCB->namapemilik = $pembayaran['detailBank']['namaKartu'];
+                        $SBPCB->kdbankrumahsakitfk = $pembayaran['detailBank']['namaBankKe'];
                     }
                 }
 

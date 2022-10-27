@@ -110,17 +110,20 @@ define(['initialize'], function (initialize) {
                         $scope.item.namaKartu = "";
                         $scope.item.jenisKartu = "";
                         $scope.item.namaBank = "";
+                        $scope.item.namaBankKe = "";
                     } else if ($scope.showTransfer) {
                         tempDataCaraBayar.detailPembayaran = [{
                             "noKartu": $scope.item.noKartu,
                             "namaBank": $scope.item.namaBank,
                             "namaKartu": $scope.item.namaKartu,
+                            "namaBankKe": $scope.item.namaBankKe,
                         }]
 
                         $scope.item.noKartu = "";
                         $scope.item.namaKartu = "";
                         $scope.item.jenisKartu = "";
                         $scope.item.namaBank = "";
+                        $scope.item.namaBankKe = "";
                     } else {
                         tempDataCaraBayar.detailPembayaran = [{}]
                     }
@@ -371,6 +374,7 @@ define(['initialize'], function (initialize) {
                                         noKartu: $scope.daftarBayar._data[i].detailPembayaran[0].noKartu,
                                         namaBank: $scope.daftarBayar._data[i].detailPembayaran[0].namaBank.id,
                                         namaKartu: $scope.daftarBayar._data[i].detailPembayaran[0].namaKartu,
+                                        namaBankKe: $scope.daftarBayar._data[i].detailPembayaran[0].namaBankKe.id,
                                     }
                                 } else {
 

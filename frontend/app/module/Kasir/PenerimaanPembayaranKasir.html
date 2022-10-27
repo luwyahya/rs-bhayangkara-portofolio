@@ -204,47 +204,69 @@
 
 					<!-- Transfer -->
 					<div class="grid_12" ng-show="showTransfer" style="margin-top: 10px;">
-						<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
-							<p>Transfer</p>
+						<div class="grid_12">
+							<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+								<p>Transfer Dari</p>
+							</div>
+							<div class="grid_12 borderBox containerBorderBox">
+								<!-- NoKartu -->
+								<div class="grid_12">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="NoKartu"></label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="input" filter="" class="k-textbox"
+											ng-model="item.noKartu" />
+									</div>
+								</div>
+
+								<!-- Nama Bank -->
+								<div class="grid_12">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="NamBank"></label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBank"
+											k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
+											k-auto-bind="false" k-data-source="listNamaBank" />
+									</div>
+								</div>
+
+								<!-- NamaKartu -->
+								<div class="grid_12">
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="NamaPemilik"></label>
+									</div>
+									<div class="clear"></div>
+
+									<div class="grid_12">
+										<input c-text-box type="input" filter="" class="k-textbox"
+											ng-model="item.namaKartu" />
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="grid_12 borderBox containerBorderBox">
-							<!-- NoKartu -->
-							<div class="grid_12">
-								<div class="grid_12">
-									<label c-label item="item" c-label-text="NoKartu"></label>
-								</div>
-								<div class="clear"></div>
-
-								<div class="grid_12">
-									<input c-text-box type="input" filter="" class="k-textbox"
-										ng-model="item.noKartu" />
-								</div>
+						<div class="grid_12">
+							<div class="grid_12 headerBox containerBorderBox" style="padding:0px">
+								<p>Transfer Ke Rekening</p>
 							</div>
-
-							<!-- Nama Bank -->
-							<div class="grid_12">
+							<div class="grid_12 borderBox containerBorderBox">
+								<!-- Nama Bank -->
 								<div class="grid_12">
-									<label c-label item="item" c-label-text="NamBank"></label>
-								</div>
-								<div class="clear"></div>
+									<div class="grid_12">
+										<label c-label item="item" c-label-text="NamBank"></label>
+									</div>
+									<div class="clear"></div>
 
-								<div class="grid_12">
-									<input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBank"
-										k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
-										k-auto-bind="false" k-data-source="listNamaBank" />
-								</div>
-							</div>
-
-							<!-- NamaKartu -->
-							<div class="grid_12">
-								<div class="grid_12">
-									<label c-label item="item" c-label-text="NamaPemilik"></label>
-								</div>
-								<div class="clear"></div>
-
-								<div class="grid_12">
-									<input c-text-box type="input" filter="" class="k-textbox"
-										ng-model="item.namaKartu" />
+									<div class="grid_12">
+										<input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBankKe"
+											k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
+											k-auto-bind="false" k-data-source="listNamaBank" />
+									</div>
 								</div>
 							</div>
 						</div>
