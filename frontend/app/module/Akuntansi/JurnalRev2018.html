@@ -458,12 +458,12 @@
                             <a ng-click="showAndHide()">Simpan Mapping</a>
                         </legend>
                         <div class="grid_12">
-                            <div class="grid_3">
+                            <!-- <div class="grid_3">
                                 <label name="produk" c-label item="item" c-label-text="Nama Pelayanan"></label>
                                 <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaProduk"
                                     k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'"
                                     k-auto-bind="false" k-data-source="listProduk" />
-                            </div>
+                            </div> -->
                             <div class="grid_3">
                                 <label name="produk" c-label item="item" c-label-text="Nama Penjamin"></label>
                                 <input style="width: 100%; " kendo-combo-box k-ng-model="item.rekanan "
@@ -553,9 +553,12 @@
                             </div>
                         </fieldset>
                         <div class="grid_12">
-                            <div class="k-edit-buttons  k-state-default pull-left" style="margin-top:10px">
-                                <button class="k-button  k-button-icontext k-primary k-grid-update"
-                                    ng-click="saveMapJurnal()"></span>Simpan</button>
+                            <div class="grid_4">
+                                <button class="btnTemplate1" style="margin-left: 0;" ng-click="saveMapJurnal()"> <i
+                                        class="fa fa-search"></i>Simpan</button>
+                            </div>
+                            <div class="grid_4">
+                                <button class="btnTemplate1" ng-click="batal()">Batal</button>
                             </div>
                         </div>
                     </fieldset>
@@ -567,6 +570,31 @@
                         k-ng-model="dataSelectedPopUpMapJurnal"
                         ng-click="klikPopUpMapJurnal(dataSelectedPopUpMapJurnal)">
                     </kendo-grid>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label c-label item="item">Kelompok Transaksi</label>
+                        </div>
+                        <div class="clear"></div>
+
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksiCari"
+                                k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listJenisTransaksi" />
+                        </div>
+                    </div>
+                    <div class="grid_4">
+                        <div class="grid_12">
+                            <label>&nbsp;</label>
+                        </div>
+                        <div class="clear"></div>
+
+                        <div class="grid_12">
+                            <button class="btnTemplate1" style="margin-left: 0;" ng-click="SearchData()"> <i
+                                    class="fa fa-search"></i>Cari</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

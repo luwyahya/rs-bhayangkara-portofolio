@@ -1,0 +1,262 @@
+<style type="text/css">
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+
+        height: 26px;
+
+
+    }
+
+    .k-slider {
+
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+
+    .activeBtn {
+        background-color: #10c4b2;
+        color: #ffffff;
+    }
+
+    legend b {
+        color: #41abf2;
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+    .tab { 
+       display:inline-block; 
+       margin-left: 40px; 
+    }
+
+    .ratakiri { 
+       display:inline-block; 
+       margin-left: 0px; 
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+    hr {
+    border: 1px dashed #cccccc;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    display: inline-block;
+    width: 100%;
+}
+</style>
+
+<div class="grid_12">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top: 10px;">
+            
+            <div class="grid_12">
+                <fieldset style="margin-top: 10px;">
+                    <div class="panel panel-default panel-white">
+                            <div class="panel-body">
+                                <div class="grid_6">
+                                     <div class="grid_12" style="margin-top:5px">
+                                        <label c-label real>{{item.title}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </fieldset>
+            </div>
+            <div class="grid_12"> 
+                    <fieldset style="margin-top: 10px; ">              
+                        <div class="grid_12" style="margin-top: 20px">
+                                <table style="width:100%;">
+                                    <tr>
+                                        <th rowspan="5" style="text-align: center;width: 25%">KEGIATAN</th>
+                                        <th rowspan="5" style="text-align: center;width: 35%">URAIAN KEGIATAN</th>
+                                        <th colspan={{jmlhari}} style="text-align: center;font-weight: bold;width: 20%">HARI PENYAKIT</th>
+                                        <!-- <th colspan="7" style="text-align: center;font-weight: bold;width: 20%">HARI PENYAKIT</th> -->
+                                        <th rowspan="5" style="text-align: center;width: 20%">Biaya (RP)</th>
+                                    </tr>
+                                    <tr>
+                                        <td ng-repeat="data15 in range(1,jmlhari)" >{{data15}}</td >
+                                    </tr>
+                                    <tr>
+                                        <th ng-repeat="data in ranged(0,jmlhari)" >
+                                            <input type="checkbox" class="k-checkbox" id="item.obj{{data}}"
+                                                ng-model="item.obj[data]" ng-click='openLink(data)'>
+                                            <label  class="k-checkbox-label" 
+                                                for="item.obj{{data}}"></label>
+                                        </th >
+                                    </tr>
+                                    <tr>
+                                        <td th colspan={{jmlhari}} style="text-align: center;font-weight: bold;width: 70px">HARI RAWAT</td>
+                                    </tr>
+                                    <tr>
+                                        <td ng-repeat="data15 in range(1,jmlhari)" >{{data15}}</td >
+                                    </tr>
+                                    <tbody ng-repeat="dt in dataEpic">
+                                        <tr>
+                                            <td colspan={{jmlhari3}} style="font-weight: bold">{{dt.caption}}</td>
+                                        </tr>
+                                        <tr ng-repeat="dt2 in dt.item">
+                                            <td ng-click="EditCaption(dt2.id,1)" style="cursor: pointer;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{dt2.caption}}</td>
+                                            <td ng-click="EditCaption(dt2.id,2)" style="cursor: pointer;">{{dt2.keterangan}}</td>
+                                            <td ng-repeat="data in ranged(dt2.id,dt.jmlhari)" style="{{item.clr[data]}}">
+                                                <input type="checkbox" class="k-checkbox" id="item.obj{{data}}"
+                                                    ng-model="item.obj[data]" ng-click='openLink(data)'>
+                                                <label  class="k-checkbox-label" 
+                                                    for="item.obj{{data}}"></label>
+                                            </td >
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+                    </div>                                
+                        <div class="grid_4" ng-show="loginadmin">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Dokter Penanggung jawab pelayanan </span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000988]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000989]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                        <div class="grid_4" ng-show="loginadmin">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Perawat Penanggung Jawab </span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000990]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000991]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                        <div class="grid_4" ng-show="loginadmin">
+                            <fieldset style="margin-top: 10px;">
+                                    <div class="grid_12" style="margin-top: 10px;text-align: center;">
+                                        <span style="font-weight: bold;">Pelaksana Verifikasi</span>
+                                    </div>
+                                    <hr>
+                                    <div class="grid_12" >
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[18000992]" 
+                                            k-data-text-field="'text'" k-data-value-field="'value'" k-filter="'contains'"
+                                             k-auto-bind="false" k-data-source="listPegawai" />
+                
+                                    </div>
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Tanggal dan Jam"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input style="width: 100%" k-ng-model="item.obj[18000993]" kendo-datetimepicker
+                                            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'"
+                                            parsedate="yyyy-MM-dd HH:mm" />
+                                    </div>
+                            </fieldset>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+       
+        <div class="grid_12" ng-show="loginadmin">
+            <div class="grid_9"></div>
+            <div class="grid_3" style="margin-top: 22px" >
+                    <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

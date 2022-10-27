@@ -14065,5 +14065,370 @@
                 "define": "MedifirstService"
             }
         ]
-    }
+    },
+    {
+    "name": "CPCovid19Hipertensi",
+    "url": "/CPCovid19Hipertensi",
+    "templateurl": "module/ClinicalPathway/CPCovid19Hipertensi.html",
+    "controller": "CPCovid19HipertensiCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]  
+  },
+  {
+    "name": "CPCovid19AnakGejalaSedang",
+    "url": "/CPCovid19AnakGejalaSedang",
+    "templateurl": "module/ClinicalPathway/CPCovid19AnakGejalaSedang.html",
+    "controller": "CPCovid19AnakGejalaSedangCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "RekamMedisCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPCovidAnakDgnGejalaRingan",
+    "url": "/CPCovidAnakDgnGejalaRingan",
+    "templateurl": "module/ClinicalPathway/CPCovidAnakDgnGejalaRingan.html",
+    "controller": "CPCovidAnakDgnGejalaRinganCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "RekamMedisCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CPCovid19Hipertensi",
+    "url": "/CPCovid19Hipertensi",
+    "templateurl": "module/ClinicalPathway/CPCovid19Hipertensi.html",
+    "controller": "CPCovid19HipertensiCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CPCovid19AnakGejalaSedang",
+    "url": "/CPCovid19AnakGejalaSedang",
+    "templateurl": "module/ClinicalPathway/CPCovid19AnakGejalaSedang.html",
+    "controller": "CPCovid19AnakGejalaSedangCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "RekamMedisCtrl"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CPCovidAnakDgnGejalaRingan",
+    "url": "/CPCovidAnakDgnGejalaRingan",
+    "templateurl": "module/ClinicalPathway/CPCovidAnakDgnGejalaRingan.html",
+    "controller": "CPCovidAnakDgnGejalaRinganCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead",
+    "url": "/CPHead",
+    "templateurl": "module/ClinicalPathway/CPHead.html",
+    "controller": "CPHeadCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]
+  },
+  {
+    "name": "CPHead.CP_D56_1",
+    "url": "/CP_D56_1",
+    "templateurl": "module/ClinicalPathway/CP_D56_1.html",
+    "controller": "CP_D56_1Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_Z51_1_C50_9",
+    "url": "/CP_Z51_1_C50_9",
+    "templateurl": "module/ClinicalPathway/CP_Z51_1_C50_9.html",
+    "controller": "CP_Z51_1_C50_9Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.ClinicalPathwayDetail",
+    "url": "/ClinicalPathwayDetail/:kodeCP/:jmlhari",
+    "templateurl": "module/ClinicalPathway/CP_Z51_1_C67_9.html",
+    "controller": "CP_Z51_1_C67_9Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_D24",
+    "url": "/CP_D24",
+    "templateurl": "module/ClinicalPathway/CP_D24.html",
+    "controller": "CP_D24Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_I21_4_E11_9",
+    "url": "/CP_I21_4_E11_9",
+    "templateurl": "module/ClinicalPathway/CP_I21_4_E11_9.html",
+    "controller": "CP_I21_4_E11_9Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_M17",
+    "url": "/CP_M17",
+    "templateurl": "module/ClinicalPathway/CP_M17.html",
+    "controller": "CP_M17Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_K35_3",
+    "url": "/CP_K35_3",
+    "templateurl": "module/ClinicalPathway/CP_K35_3.html",
+    "controller": "CP_K35_3Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_G91_9_J40",
+    "url": "/CP_G91_9_J40",
+    "templateurl": "module/ClinicalPathway/CP_G91_9_J40.html",
+    "controller": "CP_G91_9_J40Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  },
+  {
+    "name": "CPHead.CP_R55",
+    "url": "/CP_R55",
+    "templateurl": "module/ClinicalPathway/CP_R55.html",
+    "controller": "CP_R55Ctrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      },
+      {
+        "define": "CPHeadCtrl"
+      }
+    ]  
+  }
 ]

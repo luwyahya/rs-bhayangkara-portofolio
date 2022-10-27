@@ -2670,6 +2670,58 @@
         {
             "nameDep": "LaporanReleaseDviCtrl",
             "urlDep": "module/Jenazah/LaporanReleaseDviCtrl"
+        },
+          {
+            "nameDep": "CPCovidAnakDgnGejalaRinganCtrl",
+            "urlDep": "module/ClinicalPathway/CPCovidAnakDgnGejalaRinganCtrl"
+        },
+        {
+            "nameDep": "CPCovid19AnakGejalaSedangCtrl",
+            "urlDep": "module/ClinicalPathway/CPCovid19AnakGejalaSedangCtrl"
+        },
+        {
+            "nameDep": "CPCovid19HipertensiCtrl",
+            "urlDep": "module/ClinicalPathway/CPCovid19HipertensiCtrl"
+        },
+        {
+            "nameDep": "CPHeadCtrl",
+            "urlDep": "module/ClinicalPathway/CPHeadCtrl"
+        },
+        {
+            "nameDep": "CP_D56_1Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_D56_1Ctrl"
+        },
+        {
+            "nameDep": "CP_Z51_1_C50_9Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_Z51_1_C50_9Ctrl"
+        },
+        {
+            "nameDep": "CP_Z51_1_C67_9Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_Z51_1_C67_9Ctrl"
+        },
+        {
+            "nameDep": "CP_D24Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_D24Ctrl"
+        },
+        {
+            "nameDep": "CP_I21_4_E11_9Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_I21_4_E11_9Ctrl"
+        },
+        {
+            "nameDep": "CP_M17Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_M17Ctrl"
+        },
+        {
+            "nameDep": "CP_K35_3Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_K35_3Ctrl"
+        },
+        {
+            "nameDep": "CP_G91_9_J40Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_G91_9_J40Ctrl"
+        },
+        {
+            "nameDep": "CP_R55Ctrl",
+            "urlDep": "module/ClinicalPathway/CP_R55Ctrl"
         }
     ]
 }
