@@ -140,9 +140,15 @@ define(['initialize'], function (initialize) {
                             },
                             {
                                 "field": "nomorrekening2",
-                                "title": "No Rek",
+                                "title": "No Rek 1",
                                 "width": "100px",
                                 "template": "<span class='style-left'>#:nomorrekening2 #</span>"
+                            },
+                            {
+                                "field": "norekeningdua",
+                                "title": "No Rek 2",
+                                "width": "100px",
+                                "template": "<span class='style-left'>#:norekeningdua #</span>"
                             },
                             {
                                 "field": "salary2",
@@ -313,6 +319,7 @@ define(['initialize'], function (initialize) {
                                 "namapegawai": mumet[i].namalengkap,
                                 "salary": mumet[i].salary,
                                 "norekening": mumet[i].bankrekeningnomor,
+                                "norekeningdua": mumet[i].bankrekeningnomordua,
                                 "kategorypegawai": mumet[i].kategorypegawai,
                                 "tglUpdate": new moment($scope.item.tglupdate).format('YYYY-MM-01 00:00:00')
                             }
@@ -356,6 +363,7 @@ define(['initialize'], function (initialize) {
                                     "namapegawai": mumet[i].namalengkap,
                                     "salary": mumet[i].salary,
                                     "norekening": mumet[i].bankrekeningnomor,
+                                    "norekeningdua": mumet[i].bankrekeningnomordua,
                                     "kategorypegawai": mumet[i].kategorypegawai,
                                     "cekupdate": mumet[i].cekupdate,
                                     "tglUpdate": new moment($scope.item.tglupdate).format('YYYY-MM-01 00:00:00')
