@@ -33,7 +33,7 @@ define(['initialize'], function (initialize) {
             // let user = medifirstService.getPegawai();
             let user = medifirstService.getMapLoginUserToRuangan();
 
-            const ada = user.find(value => value.id == 328 || value.id == 662);
+            const ada = user.find(value => value.id == 328 || value.id == 662 || value.id == 304);
 
             if (ada != undefined) {
                 if (ada.id == 328) {
@@ -41,6 +41,10 @@ define(['initialize'], function (initialize) {
                     $scope.item.isPPI = true;
                     $scope.item.isPMKP = false;
                 } else if (ada.id == 662) {
+                    $scope.userPPI = true;
+                    $scope.item.isPPI = false;
+                    $scope.item.isPMKP = true;
+                } else if (ada.id == 304) {
                     $scope.userPPI = true;
                     $scope.item.isPPI = false;
                     $scope.item.isPMKP = true;
