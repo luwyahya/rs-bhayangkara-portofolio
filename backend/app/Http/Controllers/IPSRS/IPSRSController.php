@@ -67,7 +67,7 @@ class IPSRSController extends ApiController
 			LEFT JOIN jenispekerjaan_m as jpk on jpk.id = stp.objectjenispekerjaanfk
 			LEFT JOIN jenispekerjaan_m as jpk2 on jpk2.id = stp.objectjenisalatfk
 			WHERE stp.objectkelompoktransaksifk=122
-			AND stp.statusenabled = 1 
+			AND stp.statusenabled = true 
 			$tgl
 			$jenisalat
 			$idRuangan
