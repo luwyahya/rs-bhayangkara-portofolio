@@ -1125,7 +1125,7 @@ class BendaharaPenerimaanController extends ApiController {
                         }
                     }
                     foreach ($data10 as $items) {
-                        if ($items['namaruangan'] == $key->namaruangan && $items['namarekanan'] == $namarekanan) {
+                        if ($items['nosbm'] == $key->nosbm && $items['namaruangan'] == $key->namaruangan && $items['namarekanan'] == $namarekanan) {
                             $sama = true;
                             $data10[$i]['totalPenerimaan']=(float)$items['totalPenerimaan']+(float)$totalPenerimaan;
                             break;

@@ -217,17 +217,17 @@ define(['initialize'], function (initialize) {
 					{
 						field: "namaruangan", title: "Nama Ruangan", width: "150px"
 					},
-					{
-						field: "kelompoktransaksi", title: "Nama kelompok transaksi", width: "150px"
-					},
-					{
-						field: "totalpenerimaan", title: "Account Debit", width: "150px",
-						"template": "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>"
-					},
-					{
-						field: "totalpenerimaan", title: "Account Kredit", width: "150px",
-						template: "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>",
-					}
+					// {
+					// 	field: "kelompoktransaksi", title: "Nama kelompok transaksi", width: "150px"
+					// },
+					// {
+					// 	field: "totalpenerimaan", title: "Account Debit", width: "150px",
+					// 	"template": "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>"
+					// },
+					// {
+					// 	field: "totalpenerimaan", title: "Account Kredit", width: "150px",
+					// 	template: "<span class='style-right'>{{formatRupiah('#: totalPenerimaan #', 'Rp. ')}}</span>",
+					// }
 				],
 				sortable: {
 					mode: "single",

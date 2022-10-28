@@ -189,6 +189,12 @@ class KasirController extends ApiController{
             ->where('statusenabled',true)
             ->get();
 
+        $listBankKe = DB::table('mapaccountbank_m as kr')
+            ->join('bank_m as ba', 'ba.id', '=', 'kr.objectbankfk')
+            ->join('chartofaccount_m as coa','coa.id','=','kr.objectcoafk')
+            ->select('kr.id','ba.nama', 'coa.namaaccount','coa.noaccount')
+            ->get();
+
         $result = array(
             'ruangan' => $dataRuangan,
             'kelompoktransaksi' => $kelTrans,
@@ -210,6 +216,7 @@ class KasirController extends ApiController{
             'rekanan' => $rekanan,
             'dataPegawaiAll' => $dataPegawaiAll,
             'listbank' => $listBank,
+            'listBankKe' => $listBankKe,
             'message' => 'ihuman@epic'
         );
         return $this->respond($result);

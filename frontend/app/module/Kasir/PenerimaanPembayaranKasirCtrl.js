@@ -301,7 +301,7 @@ define(['initialize'], function (initialize) {
                     if (data[1].statResponse) {
                         $scope.listJenisKartu = data[1].data.jeniskartu;
                         $scope.listCaraBayar = data[1].data.carabayar
-                        $scope.listNamaBank = data[1].data.listbank;
+                        $scope.listNamaBank = data[1].data.listBankKe;
                     }
                     $scope.item.TglBayar = moment($scope.now).format('YYYY-MM-DD HH:mm')
                 });
@@ -314,6 +314,10 @@ define(['initialize'], function (initialize) {
                     function (dat) {
                         $scope.item.terbilang = dat.data.terbilang;
                     })
+            });
+            $scope.$watch('item.namaBankKe', function (e) {
+                if (e === undefined) return;
+                $scope.item.namaAccount = e.namaaccount
             });
 
             $scope.Save = function () {
