@@ -3878,6 +3878,10 @@ class MasterController extends ApiController{
             $data = $data->where('tt.reportdisplay', 'like', $request['namabed']);
         }
 
+        if (isset($request['status']) && $request['status'] != "" && $request['status'] != "undefined") {
+            $data = $data->where('tt.statusenabled', $request['status']);
+        }
+
 
         $data = $data->take(100);
         $data = $data->orderBy('ru.namaruangan');
