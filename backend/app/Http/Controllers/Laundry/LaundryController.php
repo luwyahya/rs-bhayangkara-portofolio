@@ -111,6 +111,7 @@ class LaundryController extends ApiController
             ->where('ks.statusenabled',true)
             ->get();
 
+        $dataProdukResult = [];
         foreach ($dataProduk as $item){
             $satuanKonversi=[];
             foreach ($dataKonversiProduk  as $item2){
