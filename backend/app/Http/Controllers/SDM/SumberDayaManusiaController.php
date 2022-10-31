@@ -421,20 +421,13 @@ class SumberDayaManusiaController extends ApiController {
             return $this->respond($data);
     }
     public function getEditUpdatePegawai (Request $request) {
-        $data = \DB::table('rekaptransfergaji_t as rtg')
-            ->join('pegawai_m as pg', 'pg.id', '=', 'rtg.idpegawai')
-            ->select('rtg.idpegawai', 'rtg.cekupdate', 'pg.salary', 'pg.namalengkap', 'pg.bankrekeningnomor', 'pg.bangrekeningnomordua', 'pg.kategorypegawai')
-            ->where('pg.statusenabled', true)
-            ->whereNotIn('pg.id',[2,890,27676,27733,27746])
-            ->where('pg.kedudukanfk', 1);
-            if (isset($request['bulan']) && $request['bulan'] != "" && $request['bulan'] != "undefined") {
-                $data = $data->whereMonth('rtg.tglupdate', '=', $request['bulan']);
-            }
-            if (isset($request['tahun']) && $request['tahun'] != "" && $request['tahun'] != "undefined") {
-                $data = $data->whereYear('rtg.tglupdate', '=', $request['tahun']);
-            }
-
-            $data = $data->orderBy('pg.namalengkap');
+        $data = \DB::table('pegawai_m')
+            ->select('id as idpegawai', 'salary', 'bankrekeningnomor', 'salarydua', 'bankrekeningnomordua', 'namalengkap','kategorypegawai')
+            ->where('statusenabled', true)
+            ->whereNotIn('id',[2,890,27676,27733,27746])
+            ->where('kedudukanfk', 1);
+            $data = $data->groupBy('id','salary','bankrekeningnomor','salarydua','bankrekeningnomordua','namalengkap','kategorypegawai');
+            $data = $data->orderBy('namalengkap');
             $data = $data->get();
         
         
@@ -593,6 +586,7 @@ class SumberDayaManusiaController extends ApiController {
                 $dataAnyar->norekening = $item['norekening'];
                 $dataAnyar->norekeningdua = $item['norekeningdua'];
                 $dataAnyar->salary = $item['salary'];
+                $dataAnyar->salarydua = $item['salarydua'];
                 $dataAnyar->statusenabled = true;
                 $dataAnyar->cekupdate = $item['cekupdate'] + 1;
                 $dataAnyar->save();
@@ -1380,6 +1374,12 @@ class SumberDayaManusiaController extends ApiController {
                 $dataSavePegawai->objectpangkatpolisifk = $dataPegawai['pangkatpolisifk']; //$statusPasien;
             } 
             $dataSavePegawai->salary = $dataPegawai['salary'];
+
+            $dataSavePegawai->bankrekeningnomordua = $dataPegawai['nomorrekening2'];
+            $dataSavePegawai->bankrekeningatasnamadua = $dataPegawai['namarekening2'];
+            $dataSavePegawai->bankrekeningnamadua = $dataPegawai['namabank2'];
+            $dataSavePegawai->salarydua = $dataPegawai['salary2'];
+
             $dataSavePegawai->npwp = $dataPegawai['npwp'];
             $dataSavePegawai->nrp = $dataPegawai['nrp'];
             if (isset($dataPegawai['gpp'])  && $dataPegawai['gpp'] != "" && $dataPegawai['gpp'] != "undefined") {

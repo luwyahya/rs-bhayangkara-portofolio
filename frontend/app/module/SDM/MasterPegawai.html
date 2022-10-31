@@ -340,7 +340,7 @@
                 <div class="grid_6">
                     <div class="grid_12">
                         <div class="panel panel-default panel-white">
-                            <div class="panel-heading-white"><span class="title" c-translate>Rekening Bank</span></div>
+                            <div class="panel-heading-white"><span class="title" c-translate>Rekening Bank BNI</span></div>
                             <div class="panel-body">
                                 <div class="grid_6">
                                     <div class="grid_12">
@@ -379,6 +379,53 @@
                                     <div class="grid_12">
                                         <input c-text-box type="input" placeholder="Salary" filter="'varchar'"
                                             class="k-textbox uang" ng-model="item.salary" ng-disabled="salary" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid_12" style="margin-top: 16px">
+                        <div class="panel panel-default panel-white">
+                            <div class="panel-heading-white"><span class="title" c-translate>Rekening Bank Nagari</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="grid_6">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="NoRekening"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" placeholder="No Rekening" filter="'varchar'"
+                                            class="k-textbox" ng-model="item.bankRekeningNomor2"
+                                            ng-disabled="norekening" ng-value="valuenorekening" />
+                                    </div>
+                                </div>
+                                <div class="grid_6">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="NamaRekening"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" placeholder="Nama Pemilik Rekening"
+                                            filter="'varchar'" class="k-textbox" ng-model="item.bankRekeningAtasNama2"
+                                            ng-disabled="namarekening" />
+                                    </div>
+                                </div>
+                                <div class="grid_12">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="NamaBank"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" placeholder="Nama Bank Rekening"
+                                            filter="'varchar'" class="k-textbox" ng-model="item.bankRekeningNama2"
+                                            ng-disabled="namabank" />
+                                    </div>
+                                </div>
+                                <div class="grid_12">
+                                    <div class="grid_12">
+                                        <label c-label item="item" c-label-text="Salary"></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" placeholder="Salary" filter="'varchar'"
+                                            class="k-textbox uang" ng-model="item.salary2" ng-disabled="salary" />
                                     </div>
                                 </div>
                             </div>

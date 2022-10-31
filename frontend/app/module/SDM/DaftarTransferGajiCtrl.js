@@ -140,21 +140,27 @@ define(['initialize'], function (initialize) {
                             },
                             {
                                 "field": "nomorrekening2",
-                                "title": "No Rek 1",
+                                "title": "Bank BNI",
                                 "width": "100px",
                                 "template": "<span class='style-left'>#:nomorrekening2 #</span>"
                             },
                             {
                                 "field": "norekeningdua",
-                                "title": "No Rek 2",
+                                "title": "Bank Nagari",
                                 "width": "100px",
                                 "template": "<span class='style-left'>#:norekeningdua #</span>"
                             },
                             {
                                 "field": "salary2",
-                                "title": "Jumlah Nominal",
+                                "title": "Jumlah Nominal BNI",
                                 "width": "100px",
                                 "template": "<span class='style-left'>{{formatRupiah2('#:salary2 #', '')}}</span>"
+                            },
+                            {
+                                "field": "salarydua",
+                                "title": "Jumlah Nominal Nagari",
+                                "width": "100px",
+                                "template": "<span class='style-left'>{{formatRupiah2('#:salarydua #', '')}}</span>"
                             }
                         ]
                     }
