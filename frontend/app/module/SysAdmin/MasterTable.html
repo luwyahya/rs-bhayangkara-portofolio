@@ -386,75 +386,135 @@
                             </div>
                         </md-content>
                     </md-tab>
-                    <md-tab label="Master Account Bank">
+                    <md-tab label="Tempat Tidur">
                         <md-content class="md-padding">
                             <div class="panel panel-default container_12">
                                 <fieldset class="effect-shadow" style=" border-radius: 4px">
                                     <legend id="filterData">
-                                        <a ng-click="showAndHide()">Master Account Bank</a>
+                                        <a ng-click="showAndHide()">Tempat Tidur</a>
                                     </legend>
                                     <div class="grid_12">
-                                        <div class="grid_4">
-                                            <label c-label item="item" c-label-text="NamaBank"></label>
-                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.bank"
-                                                k-data-text-field="'nama'" k-data-value-field="'id'"
-                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listBank" />
+                                        <div class="grid_2">
+                                            <label c-label item="item" c-label-text="Ruangan"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                                k-data-text-field="'namaruangan'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+                                        </div>
+                                        <div class="grid_2">
+                                            <label c-label item="item" c-label-text="Kelas"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelas"
+                                                k-data-text-field="'namakelas'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas" />
+                                        </div>
+                                        <div class="grid_2">
+                                            <label c-label item="item" c-label-text="Kamar"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.kamar"
+                                                k-data-text-field="'namakamar'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listKamar" />
+                                        </div>
+                                        <div class="grid_2">
+                                            <label c-label item="item" c-label-text="Nama bed"></label>
+                                            <input c-text-box type="input" filter="" class="k-textbox"
+                                                ng-model="item.namabed" />
+                                        </div>
+                                        <div class="grid_2">
+                                            <label c-label item="item" c-label-text="Status"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.status"
+                                                k-data-text-field="'name'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listStatus" />
+                                        </div>
+                                        <div class="grid_1">
+                                            <label c-label c-label-text=""></label>
+                                            <em style="margin-top:6px;" ng-click='findDataBed()' id="iconButton"
+                                                data-role="button" class="k-button k-button-icon" role="button"
+                                                aria-disabled="false" tabindex="0"><span
+                                                    class="k-sprite k-icon k-i-search">Cari</span></em>
+                                        </div>
+                                        <div class="grid_1">
+                                            <label c-label c-label-text=""></label>
+                                            <button class="c-button success" ng-click="clickTambahBed()"
+                                                style="float:left;width:120px">Tambah</button>
                                         </div>
                                     </div>
                                     <div class="grid_12">
-                                        <div class="grid_2">
-                                            <div class="grid_12">
-                                                <label c-label item="item" c-label-text="Kode Akun"></label>
-                                            </div>
-                                            <div class="grid_12">
-                                                <input kendo-combo-box k-data-source="listAkun"
-                                                    k-ng-model="item.kdAkunDebit" k-data-text-field="'noaccount'"
-                                                    k-filter="'contains'" k-data-value-field="'id'" k-auto-bind="false"
-                                                    k-data-source="" />
-                                            </div>
-                                        </div>
-                                        <div class="grid_4">
-                                            <div class="grid_12">
-                                                <label c-label item="item" c-label-text="Nama Akun"></label>
-                                            </div>
-                                            <div class="grid_12">
-                                                <input kendo-combo-box k-data-source="listAkun"
-                                                    k-ng-model="item.kdAkunDebit" k-data-text-field="'namaaccount'"
-                                                    k-filter="'contains'" k-data-value-field="'id'" k-auto-bind="false"
-                                                    k-data-source="" />
-                                            </div>
-                                        </div>
-                                        <div class="grid_2">
-                                            <div class="grid_12" style="margin-top: 20px">
-                                                <button class="c-button success" ng-click="clickSaveAccountBank()"
-                                                    style="float:left;width:120px">Simpan</button>
-                                            </div>
-                                        </div>
-                                        <div class="grid_2">
-                                            <div class="grid_12" style="margin-top: 20px">
-                                                <button class="c-button success" ng-click="clickBatal()"
-                                                    style="float:left;width:120px">Batal</button>
-                                            </div>
-                                        </div>
-                                        <div class="grid_2">
-                                            <div class="grid_12" style="margin-top: 20px">
-                                                <button class="c-button success" ng-click="clickHapus()"
-                                                    style="float:left;width:120px">Hapus</button>
-                                            </div>
-                                        </div>
-                                        <div class="grid_12 ">
-                                            <kendo-grid k-data-source="dataMapAccount" k-selectable="'row'"
-                                                options="columnMapAccount" k-pageable="'true'" k-sortable="'true'"
-                                                k-ng-model="dataSelectedMapAccount"
-                                                ng-click="klikMapAccount(dataSelectedMapAccount)">
-                                            </kendo-grid>
-                                        </div>
+                                        <table style="width:100%;color: #4c5356;" id="customers">
+                                            <tr>
+                                                <th>Id Bed</th>
+                                                <th>Nama Kamar</th>
+                                                <th>Nama Ruangan</th>
+                                                <th>Kelas</th>
+                                                <th>Nama Bed</th>
+                                                <th>Nomor Bed</th>
+                                                <th>Status Bed</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            <tbody>
+                                                <tr ng-repeat="listx in listDatatempattidur | orderBy:'id'"
+                                                    ng-init="jawabIndex = $index" ng-click="go9(listx)">
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.id}}
+                                                        </div>
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namakamar}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namaruangan}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.namakelas}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.reportdisplay}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.nomorbed}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.statusbed}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            {{listx.statusenabled}}
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="keterangan">
+                                                            <button class="c-button cancel"
+                                                                ng-click="clickHapusBed(listx)"
+                                                                style="float:left;width:120px">Hapus</button>
+                                                            <button class="c-button success"
+                                                                ng-click="clickUpdateBed(listx)"
+                                                                style="float:left;width:180px">Update Status
+                                                                Enabled</button>
+                                                            <button class="c-button" ng-click="clickEdit(listx)"
+                                                                style="float:left;width:180px ; background-color: rgb(218, 251, 3); color:red;margin-left: 10px;">Edit
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </fieldset>
                             </div>
                         </md-content>
                     </md-tab>
-
                 </md-tabs>
             </md-content>
         </div>
@@ -919,7 +979,47 @@
                 </div>
             </div>
         </div>
+        <div kendo-window="popupTambahBed" k-title="'Detail'" k-visible="false" k-width="800" k-height="500">
+            <div class="panel panel-default container_12">
+                <div class="grid_12">
+                    <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">Tambah Bed</a>
+                        </legend>
+                        <div class="grid_12">
+                            <div class="grid_4">
+                                <label c-label item="item" c-label-text="Kamar"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.kamar"
+                                    k-data-text-field="'namakamar'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listKamar" />
+                            </div>
 
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Nama Bed"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namabed" />
+                            </div>
+                            <div class="grid_3">
+                                <label c-label item="item" c-label-text="Nomor Bed"></label>
+                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nomorbed" />
+                            </div>
+                            <div class="grid_4">
+                                <label c-label item="item" c-label-text="StatusBed"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.statusbed"
+                                    k-data-text-field="'statusbed'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listStatusbed" />
+                            </div>
+                        </div>
+                        <div class="grid_1">
+                            <label c-label c-label-text=""></label>
+                            <button class="c-button success" ng-click="clickSaveBed()"
+                                style="float:left;width:120px">Simpan</button>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
 
 
     </div>

@@ -8630,7 +8630,10 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->where('kr.statusenabled', true)
             ->get();
         $pembatalan = DB::select(DB::raw("select id,name from pembatal_m where statusenabled='true'"));
-
+   $statusbed = \DB::table('statusbed_m as kr')
+            ->select('kr.id', 'kr.statusbed')
+            ->where('kr.statusenabled', true)
+            ->get();
         $result = array(
             'data' => $ruangan,
             'pembatalan' => $pembatalan,
@@ -8639,6 +8642,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             'pegawaiLogin' => $dataPegawai->namalengkap,
             'dataInstalasi'=>$dataInstalasi,
             'dataKamar'=>$dataKamar,
+            
+             'statusbed'=>$statusbed,
             'message' => 'inhuman',
         );
 
