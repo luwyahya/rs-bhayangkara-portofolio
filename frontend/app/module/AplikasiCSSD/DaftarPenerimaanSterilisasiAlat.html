@@ -26,7 +26,8 @@
     text-align: center;
      }*/
 </style>
-<c-panel item="item" header="'Daftar Penerimaan Sterilisasi Alat'">
+<div ng-controller="DaftarPenerimaanSterilisasiAlatCtrl">
+    <div ng-show="dataVOloaded">
     <div class="grid_12">
         <div class="grid_6">
             <div class="grid_12">
@@ -130,8 +131,9 @@
             <button class="c-button" ng-click="Cetak()">Cetak Struk</button>
         </div>
         <div class="grid_1"></div>
+        </div>
     </div>
-</c-panel>
+</div>
 <script id="templateSteril" type="text/x-kendo-template">
     <!-- var template = '<ul>';
     for (var i = 0; i < caraSterilisisasi.lenght; i++) {
