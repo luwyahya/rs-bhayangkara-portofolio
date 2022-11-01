@@ -324,6 +324,7 @@ define(['initialize'], function (initialize) {
                                 "idPegawai": mumet[i].id,
                                 "namapegawai": mumet[i].namalengkap,
                                 "salary": mumet[i].salary,
+                                "salarydua": mumet[i].salarydua,
                                 "norekening": mumet[i].bankrekeningnomor,
                                 "norekeningdua": mumet[i].bankrekeningnomordua,
                                 "kategorypegawai": mumet[i].kategorypegawai,

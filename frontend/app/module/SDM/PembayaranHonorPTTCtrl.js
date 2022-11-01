@@ -228,7 +228,8 @@ define(['initialize'], function (initialize) {
                 // if ($scope.item.catatan != undefined) {
                 //     catatan = $scope.item.catatan;
                 // }
-                var jumlah = $scope.jumlah
+                // var jumlah = $scope.jumlah
+                var jumlah = $scope.item.salary2
                 var personil = $scope.personil
                 // var tanggal = $scope.item.tanggal
                 // var tanggal = moment($scope.now).format('MMM YYYY');
@@ -361,7 +362,14 @@ define(['initialize'], function (initialize) {
                 var tanggal = moment($scope.item.periode).format('MMM YYYY');
                 var bulan = moment($scope.item.periode).format('MM');
                 var tahun = moment($scope.item.periode).format('YYYY');
-                var idruangan = $scope.item.ruangan.id
+                var idruangan = ''
+                if ($scope.item.ruangan != undefined) {
+                    idruangan = $scope.item.ruangan.id
+                }
+                var namaruangan = ''
+                if ($scope.item.ruangan != undefined) {
+                    namaruangan = $scope.item.ruangan.namaruangan.toString()
+                }
 
                 // var x= "WHERE (pp.noregistrasifk = '"+ $scope.norecAPD +"')and (pp.norec in ("+$scope.item.norecPP+ ')) and hh.flag is not null'
                 // var y="http://202.51.105.98:9000/service/medifirst2000/report/cetak-lab?reg="+$scope.item.noregistrasi
@@ -370,7 +378,7 @@ define(['initialize'], function (initialize) {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["ruangan", "jumlah", "tanggal", "idruangan", "bulan", "tahun"],
                     // , "namaRSS","namaRSSS","tgllahir","alamatRS","printedBy","norecapd","umur","jeniskelamin","tglpelayanan","tglhasil","dokter","ruangan","linkqr","diagnosa","dokterPeriksa","catatan"],
-                    "paramValue": [$scope.item.ruangan.namaruangan.toString(), jumlah, tanggal, idruangan, bulan, tahun],
+                    "paramValue": [namaruangan, jumlah, tanggal, idruangan, bulan, tahun],
                     // "RS BHAYANGKARA TK IV CIANJUR","INSTALASI LABORATORIUM","1980-12-25 00:00:00","Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211, Telp. (0751)8465000, Psw. 177",user.namaLengkap,
                     // x,$scope.item.umurDay,$scope.item.objectjeniskelaminfk,tgl,tglhasil,dokter.namalengkap,ruangan,y,diagnosa.toString(),dokterPeriksa.toString(),catatan],
                     "paramType": ["", "", "", "", "", ""]
@@ -486,7 +494,10 @@ define(['initialize'], function (initialize) {
                 var tanggal = moment($scope.item.periode).format('MMM YYYY');
                 var bulan = moment($scope.item.periode).format('MM');
                 var tahun = moment($scope.item.periode).format('YYYY');
-                var idkelompokjabatan = $scope.item.statuspegawai.id
+                var idkelompokjabatan = ''
+                if ($scope.item.statuspegawai != undefined) {
+                    idkelompokjabatan = $scope.item.statuspegawai.id
+                }
 
                 // var x= "WHERE (pp.noregistrasifk = '"+ $scope.norecAPD +"')and (pp.norec in ("+$scope.item.norecPP+ ')) and hh.flag is not null'
                 // var y="http://202.51.105.98:9000/service/medifirst2000/report/cetak-lab?reg="+$scope.item.noregistrasi

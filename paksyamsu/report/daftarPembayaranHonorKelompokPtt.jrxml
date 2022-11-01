@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="daftarPembayaranHonorKelompokPtt" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables">
 		<![CDATA[cGVuZGlkaWthbl9tIEFTICwzMjMsMTUsNjhkYjFhODYtZjRjOC00Y2IzLWFiZmYtYzhiNmNiMjA5
@@ -33,14 +33,13 @@ MWI3YTs=]]>
 		<![CDATA[select ROW_NUMBER() OVER (ORDER BY pg.id) as nomor,
  pg.namalengkap,
 case when pg.objectkelompokjabatanfk is null then '-' else kp.detailkelompokjabatan end as detailkelompokjabatan,
-case when pg.tglmasuk is not null then convert(varchar, pg.tglmasuk, 105)  else '-' end as tglmasuk,
+case when pg.tglmasuk is not null then to_char(pg.tglmasuk, 'YYYY-mm-dd')  else '-' end as tglmasuk,
 pg.salary 
  from pegawai_m as pg left join
 ruangan_m as ru on ru.id = pg.objectruangankerjafk left join
 nilaikelompokjabatan_m as kp on kp.id = pg.objectkelompokjabatanfk
-where pg.kategorypegawai = $P{idkelompokjabatan}
-and pg.namalengkap not in ('-', '- (Dokter Belum Diinput)', 'Administrator', '- (Petugas Pelaksana Belum Diinput)')
-and pg.statusenabled = 1
+where pg.namalengkap not in ('-', '- (Dokter Belum Diinput)', 'Administrator', '- (Petugas Pelaksana Belum Diinput)')
+and pg.statusenabled = true
 and pg.kedudukanfk = 1]]>
 	</queryString>
 	<field name="namalengkap" class="java.lang.String">
@@ -89,15 +88,6 @@ and pg.kedudukanfk = 1]]>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement x="488" y="-1" width="1" height="24" uuid="92b0d852-c104-4032-acfd-cd4be1244b2a">
-						<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<graphicElement>
-						<pen lineStyle="Solid"/>
-					</graphicElement>
-				</line>
-				<line>
 					<reportElement x="566" y="-11" width="1" height="34" uuid="825fe610-30fd-4a66-8e73-b4d2231a6956">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -121,7 +111,7 @@ and pg.kedudukanfk = 1]]>
 					<text><![CDATA[JUMLAH]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="390" y="-2" width="97" height="24" uuid="f40ea24d-3110-41a5-ab12-10610e85c5db"/>
+					<reportElement x="390" y="-2" width="176" height="24" uuid="f40ea24d-3110-41a5-ab12-10610e85c5db"/>
 					<textElement verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$P{jumlah}]]></textFieldExpression>
 				</textField>

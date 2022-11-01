@@ -782,7 +782,7 @@ class SumberDayaManusiaController extends ApiController {
     public function getTotalPembayaranPtt (Request $request) {
         $data = \DB::table('pegawai_m as pg')
             ->join('rekaptransfergaji_t as rtg','rtg.idpegawai','=','pg.id')
-            ->select(DB::raw('sum (case when rtg.salary is not null then cast(rtg.salary as numeric(12, 0)) else 0 end) as salary2'))
+            ->select(DB::raw('sum (case when rtg.salary is not null then cast(rtg.salary as numeric) + 12.0 else 0 end) as salary2'))
             ->whereNotIn('pg.namalengkap',['-','- (Dokter Belum Diinput)','- (Petugas Pelaksana Belum Diinput)'])
             ->where('pg.statusenabled', true)
             ->whereNotIn('pg.id',[2,890,27676,27733,27746])
@@ -821,7 +821,7 @@ class SumberDayaManusiaController extends ApiController {
     public function getPersonilRekap (Request $request) {
         $data = \DB::table('pegawai_m as pg')
             ->join('rekaptransfergaji_t as rtg','rtg.idpegawai','=','pg.id')
-            ->select(DB::raw('sum (case when rtg.salary is null then 0 else 1 end) as personil'))
+            ->select(DB::raw('sum (case when rtg.salary is null then 0 else 1 end)::float as personil'))
             ->whereNotIn('pg.namalengkap',['-','- (Dokter Belum Diinput)','- (Petugas Pelaksana Belum Diinput)'])
             ->where('pg.statusenabled', true)
             ->whereNotIn('pg.id',[2,890,27676,27733,27746])

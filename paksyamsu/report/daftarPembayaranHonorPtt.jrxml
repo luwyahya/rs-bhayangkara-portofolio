@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="daftarPembayaranHonorPtt" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables">
 		<![CDATA[cGVuZGlkaWthbl9tIEFTICwzMjMsMTUsNjhkYjFhODYtZjRjOC00Y2IzLWFiZmYtYzhiNmNiMjA5
@@ -32,15 +32,15 @@ MWI3YTs=]]>
 		<![CDATA[select ROW_NUMBER() OVER (ORDER BY pg.id) as nomor,
  pg.namalengkap,
 case when pg.objectpendidikanterakhirfk is null then '-' else pnd.pendidikan end as pendidikan,
-case when pg.tglmasuk is not null then convert(varchar, pg.tglmasuk, 105)  else '-' end as tglmasuk,
+case when pg.tglmasuk is not null then to_char(pg.tglmasuk, 'YYYY-mm-dd')  else '-' end as tglmasuk,
 pg.salary 
  from pegawai_m as pg inner join
 ruangan_m as ru on ru.id = pg.objectruangankerjafk left join
 pendidikan_m as pnd on pnd.id = pg.objectpendidikanterakhirfk
-where pg.objectruangankerjafk = $P{idruangan}
+
 and pg.namalengkap not in ('-', '- (Dokter Belum Diinput)', 'Administrator', '- (Petugas Pelaksana Belum Diinput)')
 and pg.kedudukanfk = 1
-and pg.statusenabled = 1]]>
+and pg.statusenabled = true]]>
 	</queryString>
 	<field name="namalengkap" class="java.lang.String">
 		<property name="property.name" value="value"/>
@@ -88,15 +88,6 @@ and pg.statusenabled = 1]]>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement x="478" y="-4" width="1" height="17" uuid="cde14b91-4727-4da4-ba44-f48bfec442ae">
-						<property name="com.jaspersoft.studio.unit.width" value="px"/>
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<graphicElement>
-						<pen lineStyle="Solid"/>
-					</graphicElement>
-				</line>
-				<line>
 					<reportElement x="566" y="-4" width="1" height="17" uuid="86de2075-f606-4a6a-806b-6786f41d4c30">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -120,7 +111,7 @@ and pg.statusenabled = 1]]>
 					<text><![CDATA[JUMLAH]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="390" y="-3" width="91" height="17" uuid="54fdd639-11fa-4961-8545-6ffb3cd32fa0"/>
+					<reportElement x="391" y="0" width="175" height="14" uuid="54fdd639-11fa-4961-8545-6ffb3cd32fa0"/>
 					<textFieldExpression><![CDATA[$P{jumlah}]]></textFieldExpression>
 				</textField>
 				<staticText>
@@ -152,11 +143,11 @@ and pg.statusenabled = 1]]>
 					<text><![CDATA[AKBP . NRP . 72100626]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="160" y="199" width="250" height="20" uuid="ad11a6fe-955c-4fde-89a6-1e424b4fb684"/>
+					<reportElement x="195" y="199" width="250" height="20" uuid="ad11a6fe-955c-4fde-89a6-1e424b4fb684"/>
 					<textElement>
 						<font fontName="Tahoma"/>
 					</textElement>
-					<text><![CDATA[KARUMKIT BHAYANGKARA TK. I R. SAID SUKANTO]]></text>
+					<text><![CDATA[KARUMKIT UNIVERSITAS ANDALAS]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="170" y="249" width="222" height="20" uuid="69f545a7-fff5-47a2-9e18-ef6efd21d344"/>
@@ -215,7 +206,7 @@ and pg.statusenabled = 1]]>
 		<band height="112">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="14" y="-1" width="260" height="20" uuid="91d6f58e-d21c-4cef-98ca-7b336c50443a"/>
+				<reportElement x="14" y="-1" width="260" height="20" forecolor="#FFFFFF" uuid="91d6f58e-d21c-4cef-98ca-7b336c50443a"/>
 				<textElement>
 					<font fontName="Tahoma" isBold="false"/>
 				</textElement>
@@ -226,7 +217,7 @@ and pg.statusenabled = 1]]>
 				<textElement>
 					<font fontName="Tahoma" isBold="false" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="124" y="50" width="315" height="20" uuid="66810b4f-eaf3-417a-bd1f-4a633d060491"/>
@@ -240,7 +231,7 @@ and pg.statusenabled = 1]]>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[RUMKIT BHAYANGKARA TK. I R. SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="230" y="90" width="43" height="20" uuid="7f70912b-af31-492a-8aff-7a471f4455da"/>
