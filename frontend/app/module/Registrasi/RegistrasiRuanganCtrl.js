@@ -4063,6 +4063,11 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             //##log Pasien Daftar
                             medifirstService.get("sysadmin/logging/save-log-pendaftaran-pasien?norec_pd=" +
                                 $scope.model.norec_pd).then(function (x) { })
+                            var statusAll = '0'
+                            if ($scope.model.allDokter === true)
+                                statusAll = '1'
+                            $scope.saveLogging('Check All Dokter', 'norec Pasien Daftar',
+                                norecPD, 'Status CheckBox ' + statusAll + ' pada No Registrasi ' + $scope.model.noRegistrasi)
                             //## end log    
                             if (isRegisOnline != '') {
                                 var data = {
