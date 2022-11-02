@@ -189,10 +189,10 @@ class AssetController extends ApiController
             ->leftjoin('produk_m as pr', 'pr.id', '=', 'ra.objectprodukfk')
             ->select('spl.tglplanning','spl.objectpegawaipjawabfk','spl.keteranganlainnya','spl.norec'
                 ,'pr.namaproduk',
-                DB::raw(" convert(char, 	spl.tglplanning, 111) + ' 00:00'   AS start,
-                convert(char, 	spl.tglplanning, 111) + ' 23:59'  AS ends,
-                convert(char, 	spl.tglplanning, 111) + ' 00:00' AS startepoch,
-                 convert(char, 	spl.tglplanning, 111) + ' 23:59'  AS endpoch")
+                DB::raw(" to_char(spl.tglplanning, 'yyy-mm-dd 00:00')   AS start,
+                to_char(spl.tglplanning, 'yyy-mm-dd 23:59')  AS ends,
+                to_char(spl.tglplanning, 'yyy-mm-dd 00:00') AS startepoch,
+                 to_char(spl.tglplanning, 'yyy-mm-dd 23:59')  AS endpoch")
             )
             ->where('spl.objectkelompoktransaksifk',123);
 

@@ -8692,2390 +8692,2390 @@ FROM     mappingrlmorbiditas_m as mpr INNER JOIN
         );
         return $this->respond($result);
     }
-    // public function getLaporanPengunjungPolriDetail(Request $request)
-    // {
-    //     $isRI = $request['isRI'];
-    //     $tglAwal = $request['tglAwal'];
-    //     $tglAkhir = $request['tglAkhir'];
-    //     $ruanganId = $request['idRuangan'];
-    //     $paramRuangan = ' ';
-    //     if (isset($ruanganId) && $ruanganId != "" && $ruanganId != "undefined") {
-    //         $paramRuangan = ' and rpp.objectruanganfk = ' . $ruanganId;
-    //     }
+    public function getLaporanPengunjungPolriDetail(Request $request)
+    {
+        $isRI = $request['isRI'];
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
+        $ruanganId = $request['idRuangan'];
+        $paramRuangan = ' ';
+        if (isset($ruanganId) && $ruanganId != "" && $ruanganId != "undefined") {
+            $paramRuangan = ' and rpp.objectruanganfk = ' . $ruanganId;
+        }
 
-    //     if ($request['setParam'] == 1) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan
-    //                     ,case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
-    //                     rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk')
-    //             ->where('apd.statuskunjungan', '=', 'BARU');
+        if ($request['setParam'] == 1) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan
+                        ,case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
+                        rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk')
+                ->where('apd.statuskunjungan', '=', 'BARU');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 2) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal, rk.namarekanan,        
-    //             ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk')
-    //             ->where('apd.statuskunjungan', '<>', 'BARU');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 2) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal, rk.namarekanan,        
+                ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk')
+                ->where('apd.statuskunjungan', '<>', 'BARU');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 3) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,    rk.namarekanan,    
-    //             ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 3) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,    rk.namarekanan,    
+                ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 4) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal, rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk')
-    //             ->whereNotIn('ru.id', [322, 545]);
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 4) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal, rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk')
+                ->whereNotIn('ru.id', [322, 545]);
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 5) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 5) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 6) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 6) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 7) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 7) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 8) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 ->where('pd.objectrekananfk', '581368')
-    //                 ->where(function ($data) {
-    //                     $data->whereNull('pd.objectjaminankhusus')
-    //                         ->orWhere('pd.objectjaminankhusus', 0);
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 8) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    ->where('pd.objectrekananfk', '581368')
+                    ->where(function ($data) {
+                        $data->whereNull('pd.objectjaminankhusus')
+                            ->orWhere('pd.objectjaminankhusus', 0);
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //             select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //                select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk is null
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                      
-    //                                                 $paramRuangan
-    //                                                 ) as x where x.rownum =1) as z where z.rownums =1
-    //                                                 UNION ALL 
-    //                                                 select * ,1 as rownums from  (
-    //                                                 select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk <> 2
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                       
-    //                                                 $paramRuangan
-    //                                                  ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 9) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 ->whereIn('pd.objectrekananfk', [581367, 5906, 581669, 581673, 2552])
-    //                 ->where(function ($data) {
-    //                     $data->whereNull('pd.objectjaminankhusus')
-    //                         ->orWhere('pd.objectjaminankhusus', 0);
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+                select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+                   select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk is null
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                      
+                                                    $paramRuangan
+                                                    ) as x where x.rownum =1) as z where z.rownums =1
+                                                    UNION ALL 
+                                                    select * ,1 as rownums from  (
+                                                    select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk <> 2
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                       
+                                                    $paramRuangan
+                                                     ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 9) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    ->whereIn('pd.objectrekananfk', [581367, 5906, 581669, 581673, 2552])
+                    ->where(function ($data) {
+                        $data->whereNull('pd.objectjaminankhusus')
+                            ->orWhere('pd.objectjaminankhusus', 0);
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //             select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //                select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk is null
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (581367, 5906, 581669, 581673, 2552)  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
-    //                                                 $paramRuangan
-    //                                                 ) as x where x.rownum =1) as z where z.rownums =1
-    //                                                 UNION ALL 
-    //                                                 select * ,1 as rownums from  (
-    //                                                 select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk <> 2
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (581367, 5906, 581669, 581673, 2552) and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)   
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+                select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+                   select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk is null
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (581367, 5906, 581669, 581673, 2552)  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
+                                                    $paramRuangan
+                                                    ) as x where x.rownum =1) as z where z.rownums =1
+                                                    UNION ALL 
+                                                    select * ,1 as rownums from  (
+                                                    select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk <> 2
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (581367, 5906, 581669, 581673, 2552) and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)   
                                                                                                                          
-    //                                                 $paramRuangan
-    //                                                  ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 10) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 ->whereNotIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0])
-    //                 ->where(function ($data) {
-    //                     $data->whereNull('pd.objectjaminankhusus')
-    //                         ->orWhere('pd.objectjaminankhusus', 0);
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                    $paramRuangan
+                                                     ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 10) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    ->whereNotIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0])
+                    ->where(function ($data) {
+                        $data->whereNull('pd.objectjaminankhusus')
+                            ->orWhere('pd.objectjaminankhusus', 0);
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //             select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //                select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk is null
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0)  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
-    //                                                 $paramRuangan
-    //                                                 ) as x where x.rownum =1) as z where z.rownums =1
-    //                                                 UNION ALL 
-    //                                                 select * ,1 as rownums from  (
-    //                                                 select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk <> 2
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0) and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
-    //                                                 $paramRuangan
-    //                                                  ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 11) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 ->where(function ($data) {
-    //                     $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+                select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+                   select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk is null
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0)  and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
+                                                    $paramRuangan
+                                                    ) as x where x.rownum =1) as z where z.rownums =1
+                                                    UNION ALL 
+                                                    select * ,1 as rownums from  (
+                                                    select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk <> 2
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 581368, 581367, 5906, 581669, 2552, 0) and (pd.objectjaminankhusus is null or pd.objectjaminankhusus = 0)                                                                        
+                                                    $paramRuangan
+                                                     ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 11) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    ->where(function ($data) {
+                        $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
 
-    //                         // ->orWhere('pd.objectjaminankhusus','<>',0);
-    //                         ->orwhereNotNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->where(function ($data) {
-    //                     $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
+                            // ->orWhere('pd.objectjaminankhusus','<>',0);
+                            ->orwhereNotNull('pd.objectjaminankhusus');
+                    })
+                    ->where(function ($data) {
+                        $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
 
-    //                         ->orWhere('pd.objectjaminankhusus', '<>', 0);
-    //                     // ->orwhereNotNull('pd.objectjaminankhusus');
-    //                 })
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                            ->orWhere('pd.objectjaminankhusus', '<>', 0);
+                        // ->orwhereNotNull('pd.objectjaminankhusus');
+                    })
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //             select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //                select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk is null
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                       
-    //                                                 $paramRuangan
-    //                                                 ) as x where x.rownum =1) as z where z.rownums =1
-    //                                                 UNION ALL 
-    //                                                 select * ,1 as rownums from  (
-    //                                                 select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                        -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                        case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                         row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                         ru.id as id_ruangan,
-    //                             case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                      dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                                 FROM pasiendaftar_t as pd
-    //                                                 INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                                 LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                                 LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                                 INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                            --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                            and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                            and rpp.objectstatuskeluarfk <> 2
-    //                                                 LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                                 LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                                 LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                                 INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                                 left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                                 INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                                 INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                                 INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                                 LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                                 INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                                 --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                                 LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                                 left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                                 inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                                 inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                                 inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                                 where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                       
-    //                                                 $paramRuangan
-    //                                                  ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 12) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 // ->where('pd.objectrekananfk','0')
-    //                 ->where(function ($data) {
-    //                     $data->whereNull('pd.objectrekananfk')
-    //                         ->orWhere('pd.objectrekananfk', 0);
-    //                 })
-    //                 ->where(function ($data) {
-    //                     $data->whereNull('pd.objectjaminankhusus')
-    //                         ->orWhere('pd.objectjaminankhusus', 0);
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+                select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+                   select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk is null
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                       
+                                                    $paramRuangan
+                                                    ) as x where x.rownum =1) as z where z.rownums =1
+                                                    UNION ALL 
+                                                    select * ,1 as rownums from  (
+                                                    select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                           -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                           case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                            row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                            ru.id as id_ruangan,
+                                case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                         dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                    FROM pasiendaftar_t as pd
+                                                    INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec  and apd.objectruanganfk = pd.objectruanganlastfk
+                                                    LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                    LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                    INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                               --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                               and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                               and rpp.objectstatuskeluarfk <> 2
+                                                    LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                    LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                    LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                    INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                    left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                    INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                    INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                    INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                    LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                    INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                    --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                    LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                    left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                    inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                    inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                    inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                    where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                       
+                                                    $paramRuangan
+                                                     ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 12) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    // ->where('pd.objectrekananfk','0')
+                    ->where(function ($data) {
+                        $data->whereNull('pd.objectrekananfk')
+                            ->orWhere('pd.objectrekananfk', 0);
+                    })
+                    ->where(function ($data) {
+                        $data->whereNull('pd.objectjaminankhusus')
+                            ->orWhere('pd.objectjaminankhusus', 0);
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
-    //                                             $paramRuangan
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
-    //                                             $paramRuangan
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 13) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
+                                                $paramRuangan
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
+                                                $paramRuangan
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 13) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //                 $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //             }
-    //             if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //                 $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
-    //                                             $paramRuangan
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
-    //                                             $paramRuangan
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 14) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereIn('apd.objectasalrujukanfk', [4, 5])
-    //             ->whereNull('apd.objectruanganasalfk');
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                    $data = $data->where('ru.id', '=', $request['idRuangan']);
+                }
+                if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                    $data = $data->where('dp.id', '=', $request['idDepartemen']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
+                                                $paramRuangan
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
+                                                $paramRuangan
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 14) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereIn('apd.objectasalrujukanfk', [4, 5])
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 15) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereIn('apd.objectasalrujukanfk', [1, 2, 3, 6])
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 15) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereIn('apd.objectasalrujukanfk', [1, 2, 3, 6])
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 16) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->where('apd.objectasalrujukanfk', '7')
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 16) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->where('apd.objectasalrujukanfk', '7')
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 17) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereIn('apd.objectasalrujukanfk', [1, 2, 3, 4, 5, 6, 7])
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 17) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereIn('apd.objectasalrujukanfk', [1, 2, 3, 4, 5, 6, 7])
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 18) {
-    //         $data1 = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //             case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                     ru.namaruangan, dp.id as id_departemen, apd.objectstatuspulangfk, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 18) {
+            $data1 = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                        ru.namaruangan, dp.id as id_departemen, apd.objectstatuspulangfk, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data1 = $data1->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data1 = $data1->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data1 = $data1->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data1 = $data1->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data1 = $data1->orderby('ru.namaruangan');
-    //         $data1 = $data1->get();
-    //         foreach ($data1 as $item) {
-    //             if ($item->objectstatuspulangfk == null || $item->objectstatuspulangfk == 17) {
-    //                 $data[] = array(
-    //                     'namaruangan' => $item->namaruangan,
-    //                     'tglregistrasi' => $item->tglregistrasi,
-    //                     'noregistrasi' => $item->noregistrasi,
-    //                     'namapasien' => $item->namapasien,
-    //                     'nocm' => $item->nocm,
-    //                 );
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 19) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->where('apd.objectstatuspulangfk', '13')
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data1 = $data1->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data1 = $data1->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data1 = $data1->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data1 = $data1->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data1 = $data1->orderby('ru.namaruangan');
+            $data1 = $data1->get();
+            foreach ($data1 as $item) {
+                if ($item->objectstatuspulangfk == null || $item->objectstatuspulangfk == 17) {
+                    $data[] = array(
+                        'namaruangan' => $item->namaruangan,
+                        'tglregistrasi' => $item->tglregistrasi,
+                        'noregistrasi' => $item->noregistrasi,
+                        'namapasien' => $item->namapasien,
+                        'nocm' => $item->nocm,
+                    );
+                }
+            }
+        } else if ($request['setParam'] == 19) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->where('apd.objectstatuspulangfk', '13')
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 20) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->where('apd.objectstatuspulangfk', '15')
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 20) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->where('apd.objectstatuspulangfk', '15')
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 21) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->where('apd.objectstatuspulangfk', '14')
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 21) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->where('apd.objectstatuspulangfk', '14')
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 22) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,rk.namarekanan,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->where('apd.objectstatuspulangfk', '16')
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 22) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,rk.namarekanan,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->where('apd.objectstatuspulangfk', '16')
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 23) {
-    //         $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //             ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //             ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //             ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //             ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //             ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //             ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //             ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,rk.namarekanan,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
-    //             ->where('pd.statusenabled', true)
-    //             ->where('apd.statusenabled', true)
-    //             ->whereNull('apd.objectruanganasalfk');
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 23) {
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,rk.namarekanan,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan'))
+                ->where('pd.statusenabled', true)
+                ->where('apd.statusenabled', true)
+                ->whereNull('apd.objectruanganasalfk');
 
-    //         if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //         }
-    //         if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //             $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //         }
-    //         if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
-    //             $data = $data->where('ru.id', '=', $request['idRuangan']);
-    //         }
-    //         if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
-    //             $data = $data->where('dp.id', '=', $request['idDepartemen']);
-    //         }
-    //         $data = $data->orderby('ru.namaruangan');
-    //         $data = $data->get();
-    //     } else if ($request['setParam'] == 36) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->where(function ($data) {
-    //                     $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
+            if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['idRuangan']) && $request['idRuangan'] != "" && $request['idRuangan'] != "undefined") {
+                $data = $data->where('ru.id', '=', $request['idRuangan']);
+            }
+            if (isset($request['idDepartemen']) && $request['idDepartemen'] != "" && $request['idDepartemen'] != "undefined") {
+                $data = $data->where('dp.id', '=', $request['idDepartemen']);
+            }
+            $data = $data->orderby('ru.namaruangan');
+            $data = $data->get();
+        } else if ($request['setParam'] == 36) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->where(function ($data) {
+                        $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
 
-    //                         // ->orWhere('pd.objectjaminankhusus','<>',0);
-    //                         ->orwhereNotNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->where(function ($data) {
-    //                     $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
+                            // ->orWhere('pd.objectjaminankhusus','<>',0);
+                            ->orwhereNotNull('pd.objectjaminankhusus');
+                    })
+                    ->where(function ($data) {
+                        $data->whereIn('pd.objectrekananfk', [581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490])
 
-    //                         ->orWhere('pd.objectjaminankhusus', '<>', 0);
-    //                     // ->orwhereNotNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
+                            ->orWhere('pd.objectjaminankhusus', '<>', 0);
+                        // ->orwhereNotNull('pd.objectjaminankhusus');
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                    
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                    
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                     
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus is not null) and (pd.objectrekananfk in (581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490) or pd.objectjaminankhusus != 0)                                                                     
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 37) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 ->where('pd.objectrekananfk', 581368)
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->where(function ($data) {
-    //                     $data->Where('pd.objectjaminankhusus', 0)
-    //                         ->orwhereNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 37) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    ->where('pd.objectrekananfk', 581368)
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->where(function ($data) {
+                        $data->Where('pd.objectjaminankhusus', 0)
+                            ->orwhereNull('pd.objectjaminankhusus');
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk = 581368 and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 38) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 ->where('apd.statusenabled', true)
-    //                 ->whereIn('pd.objectrekananfk', [2552, 581367, 581669, 5906])
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->where(function ($data) {
-    //                     $data->Where('pd.objectjaminankhusus', 0)
-    //                         ->orwhereNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 38) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    ->where('apd.statusenabled', true)
+                    ->whereIn('pd.objectrekananfk', [2552, 581367, 581669, 5906])
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->where(function ($data) {
+                        $data->Where('pd.objectjaminankhusus', 0)
+                            ->orwhereNull('pd.objectjaminankhusus');
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk in (2552, 581367, 581669, 5906) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk in (2552, 581367, 581669, 5906) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (2552, 581367, 581669, 5906) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                        
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk in (2552, 581367, 581669, 5906) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                        
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 39) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 ->whereNotIn('pd.objectrekananfk', [2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0])
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->where(function ($data) {
-    //                     $data->Where('pd.objectjaminankhusus', 0)
-    //                         ->orwhereNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 39) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    ->whereNotIn('pd.objectrekananfk', [2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0])
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->where(function ($data) {
+                        $data->Where('pd.objectjaminankhusus', 0)
+                            ->orwhereNull('pd.objectjaminankhusus');
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk not in (2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and pd.objectrekananfk not in (2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and pd.objectrekananfk not in (2552, 581367, 581669, 5906, 581368, 581358, 581491, 581673, 581456, 581485, 581486, 581481, 581473, 581489, 581490, 0) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                       
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 40) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 // ->where('pd.objectrekananfk', 0)
-    //                 ->where(function ($data) {
-    //                     $data->Where('pd.objectrekananfk', 0)
-    //                         ->orwhereNull('pd.objectrekananfk');
-    //                 })
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->where(function ($data) {
-    //                     $data->Where('pd.objectjaminankhusus', 0)
-    //                         ->orwhereNull('pd.objectjaminankhusus');
-    //                 })
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 40) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    // ->where('pd.objectrekananfk', 0)
+                    ->where(function ($data) {
+                        $data->Where('pd.objectrekananfk', 0)
+                            ->orwhereNull('pd.objectrekananfk');
+                    })
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->where(function ($data) {
+                        $data->Where('pd.objectjaminankhusus', 0)
+                            ->orwhereNull('pd.objectjaminankhusus');
+                    })
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null  and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null and (pd.objectrekananfk = 0 or pd.objectrekananfk is null) and (pd.objectjaminankhusus = 0 or pd.objectjaminankhusus is null)                                                                      
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } else if ($request['setParam'] == 41) {
-    //         if ($isRI != true) {
-    //             $data = \DB::table('antrianpasiendiperiksa_t as apd')
-    //                 ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-    //                 ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
-    //                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-    //                 ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-    //                 ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-    //                 ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-    //                 ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-    //                 ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
-    //                 ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
-    //                 case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
-    //                         ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
-    //                 ->where('pd.statusenabled', true)
-    //                 // ->where('apd.statusenabled', true)
-    //                 // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
-    //                 // ->whereNotNull('pd.objectjaminankhusus')
-    //                 // ->whereNotIn('pd.objectjaminankhusus',[0])
-    //                 ->whereNull('apd.objectruanganasalfk');
-    //                 // ->where('ps.namapasien','not like',"'". '%test%'."'");
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        } else if ($request['setParam'] == 41) {
+            if ($isRI != true) {
+                $data = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                    ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                    ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->leftjoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+                    ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+                    ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                    ->select(DB::raw('ROW_NUMBER() OVER (ORDER BY ru.namaruangan) AS nomor,ru.id as id_ruangan,apd.tglmasuk,NULL as objectstatuskeluarfk,
+                    case when apd.objectruanganasalfk is null then \'Registrasi Langsung\' else ru2.namaruangan end as ruanganasal,rk.namarekanan,
+                            ru.namaruangan, dp.id as id_departemen, dp.namadepartemen, apd.tglregistrasi, pd.noregistrasi, ps.nocm, ps.namapasien, apd.statuskunjungan, jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk'))
+                    ->where('pd.statusenabled', true)
+                    // ->where('apd.statusenabled', true)
+                    // ->whereIn('pd.objectrekananfk',[581358,581491,581673,581456,581485,581486,581481,581473,581489,581490])
+                    // ->whereNotNull('pd.objectjaminankhusus')
+                    // ->whereNotIn('pd.objectjaminankhusus',[0])
+                    ->whereNull('apd.objectruanganasalfk');
+                    // ->where('ps.namapasien','not like',"'". '%test%'."'");
 
-    //             if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
-    //             }
-    //             if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
-    //                 $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
-    //             }
-    //             if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
-    //                 $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
-    //                     // ->WhereNull('apd.objectruanganasalfk')
-    //                     // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
-    //                     ->where(function ($data) {
-    //                         $data->where('apd.objectstatuspulangfk', '<>', 15)
-    //                             ->orWhereNull('apd.objectstatuspulangfk');
-    //                     })
-    //                     ->where(function ($data) {
-    //                         $data->whereNull('apd.objectruanganasalfk')
-    //                             ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
-    //                     });
-    //             }
-    //             if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
-    //             }
-    //             if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
-    //                 // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
-    //                 $data = $data->where('pd.objectruanganlastfk', 569);
-    //                 $data = $data->where('apd.statusenabled', true);
-    //             }
-    //             $data = $data->orderby('ru.namaruangan');
-    //             $data = $data->get();
-    //         } else {
-    //             $data = DB::select(DB::raw("
-    //         select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
-    //            select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk is null
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
+                if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+                }
+                if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+                    $data = $data->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+                }
+                if (isset($request['isRJ']) && $request['isRJ'] != "" && $request['isRJ'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                }
+                if (isset($request['isRJ2']) && $request['isRJ2'] != "" && $request['isRJ2'] != "undefined") {
+                    $data = $data->whereIn('apd.objectruanganfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792])
+                        // ->WhereNull('apd.objectruanganasalfk')
+                        // ->WhereIn('apd.objectruanganasalfk',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564,788,792,784,790]); 
+                        ->where(function ($data) {
+                            $data->where('apd.objectstatuspulangfk', '<>', 15)
+                                ->orWhereNull('apd.objectstatuspulangfk');
+                        })
+                        ->where(function ($data) {
+                            $data->whereNull('apd.objectruanganasalfk')
+                                ->orWhereIn('apd.objectruanganasalfk', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 453, 456, 543, 552, 564, 575, 576, 784, 788, 790, 792]);
+                        });
+                }
+                if (isset($request['isNotLab']) && $request['isNotLab'] != "" && $request['isNotLab'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->whereIn('ru.id', [3, 4, 6, 7, 8, 9, 12, 13, 14, 17, 19, 20, 25, 26, 27, 31, 33, 70, 89, 97, 130, 132, 247, 248, 250, 253, 268, 319, 322, 446, 447, 448, 456, 543, 552, 564, 784, 788, 790, 792]);
+                }
+                if (isset($request['isIGD']) && $request['isIGD'] != "" && $request['isIGD'] != "undefined") {
+                    // $data = $data->whereIn('ru.id',[3,4,6,7,8,9,12,13,14,17,19,25,26,27,20,31,33,37,70,89,97,98,130,132,198,230,241,243,245,247,248,249,250,253,255,268,319,322,446,448,456,459,461,462,535,543,552,564]);
+                    $data = $data->where('pd.objectruanganlastfk', 569);
+                    $data = $data->where('apd.statusenabled', true);
+                }
+                $data = $data->orderby('ru.namaruangan');
+                $data = $data->get();
+            } else {
+                $data = DB::select(DB::raw("
+            select * from (select *,row_number() over (partition by x.noregistrasi order by x.tglmasuk desc) as rownums from(
+               select pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk is null
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                       
                                                 
-    //                                             ) as x where x.rownum =1) as z where z.rownums =1
-    //                                             UNION ALL 
-    //                                             select * ,1 as rownums from  (
-    //                                             select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
-    //                                                    -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
-    //                                                    case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
-    //                                                     row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
-    //                                                     ru.id as id_ruangan,
-    //                         case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
-    //                                  dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
-    //                                             FROM pasiendaftar_t as pd
-    //                                             INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
-    //                                             LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
-    //                                             LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
-    //                                             INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
-    //                                                        --and rpp.objectruanganfk = apd.objectruanganfk					
-    //                                                        and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
-    //                                                        and rpp.objectstatuskeluarfk <> 2
-    //                                             LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
-    //                                             LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
-    //                                             LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
-    //                                             INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
-    //                                             left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
-    //                                             INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
-    //                                             INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
-    //                                             INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
-    //                                             LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
-    //                                             INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
-    //                                             --and ru1.objectdepartemenfk NOT IN (18,25,28)
-    //                                             LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
-    //                                             left join rekanan_m as rk on rk.id = pd.objectrekananfk
-    //                                             inner join logginguser_t as loguser on loguser.noreff = pd.norec
-    //                                             inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
-    //                                             inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
-    //                                             where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                      
+                                                ) as x where x.rownum =1) as z where z.rownums =1
+                                                UNION ALL 
+                                                select * ,1 as rownums from  (
+                                                select  pg3.namalengkap as userdaftar,rk.namarekanan,ru1.namaruangan as ruanganasal1,jkp.jeniskelompokpasien,pd.tglregistrasi as tglregistrasipd,rpp.objectstatuskeluarfk,apd.tglmasuk,pm.nocm,pd.noregistrasi,pm.namapasien,kp.kelompokpasien,kls.namakelas,ru.namaruangan,'-' as smf,apd.norec,
+                                                       -- case when ddp.noregistrasifk is not null THEN dm.kddiagnosa || ', ' || dm.namadiagnosa else '-' end as namadiagnosa
+                                                       case when ddp.noregistrasifk is not null THEN dm.kddiagnosa + ', ' + dm.namadiagnosa else '-' end as namadiagnosa,loguser.tanggal,
+                                                        row_number() over (partition by apd.norec order by ddp.tglinputdiagnosa asc) as rownum,
+                                                        ru.id as id_ruangan,
+                            case when apd.objectruanganasalfk is null then 'Registrasi Langsung' else ru1.namaruangan end as ruanganasal,
+                                     dpd.id as id_departemen, dpd.namadepartemen, apd.tglregistrasi, apd.statuskunjungan,jk.namaexternal as jaminankhusus,sp.statuspulang,apd.objectstatuspulangfk
+                                                FROM pasiendaftar_t as pd
+                                                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = pd.objectruanganlastfk 
+                                                LEFT JOIN jaminankhusus_m as jk on jk.id = pd.objectjaminankhusus
+                                                LEFT JOIN statuspulang_m as sp on sp.id = apd.objectstatuspulangfk
+                                                INNER JOIN registrasipelayananpasien_t as rpp on rpp.noregistrasifk = pd.norec
+                                                           --and rpp.objectruanganfk = apd.objectruanganfk					
+                                                           and cast(rpp.tglmasuk as date) = cast(apd.tglmasuk as date)
+                                                           and rpp.objectstatuskeluarfk <> 2
+                                                LEFT JOIN detaildiagnosapasien_t as ddp on ddp.noregistrasifk = apd.norec and ddp.objectjenisdiagnosafk = 1 
+                                                LEFT JOIN diagnosapasien_t as dp on dp.norec = ddp.objectdiagnosapasienfk
+                                                LEFT JOIN batalregistrasi_t as br on br.pasiendaftarfk = pd.norec
+                                                INNER JOIN pasien_m as pm on pm.id = pd.nocmfk
+                                                left join jeniskelompokpasien_m as jkp on jkp.id = pm.objectjeniskelompokpasienfk
+                                                INNER JOIN kelompokpasien_m as kp on kp.id = pd.objectkelompokpasienlastfk
+                                                INNER JOIN kelas_m as kls on kls.id = apd.objectkelasfk 
+                                                INNER JOIN ruangan_m as ru on ru.id = rpp.objectruanganfk
+                                                LEFT JOIN ruangan_m as ru1 on ru1.id = pd.objectruanganasalfk 
+                                                INNER JOIN departemen_m as dpd on dpd.id = ru.objectdepartemenfk
+                                                --and ru1.objectdepartemenfk NOT IN (18,25,28)
+                                                LEFT JOIN diagnosa_m as dm on dm.id = ddp.objectdiagnosafk
+                                                left join rekanan_m as rk on rk.id = pd.objectrekananfk
+                                                inner join logginguser_t as loguser on loguser.noreff = pd.norec
+                                                inner join loginuser_s as loginuser on loginuser.id =  loguser.objectloginuserfk
+                                                inner join pegawai_m as pg3 on loginuser.objectpegawaifk = pg3.id
+                                                where apd.tglmasuk  BETWEEN '$tglAwal' and '$tglAkhir' and br.pasiendaftarfk is null                                                                      
                                                 
-    //                                              ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
-    //             $p = count($data) - 2;
-    //             for ($i = count($data) - 1; $i >= 0; $i--) {
-    //                 if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
-    //                     // return ($data[$i]->noregistrasi);
-    //                     // die();
-    //                     if ($i != 0) {
-    //                         array_splice($data, $i, 1);
-    //                     }
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 } else {
-    //                     if ($p > 0) {
-    //                         $p = $p - 1;
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     $result = array(
-    //         'data' => $data,
-    //         'message' => 'Anjay',
-    //     );
-    //     return $this->respond($result);
-    // } 
+                                                 ) as x where x.rownum =1 order by z.noregistrasi,z.tanggal"));
+                $p = count($data) - 2;
+                for ($i = count($data) - 1; $i >= 0; $i--) {
+                    if ($data[$i]->noregistrasi == $data[$p]->noregistrasi) {
+                        // return ($data[$i]->noregistrasi);
+                        // die();
+                        if ($i != 0) {
+                            array_splice($data, $i, 1);
+                        }
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    } else {
+                        if ($p > 0) {
+                            $p = $p - 1;
+                        }
+                    }
+                }
+            }
+        }
+        $result = array(
+            'data' => $data,
+            'message' => 'Anjay',
+        );
+        return $this->respond($result);
+    } 
 
     public function getLaporanPengunjungPolriDetail2(Request $request)
     {

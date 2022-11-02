@@ -772,7 +772,7 @@ define(['initialize'], function (initialize) {
                 return obj;
             }
 
-            $scope.TambahAlat = function (item, data) {
+            $scope.TambaData = function (item, data) {
                 if (data === undefined)
                     data = $scope.item;
 

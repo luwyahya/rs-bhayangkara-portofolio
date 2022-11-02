@@ -2864,57 +2864,67 @@ class MasterController extends ApiController{
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 
-    public function saveBed(Request $request){
+    public function saveBed(Request $request)
+    {
 
-        $input=$request->all();
+        $input = $request->all();
         $transStatus = true;
-        $transMsg =null;
+        $transMsg = null;
         DB::beginTransaction();
-
-        $TT = TempatTidur::where('id',$input['idtempattidur'])->first();
+        if (isset($request['idtempattidur']) && $request['idtempattidur'] != "" && $request['idtempattidur'] != "undefined") {
+            $TT = TempatTidur::where('id', $input['idtempattidur'])->first();
+        } else {
+            $idTT = TempatTidur::max('id');
+            $idTT = $idTT + 1;
+            $TT = new TempatTidur();
+            $TT->norec = $TT->generateNewId();
+            $TT->id = $idTT;
+            $TT->objectstatusbedfktriger = 5;
+            $TT->namaexternal = $input['namakamar'];
+            $TT->kodeexternal = $input['namakamar'];
+            $TT->statusenabled = true;
+        }
         $TT->objectkamarfk = $input['idkamar'];
         $TT->objectstatusbedfk = $input['idstatusbed'];
         $TT->nomorbed = $input['nomorbed'];
         $TT->reportdisplay = $input['namabed'];
-        try{
+        try {
             $TT->save();
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $transStatus = false;
             $transMsg = "Update Tempat Tidur Gagal";
             //break;
         }
         $kosong = 0;
         $isi = 0;
-        $TTqtyStatus = $TT = TempatTidur::where('objectkamarfk',$input['idkamar'])->get();
-        foreach ($TTqtyStatus as $item){
-            if ($item->objectstatusbedfk == 1){
+        $TTqtyStatus = $TT = TempatTidur::where('objectkamarfk', $input['idkamar'])->get();
+        foreach ($TTqtyStatus as $item) {
+            if ($item->objectstatusbedfk == 1) {
                 $isi = $isi + 1;
             }
-            if ($item->objectstatusbedfk == 2){
+            if ($item->objectstatusbedfk == 2) {
                 $kosong = $kosong + 1;
             }
         }
 
-        $KMR = Kamar::where('id',$input['idkamar'])->first();
-        $KMR->objectruanganfk = $input['idruangan'];
+        $KMR = Kamar::where('id', $input['idkamar'])->first();
+        // $KMR->objectruanganfk = $input['idruangan'];
         $KMR->jumlakamarisi = $isi;
         $KMR->jumlakamarkosong = $kosong;
-        try{
+        try {
             $KMR->save();
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             $transStatus = false;
             $transMsg = "Update Kamar Gagal";
             //break;
         }
 
-        if($transStatus){
+        if ($transStatus) {
             $this->setStatusCode(201);
             $transMsg = "Transaksi Berhasil";
             //DB::rollBack();
             DB::commit();
-        }else{
+        } else {
             $this->setStatusCode(400);
             DB::rollBack();
         }
@@ -3842,6 +3852,75 @@ class MasterController extends ApiController{
                 "message"  => $transMessage,
                 "data" => $data,
                 "as" => 'ea@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getDataTempattidur(Request $request)
+    {
+        $data = DB::table('tempattidur_m as tt')
+        ->join('kamar_m as kr', 'kr.id', '=', 'tt.objectkamarfk')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'kr.objectruanganfk')
+        ->join('kelas_m as km', 'km.id', '=', 'kr.objectkelasfk')
+        ->join('statusbed_m as sm', 'sm.id', '=', 'tt.objectstatusbedfk')
+        ->select(DB::raw('tt.*,sm.id as idbed,ru.namaruangan,kr.namakamar,km.namakelas,sm.reportdisplay as statusbed'));
+
+        if (isset($request['ruangan']) && $request['ruangan'] != "" && $request['ruangan'] != "undefined") {
+            $data = $data->where('ru.id', '=', $request['ruangan']);
+        }
+        if (isset($request['kdkelas']) && $request['kdkelas'] != "" && $request['kdkelas'] != "undefined") {
+            $data = $data->where('km.id', '=', $request['kdkelas']);
+        }
+        if (isset($request['kamarId']) && $request['kamarId'] != "" && $request['kamarId'] != "undefined") {
+            $data = $data->where('kr.id', '=', $request['kamarId']);
+        }
+        if (isset($request['namabed']) && $request['namabed'] != "" && $request['namabed'] != "undefined") {
+            $data = $data->where('tt.reportdisplay', 'like', $request['namabed']);
+        }
+
+        if (isset($request['status']) && $request['status'] != "" && $request['status'] != "undefined") {
+            $data = $data->where('tt.statusenabled', $request['status']);
+        }
+
+
+        $data = $data->take(100);
+        $data = $data->orderBy('ru.namaruangan');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
+    }
+    public function deletebed(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $idMap = $request['id'];
+            $status = $request['status'];
+
+            $delete = DB::delete("update tempattidur_m set statusenabled=$status where id='$idMap' ");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);

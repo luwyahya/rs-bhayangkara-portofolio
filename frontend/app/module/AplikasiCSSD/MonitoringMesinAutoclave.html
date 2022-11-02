@@ -1,7 +1,7 @@
 <div ng-controller="MonitoringMesinAutoclaveCtrl">
 
 	<div ng-show="dataVOloaded">
-		<c-panel item="item" header="'Monitoring Mesin Autoclave Dengan Bowidick'">
+		<div item="item" header="'Monitoring Mesin Autoclave Dengan Bowidick'">
 			<div class="grid_6">
 				<div class="grid_4">
 					<label c-label item="item" style="margin-top: 10px">Tanggal</label>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 
-			<c-panel item="item" header="'Monitoring Mesin Autoclave dengan Bowidick'">
+			<div item="item" header="'Monitoring Mesin Autoclave dengan Bowidick'">
 				<div class="grid_12" style="margin-top: 10px">
 					<div class="grid_10">
 						<div class="grid_1" style="margin-top: 10px">
@@ -105,8 +105,8 @@
           <div id="grid" kendo-grid k-data-source="dataSource" k-options="mainGridOptions" k-selectable="'row'" k-columns="columnMonitoringMesin" k-sortable="'true'" k-pageable="true" k-ng-model="dataSelected" ng-dblclick="klick(dataSelected)">
           </div>
         </div>
-			</c-panel>
-		</c-panel>
+			</div>
+		</div>
 	</div>
 
 </div>
