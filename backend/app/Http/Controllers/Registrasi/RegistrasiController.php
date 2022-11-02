@@ -2512,7 +2512,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         $tglTaskDua = Carbon::now()->subMinute(5)->format('Y-m-d H:i:s');
                         $timewaktuTask1=strtotime($tglTaskSatu) * 1000;
                         $timewaktuTask2=strtotime($tglTaskDua) * 1000;
-                        if(!empty($dataKiosk)){
+                        // if(!empty($dataKiosk)){
                             // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
                             //         ->update([
                             //             'statusschedule'=> $noRegistrasi
@@ -2689,7 +2689,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                             );
                             $updateWaktuTask = $this->updateWaktuTask($update3);
                             
-                        }
+                        // }
                         
                     }else if($dataStatusPasien!="BARU" && $r_NewPD['norec_pd']==''){
                         // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)

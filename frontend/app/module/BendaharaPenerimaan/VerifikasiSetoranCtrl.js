@@ -17,6 +17,7 @@ define(['initialize'], function (initialize) {
 			$scope.kas.periode = new Date()
 			var tempTr = '';
 			var kdKelompokTransaksi
+			var resultKelompok = []
 			loadCombo();
 			showButton();
 			loadCache();
@@ -404,12 +405,11 @@ define(['initialize'], function (initialize) {
 					medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
 					).then(function (data) {
 						debugger
-						var result = []
-						result = data.data
+						resultKelompok = data.data
 						$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
-							data: result.data,//data,
+							data: resultKelompok.data,//data,
 							//pageSize: 10,
-							total: result.data.length,
+							total: resultKelompok.data.length,
 							serverPaging: false,
 							schema: {
 								model: {
@@ -442,6 +442,45 @@ define(['initialize'], function (initialize) {
 					stt = 'false'
 				}
 				if (stt) {
+					var strukresep = {
+						nojurnal: '-',
+						tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
+						deskripsi: '-'
+					}
+					for (var i = resultKelompok.data.length - 1; i >= 0; i--) {
+						var data = {};
+						var data2 = [];
+						data = {
+							no: 1,
+							accountid: resultKelompok.data[i].objectcoadebitfk,
+							noaccount: resultKelompok.data[i].noaccountdebit,
+							namaaccount: resultKelompok.data[i].namaaccountdebit,
+							namaaccount2: resultKelompok.data[i].namaaccountdebit,
+							hargasatuand: resultKelompok.data[i].totalPenerimaan,
+							hargasatuank: '0',
+							keteranganlainnya: ''
+						}
+						data2.push(data)
+						data = {
+							no: 2,
+							accountid: resultKelompok.data[i].objectcoakreditfk,
+							noaccount: resultKelompok.data[i].noaccountkredit,
+							namaaccount: "--- " + resultKelompok.data[i].namaaccountkredit,
+							namaaccount2: resultKelompok.data[i].namaaccountkredit,
+							hargasatuand: '0',
+							hargasatuank: resultKelompok.data[i].totalPenerimaan,
+							keteranganlainnya: ''
+						}
+						data2.push(data)
+						var objSave =
+						{
+							head: strukresep,
+							detail: data2
+						}
+						medifirstService.post('akuntansi/save-entry-jurnal', objSave).then(function (e) {
+
+						})
+					}
 					var itemDelete = {
 						"norec_closing": dataItem.norec_closing,
 						"tglsetor": moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),
@@ -451,6 +490,7 @@ define(['initialize'], function (initialize) {
 					}
 					medifirstService.post('bendaharapenerimaan/verifikasi-Setoran', itemDelete).then(function (e) {
 						if (e.status === 201) {
+
 							loadData();
 						}
 					})

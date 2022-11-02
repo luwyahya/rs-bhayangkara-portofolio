@@ -935,6 +935,12 @@ class BendaharaPenerimaanController extends ApiController {
         $norec_closing=$request['norec_closing'];
         if($idSetting==1){
             $detailSetor= DB::select(DB::raw("SELECT
+                            mj.objectcoadebitfk,
+                            mj.objectcoakreditfk,
+                            cf.namaaccount as namaaccountdebit,
+                            cf2.namaaccount as namaaccountkredit,
+                            cf.noaccount as noaccountdebit,
+                            cf2.noaccount as noaccountkredit,
                             pd.objectkelompokpasienlastfk,
                             sbm.norec AS noRec,
                             sbm.noclosingfk,
@@ -964,6 +970,9 @@ class BendaharaPenerimaanController extends ApiController {
                             LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
                             left join rekanan_m as rk on rk.id=sppd.kdrekananpenjamin
                             left join rekanan_m as rk2 on rk2.id=pd.objectrekananfk
+                            LEFT JOIN mapjurnal_m as mj on mj.objectpenjaminfk=pd.objectrekananfk
+                            left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
+                            left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
                         WHERE
                             sbm.noclosingfk='$norec_closing'"));
 
@@ -987,7 +996,13 @@ class BendaharaPenerimaanController extends ApiController {
                         'kelompoktransaksi'=> $key->kelompoktransaksi,
                         'namarekanan'=> $namarekanan,
                         'namaruangan'=>$key->namaruangan,
-                        'noverifikasiveriffk'=>$key->noverifikasiveriffk
+                        'noverifikasiveriffk'=>$key->noverifikasiveriffk,
+                        'objectcoadebitfk'=>$key->objectcoadebitfk,
+                        'namaaccountdebit'=>$key->namaaccountdebit,
+                        'objectcoakreditfk'=>$key->objectcoakreditfk,
+                        'namaaccountkredit'=>$key->namaaccountkredit,
+                        'noaccountdebit'=>$key->noaccountdebit,
+                        'noaccountkredit'=>$key->noaccountkredit,
                     );
             }
         }else if($idSetting==2){
