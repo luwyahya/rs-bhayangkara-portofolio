@@ -1053,6 +1053,10 @@
             "urlDep": "module/AplikasiCSSD/MonitoringTestMesinEthylenOxideCtrl"
         },
         {
+            "nameDep": "DaftarPenerimaanSterilisasiAlatCtrl",
+            "urlDep": "module/AplikasiCSSD/DaftarPenerimaanSterilisasiAlatCtrl"
+        },
+        {
             "nameDep": "MonitoringTestMesinAutoclaveCtrl",
             "urlDep": "module/AplikasiCSSD/MonitoringTestMesinAutoclaveCtrl"
         },

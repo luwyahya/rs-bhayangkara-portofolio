@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="daftarPembayaranHonorKelompokPtt" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables">
 		<![CDATA[cGVuZGlkaWthbl9tIEFTICwzMjMsMTUsNjhkYjFhODYtZjRjOC00Y2IzLWFiZmYtYzhiNmNiMjA5
@@ -31,14 +31,14 @@ MWI3YTs=]]>
 		<![CDATA[select ROW_NUMBER() OVER (ORDER BY ru.namaruangan) as nomor,
 ru.namaruangan, 
 sum (case when salary is null then 0 else 1 end) as personil, 
-sum (case when salary is null then 0 else salary end) as salary2
+case when salary is null then '0' else salary end  as salary2
 from pegawai_m as pg left join 
 ruangan_m as ru on ru.id = pg.objectruangankerjafk where 
 pg.namalengkap not in ('-', '- (Dokter Belum Diinput)', '- (Petugas Pelaksana Belum Diinput)') 
-and pg.statusenabled = 1 
+and pg.statusenabled = true
 and pg.id not in (2, 890, 27676, 27733, 27746)
 and pg.objectruangankerjafk is not null
-group by ru.namaruangan]]>
+group by ru.namaruangan,salary]]>
 	</queryString>
 	<field name="nomor" class="java.lang.Integer">
 		<property name="property.name" value="value"/>
@@ -74,7 +74,7 @@ group by ru.namaruangan]]>
 					<text><![CDATA[JUMLAH]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="453" y="1" width="98" height="21" uuid="f40ea24d-3110-41a5-ab12-10610e85c5db">
+					<reportElement x="453" y="1" width="117" height="21" uuid="f40ea24d-3110-41a5-ab12-10610e85c5db">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle"/>
@@ -108,7 +108,7 @@ group by ru.namaruangan]]>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement x="551" y="-1" width="1" height="24" uuid="25454f1d-0afc-4500-849e-335577ef8f4f">
+					<reportElement x="570" y="-1" width="1" height="26" uuid="25454f1d-0afc-4500-849e-335577ef8f4f">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
@@ -117,7 +117,7 @@ group by ru.namaruangan]]>
 					</graphicElement>
 				</line>
 				<line>
-					<reportElement x="26" y="22" width="526" height="1" uuid="29cb145a-eb5b-4d44-b08a-42d4233d3687">
+					<reportElement x="26" y="23" width="545" height="1" uuid="29cb145a-eb5b-4d44-b08a-42d4233d3687">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
@@ -144,7 +144,7 @@ group by ru.namaruangan]]>
 		<band height="134">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="-1" width="280" height="20" uuid="91d6f58e-d21c-4cef-98ca-7b336c50443a"/>
+				<reportElement x="0" y="-1" width="280" height="20" forecolor="#FFFFFF" uuid="91d6f58e-d21c-4cef-98ca-7b336c50443a"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="false"/>
 				</textElement>
@@ -155,14 +155,14 @@ group by ru.namaruangan]]>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="140" y="90" width="280" height="20" uuid="e7cc7a00-3f4b-4429-8033-46164c6aebb6"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="false" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[RUMKIT BHAYANGKARA TK. I R. SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="230" y="110" width="43" height="20" uuid="7f70912b-af31-492a-8aff-7a471f4455da"/>
@@ -176,7 +176,7 @@ group by ru.namaruangan]]>
 				<textFieldExpression><![CDATA[$P{tanggal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="39" width="280" height="20" uuid="615f1716-7992-446d-903d-0692c38dbc0c"/>
+				<reportElement x="0" y="39" width="280" height="20" forecolor="#FFFFFF" uuid="615f1716-7992-446d-903d-0692c38dbc0c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma" isBold="false" isUnderline="true"/>
 				</textElement>
@@ -252,7 +252,7 @@ group by ru.namaruangan]]>
 				<text><![CDATA[JUMLAH (Rp)]]></text>
 			</staticText>
 			<line>
-				<reportElement x="551" y="3" width="1" height="30" uuid="771771a7-0123-44fc-8e12-4c5be84bbcd9">
+				<reportElement x="570" y="3" width="1" height="30" uuid="771771a7-0123-44fc-8e12-4c5be84bbcd9">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -270,12 +270,12 @@ group by ru.namaruangan]]>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="26" y="33" width="526" height="1" uuid="954ed117-b106-44c2-8f44-c5bc38f0a9a2">
+				<reportElement x="26" y="33" width="544" height="1" uuid="954ed117-b106-44c2-8f44-c5bc38f0a9a2">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 			</line>
 			<line>
-				<reportElement x="26" y="2" width="526" height="1" uuid="f67f90bd-5148-48db-8b09-130d7d7d08a3">
+				<reportElement x="26" y="3" width="544" height="1" uuid="f67f90bd-5148-48db-8b09-130d7d7d08a3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -325,7 +325,7 @@ group by ru.namaruangan]]>
 				</graphicElement>
 			</line>
 			<line>
-				<reportElement x="551" y="-2" width="1" height="22" uuid="f52f207c-5b47-4e9f-8724-e8bf159cb6e0">
+				<reportElement x="570" y="-2" width="1" height="22" uuid="f52f207c-5b47-4e9f-8724-e8bf159cb6e0">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -355,14 +355,14 @@ group by ru.namaruangan]]>
 				<textFieldExpression><![CDATA[$F{personil}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="453" y="0" width="98" height="20" uuid="6dab0a41-1b3e-46c0-a6d3-6f657008ec3e">
+				<reportElement x="453" y="0" width="87" height="20" uuid="6dab0a41-1b3e-46c0-a6d3-6f657008ec3e">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[($F{salary2} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{salary2})]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="26" y="19" width="526" height="1" uuid="5c2aa272-d733-4a08-82ea-fa4006d2a07a">
+				<reportElement x="26" y="19" width="545" height="1" uuid="5c2aa272-d733-4a08-82ea-fa4006d2a07a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>

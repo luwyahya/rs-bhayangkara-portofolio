@@ -289,6 +289,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             $scope.item.bankRekeningAtasNama = dataCachePegawai.bankrekeningatasnama;
                             $scope.item.bankRekeningNama = dataCachePegawai.bankrekeningnama;
                             $scope.item.salary = dataCachePegawai.salary;
+                            $scope.item.bankRekeningNomor2 = dataCachePegawai.bankrekeningnomordua;
+                            $scope.item.bankRekeningAtasNama2 = dataCachePegawai.bankrekeningatasnamadua;
+                            $scope.item.bankRekeningNama2 = dataCachePegawai.bankrekeningnamadua;
+                            $scope.item.salary2 = dataCachePegawai.salarydua;
                             // End Data Rekening
 
                             // Data Alamat
@@ -3153,6 +3157,26 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     Salary = $scope.item.salary
                 }
 
+                var bankRekeningNomor2 = "-"
+                if ($scope.item.bankRekeningNomor2 != undefined) {
+                    bankRekeningNomor2 = $scope.item.bankRekeningNomor2
+                }
+
+                var NamaRekening2 = "-"
+                if ($scope.item.bankRekeningAtasNama2 != undefined) {
+                    NamaRekening2 = $scope.item.bankRekeningAtasNama2
+                }
+
+                var NamaBank2 = "-"
+                if ($scope.item.bankRekeningNama2 != undefined) {
+                    NamaBank2 = $scope.item.bankRekeningNama2
+                }
+                var Salary2 = null
+                if ($scope.item.salary2 != undefined) {
+                    Salary2 = $scope.item.salary2
+                }
+                debugger
+
                 var pensiun = null;
                 if ($scope.item.pensiun != undefined) {
                     var pensiun = $scope.item.pensiun
@@ -3268,6 +3292,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         namarekening: NamaRekening,
                         namabank: NamaBank,
                         salary: Salary,
+                        nomorrekening2: bankRekeningNomor2,
+                        namarekening2: NamaRekening2,
+                        namabank2: NamaBank2,
+                        salary2: Salary2,
                         // Data Rekening Bank
 
                         // Data Alamat
@@ -3300,6 +3328,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         kta: kta
                         // Data Status Pegawai
                     }
+                    debugger
 
                     // var data ={};
                     // $scope.itemTelp.push($scope.item.provider1);
@@ -3374,6 +3403,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         // simpanstr:dataStr,
                         simpantelp: dataNoTelp,
                     }
+                    debugger
 
                     // if (dataKeluarga.length == 0 || dataRiwayatPendidikan.length == 0 || dataRiwayatJabatan.length == 0 || dataSip.length == 0 || dataStr.length == 0 || dataRiwayatPelatihan.length == 0 || dataNoTelp.length==0) {
                     if (dataKeluarga.length == 0 || dataRiwayatPendidikan.length == 0 || dataRiwayatJabatan.length == 0 || dataRiwayatPelatihan.length == 0 || dataNoTelp.length == 0) {

@@ -5111,6 +5111,25 @@
                 "define": "SarprasService"
             }
         ]
+    },
+    {
+        "name": "DaftarPenerimaanSterilisasiAlat",
+        "url": "/DaftarPenerimaanSterilisasiAlat",
+        "templateurl": "module/AplikasiCSSD/DaftarPenerimaanSterilisasiAlat.html",
+        "controller": "DaftarPenerimaanSterilisasiAlatCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "SarprasService",
+                "define": "SarprasService"
+            }
+        ]
     }
 
 
