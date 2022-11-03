@@ -15191,6 +15191,9 @@ class TagihanController  extends ApiController
             if (isset($request['pelayanan']) && $request['pelayanan'] != "" && $request['pelayanan'] != "undefined") {
                 $pelayanan = $pelayanan->where('pr.namaproduk', 'like', $request['pelayanan']);
             };
+            if (isset($request['ruangan']) && $request['ruangan'] != "" && $request['ruangan'] != "undefined") {
+                $pelayanan = $pelayanan->where('ru.id', '=', $request['ruangan']);
+            };
             $pelayanan = $pelayanan->get();
         } else {
             $pelayanan = \DB::table('pasiendaftar_t as pd')
@@ -15233,7 +15236,10 @@ class TagihanController  extends ApiController
                 ->where('pd.noregistrasi', $noRegister)
                 ->orderBy('pp.tglpelayanan', 'pp.rke');
             if (isset($request['pelayanan']) && $request['pelayanan'] != "" && $request['pelayanan'] != "undefined") {
-                $pelayanan = $pelayanan->where('pr.namaproduk', 'like', $request['pelayanan']);
+                $pelayanan = $pelayanan->where('pr.namaproduk', 'ilike', $request['pelayanan']);
+            };
+            if (isset($request['ruangan']) && $request['ruangan'] != "" && $request['ruangan'] != "undefined") {
+                $pelayanan = $pelayanan->where('ru.id', '=', $request['ruangan']);
             };
             $pelayanan = $pelayanan->get();
         }
@@ -15396,5 +15402,33 @@ class TagihanController  extends ApiController
         }
 
         return $this->setStatusCode($result['status'])->respond($result, $transMsg);
+    }
+    public function getfrommamppinganpenjamin($noRegister, Request $request)
+    {
+        $pd = \DB::table('pasiendaftar_t as pd')
+        ->where('pd.noregistrasi', $noRegister)
+            ->get();
+        foreach ($pd as $kanjut) {
+            // dd($kanjut->objectkelompokpasienlastfk); 
+            $idkelasfk = $kanjut->objectkelasfk;
+        }
+        $mappingan = \DB::table('pasiendaftar_t as pd')
+        ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+        ->leftjoin('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+        ->leftjoin('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+        ->leftjoin('kelas_m as kl', 'kl.id', '=', 'apd.objectkelasfk')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        ->join('mappenjamintoproduk_s as mpp', 'mpp.idprodukfk', '=', 'pr.id')
+        ->select(
+            'mpp.idprodukfk',
+            'mpp.potongan'
+        )
+            ->where('idrekananfk', '=', $request['idrekanan'])
+            ->where('idkelasfk', '=', $idkelasfk)
+            ->where('pd.noregistrasi', $noRegister)
+            ->distinct()
+            ->get();
+
+        return ($mappingan);
     }
 }

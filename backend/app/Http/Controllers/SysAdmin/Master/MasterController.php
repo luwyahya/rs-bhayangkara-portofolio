@@ -617,7 +617,34 @@ class MasterController extends ApiController{
             ->whereIn('objectdepartemenfk',[18])
             ->orderBy('namaruangan')
             ->get();
+        $dataMappingrekanan = \DB::table('mapkelompokpasientopenjamin_m as mp')
+        ->JOIN('rekanan_m as rk', 'mp.kdpenjaminpasien', '=', 'rk.id')
+            ->select('rk.id', 'rk.reportdisplay', 'mp.objectkelompokpasienfk')
+            ->where('rk.statusenabled', true)
+            ->orderBy('rk.reportdisplay')
+            ->get();
+        $dataKelompokpasien = \DB::table('kelompokpasien_m as kp')
+        ->select('kp.id', 'kp.kelompokpasien')
+        ->where('kp.statusenabled', true)
+        ->orderBy('kp.kelompokpasien')
+        ->get();
+        foreach ($dataKelompokpasien as $item) {
+            $detail = [];
+            foreach ($dataMappingrekanan  as $item2) {
+                if ($item->id == $item2->objectkelompokpasienfk) {
+                    $detail[] = array(
+                        'id' =>   $item2->id,
+                        'rekanan' =>   $item2->reportdisplay,
+                    );
+                }
+            }
 
+            $dataKelompokpasienfix[] = array(
+                'id' =>   $item->id,
+                'kelompokpasien' =>   $item->kelompokpasien,
+                'rekanan' => $detail,
+            );
+        }
         $data = array(
             "datalogin" => $dataLogin,
             "detailuser" => $dataPegawaiUser,
@@ -666,6 +693,8 @@ class MasterController extends ApiController{
                 "golongandarah" => $golongandarah,
                 "rhesus" => $rhesus
             ),
+
+            "kelompokpasien" => $dataKelompokpasienfix,
             "kelas" => $dataKelas,
             "ruanganrajal" => $ruanganRajal,
             "ruangan" => $dataRuangan,
@@ -3921,6 +3950,270 @@ class MasterController extends ApiController{
             $result = array(
                 "status" => 400,
                 "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getListProdukMapPenjamin(Request $request, $limit = null)
+    {
+        //get request
+        $filter = $request->all();
+
+        //get data
+        $data = \DB::table('produk_m as p')
+        ->select('p.id', 'p.kdproduk', 'p.kdbarcode', 'hn.harganetto1', 'p.deskripsiproduk', 'p.namaproduk', 'dj.detailjenisproduk', 'dp.namadepartemen', 'p.statusenabled')
+        ->leftJoin('rm_sediaan_m as rm', 'rm.id', '=', 'p.objectsediaanfk')
+        ->leftJoin('merkproduk_m as mp', 'mp.id', '=', 'objectmerkprodukfk')
+        ->leftJoin('rekanan_m as rk', 'rk.id', '=', 'p.objectrekananfk')
+        ->leftJoin('golongandarah_m as gd', 'gd.id', '=', 'p.golongandarahfk')
+        ->leftJoin('status_barang_m as sb', 'sb.id', '=', 'p.objectstatusbarangfk')
+        ->leftJoin('rhesus_m as rh', 'rh.id', '=', 'p.rhesusfk')
+        ->leftJoin('rm_generik_m as rg', 'rg.id', '=', 'p.objectgenerikfk')
+        ->leftJoin('rm_detail_obat_m as rd', 'rd.id', '=', 'p.objectdetailobatfk')
+        ->leftJoin('bahansample_m as bs', 'bs.id', '=', 'p.bahansamplefk')
+        ->leftJoin('chartofaccount_m as ch', 'ch.id', '=', 'p.objectaccountfk')
+        ->leftJoin('bahanproduk_m as bh', 'bh.id', '=', 'p.objectbahanprodukfk')
+        ->leftJoin('bentukproduk_m as bp', 'bp.id', '=', 'p.objectbentukprodukfk')
+        ->leftJoin('departemen_m as dp', 'dp.id', '=', 'p.objectdepartemenfk')
+        ->leftJoin('detailgolonganproduk_m as dg', 'dg.id', '=', 'p.objectdetailgolonganprodukfk')
+        ->leftJoin('detailjenisproduk_m as dj', 'dj.id', '=', 'p.objectdetailjenisprodukfk')
+        ->leftJoin('harganettoprodukbykelas_m as hn', 'hn.objectprodukfk', '=', 'p.id')
+        ->where('p.statusenabled', true);
+
+
+        if (isset($filter['kdProduk']) && !empty($filter['kdProduk'])) {
+            $data = $data->where('p.id', '=', $filter['kdProduk']);
+        } elseif (isset($filter['kdInternal']) && !empty($filter['kdInternal'])) {
+            $data = $data->where('p.kdproduk', '=', $filter['kdInternal']);
+        } elseif (isset($filter['kdBarcode']) && !empty($filter['kdBarcode'])) {
+            $data = $data->where('p.kdbarcode', '=', $filter['kdBarcode']);
+        } elseif (isset($filter['kdBmn']) && !empty($filter['kdBmn'])) {
+            $data = $data->where('p.kodebmn', '=', $filter['kdBmn']);
+        } elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
+            $data = $data->where('p.namaproduk', 'ilike', '%' . $filter['nmProduk'] . '%');
+        }
+        if (isset($filter['dpt']) && !empty($filter['dpt'])) {
+            $data = $data->where('p.objectdepartemenfk', '=', $filter['dpt']);
+        }
+        if (isset($filter['stts']) && !empty($filter['stts'])) {
+            $data = $data->where('p.statusenabled', '=', $filter['stts']);
+        }
+        if (isset($filter['kelas']) && !empty($filter['kelas'])) {
+            $data = $data->where('hn.objectkelasfk', '=', $filter['kelas']);
+        }
+
+
+        $data = $data->orderBy('p.namaproduk');
+        $data = $data->take(10000);
+        if ($limit !== null) {
+            $data = $data->limit($limit)->get();
+        } else {
+            $data = $data->get();
+        }
+        return $this->respond($data);
+    }
+    public function getListProdukMapPenjaminisi(Request $request, $limit = null)
+    {
+        //get request
+        $filter = $request->all();
+
+        //get data
+        $data = \DB::table('produk_m as p')
+        ->select('p.id', 'mps.potongan', 'p.kdproduk', 'p.kdbarcode', 'hn.harganetto1', 'p.deskripsiproduk', 'p.namaproduk', 'dj.detailjenisproduk', 'dp.namadepartemen', 'p.statusenabled')
+        ->leftJoin('rm_sediaan_m as rm', 'rm.id', '=', 'p.objectsediaanfk')
+        ->leftJoin('merkproduk_m as mp', 'mp.id', '=', 'objectmerkprodukfk')
+        ->leftJoin('rekanan_m as rk', 'rk.id', '=', 'p.objectrekananfk')
+        ->leftJoin('golongandarah_m as gd', 'gd.id', '=', 'p.golongandarahfk')
+        ->leftJoin('status_barang_m as sb', 'sb.id', '=', 'p.objectstatusbarangfk')
+        ->leftJoin('rhesus_m as rh', 'rh.id', '=', 'p.rhesusfk')
+        ->leftJoin('rm_generik_m as rg', 'rg.id', '=', 'p.objectgenerikfk')
+        ->leftJoin('rm_detail_obat_m as rd', 'rd.id', '=', 'p.objectdetailobatfk')
+        ->leftJoin('bahansample_m as bs', 'bs.id', '=', 'p.bahansamplefk')
+        ->leftJoin('chartofaccount_m as ch', 'ch.id', '=', 'p.objectaccountfk')
+        ->leftJoin('bahanproduk_m as bh', 'bh.id', '=', 'p.objectbahanprodukfk')
+        ->leftJoin('bentukproduk_m as bp', 'bp.id', '=', 'p.objectbentukprodukfk')
+        ->leftJoin('departemen_m as dp', 'dp.id', '=', 'p.objectdepartemenfk')
+        ->leftJoin('detailgolonganproduk_m as dg', 'dg.id', '=', 'p.objectdetailgolonganprodukfk')
+        ->leftJoin('detailjenisproduk_m as dj', 'dj.id', '=', 'p.objectdetailjenisprodukfk')
+        ->leftJoin('harganettoprodukbykelas_m as hn', 'hn.objectprodukfk', '=', 'p.id')
+        ->leftJoin('mappenjamintoproduk_s as mps', 'mps.idprodukfk', '=', 'p.id')
+        ->where('p.statusenabled', true);
+
+
+        if (isset($filter['kdProduk']) && !empty($filter['kdProduk'])) {
+            $data = $data->where('p.id', '=', $filter['kdProduk']);
+        } elseif (isset($filter['kdInternal']) && !empty($filter['kdInternal'])) {
+            $data = $data->where('p.kdproduk', '=', $filter['kdInternal']);
+        } elseif (isset($filter['kdBarcode']) && !empty($filter['kdBarcode'])) {
+            $data = $data->where('p.kdbarcode', '=', $filter['kdBarcode']);
+        } elseif (isset($filter['kdBmn']) && !empty($filter['kdBmn'])) {
+            $data = $data->where('p.kodebmn', '=', $filter['kdBmn']);
+        } elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
+            $data = $data->where('p.namaproduk', 'ilike', '%' . $filter['nmProduk'] . '%');
+        }
+        if (isset($filter['dpt']) && !empty($filter['dpt'])) {
+            $data = $data->where('p.objectdepartemenfk', '=', $filter['dpt']);
+        }
+        if (isset($filter['stts']) && !empty($filter['stts'])) {
+            $data = $data->where('p.statusenabled', '=', $filter['stts']);
+        }
+        if (isset($filter['kelas']) && !empty($filter['kelas'])) {
+            $data = $data->where('hn.objectkelasfk', '=', $filter['kelas']);
+        }
+        if (isset($filter['kelas']) && !empty($filter['kelas'])) {
+            $data = $data->where('mps.idkelasfk', '=', $filter['kelas']);
+        }
+        if (isset($filter['kelompokpasien']) && !empty($filter['kelompokpasien'])) {
+            $data = $data->where('mps.idkelompokpasienfk', '=', $filter['kelompokpasien']);
+        }
+        if (isset($filter['rekanan']) && !empty($filter['rekanan'])) {
+            $data = $data->where('mps.idrekananfk', '=', $filter['rekanan']);
+        }
+
+        $data = $data->orderBy('p.namaproduk');
+        $data = $data->take(10000);
+        if ($limit !== null) {
+            $data = $data->limit($limit)->get();
+        } else {
+            $data = $data->get();
+        }
+        return $this->respond($data);
+    }
+    public function deletemappenjamintoproduk(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $is_update = DB::table('mappenjamintoproduk_s as mps')
+            ->where('mps.idkelasfk', '=', $request['idkelasfk'])
+            ->where('mps.idkelompokpasienfk', '=', $request['idkelompokpasienfk'])
+            ->where('mps.idrekananfk', '=', $request['idrekananfk'])
+            ->where('mps.idprodukfk', '=', $request['idprodukfk'])
+            ->delete();
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Hapus gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function addProdukToPenjamin(Request $request)
+    {
+        $is_search = $request['is_search'];
+        $data = $request['data'];
+        $cData = count($data);
+        DB::beginTransaction();
+        // try {
+        for ($i = 0; $i < $cData; $i++) {
+
+
+
+            $filterD = DB::table('mappenjamintoproduk_s')
+            // ->select('idprodukfk as idproduk', 'objectruanganfk as idruangan')
+            ->where('idkelompokpasienfk', '=', (int)$data[$i]['idkelompokpasienfk'])
+            ->where('idrekananfk', '=', (int)$data[$i]['idrekananfk'])
+            ->where('idkelasfk', '=', (int)$data[$i]['idkelasfk'])
+            ->where('idprodukfk', '=', (int)$data[$i]['idprodukfk'])
+            ->get();
+
+            $newfilter = array_filter($filterD);
+
+            if (!empty($data) && !empty($filterD)) {
+                //convert obj to array
+                $newfilterD = json_decode(json_encode($filterD), true);
+
+                // Compare all values by a json_encode
+                $diff = array_diff(array_map('json_encode', $newfilterD), array_map('json_encode', $data));
+
+                // Json decode the result
+                $rowDataforDelete = array_map('json_decode', $diff);
+
+                //reset index of array
+                $rowDataforDelete_ = array_values($rowDataforDelete);
+            }
+            if (empty($filterD)) {
+                $rowDataforInsert[] = array(
+                    "norec" => substr(Uuid::generate(), 0, 32),
+                    "idprodukfk" => (int)$data[$i]['idprodukfk'],
+                    "potongan" => (int)$data[$i]['potongan'],
+                    "idkelompokpasienfk" => (int)$data[$i]['idkelompokpasienfk'],
+                    "idrekananfk" => (int)$data[$i]['idrekananfk'],
+                    "idkelasfk" => (int)$data[$i]['idkelasfk'],
+                    "potongan" => (float)$data[$i]['potongan'],
+                );
+            } else {
+                // dd($newfilter);
+                $rowDataforUpdate[] = array(
+                    "norec" =>  $newfilter[0]->norec,
+                    "idprodukfk" => (int)$data[$i]['idprodukfk'],
+                    "potongan" => (int)$data[$i]['potongan'],
+                    "idkelompokpasienfk" => (int)$data[$i]['idkelompokpasienfk'],
+                    "idrekananfk" => (int)$data[$i]['idrekananfk'],
+                    "idkelasfk" => (int)$data[$i]['idkelasfk'],
+                    "potongan" => (float)$data[$i]['potongan'],
+                );
+            }
+        }
+
+
+
+        if (!empty($rowDataforInsert)) {
+            //insert all data in array
+            $is_saved = DB::table('mappenjamintoproduk_s')
+            ->insert($rowDataforInsert);
+        }
+
+        if (!empty($rowDataforUpdate)) {
+
+            for ($i = 0; $i < count($rowDataforUpdate); $i++) {
+
+                $is_update = DB::table('mappenjamintoproduk_s')
+                ->where('norec', $rowDataforUpdate[$i]['norec']);
+
+                // unset($rowDataforUpdate[$i]['norec']); //remove id, for not update id
+                // return($rowDataforUpdate[$i]);
+                $is_update  = $is_update->update($rowDataforUpdate[$i]);
+            }
+        }
+
+        $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = "Simpan Gagal Berhasil";
+        // }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Berhasil";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                //                "data" => $rowDataforUpdate,
+                "as" => 'epic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                //                "data" => $rowDataforUpdate,
+                "as" => 'epic',
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
