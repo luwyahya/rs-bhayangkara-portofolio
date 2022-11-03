@@ -49,6 +49,8 @@ define(['initialize'], function (initialize) {
                     .then(function (dat) {
                         $scope.listJenisTransaksi = dat.data.kelompoktransaksi;
                         $scope.listMataAnggaran = dat.data.mastreMataAnggaran;
+                        $scope.listCaraBayar = dat.data.carabayar;
+                        $scope.listNamaBank = dat.data.listbank;
                     });
             }
             $scope.getIsiComboRuangan = function () {
@@ -703,13 +705,13 @@ define(['initialize'], function (initialize) {
                         "width": "20px"
                     },
                     {
-                        "field": "namaproduk",
-                        "title": "Produk",
+                        "field": "namabank",
+                        "title": "Bank",
                         "width": "60px"
                     },
                     {
-                        "field": "namarekanan",
-                        "title": "Penjamin",
+                        "field": "carabayar",
+                        "title": "Cara Bayar",
                         "width": "60px"
                     },
                     {
@@ -1109,10 +1111,11 @@ define(['initialize'], function (initialize) {
                 })
             }
             $scope.klikPopUpMapJurnal = function (x) {
+                debugger
                 $scope.item.namaProduk = ""
                 $scope.item.rekanan = { id: x.objectpenjaminfk, namarekanan: x.namarekanan }
                 $scope.item.instalasi = { id: x.objectdepartemenfk, departemen: x.namadepartemen }
-                $scope.item.jenisTransaksi = { id: x.kelompoktransaksi, kelompoktransaksi: x.objectkelompoktransaksifk }
+                $scope.item.jenisTransaksi = { id: x.mktid, kelompoktransaksi: x.kelompoktransaksi, kelompoktransaksifk: x.objectkelompoktransaksifk }
                 $scope.item.mataAnggaran = { id: x.objectmataanggaranfk, namamataanggaran: x.namamataanggaran }
                 $scope.item.kdAkunDebit = { id: x.objectcoadebitfk, noaccount: x.namaaccountdebit }
                 $scope.item.kdAkunKredit = { id: x.objectcoakreditfk, noaccount: x.namaaccountkredit }
@@ -1260,6 +1263,8 @@ define(['initialize'], function (initialize) {
                 var kdRuangan = null
                 var kdKelompokTransaksi = null
                 var kdMataAnggaran = null
+                var kdCaraBayar = null
+                var kdBank = null
                 if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit === '') {
                     toastr.error('Account Debit Belum Di Pilih', 'Peringatan');
                     return;
@@ -1296,6 +1301,14 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.mataAnggaran != undefined && $scope.item.mataAnggaran != '') {
                     kdMataAnggaran = $scope.item.mataAnggaran.id
                 }
+
+                if ($scope.item.caraBayar != undefined && $scope.item.caraBayar != '') {
+                    kdCaraBayar = $scope.item.caraBayar.id
+                }
+
+                if ($scope.item.namaBank != undefined && $scope.item.namaBank != '') {
+                    kdBank = $scope.item.namaBank.id
+                }
                 debugger
                 var tempData = [];
                 if ($scope.selectedData2.length > 0) {
@@ -1311,6 +1324,8 @@ define(['initialize'], function (initialize) {
                             objectruanganfk: items.id,
                             objectkelompoktransaksifk: kdKelompokTransaksi,
                             objectmataanggaranfk: kdMataAnggaran,
+                            objectcarabayarfk: kdCaraBayar,
+                            objectbankfk: kdBank,
                         }
                         tempData.push(objSave);
                     });
@@ -1336,7 +1351,7 @@ define(['initialize'], function (initialize) {
                 } else {
                     var objSave =
                     {
-                        id: "",
+                        id: $scope.dataSelectedPopUpMapJurnal.id,
                         objectcoadebitfk: accDebit,
                         objectcoakreditfk: accKredit,
                         objectprodukfk: kdProduk,
@@ -1345,6 +1360,8 @@ define(['initialize'], function (initialize) {
                         objectruanganfk: kdRuangan,
                         objectkelompoktransaksifk: kdKelompokTransaksi,
                         objectmataanggaranfk: kdMataAnggaran,
+                        objectcarabayarfk: kdCaraBayar,
+                        objectbankfk: kdBank,
                     }
 
                     medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {

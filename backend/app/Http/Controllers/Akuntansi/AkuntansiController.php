@@ -1318,6 +1318,8 @@ class AkuntansiController extends ApiController{
             $newCOA->objectruanganfk = $request['objectruanganfk'];
             $newCOA->objectkelompoktransaksifk = $request['objectkelompoktransaksifk'];
             $newCOA->objectmataanggaranfk = $request['objectmataanggaranfk'];
+            $newCOA->objectcarabayarfk = $request['objectcarabayarfk'];
+            $newCOA->objectbankfk = $request['objectbankfk'];
             $newCOA->save();
 
 
@@ -1375,6 +1377,8 @@ class AkuntansiController extends ApiController{
                 $newCOA->objectruanganfk = $item['objectruanganfk'];
                 $newCOA->objectkelompoktransaksifk = $item['objectkelompoktransaksifk'];
                 $newCOA->objectmataanggaranfk = $item['objectmataanggaranfk'];
+                $newCOA->objectcarabayarfk = $item['objectcarabayarfk'];
+                $newCOA->objectbankfk = $item['objectbankfk'];
                 $newCOA->save();
             }
             
@@ -2767,7 +2771,8 @@ class AkuntansiController extends ApiController{
                 coakredit.namaaccount as namaaccountkredit,rk.namarekanan,
                 dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,mj.objectpenjaminfk,
                 mj.objectdepartemenfk,mj.objectkelompoktransaksifk,
-                mj.objectmataanggaranfk,mt.namamataanggaran,mj.objectcoadebitfk,mj.objectcoakreditfk from mapjurnal_m as mj
+                mj.objectmataanggaranfk,mt.namamataanggaran,mj.objectcoadebitfk,mj.objectcoakreditfk,
+                mj.objectcarabayarfk,ca.carabayar,mj.objectbankfk,bn.nama as namabank,mkt.id as mktid from mapjurnal_m as mj
                 left join produk_m as pd on pd.id=mj.objectprodukfk
                 left join chartofaccount_m as coadebit on coadebit.id=mj.objectcoadebitfk
                 left join chartofaccount_m as coakredit on coakredit.id=mj.objectcoakreditfk
@@ -2776,6 +2781,9 @@ class AkuntansiController extends ApiController{
                 left join ruangan_m as ru on ru.id=mj.objectruanganfk
                 left join kelompoktransaksi_m as kt on kt.id=mj.objectkelompoktransaksifk
                 left join mataanggaran_m as mt on mt.id=mj.objectmataanggaranfk
+                left join bank_m as bn on bn.id=mj.objectbankfk
+                left join carabayar_m as ca on ca.id=mj.objectcarabayarfk
+                left join mapbkutokelompoktransaksi_m as mkt on mkt.kelompoktransaksifk=kt.id
                 $kel
                 ")
             // array(

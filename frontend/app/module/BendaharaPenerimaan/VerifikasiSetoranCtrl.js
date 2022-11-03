@@ -210,14 +210,14 @@ define(['initialize'], function (initialize) {
 				selectable: 'row',
 				columns: [
 					{
-						field: "nosbm", title: "No SBM", width: "150px"
+						field: "total", title: "Total", width: "150px"
 					},
 					{
-						field: "namarekanan", title: "Nama Rekanan", width: "150px"
+						field: "kelompoktransaksi", title: "Nama Transaksi", width: "150px"
 					},
-					{
-						field: "namaruangan", title: "Nama Ruangan", width: "150px"
-					},
+					// {
+					// 	field: "carabayar", title: "Cara Bayar", width: "150px"
+					// },
 					// {
 					// 	field: "kelompoktransaksi", title: "Nama kelompok transaksi", width: "150px"
 					// },
@@ -456,7 +456,7 @@ define(['initialize'], function (initialize) {
 							noaccount: resultKelompok.data[i].noaccountdebit,
 							namaaccount: resultKelompok.data[i].namaaccountdebit,
 							namaaccount2: resultKelompok.data[i].namaaccountdebit,
-							hargasatuand: resultKelompok.data[i].totalPenerimaan,
+							hargasatuand: resultKelompok.data[i].total,
 							hargasatuank: '0',
 							keteranganlainnya: ''
 						}
@@ -468,7 +468,7 @@ define(['initialize'], function (initialize) {
 							namaaccount: "--- " + resultKelompok.data[i].namaaccountkredit,
 							namaaccount2: resultKelompok.data[i].namaaccountkredit,
 							hargasatuand: '0',
-							hargasatuank: resultKelompok.data[i].totalPenerimaan,
+							hargasatuank: resultKelompok.data[i].total,
 							keteranganlainnya: ''
 						}
 						data2.push(data)

@@ -113,6 +113,12 @@ class BendaharaPenerimaanController extends ApiController {
             ->where('statusenabled',true)
             ->get();
 
+        $listBankKe = DB::table('mapaccountbank_m as kr')
+            ->join('bank_m as ba', 'ba.id', '=', 'kr.objectbankfk')
+            ->join('chartofaccount_m as coa','coa.id','=','kr.objectcoafk')
+            ->select('kr.id','ba.nama', 'coa.namaaccount','coa.noaccount')
+            ->get();
+
         $result = array(
             'carasetor' => $caraSetor,
             'datalogin' => $dataLogin,
@@ -125,6 +131,7 @@ class BendaharaPenerimaanController extends ApiController {
             'asalproduk'=>$asalProduk,
             'ruangan'=>$Ruangan,
             'mastreMataAnggaran'=>$mastreMataAnggaran,
+            'listBankKe'=>$listBankKe,
             'message' => 'inhuman',
         );
         return $this->respond($result);
@@ -934,77 +941,80 @@ class BendaharaPenerimaanController extends ApiController {
         $idSetting= (int)$this->settingDataFixed('seeting jurnal');
         $norec_closing=$request['norec_closing'];
         if($idSetting==1){
-            $detailSetor= DB::select(DB::raw("SELECT
-                            mj.objectcoadebitfk,
-                            mj.objectcoakreditfk,
-                            cf.namaaccount as namaaccountdebit,
-                            cf2.namaaccount as namaaccountkredit,
-                            cf.noaccount as noaccountdebit,
-                            cf2.noaccount as noaccountkredit,
-                            pd.objectkelompokpasienlastfk,
-                            sbm.norec AS noRec,
-                            sbm.noclosingfk,
-                            sbm.totaldibayar::numeric AS totalPenerimaan,
-                            sbm.nosbm,
-                            pd.objectrekananfk,
-                            kt.kelompoktransaksi,
-                            ru.namaruangan,
-                            rk.namarekanan,
-                            sbm.noverifikasiveriffk,
-                            rk2.namarekanan as namarekanan2,
-                            sppd.totalppenjamin
-                        FROM
-                            strukbuktipenerimaan_t AS sbm
-                            INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
-                            LEFT JOIN strukpelayananpenjamin_t as spp on spp.nostrukfk=sp.norec
-                            LEFT JOIN strukpelayananpenjamindetail_t as sppd on sppd.strukpelayananpenjaminfk=spp.norec
-                            LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
-                            LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
-                            LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
-                            LEFT JOIN pegawai_m AS p ON p.id = lu.objectpegawaifk
-                            LEFT JOIN pasien_m AS ps ON ps.id = sp.nocmfk
-                            LEFT JOIN strukbuktipenerimaancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
-                            LEFT JOIN carabayar_m AS cb ON cb.id = sbmcr.objectcarabayarfk
-                            LEFT JOIN kelompoktransaksi_m AS kt ON kt.id = sbm.objectkelompoktransaksifk
-                            LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
-                            LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
-                            left join rekanan_m as rk on rk.id=sppd.kdrekananpenjamin
-                            left join rekanan_m as rk2 on rk2.id=pd.objectrekananfk
-                            LEFT JOIN mapjurnal_m as mj on mj.objectpenjaminfk=pd.objectrekananfk
-                            left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
-                            left join chartofaccount_m as cf2 on cf2.id=mj.objectcoadebitfk
-                        WHERE
-                            sbm.noclosingfk='$norec_closing'"));
+            $data10= DB::select(DB::raw("select sum(x.totalpenerimaan) as total,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit from (SELECT
+                    sbm.objectkelompoktransaksifk,
+                    cb.carabayar,
+                    mj.objectcoadebitfk,
+                    mj.objectcoakreditfk,
+                    cf.namaaccount as namaaccountdebit,
+                    cf2.namaaccount as namaaccountkredit,
+                    cf.noaccount as noaccountdebit,
+                    cf2.noaccount as noaccountkredit,
+                    pd.objectkelompokpasienlastfk,
+                    sbm.norec AS noRec,
+                    sbm.noclosingfk,
+                    sbm.totaldibayar::numeric AS totalPenerimaan,
+                    sbm.nosbm,
+                    pd.objectrekananfk,
+                    kt.kelompoktransaksi,
+                    ru.namaruangan,
+                    rk.namarekanan,
+                    sbm.noverifikasiveriffk,
+                    rk2.namarekanan as namarekanan2,
+                    sppd.totalppenjamin
+                    FROM
+                    strukbuktipenerimaan_t AS sbm
+                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayananpenjamin_t as spp on spp.nostrukfk=sp.norec
+                    LEFT JOIN strukpelayananpenjamindetail_t as sppd on sppd.strukpelayananpenjaminfk=spp.norec
+                    LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
+                    LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
+                    LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
+                    LEFT JOIN pegawai_m AS p ON p.id = lu.objectpegawaifk
+                    LEFT JOIN pasien_m AS ps ON ps.id = sp.nocmfk
+                    LEFT JOIN strukbuktipenerimaancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
+                    LEFT JOIN carabayar_m AS cb ON cb.id = sbmcr.objectcarabayarfk
+                    LEFT JOIN kelompoktransaksi_m AS kt ON kt.id = sbm.objectkelompoktransaksifk
+                    LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
+                    LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
+                    left join rekanan_m as rk on rk.id=sppd.kdrekananpenjamin
+                    left join rekanan_m as rk2 on rk2.id=pd.objectrekananfk
+                    LEFT JOIN mapjurnal_m as mj on mj.objectkelompoktransaksifk=sbm.objectkelompoktransaksifk
+                    left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
+                    left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
+                    WHERE
+                    sbm.noclosingfk='$norec_closing'
+                    ) as x GROUP BY x.totalpenerimaan,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit"));
 
-            $data10=[];
-            foreach($detailSetor as $key){
-                $namarekanan=$key->namarekanan;
-                $totalPenerimaan=(float)$key->totalppenjamin;
-                if($key->namarekanan==null){
-                    $namarekanan="UMUM";
-                    if($key->namarekanan2==null){
-                        $namarekanan="UMUM";
-                    }else{
-                        $namarekanan=$key->namarekanan2;
-                        $totalPenerimaan=(float)$key->totalpenerimaan;
-                    }
-                }
-                $data10[] = array(
-                        'noRec'=> $key->norec,
-                        'totalPenerimaan'=> (float)$totalPenerimaan,
-                        'nosbm'=> $key->nosbm,
-                        'kelompoktransaksi'=> $key->kelompoktransaksi,
-                        'namarekanan'=> $namarekanan,
-                        'namaruangan'=>$key->namaruangan,
-                        'noverifikasiveriffk'=>$key->noverifikasiveriffk,
-                        'objectcoadebitfk'=>$key->objectcoadebitfk,
-                        'namaaccountdebit'=>$key->namaaccountdebit,
-                        'objectcoakreditfk'=>$key->objectcoakreditfk,
-                        'namaaccountkredit'=>$key->namaaccountkredit,
-                        'noaccountdebit'=>$key->noaccountdebit,
-                        'noaccountkredit'=>$key->noaccountkredit,
-                    );
-            }
+            // $data10=[];
+            // foreach($detailSetor as $key){
+            //     $namarekanan=$key->namarekanan;
+            //     $totalPenerimaan=(float)$key->totalppenjamin;
+            //     if($key->namarekanan==null){
+            //         $namarekanan="UMUM";
+            //         if($key->namarekanan2==null){
+            //             $namarekanan="UMUM";
+            //         }else{
+            //             $namarekanan=$key->namarekanan2;
+            //             $totalPenerimaan=(float)$key->totalpenerimaan;
+            //         }
+            //     }
+            //     $data10[] = array(
+            //             'noRec'=> $key->norec,
+            //             'totalPenerimaan'=> (float)$totalPenerimaan,
+            //             'nosbm'=> $key->nosbm,
+            //             'kelompoktransaksi'=> $key->kelompoktransaksi,
+            //             'namarekanan'=> $namarekanan,
+            //             'namaruangan'=>$key->namaruangan,
+            //             'noverifikasiveriffk'=>$key->noverifikasiveriffk,
+            //             'objectcoadebitfk'=>$key->objectcoadebitfk,
+            //             'namaaccountdebit'=>$key->namaaccountdebit,
+            //             'objectcoakreditfk'=>$key->objectcoakreditfk,
+            //             'namaaccountkredit'=>$key->namaaccountkredit,
+            //             'noaccountdebit'=>$key->noaccountdebit,
+            //             'noaccountkredit'=>$key->noaccountkredit,
+            //         );
+            // }
         }else if($idSetting==2){
             $detailSetor= DB::select(DB::raw("SELECT
                     dp.id,
