@@ -3488,6 +3488,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-dataaccountbank', 'SysAdmin\Master\MasterController@getDataAccountBank');
                 Route::post('hapus-map-account-bank', 'SysAdmin\Master\MasterController@hapusMapAccountBank');
 
+                Route::get('get-datamaptipelayanan', 'SysAdmin\Master\MasterController@getDataMapTipeLayanan');
+                Route::post('update-tipe-layanan', 'SysAdmin\Master\MasterController@updateTipeLayanan');
+
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
                 Route::post('save-menu-gizi', 'Gizi\GiziController@saveMenuGizi');

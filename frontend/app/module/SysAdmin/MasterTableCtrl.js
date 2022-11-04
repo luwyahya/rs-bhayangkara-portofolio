@@ -77,6 +77,45 @@ define(['initialize'], function (initialize) {
                         pageSize: 20
                     });
                 });
+                medifirstService.get("sysadmin/master/get-datamaptipelayanan", true).then(function (dat) {
+                    $scope.isRouteLoading = false;
+                    let data2 = dat.data.datas
+                    $scope.dataTipeLayanan = new kendo.data.DataSource({
+                        data: data2,
+                        pageSize: 20
+                    });
+                });
+            }
+            $scope.columnTipeLayanan = {
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Detail Posting  " + moment($scope.item.tglAwal).format('DD/MMM/YYYY'),
+                    allPages: true,
+                },
+                sortable: false,
+                reorderable: true,
+                filterable: false,
+                pageable: true,
+                columnMenu: false,
+                resizable: true,
+                selectable: 'row',
+                columns: [
+                    {
+                        "field": "id",
+                        "title": "ID",
+                        "width": "20px"
+                    },
+                    {
+                        "field": "tipelayanan",
+                        "title": "Tipe Layanan",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "kelompoktransaksi",
+                        "title": "Kelompok Transaksi",
+                        "width": "60px"
+                    },
+                ]
             }
             $scope.columnMapAccount = {
                 toolbar: ["excel"],
@@ -643,11 +682,47 @@ define(['initialize'], function (initialize) {
                     loadData()
                 })
             }
+            $scope.clickSaveMapTipeLayanan = function () {
+                debugger
+                if ($scope.dataSelectedTipeLayanan == undefined) {
+                    toastr.error("Data Belum Dipilih!")
+                    return
+                }
+                if ($scope.item.jenisTransaksi == undefined || $scope.item.jenisTransaksi == "" ||
+                    $scope.item.jenisTransaksi.kelompoktransaksi == "" || $scope.item.jenisTransaksi.kelompoktransaksi == null) {
+                    toastr.error("Kelompok Transaksi Belum Dipilih!")
+                    return
+                }
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Mengupdate Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealUpdateMapTipeLayanan();
+                });
+            }
+            function RealUpdateMapTipeLayanan() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    id: $scope.dataSelectedTipeLayanan.id,
+                    objectkelompokfk: $scope.item.jenisTransaksi.kelompoktransaksifk,
+                }
+                medifirstService.post('sysadmin/master/update-tipe-layanan', objDelete).then(function (e) {
+                    $scope.isRouteLoading = false;
+                    loadData()
+                })
+            }
             $scope.klikMapAccount = function (x) {
                 debugger
                 $scope.item.bank = { id: x.id, nama: x.nama }
                 $scope.item.kdAkunDebit = { id: x.id, noaccount: x.noaccount }
                 // $scope.item.kdAkunDebit = { id: x.id, namaaccount: x.namaaccount }
+            }
+            $scope.klikMapTipeLayanan = function (x) {
+                debugger
+                $scope.item.jenisTransaksi = { id: x.mktid, kelompoktransaksi: x.kelompoktransaksi, kelompoktransaksifk: x.objectkelompokfk }
             }
             $scope.clickSaveAccountBank = function () {
                 if ($scope.item.bank == undefined || $scope.item.bank == null) {

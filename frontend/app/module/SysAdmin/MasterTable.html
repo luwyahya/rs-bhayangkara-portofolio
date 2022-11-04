@@ -599,6 +599,19 @@
                                                 k-filter="'contains'" k-auto-bind="false"
                                                 k-data-source="listJenisTransaksi" />
                                         </div>
+                                        <div class="grid_4">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickSaveMapTipeLayanan()"
+                                                    style="float:left;width:120px">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12 ">
+                                        <kendo-grid k-data-source="dataTipeLayanan" k-selectable="'row'"
+                                            options="columnTipeLayanan" k-pageable="'true'" k-sortable="'true'"
+                                            k-ng-model="dataSelectedTipeLayanan"
+                                            ng-click="klikMapTipeLayanan(dataSelectedTipeLayanan)">
+                                        </kendo-grid>
                                     </div>
                                 </fieldset>
                             </div>
