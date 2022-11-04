@@ -21,10 +21,16 @@ define(['initialize'], function (initialize) {
                     $scope.listRuangan = e.data.data
                     $scope.listKelas = e.data.kelas
                     $scope.listInstalasi = e.data.dataInstalasi
-                    $scope.listKamar = e.data.dataKamar 
-                    $scope.listStatusbed = e.data.statusbed 
-                   
-                    
+                    $scope.listKamar = e.data.dataKamar
+                    $scope.listStatusbed = e.data.statusbed
+                    $scope.listJenisTransaksi = e.data.kelompokTransaksi
+
+                })
+                medifirstService.get('kasir/get-data-combo-kasir').then(function (e) {
+                    $scope.listBank = e.data.listbank
+                })
+                medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
+                    $scope.listAkun = data;
                 })
                 var ruanganId = ''
                 if ($scope.item.ruangan)
@@ -63,6 +69,45 @@ define(['initialize'], function (initialize) {
                 }, function (error) {
                     $scope.isRouteLoading = false;
                 })
+                medifirstService.get("sysadmin/master/get-dataaccountbank", true).then(function (dat) {
+                    $scope.isRouteLoading = false;
+                    let data2 = dat.data.datas
+                    $scope.dataMapAccount = new kendo.data.DataSource({
+                        data: data2,
+                        pageSize: 20
+                    });
+                });
+            }
+            $scope.columnMapAccount = {
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Detail Posting  " + moment($scope.item.tglAwal).format('DD/MMM/YYYY'),
+                    allPages: true,
+                },
+                sortable: false,
+                reorderable: true,
+                filterable: false,
+                pageable: true,
+                columnMenu: false,
+                resizable: true,
+                selectable: 'row',
+                columns: [
+                    {
+                        "field": "id",
+                        "title": "ID",
+                        "width": "20px"
+                    },
+                    {
+                        "field": "nama",
+                        "title": "Nama Bank",
+                        "width": "60px"
+                    },
+                    {
+                        "field": "namaaccount",
+                        "title": "Nama Account",
+                        "width": "60px"
+                    },
+                ]
             }
             function onSelect(z) {
                 var data3 = z.sender.dataSource._data
@@ -381,28 +426,28 @@ define(['initialize'], function (initialize) {
                     status: 'false'
                 }
                 medifirstService.post('sysadmin/master/delete-bed', objDelete).then(function (e) {
-                     $scope.findDataBed()
+                    $scope.findDataBed()
                 })
             }
-             $scope.clickUpdateBed = function (ai) {
+            $scope.clickUpdateBed = function (ai) {
                 debugger
                 var objDelete = {
                     id: ai.id,
                     status: 'true'
                 }
                 medifirstService.post('sysadmin/master/delete-bed', objDelete).then(function (e) {
-                   $scope.findDataBed()
+                    $scope.findDataBed()
                 })
             }
-              $scope.clickEdit = function (ai) {
+            $scope.clickEdit = function (ai) {
                 debugger
                 $scope.popupTambahBed.open().center();
-                $scope.tempnorec=ai.id;
-                $scope.item.kamar = {id:ai.objectkamarfk , namakamar:ai.namakamar};
+                $scope.tempnorec = ai.id;
+                $scope.item.kamar = { id: ai.objectkamarfk, namakamar: ai.namakamar };
                 $scope.item.namabed = ai.reportdisplay;
                 $scope.item.nomorbed = ai.nomorbed;
-                $scope.item.statusbed = {id:ai.idbed,statusbed:ai.statusbed};
-                
+                $scope.item.statusbed = { id: ai.idbed, statusbed: ai.statusbed };
+
 
             }
             $scope.clickUpdateMap = function (ai) {
@@ -567,9 +612,71 @@ define(['initialize'], function (initialize) {
             $scope.clickTambahKamar = function () {
                 $scope.popupTambahKamar.open().center();
             }
-              $scope.clickTambahBed = function () {
+            $scope.clickTambahBed = function () {
                 $scope.popupTambahBed.open().center();
-                $scope.tempnorec='';
+                $scope.tempnorec = '';
+            }
+            $scope.clickHapus = function () {
+                debugger
+                if ($scope.dataSelectedMapAccount == undefined) {
+                    toastr.error("Data Belum Dipilih!")
+                    return
+                }
+
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menghapus Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealHapusAccountBank();
+                });
+            }
+            function RealHapusAccountBank() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    id: $scope.dataSelectedMapAccount.id,
+                }
+                medifirstService.post('sysadmin/master/hapus-map-account-bank', objDelete).then(function (e) {
+                    $scope.isRouteLoading = false;
+                    loadData()
+                })
+            }
+            $scope.klikMapAccount = function (x) {
+                debugger
+                $scope.item.bank = { id: x.id, nama: x.nama }
+                $scope.item.kdAkunDebit = { id: x.id, noaccount: x.noaccount }
+                // $scope.item.kdAkunDebit = { id: x.id, namaaccount: x.namaaccount }
+            }
+            $scope.clickSaveAccountBank = function () {
+                if ($scope.item.bank == undefined || $scope.item.bank == null) {
+                    toastr.error("Bank Harus Di Isi!")
+                    return
+                }
+                if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit == null) {
+                    toastr.error("Bank Harus Di Isi!")
+                    return
+                }
+                var confirm = $mdDialog.confirm()
+                    .title('Peringatan')
+                    .textContent('Apakah Anda Yakin Tetap Menyimpan Data?')
+                    .ariaLabel('Lucky day')
+                    .cancel('Tidak')
+                    .ok('Ya')
+                $mdDialog.show(confirm).then(function () {
+                    RealSaveAccountBank();
+                });
+            }
+            function RealSaveAccountBank() {
+                $scope.isRouteLoading = true;
+                var objDelete = {
+                    objectbankfk: $scope.item.bank.id,
+                    objectcoafk: $scope.item.kdAkunDebit.id
+                }
+                medifirstService.post('sysadmin/master/save-map-account-bank', objDelete).then(function (e) {
+                    $scope.isRouteLoading = false;
+                })
             }
             $scope.clickSaveKamar = function (ai) {
                 if ($scope.item.ruangan == undefined || $scope.item.ruangan == null) {
@@ -624,56 +731,57 @@ define(['initialize'], function (initialize) {
                 })
             }
 
-              $scope.findDataBed = function () {
+            $scope.findDataBed = function () {
                 var statuxs = false
                 var ruanganId = ''
-                if ($scope.item.ruangan){
+                if ($scope.item.ruangan) {
                     ruanganId = '?ruangan=' + $scope.item.ruangan.id;
-                         statuxs = true;
+                    statuxs = true;
                 }
-                  
+
                 var kelasId = ''
                 if ($scope.item.kelas) {
-                    if (statuxs == false){
+                    if (statuxs == false) {
                         kelasId = '?kdkelas=' + $scope.item.kelas.id;
                         statuxs = true;
-                    }else{
+                    } else {
                         kelasId = '&kdkelas=' + $scope.item.kelas.id
                     }
-                       
+
                 };
                 var kamarId = ''
                 if ($scope.item.kamar) {
-                  if (statuxs == false){
+                    if (statuxs == false) {
                         kamarId = '?kamarId=' + $scope.item.kamar.id
-                                statuxs = true;
-                      }else{
-                        kamarId = '&kamarId=' + $scope.item.kamar.id}
+                        statuxs = true;
+                    } else {
+                        kamarId = '&kamarId=' + $scope.item.kamar.id
+                    }
                 };
-                 var namabed = '';
+                var namabed = '';
                 if ($scope.item.namabed) {
-                   if (statuxs == false){
+                    if (statuxs == false) {
                         namabed = '?namabed=' + $scope.item.namabed
-                                statuxs = true;
-                      }else{
+                        statuxs = true;
+                    } else {
                         namabed = '&namabed=' + $scope.item.namabed
                     }
                 };
-                 var status = ''
+                var status = ''
                 if ($scope.item.status) {
-                     if (statuxs == false){
+                    if (statuxs == false) {
                         status = '?status=' + $scope.item.status.name
-                                statuxs = true;
-                      }else{
+                        statuxs = true;
+                    } else {
                         status = '&status=' + $scope.item.status.name
                     }
                 }
-                medifirstService.get('sysadmin/master/get-tempattidur' + ruanganId + kelasId + kamarId + namabed +status).then(function (e) {
+                medifirstService.get('sysadmin/master/get-tempattidur' + ruanganId + kelasId + kamarId + namabed + status).then(function (e) {
                     $scope.listDatatempattidur = e.data.datas
                 })
             }
-             $scope.clickSaveBed = function (ai) {
-                
+            $scope.clickSaveBed = function (ai) {
+
                 if ($scope.item.statusbed == undefined || $scope.item.statusbed == null) {
                     toastr.error("Status Bed Harus Di Isi!")
                     return
@@ -697,7 +805,7 @@ define(['initialize'], function (initialize) {
             function RealSaveBed() {
                 $scope.isRouteLoading = true;
                 var objDelete = {
-                    idtempattidur:$scope.tempnorec,
+                    idtempattidur: $scope.tempnorec,
                     nomorbed: $scope.item.nomorbed,
                     namabed: $scope.item.namabed,
                     idstatusbed: $scope.item.statusbed.id,

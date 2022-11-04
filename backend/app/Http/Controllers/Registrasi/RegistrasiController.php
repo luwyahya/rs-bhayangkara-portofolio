@@ -8630,10 +8630,19 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->where('kr.statusenabled', true)
             ->get();
         $pembatalan = DB::select(DB::raw("select id,name from pembatal_m where statusenabled='true'"));
-   $statusbed = \DB::table('statusbed_m as kr')
+        $statusbed = \DB::table('statusbed_m as kr')
             ->select('kr.id', 'kr.statusbed')
             ->where('kr.statusenabled', true)
             ->get();
+        $kelompokTransaksi= \DB::table('mapbkutokelompoktransaksi_m as mp')
+            ->join('bku_m as bku','bku.id','=','mp.idbku')
+            ->join('kelompoktransaksi_m as kt','kt.id','=','mp.kelompoktransaksifk')
+            ->select('mp.id','mp.kelompoktransaksifk','mp.idbku','bku.bku','kt.kelompoktransaksi')
+            ->where('mp.statusenabled',true);
+        if (isset($request['keterangan']) && $request['keterangan'] != "" && $request['keterangan'] != "undefined") {
+            $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', '=', 'Bendahara Penerimaan');
+        }
+        $kelompokTransaksi=$kelompokTransaksi ->get();
         $result = array(
             'data' => $ruangan,
             'pembatalan' => $pembatalan,
@@ -8642,8 +8651,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             'pegawaiLogin' => $dataPegawai->namalengkap,
             'dataInstalasi'=>$dataInstalasi,
             'dataKamar'=>$dataKamar,
-            
-             'statusbed'=>$statusbed,
+            'statusbed'=>$statusbed,
+            'kelompokTransaksi'=>$kelompokTransaksi,
             'message' => 'inhuman',
         );
 
