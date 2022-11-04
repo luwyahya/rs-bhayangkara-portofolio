@@ -1075,6 +1075,11 @@
         {
             "nameDep": "DaftarReturSterilisasiAlatCtrl",
             "urlDep": "module/AplikasiCSSD/DaftarReturSterilisasiAlatCtrl"
+        },
+        
+        {
+            "nameDep": "MapPenjaminToProdukCtrl",
+            "urlDep": "module/SysAdmin/MapPenjaminToProdukCtrl"
         }
 
     ]
