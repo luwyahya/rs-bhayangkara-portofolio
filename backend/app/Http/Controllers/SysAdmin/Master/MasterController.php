@@ -2568,7 +2568,7 @@ class MasterController extends ApiController{
         return $this->respond($result);
     }
     public function getDataMapTipeLayanan(Request $request) {
-        $data = DB::table('maptipelayanan_ as kr')
+        $data = DB::table('maptipelayanan_m as kr')
             ->leftjoin('kelompoktransaksi_m as ba', 'ba.id', '=', 'kr.objectkelompokfk')
             ->leftjoin('mapbkutokelompoktransaksi_m as mkt', 'mkt.kelompoktransaksifk', '=', 'kr.objectkelompokfk')
             ->select('kr.id','kr.tipelayanan', 'ba.kelompoktransaksi','kr.objectkelompokfk','mkt.id as mktid');
