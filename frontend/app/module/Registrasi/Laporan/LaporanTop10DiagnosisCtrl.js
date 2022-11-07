@@ -205,7 +205,7 @@ define(['initialize'], function (initialize) {
                         // "pdf",
                     ],
                     excel: {
-                        fileName: "LaporanRekapKunjungan.xlsx",
+                        fileName: "LaporanRekapDetailDiagnosa.xlsx",
                         allPages: true,
                     },
                     // pdf: {
@@ -230,7 +230,7 @@ define(['initialize'], function (initialize) {
                         var myHeaders = [
 
                             {
-                                value: "REKAPITULASI POLIKLINIK BERDASARKAN DATA KUNJUNGAN ",
+                                value: "REKAPITULASI DETAIL DIAGNOSA ",
                                 fontSize: 15,
                                 textAlign: "center",
                                 background: "#c1d2d2",
