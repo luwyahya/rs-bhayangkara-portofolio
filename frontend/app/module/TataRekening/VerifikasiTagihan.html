@@ -605,8 +605,15 @@
     
                     </div>
     
-                    <div class="grid_12 borderBox">
+                    <div class="grid_12 borderBox" ng-show="real">
+                        <span>real</span>
                         <kendo-grid id="kGrids2" data-source="dataRincianTagihanpenjamin"
+                            options="columnRincianTagihanpenjamin" k-selectable="'row'" k-sortable="'true'"
+                            k-resizable="'true'" k-ng-model="dataSelected" ng-click="klikGrid2(dataSelected)"></kendo-grid>
+                    </div>
+                    <div class="grid_12 borderBox" ng-show="fake">
+                        <span>fakse</span>
+                        <kendo-grid id="kGrids2" data-source="dataRincianTagihanpenjaminfake"
                             options="columnRincianTagihanpenjamin" k-selectable="'row'" k-sortable="'true'"
                             k-resizable="'true'" k-ng-model="dataSelected" ng-click="klikGrid2(dataSelected)"></kendo-grid>
                     </div>
@@ -649,13 +656,26 @@
                             k-auto-bind="false" k-data-source="listPelayanan" />
                     </div>
                 </div>
-                <div class="grid_2" style="margin-top:10px">
-                    <button class="btnTemplate1" ng-click="simpanpenjaminall()"><i class="fa fa-credit-card-alt"></i>Simpan
-                    </button>
-                </div>
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Ruangan"></label>
+                    </div>
+                    <div class="clear"></div>
     
+                    <div class="grid_12">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruang4"
+                            k-data-text-field="'namaruangan'" k-data-value-field="'Ruangan'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listRuangAPD" k-on-change='CariFilterRuangan()' />
+                    </div>
+                </div>
             </div>
+            <div class="grid_2" style="margin-top:10px">
+                <button class="btnTemplate1" ng-click="simpanpenjaminall()"><i class="fa fa-credit-card-alt"></i>Simpan
+                </button>
+            </div>
+    
         </div>
+    </div>
     </div>
     <div kendo-window="popupinput" k-title="'Jumlah Bayar'" k-visible="false" k-width="600" k-height="400">
         <div class="panel panel-default container_12">

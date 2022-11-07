@@ -5130,6 +5130,25 @@
                 "define": "SarprasService"
             }
         ]
+    },
+     {
+        "name": "MapPenjaminToProduk",
+        "url": "/MapPenjaminToProduk",
+        "templateurl": "module/SysAdmin/MapPenjaminToProduk.html",
+        "controller": "MapPenjaminToProdukCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
     }
 
 

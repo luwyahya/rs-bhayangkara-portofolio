@@ -2662,6 +2662,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
     }
 
     protected function simpanPembayaranDeposit($request){
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=1"));
         $pasienDaftar = PasienDaftar::where('noregistrasi', $request['parameterTambahan']['noRegistrasi'])->first();
         $dataLogin = $request->all();
         $dataPegawaiUser = \DB::select(DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
@@ -2706,7 +2707,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
         $SP->nocmfk =  $pasienDaftar->nocmfk;
         $SP->noregistrasifk =  $pasienDaftar->norec;
         $SP->objectkelaslastfk =  $pasienDaftar->objectkelasfk;
-        $SP->objectkelompoktransaksifk =  1;
+        $SP->objectkelompoktransaksifk =  $mapTipePelayanan[0]->objectkelompokfk;
         $SP->objectpegawaipenerimafk =  $dataPegawaiUser[0]->id;//$this->getCurrentLoginID();
         $SP->nostruk =  $this->generateCode(new StrukPelayanan, 'nostruk', 10, 'S');
         $SP->tglstruk =  $request['tglsbm'];//$this->getDateTime();
@@ -2763,7 +2764,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $strukBuktiPenerimanan->keteranganlainnya = "Pembayaran Deposit Pasien";
             $strukBuktiPenerimanan->nostrukfk = $SP->norec;
             $strukBuktiPenerimanan->objectkelompokpasienfk = $SP->pasien_daftar->pasien->objectkelompokpasienfk;
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = 1;
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;//1;
             $strukBuktiPenerimanan->objectpegawaipenerimafk  =$this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm  = $SP->tglstruk;
             $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
@@ -2837,6 +2838,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
     protected function simpanPembayaranTagihanPasien($request){
         \DB::beginTransaction();
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=3"));
         if (isset($request['keteranganlainya']) && $request['keteranganlainya'] != "" && $request['keteranganlainya'] != "undefined") {
            $keteranganlainnya   = $request['keteranganlainya'];
        }else{
@@ -2863,7 +2865,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $strukBuktiPenerimanan->statusenabled= 1;
             $strukBuktiPenerimanan->nostrukfk = $strukPelayanan->norec;
             $strukBuktiPenerimanan->objectkelompokpasienfk = $strukPelayanan->pasien_daftar->pasien->objectkelompokpasienfk;
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = 1;
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
             $strukBuktiPenerimanan->objectpegawaipenerimafk  = $this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm  =  $request['tglsbm'];//$this->getDateTime();
             $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
@@ -3040,6 +3042,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
     protected function simpanPengembalianDeposit($request){
         \DB::beginTransaction();
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=2"));
         $pasienDaftar = PasienDaftar::where('noregistrasi', $request['parameterTambahan']['noRegistrasi'])->first();
         $dataSP = StrukPelayanan::where('noregistrasifk',$pasienDaftar->norec)
             ->wherenull('statusenabled')
@@ -3066,7 +3069,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                 $strukBuktiPenerimanan->keteranganlainnya = "Pengembalian Deposit Pasien";
                 $strukBuktiPenerimanan->nostrukfk = $norec_sp;
                 $strukBuktiPenerimanan->objectkelompokpasienfk = $pasienDaftar->objectkelompokpasienlastfk;
-                $strukBuktiPenerimanan->objectkelompoktransaksifk = 1;
+                $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
                 $strukBuktiPenerimanan->objectpegawaipenerimafk  =$this->getCurrentLoginID();
                 $strukBuktiPenerimanan->tglsbm  = $dataSP['tglstruk'];
                 $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
@@ -3160,6 +3163,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
     protected function simpanCicilanPasien($request){
         \DB::beginTransaction();
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=4"));
         $strukPelayananPenjamin = StrukPelayananPenjamin::where('norec', $request['parameterTambahan']['noRecStrukPelayanan'])->first();
         $strukPelayanan = StrukPelayanan::where('norec', $strukPelayananPenjamin->nostrukfk)->first();
 //        $sisa =0;
@@ -3181,7 +3185,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $strukBuktiPenerimanan->statusenabled= 1;
             $strukBuktiPenerimanan->nostrukfk = $strukPelayanan->norec;
             $strukBuktiPenerimanan->objectkelompokpasienfk = $strukPelayanan->pasien_daftar->pasien->objectkelompokpasienfk;
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = 1;
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
             $strukBuktiPenerimanan->diterimadari = $request['diterimadari'];
             $strukBuktiPenerimanan->objectpegawaipenerimafk  = $this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm  = $this->getDateTime();
@@ -3334,6 +3338,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
     protected function simpanPembayaranTagihanNonLayanan($request){
         \DB::beginTransaction();
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=5"));
         $strukPelayanan = StrukPelayanan::where('norec', $request['parameterTambahan']['noRecStrukPelayanan'])->first();
         $sisa =0;
 //        if($strukPelayanan->nosbmlastfk==null || $strukPelayanan->nosbmlastfk==''){
@@ -3354,7 +3359,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $strukBuktiPenerimanan->statusenabled= 1;
             $strukBuktiPenerimanan->nostrukfk = $strukPelayanan->norec;
 //            $strukBuktiPenerimanan->objectkelompokpasienfk = $strukPelayanan->pasien_daftar->pasien->objectkelompokpasienfk;
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = $this->getGlobalSettingDataFixed('kdTransaksiTagihanNonLayanan'); //dibikin lagi lagi untuk nonlayanan
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
             $strukBuktiPenerimanan->objectpegawaipenerimafk  = $this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm  = $request['tglsbm'];//$this->getDateTime();
             $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
@@ -3508,6 +3513,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
     protected function simpanCicilanPasienCollect($request){
         \DB::beginTransaction();
+        $mapTipePelayanan = \DB::select(DB::raw("select objectkelompokfk from maptipelayanan_m where id=6"));
         $strukPelayananPenjamin = StrukPelayananPenjamin::where('norec', $request['parameterTambahan']['noRecStrukPelayanan'])->first();
         $strukPelayanan = StrukPelayanan::where('norec', $strukPelayananPenjamin->nostrukfk)->first();
         $pasienDaftar = PasienDaftar::where('norec', $strukPelayanan->noregistrasifk)->first();
@@ -3522,7 +3528,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $strukBuktiPenerimanan->statusenabled= 1;
             $strukBuktiPenerimanan->nostrukfk = $strukPelayanan->norec;
             $strukBuktiPenerimanan->objectkelompokpasienfk = $strukPelayanan->pasien_daftar->pasien->objectkelompokpasienfk;
-            $strukBuktiPenerimanan->objectkelompoktransaksifk = 76;
+            $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
             $strukBuktiPenerimanan->objectpegawaipenerimafk  = $this->getCurrentLoginID();
             $strukBuktiPenerimanan->tglsbm  = $this->getDateTime();
             $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];

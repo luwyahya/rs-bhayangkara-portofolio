@@ -2000,6 +2000,134 @@ define(['initialize'], function(initialize) {
                 })
 
             }
+              $scope.$watch('item.rekanan1', function(newValue, oldValue) {
+                if (newValue != null) {
+                     
+                   strRUanganFilter='?idrekanan=' + $scope.item.rekanan1.id;
+                }else{
+                    strRUanganFilter='';
+                }
+                 medifirstService.get("tatarekening/detail-tagihan-getfrommamppinganpenjamin/" + $scope.item.noRegistrasi + strRUanganFilter)
+                        .then(function(data) {
+                           if(data.status == 200 && data.data.length>0){
+                                 
+                                for (var i = data.data.length - 1; i >= 0; i--) {
+                                      for (var j = $scope.dataRincianTagihanpenjamin._data.length - 1; j >= 0; j--) {
+                                        if(data.data[i].idprodukfk == $scope.dataRincianTagihanpenjamin._data[j].prid){
+                                            $scope.dataRincianTagihanpenjamin._data[j].penjamin1 = parseFloat(data.data[i].potongan) * $scope.dataRincianTagihanpenjamin._data[j].jumlah
+                                            $scope.dataRincianTagihanpenjamin._data[j].pasien = parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin1) - parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin2);
+                                        }
+                                      }
+                                    $scope.dataRincianTagihanpenjamin._data
+                                }
+                                $scope.totalpasien  = 0
+                                $scope.totalpenjamin1  = 0
+                                $scope.totalpenjamin2  = 0
+                                for (var j = $scope.dataRincianTagihanpenjamin._data.length - 1; j >= 0; j--) {
+                        
+                                    $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat($scope.dataRincianTagihanpenjamin._data[j].pasien)
+                                    $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin1)
+                                    $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin2)
+                                
+                                }
+                                $scope.dataRincianTagihanpenjamin = new kendo.data.DataSource({
+                                    data: $scope.dataRincianTagihanpenjamin._data, //details,
+                                    group: [ 
+                                    ],
+                                    pageSize: 20, 
+                                });
+                           }     
+                        $scope.isRouteLoading = false; 
+                        })
+            })
+            $scope.$watch('item.rekanan2', function(newValue, oldValue) {
+                if (newValue != null) {
+                     
+                   strRUanganFilter='?idrekanan=' + $scope.item.rekanan2.id;
+                }else{
+                    strRUanganFilter='';
+                }
+                 medifirstService.get("tatarekening/detail-tagihan-getfrommamppinganpenjamin/" + $scope.item.noRegistrasi + strRUanganFilter)
+                        .then(function(data) {
+                           if(data.status == 200 && data.data.length>0){
+                                 
+                                for (var i = data.data.length - 1; i >= 0; i--) {
+                                      for (var j = $scope.dataRincianTagihanpenjamin._data.length - 1; j >= 0; j--) {
+                                        if(data.data[i].idprodukfk == $scope.dataRincianTagihanpenjamin._data[j].prid){
+                                            $scope.dataRincianTagihanpenjamin._data[j].penjamin2 = parseFloat(data.data[i].potongan) * $scope.dataRincianTagihanpenjamin._data[j].jumlah
+                                            $scope.dataRincianTagihanpenjamin._data[j].pasien = parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin1) - parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin2);
+                                        }
+                                      }
+                                    $scope.dataRincianTagihanpenjamin._data
+                                }
+                                $scope.totalpasien  = 0
+                                $scope.totalpenjamin1  = 0
+                                $scope.totalpenjamin2  = 0
+                                for (var j = $scope.dataRincianTagihanpenjamin._data.length - 1; j >= 0; j--) {
+                        
+                                    $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat($scope.dataRincianTagihanpenjamin._data[j].pasien)
+                                    $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin1)
+                                    $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat($scope.dataRincianTagihanpenjamin._data[j].penjamin2)
+                                
+                                }
+                                $scope.dataRincianTagihanpenjamin = new kendo.data.DataSource({
+                                    data: $scope.dataRincianTagihanpenjamin._data, //details,
+                                    group: [ 
+                                    ],
+                                    pageSize: 20, 
+                                });
+                           }     
+                        $scope.isRouteLoading = false; 
+                        })
+            })
+             $scope.$watch('item.ruang4', function(newValue, oldValue) {
+                if (newValue != null) { 
+                   strRUanganFilter='?ruangan=' + $scope.item.ruang4.id;
+                }else{
+                    strRUanganFilter='';
+                }
+                 medifirstService.get("tatarekening/detail-tagihan-verifikasipenjamin/" + $scope.item.noRegistrasi + strRUanganFilter)
+                        .then(function(data) {
+                            if($scope.item.ruang4 != null){
+                                $scope.real=false;
+                                $scope.fake = true;      
+                            }else{
+                                  $scope.real=true;
+                                $scope.fake = false;      
+                            }
+                            var dibayar = 0
+                            verifTotal = 0
+                            var nourutlayanan = 0
+                            var nourutresep = 0
+                            for (var i = data.data.details.length - 1; i >= 0; i--) {
+                                for (var j = datapenjamin.length - 1; j >= 0; j--) {
+                                    if(data.data.details[i].norec == datapenjamin[j].norec){
+                                        data.data.details[i]=datapenjamin[j]
+                                    }
+                                }
+                            }
+                            $scope.totalpasien  = 0
+                            $scope.totalpenjamin1  = 0
+                            $scope.totalpenjamin2  = 0
+                            for (var j = datapenjamin.length - 1; j >= 0; j--) {
+                       
+                               $scope.totalpasien = parseFloat($scope.totalpasien)+   parseFloat(datapenjamin[j].pasien)
+                              $scope.totalpenjamin1 = parseFloat($scope.totalpenjamin1)+     parseFloat(datapenjamin[j].penjamin1)
+                              $scope.totalpenjamin2 = parseFloat($scope.totalpenjamin2)+     parseFloat(datapenjamin[j].penjamin2)
+                            
+                            }
+                            $scope.dataRincianTagihanpenjaminfake = new kendo.data.DataSource({
+                                data: data.data.details, //details,
+                                group: [ 
+                                ],
+                                pageSize: 20, 
+                            });
+                            
+                       
+                        $scope.isRouteLoading = false;
+
+                        })
+            })
         }
     ]);
 });

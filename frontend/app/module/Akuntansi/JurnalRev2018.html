@@ -449,8 +449,8 @@
 
             </div>
         </div>
-        <div kendo-window="popupMappingJurnal" k-title="'Mapping Jurnal'" k-visible="false" k-width="1000"
-            k-height="550">
+        <div kendo-window="popupMappingJurnal" k-title="'Mapping Jurnal'" k-visible="false" k-width="1300"
+            k-height="700">
             <div class="panel panel-default container_12">
                 <div class="grid_12">
                     <fieldset class="effect-shadow" style=" border-radius: 4px">
@@ -489,11 +489,23 @@
                                     k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'"
                                     k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisTransaksi" />
                             </div>
+                            <div class="grid_3">
+                                <label name="produk" c-label item="item" c-label-text="Cara Bayar"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraBayar"
+                                    k-data-text-field="'caraBayar'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listCaraBayar" />
+                            </div>
                             <div class="grid_9">
                                 <label name="produk" c-label item="item" c-label-text="Mata Anggaran"></label>
                                 <input style="width: 100%;" kendo-combo-box k-ng-model="item.mataAnggaran"
                                     k-data-text-field="'namamataanggaran'" k-data-value-field="'id'"
                                     k-filter="'contains'" k-auto-bind="false" k-data-source="listMataAnggaran" />
+                            </div>
+                            <div class="grid_3">
+                                <label name="produk" c-label item="item" c-label-text="Nama Bank"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBank"
+                                    k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listNamaBank" />
                             </div>
                         </div>
                         <div class="grid_12">

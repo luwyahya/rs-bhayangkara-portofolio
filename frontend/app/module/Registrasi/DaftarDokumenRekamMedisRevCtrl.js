@@ -26,6 +26,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             }
             $scope.tglregistrasi = true
             $scope.tglkembali = false
+            var test = []
             $scope.setSourceRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan
             }
@@ -225,6 +226,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             for (var i = 0; i < e.data.length; i++) {
                                 e.data[i].statCheckbox = false;
                             }
+                            test = e.data
                             $scope.dataPasienBatal = new kendo.data.DataSource({
                                 data: e.data,
                                 pageSize: 500,
@@ -454,6 +456,46 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     terima();
                     $scope.winTerima.center().open()
                 }
+            }
+            $scope.onClickTest = function (e) {
+                debugger
+                var element = $(e.currentTarget);
+
+                var checked = element.is(':checked'),
+                    row = element.closest('tr'),
+                    grid = $("#kGrid").data("kendoGrid"),
+                    dataItem = grid.dataItem(row);
+                for (var i = test.length - 1; i >= 0; i--) {
+                    if (test[i].norec == dataItem.norec) {
+                        test.splice(i, 1);
+                        break;
+                    }
+                }
+                $scope.selectedData.push(dataItem);
+                var json = {
+                    'norec_kdr': '',
+                    'pegawaifk': $scope.pegawai.id,
+                    'keterangan': '',
+                    'statuskendali': 'kirim',
+                    'pasien': $scope.selectedData,
+                    'ruanganasalfk': 469,
+                    'ruangantujuanfk': dataItem.objectruanganlastfk,
+                    'tglkeluar': moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+                }
+
+                medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function (e) {
+
+                }, function error(e) {
+
+                })
+                for (var i = 0; i < test.length; i++) {
+                    test[i].statCheckbox = false;
+                }
+                $scope.dataPasienBatal = new kendo.data.DataSource({
+                    data: test,
+                    pageSize: 500,
+                    serverPaging: false,
+                });
             }
             $scope.onClick = function (e) {
                 debugger
@@ -707,7 +749,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 // selectable: 'row',
 
                 columns: [{
-                    "template": "<input type='checkbox' class='checkbox' ng-click='onClick($event)' />",
+                    "template": "<input type='checkbox' class='checkbox' ng-click='onClickTest($event)' />",
                     "width": 40
                 },
                 {

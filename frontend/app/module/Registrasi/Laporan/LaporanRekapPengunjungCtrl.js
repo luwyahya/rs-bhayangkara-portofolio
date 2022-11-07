@@ -42,7 +42,8 @@ define(['initialize'], function (initialize) {
                     $scope.PilihManual3 = false
                     $scope.isRuanganRJ = false
                     $scope.item.ruangan = undefined
-                    $scope.item.departement = undefined
+                    $scope.item.departement = {id:undefined,departemen:undefined}
+                    
                 } else {
                     $scope.isRuanganRJ = true
                     $scope.PilihManual1 = true
@@ -2256,7 +2257,7 @@ define(['initialize'], function (initialize) {
 
             //fungsi clear kriteria search
             $scope.ClearSearch = function () {
-                $scope.item = {};
+                // $scope.item = {};
                 $scope.item.tglawal = $scope.now;
                 $scope.item.tglakhir = $scope.now;
                 $scope.CariLapPasienPulang();

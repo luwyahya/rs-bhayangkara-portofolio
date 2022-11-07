@@ -3459,6 +3459,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
 
                 Route::get('get-ruanganbyidDepart/{id}', 'SysAdmin\Master\MasterController@getRuanganbyIddepartemen');
                 Route::get('list-produk/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMap');
+                Route::get('list-produk-penjamin/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMapPenjamin');
+                Route::get('list-produk-penjamin-isi/{limit?}', 'SysAdmin\Master\MasterController@getListProdukMapPenjaminisi');
+               
                 Route::get('get-kelompok-produk', 'SysAdmin\Master\MasterController@getkelompokproduk');
                 Route::get('get-daftar-jenisdiet', 'SysAdmin\Master\MasterController@getDaftarJenisDiet');
                 Route::get('get-daftar-jeniswaktu', 'SysAdmin\Master\MasterController@getDaftarJenisWaktu');
@@ -3485,6 +3488,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-map-account-bank', 'SysAdmin\Master\MasterController@saveMapAccountBank');
                 Route::get('get-dataaccountbank', 'SysAdmin\Master\MasterController@getDataAccountBank');
                 Route::post('hapus-map-account-bank', 'SysAdmin\Master\MasterController@hapusMapAccountBank');
+
+                Route::get('get-datamaptipelayanan', 'SysAdmin\Master\MasterController@getDataMapTipeLayanan');
+                Route::post('update-tipe-layanan', 'SysAdmin\Master\MasterController@updateTipeLayanan');
 
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
@@ -3519,6 +3525,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('delete-mapping-ruangan-to-produk', 'SysAdmin\Master\MasterController@DeleteMappingProdukToRuangan');
 
                 Route::post('save-data-mapproduktoruangan', 'SysAdmin\Master\MasterController@addProdukToRuangan');
+                Route::post('save-data-mapproduktopenjamin', 'SysAdmin\Master\MasterController@addProdukToPenjamin');
+              
                 Route::post('save-data-bed', 'SysAdmin\Master\MasterController@saveBed');
                 Route::post('save-jenisdiet', 'SysAdmin\Master\MasterController@saveJenisDiet');
                 Route::post('delete-jenisdiet', 'SysAdmin\Master\MasterController@deleteJenisDiet');
@@ -3635,6 +3643,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('verifikasi-tagihan2/{noRegister}', 'TataRekening\TagihanController@verifikasiTagihan2');
             Route::get('detail-tagihan-verifikasi/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasi');
             Route::get('detail-tagihan-verifikasipenjamin/{noRegister}', 'TataRekening\TagihanController@detailTagihanVerifikasipenjamin');
+            Route::get('detail-tagihan-getfrommamppinganpenjamin/{noRegister}', 'TataRekening\TagihanController@getfrommamppinganpenjamin');
+           
             Route::post('simpan-verifikasi-tagihan/{noRegister}', 'TataRekening\TagihanController@simpanVerifikasiTagihan');
             Route::post('simpan-verifikasi-tagihan-tatarekening', 'TataRekening\TagihanController@simpanVerifikasiTagihanTatarekening');
             Route::post('simpan-verifikasi-tagihan-inacbg/{noRegister}', 'Transaksi\TataRekening\TagihanRev2Controller@simpanVerifikasiTagihanInacbg');  //done

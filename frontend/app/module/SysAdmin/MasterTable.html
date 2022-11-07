@@ -515,6 +515,108 @@
                             </div>
                         </md-content>
                     </md-tab>
+                    <md-tab label="Master Account Bank">
+                        <md-content class="md-padding">
+                            <div class="panel panel-default container_12">
+                                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                    <legend id="filterData">
+                                        <a ng-click="showAndHide()">Master Account Bank</a>
+                                    </legend>
+                                    <div class="grid_12">
+                                        <div class="grid_4">
+                                            <label c-label item="item" c-label-text="NamaBank"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.bank"
+                                                k-data-text-field="'nama'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false" k-data-source="listBank" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <div class="grid_2">
+                                            <div class="grid_12">
+                                                <label c-label item="item" c-label-text="Kode Akun"></label>
+                                            </div>
+                                            <div class="grid_12">
+                                                <input kendo-combo-box k-data-source="listAkun"
+                                                    k-ng-model="item.kdAkunDebit" k-data-text-field="'noaccount'"
+                                                    k-filter="'contains'" k-data-value-field="'id'" k-auto-bind="false"
+                                                    k-data-source="" />
+                                            </div>
+                                        </div>
+                                        <div class="grid_4">
+                                            <div class="grid_12">
+                                                <label c-label item="item" c-label-text="Nama Akun"></label>
+                                            </div>
+                                            <div class="grid_12">
+                                                <input kendo-combo-box k-data-source="listAkun"
+                                                    k-ng-model="item.kdAkunDebit" k-data-text-field="'namaaccount'"
+                                                    k-filter="'contains'" k-data-value-field="'id'" k-auto-bind="false"
+                                                    k-data-source="" />
+                                            </div>
+                                        </div>
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickSaveAccountBank()"
+                                                    style="float:left;width:120px">Simpan</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickBatal()"
+                                                    style="float:left;width:120px">Batal</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid_2">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickHapus()"
+                                                    style="float:left;width:120px">Hapus</button>
+                                            </div>
+                                        </div>
+                                        <div class="grid_12 ">
+                                            <kendo-grid k-data-source="dataMapAccount" k-selectable="'row'"
+                                                options="columnMapAccount" k-pageable="'true'" k-sortable="'true'"
+                                                k-ng-model="dataSelectedMapAccount"
+                                                ng-click="klikMapAccount(dataSelectedMapAccount)">
+                                            </kendo-grid>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Tipe Layanan">
+                        <md-content class="md-padding">
+                            <div class="panel panel-default container_12">
+                                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                    <legend id="filterData">
+                                        <a ng-click="showAndHide()">Tipe Layanan</a>
+                                    </legend>
+                                    <div class="grid_12">
+                                        <div class="grid_4">
+                                            <label name="produk" c-label item="item"
+                                                c-label-text="Kelompok Transaksi"></label>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksi"
+                                                k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'"
+                                                k-filter="'contains'" k-auto-bind="false"
+                                                k-data-source="listJenisTransaksi" />
+                                        </div>
+                                        <div class="grid_4">
+                                            <div class="grid_12" style="margin-top: 20px">
+                                                <button class="c-button success" ng-click="clickSaveMapTipeLayanan()"
+                                                    style="float:left;width:120px">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="grid_12 ">
+                                        <kendo-grid k-data-source="dataTipeLayanan" k-selectable="'row'"
+                                            options="columnTipeLayanan" k-pageable="'true'" k-sortable="'true'"
+                                            k-ng-model="dataSelectedTipeLayanan"
+                                            ng-click="klikMapTipeLayanan(dataSelectedTipeLayanan)">
+                                        </kendo-grid>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </md-content>
+                    </md-tab>
                 </md-tabs>
             </md-content>
         </div>
