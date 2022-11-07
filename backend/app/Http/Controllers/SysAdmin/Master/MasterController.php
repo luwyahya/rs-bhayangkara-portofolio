@@ -2447,6 +2447,39 @@ class MasterController extends ApiController{
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function updateTipeLayanan(Request $request){
+        DB::beginTransaction();
+        try {
+            $objectkelompokfk=$request['objectkelompokfk'];
+            $id=$request['id'];
+            $data = DB::update(DB::raw("update maptipelayanan_m set objectkelompokfk='$objectkelompokfk'
+                    WHERE id ='$id'"));
+                     $message = array(
+                         'message' => 'ok',
+                         'code' => 200,
+                     );
+              $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Simpan gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function saveMapAccountBank(Request $request){
         DB::beginTransaction();
         try {
@@ -2525,6 +2558,23 @@ class MasterController extends ApiController{
 
         $data = $data->take(5);
         $data = $data->orderBy('ba.nama');
+        $data = $data->get();
+
+        $result = array(
+            'datas' => $data,
+            'message' => 'Cepot',
+        );
+
+        return $this->respond($result);
+    }
+    public function getDataMapTipeLayanan(Request $request) {
+        $data = DB::table('maptipelayanan_m as kr')
+            ->leftjoin('kelompoktransaksi_m as ba', 'ba.id', '=', 'kr.objectkelompokfk')
+            ->leftjoin('mapbkutokelompoktransaksi_m as mkt', 'mkt.kelompoktransaksifk', '=', 'kr.objectkelompokfk')
+            ->select('kr.id','kr.tipelayanan', 'ba.kelompoktransaksi','kr.objectkelompokfk','mkt.id as mktid');
+
+        $data = $data->take(10);
+        $data = $data->orderBy('kr.id');
         $data = $data->get();
 
         $result = array(

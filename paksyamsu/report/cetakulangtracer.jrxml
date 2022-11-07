@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cetakulangtracer" pageWidth="255" pageHeight="396" columnWidth="245" leftMargin="5" rightMargin="5" topMargin="5" bottomMargin="5" uuid="85e55a49-8517-449f-a395-e9b35b9b5690">
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<parameter name="noregistrasi" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT        pd.noregistrasi, ps.nocm, ps.tgllahir, ps.namapasien, pd.tglregistrasi, jk.reportdisplay AS jk, ap.alamatlengkap, ap.mobilephone2, ru.namaruangan AS ruanganPeriksa, pp.namalengkap AS namadokter, kp.kelompokpasien, 
+                         apdp.noantrian, pd.statuspasien, ps.namaayah, rkn.namarekanan, pd.catatan
+FROM            pasiendaftar_t AS pd INNER JOIN
+                         pasien_m AS ps ON pd.nocmfk = ps.id INNER JOIN
+                         alamat_m AS ap ON ap.nocmfk = ps.id INNER JOIN
+                         jeniskelamin_m AS jk ON ps.objectjeniskelaminfk = jk.id INNER JOIN
+                         ruangan_m AS ru ON pd.objectruanganlastfk = ru.id LEFT OUTER JOIN
+                         pegawai_m AS pp ON pd.objectpegawaifk = pp.id INNER JOIN
+                         kelompokpasien_m AS kp ON pd.objectkelompokpasienlastfk = kp.id INNER JOIN
+                         antrianpasiendiperiksa_t AS apdp ON apdp.noregistrasifk = pd.norec and pd.objectruanganlastfk=apdp.objectruanganfk INNER JOIN
+
+                         rekanan_m AS rkn ON pd.objectrekananfk = rkn.id
+                         where pd.noregistrasi =$P{noregistrasi}]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="statuspasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tglregistrasi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="ruanganPeriksa" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namadokter" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="noantrian" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namarekanan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="catatan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="222" splitType="Stretch">
+			<staticText>
+				<reportElement x="96" y="-4" width="85" height="16" uuid="2d75aa0f-8234-47c7-aaea-f74d5d35e072">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[TRACER]]></text>
+			</staticText>
+			<line>
+				<reportElement x="61" y="10" width="151" height="1" uuid="3f34a331-e8dc-43ac-ba35-d1aa648a388e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="21" y="11" width="60" height="14" uuid="406c5f58-d885-4ecd-8e50-830f8d63159f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Tgl Print]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="25" width="60" height="14" uuid="201d68c1-2324-47e8-a3be-967a016967c3">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="39" width="60" height="14" uuid="379a3709-b0a1-472a-b38d-e43b51fd9016"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[No RM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="53" width="64" height="14" uuid="d5cf580e-4b8b-4763-8076-ab3c4a7754c9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Nama Keluarga]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="67" width="60" height="14" uuid="aac4c27d-6c08-4dc9-8d79-ca2bd73d291c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Status Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="81" width="60" height="14" uuid="c8222d04-5804-4251-acd1-26889d89b440"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Tgl Masuk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="95" width="80" height="14" uuid="ae5f08aa-0db6-4ec4-9fdb-37d88d79a10c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Ambil berkas RM di]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="109" width="130" height="14" uuid="2069ec48-d3b2-450e-b36c-65d50f56682c"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Berkas RM akan dikirim ke]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="137" width="80" height="14" uuid="edd81453-77dd-408a-a5a1-62f7d37a1c29">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Dokter]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="165" width="80" height="14" uuid="61fa6c5c-fbd2-46f6-87c2-d9c0cab45288">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Jenis Penjamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="14" width="10" height="8" uuid="7fce78cc-cf03-4db2-adf7-4386cbdc0075"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="27" width="10" height="8" uuid="0b48f57d-a175-462e-9a73-70137f96c54f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="41" width="10" height="8" uuid="489f6b1a-6aad-4637-93b9-3663ff9c837f"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="55" width="10" height="8" uuid="5a57211a-e564-440a-aedf-283297d69d52"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="69" width="10" height="8" uuid="ea41e43b-56b1-473c-8147-9434fe0bb40a"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="83" width="10" height="8" uuid="13eb4e45-e5ca-433c-9205-38d37747ba6e"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="101" y="98" width="10" height="8" uuid="db7c25ba-215f-4085-b708-2f8d989e43de"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="143" y="112" width="10" height="8" uuid="56b332df-a851-42ac-bf69-c9a5539bb4a4"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="11" width="38" height="14" uuid="17463aef-ef43-4450-97be-7ddc503d8c82">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[NO :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="85" y="25" width="136" height="14" uuid="974a2c63-4630-45d3-a34a-726d44537b4a">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="184" y="11" width="57" height="14" uuid="c54bb6fa-f3ca-4aa5-950e-38e1392f4dad">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noantrian}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="39" width="136" height="14" uuid="1b7828f2-9b21-41b3-8379-05ef8673429c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="66" width="136" height="14" uuid="cefa0aeb-0954-4edd-be38-31ccc951e4e6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{statuspasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="81" width="136" height="14" uuid="4fc764f8-fa19-4930-8603-8d00640381d1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tglregistrasi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="26" y="123" width="195" height="14" uuid="3dae4581-68de-43d0-b030-75bb404722ff">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ruanganPeriksa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="151" width="194" height="14" uuid="67913dee-2ba1-4d4d-8565-e8592946c9a1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namadokter}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="27" y="179" width="194" height="14" uuid="603b49a3-1bc9-43f7-b8f3-4f78dacb6416">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namarekanan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="85" y="11" width="76" height="14" uuid="d89e60be-6ffc-43f3-aa1c-800705155624">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="189" y="13" width="10" height="8" uuid="7ea85c4e-617c-4f4d-80c1-78cb6c4fa5d7"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="193" width="80" height="14" uuid="9605a0a2-617a-4be9-a473-d60480d34ca9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<text><![CDATA[Catatan Pasien]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="27" y="207" width="194" height="14" uuid="58f2fe97-08aa-4b20-9c2a-fff04a6d5327">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{catatan}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

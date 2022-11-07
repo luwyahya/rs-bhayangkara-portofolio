@@ -2679,6 +2679,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-lap-kegiatan-rj', 'Registrasi\RegistrasiController@getLaporanKegiatanRJ');
                 Route::get('get-data-lap-pengunjung-pemeriksaan', 'Registrasi\LaporanPengunjungController@getLaporanPengunjungPemeriksaan');
                 Route::get('get-laporan-topten-diagnosa', 'Registrasi\RegistrasiController@getTopTenDiagnosa');
+                Route::get('get-detail-topten-diagnosa', 'Registrasi\RegistrasiController@getDetailDiagnosa');
                 Route::get('get-data-lap-kinerja-bayar-rj', 'Registrasi\RegistrasiController@getLaporanKinerjaBayarRJ');
                 Route::get('get-sensus-harian-detail', 'Registrasi\RegistrasiController@getSensusHarianDetail');
                 Route::get('get-data-lap-kinerja-bayar-ri', 'Registrasi\RegistrasiController@getLaporanKinerjaBayarRI');
@@ -3488,6 +3489,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-map-account-bank', 'SysAdmin\Master\MasterController@saveMapAccountBank');
                 Route::get('get-dataaccountbank', 'SysAdmin\Master\MasterController@getDataAccountBank');
                 Route::post('hapus-map-account-bank', 'SysAdmin\Master\MasterController@hapusMapAccountBank');
+
+                Route::get('get-datamaptipelayanan', 'SysAdmin\Master\MasterController@getDataMapTipeLayanan');
+                Route::post('update-tipe-layanan', 'SysAdmin\Master\MasterController@updateTipeLayanan');
 
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
