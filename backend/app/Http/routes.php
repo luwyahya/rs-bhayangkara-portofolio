@@ -2093,6 +2093,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-combo-dokter-select', 'RawatInap\RawatInapController@getDataComboDokterSelect');
             Route::get('get-daftar-antrian-ranap', 'RawatInap\RawatInapController@getDaftarRegistrasiDokterRanap');
             Route::get('get-daftar-antrian-ranapbedah', 'RawatInap\RawatInapController@getDaftarRegistrasiDokterRanapOrderbedah');
+            Route::get('get-daftar-antrian-ranapbedahpernoreg', 'RawatInap\RawatInapController@getDaftarRegistrasiPernoreg');
             Route::get('get-dokters-combos', 'RawatInap\RawatInapController@getDokters');
             Route::post('save-update-dokter-antrian', 'RawatInap\RawatInapController@updateDokterAntrian');
             Route::post('simpan-update-dokter', 'RawatInap\RawatInapController@simpanUpdateDokter');
@@ -2680,6 +2681,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-lap-kegiatan-rj', 'Registrasi\RegistrasiController@getLaporanKegiatanRJ');
                 Route::get('get-data-lap-pengunjung-pemeriksaan', 'Registrasi\LaporanPengunjungController@getLaporanPengunjungPemeriksaan');
                 Route::get('get-laporan-topten-diagnosa', 'Registrasi\RegistrasiController@getTopTenDiagnosa');
+                Route::get('get-detail-topten-diagnosa', 'Registrasi\RegistrasiController@getDetailDiagnosa');
                 Route::get('get-data-lap-kinerja-bayar-rj', 'Registrasi\RegistrasiController@getLaporanKinerjaBayarRJ');
                 Route::get('get-sensus-harian-detail', 'Registrasi\RegistrasiController@getSensusHarianDetail');
                 Route::get('get-data-lap-kinerja-bayar-ri', 'Registrasi\RegistrasiController@getLaporanKinerjaBayarRI');

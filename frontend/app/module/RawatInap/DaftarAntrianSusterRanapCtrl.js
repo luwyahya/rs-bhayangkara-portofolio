@@ -7,10 +7,11 @@ define(['initialize'], function (initialize) {
             $scope.dataVOloaded = true;
             $scope.now = new Date();
             $scope.item = {};
+                                                        $scope.tampil = false;
             $scope.itema = {};
             $scope.item.periodeAwal = new Date();
             $scope.item.periodeAkhir = new Date();
-            $scope.item = {};
+            $scope.item1 = {};
             $scope.isRouteLoading = false;
             $rootScope.isOpen = true;
             $scope.item.tglterimapasien = '';
@@ -121,22 +122,22 @@ define(['initialize'], function (initialize) {
                     debugger
                     data
                 });
-                medifirstService.get("bridging/sisrute/push-pasien-masuk", false).then(function (data) {
-                    debugger
-                    data
-                });
-                medifirstService.get("bridging/sisrute/push-pasien-komorbid", false).then(function (data) {
-                    debugger
-                    data
-                });
-                medifirstService.get("bridging/sisrute/push-pasien-nonkomorbid", false).then(function (data) {
-                    debugger
-                    data
-                });
-                medifirstService.get("bridging/sisrute/push-pasien-keluar", false).then(function (data) {
-                    debugger
-                    data
-                });
+                // medifirstService.get("bridging/sisrute/push-pasien-masuk", false).then(function (data) {
+                //     debugger
+                //     data
+                // });
+                // medifirstService.get("bridging/sisrute/push-pasien-komorbid", false).then(function (data) {
+                //     debugger
+                //     data
+                // });
+                // medifirstService.get("bridging/sisrute/push-pasien-nonkomorbid", false).then(function (data) {
+                //     debugger
+                //     data
+                // });
+                // medifirstService.get("bridging/sisrute/push-pasien-keluar", false).then(function (data) {
+                //     debugger
+                //     data
+                // });
             }
             $scope.formatNum = {
                 format: "#.#",
@@ -375,6 +376,7 @@ define(['initialize'], function (initialize) {
                         for (var x = 0; x < tempbedah.length; x++) {
                             if (tempbedah[x].nocm == datas[i].nocm) {
                                 datas[i].bedah = "orderbedah"
+                                            $scope.tampil = false;
                                 // datas[i].flag = "N";
                             }
 
@@ -571,10 +573,11 @@ define(['initialize'], function (initialize) {
                     "field": "bedah",
                     "title": "bedah",
                     "width": "80px",
-                    attributes: {
-                        class: "#=bedah != '' ? 'red' : '' #"
-                    },
-                },
+                    
+                    "template": "<button  class=\"#=bedah != '' ? 'red k-button custom-button' : '' #\" ng-click=\"verifikasigrid(dataItem)\"  style=\"margin:0 0 5px\" >#:  bedah #</button> ",
+           
+                },  
+                // class: "#=bedah != '' ? 'red' : '' #"
                 // {
                 //     field: "statusAntrian",
                 //     title: "Status",
@@ -612,6 +615,24 @@ define(['initialize'], function (initialize) {
                  window.open(globalThis.location.origin + "/app/"+ url,'_blank').focus();    
 
             }
+            $scope.verifikasigrid = function(dataPasienSelected) {
+                          $scope.item1 = {};
+                  medifirstService.get("rawatinap/get-daftar-antrian-ranapbedahpernoreg?noregistrasifk="+dataPasienSelected.norec_pd, true).then(function (dat) {
+                    $scope.popUpVerif.center().open();
+                    $scope.item1.poli = dat.data[0].namapoli;
+                    $scope.item1.dokteroperasi = dat.data[0].namapoli;
+                    $scope.item1.dokteranestesi = dat.data[0].dokteranestesi;
+                    $scope.item1.jenistindakan = dat.data[0].jenistindakan;
+                    $scope.item1.jam = dat.data[0].jam;
+                    $scope.item1.ok = dat.data[0].ok;
+                    $scope.item1.petugasok = dat.data[0].petugasok;
+                    $scope.item1.mulaiop = dat.data[0].mulaiop;
+                    $scope.item1.selesaiop = dat.data[0].selesaiop;
+                    $scope.item1.keteranganverif = dat.data[0].keteranganverif;
+        
+                });
+            }
+            
             $scope.formatRupiah = function (value, currency) {
                 if (value == 'null')
                     value = 0

@@ -213,7 +213,19 @@ class RawatInapController extends ApiController
             DB::raw("select DISTINCT strukorder_t.nocmfk, pasien_m.nocm, strukorder_t.status, strukorder_t.statusorder
                     FROM            strukorder_t INNER JOIN
                     pasien_m ON strukorder_t.nocmfk = pasien_m.id
-                    WHERE (strukorder_t.keteranganorder = 'Pesan Jadwal Operasi') and objectunitpemesanfk = 0")
+                    WHERE (strukorder_t.keteranganorder = 'Pesan Jadwal Operasi')  ")
+        );
+        return $this->respond($data);
+    }
+    public function getDaftarRegistrasiPernoreg(Request $request)
+    {
+        $noregis = $request['noregistrasifk'];
+        $data = DB::select(
+            DB::raw("select jd.*,pgdokter.namalengkap as dokteroperasi,pgdokteranastesi.namalengkap as dokteranestesi
+                    FROM     jadwaloperasijkn_t as jd
+                    left join pegawai_m as pgdokter on jd.dokteroperatorfk = pgdokter.id 
+                    left join pegawai_m as pgdokteranastesi on jd.dokteroperatorfk = pgdokteranastesi.id 
+                    WHERE noregistrasifk='$noregis' order by tanggaloperasi desc limit 1  ")
         );
         return $this->respond($data);
     }

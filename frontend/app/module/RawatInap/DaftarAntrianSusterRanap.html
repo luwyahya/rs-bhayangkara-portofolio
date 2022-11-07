@@ -552,6 +552,128 @@
             <button class="k-button" ng-click="pilihQty(dats)" style="float:right;margin-top:4%">Cetak</button>
         </div>
     </div>
+    <!-- POP UP Verifikasi -->
+    <div kendo-window="popUpVerif " k-title=" 'Detail Order' " k-visible="false " k-width="900 " k-height="500 ">
+        
+        <div class="panel panel-default container_12 "> 
+            <!-- <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " c-label-text="Dokter Order "></label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                    <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item.dokterorder" />
+                </div>
+            </div> -->
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item ">Poli</label>
+                </div>
+                <div class="clear "></div>
+                <div class="grid_12 ">
+                    <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.poli" disabled/>
+                </div>
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " c-label-text="Dokter Operasi "></label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                    <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.dokteroperasi" disabled />
+                </div>
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " c-label-text="Dokter Anestesi "></label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.dokteranestesi" disabled />
+                </div>
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">jenis tindakan</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.jenistindakan" disabled />
+                </div>
+            </div>
+    
+    
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Jam</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 padDatePicker ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.jam" disabled />
+                </div>
+    
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Ok</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.ok"  disabled/>
+                </div>
+            </div>
+    
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Petugas OK</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.petugasok" disabled />
+                </div>
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Mulai OP</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 padDatePicker ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.mulaiop" disabled />
+                </div>
+            </div>
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Selesai OP</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 padDatePicker ">
+                <input c-text-box type="input " filter=" 'varchar' " class="k-textbox " ng-model="item1.selesaiop" disabled />
+                </div>
+            </div>
+    
+            <div class="grid_3 ">
+                <div class="grid_12 ">
+                    <label c-label item="item " style="margin-top: 10px ">Keterangan</label>
+                </div>
+                <div class="clear "></div>
+    
+                <div class="grid_12 ">
+                    <input c-text-box type="text " filter=" 'varchar' " class="k-textbox "
+                        ng-model="item1.keteranganverif" disabled />
+                </div>
+            </div>
+     
+        </div> 
+    </div>
     <style>
         img.photo-pasien {
             width: 300px;

@@ -126,16 +126,39 @@
                         </fieldset>
                     </div>
                 </div>
-
-                <!-- class="max-height" -->
-                <div class="grid_12" style="margin-top: 10px;">
-                    <div class="grid_12 borderBox">
-                        <kendo-grid id="kGrid2" data-source="sourceLaporan" options="columnLaporan" k-selectable="'row'"
-                            k-sortable="'true'" class="max-height" k-resizable="'true'" k-ng-model="dataSelected"
-                            ng-click="klik(dataSelected)">
-                        </kendo-grid>
-                    </div>
+                <div class="grid_12">
+                <div ng-cloak>
+                    <md-content>
+                        <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                            <md-tab label="Diagnosa" ng-click="asd('data')">
+                                <md-content class="md-padding">
+                                    <div class="grid_12" style="margin-top: 10px;">
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid id="kGrid2" data-source="sourceLaporan" options="columnLaporan" k-selectable="'row'"
+                                            k-sortable="'true'" class="max-height" k-resizable="'true'" k-ng-model="dataSelected"
+                                            ng-click="klik(dataSelected)">
+                                        </kendo-grid>
+                                    </div>
+                                </div>
+                                </md-content>
+                            </md-tab>
+                            <md-tab label="Detail Diagnosa" ng-click="asd('dokumen')">
+                                <md-content class="md-padding">
+                                     <div class="grid_12" style="margin-top: 10px;">
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid id="kGrid2" data-source="sourceLaporanDetail" options="columnPasienPulang" k-selectable="'row'"
+                                            k-sortable="'true'" class="max-height" k-resizable="'true'" k-ng-model="dataSelected"
+                                            ng-click="klik(dataSelected)">
+                                        </kendo-grid>
+                                    </div>
+                                </div>
+                                </md-content>
+                            </md-tab>
+                        </md-tabs>
+                    </md-content>
                 </div>
+            </div>
+                <!-- class="max-height" -->
                 <div class="grid_12" style="margin-top:60px">
                     <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
                 </div>
