@@ -21030,7 +21030,7 @@ group by x.namaruangan, x.idruangan, x.iddepartemen
                     } else if ($item->objectasalrujukanfk == '7') {
                         $jmlPasienPasca = (float)$hideung['jmlPasienPasca'] + 1;
                         $data10[$i]['jmlPasienPasca'] = $jmlPasienPasca;
-                    }
+                    }                
 
 
                     $data10[$i]['jmlPasienKunjungan'] = $data10[$i]['jmlPasienTracer'] + $data10[$i]['jmlPasienKonsul'] + $data10[$i]['jmlPasienNonTracer'];
@@ -21323,7 +21323,7 @@ group by x.namaruangan, x.idruangan, x.iddepartemen
                 if ($item->idruangan == $data10[$i]['idruangan']) {
                     $sama = true;
                     if ($item->objectruanganasalfk == null) {
-                        $jmlPasien = (float)$hideung['jmlPasien'] + 1;
+                        $jmlPasien  = (float)$hideung['jmlPasien'] + 1;
                         $data10[$i]['jmlPasien'] = $jmlPasien;
                         if ($item->statuskunjungan == 'BARU') {
                             $jmlPasienBaru = (float)$hideung['jmlPasienBaru'] + 1;
