@@ -13700,6 +13700,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest ['noregistrasi']= $newPD['noregistrasi'];
             $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
+            $objetoRequest = new \Illuminate\Http\Request();
+            $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
