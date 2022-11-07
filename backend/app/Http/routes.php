@@ -387,12 +387,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-monitoring-klaim-per-bulan', 'Bridging\BridgingBPJSV2Controller@getMonitoringKlaimPerBulan');
 
                 // aplicares
+                Route::get('aplicaresws/get-tt-push', 'Bridging\BridgingBPJSV2Controller@getKetersediaanTTNewPush');
                 Route::get('aplicaresws/get-tt', 'Bridging\BridgingBPJSV2Controller@getKetersediaanTTNew');
                 Route::get('aplicaresws/rest/ref/kelas', 'Bridging\BridgingBPJSV2Controller@getReferensiKamar');
                 Route::post('aplicaresws/rest/bed/update/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@updateKetersediaanTT');
                 Route::post('aplicaresws/rest/bed/create/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@postRuanganBaru');
                 Route::get('aplicaresws/rest/bed/read/{kodeppk}/{start}/{limit}', 'Bridging\BridgingBPJSV2Controller@getKetersedianKamarRS');
                 Route::post('aplicaresws/rest/bed/delete/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@hapusRuangan');
+                Route::post('aplicaresws/rest/bed/update/push', 'Bridging\BridgingBPJSV2Controller@updateKetersediaanTTPush');
                 // 
             });
             Route::group(['prefix' => 'bpjs'], function () {

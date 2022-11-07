@@ -1349,9 +1349,12 @@ define(['initialize'], function (initialize) {
                         });
                     })
                 } else {
+                    var idx = "";
+                    if ($scope.dataSelectedPopUpMapJurnal != undefined)
+                        idx = $scope.dataSelectedPopUpMapJurnal.id
                     var objSave =
                     {
-                        id: $scope.dataSelectedPopUpMapJurnal.id,
+                        id: idx,
                         objectcoadebitfk: accDebit,
                         objectcoakreditfk: accKredit,
                         objectprodukfk: kdProduk,
