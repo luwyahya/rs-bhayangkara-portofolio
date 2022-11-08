@@ -80,61 +80,62 @@
 <c-panel item="item" header="'Pendaftaran Pasien Lama'" disabled>
     <div class="panel-place" style="top: -1px;"><i style="cursor:pointer;" ng-click='pasienBaru()'
             class="fa  fa-user-plus fa-2x"></i></div>
-</c-panel>
 
-<div class="grid_12">
 
-    <div class="grid_1" style="margin-top:5px">
-        <label c-label real>No RM </label>
-        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noRM"
-            ng-keypress="($event.which == 13)? SearchEnter():item.noRM" />
-    </div>
-    <div class="grid_2" style="margin-top:5px">
-        <label c-label real>Nama Pasien</label>
-        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namaPasien"
-            ng-keypress="($event.which == 13)? SearchEnter():item.namaPasien" />
-    </div>
-    <div class="grid_1" style="margin-top:5px">
-        <label c-label real>Tanggal Lahir</label>
-        <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglLahir"
-            k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
-    </div>
+    <div class="grid_12">
 
-    <div class="grid_2" style="margin-top:5px">
-        <label c-label c-label-text="Nama ayah kandung" real></label>
-        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaAyah"
-            ng-keypress="($event.which == 13)? SearchEnter():item.namaAyah" />
-    </div>
-    <div class="grid_2" style="margin-top:5px">
-        <label c-label c-label-text="Nama Ibu kandung" real></label>
-        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaIbu"
-            ng-keypress="($event.which == 13)? SearchEnter():item.namaIbu" />
-    </div>
-    <div class="grid_2" style="margin-top:5px">
-        <label c-label c-label-text="Nomor BPJS" real></label>
-        <input style="width: 100%" c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noBpjs"
-            ng-keypress="($event.which == 13)? SearchEnter():item.noBpjs" />
-    </div>
-    <div class="grid_3" style="margin-top:5px">
-        <label c-label c-label-text="Alamat" real></label>
-        <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.alamat"
-            ng-keypress="($event.which == 13)? SearchEnter():item.alamat" />
-    </div>
-    <!--    <div class="grid_1" style="margin-top:5px">
+        <div class="grid_1" style="margin-top:5px">
+            <label c-label real>No RM </label>
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noRM"
+                ng-keypress="($event.which == 13)? SearchEnter():item.noRM" />
+        </div>
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label real>Nama Pasien</label>
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namaPasien"
+                ng-keypress="($event.which == 13)? SearchEnter():item.namaPasien" />
+        </div>
+        <div class="grid_1" style="margin-top:5px">
+            <label c-label real>Tanggal Lahir</label>
+            <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglLahir"
+                k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
+        </div>
+
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label c-label-text="Nama ayah kandung" real></label>
+            <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox"
+                ng-model="item.namaAyah" ng-keypress="($event.which == 13)? SearchEnter():item.namaAyah" />
+        </div>
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label c-label-text="Nama Ibu kandung" real></label>
+            <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox"
+                ng-model="item.namaIbu" ng-keypress="($event.which == 13)? SearchEnter():item.namaIbu" />
+        </div>
+        <div class="grid_2" style="margin-top:5px">
+            <label c-label c-label-text="Nomor BPJS" real></label>
+            <input style="width: 100%" c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.noBpjs"
+                ng-keypress="($event.which == 13)? SearchEnter():item.noBpjs" />
+        </div>
+        <div class="grid_3" style="margin-top:5px">
+            <label c-label c-label-text="Alamat" real></label>
+            <input style="width: 100%" c-text-box type="input" filter="'string'" class="k-textbox"
+                ng-model="item.alamat" ng-keypress="($event.which == 13)? SearchEnter():item.alamat" />
+        </div>
+        <!--    <div class="grid_1" style="margin-top:5px">
                             <label c-label c-label-text="Alamat" real></label>
                             <input style="width: 100%;"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.alamat" ng-keypress="($event.which == 13)? SearchEnter():item.alamat"   />
                         </div> -->
-    <!--    <div class="grid_2" style="margin-top:5px">
+        <!--    <div class="grid_2" style="margin-top:5px">
                             <label c-label c-label-text="Nama ayah kandung" real></label>
                             <input style="width: 100%"  c-text-box type="input" filter="'string'" class="k-textbox" ng-model="item.namaAyah" />
                         </div> -->
-    <div class="grid_1" style="margin-top:5px">
-        <label c-label c-label-text=""></label>
-        <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
-            class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
-                class="k-sprite k-icon k-i-search">Cari</span></em>
+        <div class="grid_1" style="margin-top:5px">
+            <label c-label c-label-text=""></label>
+            <em style="margin-top:6px;" ng-click='SearchData()' id="iconButton" data-role="button"
+                class="k-button k-button-icon" role="button" aria-disabled="false" tabindex="0"><span
+                    class="k-sprite k-icon k-i-search">Cari</span></em>
+        </div>
     </div>
-</div>
+</c-panel>
 <div class="grid_12">
     <div class="clear"></div>
     <div class="grid_12 borderBox">
