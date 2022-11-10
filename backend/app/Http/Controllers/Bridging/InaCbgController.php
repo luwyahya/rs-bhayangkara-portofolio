@@ -716,7 +716,7 @@ class InaCbgController   extends ApiController
         );
 
         $datass = DB::select(DB::raw("select tglmasuk,tglkeluar from antrianpasiendiperiksa_t where objectruanganfk in ('905','740','904') and 
-                noregistrasifk='$noregistrasifk' and tglkeluar is not null order by tglmasuk asc"));
+                noregistrasifk='$noregistrasifk' and tglkeluar is not null and statusenabled=true order by tglmasuk asc"));
 
         $statusrawatintensiv='0';
         $lamarawatintensivaa=0;

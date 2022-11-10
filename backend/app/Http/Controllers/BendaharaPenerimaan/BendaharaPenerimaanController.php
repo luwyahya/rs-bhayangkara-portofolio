@@ -964,7 +964,7 @@ class BendaharaPenerimaanController extends ApiController {
                     sppd.totalppenjamin
                     FROM
                     strukbuktipenerimaan_t AS sbm
-                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
                     LEFT JOIN strukpelayananpenjamin_t as spp on spp.nostrukfk=sp.norec
                     LEFT JOIN strukpelayananpenjamindetail_t as sppd on sppd.strukpelayananpenjaminfk=spp.norec
                     LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec

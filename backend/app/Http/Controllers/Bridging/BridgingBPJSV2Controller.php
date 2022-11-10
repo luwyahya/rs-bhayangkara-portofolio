@@ -5860,6 +5860,147 @@ class BridgingBPJSV2Controller extends ApiController
     {
         return is_numeric( $val ) && floor( $val ) != $val;
     }
+    public function getKetersediaanTTNewPush (Request $request, $lokal = null)
+    {
+        $data = DB::select(DB::raw("SELECT
+            x.kodekelas,
+                x.koderuang,
+                x.namaruang,
+                COUNT (x.id) AS kapasitas,
+        -- SUM (tersediapriawanita) + SUM (tersediawanita)+   SUM (tersediapria)
+                0 AS tersedia,
+                SUM (tersediapria) AS tersediapria,
+                SUM (tersediawanita) AS tersediawanita,
+                SUM (tersediapriawanita) AS tersediapriawanita,
+           
+                x.namakelas
+            FROM
+                (
+                    SELECT
+                        ru.id AS koderuang,
+                    
+                        kmr.id,
+                        kmr.namakamar,
+                        -- kl.[namaexternal] AS [kodekelas],
+                        case when ru.id=717 then 'NIC' when ru.id=722 then 'ICU' 
+                        when ru.id=724 and kl.namakelas='Intensive' then 'ICU' when ru.id=758 then 'ICU' 
+                        when ru.id=759 then 'ICU' when ru.id=760 and kl.namakelas='Intensive' then 'ICU'
+                        when ru.id=761 then 'ICU' when ru.id=762 then 'ICU'
+                        when ru.id=763 and kl.namakelas='Intensive' then 'ICU' when ru.id=764 then 'NIC' when ru.id=798 then 'NIC'
+                        when ru.id=781 then 'ICU' when ru.id=797 then 'ICU' when ru.id=865 then 'ICU' when ru.id=740 then 'HCU'
+                        when ru.id=741 then 'HCU' when ru.id=742 then 'HCU'
+                        when ru.id=757 then 'ICC' when ru.id=756 then 'ICU' else kl.namaexternal END AS kodekelas,
+                        kl.namakelas,
+                        ru.id AS id_ruangan,
+                        ru.namaruangan AS namaruang,
+                      ru.jenis,
+                        CASE
+                    WHEN ru.jenis = 'male' THEN
+                        1
+                    ELSE
+                        0
+                    END AS tersediapria,
+                    CASE
+                WHEN ru.jenis = 'female' THEN
+                    1
+                ELSE
+                    0
+                END AS tersediawanita,
+                     CASE
+                WHEN ru.jenis = 'mix' THEN
+                    1
+                ELSE
+                    0
+                END AS tersediapriawanita
+                FROM
+                    tempattidur_m AS tt
+                LEFT JOIN statusbed_m AS sb ON sb.id = tt.objectstatusbedfk
+                LEFT JOIN kamar_m AS kmr ON kmr.id = tt.objectkamarfk
+                LEFT JOIN ruangan_m AS ru ON ru.id = kmr.objectruanganfk
+                LEFT JOIN kelas_m AS kl ON kl.id = kmr.objectkelasfk
+                WHERE
+                    tt.statusenabled = true
+                    and kmr.statusenabled=true
+              and  ru.objectdepartemenfk IN (16, 35)
+              and ru.id=906
+                ) AS x
+            GROUP BY
+                x.kodekelas,
+                x.koderuang,
+                x.namaruang,
+                x.namakelas
+            ORDER BY
+                x.kodekelas"));
+            foreach ($data as $key) {
+                // $data10 = [];
+                $data10 = array(
+                    'kodekelas' => $key->kodekelas,
+                    'koderuang' => $key->koderuang,
+                    'namaruang' => $key->namaruang,
+                    'kapasitas' => $key->kapasitas,
+                    'tersedia' => $key->tersedia,
+                    'tersediapria' => $key->tersediapria,
+                    'tersediawanita' => $key->tersediawanita,
+                    'tersediapriawanita' => $key->tersediapriawanita,
+                );
+                // $dataJson[]=array($data10);
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['method'] = 'POST';
+                $objetoRequest['data'] = $data10;
+                $ihs = $this->updateKetersediaanTTPush($objetoRequest,true);
+            }
+        return $this->respond($ihs);
+    }
+    public function updateKetersediaanTTPush(Request $request, $lokal = null) {
+        // return($request['data']);
+        // die();
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+        $curl = curl_init();
+
+        $dataJsonSend = json_encode($request['data']);
+        curl_setopt_array($curl, array(
+            // CURLOPT_PORT =>  $this->getPortBrigdingBPJS(),
+            CURLOPT_URL=> $this->getUrlBrigingAplicare()."aplicaresws/rest/bed/update/0119R004",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $dataJsonSend,
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: Application/json",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            $result= "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+        return $result;
+
+    }
     public function getKetersediaanTTNew(Request $request)
     {
         // return($request['kelas']);

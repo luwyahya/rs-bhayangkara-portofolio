@@ -387,12 +387,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-monitoring-klaim-per-bulan', 'Bridging\BridgingBPJSV2Controller@getMonitoringKlaimPerBulan');
 
                 // aplicares
+                Route::get('aplicaresws/get-tt-push', 'Bridging\BridgingBPJSV2Controller@getKetersediaanTTNewPush');
                 Route::get('aplicaresws/get-tt', 'Bridging\BridgingBPJSV2Controller@getKetersediaanTTNew');
                 Route::get('aplicaresws/rest/ref/kelas', 'Bridging\BridgingBPJSV2Controller@getReferensiKamar');
                 Route::post('aplicaresws/rest/bed/update/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@updateKetersediaanTT');
                 Route::post('aplicaresws/rest/bed/create/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@postRuanganBaru');
                 Route::get('aplicaresws/rest/bed/read/{kodeppk}/{start}/{limit}', 'Bridging\BridgingBPJSV2Controller@getKetersedianKamarRS');
                 Route::post('aplicaresws/rest/bed/delete/{kodeppk}', 'Bridging\BridgingBPJSV2Controller@hapusRuangan');
+                Route::post('aplicaresws/rest/bed/update/push', 'Bridging\BridgingBPJSV2Controller@updateKetersediaanTTPush');
                 // 
             });
             Route::group(['prefix' => 'bpjs'], function () {
@@ -2092,6 +2094,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-combo-dokter-select', 'RawatInap\RawatInapController@getDataComboDokterSelect');
             Route::get('get-daftar-antrian-ranap', 'RawatInap\RawatInapController@getDaftarRegistrasiDokterRanap');
             Route::get('get-daftar-antrian-ranapbedah', 'RawatInap\RawatInapController@getDaftarRegistrasiDokterRanapOrderbedah');
+            Route::get('get-daftar-antrian-ranapbedahpernoreg', 'RawatInap\RawatInapController@getDaftarRegistrasiPernoreg');
             Route::get('get-dokters-combos', 'RawatInap\RawatInapController@getDokters');
             Route::post('save-update-dokter-antrian', 'RawatInap\RawatInapController@updateDokterAntrian');
             Route::post('simpan-update-dokter', 'RawatInap\RawatInapController@simpanUpdateDokter');
