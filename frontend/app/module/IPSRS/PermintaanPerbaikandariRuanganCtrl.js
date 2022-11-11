@@ -233,7 +233,7 @@ define(['initialize'], function (initialize) {
                     "width": "80px",
                 },
                 {
-                    "field": "rincian",
+                    "field": "rincianexecuteplanning_askep",
                     "title": "Keterangan Maintenance",
                     "width": "150px",
                 },
@@ -263,7 +263,7 @@ define(['initialize'], function (initialize) {
                     "width": "100px",
                 },
                 {
-                    "field": "status",
+                    "field": "statuspekerjaan",
                     "title": "Status",
                     "width": "50px",
                 }

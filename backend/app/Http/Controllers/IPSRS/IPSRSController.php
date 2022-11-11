@@ -129,6 +129,7 @@ class IPSRSController extends ApiController
             $newCOA->objectkelompoktransaksifk = 122;
             $newCOA->rincianexecuteplanning_askep = $request['rincian'];
             $newCOA->narasumberfk = $request['pelapor'];
+            $newCOA->pelapor = $request['namapelapor'];
             $newCOA->objectjenisalatfk = $request['jenisKerusakan'];
             $newCOA->tempat = 'IPSRS';
             $newCOA->nohppelapor = $nohp;
