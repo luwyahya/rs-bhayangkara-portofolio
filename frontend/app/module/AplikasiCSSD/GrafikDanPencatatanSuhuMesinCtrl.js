@@ -1,18 +1,20 @@
 define(['initialize'], function(initialize){
 	'use strict';
-	initialize.controller('GrafikDanPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','ManageSarpras','IPSRSService','$state',
-		function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,IPSRSService,$state){
+	// initialize.controller('GrafikDanPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','ManageSarpras','medifirstService','$state',
+	// 	function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,IPSRSService,$state){
+		initialize.controller('GrafikDanPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.title = "";
 			$scope.dataVOloaded = true;
 			$scope.now = new Date();
 			$scope.item = {};
 			$scope.item.tanggal = $scope.now;
-		    IPSRSService.getItem("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
+		    medifirstService.get("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
 			      $scope.listMesin = dat.data.data;
 			});
 
 		    $scope.getPegawai = function(){
-	           IPSRSService.getItem("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
+	           medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
             	 $scope.dataMasterPegawai = dat.data;
                });
 	        }
@@ -41,7 +43,7 @@ define(['initialize'], function(initialize){
 		    
 		    $scope.init = function(){
 		    $scope.no = 1;
-			  IPSRSService.getItem("pencatatan-suhu-mesin/get-pencatatan-suhu-mesin-grafik", true).then(function(dat){
+			  medifirstService.get("pencatatan-suhu-mesin/get-pencatatan-suhu-mesin-grafik", true).then(function(dat){
 			   $scope.dataMaster = dat.data.data;
 			     for(var i=0; i<$scope.dataMaster.length; i++){
 					 $scope.dataMaster[i].no = $scope.no++;

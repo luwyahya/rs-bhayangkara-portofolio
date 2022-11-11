@@ -1,7 +1,9 @@
 define(['initialize'], function (initialize) {
     'use strict';
-    initialize.controller('RekapLayananCSSDCtrl', ['$rootScope', '$scope', '$state', 'ModelItem', 'DateHelper', 'ManageSarpras', 'CetakHelper',
-        function ($rootScope, $scope, $state, ModelItem, DateHelper, ManageSarpras, CetakHelper) {
+    // initialize.controller('RekapLayananCSSDCtrl', ['$rootScope', '$scope', '$state', 'ModelItem', 'DateHelper', 'ManageSarpras', 'CetakHelper',
+    //     function ($rootScope, $scope, $state, ModelItem, DateHelper, ManageSarpras, CetakHelper) {
+        initialize.controller('RekapLayananCSSDCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+        function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
             $scope.item = {};
             $scope.item.tglAwal = new Date();
             $scope.item.tglAkhir = new Date();
@@ -39,11 +41,17 @@ define(['initialize'], function (initialize) {
                 if (value == 1) {
                     startDate = tahunAwal + '-' + bulanAwal + '-' + hariAwal;
                     endDate = tahunAkhir + '-' + bulanAkhir + '-    ' + hariAkhir;
-                    url = 'reporting/rekapPengirimanSterilisasi?startDate=' + startDate + '&endDate=' + endDate
+                    // url = 'reporting/rekapPengirimanSterilisasi?startDate=' + startDate + '&endDate=' + endDate
+                    medifirstService.get( "reporting/rekapPengirimanSterilisasi?startDate=" + startDate + "&endDate=" + endDate).then(function(dat){
+                 // $scope.dataMasterPegawai = dat.data;
+                    });
                 } else if (value == 2) {
                     startDate = tahunAwal + '-' + bulanAwal + '-' + hariAwal;
                     endDate = tahunAkhir + '-' + bulanAkhir + '-' + hariAkhir;
-                    url = 'reporting/rekapLayananSterilisasi?startDate=' + startDate + '&endDate=' + endDate
+                    // url = 'reporting/rekapLayananSterilisasi?startDate=' + startDate + '&endDate=' + endDate
+                    medifirstService.get( "reporting/rekapLayananSterilisasi?startDate=" + startDate + "&endDate=" + endDate).then(function(dat){
+                 // $scope.dataMasterPegawai = dat.data;
+                        });
                 }
 
 

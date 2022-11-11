@@ -447,7 +447,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.signdate =  $scope.dataSelected.tglplanning
                 $scope.item.startdate =  $scope.dataSelected.startdate
                 $scope.item.duedate =  $scope.dataSelected.duedate
-                $scope.item.staff =  $scope.dataSelected.namalengkap
+                $scope.item.staff =  $scope.dataSelected.pelapor
                 $scope.item.worklist =  $scope.dataSelected.deskripsiplanning
                 $scope.item.inspeksi =  $scope.dataSelected.keteranganverifikasi
                 $scope.item.inspeksistaff =  $scope.dataSelected.pegawaipj

@@ -955,6 +955,10 @@
             "urlDep": "module/AplikasiCSSD/MasterBundelCtrl"
         },
         {
+            "nameDep": "MasterProduksiBMHPCtrl",
+            "urlDep": "module/AplikasiCSSD/MasterProduksiBMHPCtrl"
+        },
+        {
             "nameDep": "MasterAlatCtrl",
             "urlDep": "module/AplikasiCSSD/MasterAlatCtrl"
         },
@@ -966,7 +970,6 @@
             "nameDep": "MappingBMHPToSetAlatCtrl",
             "urlDep": "module/AplikasiCSSD/MappingBMHPToSetAlatCtrl"
         },
-
         {
             "nameDep": "PencatatanSuhuMesinCtrl",
             "urlDep": "module/AplikasiCSSD/PencatatanSuhuMesinCtrl"
@@ -974,6 +977,10 @@
         {
             "nameDep": "MasterBundelCtrl",
             "urlDep": "module/AplikasiCSSD/MasterBundelCtrl"
+        },
+        {
+            "nameDep": "ProduksiBMHPCtrl",
+            "urlDep": "module/AplikasiCSSD/ProduksiBMHPCtrl"
         },
         {
             "nameDep": "PermintaanBarangdariRuanganCtrl",
@@ -1076,7 +1083,6 @@
             "nameDep": "DaftarReturSterilisasiAlatCtrl",
             "urlDep": "module/AplikasiCSSD/DaftarReturSterilisasiAlatCtrl"
         },
-        
         {
             "nameDep": "MapPenjaminToProdukCtrl",
             "urlDep": "module/SysAdmin/MapPenjaminToProdukCtrl"

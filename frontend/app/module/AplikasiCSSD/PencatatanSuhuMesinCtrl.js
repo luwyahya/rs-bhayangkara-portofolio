@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize){
 	'use strict';
-	initialize.controller('PencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','ManageSarpras','IPSRSService','$state',
-		function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,IPSRSService,$state){
+	// initialize.controller('PencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','ManageSarpras','medifirstService','$state',
+	// 	function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,medifirstService,$state){
+		initialize.controller('PencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.title = "";
 			$scope.dataVOloaded = true;
 			$scope.now = new Date();
@@ -15,12 +17,12 @@ define(['initialize'], function(initialize){
 			//$scope.item.jamAkhir = JamAkhirFormat;
 			//$scope.item.lamaProses =  DateHelper.CountDifferenceHourMinute($scope.now,$scope.now);
 		    //return $scope.item.lamaProses = TotalWaktu;
-		    IPSRSService.getItem("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
+		    medifirstService.get("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
 			      $scope.listMesin = dat.data.data;
 			});
 
 		    $scope.getPegawai = function(){
-	           IPSRSService.getItem("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
+	           medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
             	 $scope.dataMasterPegawai = dat.data;
                });
 	        }
@@ -30,7 +32,7 @@ define(['initialize'], function(initialize){
 		    
 		    $scope.init = function(){
 		      $scope.no = 1;
-			   IPSRSService.getItem("pencatatan-suhu-mesin/get-pencatatan-suhu-mesin", true).then(function(dat){
+			   medifirstService.get("pencatatan-suhu-mesin/get-pencatatan-suhu-mesin", true).then(function(dat){
 				   $scope.dataMaster = dat.data.data;
 				     for(var i=0; i<$scope.dataMaster.length; i++){
 						 $scope.dataMaster[i].no = $scope.no++;
