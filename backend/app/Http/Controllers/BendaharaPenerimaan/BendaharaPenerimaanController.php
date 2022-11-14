@@ -982,7 +982,7 @@ class BendaharaPenerimaanController extends ApiController {
                     LEFT JOIN mapjurnal_m as mj on mj.objectkelompoktransaksifk=sbm.objectkelompoktransaksifk
                     left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
                     left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
-                    WHERE
+                    WHERE sbm.objectkelompoktransaksifk not in (60) and
                     sbm.noclosingfk='$norec_closing'
                     ) as x GROUP BY x.totalpenerimaan,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit"));
 
