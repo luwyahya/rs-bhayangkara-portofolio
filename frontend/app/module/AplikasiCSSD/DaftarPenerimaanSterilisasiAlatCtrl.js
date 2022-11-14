@@ -1,7 +1,9 @@
 define(['initialize'], function (initialize) {
     'use strict';
-    initialize.controller('DaftarPenerimaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageLogistikPhp', 'ModelItemAkuntansi', 'DateHelper', '$state',
-        function ($rootScope, $scope, ModelItem, manageLogistikPhp,modelItemAkuntansi,  DateHelper, $state) {
+    // initialize.controller('DaftarPenerimaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageLogistikPhp', 'ModelItemAkuntansi', 'DateHelper', '$state',
+    //     function ($rootScope, $scope, ModelItem, medifirstService,modelItemAkuntansi,  DateHelper, $state) {
+         initialize.controller('DaftarPenerimaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+        function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
             $scope.item = {};
             $scope.now = new Date();
             $scope.dataVOloaded = true;
@@ -26,7 +28,7 @@ define(['initialize'], function (initialize) {
                 }
             }
             var init = function () {
-                manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/list-sterilisasi?noOrder=&tanggalAwal=&tanggalAhir").then(function (dat) {
+                medifirstService.get("cssd-sterilisasi/list-sterilisasi?noOrder=&tanggalAwal=&tanggalAhir").then(function (dat) {
                     $scope.dataGrid = dat.data.data;
                     var dataGridInternal = [];
                     var dataGridEksternal = [];
@@ -73,7 +75,7 @@ define(['initialize'], function (initialize) {
                     orderNo = "";
                 }
                 debugger;
-                manageLogistikPhp.getDataTableTransaksi("CSSD/get-Daftarpermintaansterilisasi?tglawal=" + tanggalAwal + "&tglakhir=" + tanggalAkhir).then(function (dat) {
+                medifirstService.get("CSSD/get-Daftarpermintaansterilisasi?tglawal=" + tanggalAwal + "&tglakhir=" + tanggalAkhir).then(function (dat) {
                     $scope.dataGrid = dat.data.data;
                     var dataGridInternal = [];
                     var dataGridEksternal = [];
@@ -308,7 +310,7 @@ define(['initialize'], function (initialize) {
                     data = $scope.item;
 
                 $scope.item = data;
-                manageSarprasPhp.getDataTableTransaksi("pasien/get-dokters-combos", false).then(function (data) {
+                medifirstService.get("pasien/get-dokters-combos", false).then(function (data) {
                     $scope.listDokter = data.data.dokter;
                 })
                 // show popup untuk pilih dokter
@@ -330,7 +332,7 @@ define(['initialize'], function (initialize) {
             //             norec_apd: $scope.item.norec_apd,
             //             iddokter: $scope.items.pilihDokter.id
             //         }
-            //         manageSarprasPhp.updateDokters(tmpData).then(function (e) {
+            //         medifirstService.updateDokters(tmpData).then(function (e) {
             //             // update status antrian
             //             $scope.winDialogss.close();
             //             loadData();

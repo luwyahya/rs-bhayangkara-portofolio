@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('BowidickAttestGrafikPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem','DateHelper','ManageSarpras','$state','IPSRSService',
-		function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,$state,IPSRSService) {
+	// initialize.controller('BowidickAttestGrafikPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem','DateHelper','ManageSarpras','$state','medifirstService',
+	// 	function($rootScope, $scope, ModelItem, DateHelper,ManageSarpras,$state,IPSRSService) {
+		initialize.controller('BowidickAttestGrafikPencatatanSuhuMesinCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			ModelItem.get("CSSD/BowidickAttestGrafikPencatatanSuhuMesin").then(function(data) {
 			$scope.item = data;
 			$scope.now = new Date();
@@ -20,13 +22,13 @@ define(['initialize'], function(initialize) {
 	        }
 
 	        $scope.getPegawai = function(){
-	           IPSRSService.getItem("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
+	           medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
             	 $scope.dataMasterPegawai = dat.data;
                });
 	        }
 	        $scope.getPegawai();
 	        
-	        IPSRSService.getItem("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
+	        medifirstService.get("pencatatan-suhu-mesin/get-mesin", true).then(function(dat){
 		      $scope.listMesin = dat.data.data;
 		    });	
 
@@ -56,7 +58,7 @@ define(['initialize'], function(initialize) {
 	          $scope.item = {};
 			  $scope.item.awal = $scope.now;
 			  $scope.item.akhir = $scope.now;
-	          IPSRSService.getItem("bowidick/get-bowidick-by-norec?noRec="+current.noRes, true).then(function(dat){
+	          medifirstService.get("bowidick/get-bowidick-by-norec?noRec="+current.noRes, true).then(function(dat){
 		      $scope.SubdataGrid = dat.data.data; 
 	          
 	          /*- - - BOWIDICK - - - */
@@ -131,7 +133,7 @@ define(['initialize'], function(initialize) {
 	              var tanggalawalParse = new moment($scope.item.awal).format('YYYY-MM-DD')
 	              var tanggalakhirParse = new moment($scope.item.akhir).format('YYYY-MM-DD');
 				   if($scope.Rubahdat == false && getPencarian == undefined){
-				   	 IPSRSService.getItem("bowidick/get-bowidick?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
+				   	 medifirstService.get("bowidick/get-bowidick?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
 				      debugger
 				      $scope.dataMaster = dat.data.data.data;
 				      	for(var i=0; i<$scope.dataMaster.length; i++){

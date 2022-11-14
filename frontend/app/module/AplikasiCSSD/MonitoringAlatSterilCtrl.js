@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('MonitoringAlatSterilCtrl', ['$rootScope', '$scope', 'ModelItem','ManageSarpras','$state','DateHelper',
-		function($rootScope, $scope, ModelItem,ManageSarpras,$state,DateHelper) {
+	// initialize.controller('MonitoringAlatSterilCtrl', ['$rootScope', '$scope', 'ModelItem','ManageSarpras','$state','DateHelper',
+	// 	function($rootScope, $scope, ModelItem,ManageSarpras,$state,DateHelper) {
+		initialize.controller('MonitoringAlatSterilCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			ModelItem.get("CSSD/MonitoringAlatSteril").then(function(data) {
 				$scope.item = data;
 				$scope.now = new Date();
@@ -13,7 +15,7 @@ define(['initialize'], function(initialize) {
 				$scope.item.akhir = $scope.now;
 				$scope.statusSave = true;
 				$scope.Rubahdat = false;
-				ManageSarpras.getOrderList("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
+				medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
 	              $scope.dataMasterPetugas = dat.data;
 	           });	
 
@@ -35,7 +37,7 @@ define(['initialize'], function(initialize) {
 				$scope.listSatuan = ModelItem.kendoHttpSource('service/list-generic/?view=SatuanStandar&select=satuanStandar,id', true);
 
 				$scope.gridFetch = function(){
-					ManageSarpras.getOrderList("mapping-alat-to-bundle/get-mesin-all", true).then(function(dat){
+					medifirstService.get("mapping-alat-to-bundle/get-mesin-all", true).then(function(dat){
 						$scope.listBundel = dat.data.data;
 					});
 				}
@@ -76,7 +78,7 @@ define(['initialize'], function(initialize) {
 	            var tanggalakhirParse = new moment($scope.item.akhir).format('YYYY-MM-DD');
 	     		var no = 1;
 	     		if($scope.Rubahdat == false && getPencarian == undefined){
-		     	ManageSarpras.getOrderList("monitoringalatsteril/get-monitoringalatsteril?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
+		     	medifirstService.get("monitoringalatsteril/get-monitoringalatsteril?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
 	              debugger
 	              $scope.datagrid = dat.data.data;
 	              for(var i=0; i<$scope.datagrid.length; i++){
@@ -228,7 +230,7 @@ define(['initialize'], function(initialize) {
 					"tanggalSteril" : viewDataCurrent.tanggalSteril,
 					"statusEnabled" : false
 				}
-				ManageSarpras.saveDataUji(data, "monitoringalatsteril/save-monitoringalatsteril").then(function(e){
+				medifirstService.post(data, "monitoringalatsteril/save-monitoringalatsteril").then(function(e){
 					$scope.init();
 					$scope.item = {};
 					$scope.noRec = undefined;
@@ -256,7 +258,7 @@ define(['initialize'], function(initialize) {
 					"tanggalSteril":tanggalSteril,
 					"statusEnabled":$scope.statusSave
 			    }
-			 ManageSarpras.saveDataUji(data, "monitoringalatsteril/save-monitoringalatsteril").then(function (e) {
+			 medifirstService.post(data, "monitoringalatsteril/save-monitoringalatsteril").then(function (e) {
 	         	debugger
 	         	$scope.init();
 	         	debugger

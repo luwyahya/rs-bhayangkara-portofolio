@@ -1,13 +1,15 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('MasterProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'IPSRSService', '$state',
-		function($rootScope, $scope, ModelItem, IPSRSService, $state) {
+	// initialize.controller('MasterProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'IPSRSService', '$state',
+	// 	function($rootScope, $scope, ModelItem, IPSRSService, $state) {
+		initialize.controller('MasterProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.dataVOloaded = true;
 			$scope.item = {};
 
 		  $scope.no = 1;
 		  $scope.GetGrid = function(){
-		 	IPSRSService.getItem("cssd-bmhp/master-bmhp").then(function(dat){
+		 	medifirstService.get("cssd-bmhp/master-bmhp").then(function(dat){
 			$scope.dataMaster = dat.data.data;
 			for(var i=0; i<$scope.dataMaster.length; i++){
 				$scope.dataMaster[i].no = $scope.no++;
@@ -43,7 +45,7 @@ define(['initialize'], function(initialize) {
 			
 
 		function init() {
-				IPSRSService.getItem("cssd-bmhp/barang-persediaan", true).then(function(dat){
+				medifirstService.get("cssd-bmhp/barang-persediaan", true).then(function(dat){
 					$scope.dataProduk = dat.data.data;
 				});
 
@@ -182,7 +184,7 @@ define(['initialize'], function(initialize) {
 					"cssdBmhpDetail": dataArray
 				}
 				if(isValid.status){
-					IPSRSService.saveDataSarPras(dataSimpan, "cssd-bmhp/save-bmhp/").then(function(e) {
+					medifirstService.post(dataSimpan, "cssd-bmhp/save-bmhp/").then(function(e) {
 						$scope.GetGrid();
 					});
 				} else {

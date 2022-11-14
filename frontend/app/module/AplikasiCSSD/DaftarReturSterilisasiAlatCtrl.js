@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('DaftarReturSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageSarpras','IPSRSService', 'DateHelper', '$state',
-		function($rootScope, $scope, ModelItem, ManageSarpras, IPSRSService, DateHelper, $state) {
+	// initialize.controller('DaftarReturSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageSarpras','medifirstService', 'DateHelper', '$state',
+	// 	function($rootScope, $scope, ModelItem, ManageSarpras, IPSRSService, DateHelper, $state) {
+		initialize.controller('DaftarReturSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.item = {};
 			$scope.now = new Date();
 			$scope.dataVOloaded = true;
@@ -10,7 +12,7 @@ define(['initialize'], function(initialize) {
 
 			var init = function () {
 				$scope.no = 1;
-				IPSRSService.getItem("retur-cssd/list-retur-cssd?tanggalAwal=&tanggalAhir=&produkId=&jenisProdukId=&kelompokProdukId=").then(function(dat){
+				medifirstService.get("retur-cssd/list-retur-cssd?tanggalAwal=&tanggalAhir=&produkId=&jenisProdukId=&kelompokProdukId=").then(function(dat){
 					$scope.dataGrid = dat.data.data;
 					$scope.dataGrid.forEach(function (data) {
 						var tanggal = new Date(data.tglRetur);
@@ -71,7 +73,7 @@ define(['initialize'], function(initialize) {
           	var GetPencarian = Pencarians;
 				$scope.no = 1;
 				if(GetPencarian == undefined && $scope.Rubahdat == false){
-					IPSRSService.getItem("retur-cssd/list-retur-cssd?tanggalAwal="+tanggalawal+"&tanggalAhir="+tanggalakhir+"&produkId=&jenisProdukId=&kelompokProdukId=").then(function(dat){
+					medifirstService.get("retur-cssd/list-retur-cssd?tanggalAwal="+tanggalawal+"&tanggalAhir="+tanggalakhir+"&produkId=&jenisProdukId=&kelompokProdukId=").then(function(dat){
 					$scope.dataGrid = dat.data.data;
 					$scope.dataGrid.forEach(function (data) {
 						var tanggal = new Date(data.tglRetur);

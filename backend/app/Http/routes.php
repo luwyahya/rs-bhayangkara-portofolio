@@ -1759,6 +1759,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-verifikasi-kepala-instalasi', 'Logistik\LogistikController@saveVerifikasiKepalaInstalasi');
             Route::post('save-data-usulan-permintaan-barang-ruangan', 'Logistik\LogistikController@saveUsulanPermintaan');
             Route::post('save-perbaiki-kartu-stok', 'Logistik\LogistikController@savePerbaikiKartuStok');
+            Route::post('save-edit-stok', 'Logistik\LogistikController@saveEditStok');
             Route::post('save-updatedosis', 'Logistik\LogistikController@updatedosis');
             Route::post('save-updateudd', 'Logistik\LogistikController@updateudd');
             Route::post('save-updateketerangan', 'Logistik\LogistikController@updateketerangan');

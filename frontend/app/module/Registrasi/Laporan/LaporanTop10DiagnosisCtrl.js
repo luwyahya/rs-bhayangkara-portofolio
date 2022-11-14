@@ -136,8 +136,40 @@ define(['initialize'], function (initialize) {
                             serverPaging: false,
                             schema: {
                                 model: {
+                                    fields: {
+                                    }
                                 }
-                            }
+                            }, aggregate: [
+                                { field: 'anggotapolri', aggregate: 'sum' },
+                                { field: 'anggotapns', aggregate: 'sum' },
+                                { field: 'keluargaanggotapolri', aggregate: 'sum' },
+                                { field: 'keluargaanggotapns', aggregate: 'sum' },
+                                { field: 'keluargaanggotadiktuk', aggregate: 'sum' },
+                                { field: 'keluargaanggotadikjur', aggregate: 'sum' },
+                                { field: 'keluargaptt', aggregate: 'sum' },
+                                { field: 'pnssiswadikbang', aggregate: 'sum' },
+                                { field: 'pnssiswadiktuk', aggregate: 'sum' },
+                                { field: 'siswadikbang', aggregate: 'sum' },
+                                { field: 'avsasuransi', aggregate: 'sum' },
+                                { field: 'tahananbnn', aggregate: 'sum' },
+                                { field: 'tahanankejaksaan', aggregate: 'sum' },
+                                { field: 'tahanankepolisian', aggregate: 'sum' },
+                                { field: 'tahananlapas', aggregate: 'sum' },
+                                { field: 'totalkelompok', aggregate: 'sum' },
+                                { field: 'mandiri', aggregate: 'sum' },
+                                { field: 'bpjs', aggregate: 'sum' },
+                                { field: 'asuransi', aggregate: 'sum' },
+                                { field: 'atensipimpinan', aggregate: 'sum' },
+                                { field: 'jaminanpolri', aggregate: 'sum' },
+                                { field: 'kemenkes', aggregate: 'sum' },
+                                { field: 'jamkesda', aggregate: 'sum' },
+                                { field: 'totalpenjamin', aggregate: 'sum' },
+                            ],
+                            refresh: true,
+                            selectable: true,
+                            refresh: true,
+                            groupable: true,
+                            allowCopy: true,
                         });
                         debugger
                     })
@@ -287,145 +319,145 @@ define(['initialize'], function (initialize) {
                                         "field": "anggotapolri",
                                         "title": "Anggota Polri",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: anggotapolri #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"anggotapolriDetail(dataItem)\" style=\"margin:0 0 5px\">#: anggotapolri #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.anggotapolri.sum  #"
                                     },
                                     {
                                         "field": "anggotapns",
                                         "title": "PNS Polri",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienNonTracer #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienNonTracerDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: anggotapns #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"anggotapnsDetail(dataItem)\" style=\"margin:0 0 5px\">#: anggotapns #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.anggotapns.sum  #"
                                     },
                                     {
                                         "field": "keluargaanggotapolri",
                                         "title": "Keluarga Anggota Polri",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienKonsul #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienKonsulDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenamin.sum  #"
+                                        template: "<span class='style-center'>#: keluargaanggotapolri #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"keluargaanggotapolriDetail(dataItem)\" style=\"margin:0 0 5px\">#: keluargaanggotapolri #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.keluargaanggotapolri.sum  #"
                                     },
                                     {
                                         "field": "keluargaanggotapns",
                                         "title": "Keluarga Anggota PNS",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienKunjungan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienKunjunganDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: keluargaanggotapns #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"keluargaanggotapnsDetail(dataItem)\" style=\"margin:0 0 5px\">#: keluargaanggotapns #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.keluargaanggotapns.sum  #"
                                     },
                                     {
                                         "field": "keluargaanggotadiktuk",
                                         "title": "Keluarga Anggota Diktuk",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: keluargaanggotadiktuk #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"keluargaanggotadiktukDetail(dataItem)\" style=\"margin:0 0 5px\">#: keluargaanggotadiktuk #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.keluargaanggotadiktuk.sum  #"
                                     },
                                     {
                                         "field": "keluargaanggotadikjur",
                                         "title": "Keluarga Anggota Dikjur",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: keluargaanggotadikjur #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"keluargaanggotadikjurDetail(dataItem)\" style=\"margin:0 0 5px\">#: keluargaanggotadikjur #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.keluargaanggotadikjur.sum  #"
                                     },
                                     {
                                         "field": "keluargaptt",
                                         "title": "Keluarga PTT",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: keluargaptt #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"keluargapttDetail(dataItem)\" style=\"margin:0 0 5px\">#: keluargaptt #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.keluargaptt.sum  #"
                                     },
                                     {
                                         "field": "pnssiswadikbang",
                                         "title": "PNS Siswa Dikbang",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: pnssiswadikbang #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"pnssiswadikbangDetail(dataItem)\" style=\"margin:0 0 5px\">#: pnssiswadikbang #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.pnssiswadikbang.sum  #"
                                     },
                                     {
                                         "field": "pnssiswadiktuk",
                                         "title": "PNS Siswa Diktuk",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: pnssiswadiktuk #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"pnssiswadiktukDetail(dataItem)\" style=\"margin:0 0 5px\">#: pnssiswadiktuk #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.pnssiswadiktuk.sum  #"
                                     },
                                     {
                                         "field": "siswadikbang",
                                         "title": "Siswa Dikbang",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: siswadikbang #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"siswadikbangDetail(dataItem)\" style=\"margin:0 0 5px\">#: siswadikbang #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.siswadikbang.sum  #"
                                     },
                                     {
                                         "field": "avsasuransi",
                                         "title": "Avrist Ass",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: avsasuransi #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"avsasuransiDetail(dataItem)\" style=\"margin:0 0 5px\">#: avsasuransi #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.avsasuransi.sum  #"
                                     },
                                     {
                                         "field": "tahananbnn",
                                         "title": "Tahanan BNN",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: tahananbnn #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"tahananbnnDetail(dataItem)\" style=\"margin:0 0 5px\">#: tahananbnn #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.tahananbnn.sum  #"
                                     },
                                     {
                                         "field": "tahanankejaksaan",
                                         "title": "Tahanan Kejaksaan",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: tahanankejaksaan #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"tahanankejaksaanDetail(dataItem)\" style=\"margin:0 0 5px\">#: tahanankejaksaan #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.tahanankejaksaan.sum  #"
                                     },
                                     {
                                         "field": "tahanankepolisian",
                                         "title": "Tahanan Kepolisian",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: namadiagnosa #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"namadiagnosaDetail(dataItem)\" style=\"margin:0 0 5px\">#: namadiagnosa #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namadiagnosa.sum  #"
+                                        template: "<span class='style-center'>#: tahanankepolisian #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"tahanankepolisianDetail(dataItem)\" style=\"margin:0 0 5px\">#: tahanankepolisian #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.tahanankepolisian.sum  #"
                                     },
                                     {
                                         "field": "tahananlapas",
                                         "title": "Tahanan Lapas",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienKunjungan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienKunjunganDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: tahananlapas #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"tahananlapas(dataItem)\" style=\"margin:0 0 5px\">#: tahananlapas #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.tahananlapas.sum  #"
                                     },
                                      {
                                         "field": "totalkelompok",
                                         "title": "TOTAL",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienKunjungan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienKunjunganDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: totalkelompok #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"totalkelompokDetail(dataItem)\" style=\"margin:0 0 5px\">#: totalkelompok #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.totalkelompok.sum  #"
                                     }
                                 ]
                             },
@@ -439,73 +471,73 @@ define(['initialize'], function (initialize) {
                                         "field": "mandiri",
                                         "title": "Mandiri",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienBpjsPol #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienBpjsPolDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: mandiri #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"mandiriDetail(dataItem)\" style=\"margin:0 0 5px\">#: mandiri #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.mandiri.sum  #"
                                     },
                                     {
                                         "field": "bpjs",
                                         "title": "BPJS",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienBpjsNonPol #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienBpjsNonPolDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: bpjs #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienBpjsNonPolDetail(dataItem)\" style=\"margin:0 0 5px\">#: bpjs #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.bpjs.sum  #"
                                     },
                                     {
                                         "field": "asuransi",
                                         "title": "Asuransi",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienTagihan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienTagihanDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: asuransi #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"asuransiDetail(dataItem)\" style=\"margin:0 0 5px\">#: asuransi #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.asuransi.sum  #"
                                     },
                                     {
                                         "field": "atensipimpinan",
                                         "title": "Atensi Pimpinan",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienPTT #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienPTTDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: atensipimpinan #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"atensipimpinanDetail(dataItem)\" style=\"margin:0 0 5px\">#: atensipimpinan #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.atensipimpinan.sum  #"
                                     },
                                     {
                                         "field": "jaminanpolri",
                                         "title": "Jaminan Polri",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienTagihan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienTagihanDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: jaminanpolri #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"jaminanpolriDetail(dataItem)\" style=\"margin:0 0 5px\">#: jaminanpolri #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.jaminanpolri.sum  #"
                                     },
                                     {
                                         "field": "kemenkes",
                                         "title": "Kemenkes",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienTagihan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienTagihanDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: kemenkes #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"kemenkesDetail(dataItem)\" style=\"margin:0 0 5px\">#: kemenkes #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.kemenkes.sum  #"
                                     },
                                     {
                                         "field": "jamkesda",
                                         "title": "Jamkesda",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienTagihan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienTagihanDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: " #:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: jamkesda #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"jamkesdaDetail(dataItem)\" style=\"margin:0 0 5px\">#: jamkesda #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: " #:data.jamkesda.sum  #"
                                     },
                                     {
                                         "field": "totalpenjamin",
                                         "title": "TOTAL",
                                         "width": "100px",
-                                        // template: "<span class='style-center'>#: jmlPasienKunjungan #</span>",
-                                        // "template": "<button class=\"k-button custom-button\" ng-click=\"jmlPasienKunjunganDetail(dataItem)\" style=\"margin:0 0 5px\">#: namapenjamin #</button>",
-                                        // aggregates: ["sum"],
-                                        // footerTemplate: "#:data.namapenjamin.sum  #"
+                                        template: "<span class='style-center'>#: totalpenjamin #</span>",
+                                        "template": "<button class=\"k-button custom-button\" ng-click=\"totalpenjaminDetail(dataItem)\" style=\"margin:0 0 5px\">#: totalpenjamin #</button>",
+                                        aggregates: ["sum"],
+                                        footerTemplate: "#:data.totalpenjamin.sum  #"
                                     }
                                 ]
                             }

@@ -1,7 +1,9 @@
 define(['initialize'], function (initialize) {
 	'use strict';
-	initialize.controller('PermintaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageLogistikPhp', 'ModelItemAkuntansi','DateHelper', '$mdDialog',
-		function ($rootScope, $scope, ModelItem, manageLogistikPhp,modelItemAkuntansi,  DateHelper, $mdDialog) {
+	// initialize.controller('PermintaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'ManageLogistikPhp', 'ModelItemAkuntansi','DateHelper', '$mdDialog',
+	// 	function ($rootScope, $scope, ModelItem, manageLogistikPhp,medifirstService,  DateHelper, $mdDialog) {
+		initialize.controller('PermintaanSterilisasiAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.item = {};
 			$scope.isShowPopUp = false;
 			$scope.item.tglPermintaan = new Date();
@@ -42,33 +44,33 @@ define(['initialize'], function (initialize) {
 			init();
 
 			$scope.NoOrderFresh();
-			manageLogistikPhp.getDataTableTransaksi("CSSD/get-paket").then(function (dat) {
+			medifirstService.get("CSSD/get-paket").then(function (dat) {
 				$scope.listPaket = dat.data;
 			});
-			manageLogistikPhp.getDataTableTransaksi("CSSD/get-produk-cssd").then(function (dat) {
+			medifirstService.get("CSSD/get-produk-cssd").then(function (dat) {
 				$scope.listNonPaket = dat.data;
 			});
 			ComboLoad();
 			function ComboLoad () {
                
-                modelItemAkuntansi.getDataDummyPHP("humas/get-daftar-combo-pegawai-all", true, true, 20).then(function(data) {
+                medifirstService.get("humas/get-daftar-combo-pegawai-all", true, true, 20).then(function(data) {
                     $scope.listPegawai=data;
                 });
-                modelItemAkuntansi.getDataDummyPHP('rekam-medis/get-ruangan-part', true, true, 10).then(function (e) {
+                medifirstService.get('rekam-medis/get-ruangan-part', true, true, 10).then(function (e) {
                 $scope.listRuangan = e
             	})
-                //  modelItemAkuntansi.getDataDummyPHP("ruangan/get-data-ruangan", true, true, 20).then(function(data) {
+                //  medifirstService.getDataDummyPHP("ruangan/get-data-ruangan", true, true, 20).then(function(data) {
                 //     $scope.listRuangan=data.ruangan;
                 // });
             }
-			// $scope.listRuangan = manageLogistikPhp.getDataTableTransaksi('ruangan/get-data-ruangan');
-			// $scope.listPegawai = manageLogistikPhp.getDataTableTransaksi('service/list-generic/?view=Pegawai&select=namaLengkap,id', true);
+			// $scope.listRuangan = medifirstService.get('ruangan/get-data-ruangan');
+			// $scope.listPegawai = medifirstService.get('service/list-generic/?view=Pegawai&select=namaLengkap,id', true);
 			$scope.item.waktuSerahTerima = new Date();
-			manageLogistikPhp.getDataTableTransaksi("CSSD/get-Carasterilisasi").then(function (dat) {
+			medifirstService.get("CSSD/get-Carasterilisasi").then(function (dat) {
 								$scope.dataCheckbox = dat.data;
 			});	
 
-			manageLogistikPhp.getDataTableTransaksi("CSSD/get-Prosessterilisasi").then(function (dat) {
+			medifirstService.get("CSSD/get-Prosessterilisasi").then(function (dat) {
 				$scope.jenisBarang = dat.data;
 			});
 			$scope.dataPost = [];
@@ -113,7 +115,7 @@ define(['initialize'], function (initialize) {
 
 			$scope.detailPaket = function () {
 				$scope.dataPost = [];
-				manageLogistikPhp.getDataTableTransaksi("CSSD/get-map_paket-to-produk?idPaket=" + $scope.item.paket.id, true).then(function (dat) {
+				medifirstService.get("CSSD/get-map_paket-to-produk?idPaket=" + $scope.item.paket.id, true).then(function (dat) {
 					// $scope.item.hargaSet = dat.data.data[0].harga;
 					$scope.item.hargaSet=0;
 					$scope.dataPost = [];
@@ -459,7 +461,7 @@ define(['initialize'], function (initialize) {
 							"spesifikasi": $scope.item.spesifikasiPaket.nama
 						}
 						console.log(JSON.stringify(data))
-						manageLogistikPhp.postpost( "CSSD/save-permintaan-cssd",data).then(function (e) {
+						medifirstService.post( "CSSD/save-permintaan-cssd",data).then(function (e) {
 							$scope.NoOrderFresh();
 						});
 
@@ -541,7 +543,7 @@ define(['initialize'], function (initialize) {
 							"cssdCaraSterilisasi": $scope.arrCaraSterilisasi,
 							"cssdSterilisasiDetail": itemSterilisasi
 						}
-						manageLogistikPhp.postpost("cssd-sterilisasi/save-cssd-sterilisasi/",data).then(function (e) {
+						medifirstService.post("cssd-sterilisasi/save-cssd-sterilisasi/",data).then(function (e) {
 							$scope.NoOrderFresh();
 						});
 					} else {
