@@ -1168,7 +1168,14 @@ define(['initialize'], function (initialize) {
                     id: $scope.dataSelectedPopUpMapJurnal.id,
                 }
                 medifirstService.post('akuntansi/hapus-map-jurnal', objDelete).then(function (e) {
-
+                    medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        data2 = dat.data
+                        $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                            data: data2,
+                            pageSize: 20
+                        });
+                    });
                 })
             }
             $scope.hapus = function () {
