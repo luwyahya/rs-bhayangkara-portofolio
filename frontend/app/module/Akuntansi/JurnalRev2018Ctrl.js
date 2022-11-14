@@ -1141,6 +1141,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.mataAnggaran = ""
                 $scope.item.kdAkunDebit = ""
                 $scope.item.kdAkunKredit = ""
+                $scope.dataSelectedPopUpMapJurnal = undefined
                 medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
                     $scope.listAkun = data;
                 })
