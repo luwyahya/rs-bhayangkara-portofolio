@@ -872,6 +872,7 @@ define(['initialize'], function (initialize) {
                             head: $scope.dataSelected.nojurnal
                         }
                         medifirstService.post('akuntansi/save-hapus-data-jurnal', objSave).then(function (e) {
+                            init();
                         })
                     }
                 } else {
@@ -1254,7 +1255,7 @@ define(['initialize'], function (initialize) {
                 {
                     nojurnal: $scope.item.nojurnal,
                     keteranganlainnya: $scope.item.deskripsi,
-                    tglbuktitransaksi: moment($scope.item.tanggal).format('DD-MMM-YYYY 00:00'),
+                    tglbuktitransaksi: moment($scope.now).format('DD-MMM-YYYY 00:00'),
                     data: dataPOsting
                 }
 

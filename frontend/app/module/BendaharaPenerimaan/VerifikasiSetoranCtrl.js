@@ -355,16 +355,23 @@ define(['initialize'], function (initialize) {
 						footerTemplate: "<span class='style-right'>{{formatRupiah(newsaldoakhir,'Rp. ')}}</span>"
 					},
 					{
-						command: {
-							text: "Verifikasi", width: "40px", align: "center",
-							attributes: { align: "center" },
-							click: openpopUpVerifikasi,
-							imageClass: "k-icon k-delete"
-							// template: "<div class='k-button  k-button-icontext k-grid-upload'><span class='k-icon k-delete'></span>Hapus</div>"
-						},
-						title: "",
-						width: "100px",
-					}
+						"field": "status",
+						"title": "",
+						"width": "100px",
+
+						"template": "<button class=\"k-button custom-button\" ng-click=\"openpopUpVerifikasi(dataItem)\"  style=\"margin:0 0 5px\">#:  status #</button> ",
+					},
+					// {
+					// 	command: {
+					// 		title: "<label>#:  kettransaksi #</label>", width: "40px", align: "center",
+					// 		attributes: { align: "center" },
+					// 		click: openpopUpVerifikasi,
+					// 		imageClass: "k-icon k-delete"
+					// 		// template: "<div class='k-button  k-button-icontext k-grid-upload'><span class='k-icon k-delete'></span>Hapus</div>"
+					// 	},
+					// 	title: "",
+					// 	width: "100px",
+					// }
 				],
 				sortable: {
 					mode: "single",
@@ -380,14 +387,13 @@ define(['initialize'], function (initialize) {
 				}
 			};
 
-			function openpopUpVerifikasi(e) {
-				e.preventDefault();
-				var grid = this;
-				var row = $(e.currentTarget).closest("tr");
-				var tr = $(e.target).closest("tr");
-				var dataItem = this.dataItem(tr);
+			$scope.openpopUpVerifikasi = function (dataSelected) {
+				var dataItem = dataSelected;
 				var stt = 'false'
-				if (confirm('Yakin mau Verifikasi data ini? ')) {
+				var massage = "Yakin mau Verifikasi data ini..?"
+				if (dataItem.status == 'Unverif')
+					massage = "Yakin mau Unverifikasi data ini..?"
+				if (confirm(massage)) {
 					// Save it!
 					stt = 'true';
 				} else {
@@ -396,40 +402,50 @@ define(['initialize'], function (initialize) {
 					stt = 'false'
 				}
 				if (stt) {
-					$scope.penerimaan = true
-					loadComboPopup()
-					tempTr = dataItem
-					$scope.item.jumlahRp = tempTr.debit
-					$scope.popUpVerifikasi.center().open()
-					$scope.item.kelompoktransaksi = ""
-					// grid kelompok transaksi
-					medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
-					).then(function (data) {
-						debugger
-						resultKelompok = data.data
-						$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
-							data: resultKelompok.data,//data,
-							//pageSize: 10,
-							total: resultKelompok.data.length,
-							serverPaging: false,
-							schema: {
-								model: {
-									fields: {
-										jasa: { type: "nontunai" }
+					if (dataItem.status == 'Unverif') {
+						var itemDelete = {
+							"norec_closing": dataItem.norec_closing,
+						}
+						medifirstService.post('bendaharapenerimaan/unverifikasi-Setoran', itemDelete).then(function (e) {
+
+						})
+					} else {
+						$scope.penerimaan = true
+						loadComboPopup()
+						tempTr = dataItem
+						$scope.item.jumlahRp = tempTr.debit
+						$scope.popUpVerifikasi.center().open()
+						$scope.item.kelompoktransaksi = ""
+						// grid kelompok transaksi
+						medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
+						).then(function (data) {
+							debugger
+							resultKelompok = data.data
+							$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
+								data: resultKelompok.data,//data,
+								//pageSize: 10,
+								total: resultKelompok.data.length,
+								serverPaging: false,
+								schema: {
+									model: {
+										fields: {
+											jasa: { type: "nontunai" }
+										}
 									}
-								}
-							},
+								},
+
+							});
 
 						});
-
-					});
+					}
 				}
 			}
 			function pushSave(e) {
 				var strukresep = {
 					nojurnal: '-',
 					tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
-					deskripsi: '-'
+					deskripsi: '-',
+					nobuktitransaksi: tempTr.norec_closing
 				}
 				for (var i = tempresultKelompok.data.length - 1; i >= 0; i--) {
 					var data = {};
@@ -461,7 +477,7 @@ define(['initialize'], function (initialize) {
 						head: strukresep,
 						detail: data2
 					}
-					medifirstService.post('akuntansi/save-entry-jurnal', objSave).then(function (e) {
+					medifirstService.post('akuntansi/save-entry-jurnal-bp', objSave).then(function (e) {
 						tempresultKelompok.data.splice(i, 1);
 						pushSave()
 					})

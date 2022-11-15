@@ -23,6 +23,10 @@ use App\Transaksi\TempBeritaAcaraKasBank;
 use App\Transaksi\TempBukuKasUmum;
 use App\Transaksi\TempLampiranBeritaAcaraKasBank;
 use App\Transaksi\NorecVerifikasiJaspel;
+use App\Transaksi\PostingJurnal;
+use App\Transaksi\PostingJurnalD;
+use App\Transaksi\PostingJurnalTransaksiD;
+use App\Transaksi\PostingJurnalTransaksi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -1249,7 +1253,8 @@ class BendaharaPenerimaanController extends ApiController {
                 DB::raw(" coalesce((spp.totaldibayar ), 0) debit ,
                      coalesce((sbk.totaldibayar ), 0) kredit ,
                     case when spp.nosbm is null then sbk.nosbk else spp.nosbm end as notransaksi,
-                    cast(sh.tglsetortarikdeposit as date)as tglsetortarikdeposit"))
+                    cast(sh.tglsetortarikdeposit as date)as tglsetortarikdeposit,
+                    case when spp.noverifikasiveriffk is not null then 'Unverif' else 'Verifikasi' end as status"))
             ->groupBy('spp.norec','spp.tglsbm','spp.keteranganlainnya','spp.nosbm_intern','spp.objectpegawaipenerimafk','p.namalengkap',
                       'kt.kelompoktransaksi','spp.nostrukfk','sc.objectkelompoktransaksifk','sc.norec','sc.noclosing','sh.nonhistori',
                       'sbk.objectpegawaipembayarfk','p2.namalengkap','sh.ketlainya','sh.norec','sh.kdperkiraan',
@@ -1409,7 +1414,8 @@ class BendaharaPenerimaanController extends ApiController {
                 'kettransaksi' =>$dataPenerimaan->kettransaksi,
                 'penyetor'=>$dataPenerimaan->penyetor,
                 'tgltransferkerekbank' =>$dataPenerimaan->tgltransferkerekbank,
-                'noverifikasiveriffk' => $dataPenerimaan->noverifikasiveriffk
+                'noverifikasiveriffk' => $dataPenerimaan->noverifikasiveriffk,
+                'status' => $dataPenerimaan->status
             );
         }
         $uhman = array(
@@ -1865,6 +1871,74 @@ class BendaharaPenerimaanController extends ApiController {
 
         if ($transStatus == 'true') {
             $transMessage = "Verifikasi Berhasil";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'inhuman',
+            );
+        } else {
+            $transMessage = "Verifikasi Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function unverifikasiSetoran(Request $request) {
+
+        \DB::beginTransaction();
+        try{
+            $input  = $request->all();
+            if($request['norec_closing'] != '') {
+                $norec_closing=$request['norec_closing'];
+                $data = DB::select(DB::raw("
+                            select pjt.nojurnal_intern from postingjurnaltransaksi_t as pjt
+                            INNER JOIN postingjurnal_t as pj on pj.norecrelated=pjt.nojurnal_intern 
+                            where pjt.nobuktitransaksi='$norec_closing'
+                        ")
+                );
+                if(!empty($data)){
+                    $transStatus = 'false';
+                    $transMessage = "Unverifikasi Gagal, Data Sudah Diposting.. Sialhkan Hubungi Akuntansi..";
+                    DB::rollBack();
+                    $result = array(
+                        'status' => 400,
+                        'message'  => $transMessage,
+                        'as' => 'inhuman',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }else{
+                    $norec_head = DB::select("
+                        select norec from postingjurnaltransaksi_t where nobuktitransaksi='$norec_closing'
+                    ");
+                    foreach ($norec_head as $item) {
+                        $HapusPPD = PostingJurnalTransaksiD::where('norecrelated','=',$item->norec)->delete();
+                    }
+                    $HapusPPD2 = PostingJurnalTransaksi::where('nobuktitransaksi','=',$norec_closing)->delete();
+                    $sbm = StrukBuktiPenerimaan::where('noclosingfk',$norec_closing)
+                    ->where('statusenabled',true)
+                    ->update([ 
+                                'isverifbendahara' => false,
+                                'objectpegawaiverifbendaharafk'=>$input['userData']['id'],
+                                'tglverifbendahara'=>null,
+                                'tgltransferkerekbank'=>null,
+                                'nobuktiverif'=>null,
+                                'keteranganverif'=>null,
+                                'noverifikasiveriffk'=>null ]);
+                }
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Unverifikasi Berhasil";
             DB::commit();
             $result = array(
                 'status' => 201,
