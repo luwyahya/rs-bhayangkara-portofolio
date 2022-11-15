@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cetakpemakaian" pageWidth="595" pageHeight="1000" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<parameter name="namaRS" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="alamatRS" class="java.lang.String"/>
+	<parameter name="norec" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT        pd.norec, pasien_m.nocm, pasien_m.namapasien,to_char(pasien_m.tgllahir, 'DD-MM-YYYY' ) AS tgllahir, jeniskelamin_m.jeniskelamin, statusperkawinan_m.statusperkawinan, agama_m.agama, alamat_m.alamatlengkap, pasien_m.notelepon, 
+                         pekerjaan_m.pekerjaan, CASE WHEN kesatuanpasien_m.kesatuanpasien IS NULL THEN '-' ELSE kesatuanpasien_m.kesatuanpasien end as kesatuanpasien, CASE WHEN pangkat_m.namapangkat IS NULL THEN '-' ELSE pangkat_m.namapangkat end as namapangkatpolisi, pasien_m.nrp, pasien_m.nip, kecamatan_m.namakecamatan, kotakabupaten_m.namakotakabupaten, 
+                         pendidikan_m.pendidikan, kelompokpasien_m.kelompokpasien, rekanan_m.namaexternal        
+FROM            pasiendaftar_t AS pd LEFT OUTER JOIN
+                         pasien_m ON pd.nocmfk = pasien_m.id LEFT OUTER JOIN
+                         jeniskelamin_m ON pasien_m.objectjeniskelaminfk = jeniskelamin_m.id LEFT OUTER JOIN
+                         statusperkawinan_m ON pasien_m.objectstatusperkawinanfk = statusperkawinan_m.id LEFT OUTER JOIN
+                         agama_m ON pasien_m.objectagamafk = agama_m.id LEFT OUTER JOIN
+                         alamat_m ON pasien_m.id = alamat_m.nocmfk LEFT OUTER JOIN
+                         pekerjaan_m ON pasien_m.objectpekerjaanfk = pekerjaan_m.id LEFT OUTER JOIN
+                         kesatuanpasien_m ON pasien_m.objectkesatuanfk = kesatuanpasien_m.id LEFT OUTER JOIN
+                         pangkat_m ON pasien_m.pangkatpolisi = pangkat_m.id LEFT OUTER JOIN
+                         desakelurahan_m ON alamat_m.objectdesakelurahanfk = desakelurahan_m.id LEFT OUTER JOIN
+                         kecamatan_m ON desakelurahan_m.objectkecamatanfk = kecamatan_m.id LEFT OUTER JOIN
+                         kotakabupaten_m ON kecamatan_m.objectkotakabupatenfk = kotakabupaten_m.id LEFT OUTER JOIN
+                         pendidikan_m ON pasien_m.objectpendidikanfk = pendidikan_m.id LEFT OUTER JOIN
+                         kelompokpasien_m ON pd.objectkelompokpasienlastfk = kelompokpasien_m.id LEFT OUTER JOIN
+                         rekanan_m ON pd.objectrekananfk = rekanan_m.id
+WHERE        (pd.norec = $P{norec})]]>
+	</queryString>
+	<field name="nocm" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namapasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tgllahir" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="jeniskelamin" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="statusperkawinan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="agama" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="alamatlengkap" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="notelepon" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="pekerjaan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="kesatuanpasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namapangkatpolisi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nrp" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="nip" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namakecamatan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namakotakabupaten" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="pendidikan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="kelompokpasien" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="namaexternal" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="210" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="19" y="0" width="87" height="50" uuid="f922c0bf-813d-4fe2-892f-50beac56e199"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="87" y="2" width="420" height="20" forecolor="#0A0101" uuid="1a6f1b6d-4e12-4054-af03-6f2a803aeff1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="87" y="22" width="443" height="36" forecolor="#0A0101" uuid="cdaacb24-0dc5-4544-b548-d13140cdc2a3"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="90" width="86" height="15" forecolor="#0A0101" uuid="df0ad734-b8eb-4c7a-a364-d08eb3c1a928"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Pasien]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="75" width="5" height="15" forecolor="#0A0101" uuid="58cf71a9-3989-40ef-8f70-ef0ed035f49a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="105" width="69" height="15" forecolor="#0A0101" uuid="741b069f-5c6d-47ce-b5e2-8659f8f29aa2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tgl Lahir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="75" width="86" height="15" forecolor="#0A0101" uuid="2318927e-cd75-431b-88e1-4f167dc66a9c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nomor RM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="90" width="5" height="15" forecolor="#0A0101" uuid="783a634d-a709-492e-8d9c-8df0a2c2e336"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="58" width="551" height="1" uuid="122b56e5-5e8d-40fe-9bb5-697a1d8463ea"/>
+			</line>
+			<staticText>
+				<reportElement x="1" y="59" width="548" height="16" uuid="db6984fb-eef5-44cb-9c0c-1db53a1ef42a"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORM KUNJUNGAN PASIEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="105" width="5" height="15" forecolor="#0A0101" uuid="418d31d5-a7c4-45e8-bdd3-3f52ab3671bd"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="75" width="113" height="15" uuid="1992b40a-362f-48b2-9eb4-032c8ecae6a6">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nocm}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="120" width="80" height="15" forecolor="#0A0101" uuid="39975a43-4fb3-4771-960e-6509a7b185c3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Jenis Kelamin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="135" width="120" height="15" forecolor="#0A0101" uuid="7c71c5f9-d0f6-4392-a898-e783ef67fd20"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Status Perkawinan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="150" width="120" height="15" forecolor="#0A0101" uuid="377d74d1-4419-4d34-940d-a3593240711d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Agama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="195" width="120" height="15" forecolor="#0A0101" uuid="11629091-d9c6-4616-aa89-71698088f321"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="165" width="120" height="15" forecolor="#0A0101" uuid="00eecaf2-609e-439d-b588-a2c9576217c3"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kota/Kab]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="0" y="180" width="120" height="15" forecolor="#0A0101" uuid="6d609fe9-cc16-40f6-9279-5ba34e264fa4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telephone]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="120" width="5" height="15" forecolor="#0A0101" uuid="cb9a7c4a-49d0-4191-ab03-8454f229037b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="135" width="5" height="15" forecolor="#0A0101" uuid="5915340c-d536-47ab-aab7-09847db9c1ed"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="150" width="5" height="15" forecolor="#0A0101" uuid="76c21e4d-e118-4e7b-8214-333880ce56c9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="165" width="5" height="15" forecolor="#0A0101" uuid="b855d093-d67b-4ee8-8bed-8a53c87da882"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="180" width="5" height="15" forecolor="#0A0101" uuid="414f952c-352e-4282-a1a3-329a2522dfb0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="110" y="195" width="5" height="15" forecolor="#0A0101" uuid="3ab12a5f-fd98-457d-a970-bc058f26f892"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="117" y="90" width="193" height="15" uuid="ad78e5a4-95df-438d-9b81-f34f8e2ebc3e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="105" width="113" height="15" uuid="d90c7831-9491-445f-8b97-9210518b977b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="120" width="113" height="15" uuid="867d2965-9b5a-4ded-83ef-8cfbdb5f53e0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jeniskelamin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="135" width="113" height="15" uuid="d668fdb0-a019-458c-bd22-956e877eb9be">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{statusperkawinan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="150" width="113" height="15" uuid="eaaa5a9f-8cf5-40ca-b6ea-5a4872278336">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{agama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="195" width="423" height="15" uuid="04bd90e8-6452-48c4-a62d-9e3953c20ec0">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alamatlengkap}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="165" width="184" height="15" uuid="d3020267-79ec-45a8-8a65-b86287e9475b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namakotakabupaten}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="180" width="113" height="15" uuid="80db4485-b967-47ed-895a-86d2419cdea9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{notelepon}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="75" width="70" height="15" forecolor="#0A0101" uuid="410aacaa-101b-401f-905d-9bf301ee5825"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pekerjaan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="75" width="5" height="15" forecolor="#0A0101" uuid="f2ca9a3d-9ba6-454c-b0cd-1c57a8ba9ed2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="90" width="70" height="15" forecolor="#0A0101" uuid="c8f323d9-ad34-470a-a89a-bb72914a710b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kesatuan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="105" width="70" height="15" forecolor="#0A0101" uuid="a4d5c700-48d7-410c-833a-2f59f2e669ab"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pangkat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="120" width="70" height="15" forecolor="#0A0101" uuid="7bfcbbb2-5f4d-4d57-a4e8-24fc3463a32b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NRP/NIP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="135" width="70" height="15" forecolor="#0A0101" uuid="77cc3ef8-7412-4801-9753-f8f65bcda040"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cara Bayar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="150" width="70" height="15" forecolor="#0A0101" uuid="0d60dafb-e072-4c2f-819d-b236345523b1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tagihan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="165" width="70" height="15" forecolor="#0A0101" uuid="a41e2cfe-0d53-4dc0-9987-2b5f026a9e4d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kecamatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="301" y="180" width="70" height="15" forecolor="#0A0101" uuid="426964eb-5fe6-4fe6-8c5c-d6ab74608182"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pendidikan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="90" width="5" height="15" forecolor="#0A0101" uuid="01bd872f-8e7e-4cb3-9d31-6367c2f58722"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="105" width="5" height="15" forecolor="#0A0101" uuid="a0e84984-4a99-42e0-930b-9a00a6da6a80"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="120" width="5" height="15" forecolor="#0A0101" uuid="f97924f2-eb76-4ba9-8c59-0d96adca72c5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="135" width="5" height="15" forecolor="#0A0101" uuid="c04cf967-8655-46c8-904a-b123c8203bee"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="150" width="5" height="15" forecolor="#0A0101" uuid="791306e8-6140-4713-84a8-242816e3ce9a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="165" width="5" height="15" forecolor="#0A0101" uuid="6cf989f3-ecad-43ff-9cf5-36fde6931fe7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="368" y="180" width="5" height="15" forecolor="#0A0101" uuid="956c82ae-7fe3-477b-a192-6f770e7defd7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="374" y="75" width="150" height="15" uuid="c7c13937-018c-4293-bc92-eb48e02aa75e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pekerjaan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="90" width="150" height="15" uuid="31fccbf1-1e73-4023-b7c0-17a27f7abee5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kesatuanpasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="374" y="105" width="197" height="15" uuid="f01c86e8-7197-4566-963d-dc9ff12fc662">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namapangkatpolisi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="120" width="70" height="15" uuid="7956097e-a227-4229-bb49-e99c7b9057b5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nrp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="135" width="129" height="15" uuid="c8080642-3fed-4692-9afe-bc6d450c5005">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{kelompokpasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="150" width="129" height="15" uuid="a4aaf9fb-e6b4-4735-9576-392df3fd777c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namaexternal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="165" width="129" height="15" uuid="5372224a-16e9-48b5-b85b-fdb937f31a6f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{namakecamatan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="373" y="180" width="129" height="15" uuid="99e75381-8c92-4367-8474-fd78309ee368">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pendidikan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="120" width="70" height="15" uuid="45f6bbda-77d4-493c-8d34-d6361b43d29f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nip}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="427" y="120" width="5" height="15" forecolor="#0A0101" uuid="4263ca97-b7b5-47ca-871f-6ee1c21c65e9"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[/]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="521" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<line>
+				<reportElement x="0" y="2" width="551" height="1" uuid="cfc1993f-b68f-4c31-84cf-e020735ab226"/>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="207" y="3" width="152" height="15" forecolor="#0A0101" uuid="a806129f-4e77-47ed-84b1-917cbf5a5462"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PELAYANAN POLIKLINIK]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="24" width="551" height="1" uuid="17d98855-79cc-41e1-8df4-843993318946"/>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="9" y="25" width="28" height="15" forecolor="#0A0101" uuid="65ddc382-93ed-4f0c-8da4-90ac9ebec494"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="49" y="25" width="66" height="15" forecolor="#0A0101" uuid="941cad6c-8f68-4cb7-b987-b09bb5adab4a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="234" y="25" width="66" height="15" forecolor="#0A0101" uuid="e197bd5c-5546-47d1-88ae-8696882e6dfe"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[POLIKLINIK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="474" y="25" width="66" height="15" forecolor="#0A0101" uuid="761fe1ec-6734-4fbb-85de-febe9cb5bc9c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIAGNOSA]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="40" width="551" height="1" uuid="6ac6e3c5-9442-4a5b-901d-3827c350063a"/>
+			</line>
+			<line>
+				<reportElement x="0" y="25" width="1" height="482" uuid="09000c74-d2b3-46f8-adc2-d794cfaf0638">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="507" width="552" height="1" uuid="893a6290-0eec-4138-ae42-01291cc0fa0d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="32" y="24" width="1" height="482" uuid="0acded73-a12d-45d2-b7df-9e79c2d90a8e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="127" y="24" width="1" height="482" uuid="e76171ae-6e2a-4052-9717-5edec36f5b14">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="551" y="25" width="1" height="482" uuid="4626020d-9c0e-4b01-b64c-d090189ebbed">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="462" y="25" width="1" height="482" uuid="9aa9452b-cc98-4731-8d9e-967b4bb0f122">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement mode="Transparent" x="486" y="506" width="66" height="15" forecolor="#0A0101" uuid="4492ccc2-3b43-4f11-a1f0-b111c0193841"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[049/RMJ/21]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>
