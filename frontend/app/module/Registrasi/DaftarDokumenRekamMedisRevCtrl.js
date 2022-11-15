@@ -1328,24 +1328,101 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     anHttpRequest.send(null);
                 }
             }
-            $scope.cetakLabel = function () {
-                var client = new HttpClient();
-                // client.get('http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&nocm='+$scope.dataSelected.nocm , function(response) {
-                //       // aadc=response;
+            // $scope.cetakLabel = function () {
+            //     var client = new HttpClient();
+            //     // client.get('http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&nocm='+$scope.dataSelected.nocm , function(response) {
+            //     //       // aadc=response;
 
-                // });
-                client.get(' http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&norec=' + $scope.dataSelected.nocm + '&view=false&qty=1', function (response) {
-                    // aadc=response;
-                });
-            }
+            //     // });
+            //     client.get(' http://127.0.0.1:1237/printvb/rekammedis?cetak-labelpasien-satubynocm=1&norec=' + $scope.dataSelected.nocm + '&view=false&qty=1', function (response) {
+            //         // aadc=response;
+            //     });
+            // }
 
+            // $scope.cetakFormKunjungan = function () {
+
+            //     var client = new HttpClient();
+
+            //     client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected.norecpd + '&view=1', function (response) {
+            //         // aadc=response;
+            //     });
+            // }
+            // $scope.cetakFormKunjungan2 = function () {
+
+            //     var client = new HttpClient();
+
+            //     client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected2.norecpd + '&view=1', function (response) {
+            //         // aadc=response;
+            //     });
+            // }
             $scope.cetakFormKunjungan = function () {
+                debugger
+                $scope.isRouteLoading = true;
+                // $scope.dataSelected.norec
+                var norec = $scope.dataSelected.norecpd
+                // var total = $scope.dataSelected.total
+                // uang = parseFloat(total).toFixed();
+                // var totalUang = $scope.formatRupiahx(uang, 'Rp. ');
+                // var newValue = uang;
+                // var terbilang = ""
+                // medifirstService.get("sysadmin/general/get-terbilang/" + newValue).then(
+                //     function (dat) {
+                        // terbilang = dat.data.terbilang.toUpperCase();
+debugger
+                        var data = {
+                            "gambarLogo": "logodokkes.jpg",
+                            "paramKey": ["namaRS", "alamatRS", "norec"],
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.dataSelected.norecpd],
+                            "paramType": ["", "", "", ""]
+                        };
+                        //debugger
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
 
-                var client = new HttpClient();
+                                // cetakttd();
+                                //this.response is what you're looking for
+                                // handler(this.response);
+                                console.log(this.response, typeof this.response);
+                                //var res = this.response
+                                //var file = new Blob( [res], {type: 'application/pdf'});
+                                //debugger;
+                                var url = window.URL.createObjectURL(this.response)
+                                var pdf = document.getElementById('tempatLaporan');
+                                pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                                var win = window.open(url, '_blank');
+                                win.focus();
+                            }
+                        }
+                        // if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                        //     xhr.open('POST', 'http://192.168.1.7:8797/generic/report/formkunjunganrm.pdf');
+                        // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                        //     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/formkunjunganrm.pdf');
+                        // } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                        //     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/formkunjunganrm.pdf');
+                        // } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                        //     xhr.open('POST', 'http://202.51.105.98:8797/generic/report/formkunjunganrm.pdf');
+                        // } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                        //     xhr.open('POST', 'http://10.5.1.2:8797/generic/report/formkunjunganrm.pdf');
+                        // } else {
+                        //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/formkunjunganrm.pdf');
+                        // }
+                        if (window.location.hostname.indexOf('localhost') > -1) {
+                            xhr.open('POST', 'http://127.0.0.1:8797/generic/report/formkunjunganrm.pdf');
+                        } else {
+                            xhr.open('POST', '/jasper1/generic/report/formkunjunganrm.pdf');
+                        }
+                        //debugger
+                        // set `Content-Type` header
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                        xhr.responseType = 'blob';
+                        // send rquest with JSON payload
+                        xhr.send(JSON.stringify(data));
+                        $scope.isRouteLoading = false;
+                    // })
 
-                client.get(' http://127.0.0.1:1237/printvb/Pendaftaran?cetak-form-kunjungan-pasien-byNorecPd=1&norec=' + $scope.dataSelected.norecpd + '&view=1', function (response) {
-                    // aadc=response;
-                });
+
             }
             $scope.cetakFormKunjungan2 = function () {
 
@@ -1383,6 +1460,185 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     });
                 }
             }
+            $scope.formatNum = {
+                format: "#.#",
+                decimals: 0
+            }
+            $scope.labelpasien = function () {
+                // if($scope.item != undefined){
+                //     var fixUrlLaporan = cetakHelper.open("reporting/labelPasien?noCm=" + $scope.item.pasien.noCm);
+                //     window.open(fixUrlLaporan, '', 'width=800,height=600')
+                // }
+                debugger
+                $scope.dats = {
+                    qty: 0
+                }
+                $scope.dialogCetakLabel.center().open();
+            }
+            $scope.pilihQty2 = function () {
+                debugger
+                let queryjadi = ""
+                let sintak = " SELECT pd.noregistrasi,pd.tglregistrasi,p.nocm,upper((p.namapasien)::text) AS namapasien,jk.jeniskelamin AS jk,upper((alm.alamatlengkap)::text) AS alamat,to_char(p.tgllahir, 'DD-TMMonth-YYYY HH12:MIPM'::text) AS tgllahir,CASE WHEN (pg.namalengkap IS NULL) THEN '-'::character varying ELSE pg.namalengkap END AS namadokter," +
+                    "TO_CHAR(age(now( ), P.tgllahir ), 'YY " + 'Tahun' + " mm " + 'Bulan' + " DD " + 'Hari' + "') AS umur " +
+                    "FROM ((((pasiendaftar_t pd JOIN pasien_m p ON ((pd.nocmfk = p.id))) JOIN jeniskelamin_m jk ON ((jk.id = p.objectjeniskelaminfk))) LEFT JOIN pegawai_m pg ON ((pg.id = pd.objectpegawaifk))) LEFT JOIN alamat_m alm ON ((alm.nocmfk = p.id)))" +
+                    'where noregistrasi = ' + "'" + $scope.dataSelected.noregistrasi + "'"
+                Labelpasienjaspera4(sintak)
+            }
+            function Labelpasienjaspera4(datas) {
+                var qrcode = $scope.dataSelected.noregistrasi
+                var norec = $scope.dataSelected.norec
+                var data = {
+                    "gambarLogo": "logodokkes.jpg",
+                    "paramKey": ["noreg", "qrcode", "query"],
+                    "paramValue": [$scope.dataSelected.noregistrasi, qrcode, datas], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                    "paramType": ["", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
+                };
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response, typeof this.response);
+                        debugger;
+                        var url = window.URL.createObjectURL(this.response)
+                        var pdf = document.getElementById('tempatLaporan');
+                        pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                        var win = window.open(url, '_blank');
+                        win.focus();
+                    }
+                }
+
+
+                if (window.location.hostname.indexOf('localhost') > -1) {
+                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/labelPasienA4.pdf');
+                } else {
+                    xhr.open('POST', '/jasper1/generic/report/labelPasienA4.pdf');
+                }
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.responseType = 'blob';
+                xhr.send(JSON.stringify(data));
+            }
+             function Labelpasienjasper(datas) {
+                var qrcode = $scope.dataSelected.noregistrasi
+                // var qrcode = "http://202.51.105.98:9000/service/medifirst2000/report/cetak-lab?reg="+$scope.dataSelected.noregistrasi
+                var norec = $scope.dataSelected.norec
+                var data = {
+                    "gambarLogo": "logodokkes.jpg",
+                    "paramKey": ["noreg", "qrcode", "query"],
+                    "paramValue": [$scope.dataSelected.noregistrasi, qrcode, datas], //"paramValue": ["RSUD Cibinong", "1980-12-25 00:00:00"],
+                    "paramType": ["", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
+                };
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.response, typeof this.response);
+                        debugger;
+                        var url = window.URL.createObjectURL(this.response)
+                        var pdf = document.getElementById('tempatLaporan');
+                        pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                        var win = window.open(url, '_blank');
+                        win.focus();
+                    }
+                }
+
+                if (window.location.hostname.indexOf('localhost') > -1) {
+                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/labelPasien.pdf');
+                } else {
+                    xhr.open('POST', '/jasper1/generic/report/labelPasien.pdf');
+                }
+                // set `Content-Type` header
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                xhr.responseType = 'blob';
+                // send rquest with JSON payload
+                xhr.send(JSON.stringify(data));
+            }
+             $scope.pilihQty = function (data) {
+                let query = "";
+                loopCetakan(data, query)
+                // var listRawRequired = [
+                //  "dats.qty|k-ng-model|kuantiti"
+                // ];
+                // var isValid = ModelItem.setValidation($scope, listRawRequired);
+                // debugger
+
+                // if (isValid.status) {
+                //  var qty = data.qty;
+                //  var qtyhasil = data.qty * 2;
+                //  if (qty !== undefined) {
+                //      // var fixUrlLaporan = cetakHelper.open("reporting/labelPasien?noCm=" + $scope.item.pasienDaftar.noRegistrasi + "&qty=" + qty);
+                //      // window.open(fixUrlLaporan, '', 'width=800,height=600')
+                //      //cetakan langsung service VB6 by grh
+
+                //      //##save identifikasi label pasien
+                //      medifirstService.get("registrasi/identifikasi-label?norec_pd="
+                //          + $scope.dataSelected.norec + '&islabel=' + qtyhasil
+                //      ).then(function (data) {
+                //          var datas = data.data;
+                //          loopCetakan(datas, query)
+                //      })
+
+                //      // loopCetakan(dats.qty, query)
+                //      //##end
+
+                //      // var client = new HttpClient();
+                //      // client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-labelpasien-satu=1&norec=' + $scope.dataSelected.noregistrasi + '&view=false&qty=' + qty, function (response) {
+                //      //  // do something with response
+                //      // });
+
+                //  }
+                //  $scope.dialogCetakLabel.close();
+                // } else {
+                //  ModelItem.showMessages(isValid.messages);
+                // }
+            };
+            function loopCetakan(data, query) {
+                debugger
+                let queryjadi = ""
+                let sintak = " SELECT pd.noregistrasi,pd.tglregistrasi,p.nocm,upper((p.namapasien)::text) AS namapasien,jk.jeniskelamin AS jk,upper((alm.alamatlengkap)::text) AS alamat,to_char(p.tgllahir, 'DD-TMmon-YYYY'::text) AS tgllahir,CASE WHEN (pg.namalengkap IS NULL) THEN '-'::character varying ELSE pg.namalengkap END AS namadokter," +
+                    "TO_CHAR(age(now( ), P.tgllahir ), 'YY " + 'Tahun' + " mm " + 'Bulan' + " DD " + 'Hari' + "') AS umur " +
+                    "FROM ((((pasiendaftar_t pd JOIN pasien_m p ON ((pd.nocmfk = p.id))) JOIN jeniskelamin_m jk ON ((jk.id = p.objectjeniskelaminfk))) LEFT JOIN pegawai_m pg ON ((pg.id = pd.objectpegawaifk))) LEFT JOIN alamat_m alm ON ((alm.nocmfk = p.id)))"
+                for (let i = 1; data.qty >= i; i++) {
+
+                    // for (const item of data) {
+                    // query = ``
+                    if (queryjadi == "") {
+                        // queryjadi = 'SELECT * from "V_labelPasien" where noregistrasi = ' + $scope.dataSelected.noregistrasi;
+                        queryjadi = sintak + 'where noregistrasi = ' + "'" + $scope.dataSelected.noregistrasi + "'";
+                    } else {
+                        // queryjadi = $queryjadi + " UNION ALL SELECT * from V_labelPasien where noregistrasi = " + $scope.dataSelected.noregistrasi;
+                        queryjadi = queryjadi + " UNION ALL " + sintak + 'where noregistrasi = ' + "'" + $scope.dataSelected.noregistrasi + "'";
+                    }
+                }
+                Labelpasienjasper(queryjadi)
+            }
+            // $scope.cetakTracer = function () {
+            //     if ($scope.dataSelected == undefined) {
+            //         toastr.error('Pilih Dulu NoRegistrasi Pasien')
+            //         return
+            //     }
+            //     if ($scope.dataSelected.noregistrasi != undefined) {
+
+            //         //cetakan langsung service VB6 by grh    
+            //         var client = new HttpClient();
+            //         client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected.noregistrasi + '&view=false', function (response) {
+            //             // do something with response
+            //         });
+            //     }
+            // }
+            // $scope.cetakTracer2 = function () {
+            //     if ($scope.dataSelected2 == undefined) {
+            //         toastr.error('Pilih Dulu NoRegistrasi Pasien')
+            //         return
+            //     }
+            //     if ($scope.dataSelected2.noregistrasi != undefined) {
+
+            //         //cetakan langsung service VB6 by grh    
+            //         var client = new HttpClient();
+            //         client.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-tracer=1&norec=' + $scope.dataSelected2.noregistrasi + '&view=false', function (response) {
+            //             // do something with response
+            //         });
+            //     }
+            // }
             $scope.cetakulangtracer = function () {
                 debugger
                 var noregistrasi = $scope.dataSelected.noregistrasi
