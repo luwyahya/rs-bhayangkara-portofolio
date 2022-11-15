@@ -375,6 +375,15 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.namaKasir != undefined) {
                     idPegawai = $scope.item.namaKasir.id
                 }
+                var jumlah = ''
+                if ($scope.item.total != undefined) {
+                    jumlah = "Rp " + parseFloat($scope.item.total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+
+                }
+                var kelompokPasien = ''
+                if ($scope.item.kelompokPasien != undefined) {
+                    kelompokPasien = $scope.item.kelompokPasien.kelompokpasien
+                }
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
                 var tempKasirId = "";
@@ -400,8 +409,8 @@ define(['initialize'], function (initialize) {
                 var kondisi = " sbm.tglsbm between '" + tglAwal + "' and '" + tglAkhir + "'";
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
-                    "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "kondisi"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.dataLogin.namaLengkap, kondisi],
+                    "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "jumlah","kelompokPasien", "kondisi"],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.dataLogin.namaLengkap,jumlah,kelompokPasien, kondisi],
                     "paramType": ["", "date", "", "", ""]
                 };
                 var xhr = new XMLHttpRequest();
