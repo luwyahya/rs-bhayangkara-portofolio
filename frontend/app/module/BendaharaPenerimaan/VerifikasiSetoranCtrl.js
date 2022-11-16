@@ -407,7 +407,7 @@ define(['initialize'], function (initialize) {
 							"norec_closing": dataItem.norec_closing,
 						}
 						medifirstService.post('bendaharapenerimaan/unverifikasi-Setoran', itemDelete).then(function (e) {
-
+							loadData();
 						})
 					} else {
 						$scope.penerimaan = true
@@ -444,7 +444,7 @@ define(['initialize'], function (initialize) {
 				var strukresep = {
 					nojurnal: '-',
 					tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
-					deskripsi: '-',
+					deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
 					nobuktitransaksi: tempTr.norec_closing
 				}
 				for (var i = tempresultKelompok.data.length - 1; i >= 0; i--) {

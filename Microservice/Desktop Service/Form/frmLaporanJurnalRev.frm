@@ -211,7 +211,7 @@ Set Report = New crLaporanJurnalRev
     With Report
         .database.AddADOCommand CN_String, adocmd
             .txtPrinted.SetText namaPrinted
-            .txtTanggal.SetText Format(tglAwal, "dd/MM/yyyy")
+            .txttanggal.SetText Format(tglAwal, "dd/MM/yyyy")
             .txtPeriode.SetText Format(tglAwal, "MM-yyyy")
             .txtDeskripsi.SetText deskripsi
             .txtPosted.SetText noPosted

@@ -1591,14 +1591,14 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksid_t where norecrelated in (select pjt.norec from postingjurnaltransaksi_t as pjt
                     INNER JOIN  strukpelayanan_t as pp on pp.norec=pjt.norecrelated and pp.tglstruk >'2019-01-01 00:00'
                     left JOIN postingjurnal_t as posted on pjt.nojurnal_intern=posted.norecrelated
-                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=0 and posted.nojurnal_intern is null
+                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=false and posted.nojurnal_intern is null
                     and pjt.tglbuktitransaksi  >'2019-01-01 00:00' and pjt.nojurnal_intern='$noJurnal');"
             );
             $delVerifTarekHead = DB::delete("
                     delete from postingjurnaltransaksi_t where norec in (select pjt.norec from postingjurnaltransaksi_t as pjt
                     INNER JOIN  strukpelayanan_t as pp on pp.norec=pjt.norecrelated and pp.tglstruk >'2019-01-01 00:00'
                     left JOIN postingjurnal_t as posted on pjt.nojurnal_intern=posted.norecrelated
-                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=0 and posted.nojurnal_intern is null
+                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=false and posted.nojurnal_intern is null
                     and pjt.tglbuktitransaksi  >'2019-01-01 00:00' and pjt.nojurnal_intern='$noJurnal');"
             );
 
@@ -1689,7 +1689,7 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksid_t where norecrelated in (
                         select pjt.norec from postingjurnaltransaksi_t as pjt
                         INNER JOIN strukpelayanan_t as sp on sp.norec=pjt.norecrelated 
-                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = 0  
+                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = false  
                         and nojurnal_intern='$noJurnal')
                 "
             );
@@ -1697,7 +1697,7 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksi_t where norec in (
                         select pjt.norec from postingjurnaltransaksi_t as pjt
                         INNER JOIN strukpelayanan_t as sp on sp.norec=pjt.norecrelated 
-                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = 0  
+                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = false  
                         and nojurnal_intern='$noJurnal');
                 "
             );
