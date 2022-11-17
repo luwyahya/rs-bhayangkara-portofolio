@@ -8,6 +8,9 @@ define(['initialize'], function (initialize) {
                 $scope.isNext = true;
                 $scope.isEdit = false;
                 $scope.isReport = true;
+                $scope.grid1 = true;
+                $scope.grid2 = false;
+                $scope.dataEdit = false;
                 $scope.dataLogin = JSON.parse(window.localStorage.getItem('pegawai'));
                 $scope.now = new Date();
                 $scope.cboShow = true;
@@ -20,6 +23,19 @@ define(['initialize'], function (initialize) {
                 } else {
                     $scope.bukanLogistik = true;
                     $scope.iniFarmasi = false;
+                }
+                $scope.ceklispilihManual = function(bool){
+                    debugger
+                    if(bool){
+                       $scope.grid1 = false;
+                       $scope.grid2 = true;
+                       $scope.dataEdit = true; 
+                    }else{
+                        $scope.grid1 = true;
+                       $scope.grid2 = false;
+                       $scope.dataEdit = false;  
+                    }
+                    
                 }
                 $scope.item.jmlRows = 10
                 $scope.listRuangan = medifirstService.getMapLoginUserToRuangan();
@@ -202,6 +218,68 @@ define(['initialize'], function (initialize) {
 
             };
 
+            $scope.columnGridStok = {
+                dataBound: onDataBound,
+                toolbar: ["excel"],
+                excel: {
+                    fileName: "Data Stok Ruangan" + moment($scope.now).format('DD/MMM/YYYY'),
+                    allPages: true,
+                },
+                // filterable: {
+                //     extra: false,
+                //     operators: {
+                //         string: {
+                //             contains: "Contains",
+                //             startswith: "Starts with"
+                //         }
+                //     }
+                // },
+                selectable: 'row',
+                scrollable: true,
+
+                pageable: true,
+                // editable: true,  
+                columns: [
+                    {
+                        "field": "kodeproduk",
+                        "title": "Kode Produk",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Nama Produk",
+                        "width": "120px",
+                    },
+                    {
+                        "field": "asalproduk",
+                        "title": "Asal Produk",
+                        "width": "80px",
+                    },
+                    {
+                        "field": "stokproduk",
+                        "title": "Stok",
+                        "width": "60px",
+                    },
+                    {
+                    "field": "stokmin",
+                    "title": "Stok Minumum",
+                    "width": "10%",
+                    attributes: {
+                            class: "#=stokproduk <= stokmin ? 'red' : ' ' #"
+                        },
+                    },
+                    {
+                        "field": "stokmax",
+                        "title": "Stok Maximum",
+                        "width": "10%",
+                        attributes: {
+                                class: "#=stokproduk > stokmax ? 'green' : ' ' #",
+                            },
+                    }
+                ]
+
+            };
+
             $scope.$watch('item.hargaJual', function (newValue, oldValue) {
                 if (newValue != oldValue) {
                     if ($scope.item.hargaJual > 0) {
@@ -217,7 +295,84 @@ define(['initialize'], function (initialize) {
             //         }
             //     }
             // });
+            $scope.editStok = function(){                
+                if ($scope.dataSelected == undefined) {
+                    toastr.error("Data Belum Di Pilih")
+                    return;
+                }
+                debugger
+                // $scope.item.norec = $scope.dataSelected.norec;
+                $scope.item.kodeproduk = $scope.dataSelected.kodeproduk;
+                $scope.item.namaproduk = $scope.dataSelected.namaproduk;
+                $scope.item.stokmin = $scope.dataSelected.stokmin;
+                $scope.item.stokmax = $scope.dataSelected.stokmax;
+                $scope.StokShow.center().open();               
+            }
+             $scope.SimpanStok = function(){
+                debugger
+                if ($scope.item.stokmin == undefined) {
+                    alert("Stok Minimum Harus Diisi!")
+                    return
+                }
+                if ($scope.item.stokmax == undefined) {
+                    alert("Stok Maximum Harus Diisi!")
+                    return
+                }
 
+                if ($scope.item.stokmin > $scope.item.stokmax) {
+                    toastr.error("Stok Minimum Tidak Bisa Lebih Besar Dari Stok Maximum!")
+                    return;
+                }
+
+                var kodeproduk = "";
+                if ($scope.item.kodeproduk != undefined) {
+                    kodeproduk = $scope.item.kodeproduk
+                }
+
+                var norec = "";
+                if ($scope.item.norec != undefined) {
+                    norec = $scope.item.norec
+                }
+
+                var namaproduk = "";
+                if ($scope.item.namaproduk !=undefined) {
+                    namaproduk = $scope.item.namaproduk
+                }
+
+                var stokmin = "";
+                if ($scope.item.stokmin != undefined) {
+                    stokmin = $scope.item.stokmin
+                }
+
+                var stokmax = "";
+                if ($scope.item.stokmax != undefined) {
+                    stokmax = $scope.item.stokmax
+                }
+
+                var stok = {
+                    kodeproduk: kodeproduk,
+                    norec:norec,
+                    namaproduk: namaproduk,
+                    stokmin: stokmin,
+                    stokmax: stokmax
+                }
+
+                var objSave = {
+                    stok:stok
+                }
+                medifirstService.post('logistik/save-edit-stok',objSave).then(function (e) {
+                    initData()
+                })
+                $scope.StokShow.close();
+            }
+
+            $scope.BatalStok = function(){
+                $scope.item.kodeProduk = undefined;
+                $scope.item.namaProduk = undefined;
+                $scope.item.stokmin = undefined;
+                $scope.item.stokmax = undefined;
+                $scope.StokShow.close();
+            }
             $scope.simpan = function () {
                 var objSave = {
                     objectprodukfk: $scope.dataSelected.kodeProduk,
@@ -303,6 +458,7 @@ define(['initialize'], function (initialize) {
                         $scope.isRouteLoading = false;
                         var datas = data.data.detail;
                         var datasOrder = data.data.detailorder;
+                        var stokproduk = data.data.stok;
                         var subTotal = 0; //harga
                         var stok = 0; //qtyProduk
                         var totalAll = 0;
@@ -336,6 +492,17 @@ define(['initialize'], function (initialize) {
                         $scope.dataGrid = new kendo.data.DataSource({
                             data: datas,
                             total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {
+                                    }
+                                }
+                            }
+                        });
+                        $scope.dataGrid2 = new kendo.data.DataSource({
+                            data: stokproduk,
+                            total: stokproduk.length,
                             serverPaging: false,
                             schema: {
                                 model: {

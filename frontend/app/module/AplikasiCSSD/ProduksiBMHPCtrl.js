@@ -1,13 +1,15 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('ProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'IPSRSService','$state',
-		function($rootScope, $scope, ModelItem, IPSRSService,$state) {
+	// initialize.controller('ProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'IPSRSService','$state',
+	// 	function($rootScope, $scope, ModelItem, IPSRSService,$state) {
+		initialize.controller('ProduksiBMHPCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+			function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			$scope.item = {};
 			$scope.now = new Date();
 			$scope.dataVOloaded = true;
 			$scope.disabledSave = true;
 			function init() {
-				IPSRSService.getItem("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
+				medifirstService.get("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
 					$scope.dataMaster = dat.data.data;
 					$scope.dataSourceBMHP = new kendo.data.DataSource({
 						pageSize: 10,
@@ -16,7 +18,7 @@ define(['initialize'], function(initialize) {
 				});
 			}
 			init();
-			$scope.produk = ModelItem.kendoHttpSource('cssd-bmhp/get-stok-by-ruangan', true);
+			// $scope.produk = ModelItem.kendoHttpSource('cssd-bmhp/get-stok-by-ruangan', true);
 			$scope.mainGridOptions = { 
 				pageable: true,
 			    filterable: {
@@ -37,7 +39,7 @@ define(['initialize'], function(initialize) {
 			$scope.GetDataProduk = function(){
 			  $scope.item.jumlah = undefined;
 			  var nom = 1;
-			  IPSRSService.getItem("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
+			  medifirstService.get("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
 			  $scope.dataMaster = dat.data.data;
 			  $scope.dataMaster.forEach(function (data) {
 				 if (data.idProduk == $scope.item.namaBarang.idProduk) {	
@@ -55,7 +57,7 @@ define(['initialize'], function(initialize) {
 		  $scope.nomor = 1;
 		  $scope.isLoading = true;
 			if(($scope.item.namaBarang != undefined) && ($scope.item.jumlah != undefined)){
-				  IPSRSService.getItem("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
+				  medifirstService.get("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
 					$scope.dataMaster = dat.data.data;
 					$scope.dataMaster.forEach(function (data) {
 						if (data.idProduk == $scope.item.namaBarang.idProduk) {	
@@ -116,7 +118,7 @@ define(['initialize'], function(initialize) {
 					  "harga": parseInt($scope.item.harga),
 					  "cssdProduksiBmhpDetail": dataArray
 					}
-					IPSRSService.saveDataSarPras(dataSimpan, "cssd-bmhp/produksi-bmhp/").then(function(e) {
+					medifirstService.post(dataSimpan, "cssd-bmhp/produksi-bmhp/").then(function(e) {
 	                });
 				}
 				
@@ -128,7 +130,7 @@ define(['initialize'], function(initialize) {
 
 //=================================Source Old =============================================
 /*$scope.getDataTable = function () {
-IPSRSService.getItem("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
+IPSRSService.get("cssd-bmhp/get-stok-by-ruangan").then(function(dat){
 $scope.dataMaster = dat.data.data;
 $scope.dataMaster.forEach(function (data) {
 	if (data.idProduk == $scope.item.namaBarang.idProduk) {

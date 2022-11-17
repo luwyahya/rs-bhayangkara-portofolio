@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize) {
 	'use strict';
-	initialize.controller('MonitoringTestMesinEthylenOxideCtrl', ['$rootScope', '$scope', 'ModelItem','ManageSarpras','DateHelper','$state',
-		function($rootScope, $scope, ModelItem, ManageSarpras,DateHelper,$state) {
+	// initialize.controller('MonitoringTestMesinEthylenOxideCtrl', ['$rootScope', '$scope', 'ModelItem','medifirstService','DateHelper','$state',
+	// 	function($rootScope, $scope, ModelItem, ManageSarpras,DateHelper,$state) {
+		initialize.controller('MonitoringTestMesinEthylenOxideCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			ModelItem.get("CSSD/MonitoringTestMesinEthylenOxide").then(function(data) {
 				$scope.item = data;
 				$scope.now = new Date();
@@ -78,7 +80,7 @@ define(['initialize'], function(initialize) {
 	            var tanggalakhirParse = new moment($scope.item.akhir).format('YYYY-MM-DD');
 	     		var no = 1;
 	     		if($scope.Rubahdat == false && getPencarian == undefined){
-		     	ManageSarpras.getOrderList("monitoringtestentylenoxide/get-monitoring-test-entylen-oxide?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
+		     	medifirstService.get("monitoringtestentylenoxide/get-monitoring-test-entylen-oxide?startDate="+tanggalawalParse+"&endDate="+tanggalakhirParse, true).then(function(dat){
 	              debugger
 	              $scope.datagrid = dat.data.data;
 	              for(var i=0; i<$scope.datagrid.length; i++){
@@ -103,7 +105,7 @@ define(['initialize'], function(initialize) {
 			}
 			$scope.init();
 
-		  ManageSarpras.getOrderList("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
+		  medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat){
 	              $scope.dataMasterPetugas = dat.data;
 	           });	
 
@@ -206,7 +208,7 @@ define(['initialize'], function(initialize) {
 					"statusEnabled":false
 				}
 
-		    	ManageSarpras.saveDataUji(data, "monitoringtestentylenoxide/save-monitoring-test-entylen-oxide").then(function (e) {
+		    	medifirstService.post(data, "monitoringtestentylenoxide/save-monitoring-test-entylen-oxide").then(function (e) {
 					$scope.init();
 					$scope.item = {};
 					$scope.noRec = undefined;
@@ -230,7 +232,7 @@ define(['initialize'], function(initialize) {
 						"petugasId":$scope.item.petugas.id,
 						"statusEnabled":$scope.statusSave
 					 }
-				 ManageSarpras.saveDataUji(data, "monitoringtestentylenoxide/save-monitoring-test-entylen-oxide").then(function (e) {
+				 medifirstService.post(data, "monitoringtestentylenoxide/save-monitoring-test-entylen-oxide").then(function (e) {
 		         	$scope.init();
 		         	$scope.item = {};
 		         	$scope.noRec = undefined;

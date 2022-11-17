@@ -156,7 +156,7 @@ Dim adocmd As New ADODB.Command
 
     Dim str1 As String
     Dim str2 As String
-    Dim Judul As String
+    Dim judul As String
     
     
 Set Report = New crLaporanJurnalDetailRev
@@ -180,9 +180,9 @@ Set Report = New crLaporanJurnalDetailRev
     
 
     If Mid(noJurnal, 5, 2) = "PN" And (Right(noJurnal, 5) = "00001" Or Right(noJurnal, 5) = "00002") Then
-        Judul = "RINCIAN JURNAL PENDAPATAN HARIAN"
+        judul = "RINCIAN JURNAL PENDAPATAN HARIAN"
         If typeDetail = "BEDAHARGA" Then
-            strSQL = "select ru.namaruangan, pd.noregistrasi  +  '/'  +  ps.nocm as noMR, ps.namapasien ,pp.produkfk, " & _
+            strSQL = "select ru.namaruangan, pd.noregistrasi  ||  '/'  ||  ps.nocm as noMR, ps.namapasien ,pp.produkfk, " & _
                      "pj.namaproduktransaksi as keteranganlainnya, " & _
                      "(case when pp.hargajual is null then 0 else pp.hargajual end-(case when pp.hargadiscount is null then 0 else pp.hargadiscount end)) as hargaPP,pp.jumlah, " & _
                      "pjd.objectaccountfk as accountid, pj.nojurnal,coa.noaccount,coa.namaaccount, " & _
@@ -201,7 +201,7 @@ Set Report = New crLaporanJurnalDetailRev
                      "((case when pp.hargajual is null then 0 else pp.hargajual end) *pp.jumlah)+ case when jasa is null then 0 else jasa end " & _
                      "order by coa.namaaccount;"
         Else
-            strSQL = "select ru.namaruangan, pd.noregistrasi  +  '/'  +  ps.nocm as noMR, ps.namapasien , " & _
+            strSQL = "select ru.namaruangan, pd.noregistrasi  ||  '/'  ||  ps.nocm as noMR, ps.namapasien , " & _
                      "pp.produkfk, " & _
                      "pj.namaproduktransaksi as keteranganlainnya, " & _
                      "(case when pp.hargajual is null then 0 else pp.hargajual end)  as hargaPP,pp.jumlah, " & _
@@ -234,8 +234,8 @@ Set Report = New crLaporanJurnalDetailRev
         End If
     End If
     If Mid(noJurnal, 5, 2) = "PN" And (Right(noJurnal, 5) = "00003" Or Right(noJurnal, 5) = "00004") Then
-        Judul = "RINCIAN JURNAL PENDAPATAN NON TUNAI"
-        strSQL = "select ru.namaruangan, pd.noregistrasi  +  '/'  +  ps.nocm as noMR, ps.namapasien , pp.produkfk, pj.namaproduktransaksi as keteranganlainnya, " & _
+        judul = "RINCIAN JURNAL PENDAPATAN NON TUNAI"
+        strSQL = "select ru.namaruangan, pd.noregistrasi  ||  '/'  ||  ps.nocm as noMR, ps.namapasien , pp.produkfk, pj.namaproduktransaksi as keteranganlainnya, " & _
                  "pj.deskripsiproduktransaksi,pp.jumlah, pp.statusenabled,pp.norec,((case when pp.hargadiscount is null then 0 else pp.hargadiscount end)) * pp.jumlah as Total, " & _
                  "pjd.objectaccountfk as accountid, pj.nojurnal,coa.noaccount, coa.namaaccount, pjd.hargasatuank , pjd.hargasatuand, " & _
                  "((case when pp.hargadiscount is null then 0 else pp.hargadiscount end)) as hargaPP,0 as totalprekanan " & _
@@ -245,7 +245,7 @@ Set Report = New crLaporanJurnalDetailRev
                  "INNER JOIN ruangan_m as ru on ru.id=apd.objectruanganfk INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk " & _
                  "where nojurnal_intern='" & noJurnal & "' and pjd.hargasatuank <>0 " & _
                  "Union All " & _
-                 " select ru.namaruangan, pd.noregistrasi  +  '/'  +  ps.nocm as noMR, ps.namapasien , 0 as produkfk, pj.namaproduktransaksi as keteranganlainnya, " & _
+                 " select ru.namaruangan, pd.noregistrasi  ||  '/'  ||  ps.nocm as noMR, ps.namapasien , 0 as produkfk, pj.namaproduktransaksi as keteranganlainnya, " & _
                  "pj.deskripsiproduktransaksi, 1 as jumlah, sp.statusenabled,sp.norec, pjd.hargasatuand as Total, " & _
                  "pjd.objectaccountfk as accountid, pj.nojurnal,coa.noaccount,case when rkn.namarekanan is null then coa.namaaccount  else coa.namaaccount  +  ' -> '  +  rkn.namarekanan end as namaaccount, pjd.hargasatuank , pjd.hargasatuand , " & _
                  "pjd.hargasatuand as hargaPP,sp.totalprekanan " & _
@@ -264,7 +264,7 @@ Set Report = New crLaporanJurnalDetailRev
         
     End If
     If Mid(noJurnal, 5, 2) = "KS" And (Right(noJurnal, 5) = "00001") Then
-        Judul = "RINCIAN JURNAL PENERIMAAN KAS"
+        judul = "RINCIAN JURNAL PENERIMAAN KAS"
         strSQL = "select ru.namaruangan, sbm.nosbm  as nomr,  ps.namapasien , '0' as produkfk, pj.namaproduktransaksi as keteranganlainnya, " & _
                  "pj.deskripsiproduktransaksi,1 as jumlah, sbm.statusenabled,sbmc.norec,sbmc.totaldibayar as total, pjd.objectaccountfk as accountid, " & _
                  "pj.nojurnal,coa.noaccount, coa.namaaccount, pjd.hargasatuank , pjd.hargasatuand, sbmc.totaldibayar as hargapp,0 as totalprekanan " & _
@@ -276,7 +276,7 @@ Set Report = New crLaporanJurnalDetailRev
                  "where nojurnal_intern='" & noJurnal & "' and pjd.hargasatuand <>0 "
     End If
     If Mid(noJurnal, 5, 2) = "RS" And (Right(noJurnal, 5) = "00001") Then
-        Judul = "RINCIAN JURNAL HUTANG DAGANG"
+        judul = "RINCIAN JURNAL HUTANG DAGANG"
         strSQL = "select ru.namaruangan,  sp.nostruk  as nomr,  rkn.namarekanan as  namapasien , '0' as produkfk, " & _
                  "pj.namaproduktransaksi as keteranganlainnya, pj.deskripsiproduktransaksi,1 as jumlah, sp.statusenabled, " & _
                  "sp.norec,sp.totalharusdibayar as total, pjd.objectaccountfk as accountid, pj.nojurnal,coa.noaccount, coa.namaaccount, " & _
@@ -294,20 +294,20 @@ Set Report = New crLaporanJurnalDetailRev
         
     With Report
         .database.AddADOCommand CN_String, adocmd
-            .TxtJudul.SetText "RINCIAN JURNAL PENDAPATAN HARIAN"
+            .txtJudul.SetText "RINCIAN JURNAL PENDAPATAN HARIAN"
             .txtPrinted.SetText namaPrinted
-            .txtTanggal.SetText Format(tglAwal, "dd-MM-yyyy")
-            .TxtJudul.SetText Judul
+            .txttanggal.SetText Format(tglAwal, "dd-MM-yyyy")
+            .txtJudul.SetText judul
             
             .usKdPerkiraan.SetUnboundFieldSource ("{ado.noaccount}")
             .usNmPerkiraan.SetUnboundFieldSource ("{ado.namaaccount}")
             '.usNamaRuangan.SetUnboundFieldSource ("{ado.namaruangan}")
             .usRuangan.SetUnboundFieldSource ("{ado.namaruangan}")
-            .usRegMR.SetUnboundFieldSource ("{ado.noMR}")
+            .usRegMR.SetUnboundFieldSource ("{ado.nomr}")
             .usNamaPasien.SetUnboundFieldSource ("{ado.namapasien}")
             .usLayanan.SetUnboundFieldSource ("{ado.keteranganlainnya}")
             .ucTarif.SetUnboundFieldSource ("{ado.hargaPP}")
-            .unJumlah.SetUnboundFieldSource ("{ado.jumlah}")
+            .unjumlah.SetUnboundFieldSource ("{ado.jumlah}")
             .unKode.SetUnboundFieldSource ("{ado.produkfk}")
             '.unDebet.SetUnboundFieldSource ("{ado.P_NonJM}")
             '.unKredit.SetUnboundFieldSource ("{ado.P_JM}")

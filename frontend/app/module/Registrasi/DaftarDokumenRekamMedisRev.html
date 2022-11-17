@@ -173,7 +173,7 @@
                                     </button>
                                 </div> -->
                                 <div class="grid_2">
-                                    <kendo-button class="c-button" ng-click="cetakLabel()"><span class="title">Cetak
+                                    <kendo-button class="c-button" ng-click="labelpasien()"><span class="title">Cetak
                                             Label</span></kendo-button>
                                     <!-- <button class="btnTemplate1" style="margin-left: 0;" ng-click="history()">History
                                         Dokumen</button> -->
@@ -783,6 +783,19 @@
         <button class="k-button" ng-click="simpanTerima2()" style="float:right;margin-top:4%">Simpan</button>
     </div>
 </div>
+<div kendo-window="dialogCetakLabel" k-title="'Masukkan kuantiti cetak'" k-width="400" k-height="120"
+        k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <label c-label item="item " c-label-text="kuantiti "></label>
+        <input id="qtyCetak" name="qtyCetak" kendo-numeric-text-box k-options="formatNum" k-ng-model="dats.qty"
+            style="width:100%;" />
+        <div class="grid_12">
+            <div class="clear">
+                <button class="k-button" ng-click="pilihQty2(dats)" style="float:right;margin-top:4%">Cetak A4</button>
+            </div>
+        </div>
+        <div class="clear">
+            <button class="k-button" ng-click="pilihQty(dats)" style="float:right;margin-top:4%">Cetak</button>
+        </div>
 <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
 <div class="grid_12" style="margin-top:60px">
     <div ng-include='"../app/template/Shared/TemplateLoading"'></div>

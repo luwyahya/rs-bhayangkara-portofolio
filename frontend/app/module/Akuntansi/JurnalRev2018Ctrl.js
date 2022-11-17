@@ -214,8 +214,8 @@ define(['initialize'], function (initialize) {
 
                     var objSave = {
                         nojurnal: $scope.item.nojurnal,
-                        tglAwal: moment($scope.item.tanggal).format('YYYY-MM-DD 00:00:00'),
-                        tglAkhir: moment($scope.item.tanggal).format('YYYY-MM-DD 23:59:59')
+                        tglAwal: moment($scope.item.tglAwal).format('YYYY-MM-DD 00:00:00'),
+                        tglAkhir: moment($scope.item.tglAkhir).format('YYYY-MM-DD 23:59:59')
                     }
                     medifirstService.post('akuntansi/save-hapus-double-jurnal', objSave).then(function (e) {
                         angka = angka + 1
@@ -872,6 +872,7 @@ define(['initialize'], function (initialize) {
                             head: $scope.dataSelected.nojurnal
                         }
                         medifirstService.post('akuntansi/save-hapus-data-jurnal', objSave).then(function (e) {
+                            init();
                         })
                     }
                 } else {
@@ -963,8 +964,8 @@ define(['initialize'], function (initialize) {
 
                     var objSave = {
                         nojurnal: $scope.item.nojurnal,
-                        tglAwal: moment($scope.item.tanggal).format('YYYY-MM-DD 00:00:00'),
-                        tglAkhir: moment($scope.item.tanggal).format('YYYY-MM-DD 23:59:59')
+                        tglAwal: moment($scope.item.tglAwal).format('YYYY-MM-DD 00:00:00'),
+                        tglAkhir: moment($scope.item.tglAkhir).format('YYYY-MM-DD 23:59:59')
                     }
                     medifirstService.post('akuntansi/save-hapus-double-jurnal', objSave).then(function (e) {
                         angka = angka + 1
@@ -982,12 +983,12 @@ define(['initialize'], function (initialize) {
                         // $scope.item.notif = angka +'/5'
                         $scope.item.notif = $scope.item.notif + angka + '/9. ' + 'count OB = ' + data.data.count3 + ', '
                     })
-                    medifirstService.post('akuntansi/save-jurnal-pembayaran_tagihan', objSave).then(function (data) {
+                    medifirstService.post('sysadmin/general/save-jurnal-pembayaran_tagihan', objSave).then(function (data) {
                         angka = angka + 1
                         // $scope.item.notif = angka +'/5'
                         $scope.item.notif = $scope.item.notif + angka + '/9. ' + 'count Penerimaan = ' + data.data.count + ', '
                     });
-                    medifirstService.post('akuntansi/save-jurnal-verifikasi_tarek', objSave).then(function (data) {
+                    medifirstService.post('sysadmin/general/save-jurnal-verifikasi_tarek', objSave).then(function (data) {
                         angka = angka + 1
                         // $scope.item.notif = angka +'/5'
                         $scope.item.notif = $scope.item.notif + angka + '/9. ' + 'count verif = ' + data.data.count + ', '
@@ -1141,6 +1142,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.mataAnggaran = ""
                 $scope.item.kdAkunDebit = ""
                 $scope.item.kdAkunKredit = ""
+                $scope.dataSelectedPopUpMapJurnal = undefined
                 medifirstService.getPart("akuntansi/get-data-combo-coa-part", true, true, 20).then(function (data) {
                     $scope.listAkun = data;
                 })
@@ -1167,7 +1169,14 @@ define(['initialize'], function (initialize) {
                     id: $scope.dataSelectedPopUpMapJurnal.id,
                 }
                 medifirstService.post('akuntansi/hapus-map-jurnal', objDelete).then(function (e) {
-
+                    medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        data2 = dat.data
+                        $scope.dataPopUpMapJurnal = new kendo.data.DataSource({
+                            data: data2,
+                            pageSize: 20
+                        });
+                    });
                 })
             }
             $scope.hapus = function () {
@@ -1246,7 +1255,7 @@ define(['initialize'], function (initialize) {
                 {
                     nojurnal: $scope.item.nojurnal,
                     keteranganlainnya: $scope.item.deskripsi,
-                    tglbuktitransaksi: moment($scope.item.tanggal).format('DD-MMM-YYYY 00:00'),
+                    tglbuktitransaksi: moment($scope.now).format('DD-MMM-YYYY 00:00'),
                     data: dataPOsting
                 }
 

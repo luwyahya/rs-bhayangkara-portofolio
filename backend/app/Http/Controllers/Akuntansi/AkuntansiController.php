@@ -77,7 +77,7 @@ class AkuntansiController extends ApiController{
         if ($request['noaccount'] == '-' and $request['noaccount2'] == '-'){
             $data10=[];
             $aingMacan = DB::select(DB::raw("select * from
-                    (select  convert(varchar,pj.tglbuktitransaksi, 23) as tglbuktitransaksi ,
+                    (select  to_char( pj.tglbuktitransaksi, 'yyyy-MM-dd' ) as tglbuktitransaksi ,
                     coa.noaccount as noaccount,pj.keteranganlainnya,
                     sum(pjd.hargasatuand) as hargasatuand,
                     sum(pjd.hargasatuank) as hargasatuank,coa.saldonormaladd,coa.saldonormalmin,coa.id as coaid,pj.nojurnal_intern,coa.namaaccount
@@ -85,7 +85,7 @@ class AkuntansiController extends ApiController{
                     INNER JOIN postingjurnald_t as pjd on pjd.norecrelated=pj.norec
                     INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk
                     where pj.tglbuktitransaksi between :tglAwal and :tglAkhir 
-                    group by convert(varchar,pj.tglbuktitransaksi, 23),pj.keteranganlainnya,pj.deskripsiproduktransaksi,coa.saldonormaladd,
+                    group by to_char( pj.tglbuktitransaksi, 'yyyy-MM-dd' ),pj.keteranganlainnya,pj.deskripsiproduktransaksi,coa.saldonormaladd,
                     coa.saldonormalmin,coa.id,pj.nojurnal_intern,coa.namaaccount,coa.noaccount)as x
                     order by x.noaccount ;
                 "),
@@ -767,7 +767,7 @@ class AkuntansiController extends ApiController{
                 left JOIN postingjurnald_t as pjd on coa.id=pjd.objectaccountfk
                 left JOIN postingjurnal_t as pj on pjd.norecrelated=pj.norec
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
-                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=1
+                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=true
                 group by coa.id,coa.noaccount,coa.namaaccount
                 order by coa.noaccount;
             "),
@@ -792,7 +792,7 @@ class AkuntansiController extends ApiController{
                     from chartofaccount_m as coa
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
                     left JOIN (select * from postingsaldoawal_t where statusenabled=1 and ym = '$strData') as psa  on psa.objectaccountfk=coa.id
-                    where  sk.statusenabled=1 and coa.statusenabled=1  order by coa.noaccount
+                    where  sk.statusenabled=true and coa.statusenabled=true  order by coa.noaccount
                 ")
         );
 //        }else{
@@ -877,9 +877,9 @@ class AkuntansiController extends ApiController{
                 group by left(coa.noaccount,1)
                 )as x  on x.noaccount = left(mp.noaccount,1)
                 where mp.kodeexternal='1' 
-                and sk.statusenabled=1  --and mp.reportdisplay='$namaLaporan'
-                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=1";
-        $sql2 = "select mp.noaccount,'---' + mp.namaaccount,mp.namaexternal,  x.debet-x.kredit  as total
+                and sk.statusenabled=true  --and mp.reportdisplay='$namaLaporan'
+                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=true";
+        $sql2 = "select mp.noaccount,'---' || mp.namaaccount,mp.namaexternal,  x.debet-x.kredit  as total
                 from chartofaccount_m as mp
                 INNER JOIN suratkeputusan_m as sk on sk.id=mp.suratkeputusanfk
                 left join
@@ -893,10 +893,10 @@ class AkuntansiController extends ApiController{
                 group by left(coa.noaccount,3)
                 )as x  on x.noaccount = left(mp.noaccount,3)
                 where mp.kodeexternal='2' 
-                and sk.statusenabled=1  --and mp.reportdisplay='$namaLaporan'
-                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=1
+                and sk.statusenabled=true  --and mp.reportdisplay='$namaLaporan'
+                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=true
                 ";
-        $sql3 = "select mp.noaccount,'------' + mp.namaaccount, mp.namaexternal, x.debet-x.kredit  as total
+        $sql3 = "select mp.noaccount,'------' || mp.namaaccount, mp.namaexternal, x.debet-x.kredit  as total
                 from chartofaccount_m as mp
                 INNER JOIN suratkeputusan_m as sk on sk.id=mp.suratkeputusanfk
                 left join
@@ -910,8 +910,8 @@ class AkuntansiController extends ApiController{
                 group by left(coa.noaccount,6)
                 )as x  on x.noaccount = left(mp.noaccount,6)
                 where mp.kodeexternal='3' 
-                and sk.statusenabled=1  --and mp.reportdisplay='$namaLaporan'
-                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=1";
+                and sk.statusenabled=true  --and mp.reportdisplay='$namaLaporan'
+                and left(mp.noaccount,1) in ($namaLaporan) and mp.statusenabled=true";
 
         $sql = $sql1 . " union all " . $sql2 . " union all " . $sql3 ;
 
@@ -932,8 +932,8 @@ class AkuntansiController extends ApiController{
                 )as x  on x.kdmap = left(mp.noaccount,1)
                 where mp.kodeexternal='1' 
                 and left(mp.noaccount,1) in ($namaLaporan) 
-                and sk.statusenabled=1 and mp.statusenabled=1";
-        $sql22 = "select mp.noaccount,'---'  + mp.namaaccount,x.debet-x.kredit  as total
+                and sk.statusenabled=true and mp.statusenabled=true";
+        $sql22 = "select mp.noaccount,'---'  || mp.namaaccount,x.debet-x.kredit  as total
                 from chartofaccount_m as mp
                 INNER JOIN suratkeputusan_m as sk on sk.id=mp.suratkeputusanfk
                 left join
@@ -946,8 +946,8 @@ class AkuntansiController extends ApiController{
                 )as x  on x.kdmap = left(mp.noaccount,3)
                 where mp.kodeexternal='2' 
                 and left(mp.noaccount,1) in ($namaLaporan)
-                and sk.statusenabled=1 and mp.statusenabled=1 ";
-        $sql33 = "select mp.noaccount,'------'  + mp.namaaccount,x.debet-x.kredit  as total
+                and sk.statusenabled=true and mp.statusenabled=true ";
+        $sql33 = "select mp.noaccount,'------'  || mp.namaaccount,x.debet-x.kredit  as total
                 from chartofaccount_m as mp
                 INNER JOIN suratkeputusan_m as sk on sk.id=mp.suratkeputusanfk
                 left join
@@ -960,7 +960,7 @@ class AkuntansiController extends ApiController{
                 )as x  on x.kdmap = left(mp.noaccount,6)
                 where mp.kodeexternal='3' 
                 and left(mp.noaccount,1) in ($namaLaporan)
-                and sk.statusenabled=1 and mp.statusenabled=1";
+                and sk.statusenabled=true and mp.statusenabled=true";
 
         $sql2 = $sql11 . " union all " . $sql22 . " union all " . $sql33 ;
 
@@ -1591,14 +1591,14 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksid_t where norecrelated in (select pjt.norec from postingjurnaltransaksi_t as pjt
                     INNER JOIN  strukpelayanan_t as pp on pp.norec=pjt.norecrelated and pp.tglstruk >'2019-01-01 00:00'
                     left JOIN postingjurnal_t as posted on pjt.nojurnal_intern=posted.norecrelated
-                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=0 and posted.nojurnal_intern is null
+                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=false and posted.nojurnal_intern is null
                     and pjt.tglbuktitransaksi  >'2019-01-01 00:00' and pjt.nojurnal_intern='$noJurnal');"
             );
             $delVerifTarekHead = DB::delete("
                     delete from postingjurnaltransaksi_t where norec in (select pjt.norec from postingjurnaltransaksi_t as pjt
                     INNER JOIN  strukpelayanan_t as pp on pp.norec=pjt.norecrelated and pp.tglstruk >'2019-01-01 00:00'
                     left JOIN postingjurnal_t as posted on pjt.nojurnal_intern=posted.norecrelated
-                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=0 and posted.nojurnal_intern is null
+                    where pjt.deskripsiproduktransaksi='verifikasi_tarek' and pp.statusenabled=false and posted.nojurnal_intern is null
                     and pjt.tglbuktitransaksi  >'2019-01-01 00:00' and pjt.nojurnal_intern='$noJurnal');"
             );
 
@@ -1689,7 +1689,7 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksid_t where norecrelated in (
                         select pjt.norec from postingjurnaltransaksi_t as pjt
                         INNER JOIN strukpelayanan_t as sp on sp.norec=pjt.norecrelated 
-                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = 0  
+                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = false  
                         and nojurnal_intern='$noJurnal')
                 "
             );
@@ -1697,7 +1697,7 @@ class AkuntansiController extends ApiController{
                     delete from postingjurnaltransaksi_t where norec in (
                         select pjt.norec from postingjurnaltransaksi_t as pjt
                         INNER JOIN strukpelayanan_t as sp on sp.norec=pjt.norecrelated 
-                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = 0  
+                        where pjt.deskripsiproduktransaksi='verifikasi_tarek' and sp.statusenabled = false  
                         and nojurnal_intern='$noJurnal');
                 "
             );
@@ -2959,6 +2959,98 @@ class AkuntansiController extends ApiController{
         } catch (\Exception $e) {
             $transStatus = 'false';
         }
+        $transMessage = 'Entry ';
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "Berhasil";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "data" => $postingJurnalTransaksi,
+                "as" => 'as@epic',
+            );
+        }else{
+            $transMessage = $transMessage ." Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "data" => $postingJurnalTransaksi,
+//                "datadetail" => $postingJurnalTransaksiD,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function PostingJurnal_entry_bp(Request $request) {
+        DB::beginTransaction();
+        $dataReq = $request->all();
+
+        // try {
+            if ($dataReq['head']['nojurnal'] == '-'){
+                $noBuktiTransaksi =$dataReq['head']['nobuktitransaksi'];
+                $noPosting = '-';
+                $noJurnalIntern = $this->generateCode(new PostingJurnalTransaksi, 'nojurnal_intern', 13,Carbon::parse($dataReq['head']['tglentry'])->format('ym'). 'MJ' . Carbon::parse($dataReq['head']['tglentry'])->format('d'));
+
+                $nojurnal = 1;//$this->getSequence('postingjurnaltransaksi_t_nojurnal_seq');
+
+                $postingJurnalTransaksi = new PostingJurnalTransaksi;
+                $norecHead = $postingJurnalTransaksi->generateNewId();
+                $postingJurnalTransaksi->norec = $norecHead;
+                $postingJurnalTransaksi->kdprofile = 1;
+                $postingJurnalTransaksi->noposting =  $noPosting;
+                $postingJurnalTransaksi->nojurnal = $nojurnal;
+                $postingJurnalTransaksi->nojurnal_intern = $noJurnalIntern;
+                $postingJurnalTransaksi->objectjenisjurnalfk = 1;
+                $postingJurnalTransaksi->nobuktitransaksi = $noBuktiTransaksi;
+                $postingJurnalTransaksi->tglbuktitransaksi = $dataReq['head']['tglentry'];
+                $postingJurnalTransaksi->kdproduk = null;
+                $postingJurnalTransaksi->namaproduktransaksi ='Manual Jurnal';
+                $postingJurnalTransaksi->deskripsiproduktransaksi = 'pelayananpasien_t_manual';
+                $postingJurnalTransaksi->statusenabled = 1;
+                $postingJurnalTransaksi->norecrelated = null;
+            }else{
+
+                $postingJurnalTransaksi = PostingJurnalTransaksi::where('nojurnal_intern', $dataReq['head']['nojurnal'])
+                    ->first();
+                $nojurnal2 = $dataReq['head']['nojurnal'];
+                $delDetail = DB::select(DB::raw("
+                    delete from postingjurnaltransaksid_t 
+                    where norecrelated in (select norec from postingjurnaltransaksi_t where nojurnal_intern='$nojurnal2');
+                  ")
+                );
+//                $newPPD = PostingJurnalTransaksiD::where('norecrelated', $postingJurnalTransaksi->norec)->delete();
+                $nojurnal = $postingJurnalTransaksi->nojurnal;
+                $postingJurnalTransaksi->tglbuktitransaksi = $dataReq['head']['tglentry'];
+                if  ($postingJurnalTransaksi->tglbuktitransaksi != $dataReq['head']['tglentry']){
+                    $noJurnalIntern = $this->generateCode(new PostingJurnalTransaksi, 'nojurnal_intern', 13,Carbon::parse($dataReq['head']['tglentry'])->format('ym'). 'MJ' . Carbon::parse($dataReq['head']['tglentry'])->format('d'));
+                    $postingJurnalTransaksi->nojurnal_intern = $noJurnalIntern;
+                }
+
+                $noPosting = '-';
+                $norecHead = $postingJurnalTransaksi->norec;
+            }
+
+            $postingJurnalTransaksi->keteranganlainnya = $dataReq['head']['deskripsi'];
+            $postingJurnalTransaksi->save();
+
+            foreach ($dataReq['detail'] as $item){
+                $postingJurnalTransaksiD = new PostingJurnalTransaksiD;
+                $postingJurnalTransaksiD->norec = $postingJurnalTransaksiD->generateNewId();
+                $postingJurnalTransaksiD->kdprofile = 1;
+                $postingJurnalTransaksiD->nojurnal = $nojurnal;
+                $postingJurnalTransaksiD->noposting = $noPosting;
+                $postingJurnalTransaksiD->objectaccountfk = $item['accountid'];;
+                $postingJurnalTransaksiD->hargasatuand = $item['hargasatuand'];
+                $postingJurnalTransaksiD->hargasatuank = $item['hargasatuank'];
+                $postingJurnalTransaksiD->statusenabled = 1;
+                $postingJurnalTransaksiD->norecrelated = $norecHead;
+                $postingJurnalTransaksiD->save();
+            }
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        // }
         $transMessage = 'Entry ';
 
         if ($transStatus == 'true') {

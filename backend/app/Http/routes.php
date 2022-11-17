@@ -107,6 +107,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             //            Route::post('save-jurnal-verifikasi_tarek', 'Akuntansi\AkuntansiController@PostingJurnal_strukpelayanan_t_verifikasi_tarek');
             Route::post('save-hapus-data-jurnal', 'Akuntansi\AkuntansiController@PostingHapusJurnal_entry'); //done
             Route::post('save-entry-jurnal', 'Akuntansi\AkuntansiController@PostingJurnal_entry');
+            Route::post('save-entry-jurnal-bp', 'Akuntansi\AkuntansiController@PostingJurnal_entry_bp');
             Route::post('save-posting-jurnalv1', 'Akuntansi\AkuntansiController@PostingJurnalRev2018');
             Route::post('save-unposting-jurnalv1/', 'Akuntansi\AkuntansiController@UnPostingJurnalRev2018');
             Route::post('save-data-sal', 'Akuntansi\AkuntansiController@SaveDataSal'); //done
@@ -197,6 +198,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-monitoringklaimjaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveMonitoringKlaimJaspel');
             Route::post('save-verifikasi-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspel');
             Route::post('save-verifikasi-jaspelnonbpjs', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspelnonbpjs');
+            Route::post('unverifikasi-Setoran', 'BendaharaPenerimaan\BendaharaPenerimaanController@unverifikasiSetoran');
             //**POST**//
         });
         Route::group(['prefix' => 'bendaharapengeluaran'], function () {
@@ -1759,6 +1761,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-verifikasi-kepala-instalasi', 'Logistik\LogistikController@saveVerifikasiKepalaInstalasi');
             Route::post('save-data-usulan-permintaan-barang-ruangan', 'Logistik\LogistikController@saveUsulanPermintaan');
             Route::post('save-perbaiki-kartu-stok', 'Logistik\LogistikController@savePerbaikiKartuStok');
+            Route::post('save-edit-stok', 'Logistik\LogistikController@saveEditStok');
             Route::post('save-updatedosis', 'Logistik\LogistikController@updatedosis');
             Route::post('save-updateudd', 'Logistik\LogistikController@updateudd');
             Route::post('save-updateketerangan', 'Logistik\LogistikController@updateketerangan');

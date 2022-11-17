@@ -18,6 +18,7 @@ define(['initialize'], function (initialize) {
 			var tempTr = '';
 			var kdKelompokTransaksi
 			var resultKelompok = []
+			var tempresultKelompok = []
 			loadCombo();
 			showButton();
 			loadCache();
@@ -354,16 +355,23 @@ define(['initialize'], function (initialize) {
 						footerTemplate: "<span class='style-right'>{{formatRupiah(newsaldoakhir,'Rp. ')}}</span>"
 					},
 					{
-						command: {
-							text: "Verifikasi", width: "40px", align: "center",
-							attributes: { align: "center" },
-							click: openpopUpVerifikasi,
-							imageClass: "k-icon k-delete"
-							// template: "<div class='k-button  k-button-icontext k-grid-upload'><span class='k-icon k-delete'></span>Hapus</div>"
-						},
-						title: "",
-						width: "100px",
-					}
+						"field": "status",
+						"title": "",
+						"width": "100px",
+
+						"template": "<button class=\"k-button custom-button\" ng-click=\"openpopUpVerifikasi(dataItem)\"  style=\"margin:0 0 5px\">#:  status #</button> ",
+					},
+					// {
+					// 	command: {
+					// 		title: "<label>#:  kettransaksi #</label>", width: "40px", align: "center",
+					// 		attributes: { align: "center" },
+					// 		click: openpopUpVerifikasi,
+					// 		imageClass: "k-icon k-delete"
+					// 		// template: "<div class='k-button  k-button-icontext k-grid-upload'><span class='k-icon k-delete'></span>Hapus</div>"
+					// 	},
+					// 	title: "",
+					// 	width: "100px",
+					// }
 				],
 				sortable: {
 					mode: "single",
@@ -379,14 +387,13 @@ define(['initialize'], function (initialize) {
 				}
 			};
 
-			function openpopUpVerifikasi(e) {
-				e.preventDefault();
-				var grid = this;
-				var row = $(e.currentTarget).closest("tr");
-				var tr = $(e.target).closest("tr");
-				var dataItem = this.dataItem(tr);
+			$scope.openpopUpVerifikasi = function (dataSelected) {
+				var dataItem = dataSelected;
 				var stt = 'false'
-				if (confirm('Yakin mau Verifikasi data ini? ')) {
+				var massage = "Yakin mau Verifikasi data ini..?"
+				if (dataItem.status == 'Unverif')
+					massage = "Yakin mau Unverifikasi data ini..?"
+				if (confirm(massage)) {
 					// Save it!
 					stt = 'true';
 				} else {
@@ -395,33 +402,86 @@ define(['initialize'], function (initialize) {
 					stt = 'false'
 				}
 				if (stt) {
-					$scope.penerimaan = true
-					loadComboPopup()
-					tempTr = dataItem
-					$scope.item.jumlahRp = tempTr.debit
-					$scope.popUpVerifikasi.center().open()
-					$scope.item.kelompoktransaksi = ""
-					// grid kelompok transaksi
-					medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
-					).then(function (data) {
-						debugger
-						resultKelompok = data.data
-						$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
-							data: resultKelompok.data,//data,
-							//pageSize: 10,
-							total: resultKelompok.data.length,
-							serverPaging: false,
-							schema: {
-								model: {
-									fields: {
-										jasa: { type: "nontunai" }
+					if (dataItem.status == 'Unverif') {
+						var itemDelete = {
+							"norec_closing": dataItem.norec_closing,
+						}
+						medifirstService.post('bendaharapenerimaan/unverifikasi-Setoran', itemDelete).then(function (e) {
+							loadData();
+						})
+					} else {
+						$scope.penerimaan = true
+						loadComboPopup()
+						tempTr = dataItem
+						$scope.item.jumlahRp = tempTr.debit
+						$scope.popUpVerifikasi.center().open()
+						$scope.item.kelompoktransaksi = ""
+						// grid kelompok transaksi
+						medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
+						).then(function (data) {
+							debugger
+							resultKelompok = data.data
+							$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
+								data: resultKelompok.data,//data,
+								//pageSize: 10,
+								total: resultKelompok.data.length,
+								serverPaging: false,
+								schema: {
+									model: {
+										fields: {
+											jasa: { type: "nontunai" }
+										}
 									}
-								}
-							},
+								},
+
+							});
 
 						});
-
-					});
+					}
+				}
+			}
+			function pushSave(e) {
+				var strukresep = {
+					nojurnal: '-',
+					tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
+					deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
+					nobuktitransaksi: tempTr.norec_closing
+				}
+				for (var i = tempresultKelompok.data.length - 1; i >= 0; i--) {
+					var data = {};
+					var data2 = [];
+					data = {
+						no: 1,
+						accountid: tempresultKelompok.data[i].objectcoadebitfk,
+						noaccount: tempresultKelompok.data[i].noaccountdebit,
+						namaaccount: tempresultKelompok.data[i].namaaccountdebit,
+						namaaccount2: tempresultKelompok.data[i].namaaccountdebit,
+						hargasatuand: tempresultKelompok.data[i].total,
+						hargasatuank: '0',
+						keteranganlainnya: ''
+					}
+					data2.push(data)
+					data = {
+						no: 2,
+						accountid: tempresultKelompok.data[i].objectcoakreditfk,
+						noaccount: tempresultKelompok.data[i].noaccountkredit,
+						namaaccount: "--- " + tempresultKelompok.data[i].namaaccountkredit,
+						namaaccount2: tempresultKelompok.data[i].namaaccountkredit,
+						hargasatuand: '0',
+						hargasatuank: tempresultKelompok.data[i].total,
+						keteranganlainnya: ''
+					}
+					data2.push(data)
+					var objSave =
+					{
+						head: strukresep,
+						detail: data2
+					}
+					medifirstService.post('akuntansi/save-entry-jurnal-bp', objSave).then(function (e) {
+						tempresultKelompok.data.splice(i, 1);
+						pushSave()
+					})
+					break
 				}
 			}
 
@@ -442,45 +502,47 @@ define(['initialize'], function (initialize) {
 					stt = 'false'
 				}
 				if (stt) {
-					var strukresep = {
-						nojurnal: '-',
-						tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
-						deskripsi: '-'
-					}
-					for (var i = resultKelompok.data.length - 1; i >= 0; i--) {
-						var data = {};
-						var data2 = [];
-						data = {
-							no: 1,
-							accountid: resultKelompok.data[i].objectcoadebitfk,
-							noaccount: resultKelompok.data[i].noaccountdebit,
-							namaaccount: resultKelompok.data[i].namaaccountdebit,
-							namaaccount2: resultKelompok.data[i].namaaccountdebit,
-							hargasatuand: resultKelompok.data[i].total,
-							hargasatuank: '0',
-							keteranganlainnya: ''
-						}
-						data2.push(data)
-						data = {
-							no: 2,
-							accountid: resultKelompok.data[i].objectcoakreditfk,
-							noaccount: resultKelompok.data[i].noaccountkredit,
-							namaaccount: "--- " + resultKelompok.data[i].namaaccountkredit,
-							namaaccount2: resultKelompok.data[i].namaaccountkredit,
-							hargasatuand: '0',
-							hargasatuank: resultKelompok.data[i].total,
-							keteranganlainnya: ''
-						}
-						data2.push(data)
-						var objSave =
-						{
-							head: strukresep,
-							detail: data2
-						}
-						medifirstService.post('akuntansi/save-entry-jurnal', objSave).then(function (e) {
+					tempresultKelompok = resultKelompok
+					pushSave()
+					// var strukresep = {
+					// 	nojurnal: '-',
+					// 	tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
+					// 	deskripsi: '-'
+					// }
+					// for (var i = resultKelompok.data.length - 1; i >= 0; i--) {
+					// 	var data = {};
+					// 	var data2 = [];
+					// 	data = {
+					// 		no: 1,
+					// 		accountid: resultKelompok.data[i].objectcoadebitfk,
+					// 		noaccount: resultKelompok.data[i].noaccountdebit,
+					// 		namaaccount: resultKelompok.data[i].namaaccountdebit,
+					// 		namaaccount2: resultKelompok.data[i].namaaccountdebit,
+					// 		hargasatuand: resultKelompok.data[i].total,
+					// 		hargasatuank: '0',
+					// 		keteranganlainnya: ''
+					// 	}
+					// 	data2.push(data)
+					// 	data = {
+					// 		no: 2,
+					// 		accountid: resultKelompok.data[i].objectcoakreditfk,
+					// 		noaccount: resultKelompok.data[i].noaccountkredit,
+					// 		namaaccount: "--- " + resultKelompok.data[i].namaaccountkredit,
+					// 		namaaccount2: resultKelompok.data[i].namaaccountkredit,
+					// 		hargasatuand: '0',
+					// 		hargasatuank: resultKelompok.data[i].total,
+					// 		keteranganlainnya: ''
+					// 	}
+					// 	data2.push(data)
+					// 	var objSave =
+					// 	{
+					// 		head: strukresep,
+					// 		detail: data2
+					// 	}
+					// 	medifirstService.post('akuntansi/save-entry-jurnal', objSave).then(function (e) {
 
-						})
-					}
+					// 	})
+					// }
 					var itemDelete = {
 						"norec_closing": dataItem.norec_closing,
 						"tglsetor": moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),

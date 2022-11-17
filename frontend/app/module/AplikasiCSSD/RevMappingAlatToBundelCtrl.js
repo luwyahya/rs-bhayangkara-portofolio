@@ -1,7 +1,9 @@
 define(['initialize'], function (initialize) {
 	'use strict';
-	initialize.controller('RevMappingAlatToBundelCtrl', ['$rootScope', '$scope', 'ModelItem', '$state', 'ManageLogistikPhp', '$mdDialog',
-		function ($rootScope, $scope, ModelItem, $state, manageLogistikPhp, $mdDialog) {
+	// initialize.controller('RevMappingAlatToBundelCtrl', ['$rootScope', '$scope', 'ModelItem', '$state', 'ManageLogistikPhp', '$mdDialog',
+	// 	function ($rootScope, $scope, ModelItem, $state, manageLogistikPhp, $mdDialog) {
+		initialize.controller('RevMappingAlatToBundelCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			ModelItem.get("Kesling/LaporanUjiHasil").then(function (data) {
 				function errorCallBack(err) { }
 				$scope.item = {};
@@ -26,12 +28,12 @@ define(['initialize'], function (initialize) {
 				}
 			});
 
-			manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/get-jenis-paket").then(function (dat) {
+			medifirstService.get("cssd-sterilisasi/get-jenis-paket").then(function (dat) {
 				$scope.listJenisPaket = dat.data.jenispaket;
 			});
 
 			$scope.OnChangeJenisPaket = function (newValue) {
-				manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/get-paket-by-jenis-paket?idJenisPaket=" + newValue.id).then(function (dat) {
+				medifirstService.get("cssd-sterilisasi/get-paket-by-jenis-paket?idJenisPaket=" + newValue.id).then(function (dat) {
 					$scope.listPaket = dat.data.data;
 				});
 			}
@@ -39,7 +41,7 @@ define(['initialize'], function (initialize) {
 			$scope.OnChangePaket = function (selectedPaket) {
 				var nomor = 1;
 				$scope.isLoadingData = true;
-				manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/get-map-paket-to-produk?idPaket=" + selectedPaket.id).then(function (dat) {
+				medifirstService.get("cssd-sterilisasi/get-map-paket-to-produk?idPaket=" + selectedPaket.id).then(function (dat) {
 					// $scope.dataSourceMapping = dat.data.data;
 					var daftarMapping = dat.data.data;
 					for (var i = 0; i < daftarMapping.length; i++) {
@@ -130,7 +132,7 @@ define(['initialize'], function (initialize) {
 
 			$scope.number = 1;
 			var getAllProdukCSSD = function () {
-				manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/get-produk-cssd").then(function (res) {
+				medifirstService.get("cssd-sterilisasi/get-produk-cssd").then(function (res) {
 					var dataAlat = res.data.data;
 					$scope.dataAlat = dataAlat;
 					for (var i = 0; i < dataAlat.length; i++) {
@@ -162,7 +164,7 @@ define(['initialize'], function (initialize) {
 			getAllProdukCSSD();
 			$scope.fetchgridMapping = function (page) {
 				$scope.isLoadingData = true;
-				manageLogistikPhp.getDataTableTransaksi("cssd-sterilisasi/get-map-paket-to-produk?idPaket=" + 0).then(function (dat) {
+				medifirstService.get("cssd-sterilisasi/get-map-paket-to-produk?idPaket=" + 0).then(function (dat) {
 					var daftarMapping = dat.data.data;
 					if (daftarMapping[0] != undefined) {
 						for (var i = 0; i < daftarMapping.length; i++) {
@@ -289,7 +291,7 @@ define(['initialize'], function (initialize) {
 				}
 				data.push(dataTemp)
 				console.log(data);
-				manageLogistikPhp.postpost("cssd-sterilisasi/unmapping-paket-to-produk",data).then(function (e) {
+				medifirstService.post("cssd-sterilisasi/unmapping-paket-to-produk",data).then(function (e) {
 				});
 			}
 
@@ -395,7 +397,7 @@ define(['initialize'], function (initialize) {
 
 				});
 				console.log(data);
-				manageLogistikPhp.postpost("cssd-sterilisasi/save-all-map-paket-to-produk",data).then(function (e) {
+				medifirstService.post("cssd-sterilisasi/save-all-map-paket-to-produk",data).then(function (e) {
 					console.log(data);
 					$scope.fetchgridMapping();
 
@@ -446,13 +448,13 @@ define(['initialize'], function (initialize) {
 // 			},)
 //   		    }
 //   	   }
-//             ManageLogistikPhp.postpost(data,"mapping-alat-to-bundle/save-all-mapping-alat-to-bundle/").then(function(e) {
+//             ManageLogistikPhp.post(data,"mapping-alat-to-bundle/save-all-mapping-alat-to-bundle/").then(function(e) {
 //             	$scope.fetchgridMapping()
 //    });
 //    }
 
 
 
-// ManageLogistikPhp.getDataTableTransaksi("bundlesetalat/get-bundle-set-alat", true).then(function(dat){
+// ManageLogistikPhp.get("bundlesetalat/get-bundle-set-alat", true).then(function(dat){
 //     $scope.listBundel = dat.data.data;
 // });

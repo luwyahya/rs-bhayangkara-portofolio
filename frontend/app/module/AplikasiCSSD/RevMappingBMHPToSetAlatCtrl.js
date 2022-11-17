@@ -1,7 +1,9 @@
 define(['initialize'], function (initialize) {
 	'use strict';
-	initialize.controller('RevMappingBMHPToSetAlatCtrl', ['$rootScope', '$scope', 'ModelItem','$state','ManageLogistikPhp','$mdDialog',
-		function($rootScope, $scope, ModelItem, $state, manageLogistikPhp, $mdDialog) {
+	// initialize.controller('RevMappingBMHPToSetAlatCtrl', ['$rootScope', '$scope', 'ModelItem','$state','ManageLogistikPhp','$mdDialog',
+	// 	function($rootScope, $scope, ModelItem, $state, medifirstService, $mdDialog) {
+		initialize.controller('RevMappingBMHPToSetAlatCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+		function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
 			ModelItem.get("Kesling/LaporanUjiHasil").then(function(data) {
 				$scope.item = data;
 				$scope.now = new Date();
@@ -9,13 +11,13 @@ define(['initialize'], function (initialize) {
 			}, 
 	     function errorCallBack(err) {});
 			
-		 manageLogistikPhp.getDataTableTransaksi("bundlesetalat/get-bundle-set-alat").then(function(dat){
+		 medifirstService.get("bundlesetalat/get-bundle-set-alat").then(function(dat){
 	      	$scope.listBundel = dat.data.data;
 		 });
-		 // manageLogistikPhp.getDataTableTransaksi("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
+		 // medifirstService.get("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
 	  //     	$scope.columnDataAlat = dat.data.data;
 		 // });
-		 // manageLogistikPhp.getDataTableTransaksi("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
+		 // medifirstService.get("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
    //        	$scope.columnDataAlat = dat.data.data;
    //       });
    		 $scope.columnDataAlat = [
@@ -122,7 +124,7 @@ define(['initialize'], function (initialize) {
          	"id": this.dataItem.id
          }
          // data.push(dataTemp)
-         manageLogistikPhp.postpost("mapping-bmhp-to-set-alat/unMapping",dataTemp).then(function(e){
+         medifirstService.post("mapping-bmhp-to-set-alat/unMapping",dataTemp).then(function(e){
              	$scope.fetchgridMapping()
 		  });
 	     }
@@ -132,7 +134,7 @@ define(['initialize'], function (initialize) {
 		$scope.fetchgridMapping = function(){
            $scope.isLoadingData = true;
            if($scope.item.bundel.id != undefined){
-           manageLogistikPhp.getDataTableTransaksi("mapping-bmhp-to-set-alat/get-bundle-set-bmhp-by-id?idBundle="+$scope.item.bundel.id).then(function(dat){
+           medifirstService.get("mapping-bmhp-to-set-alat/get-bundle-set-bmhp-by-id?idBundle="+$scope.item.bundel.id).then(function(dat){
 		   var daftarMapping = dat.data.data;
 		   // debugger;
 		   if(daftarMapping[0] != undefined){
@@ -183,7 +185,7 @@ define(['initialize'], function (initialize) {
 		   $scope.isLoadingData =false
            }
           
-          // manageLogistikPhp.getDataTableTransaksi("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
+          // medifirstService.get("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
           // 	$scope.columnDataAlat = dat.data.dataalat
           // });
           //ambil data alat
@@ -222,7 +224,7 @@ define(['initialize'], function (initialize) {
            
            $scope.fetchmappingAlatToBundel = function(){
            	// debugger;
-           manageLogistikPhp.getDataTableTransaksi("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
+           medifirstService.get("mapping-bmhp-to-set-alat/get-alat").then(function(dat){
 		   var daftarteknisi = dat.data.data;
 		       for(var i=0; i<daftarteknisi.length; i++)
                     {
@@ -397,7 +399,7 @@ define(['initialize'], function (initialize) {
 	    	   var data = {
 	    	   		RevMappingBMHPToSetAlat: data
 	    	   }
-               manageLogistikPhp.postpost("mapping-bmhp-to-set-alat/save-all-mapping-bmhp-to-set-alat", data).then(function(e) {
+               medifirstService.post("mapping-bmhp-to-set-alat/save-all-mapping-bmhp-to-set-alat", data).then(function(e) {
  
                	$scope.fetchgridMapping()
 

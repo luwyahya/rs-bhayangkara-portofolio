@@ -597,6 +597,58 @@ class LogistikController extends ApiController
         $data = $data->orderBy('pr.namaproduk');
         $data = $data->orderBy('sp.nostruk');
         $data = $data->get();
+
+        $stok = \DB::table('stokprodukdetail_t as spd')
+            ->JOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'spd.nostrukterimafk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'spd.objectprodukfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->JOIN('asalproduk_m as ap', 'ap.id', '=', 'spd.objectasalprodukfk')
+            ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
+            ->select(
+                'pr.kdproduk as kdsirs',
+                'pr.id as kodeproduk',
+                'pr.namaproduk',
+                'ap.asalproduk',
+                'pr.stokmin',
+                'pr.stokmax',
+                DB::raw('sum(spd.qtyproduk) as stokproduk')
+            )
+            ->where('spd.statusenabled', true)
+            ->where('pr.statusenabled', true);
+
+        if (isset($request['kelompokprodukid']) && $request['kelompokprodukid'] != "" && $request['kelompokprodukid'] != "undefined") {
+            $stok = $stok->where('jp.objectkelompokprodukfk', '=', $request['kelompokprodukid']);
+        }
+        if (isset($request['jeniskprodukid']) && $request['jeniskprodukid'] != "" && $request['jeniskprodukid'] != "undefined") {
+            $stok = $stok->where('djp.objectjenisprodukfk', '=', $request['jeniskprodukid']);
+        }
+        if (isset($request['produkfk']) && $request['produkfk'] != "" && $request['produkfk'] != "undefined") {
+            $stok = $stok->where('spd.objectprodukfk', '=', $request['produkfk']);
+        }
+        if (isset($request['namaproduk']) && $request['namaproduk'] != "" && $request['namaproduk'] != "undefined") {
+            $stok = $stok->where('pr.namaproduk', 'ilike', '%' . $request['namaproduk'] . '%');
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $stok = $stok->where('spd.objectruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['asalprodukfk']) && $request['asalprodukfk'] != "" && $request['asalprodukfk'] != "undefined") {
+            $stok = $stok->where('spd.objectasalprodukfk', '=', $request['asalprodukfk']);
+        }
+        if (isset($request['KdSirs1']) &&  $request['KdSirs1'] != '') {
+            if ($request['KdSirs2'] != null &&  $request['KdSirs2'] != '' && $request['KdSirs1'] != null &&  $request['KdSirs1'] != '') {
+                $stok = $stok->whereRaw(" (pr.kdproduk BETWEEN '" . $request['KdSirs1'] . "' and '" . $request['KdSirs2'] . "') ");
+            } elseif ($request['KdSirs2'] &&  $request['KdSirs2'] != '' && $request['KdSirs1'] == '' ||  $request['KdSirs1'] == null) {
+                $stok = $stok->whereRaw = (" pr.kdproduk ilike '" . $request['KdSirs2'] . "%'");
+            } elseif ($request['KdSirs1'] &&  $request['KdSirs1'] != '' && $request['KdSirs2'] == '' ||  $request['KdSirs2'] == null) {
+                $stok = $stok->whereRaw = (" pr.kdproduk ilike '" . $request['KdSirs1'] . "%'");
+            }
+        }
+        // $stok = $stok->where('spd.qtyproduk','>', 0);
+        $stok = $stok->take($request['jmlRows']);
+        $stok = $stok->orderBy('pr.namaproduk');
+        $stok = $stok->groupBy('pr.kdproduk','pr.id','pr.namaproduk','ap.asalproduk','pr.stokmin','pr.stokmax');
+        $stok = $stok->get();
         $data2 = [];
 
 
@@ -651,6 +703,7 @@ class LogistikController extends ApiController
         }
         $result = array(
             'detail' => $data2,
+            'stok' => $stok,
             'detailorder' => $dataOrder,
             'datalogin' => $dataLogin,
             'message' => 'as@epic',
@@ -4627,6 +4680,42 @@ class LogistikController extends ApiController
         }
 
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function saveEditStok(Request $request)
+    {
+        try {
+            Produk::where('id', $request['stok']['kodeproduk'])
+            ->update([
+                'stokmin'=> $request['stok']['stokmin'],
+                'stokmax'=> $request['stok']['stokmax']
+            ]);
+            $transStatus = 'true';
+        }catch(\Exception $e){
+            $transStatus = 'false';
+            $transMessage = "Gagal Melakukan Penyimpanan!";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Berhasil Update Stok!";
+            \DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "as"=> 'as@epic',
+            );
+        }else{
+            $transMessage = "Gagal Update Stok!";
+            DB::rollBack();
+            $result = array(
+                "status"=>400,
+                "message"=>$transMessage,
+                "as"=>'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
     }
 
     public function DeletePenerimaanSuplier(Request $request)

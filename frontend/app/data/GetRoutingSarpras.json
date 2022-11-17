@@ -4618,8 +4618,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4746,8 +4746,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4784,8 +4784,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4879,8 +4879,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4917,8 +4917,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4974,8 +4974,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -4993,8 +4993,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -5031,8 +5031,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -5050,8 +5050,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -5069,8 +5069,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -5107,8 +5107,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },
@@ -5126,8 +5126,8 @@
                 "define": "LoginService"
             },
             {
-                "module": "SarprasService",
-                "define": "SarprasService"
+                "module": "MedifirstService",
+                "define": "MedifirstService"
             }
         ]
     },

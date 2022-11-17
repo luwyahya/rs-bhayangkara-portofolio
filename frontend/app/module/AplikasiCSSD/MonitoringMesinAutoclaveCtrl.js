@@ -1,7 +1,9 @@
 define(['initialize'], function(initialize) {
   'use strict';
-  initialize.controller('MonitoringMesinAutoclaveCtrl', ['$rootScope', '$scope', 'ModelItem', 'IPSRSService', '$state', 'ManageSarpras', 'DateHelper',
-    function($rootScope, $scope, ModelItem, IPSRSService, $state, ManageSarpras, DateHelper) {
+  // initialize.controller('MonitoringMesinAutoclaveCtrl', ['$rootScope', '$scope', 'ModelItem', 'medifirstService', '$state', 'ManageSarpras', 'DateHelper',
+  //   function($rootScope, $scope, ModelItem, IPSRSService, $state, ManageSarpras, DateHelper) {
+    initialize.controller('MonitoringMesinAutoclaveCtrl', ['$rootScope', '$scope', 'ModelItem', 'DateHelper','MedifirstService', '$state',
+    function($rootScope, $scope, ModelItem, DateHelper,medifirstService, $state){
       $scope.item = {};
       $scope.now = new Date();
       $scope.dataVOloaded = true;
@@ -10,7 +12,7 @@ define(['initialize'], function(initialize) {
       $scope.RubahData = false;
       $scope.item.awal = $scope.now;
       $scope.item.akhir = $scope.now;
-      ManageSarpras.getOrderList("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat) {
+      medifirstService.get("service/list-generic/?view=Pegawai&select=id,namaLengkap", true).then(function(dat) {
         $scope.dataMasterPetugas = dat.data;
       });
 
@@ -34,7 +36,7 @@ define(['initialize'], function(initialize) {
         }
       }
 
-      IPSRSService.getItem("pencatatan-suhu-mesin/get-mesin", true).then(function(dat) {
+      medifirstService.get("pencatatan-suhu-mesin/get-mesin", true).then(function(dat) {
         $scope.listMonitoringMesin = dat.data;
       });
 
@@ -78,7 +80,7 @@ define(['initialize'], function(initialize) {
         var tanggalakhirParse = new moment($scope.item.akhir).format('YYYY-MM-DD');
         var no = 1;
         if ($scope.RubahData == false && getPencarian == undefined) {
-          ManageSarpras.getOrderList("monitoringmesinautoclavebowidick/get-monitoring-mesin-clave-bowidick?startDate=" + tanggalawalParse + "&endDate=" + tanggalakhirParse, true).then(function(dat) {
+          medifirstService.get("monitoringmesinautoclavebowidick/get-monitoring-mesin-clave-bowidick?startDate=" + tanggalawalParse + "&endDate=" + tanggalakhirParse, true).then(function(dat) {
             debugger
             $scope.datagrid = dat.data.data;
             for (var i = 0; i < $scope.datagrid.length; i++) {
@@ -217,7 +219,7 @@ define(['initialize'], function(initialize) {
           "keterangan": isigrid.keterangan,
           "statusEnabled": false
         }
-        ManageSarpras.saveDataUji(data, "monitoringmesinautoclavebowidick/save-monitoring-mesin-clave-bowidick").then(function(e) {
+        medifirstService.post(data, "monitoringmesinautoclavebowidick/save-monitoring-mesin-clave-bowidick").then(function(e) {
           $scope.init();
           $scope.item = {};
           $scope.noRec = undefined;
@@ -253,7 +255,7 @@ define(['initialize'], function(initialize) {
             "keterangan": $scope.item.keterangan,
             "statusEnabled": $scope.statusSave
           }
-          ManageSarpras.saveDataUji(data, "monitoringmesinautoclavebowidick/save-monitoring-mesin-clave-bowidick").then(function(e) {
+          medifirstService.post(data, "monitoringmesinautoclavebowidick/save-monitoring-mesin-clave-bowidick").then(function(e) {
             $scope.init();
             $scope.item = {};
             $scope.noRec = undefined;
