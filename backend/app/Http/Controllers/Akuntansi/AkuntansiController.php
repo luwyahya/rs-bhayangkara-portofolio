@@ -546,7 +546,10 @@ class AkuntansiController extends ApiController{
         $data = date('Ym', strtotime($datesum));
 
         $aingSA = [];
-
+        $rk ="";
+        if($request['rknid']!='kosong'){
+            $rk = " and rkn.id=".$request['rknid'];
+        }
         if ($request['jenis'] == 'Piutang'){
             $piutang = " where  coaid in (11523) ";
             $aingMacan = DB::select(DB::raw("select * from
@@ -561,7 +564,7 @@ class AkuntansiController extends ApiController{
                 INNER JOIN pasiendaftar_t as pd on sp.noregistrasifk=pd.norec
                 INNER JOIN pasien_m as ps on ps.id=pd.nocmfk
                 left JOIN rekanan_m as rkn on rkn.id=pd.objectrekananfk
-                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  and rkn.id=:rknid 
+                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  $rk
                 group by to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd'),sp.nostruk,pd.noregistrasi || '/' || ps.nocm || ' '  || ps.namapasien ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
                 coa.saldonormalmin,coa.id,pj.nojurnal_intern)as x  $piutang
                 order by x.tglbuktitransaksi ;
@@ -569,7 +572,7 @@ class AkuntansiController extends ApiController{
                 array(
                     'tglAwal' => $request['tglAwal'] ,
                     'tglAkhir' => $request['tglAkhir'] ,
-                    'rknid' => $request['rknid'] ,
+                    // 'rknid' => $request['rknid'] ,
                 )
             );
             $aingSA = DB::select(DB::raw("
@@ -598,7 +601,7 @@ class AkuntansiController extends ApiController{
                 INNER JOIN chartofaccount_m as coa on coa.id=pjd.objectaccountfk
                 INNER JOIN strukpelayanan_t as sp on sp.norec=pj.norecrelated
                 left JOIN rekanan_m as rkn on rkn.id=sp.objectrekananfk
-                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  and rkn.id=:rknid --and sp.statusenabled not in ('f')
+                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  $rk --and sp.statusenabled not in ('f')
                 group by to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd'),sp.nostruk,sp.nostruk || '/' || rkn.id || ' '  || rkn.namarekanan ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
                 coa.saldonormalmin,coa.id,pj.nojurnal_intern)as x  $piutang
                 order by x.tglbuktitransaksi ;
@@ -606,7 +609,7 @@ class AkuntansiController extends ApiController{
                 array(
                     'tglAwal' => $request['tglAwal'] ,
                     'tglAkhir' => $request['tglAkhir'] ,
-                    'rknid' => $request['rknid'] ,
+                    // 'rknid' => $request['rknid'] ,
                 )
             );
 

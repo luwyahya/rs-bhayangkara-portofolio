@@ -96,10 +96,11 @@ define(['initialize'], function (initialize) {
                 //$scope.item.test = tglAkhir1
                 //var tglAwal1=dateHelper.formatDate($scope.item.tanggalAwal,"YYYY-MM-DD");
                 //var tglAkhir1=dateHelper.formatDate($scope.item.tanggalAkhir,"YYYY-MM-DD");
+                var jp = "rknid=kosong";
                 if ($scope.item.nmRekanan != undefined) {
                     var jp = "rknid=" + $scope.item.nmRekanan.id;
                     if ($scope.item.nmRekanan.id == undefined) {
-                        var jp = "";
+                        var jp = "rknid=kosong";
                     };
                 };
                 var bb = '&jenis='
