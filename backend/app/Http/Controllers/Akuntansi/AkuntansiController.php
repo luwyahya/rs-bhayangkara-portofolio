@@ -548,10 +548,10 @@ class AkuntansiController extends ApiController{
         $aingSA = [];
 
         if ($request['jenis'] == 'Piutang'){
-            $piutang = " where  coaid in (10897) ";
+            $piutang = " where  coaid in (11523) ";
             $aingMacan = DB::select(DB::raw("select * from
-                (select  convert(varchar,pj.tglbuktitransaksi, 23) as tglbuktitransaksi ,
-                sp.nostruk as noaccount,pd.noregistrasi + '/' + ps.nocm + ' '  + ps.namapasien  as  keteranganlainnya,
+                (select  to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd') as tglbuktitransaksi ,
+                sp.nostruk as noaccount,pd.noregistrasi || '/' || ps.nocm || ' '  ||ps.namapasien  as  keteranganlainnya,
                 sum(pjd.hargasatuand) as hargasatuand,
                 sum(pjd.hargasatuank) as hargasatuank,coa.saldonormaladd,coa.saldonormalmin,coa.id as coaid,pj.nojurnal_intern
                 from postingjurnaltransaksi_t as pj
@@ -561,8 +561,8 @@ class AkuntansiController extends ApiController{
                 INNER JOIN pasiendaftar_t as pd on sp.noregistrasifk=pd.norec
                 INNER JOIN pasien_m as ps on ps.id=pd.nocmfk
                 left JOIN rekanan_m as rkn on rkn.id=pd.objectrekananfk
-                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  and rkn.id=:rknid --and sp.statusenabled not in ('f')
-                group by convert(varchar,pj.tglbuktitransaksi, 23),sp.nostruk,pd.noregistrasi + '/' + ps.nocm + ' '  + ps.namapasien ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
+                where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  and rkn.id=:rknid 
+                group by to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd'),sp.nostruk,pd.noregistrasi || '/' || ps.nocm || ' '  || ps.namapasien ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
                 coa.saldonormalmin,coa.id,pj.nojurnal_intern)as x  $piutang
                 order by x.tglbuktitransaksi ;
             "),
@@ -581,15 +581,16 @@ class AkuntansiController extends ApiController{
             "),
                 array(
                     'tglAwal' => (string)$data ,
-                    'noakun' => (int)10897 ,
+                    'noakun' => (int)11523 ,
                 )
             );
         }
+        
         if ($request['jenis'] == 'Hutang'){
             $piutang = " where  coaid in (11136) ";
             $aingMacan = DB::select(DB::raw("select * from
-                (select  convert(varchar,pj.tglbuktitransaksi, 23) as tglbuktitransaksi ,
-                sp.nostruk as noaccount,sp.nostruk + '/' + rkn.id + ' '  + rkn.namarekanan  as  keteranganlainnya,
+                (select  to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd') as tglbuktitransaksi ,
+                sp.nostruk as noaccount,sp.nostruk || '/' || rkn.id || ' '  || rkn.namarekanan  as  keteranganlainnya,
                 sum(pjd.hargasatuand) as hargasatuand,
                 sum(pjd.hargasatuank) as hargasatuank,coa.saldonormaladd,coa.saldonormalmin,coa.id as coaid,pj.nojurnal_intern
                 from postingjurnaltransaksi_t as pj
@@ -598,7 +599,7 @@ class AkuntansiController extends ApiController{
                 INNER JOIN strukpelayanan_t as sp on sp.norec=pj.norecrelated
                 left JOIN rekanan_m as rkn on rkn.id=sp.objectrekananfk
                 where pj.tglbuktitransaksi between :tglAwal and :tglAkhir  and rkn.id=:rknid --and sp.statusenabled not in ('f')
-                group by convert(varchar,pj.tglbuktitransaksi, 23),sp.nostruk,sp.nostruk + '/' + rkn.id + ' '  + rkn.namarekanan ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
+                group by to_char(pj.tglbuktitransaksi, 'yyyy-MM-dd'),sp.nostruk,sp.nostruk || '/' || rkn.id || ' '  || rkn.namarekanan ,pj.deskripsiproduktransaksi,coa.saldonormaladd,
                 coa.saldonormalmin,coa.id,pj.nojurnal_intern)as x  $piutang
                 order by x.tglbuktitransaksi ;
             "),
@@ -2986,7 +2987,7 @@ class AkuntansiController extends ApiController{
         DB::beginTransaction();
         $dataReq = $request->all();
 
-        // try {
+        try {
             if ($dataReq['head']['nojurnal'] == '-'){
                 $noBuktiTransaksi =$dataReq['head']['nobuktitransaksi'];
                 $noPosting = '-';
@@ -3008,7 +3009,7 @@ class AkuntansiController extends ApiController{
                 $postingJurnalTransaksi->namaproduktransaksi ='Manual Jurnal';
                 $postingJurnalTransaksi->deskripsiproduktransaksi = 'pelayananpasien_t_manual';
                 $postingJurnalTransaksi->statusenabled = 1;
-                $postingJurnalTransaksi->norecrelated = null;
+                $postingJurnalTransaksi->norecrelated = $dataReq['head']['nostrukfk'];
             }else{
 
                 $postingJurnalTransaksi = PostingJurnalTransaksi::where('nojurnal_intern', $dataReq['head']['nojurnal'])
@@ -3048,9 +3049,9 @@ class AkuntansiController extends ApiController{
                 $postingJurnalTransaksiD->save();
             }
             $transStatus = 'true';
-        // } catch (\Exception $e) {
-        //     $transStatus = 'false';
-        // }
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
         $transMessage = 'Entry ';
 
         if ($transStatus == 'true') {

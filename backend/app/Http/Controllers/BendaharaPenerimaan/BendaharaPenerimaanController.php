@@ -945,7 +945,9 @@ class BendaharaPenerimaanController extends ApiController {
         $idSetting= (int)$this->settingDataFixed('seeting jurnal');
         $norec_closing=$request['norec_closing'];
         if($idSetting==1){
-            $data10= DB::select(DB::raw("select sum(x.totalpenerimaan) as total,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit from (SELECT
+            $data10= DB::select(DB::raw("select sum(x.totalpenerimaan) as total,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit
+                    ,x.nostrukfk from (SELECT
+                    sbm.nostrukfk,
                     sbm.objectkelompoktransaksifk,
                     cb.carabayar,
                     mj.objectcoadebitfk,
@@ -988,7 +990,7 @@ class BendaharaPenerimaanController extends ApiController {
                     left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
                     WHERE sbm.objectkelompoktransaksifk not in (60) and
                     sbm.noclosingfk='$norec_closing'
-                    ) as x GROUP BY x.totalpenerimaan,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit"));
+                    ) as x GROUP BY x.totalpenerimaan,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit,x.nostrukfk"));
 
             // $data10=[];
             // foreach($detailSetor as $key){
