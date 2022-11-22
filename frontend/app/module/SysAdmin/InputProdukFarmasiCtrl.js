@@ -1611,7 +1611,7 @@ define(['initialize'], function(initialize) {
                             .ok('Tidak')
                         $mdDialog.show(confirm).then(function() {
                             $scope.item = {};
-                            $state.go("MasterProduk");
+                            $state.go("MasterProdukFarmasi");
                         })
                     });
                 }
@@ -1632,7 +1632,7 @@ define(['initialize'], function(initialize) {
                         .cancel('Ya')
                         .ok('Tidak')
                     $mdDialog.show(confirm).then(function() {
-                        $state.go("MasterProduk");
+                        $state.go("MasterProdukFarmasi");
                     })
                 })
             }
