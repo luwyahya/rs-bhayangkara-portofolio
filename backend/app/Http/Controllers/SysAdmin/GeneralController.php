@@ -1046,7 +1046,7 @@ class GeneralController extends ApiController
 //            );
             $aingMacan=[];
             $aingMacan = DB::select(DB::raw("select distinct   sp.norec,sp.nostruk,pd.noregistrasi,ps.namapasien,sp.tglstruk as tglstruk,sp.totalharusdibayar,sp.totalprekanan,
-                      kp.id as kpid,ru.objectdepartemenfk,ru.objectdepartemenfk as dept_pd,convert(VARCHAR, sp.tglstruk, 23) as tgl,pd.objectruanganlastfk,pd.objectrekananfk,
+                      kp.id as kpid,ru.objectdepartemenfk,ru.objectdepartemenfk as dept_pd,to_char(sp.tglstruk, 'yyyy-MM-dd') as tgl,pd.objectruanganlastfk,pd.objectrekananfk,
                       ru.namaruangan,rkn.namarekanan
                     from pelayananpasien_t as pp
                     INNER JOIN antrianpasiendiperiksa_t as apd on apd.norec=pp.noregistrasifk
@@ -1380,7 +1380,7 @@ class GeneralController extends ApiController
 
                 $aingMaung = [];
                 $aingMaung = DB::select(DB::raw("select ps.nocm,ps.namapasien,sbm.nosbm,sbmc.totaldibayar,sbm.tglsbm,sbmc.objectcarabayarfk ,
-                    sbmc.norec as norec_smbc,convert(varchar, sbm.tglsbm, 23) as tgl
+                    sbmc.norec as norec_smbc,to_char(sbm.tglsbm, 'yyyy-MM-dd') as tgl
                     from strukbuktipenerimaancarabayar_t as sbmc
                     INNER JOIN strukbuktipenerimaan_t as sbm on sbm.norec=sbmc.nosbmfk
                     left JOIN strukpelayanan_t as sp on sp.norec=sbm.nostrukfk
@@ -1539,7 +1539,7 @@ class GeneralController extends ApiController
 
             $aingDiskon = DB::select(DB::raw("select ps.nocm,ps.namapasien,pd.noregistrasi,case when ((pp.hargadiscount * pp.jumlah) is null) then (0) else (pp.hargadiscount * pp.jumlah) end as total,
                     pp.tglpelayanan,adp.objectruanganfk,
-                    pp.norec as norec_pp,convert(varchar, pp.tglpelayanan, 23) as tgl,pjt.norec
+                    pp.norec as norec_pp,to_char(pp.tglpelayanan, 'yyyy-MM-dd') as tgl,pjt.norec
                     from pasiendaftar_t pd 
                     inner join antrianpasiendiperiksa_t adp on adp.noregistrasifk = pd.norec 
                     inner join pasien_m as ps on ps.id = pd.nocmfk 
@@ -1719,7 +1719,7 @@ class GeneralController extends ApiController
                 "count" => count($aingMacan),
 //                "countDeposit" => count($aingMaung),
 //                "data" => $aingMacan,//$noResep,
-                "datadiskon" => $coaruangandiskon,//$noResep,
+                // "datadiskon" => $coaruangandiskon,//$noResep,
 //                "datacoadiskon" => $dataCoaDiskon,
 //                "trans" => $postingJurnalTransaksi,
                 "as" => 'as@epic',

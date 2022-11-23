@@ -107,6 +107,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             //            Route::post('save-jurnal-verifikasi_tarek', 'Akuntansi\AkuntansiController@PostingJurnal_strukpelayanan_t_verifikasi_tarek');
             Route::post('save-hapus-data-jurnal', 'Akuntansi\AkuntansiController@PostingHapusJurnal_entry'); //done
             Route::post('save-entry-jurnal', 'Akuntansi\AkuntansiController@PostingJurnal_entry');
+            Route::post('save-entry-jurnal-bp', 'Akuntansi\AkuntansiController@PostingJurnal_entry_bp');
             Route::post('save-posting-jurnalv1', 'Akuntansi\AkuntansiController@PostingJurnalRev2018');
             Route::post('save-unposting-jurnalv1/', 'Akuntansi\AkuntansiController@UnPostingJurnalRev2018');
             Route::post('save-data-sal', 'Akuntansi\AkuntansiController@SaveDataSal'); //done
@@ -197,6 +198,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-monitoringklaimjaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveMonitoringKlaimJaspel');
             Route::post('save-verifikasi-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspel');
             Route::post('save-verifikasi-jaspelnonbpjs', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspelnonbpjs');
+            Route::post('unverifikasi-Setoran', 'BendaharaPenerimaan\BendaharaPenerimaanController@unverifikasiSetoran');
             //**POST**//
         });
         Route::group(['prefix' => 'bendaharapengeluaran'], function () {
@@ -1803,6 +1805,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-harga-produk', 'Logistik\LogistikController@saveHargaProduk');
             Route::post('save-adjusment-stok', 'Logistik\LogistikController@saveAdjustmentStok');
             Route::post('save-adjusment-stok2', 'Logistik\LogistikController@saveAdjustmentStok2');
+            Route::post('save-adjusment-stok3', 'Logistik\LogistikController@saveAdjustmentStok3');
             Route::post('update-hapus-tglkadaluarsa-spd', 'Logistik\LogistikController@updateTglBarangKadaluarsa');
             Route::get('get-daftar-stock-flowcekstok', 'Logistik\LogistikController@getDaftarStockFlowDetailRev1cekstok');
             Route::get('get-daftar-stock-flowcekstok2', 'Logistik\LogistikController@getDaftarStockFlowDetailRev1cekstok2');

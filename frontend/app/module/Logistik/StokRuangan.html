@@ -162,6 +162,9 @@
         <div class="grid_3" ng-show="grid1">
         </div>
         <div class="grid_3" ng-show="grid1">
+            <button class="c-button" ng-click="UbahHarga()">Edit Anggaran</button>
+        </div>
+        <div class="grid_3" ng-show="grid1">
             <button class="c-button" ng-click="HapusTgl()">Hapus Tgl Kadaluarsa</button>
         </div>
         <div class="grid_3" ng-show="grid1">
@@ -193,6 +196,35 @@
             <div class="grid_12">
                 <input style="width: 100%" k-ng-model="item.TglKadaluarsa" kendo-datetimepicker
                     placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </div>
+        <div class="grid_3" style="margin-top: 15px;">
+            <div class="grid_6">
+                <button class="c-button" ng-click="SimpanTgl()">Simpan</button>
+            </div>
+            <div class="grid_6">
+                <button class="c-button" ng-click="batalTgl()">Batal</button>
+            </div>
+        </div>
+        <div class="grid_3"></div>
+
+    </div>
+</div>
+<div class="grid_12" ng-show="updateShowanggaran">
+    <div class="grid_12">
+        <div class="grid_6">
+            <label c-label c-label-text="Nama Barang" real></label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.namabarangeditanggaran" k-data-text-field="'namaruangan'"
+                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan" />
+        </div>
+        <div class="grid_6">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Harga"></label>
+            </div>
+            <div class="clear"></div>
+        
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="popUpHarga.harga" ng-disabled="false" />
             </div>
         </div>
         <div class="grid_3" style="margin-top: 15px;">
@@ -273,10 +305,10 @@
             <label c-label item="item" c-label-text="Nama Produk"></label>
             <input c-text-box type="input" class="k-textbox" ng-model="item.namaProduk" disabled />
         </div>
-        <div class="grid_6">
+        <!-- <div class="grid_6">
             <label c-label item="item" c-label-text="Harga Satuan"></label>
             <input c-text-box type="input" class="k-textbox" ng-model="hargaSatuan" />
-        </div>
+        </div> -->
         <div class="grid_3">
             <label c-label item="item" c-label-text="asalAnggaran"></label>
             <input style="width: 100%;" kendo-combo-box k-ng-model="item.asalanggaran" k-data-text-field="'asalProduk'"
