@@ -441,13 +441,14 @@ define(['initialize'], function (initialize) {
 				}
 			}
 			function pushSave(e) {
-				var strukresep = {
-					nojurnal: '-',
-					tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
-					deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
-					nobuktitransaksi: tempTr.norec_closing
-				}
 				for (var i = tempresultKelompok.data.length - 1; i >= 0; i--) {
+					var strukresep = {
+						nojurnal: '-',
+						tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
+						deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
+						nobuktitransaksi: tempTr.norec_closing,
+						nostrukfk: tempresultKelompok.data[i].nostrukfk,
+					}
 					var data = {};
 					var data2 = [];
 					data = {

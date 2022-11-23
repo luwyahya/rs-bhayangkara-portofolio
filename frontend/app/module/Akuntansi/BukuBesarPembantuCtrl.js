@@ -96,10 +96,11 @@ define(['initialize'], function (initialize) {
                 //$scope.item.test = tglAkhir1
                 //var tglAwal1=dateHelper.formatDate($scope.item.tanggalAwal,"YYYY-MM-DD");
                 //var tglAkhir1=dateHelper.formatDate($scope.item.tanggalAkhir,"YYYY-MM-DD");
+                var jp = "rknid=kosong";
                 if ($scope.item.nmRekanan != undefined) {
                     var jp = "rknid=" + $scope.item.nmRekanan.id;
                     if ($scope.item.nmRekanan.id == undefined) {
-                        var jp = "";
+                        var jp = "rknid=kosong";
                     };
                 };
                 var bb = '&jenis='
@@ -112,8 +113,8 @@ define(['initialize'], function (initialize) {
                 //debugger;
                 medifirstService.get("akuntansi/get-data-buku-besar-pembantu?" + jp + "&tglAwal=" + tglAwal + "&tglAkhir=" + tglAkhir + bb).then(function (data) {
                     $scope.dataGrid = new kendo.data.DataSource({
-                        data: data.data,
-                        total: data.data.length,
+                        data: data.data.data,
+                        total: data.data.data.length,
                         serverPaging: false,
                         pageSize: 30,
                     });
@@ -135,15 +136,15 @@ define(['initialize'], function (initialize) {
                     sDebet = 0;
                     sKredit = 0;
 
-                    for (var i = 0; i < data.data.length; i++) {
-                        if (data.data[i].saldonormaladd == "D") {
-                            sSaldo = (sSaldo + parseFloat(data.data[i].hargasatuand)) - parseFloat(data.data[i].hargasatuank);
+                    for (var i = 0; i < data.data.data.length; i++) {
+                        if (data.data.data[i].saldonormaladd == "D") {
+                            sSaldo = (sSaldo + parseFloat(data.data.data[i].hargasatuand)) - parseFloat(data.data[i].hargasatuank);
                         }
                         if (data.data[i].saldonormaladd == "K") {
-                            sSaldo = (sSaldo + parseFloat(data.data[i].hargasatuank)) - parseFloat(data.data[i].hargasatuand);
+                            sSaldo = (sSaldo + parseFloat(data.data.data[i].hargasatuank)) - parseFloat(data.data[i].hargasatuand);
                         }
-                        sDebet = sDebet + parseFloat(data.data[i].hargasatuand);
-                        sKredit = sKredit + parseFloat(data.data[i].hargasatuank);
+                        sDebet = sDebet + parseFloat(data.data.data[i].hargasatuand);
+                        sKredit = sKredit + parseFloat(data.data.data[i].hargasatuank);
                         // data.data[i].sDebet = sDebet
                         // data.data[i].sKredit = sKredit
                         data.data[i].saldo = sSaldo
