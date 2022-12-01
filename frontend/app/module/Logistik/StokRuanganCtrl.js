@@ -763,7 +763,7 @@ define(['initialize'], function (initialize) {
                     'asalproduk': $scope.item.asalanggaran.id                    
                 }
 
-                medifirstService.post('logistik/save-adjusment-stok3', objSave).then(function (e) {
+                medifirstService.post('logistik/save-adjusment-stok2', objSave).then(function (e) {
                     norec_spd = '';
                     nostruterimafk = '';
                     $scope.item.idProduk = undefined;
