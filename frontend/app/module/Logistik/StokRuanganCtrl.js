@@ -700,8 +700,9 @@ define(['initialize'], function (initialize) {
                 $scope.item.idProduk = $scope.dataSelected.kodeProduk
                 $scope.item.namaProduk = $scope.dataSelected.namaProduk;
                 $scope.item.QtyReal = parseFloat($scope.dataSelected.qtyProduk);
-                $scope.hargaSatuan = parseFloat($scope.dataSelected.harga);
-                $scope.item.asalanggaran = {id:$scope.dataSelected.objectasalprodukfk , asalProduk:$scope.dataSelected.asalProduk}
+                $scope.hargaSatuan = parseFloat($scope.dataSelected.harga); 
+                $scope.item.asalanggaran = {id:$scope.dataSelected.objectasalprodukfk , asalProduk:$scope.dataSelected.asalanggaran}
+               
                 $scope.HargaShow.center().open();      
             }
 
