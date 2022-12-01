@@ -1577,7 +1577,8 @@ class TagihanController  extends ApiController
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
                 'totalDiskon'=>$totalDiskon,
                 'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon
+                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
+                'dokterpj'=>$pelayanan[0]->dokterpj
             );
         }
          else {
@@ -1801,7 +1802,8 @@ class TagihanController  extends ApiController
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
                 'totalDiskon'=>$totalDiskon,
                 'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon
+                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
+                'dokterpj'=>$pelayanan->dokterpj
             );
 
             //            $result = array(

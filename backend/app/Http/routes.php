@@ -2647,6 +2647,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-kso', 'Registrasi\LaporanRekamMedisController@getLaporanKso');
                 Route::get('get-ksononbpjs', 'Registrasi\LaporanRekamMedisController@getLaporanKsononbpjs');
                 Route::get('get-Laporan-Monitoring-Klaim', 'Registrasi\LaporanRekamMedisController@getLaporanMonitoringKlaim');
+                // testing
+                Route::get('get-Testing', 'Registrasi\LaporanRekamMedisController@getTesting');
 
                 Route::get('get-laporan-rekap-golongan', 'Registrasi\LaporanRekamMedisController@getLaporanGolonganPolri');
                 Route::get('get-laporan-rekap-bayar', 'Registrasi\LaporanRekamMedisController@getLaporanBayarPolri');
