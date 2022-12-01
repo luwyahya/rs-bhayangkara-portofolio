@@ -907,6 +907,60 @@ define(['initialize'], function (initialize) {
                     }
                 }
             }
+            $scope.detailTagihanV2 = function () {
+                let user = medifirstService.getPegawai();
+                if ($scope.dataPasienSelected.norec_br == "Pasien Batal") {
+                    // window.messageContainer.error('Pasien Sudah Batal');
+                    alert("Pasien Sudah Batal!!!")
+                    return;
+                }
+                debugger
+                if ($scope.dataPasienSelected.noregistrasi != undefined) {
+                    if ($scope.dataPasienSelected.tglpulang == null) {
+                        if (user.id != 320263) {
+                            if ($scope.dataPasienSelected.objectruanganlastfk == 720 || $scope.dataPasienSelected.objectruanganlastfk == 777 || $scope.dataPasienSelected.objectruanganlastfk == 778 || $scope.dataPasienSelected.objectruanganlastfk == 779 || $scope.dataPasienSelected.objectruanganlastfk == 753 || $scope.dataPasienSelected.objectruanganlastfk == 754 || $scope.dataPasienSelected.objectruanganlastfk == 755 || $scope.dataPasienSelected.objectruanganlastfk == 747 || $scope.dataPasienSelected.objectruanganlastfk == 748 || $scope.dataPasienSelected.objectruanganlastfk == 769 || $scope.dataPasienSelected.objectruanganlastfk == 770 || $scope.dataPasienSelected.objectruanganlastfk == 731) {
+                                medifirstService.get("emr/get-emr-transaksi?nocm=" + $scope.dataPasienSelected.nocm + "&jenisEmr=askepnew&noregistrasi=" + $scope.dataPasienSelected.noregistrasi, true).then(function (dat) {
+                                    debugger
+                                    if (dat.data.data.length == 0) {
+                                        toastr.error('Harus Mengisi SIDOPAK Terlebih Dahulu', 'Info');
+                                    } else {
+                                        medifirstService.get("emr/get-combolistaskep?noregistrasi=" + $scope.dataPasienSelected.noregistrasi).then(function (dat) {
+                                            if (dat.data.askep.length == 0) {
+                                                toastr.error('Harus Mengisi SIDOPAK Terlebih Dahulu', 'Info');
+                                            } else {
+                                                RincianTagihanV2();
+                                            }
+                                        });
+                                    }
+                                });
+                            } else {
+                                RincianTagihanV2();
+                            }
+                        } else {
+                            RincianTagihanV2();
+                        }
+                    } else {
+                        RincianTagihanV2();
+                    }
+
+                    // var objSave = {
+                    // 	noregistrasi: $scope.dataPasienSelected.noregistrasi
+                    // }
+                    // manageTataRekening.postJurnalAkuntansi(objSave).then(function (data) {
+
+                    // });
+                    function RincianTagihanV2() {
+                        var obj = {
+                            noRegistrasi: $scope.dataPasienSelected.noregistrasi
+                        }
+                        var statusOtomatis = "YA"
+                        cacheHelper.set('statusOtomatis', statusOtomatis);
+                        $state.go('RincianTagihanV2', {
+                            dataPasien: JSON.stringify(obj)
+                        });
+                    }
+                }
+            }
             $scope.rekapTagihan = function () {
 
                 if ($scope.dataPasienSelected.noregistrasi != undefined) {

@@ -75,6 +75,82 @@
         ]
     },
     {
+        "name": "RincianTagihanV2",
+        "url": "/RincianTagihanV2/:dataPasien",
+        "templateurl": "module/TataRekening/RincianTagihanV2.html",
+        "controller": "RincianTagihanV2Ctrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.ResumeRI",
+        "url": "/ResumeRI",
+        "templateurl": "module/EMR/ResumeRI.html",
+        "controller": "ResumeRICtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.CatatanDokter",
+        "url": "/CatatanDokter",
+        "templateurl": "module/EMR/CatatanDokter.html",
+        "controller": "CatatanDokterCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.TransaksiDiagnosa",
+        "url": "/TransaksiDiagnosa",
+        "templateurl": "module/EMR/TransaksiDiagnosa.html",
+        "controller": "TransaksiDiagnosaCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "RincianTagihan",
         "url": "/RincianTagihan/:dataPasien",
         "templateurl": "module/TataRekening/RincianTagihan.html",

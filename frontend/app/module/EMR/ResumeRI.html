@@ -4,13 +4,13 @@
         text-align: center;
         width: 100%;
     }
-    
+
     .style-right {
         display: inline-block;
         text-align: right;
         width: 100%;
     }
-    
+
     .k-multiselect-wrap {
         position: relative;
         /* border-width: 0; */
@@ -23,39 +23,39 @@
         border-style: solid;
         border-color: #228be6;
     }
-    
+
     #customers {
         /* font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; */
         border-collapse: collapse;
         width: 100%;
     }
-    
+
     #customers td,
     #customers th {
         border: 1px solid #ddd;
         padding: 8px;
     }
-    
+
     #customers tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-    
+
     #customers tr:hover {
         background-color: #ddd;
     }
-    
+
     .k-grid-header .k-header .k-link {
         height: auto;
     }
-    
+
     .k-grid .k-grid-header .k-header {
         white-space: normal;
     }
-    
+
     .k-grid .k-grid-header .k-header {
         text-align: center;
     }
-    
+
     #customers th {
         padding-top: 12px;
         padding-bottom: 12px;
@@ -63,25 +63,25 @@
         background-color: #41abf2;
         color: white;
     }
-    
+
     .red {
         background-color: #ff3860;
         color: #FFFFFF;
         /*font-weight: bold;*/
     }
-    
+
     .blue {
         background-color: #1E90FF;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .koneng {
         background-color: #FFFF00;
         color: #191970;
         /*font-weight: bold;*/
     }
-    
+
     .hejo {
         background-color: #98FB98;
         color: #000000;
@@ -99,24 +99,29 @@
             </div>
             <div class="grid_3">
                 <label c-label item="item">Pemeriksaan Fisik</label>
-                <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.filterPemeriksaanfisik" />
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                    ng-model="item.filterPemeriksaanfisik" />
             </div>
             <div class="grid_3">
                 <label c-label item="item">Pemeriksaan Penunjang</label>
-                <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.filterPemeriksaanPenunjang" />
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                    ng-model="item.filterPemeriksaanPenunjang" />
             </div>
             <div class="grid_1">
                 <label c-label c-label-text=""></label>
-                <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button" class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
+                <em style="margin-top:6px;" ng-click='resetFilter()' id="iconButton" data-role="button"
+                    class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
                         class="k-sprite k-icon k-i-cancel">Refresh</span></em>
             </div>
         </div>
         <div class="grid_12">
-            <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead" k-ng-model="modelGrid" ng-click="klik(modelGrid)">
+            <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead"
+                k-ng-model="modelGrid" ng-click="klik(modelGrid)">
                 <div k-detail-template>
                     <kendo-tabstrip>
                         <div>
-                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'" k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
+                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
+                                k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
                             </div>
                         </div>
                     </kendo-tabstrip>
@@ -132,21 +137,21 @@
                 </div>
             </div> -->
         </div>
-       <!--  <div class="grid_2">
+        <!--  <div class="grid_2">
         </div> -->
         <div class="grid_2">
             <button class="btnTemplate1" ng-click="gantiNamaRuangan()"><i class="fa fa-edit"></i>Edit Ruangan
-            
+
             </button>
         </div>
         <div class="grid_2">
             <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-plus"></i>Kembali
-            
+
             </button>
         </div>
         <div class="grid_2">
             <button class="btnTemplate1" ng-click="showInput()"><i class="fa fa-plus"></i>Tambah
-            
+
             </button>
         </div>
         <div class="grid_2">
@@ -202,13 +207,18 @@
                                         <td>
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input c-text-box type="input" ng-model="data.namea[$index].keterangan" filter="'string'" class="k-textbox" placeholder="Diagnosa Utama" />
+                                                <input c-text-box type="input" ng-model="data.namea[$index].keterangan"
+                                                    filter="'string'" class="k-textbox" placeholder="Diagnosa Utama" />
                                             </div>
                                         </td>
                                         <td>
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input style="width: 100%;" kendo-combo-box k-ng-model="data.namea[$index].kddiagnosa" k-data-text-field="'kodeNama'" k-on-change="isidiganosa($index)" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDiagnosa" />
+                                                <input style="width: 100%;" kendo-combo-box
+                                                    k-ng-model="data.namea[$index].kddiagnosa"
+                                                    k-data-text-field="'kodeNama'" k-on-change="isidiganosa($index)"
+                                                    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
+                                                    k-data-source="listDiagnosa" />
                                             </div>
                                             <!-- <div class="grid_9">
                                                 <input style="width: 100%;" kendo-combo-box k-ng-model="data.namey[$index].kddiagnosa"
@@ -220,10 +230,12 @@
                                             <div class="grid_12">
                                                 <!-- <label c-label> - </label> -->
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click=""><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click=""><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click=""><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click=""><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -241,7 +253,8 @@
             </div>
 
             <div class="grid_12" style="margin-top:5px">
-                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.riwayatPenyakit"></textarea>
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.riwayatPenyakit"></textarea>
             </div>
         </div>
         <div class="grid_12" style="margin-top:10px">
@@ -259,7 +272,8 @@
             </div>
 
             <div class="grid_12" style="margin-top:5px">
-                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.pemeriksaanFisik"></textarea>
+                <textarea c-text-box class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.pemeriksaanFisik"></textarea>
             </div>
         </div>
         <div class="grid_12" style="margin-top:10px">
@@ -276,20 +290,23 @@
                     <div kendo-grid k-data-source="dataGridRm" options="resumeOptRm"></div>
                 </div>
                 <div class="grid_12" style="margin-top:5px">
-                    <textarea class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.pemeriksaanPenunjangLab"></textarea>
+                    <textarea class="k-textbox" style="height: 100px; width: 100%; "
+                        ng-model="item.pemeriksaanPenunjangLab"></textarea>
 
                 </div>
             </div>
             <div class="clear"></div>
             <div class="grid_2">
-                <button class="btnTemplate1" ng-click="AddHasilKonsul(576)"><i class="fa fa-save"></i>Tambah Hasil Radiologi
-                    </button>
+                <button class="btnTemplate1" ng-click="AddHasilKonsul(576)"><i class="fa fa-save"></i>Tambah Hasil
+                    Radiologi
+                </button>
             </div>
             <div class="grid_12">
                 <label c-label item="item">Hasil Radiologi </label>
             </div>
             <div class="grid_12" style="margin-top:5px">
-                <textarea class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.pemeriksaanPenunjang"></textarea>
+                <textarea class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.pemeriksaanPenunjang"></textarea>
 
             </div>
         </div>
@@ -309,7 +326,8 @@
         <div class="grid_12" style="margin-top:-10px">
             <div class="grid_9"></div>
             <div class="grid_3">
-                <button class="btnTemplate1" ng-click="simpanDosisObat()"><i class="fa fa-save"></i>Simpan Dosis Obat</button>
+                <button class="btnTemplate1" ng-click="simpanDosisObat()"><i class="fa fa-save"></i>Simpan Dosis
+                    Obat</button>
             </div>
         </div>
         <div class="grid_12" style="margin-top:10px">
@@ -323,7 +341,8 @@
 
             <div class="clear"></div>
             <div class="grid_12" style="margin-top:5px">
-                <textarea class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.hasilKonsultasi"></textarea>
+                <textarea class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.hasilKonsultasi"></textarea>
             </div>
         </div>
         <!-- <div class="grid_12 headerBox" style="margin-top:10px">
@@ -542,7 +561,8 @@
                                         <td>
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input c-text-box type="input" ng-model="data.names[$index].keterangan" filter="'string'" class="k-textbox" placeholder="Diagnosa Utama" />
+                                                <input c-text-box type="input" ng-model="data.names[$index].keterangan"
+                                                    filter="'string'" class="k-textbox" placeholder="Diagnosa Utama" />
                                             </div>
                                         </td>
                                         <td>
@@ -555,17 +575,23 @@
                                             </div> -->
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input style="width: 100%;" kendo-combo-box k-ng-model="data.names[$index].kddiagnosa" k-data-text-field="'kodeNama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDiagnosa" k-on-change="isidiganosas($index)" />
+                                                <input style="width: 100%;" kendo-combo-box
+                                                    k-ng-model="data.names[$index].kddiagnosa"
+                                                    k-data-text-field="'kodeNama'" k-data-value-field="'id'"
+                                                    k-filter="'contains'" k-auto-bind="false"
+                                                    k-data-source="listDiagnosa" k-on-change="isidiganosas($index)" />
                                             </div>
                                         </td>
                                         <td>
                                             <div class="grid_12">
                                                 <!-- <label c-label> - </label> -->
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click=""><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click=""><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click=""><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click=""><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -609,7 +635,9 @@
                                         <td>
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input c-text-box type="input" ng-model="data.namey[$index].keterangan" filter="'string'" class="k-textbox" placeholder="Diagnosa Sekunder" />
+                                                <input c-text-box type="input" ng-model="data.namey[$index].keterangan"
+                                                    filter="'string'" class="k-textbox"
+                                                    placeholder="Diagnosa Sekunder" />
                                             </div>
                                         </td>
                                         <td>
@@ -622,16 +650,22 @@
                                             </div> -->
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input style="width: 100%;" kendo-combo-box k-ng-model="data.namey[$index].kddiagnosa" k-data-text-field="'kodeNama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDiagnosa" k-on-change="isidiganosay($index)" />
+                                                <input style="width: 100%;" kendo-combo-box
+                                                    k-ng-model="data.namey[$index].kddiagnosa"
+                                                    k-data-text-field="'kodeNama'" k-data-value-field="'id'"
+                                                    k-filter="'contains'" k-auto-bind="false"
+                                                    k-data-source="listDiagnosa" k-on-change="isidiganosay($index)" />
                                             </div>
                                         </td>
                                         <td>
                                             <div class="grid_12">
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1" ng-click="TambahD10($index)"><i class="fa fa-plus-circle"></i></button>
+                                                    <button class="btnTemplate1" ng-click="TambahD10($index)"><i
+                                                            class="fa fa-plus-circle"></i></button>
                                                 </div>
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click="HapusD10($index)"><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click="HapusD10($index)"><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -675,7 +709,9 @@
                                         <td>
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input c-text-box type="input" ng-model="data.namez[$index].keterangan" filter="'string'" class="k-textbox" placeholder="Tindakan / Prosedur" />
+                                                <input c-text-box type="input" ng-model="data.namez[$index].keterangan"
+                                                    filter="'string'" class="k-textbox"
+                                                    placeholder="Tindakan / Prosedur" />
                                             </div>
                                         </td>
                                         <td>
@@ -688,17 +724,23 @@
                                             </div> -->
                                             <div class="grid_3"></div>
                                             <div class="grid_9">
-                                                <input style="width: 100%;" kendo-combo-box k-ng-model="data.namez[$index].kddiagnosatindakan" k-data-text-field="'kodeNama'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDiagnosaTindakan" k-on-change="isidiganosaz($index)"
-                                                />
+                                                <input style="width: 100%;" kendo-combo-box
+                                                    k-ng-model="data.namez[$index].kddiagnosatindakan"
+                                                    k-data-text-field="'kodeNama'" k-data-value-field="'id'"
+                                                    k-filter="'contains'" k-auto-bind="false"
+                                                    k-data-source="listDiagnosaTindakan"
+                                                    k-on-change="isidiganosaz($index)" />
                                             </div>
                                         </td>
                                         <td>
                                             <div class="grid_12">
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1" ng-click="TambahD9($index)"><i class="fa fa-plus-circle"></i></button>
+                                                    <button class="btnTemplate1" ng-click="TambahD9($index)"><i
+                                                            class="fa fa-plus-circle"></i></button>
                                                 </div>
                                                 <div class="grid_2">
-                                                    <button class="btnTemplate1 cancel" ng-click="HapusD9($index)"><i class="fa fa-minus-circle"></i></button>
+                                                    <button class="btnTemplate1 cancel" ng-click="HapusD9($index)"><i
+                                                            class="fa fa-minus-circle"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -744,7 +786,8 @@
             </div>
             <div class="clear"></div>
             <div class="grid_12" style="margin-top:5px">
-                <textarea class="k-textbox" style="height: 100px; width: 100%; " ng-model="item.kondisiKlinis"></textarea>
+                <textarea class="k-textbox" style="height: 100px; width: 100%; "
+                    ng-model="item.kondisiKlinis"></textarea>
             </div>
         </div>
         <div class="grid_12" style="margin-top:10px">
@@ -843,7 +886,8 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div ng-repeat="opsi in list.detail | orderBy:'id'">
                             <div class="grid_2">
-                                <input type="radio" name="{{opsi.nama}}" id="{{opsi.nama}}" class="k-radio" ng-model="item.kondisi" value="{{opsi.nama}}">
+                                <input type="radio" name="{{opsi.nama}}" id="{{opsi.nama}}" class="k-radio"
+                                    ng-model="item.kondisi" value="{{opsi.nama}}">
                                 <label class="k-radio-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
                                 <!-- <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox" name="{{opsi.nama}}" id="{{opsi.nama}}" ng-model="bool" value="{{opsi.id}}"  ng-click="addListHambatan(bool,opsi)" >
                                         <label class="k-checkbox-label" for="{{opsi.nama}}">{{opsi.nama}}</label> -->
@@ -858,7 +902,8 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div ng-repeat="opsi in list.detail | orderBy:'id'">
                             <div class="grid_2">
-                                <input type="radio" name="{{opsi.nama}}" id="{{opsi.nama}}" class="k-radio" ng-model="item.pengobatan" value="{{opsi.nama}}">
+                                <input type="radio" name="{{opsi.nama}}" id="{{opsi.nama}}" class="k-radio"
+                                    ng-model="item.pengobatan" value="{{opsi.nama}}">
                                 <label class="k-radio-label" for="{{opsi.nama}}">{{opsi.nama}}</label>
 
                                 <!-- <input type="checkbox" ng-checked="opsi.isChecked" class="k-checkbox" name="{{opsi.nama}}"
@@ -871,7 +916,8 @@
                 </div>
                 <div class="grid_4" style="margin-left:-300px">
                     <div class="grid_12" style="margin-top:20px">
-                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.pengobatanLain" placeholder="Lain-lain">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.pengobatanLain"
+                            placeholder="Lain-lain">
                     </div>
 
                 </div>
@@ -907,7 +953,8 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div>
                             <div class="grid_12">
-                                <input style="width: 50%" k-ng-model='item.tglkontrolpoli' kendo-date-picker placeholer="dd-MM-yyyy" k-format="'dd-MM-yyyy'" />
+                                <input style="width: 50%" k-ng-model='item.tglkontrolpoli' kendo-date-picker
+                                    placeholer="dd-MM-yyyy" k-format="'dd-MM-yyyy'" />
                             </div>
                         </div>
                     </div>
@@ -918,7 +965,8 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div>
                             <div class="grid_12">
-                                <input style="width: 50%" k-ng-model='item.tglresume' kendo-date-picker placeholer="dd-MM-yyyy" k-format="'dd-MM-yyyy'" />
+                                <input style="width: 50%" k-ng-model='item.tglresume' kendo-date-picker
+                                    placeholer="dd-MM-yyyy" k-format="'dd-MM-yyyy'" />
                             </div>
                         </div>
                     </div>
@@ -932,7 +980,8 @@
                 <div class="grid_12 borderBox">
 
                     <div class="grid_12 borderBox">
-                        <kendo-grid k-data-source="dataGridDosisObatPulang" k-options="dosisObatPulang" k-groupable="true"></kendo-grid>
+                        <kendo-grid k-data-source="dataGridDosisObatPulang" k-options="dosisObatPulang"
+                            k-groupable="true"></kendo-grid>
                     </div>
                     <!-- <div kendo-grid k-data-source="sourceResume" options="resumeOpt"></div> -->
                 </div>
@@ -940,7 +989,8 @@
             <div class="grid_12" style="margin-top:-10px">
                 <div class="grid_9"></div>
                 <div class="grid_3">
-                    <button class="btnTemplate1" ng-click="simpanCaraPemberian()"><i class="fa fa-save"></i>Simpan Cara Pemberian</button>
+                    <button class="btnTemplate1" ng-click="simpanCaraPemberian()"><i class="fa fa-save"></i>Simpan Cara
+                        Pemberian</button>
                 </div>
             </div>
             <!-- <div class="grid_12" style="margin-top:-10px">
@@ -955,7 +1005,8 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div>
                             <div class="grid_12">
-                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.pasienKeluarga" placeholder="Pasien / Keluarga">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox"
+                                    ng-model="item.pasienKeluarga" placeholder="Pasien / Keluarga">
                                 <!-- <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter "
                                     k-data-text-field=" 'namalengkap' " k-filter=" 'contains' " k-data-value-field=" 'id' "
                                     k-auto-bind="false " k-data-source="listDokter " /> -->
@@ -969,7 +1020,9 @@
                     <div class="grid_12" style="padding: 5pt">
                         <div>
                             <div class="grid_12">
-                                <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter " k-data-text-field=" 'namalengkap' " k-filter=" 'contains' " k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listDokter " />
+                                <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter "
+                                    k-data-text-field=" 'namalengkap' " k-filter=" 'contains' "
+                                    k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listDokter " />
                             </div>
                         </div>
                     </div>
@@ -979,8 +1032,8 @@
                 <div class="grid_8"></div>
                 <div class="grid_2">
                     <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan
-            
-                        </button>
+
+                    </button>
                     <!-- <c-button ng-show="!isLoading" class="success"
                         style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36"
                         position=" 'right'" is-validate click="Save">
@@ -989,8 +1042,8 @@
                 </div>
                 <div class="grid_2">
                     <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
-            
-                        </button>
+
+                    </button>
                     <!-- <c-button ng-show="!isLoading" style="width: 100%; font-size: 24px; padding:0px, margin:0px;"
                         item="item" size="36" position=" 'right'" click="Back">
                         <span class="title">Kembali</span>
@@ -1021,7 +1074,8 @@
         </div>
     </div>
 
-    <div kendo-window="popUpPelayananrad" k-title="'Transaksi Pelayanan'" k-width="1600" k-height="550" k-visible="false">
+    <div kendo-window="popUpPelayananrad" k-title="'Transaksi Pelayanan'" k-width="1600" k-height="550"
+        k-visible="false">
         <div class="grid_12">
             <div class="grid_12" style="margin-top:10px">
                 <div class="grid_12 headerBox">
@@ -1042,9 +1096,9 @@
         </div>
     </div>
 
-     <div kendo-window="popUpOrder" k-title="'Nama Ruangan'" k-width="750" k-visible="false" k-on-open="win2visible = true"
-    k-on-close="win2visible = false">
-    <div class="panel panel-default container_12">
+    <div kendo-window="popUpOrder" k-title="'Nama Ruangan'" k-width="750" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="panel panel-default container_12">
             <div class="grid_6">
                 <div class="grid_12">
                     <label c-label item="item">Ruangan</label>
@@ -1065,7 +1119,7 @@
                     <button ng-click="BatalOrder()" ><span class="k-icon k-cancel"></span>Batal</button> -->
         </div>
         <!-- </div> -->
-    </div>s
+    </div>
 
     <div kendo-window="popUpDosisObat" k-title="'Obat'" k-width="1000" k-height="500" k-visible="false">
         <div class="grid_12">
@@ -1076,7 +1130,8 @@
                 <div class="clear"></div>
 
                 <div class="grid_12 borderBox">
-                    <kendo-grid k-data-source="dataGridDosisObatPop" k-options="dosisObatPop" k-groupable="true"></kendo-grid>
+                    <kendo-grid k-data-source="dataGridDosisObatPop" k-options="dosisObatPop" k-groupable="true">
+                    </kendo-grid>
                 </div>
             </div>
         </div>
@@ -1100,7 +1155,8 @@
                 <div class="clear"></div>
 
                 <div class="grid_12 borderBox">
-                    <kendo-grid k-data-source="dataGridDosisObatPopPulang" k-options="dosisObatPulangPop" k-groupable="true"></kendo-grid>
+                    <kendo-grid k-data-source="dataGridDosisObatPopPulang" k-options="dosisObatPulangPop"
+                        k-groupable="true"></kendo-grid>
                 </div>
             </div>
         </div>
@@ -1126,7 +1182,8 @@
                 <div class="clear"></div>
 
                 <div class="grid_12 borderBox">
-                    <kendo-grid data-source="resultGridsHasilLab" options="ColumnResultHasilLab" k-groupable="true"></kendo-grid>
+                    <kendo-grid data-source="resultGridsHasilLab" options="ColumnResultHasilLab" k-groupable="true">
+                    </kendo-grid>
                 </div>
             </div>
         </div>
@@ -1138,11 +1195,11 @@
             <div class="grid_6">
                 <div class="grid_10">
                     <button class="btnTemplate1" ng-click="simpanAddPp()" ng-show="!statusSelesaiPeriksaRm">
-                    Tambah RM
+                        Tambah RM
                     </button>
 
                     <button class="btnTemplate1 cancel" ng-click="simpanDeletePp()" ng-show="statusSelesaiPeriksaRm">
-                    Hapus RM
+                        Hapus RM
                     </button>
                 </div>
             </div>
@@ -1157,7 +1214,8 @@
     </div>
 
 
-    <div kendo-window="popUp" k-title="'Tambah Data'" k-width="500" k-height="260" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div kendo-window="popUp" k-title="'Tambah Data'" k-width="500" k-height="260" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
         <div class="panel panel-default container_12" style="padding: 0px 10px;">
             <div class="grid_12">
                 <div class="grid_6" style="margin: 0px 0px 5px" ng-show="Nomer">
@@ -1210,4 +1268,4 @@
         <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
     </div>
     <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
-    </div>
+</div>

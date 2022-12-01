@@ -16,6 +16,10 @@
             "urlDep": "module/TataRekening/RincianTagihanPasienPulangCtrl"
         },
         {
+            "nameDep": "RincianTagihanV2Ctrl",
+            "urlDep": "module/TataRekening/RincianTagihanV2Ctrl"
+        },
+        {
             "nameDep": "RekapTagihanCtrl",
             "urlDep": "module/TataRekening/RekapTagihanCtrl"
         },
