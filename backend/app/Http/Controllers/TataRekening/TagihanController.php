@@ -10749,6 +10749,8 @@ class TagihanController  extends ApiController
             ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
             ->leftJoin('postinghutangpiutang_t as php', 'php.nostrukfk', '=', 'spp.norec')
             ->leftJoin('strukposting_t as spt', 'spt.noposting', '=', 'php.noposting')
+            ->LEFTJOIN("strukbuktipenerimaan_t AS sbm", "sbm.norec", '=', "sp.nosbmlastfk")
+
             ->select(
                 'kp.kelompokpasien',
                 'spp.norec',
@@ -10769,7 +10771,8 @@ class TagihanController  extends ApiController
                 'pd.tglpulang',
                 'php.noposting',
                 'spt.statusenabled',
-                'bpjs.biayanaikkelas'
+                'bpjs.biayanaikkelas',
+            'sbm.totaldibayar',
             )
             ->whereNull('sp.statusenabled');
         //            ->where('php.statusenabled',1);
@@ -10835,7 +10838,8 @@ class TagihanController  extends ApiController
             'php.noposting',
             'spt.statusenabled',
             'bpjs.totalpiutangpenjamin',
-            'bpjs.biayanaikkelas'
+            'bpjs.biayanaikkelas', 
+            'sbm.totaldibayar' 
         );
         $dataPiutang = $dataPiutang->orderBy('p.namapasien');
         //        $dataPiutang =$dataPiutang->take(50);
