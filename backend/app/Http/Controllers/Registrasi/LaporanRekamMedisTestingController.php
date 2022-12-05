@@ -67,32 +67,7 @@ class LaporanRekamMedisTestingController extends   ApiController
             $tgl = $filter['tglAkhir'];
             $data = $data->where('pd.tglregistrasi', '<=', $tgl);
         }
-        if (isset($filter['deptId']) && $filter['deptId'] != "" && $filter['deptId'] != "undefined") {
-            $data = $data->where('dept.id', '=', $filter['deptId']);
-        }
-        if (isset($filter['ruangId']) && $filter['ruangId'] != "" && $filter['ruangId'] != "undefined") {
-            $data = $data->where('ru.id', '=', $filter['ruangId']);
-        }
-        if (isset($filter['kelId']) && $filter['kelId'] != "" && $filter['kelId'] != "undefined") {
-            $data = $data->where('kp.id', '=', $filter['kelId']);
-        }
-        if (isset($filter['dokId']) && $filter['dokId'] != "" && $filter['dokId'] != "undefined") {
-            $data = $data->where('pg.id', '=', $filter['dokId']);
-        }
-
-
-        if (isset($filter['sttts']) && $filter['sttts'] != "" && $filter['sttts'] != "undefined") {
-            $data = $data->where('pd.statuspasien', '=', $filter['sttts']);
-        }
-        if (isset($filter['noreg']) && $filter['noreg'] != "" && $filter['noreg'] != "undefined") {
-            $data = $data->where('pd.noregistrasi', 'like', '%' . $filter['noreg'] . '%');
-        }
-        if (isset($filter['norm']) && $filter['norm'] != "" && $filter['norm'] != "undefined") {
-            $data = $data->where('ps.nocm', 'like', '%' . $filter['norm'] . '%');
-        }
-        if (isset($filter['nama']) && $filter['nama'] != "" && $filter['nama'] != "undefined") {
-            $data = $data->where('ps.namapasien', 'like', '%' . $filter['nama'] . '%');
-        }
+        
         if (isset($filter['jmlRows']) && $filter['jmlRows'] != "" && $filter['jmlRows'] != "undefined") {
             $data = $data->take($filter['jmlRows']);
         }
@@ -102,6 +77,9 @@ class LaporanRekamMedisTestingController extends   ApiController
         $data = $data->orderBy('pd.noregistrasi');
 
         $data = $data->get();
+        
+
+        
 
         return $this->respond($data);
     }

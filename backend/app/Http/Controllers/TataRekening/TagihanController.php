@@ -10772,7 +10772,7 @@ class TagihanController  extends ApiController
                 'php.noposting',
                 'spt.statusenabled',
                 'bpjs.biayanaikkelas',
-            'sbm.totaldibayar',
+            'sbm.totaldibayar'
             )
             ->whereNull('sp.statusenabled');
         //            ->where('php.statusenabled',1);
