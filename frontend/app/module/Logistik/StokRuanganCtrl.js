@@ -700,8 +700,9 @@ define(['initialize'], function (initialize) {
                 $scope.item.idProduk = $scope.dataSelected.kodeProduk
                 $scope.item.namaProduk = $scope.dataSelected.namaProduk;
                 $scope.item.QtyReal = parseFloat($scope.dataSelected.qtyProduk);
-                $scope.hargaSatuan = parseFloat($scope.dataSelected.harga);
-                $scope.item.asalanggaran = {id:$scope.dataSelected.objectasalprodukfk , asalProduk:$scope.dataSelected.asalProduk}
+                $scope.hargaSatuan = parseFloat($scope.dataSelected.harga); 
+                $scope.item.asalanggaran = {id:$scope.dataSelected.objectasalprodukfk , asalProduk:$scope.dataSelected.asalanggaran}
+               
                 $scope.HargaShow.center().open();      
             }
 
@@ -762,7 +763,7 @@ define(['initialize'], function (initialize) {
                     'asalproduk': $scope.item.asalanggaran.id                    
                 }
 
-                medifirstService.post('logistik/save-adjusment-stok3', objSave).then(function (e) {
+                medifirstService.post('logistik/save-adjusment-stok2', objSave).then(function (e) {
                     norec_spd = '';
                     nostruterimafk = '';
                     $scope.item.idProduk = undefined;
