@@ -985,7 +985,7 @@ class BendaharaPenerimaanController extends ApiController {
                     LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
                     left join rekanan_m as rk on rk.id=sppd.kdrekananpenjamin
                     left join rekanan_m as rk2 on rk2.id=pd.objectrekananfk
-                    LEFT JOIN mapjurnal_m as mj on mj.objectkelompoktransaksifk=sbm.objectkelompoktransaksifk
+                    LEFT JOIN mapjurnal_m as mj on mj.objectkelompoktransaksifk=sbm.objectkelompoktransaksifk and mj.objectcarabayarfk=sbmcr.objectcarabayarfk
                     left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
                     left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
                     WHERE sbm.objectkelompoktransaksifk not in (60) and
