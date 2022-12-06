@@ -771,7 +771,7 @@ class AkuntansiController extends ApiController{
                 left JOIN postingjurnald_t as pjd on coa.id=pjd.objectaccountfk
                 left JOIN postingjurnal_t as pj on pjd.norecrelated=pj.norec
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
-                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=true
+                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=true and length(coa.noaccount)=1
                 group by coa.id,coa.noaccount,coa.namaaccount
                 order by coa.noaccount;
             "),
@@ -796,7 +796,7 @@ class AkuntansiController extends ApiController{
                     from chartofaccount_m as coa
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
                     left JOIN (select * from postingsaldoawal_t where statusenabled=1 and ym = '$strData') as psa  on psa.objectaccountfk=coa.id
-                    where  sk.statusenabled=true and coa.statusenabled=true  order by coa.noaccount
+                    where  sk.statusenabled=true and coa.statusenabled=true and length(coa.noaccount)=1 order by coa.noaccount
                 ")
         );
 //        }else{
