@@ -952,7 +952,8 @@ class BendaharaPenerimaanController extends ApiController {
                     y.namaaccountkredit,
                     y.noaccountdebit,
                     y.noaccountkredit,
-                    y.kelompoktransaksi
+                    y.kelompoktransaksi,
+                    y.carabayar
                     from
                     (
                     SELECT
@@ -962,7 +963,8 @@ class BendaharaPenerimaanController extends ApiController {
                     cf2.namaaccount as namaaccountkredit,
                     cf.noaccount as noaccountdebit,
                     cf2.noaccount as noaccountkredit,
-                    x.kelompoktransaksi
+                    x.kelompoktransaksi,
+                    x.carabayar
                     FROM
                     mapjurnal_m as mj LEFT JOIN
                     (
@@ -970,7 +972,8 @@ class BendaharaPenerimaanController extends ApiController {
                     sbmcr.objectcarabayarfk AS idcarabayar,
                     sbm.objectkelompoktransaksifk AS idkeltransaksi,
                     sbm.totaldibayar :: NUMERIC AS totalpenerimaan,
-                    kt.kelompoktransaksi
+                    kt.kelompoktransaksi,
+                    cb.carabayar
                     FROM
                     strukbuktipenerimaan_t AS sbm
                     INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
@@ -997,7 +1000,8 @@ class BendaharaPenerimaanController extends ApiController {
                     cf2.namaaccount,
                     cf.noaccount,
                     cf2.noaccount,
-                    x.kelompoktransaksi
+                    x.kelompoktransaksi,
+                    x.carabayar
                     ) as y where y.idcarabayar is not null"));
             // $data10= DB::select(DB::raw("select sum(x.totalpenerimaan) as total,x.kelompoktransaksi,x.objectcoadebitfk,x.objectcoakreditfk,x.namaaccountdebit,x.namaaccountkredit,x.noaccountdebit,x.noaccountkredit
             //         ,x.nostrukfk from (SELECT

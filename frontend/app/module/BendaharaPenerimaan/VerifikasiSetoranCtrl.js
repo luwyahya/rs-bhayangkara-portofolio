@@ -445,7 +445,7 @@ define(['initialize'], function (initialize) {
 					var strukresep = {
 						nojurnal: '-',
 						tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
-						deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
+						deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori + ' ' + tempresultKelompok.data[i].carabayar,
 						nobuktitransaksi: tempTr.norec_closing,
 						nostrukfk: tempTr.norec_closing,
 					}
