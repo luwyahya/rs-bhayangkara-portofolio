@@ -8008,12 +8008,11 @@ class TagihanController  extends ApiController
                 select pp.* from pasiendaftar_t as pd
                 inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                 INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null            
+                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null and pp.produkfk<>402611
             "));
         if (count($totalhargatindakan) == 0) {
             $transMsg = "Pelayanan yang dilakukan pasien tidak ada.";
         }
-
         $totalDiskonTagihan = 0.0;
         foreach ($pelayanan as $itemhead) {
             if ($itemhead->hargasatuan <> 0) {
@@ -8076,7 +8075,7 @@ class TagihanController  extends ApiController
                 select pp.* from pasiendaftar_t as pd
                 inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                 INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null            
+                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null and pp.produkfk<>402611
             "));
         $x = 0.0;
         $y = 0;
