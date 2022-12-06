@@ -19,7 +19,10 @@ define(['initialize'], function (initialize) {
             var dataCOA = []
             $scope.listLevel = [
                 { "id": "1", "name": "Level 1" },
-                { "id": "2", "name": "Level 2" }
+                { "id": "2", "name": "Level 2" },
+                { "id": "3", "name": "Level 3" },
+                { "id": "4", "name": "Level 4" },
+                { "id": "5", "name": "Level 5" },
             ];
             // $scope.item.tglAwal = $scope.now;
             // $scope.item.tglAkhir = $scope.now;
@@ -97,10 +100,10 @@ define(['initialize'], function (initialize) {
             }
             function init() {
                 $scope.isRouteLoading = true;
-                // var ins =""
-                // if ($scope.item.instalasi != undefined){
-                //     var ins ="&dpid=" +$scope.item.instalasi.id
-                // }
+                var level = ""
+                if ($scope.item.level != undefined) {
+                    var level = "&level=" + $scope.item.level.id
+                }
                 // var rg =""
                 // if ($scope.item.ruangan != undefined){
                 //     var rg ="&ruid=" +$scope.item.ruangan.id
@@ -121,7 +124,8 @@ define(['initialize'], function (initialize) {
                 // var tglAkhir = moment($scope.item.tglAkhir).format('YYYY-MM-DD HH:mm:ss');
                 medifirstService.get("akuntansi/get-data-trial-balance?" +
                     "tglAwal=" + tglAwal1 +
-                    "&tglAkhir=" + tglAkhir1
+                    "&tglAkhir=" + tglAkhir1 +
+                    level
                     , true).then(function (dat) {
                         $scope.isRouteLoading = false;
                         $scope.munculJaya = true;
