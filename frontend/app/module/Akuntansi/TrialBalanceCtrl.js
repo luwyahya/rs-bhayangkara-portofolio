@@ -17,6 +17,10 @@ define(['initialize'], function (initialize) {
 
             var pegawaiUser = {}
             var dataCOA = []
+            $scope.listLevel = [
+                { "id": "1", "name": "Level 1" },
+                { "id": "2", "name": "Level 2" }
+            ];
             // $scope.item.tglAwal = $scope.now;
             // $scope.item.tglAkhir = $scope.now;
             LoadCache();
@@ -61,7 +65,7 @@ define(['initialize'], function (initialize) {
                         ym: tgltgl,
                         data: dataCOA
                     }
-                    medifirstService.post('akuntansi/save-data-closing-jurnal',objSave).then(function (e) {
+                    medifirstService.post('akuntansi/save-data-closing-jurnal', objSave).then(function (e) {
 
                     })
                 } else {
@@ -83,7 +87,7 @@ define(['initialize'], function (initialize) {
                     {
                         ym: tgltgl
                     }
-                    medifirstService.post('akuntansi/save-batal-closing-jurnal',objSave).then(function (e) {
+                    medifirstService.post('akuntansi/save-batal-closing-jurnal', objSave).then(function (e) {
 
                     })
                 } else {

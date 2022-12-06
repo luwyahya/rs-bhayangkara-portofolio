@@ -447,7 +447,7 @@ define(['initialize'], function (initialize) {
 						tglentry: moment($scope.now).format('YYYY-MM-DD hh:mm:ss'),
 						deskripsi: tempTr.keterangan + ' ' + tempTr.nohistori,
 						nobuktitransaksi: tempTr.norec_closing,
-						nostrukfk: tempresultKelompok.data[i].nostrukfk,
+						nostrukfk: tempTr.norec_closing,
 					}
 					var data = {};
 					var data2 = [];
