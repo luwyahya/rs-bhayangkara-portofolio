@@ -885,7 +885,11 @@ class AkuntansiController extends ApiController{
         $tglAwal = $request['tglAwal'];
         $tglAkhir = $request['tglAkhir'];
         $tgltgl = $request['tgltgl'];
-
+        $level2="";
+        if (isset($request['level']) && $request['level'] != "" && $request['level'] != "undefined") {
+            $level2=" where LENGTH(REPLACE
+                        ( REPLACE ( z.noaccount, '.', '' ),  ' ', '' ))=".$request['level'];
+        }
         $namaLaporan = $request['namalaporan'];
         //saldo mutasi
         $sql1 = "select mp.noaccount,mp.namaaccount,mp.namaexternal,  x.debet-x.kredit  as total
@@ -940,8 +944,10 @@ class AkuntansiController extends ApiController{
 
         $sql = $sql1 . " union all " . $sql2 . " union all " . $sql3 ;
 
-        $sqlFinal = "select * from ($sql) as z  ORDER BY z.noaccount";
+        $sqlFinal = "select * from ($sql) as z ".$level2." ORDER BY z.noaccount";
         $data = DB::select(DB::raw($sqlFinal));
+        // return($sqlFinal);
+        // die();
 
         //saldo Awal
         $sql11 = "select mp.noaccount,mp.namaaccount,x.debet-x.kredit  as total
@@ -3091,7 +3097,7 @@ class AkuntansiController extends ApiController{
             DB::rollBack();
             $result = array(
                 "status" => 400,
-                "data" => $postingJurnalTransaksi,
+                // "data" => $postingJurnalTransaksi,
 //                "datadetail" => $postingJurnalTransaksiD,
                 "as" => 'as@epic',
             );

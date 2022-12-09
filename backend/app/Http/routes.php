@@ -1918,10 +1918,12 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-histori-piutang', 'Piutang\PiutangController@getDaftarHistoriPiutang');
             Route::get('rekap-klaim-by-diagnosa/', 'Piutang\PiutangController@RekapKlainDiagnosaTXT');
             Route::get('get-checklist-klaim', 'Piutang\PiutangController@getChecklistKlaim');
+            Route::get('get-data-grid-jurnal', 'Piutang\PiutangController@gridJurnal');
             /*END GET*/
 
             /*POST*/
             Route::post('collecting-piutang-layanan', 'Piutang\PiutangController@collectingPiutang');
+            Route::post('collecting-piutang-layanan-jurnal', 'Piutang\PiutangController@collectingPiutangJurnal');
             Route::post('save-bpjs-klaim-gagal-hitung', 'Piutang\PiutangController@simpanGagalHitungBpjsKlaim');
             Route::post('save-bpjs-klaim', 'Piutang\PiutangController@simpanBpjsKlaim');
             /*END POST*/

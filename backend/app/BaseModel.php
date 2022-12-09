@@ -60,7 +60,8 @@ class BaseModel extends Model
 
     public function generateNewId()
     {
-        return substr(Uuid::generate(), 0, 32);
+        // return substr(Uuid::generate(), 0, 32);
+        return substr(Uuid::generate(), 0, 8);
     }
 
 
