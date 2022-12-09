@@ -15,6 +15,13 @@ define(['initialize'], function (initialize) {
                 start: "decade",
                 depth: "decade"
             }
+            $scope.listLevel = [
+                { "id": "1", "name": "Level 1" },
+                { "id": "2", "name": "Level 2" },
+                { "id": "3", "name": "Level 3" },
+                { "id": "4", "name": "Level 4" },
+                { "id": "5", "name": "Level 5" },
+            ];
 
             LoadCache();
             loadCombo();
@@ -39,7 +46,7 @@ define(['initialize'], function (initialize) {
                 // });
                 // $scope.listJenisRacikan = [{id:1,jenisracikan:'Puyer'}]
             }
-            
+
             function init() {
                 $scope.isRouteLoading = true;
                 // var ins =""
@@ -54,6 +61,10 @@ define(['initialize'], function (initialize) {
                 // if ($scope.item.jenisRacikan != undefined){
                 //     var Jra ="&jenisobatfk=" +$scope.item.jenisRacikan.id
                 // }
+                var level2 = ""
+                if ($scope.item.level != undefined) {
+                    var level2 = "&level=" + $scope.item.level.id
+                }
                 var level = "&namalaporan='1','2','3'" //+$scope.item.level.id
                 let tglmundur1bulan = moment($scope.item.bulan).add(-1, 'month').toDate()
                 var bulan2 = dateHelper.formatDate(tglmundur1bulan, "MM")
@@ -69,7 +80,7 @@ define(['initialize'], function (initialize) {
                     "tglAwal=" + tglAwal1 +
                     "&tglAkhir=" + tglAkhir1 +
                     "&tgltgl=" + tgltgl +
-                    "&reportdisplay=aruskas" + level
+                    "&reportdisplay=aruskas" + level + level2
                     , true).then(function (dat) {
                         $scope.isRouteLoading = false;
                         for (var i = 0; i < dat.data.length; i++) {

@@ -232,6 +232,10 @@
             "urlDep": "module/Piutang/CollectingPiutangCtrl"
         },
         {
+            "nameDep": "VerifikasiPiutangJurnalCtrl",
+            "urlDep": "module/Piutang/VerifikasiPiutangJurnalCtrl"
+        },
+        {
             "nameDep": "DetailCollectingPiutangCtrl",
             "urlDep": "module/Piutang/DetailCollectingPiutangCtrl"
         },

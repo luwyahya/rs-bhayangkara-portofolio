@@ -1196,6 +1196,25 @@
         ]
     },
     {
+        "name": "VerifikasiPiutangJurnal",
+        "url": "/VmVyaWZpa2FzaVBpdXRhbmdKdXJuYWw=/:dataFilter",
+        "templateurl": "module/Piutang/VerifikasiPiutangJurnal.html",
+        "controller": "VerifikasiPiutangJurnalCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "DetailCollectingPiutang",
         "url": "/RGV0YWlsQ29sbGVjdGluZ1BpdXRhbmc=/:dataCollect",
         "templateurl": "module/Piutang/DetailCollectingPiutang.html",

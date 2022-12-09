@@ -34,22 +34,22 @@ define(['initialize'], function (initialize) {
 				})
 			}
 
-			function FormLoad(){
+			function FormLoad() {
 				medifirstService.getPart("sysadmin/general/get-datacombo-rekanan", true, true, 20).then(function (data) {
 					$scope.listJenisPiutang = data;
 					$scope.listRekanan = data;
 				});
-				
+
 				medifirstService.get("piutang/get-data-combo-piutang").then(function (dat) {
-					var data = dat.data;										
-					$scope.listjenisPenjamin=data.kelompokpasien;				
-	
+					var data = dat.data;
+					$scope.listjenisPenjamin = data.kelompokpasien;
+
 					var chacePeriode = cacheHelper.get('periodeTransaksiPencatatanPiutangDaftarLayanan');
 					if (chacePeriode != undefined) {
 						var arrPeriode = chacePeriode.split(':');
 						$scope.item.tanggalAwal = new Date(arrPeriode[0]);
 						$scope.item.tanggalAkhir = new Date(arrPeriode[1]);
-	
+
 						var tglAwal1 = dateHelper.formatDate($scope.item.tanggalAwal, "YYYY-MM-DD");
 						var tglAkhir1 = dateHelper.formatDate($scope.item.tanggalAkhir, "YYYY-MM-DD");
 						if (arrPeriode[2] != "undefined") {
@@ -58,15 +58,15 @@ define(['initialize'], function (initialize) {
 						if (arrPeriode[4] != "undefined") {
 							$scope.item.status = { "namaStatus": arrPeriode[4] };
 						};
-	
+
 						if (arrPeriode[5] != 'undefined') {
 							$scope.item.jenisPenjamin = { id: arrPeriode[5], kelompokpasien: arrPeriode[6] }
 						}
 						if (arrPeriode[7] != 'undefined') {
 							$scope.item.jenisPasien = { id: arrPeriode[7], namarekanan: arrPeriode[8] }
 						}
-	
-	
+
+
 					}
 					else {
 						$scope.item.tanggalAwal = $scope.now;
@@ -75,7 +75,7 @@ define(['initialize'], function (initialize) {
 					};
 				});
 			}
-			
+
 
 			$scope.listStatus = [{ "id": 1, "namaStatus": "Piutang" }, { "id": 2, "namaStatus": "Collecting" }, { "id": 3, "namaStatus": "Lunas" }]
 
@@ -268,6 +268,10 @@ define(['initialize'], function (initialize) {
 				$scope.item.ruangan = {};
 				$scope.SearchData();
 			}
+
+			$scope.VerifJurnal = function () {
+				$scope.changePage2("VerifikasiPiutangJurnal");
+			};
 
 			$scope.Collecting = function () {
 				//$state.go('CollectingPiutang');
