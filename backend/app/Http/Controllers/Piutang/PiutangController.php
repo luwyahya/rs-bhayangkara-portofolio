@@ -119,7 +119,7 @@ class PiutangController extends ApiController{
             ->select('kp.kelompokpasien', 'spp.norec','pd.tglpulang as tglstruk', 'pd.noregistrasi', 'pd.tglregistrasi','p.nocm',
                 'p.namapasien','ru.namaruangan','spp.totalppenjamin','spp.totalharusdibayar',
                 'spp.totalsudahdibayar',  'spp.totalbiaya', 'spp.noverifikasi','rkn.namarekanan','php.noposting','spt.statusenabled',
-                'pd.norec as norec_pd','php.statusenabled as sttts')
+                'pd.norec as norec_pd','php.statusenabled as sttts','spp.setoranpiutangjurnalfk')
             ->whereNotNull('spp.noverifikasi')
             ->whereNull('sp.statusenabled');
 //            ->where('spt.statusenabled',1);
@@ -191,6 +191,7 @@ class PiutangController extends ApiController{
                         'norec_pd' => $item->norec_pd,
                         'noposting' => $item->noposting,
                         'stts' => $item->statusenabled,
+                        'setoranpiutangjurnalfk' => $item->setoranpiutangjurnalfk,
                     );
                 }
             }

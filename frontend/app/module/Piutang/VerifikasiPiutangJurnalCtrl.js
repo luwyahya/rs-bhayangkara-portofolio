@@ -504,14 +504,16 @@ define(['initialize'], function (initialize) {
 				}
 
 				for (var i = 0; i < $scope.dataSource._data.length; i++) {
-					// for(var i=0; i<$scope.dataSource.length; i++){					
-					// arrObjPembayaran.push($scope.dataSource._data[i].noRec)
+					if($scope.dataSource._data[i].setoranpiutangjurnalfk!=null){
+						toastr.error($scope.dataSource._data[i].namaPasien+' Telah di verifikasi Posting Jurnal Piutang')
+						e.preventDefault();
+						return
+					}
 					dataObjloop = {
 						norec: $scope.dataSource._data[i].noRec,
 						totalKlaim: $scope.dataSource._data[i].totalKlaim
 					};
-					// dataObjloop = {norec : $scope.dataSource[i].noRec,
-					// 			   totalKlaim : $scope.dataSource[i].totalKlaim};
+					
 					arrObjPembayaran.push(dataObjloop)
 				}
 				dataObjPost = {
@@ -570,6 +572,7 @@ define(['initialize'], function (initialize) {
 					})
 					break
 				}
+				Kembali();
 			}
 
 			/***Upload Excel */
