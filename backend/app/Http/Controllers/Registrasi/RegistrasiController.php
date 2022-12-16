@@ -2046,10 +2046,6 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
     }
     public function saveRegistrasiPasien(Request $request)
     {
-        $dataPD = new PasienDaftar();
-        $test = $dataPD->generateNewId();
-        return($test);
-        die();
         $noAntrian = 0;
      
      
