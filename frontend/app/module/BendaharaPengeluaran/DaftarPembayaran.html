@@ -93,3 +93,35 @@
 	</div>
 </div>
 <br />
+
+<div kendo-window="popUpVerifikasi" k-title="'Verifikasi'" k-width="1000" k-height="500" k-visible="false"
+	k-on-open="win2visible = true" k-on-close="win2visible = false">
+	<div class="panel panel-default container_12" style="padding: 0px 10px;">
+		<div class="panel panel-default container_12">
+			<div class="grid_12">
+				<fieldset class="effect-shadow" style=" border-radius: 4px">
+					<legend id="filterData">
+						<a ng-click="showAndHide()">Detail Posting</a>
+					</legend>
+					<div class="grid_12">
+						<div class="grid_12 headerBox">
+							<p>Detail Posting</p>
+							<kendo-grid id="kGrids" class="max-height" k-groupable="true"
+								data-source="dataSourceKelompokTransaksi" options="columnGridKelompokTransaksi"
+								k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+								k-ng-model="dataSelectedKelompokTransaksi"
+								ng-dblclick="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
+							</kendo-grid>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+			<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SaveKelompokTransaksi()"><span
+					class="k-icon k-update"></span>Simpan</button>
+			<button class="k-button  k-button-icontext" ng-click="batalPenerimaan()"><span
+					class="k-icon k-cancel"></span>Batal</button>
+		</div>
+	</div>
+</div>

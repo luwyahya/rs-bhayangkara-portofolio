@@ -175,7 +175,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-monitoring-klaim-per-bulan-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaimJaspel');
             Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
             Route::get('get-daftar-kelompok-transaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksi');
-            Route::get('get-daftar-kelompok-transaksi-pengeluaran', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksiPengeluaran');
+            
 
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
             //**GET**//
@@ -215,12 +215,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarBukuKasTunai');
             Route::get('get-daftar-realisasi-anggaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDaftarRealisasiAnggaran');
             Route::get('get-data-spj', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDataSPJ');
+            Route::get('get-daftar-kelompok-transaksi-pengeluaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPengeluaran');
             //**GET**//
 
             //**POST**//
             Route::post('save-pembayaran-tagihan-suplier', 'BendaharaPengeluaran\BendaharaPengeluaranController@savePembayaranTagihanSuplier');
             Route::post('simpan-pengeluaran-bku', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanBKUBk');
             Route::post('hapus-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@hapusBukuKasTunai');
+            Route::post('verifikasi-Setoran', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiSetoran');
             //**POST**//
         });
         Route::group(['prefix' => 'bridging'], function () {

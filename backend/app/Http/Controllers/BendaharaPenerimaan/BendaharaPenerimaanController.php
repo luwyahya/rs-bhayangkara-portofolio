@@ -1280,78 +1280,7 @@ class BendaharaPenerimaanController extends ApiController {
         );
         return $this->respond($result);
     }
-    public function daftarKelompokTransaksiPengeluaran(Request $request){
-        $idSetting= (int)$this->settingDataFixed('seeting jurnal');
-        $norec_closing=$request['norec_closing'];
-        if($idSetting==1){
-            $data10= DB::select(DB::raw("select
-                    y.idcarabayar,y.idkeltransaksi,y.total,y.objectcoadebitfk,
-                    y.objectcoakreditfk,
-                    y.namaaccountdebit,
-                    y.namaaccountkredit,
-                    y.noaccountdebit,
-                    y.noaccountkredit,
-                    y.kelompoktransaksi,
-                    y.carabayar
-                    from
-                    (
-                    SELECT
-                    x.idcarabayar,x.idkeltransaksi,sum(x.totalpenerimaan)as total,mj.objectcoadebitfk,
-                    mj.objectcoakreditfk,
-                    cf.namaaccount as namaaccountdebit,
-                    cf2.namaaccount as namaaccountkredit,
-                    cf.noaccount as noaccountdebit,
-                    cf2.noaccount as noaccountkredit,
-                    x.kelompoktransaksi,
-                    x.carabayar
-                    FROM
-                    mapjurnal_m as mj LEFT JOIN
-                    (
-                    SELECT
-                    sbmcr.carabayarfk AS idcarabayar,
-                    sbm.objectkelompoktransaksifk AS idkeltransaksi,
-                    sbm.totaldibayar :: NUMERIC AS totalpenerimaan,
-                    kt.kelompoktransaksi,
-                    cb.carabayar
-                    FROM
-                    strukbuktipengeluaran_t AS sbm
-                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
-                    LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
-                    LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
-                    LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
-                    LEFT JOIN pegawai_m AS p ON p.id = lu.objectpegawaifk
-                    LEFT JOIN pasien_m AS ps ON ps.id = sp.nocmfk
-                    LEFT JOIN strukbuktipengeluarancarabayar_t AS sbmcr ON sbmcr.nosbmfk = sbm.norec
-                    LEFT JOIN carabayar_m AS cb ON cb.id = sbmcr.carabayarfk
-                    LEFT JOIN kelompoktransaksi_m AS kt ON kt.id = sbm.objectkelompoktransaksifk
-                    LEFT JOIN strukclosing_t AS sc ON sc.norec = sbm.noclosingfk
-                    LEFT JOIN strukverifikasi_t AS sv ON sv.norec = sbm.noverifikasifk
-                    WHERE
-                    sbm.objectkelompoktransaksifk NOT IN ( 60 )
-                    AND sbm.noclosingfk ='$norec_closing'
-                    ) AS x
-                    on mj.objectkelompoktransaksifk=x.idkeltransaksi and mj.objectcarabayarfk=x.idcarabayar
-                    left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
-                    left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
-                    GROUP BY x.idcarabayar,x.idkeltransaksi,mj.objectcoadebitfk,
-                    mj.objectcoakreditfk,
-                    cf.namaaccount,
-                    cf2.namaaccount,
-                    cf.noaccount,
-                    cf2.noaccount,
-                    x.kelompoktransaksi,
-                    x.carabayar
-                    ) as y where y.idcarabayar is not null"));
-            
-        }
-        
-        
-         $result = array(
-            'data' => $data10,
-            'message' => 'tukangkomputer',
-        );
-        return $this->respond($result);
-    }
+    
     public function daftarSetoranKasir(Request $request){
         $list =  explode ( ',',$this->settingDataFixed('KdTransaksiBendaharaPenerimaan'));
         $kdTrans = [];
