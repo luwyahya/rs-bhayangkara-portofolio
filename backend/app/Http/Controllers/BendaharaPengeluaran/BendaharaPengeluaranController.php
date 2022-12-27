@@ -815,7 +815,7 @@ class BendaharaPengeluaranController extends ApiController {
                      inner join kelompoktransaksi_m as kt on kt.id = sh.objectkelompoktransaksifk
                      inner join mapbkutokelompoktransaksi_m as mbk on mbk.kelompoktransaksifk = kt.id
                      where sh.tglsetortarikdeposit > '$tglMinSabulan' and sh.tglsetortarikdeposit < '$tglAwal'
-                       and sh.statusenabled=1
+                       and sh.statusenabled=true
                        and sh.objectkelompoktransaksifk in ($KdTransak)
                      order by sh.nonhistori asc"));
         $saldolama=0;
@@ -926,7 +926,7 @@ class BendaharaPengeluaranController extends ApiController {
 //        if(!isset($input['asalprodukfk']) || $input['asalprodukfk'] =="" || $input['asalprodukfk'] == "undefined"){
 //            $input['asalprodukfk'] = null;
 //        }
-        // try {
+        try {
 
             $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'mlu.objectruanganfk')
@@ -1021,7 +1021,7 @@ class BendaharaPengeluaranController extends ApiController {
             } else {
 
                 $SBK = new StrukBuktiPengeluaran();
-                //$SBK->norec = $SBK->generateNewId();
+                $SBK->norec = $SBK->generateNewId();
                 $SBK->kdprofile = $this->getKdProfile();
                 $SBK->keteranganlainnya = !empty($input['keterangan']) ? $input['keterangan'] : 'null';
                 $SBK->statusenabled = 1;
@@ -1034,12 +1034,26 @@ class BendaharaPengeluaranController extends ApiController {
                 $SBK->asalprodukfk = !empty($input['sumberdana']) ? $input['sumberdana'] : null;
                 $SBK->save();
 
+                $SBPCB = new StrukBuktiPengeluaranCaraBayar();
+                $SBPCB->norec = $SBPCB->generateNewId();
+                $SBPCB->kdprofile= 0;
+                $SBPCB->statusenabled = true;
+                $SBPCB->nosbkfk = $SBK->norec;
+                // $SBPCB->namapemilik = $request['sbk']['pemilikrekanan'];
+                // $SBPCB->nokartuaccount = $request['sbk']['rekeningrekanan'];
+                // $SBPCB->namabank = $request['sbk']['bankrekanan'];
+                $SBPCB->carabayarfk = $input['carabayar'];
+                $SBPCB->nourutcb = 0;
+                $SBPCB->pegawaipembayarfk = $input['userData']['id'];
+                $SBPCB->totaldibayar = $input['totalSetor'];
+                $SBPCB->totaldibayarcashin = $input['totalSetor'];
+                $SBPCB->save();
             }
 
             $transStatus = true;
-        // }catch(\Exception $e){
-        //     $transStatus = false;
-        // }
+        }catch(\Exception $e){
+            $transStatus = false;
+        }
 
         if($transStatus){
             $transMessage = "Simpan Sukses";

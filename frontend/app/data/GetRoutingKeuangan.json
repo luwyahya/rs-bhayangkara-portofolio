@@ -1747,6 +1747,25 @@
         ]
     },
     {
+        "name": "PengeluaranManual",
+        "url": "/UGVuZ2VsdWFyYW5NYW51YWw=",
+        "templateurl": "module/BendaharaPengeluaran/PengeluaranManual.html",
+        "controller": "PengeluaranManualCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "SuratPertanggungJawaban",
         "url": "/U3VyYXRQZXJ0YW5nZ3VuZ0phd2FiYW4=",
         "templateurl": "module/BendaharaPengeluaran/SuratPertanggungJawaban.html",

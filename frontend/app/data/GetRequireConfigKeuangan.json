@@ -352,6 +352,10 @@
             "urlDep": "module/BendaharaPengeluaran/MonitoringRekeningKoranBendaharaPengeluaranBukuKasTunaiCtrl"
         },
         {
+            "nameDep": "PengeluaranManualCtrl",
+            "urlDep": "module/BendaharaPengeluaran/PengeluaranManualCtrl"
+        },
+        {
             "nameDep": "SuratPertanggungJawabanCtrl",
             "urlDep": "module/BendaharaPengeluaran/SuratPertanggungJawabanCtrl"
         },
