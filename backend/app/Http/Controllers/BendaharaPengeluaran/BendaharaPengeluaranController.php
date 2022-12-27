@@ -926,7 +926,7 @@ class BendaharaPengeluaranController extends ApiController {
 //        if(!isset($input['asalprodukfk']) || $input['asalprodukfk'] =="" || $input['asalprodukfk'] == "undefined"){
 //            $input['asalprodukfk'] = null;
 //        }
-        try {
+        // try {
 
             $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'mlu.objectruanganfk')
@@ -978,7 +978,7 @@ class BendaharaPengeluaranController extends ApiController {
             $SH->kdperkiraan = $input['kdperkiraan'];
             $SH->namaperkiraan = $input['keterangan'];
             $SH->kettransaksi = $input['keterangantransaksi'];
-            $SH->objectasalprodukhasilfk = $input['sumberdana'];
+            $SH->objectasalprodukhasilfk = !empty($input['sumberdana']) ? $input['sumberdana']: null;
             $SH->objectchildkelimafk = !empty($input['objectchildkelimafk']) ? $input['objectchildkelimafk']: null;
             $SH->objectchildkeenamfk = !empty($input['objectchildkeenamfk']) ? $input['objectchildkeenamfk']: null;
             $SH->objectchildketujuhfk = !empty($input['objectchildketujuhfk']) ? $input['objectchildketujuhfk']: null;
@@ -1002,7 +1002,7 @@ class BendaharaPengeluaranController extends ApiController {
                 $strukBuktiPenerimanan->objectkelompoktransaksifk = $input['jenisTransaksi'];
                 $strukBuktiPenerimanan->nosbm = $this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-' . $this->getDateTime()->format('ym'));
                 $strukBuktiPenerimanan->noclosingfk = $norec_sc;//$SC->norec;
-                $strukBuktiPenerimanan->asalprodukfk = $input['sumberdana'];
+                $strukBuktiPenerimanan->asalprodukfk = !empty($input['sumberdana']) ? $input['sumberdana']: null;
                 $strukBuktiPenerimanan->save();
 
                 $SBPCB = new StrukBuktiPenerimaanCaraBayar();
@@ -1031,15 +1031,15 @@ class BendaharaPengeluaranController extends ApiController {
                 $SBK->objectkelompoktransaksifk = $input['jenisTransaksi'];
                 $SBK->nosbk = $this->generateCode(new StrukBuktiPengeluaran(), 'nosbk', 14, 'PV-' . $this->getDateTime()->format('ym'));
                 $SBK->noclosingfk = $SC->norec;
-                $SBK->asalprodukfk = !empty($input['sumberdana']) ? $input['sumberdana'] : '';
+                $SBK->asalprodukfk = !empty($input['sumberdana']) ? $input['sumberdana'] : null;
                 $SBK->save();
 
             }
 
             $transStatus = true;
-        }catch(\Exception $e){
-            $transStatus = false;
-        }
+        // }catch(\Exception $e){
+        //     $transStatus = false;
+        // }
 
         if($transStatus){
             $transMessage = "Simpan Sukses";
@@ -1166,7 +1166,7 @@ class BendaharaPengeluaranController extends ApiController {
                      inner join kelompoktransaksi_m as kt on kt.id = sh.objectkelompoktransaksifk
                      inner join mapbkutokelompoktransaksi_m as mbk on mbk.kelompoktransaksifk = kt.id
                      where sh.tglsetortarikdeposit > '$tglMinSabulan' and sh.tglsetortarikdeposit < '$tglAwal'
-                       and sh.statusenabled=1
+                       and sh.statusenabled=true
                        and sh.objectkelompoktransaksifk in (154,127,156,157)
                      GROUP BY sh.tglsetortarikdeposit,sh.objectkelompoktransaksifk,sh.totalsetortarikdeposit,sh.nonhistori
                      order by sh.nonhistori asc"));
