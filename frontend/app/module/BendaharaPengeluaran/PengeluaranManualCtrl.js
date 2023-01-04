@@ -31,6 +31,8 @@ define(['initialize'], function (initialize) {
 					var dataCombo = dat.data;
 					$scope.listAsalProduk = dataCombo.asalproduk;
 					$scope.listCaraBayar = dataCombo.carabayar
+					$scope.listnamaBankTransfer = dataCombo.listBankKe;
+					$scope.listNamaBank = dataCombo.listbank;
 				});
 				$scope.listKdPerkiraan = [{
 					"id": 1, "name": "41112100000000"
@@ -53,7 +55,7 @@ define(['initialize'], function (initialize) {
 					{ id: '6', jenispengeluaran: 'Konsumsi (PPh. 23)' }
 				]
 				var ket = ""
-				ket = "Pengeluaran BK Kas Tunai"
+				ket = "Pengeluaran"
 				medifirstService.get("bendaharapengeluaran/get-data-combo-bk?keterangan="
 					+ ket)
 					.then(function (data) {
@@ -473,10 +475,7 @@ define(['initialize'], function (initialize) {
 					toastr.error("Kelompok Transaksi belum di pilih!");
 					return;
 				}
-				if ($scope.item.kelompokKeenam == undefined) {
-					toastr.error("Kelompok Anggaran Keenam belum di pilih!");
-					return;
-				}
+				
 				if ($scope.item.jumlah == "") {
 					toastr.error("Jumlah belum diisi!");
 					return;
@@ -490,25 +489,25 @@ define(['initialize'], function (initialize) {
 				// 	toastr.error("No Bukti belum diisi!");
 				// 	return;
 				// }
-				// if($scope.item.caraBayar == undefined){
-				// 	alert("Cara Bayar belum di pilih!");
-				// 	return;
-				// }else{
-				// 	if ($scope.item.caraBayar.caraBayar != 'TUNAI') {
-				// 		if($scope.item.namaBank == undefined){
-				// 			alert("Nama Bank belum di pilih!");
-				// 			return;
-				// 		}
-				// 		if($scope.item.namaBankTransfer == undefined){
-				// 			alert("Nama Bank Transfer belum di pilih!");
-				// 			return;
-				// 		}
-				// 		if($scope.item.namaKartu == ""){
-				// 			alert("Nama Pemilik Rekening belum di isi!");
-				// 			return;
-				// 		}
-				// 	}
-				// }
+				if($scope.item.caraBayar == undefined){
+					alert("Cara Bayar belum di pilih!");
+					return;
+				}else{
+					if ($scope.item.caraBayar.caraBayar != 'TUNAI') {
+						if($scope.item.namaBank == undefined){
+							alert("Nama Bank belum di pilih!");
+							return;
+						}
+						if($scope.item.namaBankTransfer == undefined){
+							alert("Nama Bank Transfer belum di pilih!");
+							return;
+						}
+						if($scope.item.namaKartu == ""){
+							alert("Nama Pemilik Rekening belum di isi!");
+							return;
+						}
+					}
+				}
 				// var sumberDana = null
 				// if ($scope.item.asalProduk != undefined) {
 				// 	sumberDana = $scope.item.asalProduk.id
@@ -531,15 +530,15 @@ define(['initialize'], function (initialize) {
 					totalSetor: $scope.item.jumlah,
 					caraBayar:$scope.item.caraBayar.id,
 					detailBank: 'KOSONG',
-					penerimaan: $scope.penerimaan,
+					penerimaan: false,
 					keterangantransaksi: $scope.item.ketTransaksi,
 					kdperkiraan: "",
 					nobukti: "",
 					sumberdana: "",
-					objectchildkelimafk: $scope.item.kelompokKelima.id,
-					objectchildkeenamfk: $scope.item.kelompokKeenam.id,
-					objectchildketujuhfk: $scope.item.kelompokKetujuh != undefined ? $scope.item.kelompokKetujuh.id : null,
-					jenisbiaya: $scope.item.jenisbiaya,
+					objectchildkelimafk: null,
+					objectchildkeenamfk: null,
+					objectchildketujuhfk: null,
+					jenisbiaya: null,
 					ppn: $scope.item.PPN,
 					pph21: $scope.item.PPh21,
 					pph22: $scope.item.PPh22,
