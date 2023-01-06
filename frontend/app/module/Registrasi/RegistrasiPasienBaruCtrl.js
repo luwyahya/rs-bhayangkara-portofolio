@@ -1140,6 +1140,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     toastr.error('Please input numeric characters only in No. HP / Ponsel', 'Peringatan');
                     return;
                 }
+                if ($scope.item.jenisKelamin == undefined) {
+                    toastr.error('Jenis Kelamin Belum Diisi')
+                    return
+                }
                 debugger
                 if ($scope.item.cekNoIdentitas == undefined || $scope.item.cekNoIdentitas == true) {
                     if ($scope.item.noIdentitas.match(numbers)) {
