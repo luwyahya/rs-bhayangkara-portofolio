@@ -82,6 +82,14 @@
                 </div>
             </div>
             <div class="grid_3">
+                <div class="grid_12">
+                    <label c-label item="item">Level</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%; " kendo-combo-box k-ng-model="item.level " k-data-text-field=" 'name'"
+                        k-filter=" 'contains' " k-data-value-field=" 'value' " k-auto-bind="false "
+                        k-data-source="listLevel" />
+                </div>
             </div>
             <!--  <div class="grid_4">
                 <div class="grid_12">

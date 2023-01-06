@@ -60,7 +60,9 @@ class BaseModel extends Model
 
     public function generateNewId()
     {
-        return substr(Uuid::generate(), 0, 32);
+        // return substr(Uuid::generate(), 0, 32);
+        $uiid = substr(Uuid::generate(), 0, 6).date('Ym');
+        return $uiid;
     }
 
 

@@ -1552,31 +1552,31 @@ define(['initialize'], function (initialize) {
                             }
                         } else if (trim($scope.item.namaPenjamin) == "BPJS KETENAGAKERJAAN, PT") {
                             if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                                xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                                xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbilling.pdf');
                             } else {
-                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbilling.pdf');
                             }
                         } else {
                             if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                                xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                                xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbilling.pdf');
                             } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbilling.pdf');
                             } else {
-                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingaSURANSI.pdf');
+                                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbilling.pdf');
                             }
                         }
                         // set `Content-Type` header
@@ -1742,13 +1742,13 @@ define(['initialize'], function (initialize) {
                                 }
                             } else {
                                 if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                    xhr.open('POST', 'http://192.168.0.62:1001/generic/report/rekapbillingaSURANSIv2.pdf');
+                                    xhr.open('POST', 'http://192.168.0.62:1001/generic/report/rekapbillingv2.pdf');
                                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                    xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                                    xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingv2.pdf');
                                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingv2.pdf');
                                 } else {
-                                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingv2.pdf');
                                 }
                             }
                             // set `Content-Type` header
@@ -1911,17 +1911,17 @@ define(['initialize'], function (initialize) {
                         // else
                         // {
                         // 	if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        // 		xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', 'http://192.168.0.62:8797/generic/report/rekapbillingv2.pdf');
                         // 	}else if(window.location.hostname.indexOf('192.168.88.56') > -1){
-                        // 		xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', 'http://192.168.88.56:8797/generic/report/rekapbillingv2.pdf');
                         // 	}else if(window.location.hostname.indexOf('10.10.20.167') > -1){
-                        // 		xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', 'http://10.10.20.167:8797/generic/report/rekapbillingv2.pdf');
                         // 	}else if(window.location.hostname.indexOf('202.51.105.98') > -1){
-                        // 		xhr.open('POST', '/jasper1/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', '/jasper1/generic/report/rekapbillingv2.pdf');
                         // 	}else if(window.location.hostname.indexOf('10.8.8.8') > -1){
-                        // 		xhr.open('POST', '/jasper1/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', '/jasper1/generic/report/rekapbillingv2.pdf');
                         // 	}else{
-                        // 		xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingaSURANSIv2.pdf');
+                        // 		xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingv2.pdf');
                         // 	}
                         // }
                         // set `Content-Type` header
@@ -2120,9 +2120,9 @@ define(['initialize'], function (initialize) {
                         } else {
                             
                              if (window.location.hostname.indexOf('localhost') > -1) {
-                                  xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbillingpenjamin.pdf');
+                                  xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rincianbilling.pdf');
                             } else {
-                               xhr.open('POST', '/jasper1/generic/report/rincianbillingpenjamin.pdf');
+                               xhr.open('POST', '/jasper1/generic/report/rincianbilling.pdf');
                             }
                         }
                         // set `Content-Type` header

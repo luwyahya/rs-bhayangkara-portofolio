@@ -765,13 +765,19 @@ class AkuntansiController extends ApiController{
 
     public function getDataTrialBalance(Request $request) {
         $req=$request->all();
+        $level="";
+        $level2="";
+        if (isset($request['level']) && $request['level'] != "" && $request['level'] != "undefined") {
+            $level=" and length(coa.noaccount)=".$request['level'];
+            $level2=" where x.panjang=".$request['level'];
+        }
         $aingMacan = DB::select(DB::raw("select coa.id,coa.noaccount,coa.namaaccount,sum(pjd.hargasatuand) as debet,
                 sum(pjd.hargasatuank) as kredit
                 from chartofaccount_m as coa
                 left JOIN postingjurnald_t as pjd on coa.id=pjd.objectaccountfk
                 left JOIN postingjurnal_t as pj on pjd.norecrelated=pj.norec
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
-                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=true
+                where tglbuktitransaksi between :tglAwal and :tglAkhir and sk.statusenabled=true $level
                 group by coa.id,coa.noaccount,coa.namaaccount
                 order by coa.noaccount;
             "),
@@ -789,14 +795,29 @@ class AkuntansiController extends ApiController{
         $strDT = substr($strData, 4, 2);
 
 //        if ($strDT != '12'){
+        // $dataCoa = DB::select(DB::raw("
+        //             select coa.id,coa.noaccount,coa.namaaccount,psa.ym,
+        //             case when psa.hargasatuand is null then 0 else psa.hargasatuand end as debet,
+        //             case when psa.hargasatuank is null then 0 else psa.hargasatuank end as kredit
+        //             from chartofaccount_m as coa
+        //             join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
+        //             left JOIN (select * from postingsaldoawal_t where statusenabled=1 and ym = '$strData') as psa  on psa.objectaccountfk=coa.id
+        //             where  sk.statusenabled=true and coa.statusenabled=true $level order by coa.noaccount
+        //         ")
+        // );
         $dataCoa = DB::select(DB::raw("
-                    select coa.id,coa.noaccount,coa.namaaccount,psa.ym,
+                    SELECT
+                    x.panjang,x.id,x.noaccount,x.namaaccount,x.ym,x.debet,x.kredit
+                    from
+                    (select LENGTH(REPLACE
+                        ( REPLACE ( noaccount, '.', '' ),  ' ', '' ))  as panjang,coa.id,coa.noaccount,coa.namaaccount,psa.ym,
                     case when psa.hargasatuand is null then 0 else psa.hargasatuand end as debet,
                     case when psa.hargasatuank is null then 0 else psa.hargasatuank end as kredit
                     from chartofaccount_m as coa
                     join suratkeputusan_m as sk on sk.id=coa.suratkeputusanfk
-                    left JOIN (select * from postingsaldoawal_t where statusenabled=1 and ym = '$strData') as psa  on psa.objectaccountfk=coa.id
-                    where  sk.statusenabled=true and coa.statusenabled=true  order by coa.noaccount
+                    left JOIN (select * from postingsaldoawal_t where statusenabled=1 and ym = '$strData') as psa on psa.objectaccountfk=coa.id
+                    where sk.statusenabled=true and coa.statusenabled=true 
+                    )as x $level2 ORDER BY x.noaccount asc
                 ")
         );
 //        }else{
@@ -864,7 +885,11 @@ class AkuntansiController extends ApiController{
         $tglAwal = $request['tglAwal'];
         $tglAkhir = $request['tglAkhir'];
         $tgltgl = $request['tgltgl'];
-
+        $level2="";
+        if (isset($request['level']) && $request['level'] != "" && $request['level'] != "undefined") {
+            $level2=" where LENGTH(REPLACE
+                        ( REPLACE ( z.noaccount, '.', '' ),  ' ', '' ))=".$request['level'];
+        }
         $namaLaporan = $request['namalaporan'];
         //saldo mutasi
         $sql1 = "select mp.noaccount,mp.namaaccount,mp.namaexternal,  x.debet-x.kredit  as total
@@ -919,8 +944,10 @@ class AkuntansiController extends ApiController{
 
         $sql = $sql1 . " union all " . $sql2 . " union all " . $sql3 ;
 
-        $sqlFinal = "select * from ($sql) as z  ORDER BY z.noaccount";
+        $sqlFinal = "select * from ($sql) as z ".$level2." ORDER BY z.noaccount";
         $data = DB::select(DB::raw($sqlFinal));
+        // return($sqlFinal);
+        // die();
 
         //saldo Awal
         $sql11 = "select mp.noaccount,mp.namaaccount,x.debet-x.kredit  as total
@@ -3070,7 +3097,7 @@ class AkuntansiController extends ApiController{
             DB::rollBack();
             $result = array(
                 "status" => 400,
-                "data" => $postingJurnalTransaksi,
+                // "data" => $postingJurnalTransaksi,
 //                "datadetail" => $postingJurnalTransaksiD,
                 "as" => 'as@epic',
             );

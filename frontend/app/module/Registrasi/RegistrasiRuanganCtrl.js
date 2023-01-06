@@ -2894,6 +2894,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             }
             $scope.cekallDokter = function (data) {
                 $scope.model.allDokter = data;
+                $scope.pilihRuangan()
             }
             $scope.formatJam24 = {
                 format: "dd-MM-yyyy HH:mm", //set date format

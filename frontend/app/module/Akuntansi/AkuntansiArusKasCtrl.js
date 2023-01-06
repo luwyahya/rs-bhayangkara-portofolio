@@ -1,11 +1,11 @@
-define(['initialize'], function(initialize) {
+define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('AkuntansiArusKasCtrl', ['$scope', 'MedifirstService', '$state', 'CacheHelper', 'DateHelper',
-        function($scope, medifirstService, $state, cacheHelper, dateHelper) {
+        function ($scope, medifirstService, $state, cacheHelper, dateHelper) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.now = new Date();
-            $scope.isRouteLoading=false;
+            $scope.isRouteLoading = false;
             var pegawaiUser = {}
             $scope.monthUngkul = {
                 start: "year",
@@ -15,25 +15,32 @@ define(['initialize'], function(initialize) {
                 start: "decade",
                 depth: "decade"
             }
-            
+            $scope.listLevel = [
+                { "id": "1", "name": "Level 1" },
+                { "id": "2", "name": "Level 2" },
+                { "id": "3", "name": "Level 3" },
+                { "id": "4", "name": "Level 4" },
+                { "id": "5", "name": "Level 5" },
+            ];
+
             LoadCache();
             loadCombo();
-            function LoadCache(){
-              var chacePeriode = cacheHelper.get('NeracaCtrl');
-              if(chacePeriode != undefined){
-               //var arrPeriode = chacePeriode.split(':');
-                $scope.item.bulan = new Date(chacePeriode[0]);
-                $scope.item.tahun = new Date(chacePeriode[1]);
-               
-                init();
-             }
-             else{
-                $scope.item.bulan =  $scope.now;
-                $scope.item.tahun =  $scope.now;
-                init();
-             }
-           }
-            function loadCombo(){
+            function LoadCache() {
+                var chacePeriode = cacheHelper.get('NeracaCtrl');
+                if (chacePeriode != undefined) {
+                    //var arrPeriode = chacePeriode.split(':');
+                    $scope.item.bulan = new Date(chacePeriode[0]);
+                    $scope.item.tahun = new Date(chacePeriode[1]);
+
+                    init();
+                }
+                else {
+                    $scope.item.bulan = $scope.now;
+                    $scope.item.tahun = $scope.now;
+                    init();
+                }
+            }
+            function loadCombo() {
                 // manageLogistikPhp.getDataTableTransaksi("logistik/get-datacombo_dp", true).then(function(dat){
                 //     pegawaiUser = dat.data.datalogin
                 // });
@@ -43,7 +50,7 @@ define(['initialize'], function(initialize) {
             //     $state.go('UsulanPermintaanBarangJasaRuangan')
             // }
             function init() {
-                $scope.isRouteLoading=true;
+                $scope.isRouteLoading = true;
                 // var ins =""
                 // if ($scope.item.instalasi != undefined){
                 //     var ins ="&dpid=" +$scope.item.instalasi.id
@@ -56,57 +63,62 @@ define(['initialize'], function(initialize) {
                 // if ($scope.item.jenisRacikan != undefined){
                 //     var Jra ="&jenisobatfk=" +$scope.item.jenisRacikan.id
                 // }
-                var level ="&namalaporan='1'" //+$scope.item.level.id
+                var level2 = ""
+                if ($scope.item.level != undefined) {
+                    var level2 = "&level=" + $scope.item.level.id
+                }
+                var level = "&namalaporan='1'" //+$scope.item.level.id
                 let tglmundur1bulan = moment($scope.item.bulan).add(-1, 'month').toDate()
-                var bulan2 = dateHelper.formatDate(tglmundur1bulan,"MM")
-                var tahun2 = dateHelper.formatDate(tglmundur1bulan,"YYYY")
-                var bulan = dateHelper.formatDate($scope.item.bulan,"MM")
-                var tahun = dateHelper.formatDate($scope.item.tahun,"YYYY")
+                var bulan2 = dateHelper.formatDate(tglmundur1bulan, "MM")
+                var tahun2 = dateHelper.formatDate(tglmundur1bulan, "YYYY")
+                var bulan = dateHelper.formatDate($scope.item.bulan, "MM")
+                var tahun = dateHelper.formatDate($scope.item.tahun, "YYYY")
                 // var tgltgl = tahun2 + bulan2;
                 var tgltgl = tahun2 + "01";
                 // var tglAwal1 = tahun+"-"+bulan+"-01"
-                var tglAwal1 = tahun+"-"+"01"+"-01"
-                var tglAkhir1 = tahun+"-"+bulan+"-"+getLastDay( tahun,bulan)
+                var tglAwal1 = tahun + "-" + "01" + "-01"
+                var tglAkhir1 = tahun + "-" + bulan + "-" + getLastDay(tahun, bulan)
                 medifirstService.get("akuntansi/get-data-aruskas?" +
-                    "tglAwal=" + tglAwal1 + 
+                    "tglAwal=" + tglAwal1 +
                     "&tglAkhir=" + tglAkhir1 +
                     "&tgltgl=" + tgltgl +
-                    "&reportdisplay=aruskas" + level
-                    , true).then(function(dat){
-                        $scope.isRouteLoading=false;
-                    for (var i = 0; i < dat.data.length; i++) {
-                        dat.data[i].no = i+1
-                        if (dat.data[i].debet == null) {
-                            dat.data[i].debet = 0
-                        } 
-                        if (dat.data[i].kredit == null) {
-                            dat.data[i].kredit = 0
-                        } 
-                        dat.data[i].saldo = parseFloat(dat.data[i].debet)-parseFloat(dat.data[i].kredit)
-                        dat.data[i].thnSebelum = 0
-                        dat.data[i].naikturun = 0
-                        dat.data[i].naikturunpersen = 0
-                    }
-                   $scope.dataGrid = dat.data;
-                   // pegawaiUser = dat.data.datalogin
-                });
+                    "&reportdisplay=aruskas" + level + level2
+                    , true).then(function (dat) {
+                        $scope.isRouteLoading = false;
+                        for (var i = 0; i < dat.data.length; i++) {
+                            dat.data[i].no = i + 1
+                            if (dat.data[i].debet == null) {
+                                dat.data[i].debet = 0
+                            }
+                            if (dat.data[i].kredit == null) {
+                                dat.data[i].kredit = 0
+                            }
+                            dat.data[i].saldo = parseFloat(dat.data[i].debet) - parseFloat(dat.data[i].kredit)
+                            dat.data[i].thnSebelum = 0
+                            dat.data[i].naikturun = 0
+                            dat.data[i].naikturunpersen = 0
+                        }
+                        $scope.dataGrid = dat.data;
+                        // pegawaiUser = dat.data.datalogin
+                    });
 
-                var chacePeriode ={ 0 : $scope.item.bulan ,
-                    1 : $scope.item.tahun,
-                    2 : '',
-                    3 : '', 
-                    4 : '',
-                    5 : '',
-                    6 : ''
+                var chacePeriode = {
+                    0: $scope.item.bulan,
+                    1: $scope.item.tahun,
+                    2: '',
+                    3: '',
+                    4: '',
+                    5: '',
+                    6: ''
                 }
                 cacheHelper.set('NeracaCtrl', chacePeriode);
 
-                
+
             }
-            $scope.getRuangan = function(){
+            $scope.getRuangan = function () {
                 $scope.listRuangan = $scope.item.instalasi.ruangan;
             }
-            $scope.cariFilter = function(){
+            $scope.cariFilter = function () {
 
                 init();
             }
@@ -133,49 +145,49 @@ define(['initialize'], function(initialize) {
             //     $state.go('DaftarResepCtrl')
             // }
 
-            $scope.CetakRincian = function(){
+            $scope.CetakRincian = function () {
                 var stt = 'false'
                 if (confirm('View resep? ')) {
                     // Save it!
-                    stt='true';
+                    stt = 'true';
                 } else {
                     // Do nothing!
-                    stt='false'
+                    stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores='+$scope.dataSelected.norec+'&view='+stt+'&user='+pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-rincian-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
-            $scope.CetakBukti = function(){
+            $scope.CetakBukti = function () {
                 var stt = 'false'
                 if (confirm('View Bukti Penerimaan? ')) {
                     // Save it!
-                    stt='true';
+                    stt = 'true';
                 } else {
                     // Do nothing!
-                    stt='false'
+                    stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores='+$scope.dataSelected.norec+'&view='+stt+'&user='+pegawaiUser.userData.namauser, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-bukti-penerimaan=1&nores=' + $scope.dataSelected.norec + '&view=' + stt + '&user=' + pegawaiUser.userData.namauser, function (response) {
                     //aadc=response;
                 });
             }
-            $scope.Cetak = function(){
+            $scope.Cetak = function () {
                 var stt = 'false'
                 if (confirm('View Bukti Penerimaan? ')) {
                     // Save it!
-                    stt='true';
+                    stt = 'true';
                 } else {
                     // Do nothing!
-                    stt='false'
+                    stt = 'false'
                 }
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-usulanpermintaanbarang=1&nores='+$scope.dataSelected.norec+'&view='+stt, function(response) {
+                client.get('http://127.0.0.1:1237/printvb/logistik?cetak-usulanpermintaanbarang=1&nores=' + $scope.dataSelected.norec + '&view=' + stt, function (response) {
                     //aadc=response;
                 });
             }
-            
+
             // $scope.EditTerima = function(){
             //     var chacePeriode ={ 0 : $scope.dataSelected.norec ,
             //         1 : 'EditTerima',
@@ -214,14 +226,14 @@ define(['initialize'], function(initialize) {
             // $scope.tambah = function(){
             //  $state.go('Produk')
             // }
-            $scope.formatTanggal = function(tanggal){
+            $scope.formatTanggal = function (tanggal) {
                 return moment(tanggal).format('DD-MMM-YYYY');
             }
 
             $scope.optionsDataGrid = {
-                toolbar:["excel"],
+                toolbar: ["excel"],
                 excel: {
-                    fileName:"ArusKas",
+                    fileName: "ArusKas",
                     allPages: true,
                 },
                 filterable: {
@@ -240,29 +252,29 @@ define(['initialize'], function(initialize) {
                     {
                         "field": "nomap",
                         "title": "No",
-                        "width" : "20px",
+                        "width": "20px",
                         "template": "<span class='style-center'>#: nomap #</span>"
                     },
                     {
                         "field": "namamap",
                         "title": "Uraian",
-                        "width" : "150px"
+                        "width": "150px"
                     },
                     {
                         "field": "reff",
                         "title": "Reff",
-                        "width" : "50px"
+                        "width": "50px"
                     },
                     {
                         "field": "total",
                         "title": "2018",
-                        "width" : "100px",
+                        "width": "100px",
                         "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>"
                     },
                     {
                         "field": "total2",
                         "title": "2019",
-                        "width" : "100px",
+                        "width": "100px",
                         "template": "<span class='style-right'>{{formatRupiah('#: total2 #', '')}}</span>"
                     }
                     // ,
@@ -277,7 +289,7 @@ define(['initialize'], function(initialize) {
             };
 
             $scope.columnGrid = [
-                
+
             ];
 
 
@@ -329,13 +341,13 @@ define(['initialize'], function(initialize) {
             //         }]
             //     }
             // ];
-            $scope.formatRupiah = function(value, currency) {
+            $scope.formatRupiah = function (value, currency) {
                 return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
             }
-            $scope.formatTanggal = function(tanggal){
-              return moment(tanggal).format('DD/MM/YYYY');
+            $scope.formatTanggal = function (tanggal) {
+                return moment(tanggal).format('DD/MM/YYYY');
             }
-            function itungUsia(tgl){
+            function itungUsia(tgl) {
                 debugger;
                 // var tg = parseInt(form.elements[0].value);
                 // var bl = parseInt(form.elements[1].value);
@@ -343,32 +355,32 @@ define(['initialize'], function(initialize) {
                 var tanggal = $scope.now;
                 var tglLahir = new Date(tgl);
                 var selisih = Date.parse(tanggal.toGMTString()) - Date.parse(tglLahir.toGMTString());
-                var thn = Math.round(selisih/(1000*60*60*24*365));
+                var thn = Math.round(selisih / (1000 * 60 * 60 * 24 * 365));
                 //var bln = Math.round((selisih % 365)/(1000*60*60*24));
                 return thn + ' thn '// + bln + ' bln'
             }
-            var HttpClient = function() {
-                this.get = function(aUrl, aCallback) {
+            var HttpClient = function () {
+                this.get = function (aUrl, aCallback) {
                     var anHttpRequest = new XMLHttpRequest();
-                    anHttpRequest.onreadystatechange = function() { 
+                    anHttpRequest.onreadystatechange = function () {
                         if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
                             aCallback(anHttpRequest.responseText);
                     }
 
-                    anHttpRequest.open( "GET", aUrl, true );            
-                    anHttpRequest.send( null );
+                    anHttpRequest.open("GET", aUrl, true);
+                    anHttpRequest.send(null);
                 }
             }
             function getLastDay(y, m) {
-                if (m == 2 && y % 4 != 0){
+                if (m == 2 && y % 4 != 0) {
                     return 28
                 }
                 else {
-                    return 31 + (m <= 7 ? ((m % 2) ? 1 : 0) : (!(m % 2) ? 1 : 0)) - (m == 2) - (m == 2 && y % 4 != 0 || !(y % 100 == 0 && y % 400 == 0)); 
+                    return 31 + (m <= 7 ? ((m % 2) ? 1 : 0) : (!(m % 2) ? 1 : 0)) - (m == 2) - (m == 2 && y % 4 != 0 || !(y % 100 == 0 && y % 400 == 0));
                 }
             }
-//***********************************
+            //***********************************
 
-}
-]);
+        }
+    ]);
 });

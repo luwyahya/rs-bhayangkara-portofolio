@@ -75,6 +75,82 @@
         ]
     },
     {
+        "name": "RincianTagihanV2",
+        "url": "/RincianTagihanV2/:dataPasien",
+        "templateurl": "module/TataRekening/RincianTagihanV2.html",
+        "controller": "RincianTagihanV2Ctrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.ResumeRI",
+        "url": "/ResumeRI",
+        "templateurl": "module/EMR/ResumeRI.html",
+        "controller": "ResumeRICtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.CatatanDokter",
+        "url": "/CatatanDokter",
+        "templateurl": "module/EMR/CatatanDokter.html",
+        "controller": "CatatanDokterCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.TransaksiDiagnosa",
+        "url": "/TransaksiDiagnosa",
+        "templateurl": "module/EMR/TransaksiDiagnosa.html",
+        "controller": "TransaksiDiagnosaCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "RincianTagihan",
         "url": "/RincianTagihan/:dataPasien",
         "templateurl": "module/TataRekening/RincianTagihan.html",
@@ -1120,6 +1196,25 @@
         ]
     },
     {
+        "name": "VerifikasiPiutangJurnal",
+        "url": "/VmVyaWZpa2FzaVBpdXRhbmdKdXJuYWw=/:dataFilter",
+        "templateurl": "module/Piutang/VerifikasiPiutangJurnal.html",
+        "controller": "VerifikasiPiutangJurnalCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "DetailCollectingPiutang",
         "url": "/RGV0YWlsQ29sbGVjdGluZ1BpdXRhbmc=/:dataCollect",
         "templateurl": "module/Piutang/DetailCollectingPiutang.html",
@@ -1637,6 +1732,25 @@
         "url": "/TW9uaXRvcmluZ1Jla2VuaW5nS29yYW5CZW5kYWhhcmFQZW5nZWx1YXJhbkJ1a3VLYXNUdW5haQ==",
         "templateurl": "module/BendaharaPengeluaran/MonitoringRekeningKoranBendaharaPengeluaranBukuKasTunai.html",
         "controller": "MonitoringRekeningKoranBendaharaPengeluaranBukuKasTunaiCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "PengeluaranManual",
+        "url": "/UGVuZ2VsdWFyYW5NYW51YWw=",
+        "templateurl": "module/BendaharaPengeluaran/PengeluaranManual.html",
+        "controller": "PengeluaranManualCtrl",
         "deps": [{
                 "module": "Services",
                 "define": "Service"

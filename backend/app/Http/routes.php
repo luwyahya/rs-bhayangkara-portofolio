@@ -175,6 +175,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-monitoring-klaim-per-bulan-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@getDataMonitoringKlaimJaspel');
             Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
             Route::get('get-daftar-kelompok-transaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksi');
+            
 
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
             //**GET**//
@@ -214,12 +215,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarBukuKasTunai');
             Route::get('get-daftar-realisasi-anggaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDaftarRealisasiAnggaran');
             Route::get('get-data-spj', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDataSPJ');
+            Route::get('get-daftar-kelompok-transaksi-pengeluaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPengeluaran');
             //**GET**//
 
             //**POST**//
             Route::post('save-pembayaran-tagihan-suplier', 'BendaharaPengeluaran\BendaharaPengeluaranController@savePembayaranTagihanSuplier');
             Route::post('simpan-pengeluaran-bku', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanBKUBk');
             Route::post('hapus-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@hapusBukuKasTunai');
+            Route::post('verifikasi-Setoran', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiSetoran');
             //**POST**//
         });
         Route::group(['prefix' => 'bridging'], function () {
@@ -1918,10 +1921,12 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-histori-piutang', 'Piutang\PiutangController@getDaftarHistoriPiutang');
             Route::get('rekap-klaim-by-diagnosa/', 'Piutang\PiutangController@RekapKlainDiagnosaTXT');
             Route::get('get-checklist-klaim', 'Piutang\PiutangController@getChecklistKlaim');
+            Route::get('get-data-grid-jurnal', 'Piutang\PiutangController@gridJurnal');
             /*END GET*/
 
             /*POST*/
             Route::post('collecting-piutang-layanan', 'Piutang\PiutangController@collectingPiutang');
+            Route::post('collecting-piutang-layanan-jurnal', 'Piutang\PiutangController@collectingPiutangJurnal');
             Route::post('save-bpjs-klaim-gagal-hitung', 'Piutang\PiutangController@simpanGagalHitungBpjsKlaim');
             Route::post('save-bpjs-klaim', 'Piutang\PiutangController@simpanBpjsKlaim');
             /*END POST*/
@@ -2647,6 +2652,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-kso', 'Registrasi\LaporanRekamMedisController@getLaporanKso');
                 Route::get('get-ksononbpjs', 'Registrasi\LaporanRekamMedisController@getLaporanKsononbpjs');
                 Route::get('get-Laporan-Monitoring-Klaim', 'Registrasi\LaporanRekamMedisController@getLaporanMonitoringKlaim');
+                // testing
+                Route::get('get-Testing', 'Registrasi\LaporanRekamMedisTestingController@getTesting');
 
                 Route::get('get-laporan-rekap-golongan', 'Registrasi\LaporanRekamMedisController@getLaporanGolonganPolri');
                 Route::get('get-laporan-rekap-bayar', 'Registrasi\LaporanRekamMedisController@getLaporanBayarPolri');

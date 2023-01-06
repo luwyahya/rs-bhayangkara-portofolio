@@ -2846,6 +2846,8 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
        }
        
         $strukPelayanan = StrukPelayanan::where('norec', $request['parameterTambahan']['noRecStrukPelayanan'])->first();
+        $strukPelayananpenjamin = StrukPelayananPenjamin::where('nostrukfk', $request['parameterTambahan']['noRecStrukPelayanan'])->first();
+       
         $sisa =0;
         if($strukPelayanan->nosbmlastfk==null || $strukPelayanan->nosbmlastfk==''){
             $sisa = $sisa + $this->getDepositPasien($strukPelayanan->pasien_daftar->noregistrasi);
@@ -2857,6 +2859,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
 
         $NOSBM = array();
+        $biaya = 0;
         foreach($request['pembayaran'] as $pembayaran){
             $strukBuktiPenerimanan = new StrukBuktiPenerimaan();
             $strukBuktiPenerimanan->norec = $strukBuktiPenerimanan->generateNewId();
@@ -2934,6 +2937,15 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
 
                 }
             }
+               $biaya = $biaya+(float)$pembayaran['nominal'];
+                if ($strukPelayananpenjamin != '') {
+
+                    foreach ($strukPelayananpenjamin as $spp) {
+                        $strukPelayananpenjamin->totalsudahdibayar = (float)$spp['totalsudahdibayar'] + (float)$biaya;
+
+                        $strukPelayananpenjamin->save();
+                    }
+                }
             //END jurnal verif sP
 //            $detailJurnal = array();
 //            $saldo = (float)$pembayaran['nominal'];

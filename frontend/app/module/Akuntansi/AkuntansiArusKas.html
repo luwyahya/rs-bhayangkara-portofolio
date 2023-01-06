@@ -4,13 +4,13 @@
         text-align: center;
         width: 100%;
     }
-    
+
     .style-right {
         display: inline-block;
         text-align: right;
         width: 100%;
     }
-    
+
     .style-left {
         display: inline-block;
         text-align: left;
@@ -19,15 +19,25 @@
 </style>
 
 <!-- <div ng-controller="DaftarPasienApotikCtrl"> -->
-    <div ng-show="dataVOloaded">
-        <!-- <c-panel item="item" header="'Produk'" disabled> -->
-        <div class="grid_12">
-            
+<div ng-show="dataVOloaded">
+    <!-- <c-panel item="item" header="'Produk'" disabled> -->
+    <div class="grid_12">
+
         <div class="grid_12 headerBox">
             <h1 style="color: white;"><b>Arus Kas</b></h1>
         </div>
         <div class="grid_12">
-            <div class="grid_8">
+            <div class="grid_3">
+                <div class="grid_12">
+                    <label c-label item="item">Level</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%; " kendo-combo-box k-ng-model="item.level " k-data-text-field=" 'name'"
+                        k-filter=" 'contains' " k-data-value-field=" 'value' " k-auto-bind="false "
+                        k-data-source="listLevel" />
+                </div>
+            </div>
+            <div class="grid_5">
             </div>
             <!-- Departemen -->
             <!-- <div class="grid_2">
@@ -40,7 +50,7 @@
                     <input style="width: 100%;" kendo-combo-box k-ng-model="item.instalasi" k-data-text-field="'departemen'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listDepartemen"  k-on-change='getRuangan()'/>
                 </div>
             </div> -->
-           <!--  <div class="grid_2">
+            <!--  <div class="grid_2">
                 <div class="grid_12">
                     <label c-label item="item" c-label-text="Ruangan"></label>
                 </div>
@@ -61,14 +71,15 @@
                     <input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisRacikan" k-data-text-field="'jenisracikan'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisRacikan" />
                 </div>
             </div> -->
-             <div class="grid_4">
+            <div class="grid_4">
                 <div class="grid_7">
                     <div class="grid_12">
                         <label c-label item="item" c-label-text="Bulan"></label>
-                    </div>              
+                    </div>
                     <div class="grid_12">
                         <div class="grid_12">
-                            <input style="width: 100%" k-options="monthUngkul" k-ng-model="item.bulan"  kendo-date-picker  placeholer="MMMM" k-format="'MMMM'" />
+                            <input style="width: 100%" k-options="monthUngkul" k-ng-model="item.bulan" kendo-date-picker
+                                placeholer="MMMM" k-format="'MMMM'" />
                         </div>
                     </div>
                 </div>
@@ -78,21 +89,22 @@
                     </div>
                     <div class="grid_12">
                         <div class="grid_12">
-                            <input style="width: 100%" k-options="yearUngkul" k-ng-model="item.tahun"  kendo-date-picker  placeholer="YYYY" k-format="'yyyy'" />
+                            <input style="width: 100%" k-options="yearUngkul" k-ng-model="item.tahun" kendo-date-picker
+                                placeholer="YYYY" k-format="'yyyy'" />
                         </div>
                     </div>
                 </div>
                 <div class="grid_2" style="margin-top: 21px">
-                    <button class="c-button"  ng-click="cariFilter()">Cari</button>
+                    <button class="c-button" ng-click="cariFilter()">Cari</button>
                 </div>
-        </div>
+            </div>
             <div class="grid_12">
-                    <!-- <div class="grid_12 headerBox">
+                <!-- <div class="grid_12 headerBox">
                         <p>Produk</p>
                     </div> -->
-                    <!-- grid table -->
-                     <div class="grid_12 borderBox">
-                        <!-- <div id="kGrid" 
+                <!-- grid table -->
+                <div class="grid_12 borderBox">
+                    <!-- <div id="kGrid" 
                         kendo-grid k-data-source="dataGrid" 
                         k-selectable="'row'" 
                         k-columns="columnGrid" 
@@ -100,14 +112,10 @@
                         k-pageable="'true'" 
                         k-sortable="'true'" 
                         k-ng-model="dataSelected"> -->
-                        <div id="kGrid" 
-                            kendo-grid k-data-source="dataGrid" 
-                            k-selectable="'row'" 
-                            class="max-height"
-                            k-ng-model="dataSelected"
-                            k-options="optionsDataGrid">
-                        </div>
-                            <!-- <div k-detail-template>
+                    <div id="kGrid" kendo-grid k-data-source="dataGrid" k-selectable="'row'" class="max-height"
+                        k-ng-model="dataSelected" k-options="optionsDataGrid">
+                    </div>
+                    <!-- <div k-detail-template>
                                 <kendo-tabstrip>
                                     <div>
                                         <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" 
@@ -119,14 +127,14 @@
                                     </div>
                                 </kendo-tabstrip>
                             </div> -->
-                        </div>
-                    </div>
-                    
                 </div>
-                
-                
             </div>
-            <!-- <div class="grid_12">
+
+        </div>
+
+
+    </div>
+    <!-- <div class="grid_12">
                 <div class="grid_1">
                     <div class="grid_12">
                         <label c-label item="item" >No. Usulan</label>
@@ -160,9 +168,9 @@
                     <button class="c-button" ng-click="Cetak()">Cetak</button>
                 </div>
             </div> -->
-            <div class="grid_12" style="margin-top:60px">
-                    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
-                </div>
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
 
 
 </div>

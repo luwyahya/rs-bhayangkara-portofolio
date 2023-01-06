@@ -1577,7 +1577,8 @@ class TagihanController  extends ApiController
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
                 'totalDiskon'=>$totalDiskon,
                 'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon
+                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
+                'dokterpj'=>$pelayanan[0]->dokterpj
             );
         }
          else {
@@ -1801,7 +1802,8 @@ class TagihanController  extends ApiController
                 'sudahbayar' => $sudahBayar[0]->sudahbayar,
                 'totalDiskon'=>$totalDiskon,
                 'totalBillingNonDiskon'=>$totalBillingNonDiskon,
-                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon
+                'terbilangtotalBillingNonDiskon'=>$terbilangtotalBillingNonDiskon,
+                'dokterpj'=>$pelayanan->dokterpj
             );
 
             //            $result = array(
@@ -8006,12 +8008,11 @@ class TagihanController  extends ApiController
                 select pp.* from pasiendaftar_t as pd
                 inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                 INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null            
+                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null and pp.produkfk<>402611
             "));
         if (count($totalhargatindakan) == 0) {
             $transMsg = "Pelayanan yang dilakukan pasien tidak ada.";
         }
-
         $totalDiskonTagihan = 0.0;
         foreach ($pelayanan as $itemhead) {
             if ($itemhead->hargasatuan <> 0) {
@@ -8074,7 +8075,7 @@ class TagihanController  extends ApiController
                 select pp.* from pasiendaftar_t as pd
                 inner join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
                 INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null            
+                where pd.noregistrasi='$noRegister' and pp.strukfk is null  and pp.isobat is null and pp.produkfk<>402611
             "));
         $x = 0.0;
         $y = 0;
@@ -10747,6 +10748,8 @@ class TagihanController  extends ApiController
             ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
             ->leftJoin('postinghutangpiutang_t as php', 'php.nostrukfk', '=', 'spp.norec')
             ->leftJoin('strukposting_t as spt', 'spt.noposting', '=', 'php.noposting')
+            ->LEFTJOIN("strukbuktipenerimaan_t AS sbm", "sbm.norec", '=', "sp.nosbmlastfk")
+
             ->select(
                 'kp.kelompokpasien',
                 'spp.norec',
@@ -10767,7 +10770,8 @@ class TagihanController  extends ApiController
                 'pd.tglpulang',
                 'php.noposting',
                 'spt.statusenabled',
-                'bpjs.biayanaikkelas'
+                'bpjs.biayanaikkelas',
+            'sbm.totaldibayar'
             )
             ->whereNull('sp.statusenabled');
         //            ->where('php.statusenabled',1);
@@ -10833,7 +10837,8 @@ class TagihanController  extends ApiController
             'php.noposting',
             'spt.statusenabled',
             'bpjs.totalpiutangpenjamin',
-            'bpjs.biayanaikkelas'
+            'bpjs.biayanaikkelas', 
+            'sbm.totaldibayar' 
         );
         $dataPiutang = $dataPiutang->orderBy('p.namapasien');
         //        $dataPiutang =$dataPiutang->take(50);

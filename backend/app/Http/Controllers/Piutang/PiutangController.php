@@ -19,6 +19,8 @@ use App\Transaksi\PostingHutangPiutang;
 use App\Transaksi\StrukBuktiPenerimaan;
 use App\Transaksi\StrukPelayananPenjamin;
 use App\Transaksi\StrukPosting;
+use App\Transaksi\SetoranPiutangJurnal;
+use Ramsey\Uuid\Uuid;
 use DB;
 use Illuminate\Http\Request;
 
@@ -89,7 +91,19 @@ class PiutangController extends ApiController{
         );
         return $this->respond($result);
     }
-
+    public function gridJurnal(Request $request){
+        $data = \DB::table('maptipelayanan_m as mp')
+                ->join('mapjurnal_m as mj','mp.objectkelompokfk','=','mj.objectkelompoktransaksifk')
+                ->join('chartofaccount_m as cf','cf.id','=','mj.objectcoadebitfk')
+                ->join('chartofaccount_m as cf2','cf2.id','=','mj.objectcoakreditfk')
+                ->select('mj.objectcoadebitfk','mj.objectcoakreditfk','cf.namaaccount as namaaccountdebit',
+                    'cf2.namaaccount as namaaccountkredit',
+                    'cf.noaccount as noaccountdebit',
+                    'cf2.noaccount as noaccountkredit')
+                ->where('mp.id','=',6);
+                $data =$data->get();
+        return ($data);
+    }   
     public function daftarPiutang(Request $request){
         $filter = $request->all();
 
@@ -105,7 +119,7 @@ class PiutangController extends ApiController{
             ->select('kp.kelompokpasien', 'spp.norec','pd.tglpulang as tglstruk', 'pd.noregistrasi', 'pd.tglregistrasi','p.nocm',
                 'p.namapasien','ru.namaruangan','spp.totalppenjamin','spp.totalharusdibayar',
                 'spp.totalsudahdibayar',  'spp.totalbiaya', 'spp.noverifikasi','rkn.namarekanan','php.noposting','spt.statusenabled',
-                'pd.norec as norec_pd','php.statusenabled as sttts')
+                'pd.norec as norec_pd','php.statusenabled as sttts','spp.setoranpiutangjurnalfk')
             ->whereNotNull('spp.noverifikasi')
             ->whereNull('sp.statusenabled');
 //            ->where('spt.statusenabled',1);
@@ -149,7 +163,7 @@ class PiutangController extends ApiController{
         foreach ($dataPiutang as $item) {
             if ($item->statusenabled ==  1 || is_null($item->statusenabled)) {
                 if ($item->sttts == 1 || is_null($item->sttts)) {
-                    if ($item->totalppenjamin > $item->totalsudahdibayar) {
+                    if ($item->totalppenjamin >= $item->totalsudahdibayar) {
                         if (!isset($item->noposting)) {
                             $status = 'Piutang';
                         } else {
@@ -177,6 +191,7 @@ class PiutangController extends ApiController{
                         'norec_pd' => $item->norec_pd,
                         'noposting' => $item->noposting,
                         'stts' => $item->statusenabled,
+                        'setoranpiutangjurnalfk' => $item->setoranpiutangjurnalfk,
                     );
                 }
             }
@@ -387,7 +402,49 @@ class PiutangController extends ApiController{
 
         return $this->respond($result, 'Data Piutang yang sudah tercollecting');
     }
+     public function collectingPiutangJurnal(Request $request){
+        DB::beginTransaction();
+            $setoran= new SetoranPiutangJurnal();
+            $norec =$setoran->generateNewId();
+            $setoran->norec = $norec;
+            try{
+                $setoran->save();
+                $transStatus = true;
+            }
+            catch(\Exception $e){
+                $this->transStatus = false;
+                $this->transMessage = "Posting Piutang Gagal{1}";
+            }
+        
+        if($this->transStatus){
+            foreach ($request['strukPenjamin'] as $item){
+                if ($item['norec'] == null){
+                    $this->transStatus = false;
+                    $this->transMessage = "Posting gagal perbaiki data !";
+                    break;
+                }else {
+                    $strukPelayananPenjamin = StrukPelayananPenjamin::where('norec', $item['norec'])->update([
+                        'setoranpiutangjurnalfk' =>  $setoran->norec,
+                    ]);
+                }
+            }
+        }
 
+        if($this->transStatus){
+            DB::commit();
+            $this->transMessage = "Posting Piutang Berhasil";
+            $result = array(
+                'status' => 201,
+                'message' => $this->transMessage,
+                'norecposting' => $setoran->norec,
+                'as' => 'er@epic',
+            );
+            return $this->setStatusCode(201)->respond($result);
+        }else{
+            DB::rollBack();
+            return $this->setStatusCode(400)->respond([],$this->transMessage);
+        }
+    }
     public function collectingPiutang(Request $request){
         DB::beginTransaction();
         if ($request['nopostings'] == '') {

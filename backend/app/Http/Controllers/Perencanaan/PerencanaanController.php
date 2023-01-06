@@ -2769,15 +2769,15 @@ union all
 											
 											 select 7 as no, 
 										case when ka.kodeexternal is not null and  ka.kdchildkeenam is not NULL then ka.kdchildkeenam 
-											when ka.kodeexternal is not null and  ka.kdchildkeenam is NULL then '------' + ka.kodeexternal 
+											when ka.kodeexternal is not null and  ka.kdchildkeenam is NULL then '------' || ka.kodeexternal 
 											when ka.kodeexternal is  null and  ka.kdchildkeenam is not NULL then ka.kdchildkeenam end 
 											as kd,
 
-											case when ka.childkeenam is not null and  ka.namaexternal is not NULL then  ka.childkeenam  + ka.namaexternal 
+											case when ka.childkeenam is not null and  ka.namaexternal is not NULL then  ka.childkeenam  || ka.namaexternal 
 											when ka.childkeenam is not null and  ka.namaexternal is NULL then  ka.childkeenam
 											when ka.childkeenam is  null and  ka.namaexternal is not NULL then  ka.namaexternal end 
 											as desk,
-									--'----------' + ka.kodeexternal + ' || ' + ka.kdchildkeenam as kd,ka.childkeenam + ka.namaexternal as desk,
+									--'----------' || ka.kodeexternal || ' || ' || ka.kdchildkeenam as kd,ka.childkeenam || ka.namaexternal as desk,
 											sum(mat.saldoawalblu) as totalblu,sum(mat.saldoawalrm) as totalrm ,mat.tahun as tahun,mat.revisidivake, mat.isbiayaoperasional, mat.jenisbiaya, mat.volume, mat.pengali, mat.satuan, mat.hargasatuan, jb.reportdisplay, CONCAT(k4.kdchildkeempat,' ',k4.childkeempat) as turunankelima, CONCAT(k5.kdchildkelima,' ',k5.childkelima) as turunankeenam
 											from mataanggaran_t as mat
 											INNER JOIN kelompokanggarankeenam_m ka on ka.id =mat.objectchildkeenamfk
@@ -2790,15 +2790,15 @@ union all
 
 											 select 8 as no, 
 										case when ka.kodeexternal is not null and  ka.kdchildketujuh is not NULL then ka.kdchildketujuh 
-											when ka.kodeexternal is not null and  ka.kdchildketujuh is NULL then '------' + ka.kodeexternal 
+											when ka.kodeexternal is not null and  ka.kdchildketujuh is NULL then '------' || ka.kodeexternal 
 											when ka.kodeexternal is  null and  ka.kdchildketujuh is not NULL then ka.kdchildketujuh end 
 											as kd,
 
-											case when ka.childketujuh is not null and  ka.namaexternal is not NULL then  ka.childketujuh  + ka.namaexternal 
+											case when ka.childketujuh is not null and  ka.namaexternal is not NULL then  ka.childketujuh  || ka.namaexternal 
 											when ka.childketujuh is not null and  ka.namaexternal is NULL then  ka.childketujuh
 											when ka.childketujuh is  null and  ka.namaexternal is not NULL then  ka.namaexternal end 
 											as desk,
-									--'----------' + ka.kodeexternal + ' || ' + ka.kdchildkeenam as kd,ka.childkeenam + ka.namaexternal as desk,
+									--'----------' || ka.kodeexternal || ' || ' || ka.kdchildkeenam as kd,ka.childkeenam || ka.namaexternal as desk,
 											sum(mat.saldoawalblu) as totalblu,sum(mat.saldoawalrm) as totalrm ,mat.tahun as tahun,mat.revisidivake, mat.isbiayaoperasional, mat.jenisbiaya, mat.volume, mat.pengali, mat.satuan, mat.hargasatuan, jb.reportdisplay, CONCAT(k4.kdchildkeempat,' ',k4.childkeempat) as turunankelima, CONCAT(k5.kdchildkelima,' ',k5.childkelima) as turunankeenam
 											from mataanggaran_t as mat
 											INNER JOIN kelompokanggaranketujuh_m ka on ka.id =mat.objectchildketujuhfk

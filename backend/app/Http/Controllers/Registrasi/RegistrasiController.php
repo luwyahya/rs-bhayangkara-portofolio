@@ -2046,7 +2046,6 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
     }
     public function saveRegistrasiPasien(Request $request)
     {
-        
         $noAntrian = 0;
      
      

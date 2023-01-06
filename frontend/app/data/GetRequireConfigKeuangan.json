@@ -16,6 +16,10 @@
             "urlDep": "module/TataRekening/RincianTagihanPasienPulangCtrl"
         },
         {
+            "nameDep": "RincianTagihanV2Ctrl",
+            "urlDep": "module/TataRekening/RincianTagihanV2Ctrl"
+        },
+        {
             "nameDep": "RekapTagihanCtrl",
             "urlDep": "module/TataRekening/RekapTagihanCtrl"
         },
@@ -228,6 +232,10 @@
             "urlDep": "module/Piutang/CollectingPiutangCtrl"
         },
         {
+            "nameDep": "VerifikasiPiutangJurnalCtrl",
+            "urlDep": "module/Piutang/VerifikasiPiutangJurnalCtrl"
+        },
+        {
             "nameDep": "DetailCollectingPiutangCtrl",
             "urlDep": "module/Piutang/DetailCollectingPiutangCtrl"
         },
@@ -342,6 +350,10 @@
         {
             "nameDep": "MonitoringRekeningKoranBendaharaPengeluaranBukuKasTunaiCtrl",
             "urlDep": "module/BendaharaPengeluaran/MonitoringRekeningKoranBendaharaPengeluaranBukuKasTunaiCtrl"
+        },
+        {
+            "nameDep": "PengeluaranManualCtrl",
+            "urlDep": "module/BendaharaPengeluaran/PengeluaranManualCtrl"
         },
         {
             "nameDep": "SuratPertanggungJawabanCtrl",
