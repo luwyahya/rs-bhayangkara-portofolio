@@ -983,11 +983,11 @@
         <button class="k-button" ng-click="saveKompleks(item.isKompleks)"
             style="float:right;margin-top:4%">Simpan</button>
     </div>
-    <div kendo-window="winKonsul" k-title="'Konsultasi Dokter'" k-width="1200" k-visible="false"
+   <!--  <div kendo-window="winKonsul" k-title="'Konsultasi Dokter'" k-width="1200" k-visible="false"
         k-on-open="win2visible = true" k-on-close="win2visible = false">
-        <div class="panel panel-default container_12">
+        <div class="panel panel-default container_12"> -->
             <!-- <div class="panel panel-default container_12" style="padding: 0px 10px;"> -->
-            <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <!-- <fieldset class="effect-shadow" style=" border-radius: 4px">
                 <legend id="filterData">
                     <a ng-click="showAndHide()">Daftar Konsultasi</a>
                 </legend>
@@ -1003,12 +1003,12 @@
                 <div class="grid_12" style="margin-top: 10px">
                     <div id="gridKonsul" kendo-grid k-data-source="sourceKonsul" options="konsulOpt"></div>
                 </div>
-            </fieldset>
+            </fieldset> -->
             <!-- </div> -->
             <!--    <div class="clear">
 <button class="k-button" ng-click="simpanDokter(item, items.pilihDokter)" style="float:right;margin-top:4%">Simpan</button> -->
-        </div>
-    </div>
+        <!-- </div>
+    </div> -->
     <div kendo-window="popUpSx" k-title="'Konsul'" k-width="800" k-height="100" k-visible="false">
         <div class="grid_12" ng-show="cboKonsul">
             <div class="grid_3">
@@ -1472,7 +1472,7 @@
 
 </form>
 
-<div kendo-window="winKonsul" k-title="'Notifikasi Pasien Konsul Ruangan'" k-width="1700" k-height="450" k-visible="false" k-on-open="win2visible= true" k-on-close="win2visible= true" k-on-close="win2visible = false">
+<!-- <div kendo-window="winKonsul" k-title="'Notifikasi Pasien Konsul Ruangan'" k-width="1700" k-height="450" k-visible="false" k-on-open="win2visible= true" k-on-close="win2visible= true" k-on-close="win2visible = false">
     <div class="panel panel-default container_12">
         <fieldset class="effect-shadow" style="border-radius: 4px">
             <legend id="filterData">
@@ -1503,7 +1503,7 @@
             </div>
         </fieldset>
     </div>
-</div>
+</div> -->
 <div id="tempatLaporan" ng-hide="true"></div>
 <style>
     .k-window-content .k-content {

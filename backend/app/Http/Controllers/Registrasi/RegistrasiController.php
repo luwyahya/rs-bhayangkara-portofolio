@@ -16347,12 +16347,12 @@ CASE WHEN pd.statuspasien = 'LAMA' THEN 1 WHEN pd.statuspasien = '' THEN 1 ELSE 
 
         }
  
-
+        
         $data2 = [];  
         $sama = false; 
 
         foreach ($datas as $itemx) { 
- 
+            
             $anggotapolri = 0;
             $anggotapns = 0;
             $keluargaanggotapolri = 0;

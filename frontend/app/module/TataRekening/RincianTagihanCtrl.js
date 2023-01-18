@@ -2313,10 +2313,12 @@ define(['initialize'], function (initialize) {
                 if (checked) {
                     var result = $.grep($scope.selectedData, function (e) {
                         return e.norec == dataItem.norec;
+                        debugger
                     });
                     if (result.length == 0) {
                         $scope.selectedData.push(dataItem);
                     } else {
+                        debugger
                         for (var i = 0; i < $scope.selectedData.length; i++)
                             if ($scope.selectedData[i].norec === dataItem.norec) {
                                 $scope.selectedData.splice(i, 1);
