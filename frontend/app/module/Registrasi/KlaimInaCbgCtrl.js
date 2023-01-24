@@ -1081,7 +1081,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 toastr.info('JENIS KELAMIN SALAH ATAU DIAGNOSA TIDAK SESUAI JENIS KELAMIN', 'INACBG');
                                 return;
                             }
-                            totaldijamin = responData[0].dataresponse.tarif_alt[2].tarif_inacbg
+                            // totaldijamin = responData[0].dataresponse.tarif_alt[2].tarif_inacbg
+                            totaldijamin = responData[0].dataresponse.response.cbg.tariff
                             $scope.cbgcode = responData[0].dataresponse.response.cbg.code
                             $scope.cbgdescription = responData[0].dataresponse.response.cbg.description
                             $scope.totalInacbg = $scope.formatRupiah(totaldijamin, 'Rp. ')

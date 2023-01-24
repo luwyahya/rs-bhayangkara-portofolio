@@ -79,6 +79,7 @@ class BendaharaPengeluaranController extends ApiController {
             ->select('id','reportdisplay as bankAccountNama')
             ->where('statusenabled',true)
             ->get();
+            
 
         $RuanganAll = \DB::table('ruangan_m as ru')
             ->where('ru.statusenabled',true)
@@ -95,6 +96,12 @@ class BendaharaPengeluaranController extends ApiController {
             ->orderBy('kp.namajabatan')
             ->get();
 
+        $listBankKe = DB::table('mapaccountbank_m as kr')
+            ->join('bank_m as ba', 'ba.id', '=', 'kr.objectbankfk')
+            ->join('chartofaccount_m as coa','coa.id','=','kr.objectcoafk')
+            ->select('kr.id','ba.nama', 'coa.namaaccount','coa.noaccount')
+            ->get();
+
         $result = array(
             'carasetor' => $caraSetor,
             'datalogin' => $dataLogin,
@@ -107,6 +114,7 @@ class BendaharaPengeluaranController extends ApiController {
             'ruanganall' => $RuanganAll,
             'asalproduk' => $asalProduk,
             'jabatan' => $dataJabatan,
+            'listBankKe'=>$listBankKe,
             'message' => 'inhuman',
         );
         return $this->respond($result);
@@ -153,7 +161,7 @@ class BendaharaPengeluaranController extends ApiController {
                     sbm.norec
                     FROM
                     strukbuktipengeluaran_t AS sbm
-                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
                     LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
                     LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
                     LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
@@ -280,15 +288,17 @@ class BendaharaPengeluaranController extends ApiController {
                 case when sbk.noverifikasiveriffk is not null then 'Unverif' else 'Verifikasi' end as status
                 from strukbuktipengeluaran_t as sbk
                 inner join strukbuktipengeluarancarabayar_t as sbc on sbc.nosbkfk=sbk.norec
-                inner join strukpelayanan_t as sp on sp.norec = sbk.nostrukfk
-                inner join strukpelayanandetail_t as spd on spd.nostrukfk = sp.norec
+                left join strukpelayanan_t as sp on sp.norec = sbk.nostrukfk
+                left join strukpelayanandetail_t as spd on spd.nostrukfk = sp.norec
                 left join rekanan_m as rkn on rkn.id = sp.objectrekananfk
                 inner join kelompoktransaksi_m as kt on kt.id = sbk.objectkelompoktransaksifk
                 inner join loginuser_s as lu on lu.id = sbk.objectpegawaipembayarfk
                 inner join pegawai_m as pg on pg.id = lu.objectpegawaifk
                 left join ruangan_m as ru on ru.id = sbk.objectruanganfk
                 left join carabayar_m as cb on cb.id = sbc.carabayarfk
-                where sbk.objectkelompoktransaksifk=107 and sbk.tglsbk BETWEEN '$tglAwal' and '$tglAkhir'
+                where 
+                --sbk.objectkelompoktransaksifk=107 and
+                sbk.tglsbk BETWEEN '$tglAwal' and '$tglAkhir'
                 $Skasir
                 $ScaraBayar
                 $noSBK
@@ -902,7 +912,8 @@ class BendaharaPengeluaranController extends ApiController {
             ->where('mp.statusenabled',true);
 
         if (isset($request['keterangan']) && $request['keterangan'] != "" && $request['keterangan'] != "undefined") {
-            $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', '=', $request['keterangan']);
+            // $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', '=', $request['keterangan']);
+            $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', 'ilike', '%' . $request['keterangan'] .'%');
         }
         $kelompokTransaksi=$kelompokTransaksi ->get();
 
@@ -926,7 +937,7 @@ class BendaharaPengeluaranController extends ApiController {
 //        if(!isset($input['asalprodukfk']) || $input['asalprodukfk'] =="" || $input['asalprodukfk'] == "undefined"){
 //            $input['asalprodukfk'] = null;
 //        }
-        try {
+        // try {
 
             $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
                 ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'mlu.objectruanganfk')
@@ -1042,7 +1053,7 @@ class BendaharaPengeluaranController extends ApiController {
                 // $SBPCB->namapemilik = $request['sbk']['pemilikrekanan'];
                 // $SBPCB->nokartuaccount = $request['sbk']['rekeningrekanan'];
                 // $SBPCB->namabank = $request['sbk']['bankrekanan'];
-                $SBPCB->carabayarfk = $input['carabayar'];
+                $SBPCB->carabayarfk = $input['caraBayar'];
                 $SBPCB->nourutcb = 0;
                 $SBPCB->pegawaipembayarfk = $input['userData']['id'];
                 $SBPCB->totaldibayar = $input['totalSetor'];
@@ -1051,9 +1062,9 @@ class BendaharaPengeluaranController extends ApiController {
             }
 
             $transStatus = true;
-        }catch(\Exception $e){
-            $transStatus = false;
-        }
+        // }catch(\Exception $e){
+        //     $transStatus = false;
+        // }
 
         if($transStatus){
             $transMessage = "Simpan Sukses";
