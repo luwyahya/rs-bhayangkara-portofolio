@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.17.0.final using JasperReports Library version 6.17.0-6d93193241dd8cc42629e188b94f9e0bc5722efd  -->
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="hasillabklinik" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
@@ -778,7 +778,7 @@ order by 	data.nourutdetailjenispemeriksaanlab asc, data.nourutjenispemeriksaan 
 				<textFieldExpression><![CDATA[$P{catatan}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="391" y="5" width="171" height="20" forecolor="#FFFFFF" uuid="663f2e75-1839-4bde-a793-2835d362b1e3">
+				<reportElement x="391" y="5" width="171" height="20" forecolor="#050505" uuid="663f2e75-1839-4bde-a793-2835d362b1e3">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -806,7 +806,7 @@ order by 	data.nourutdetailjenispemeriksaanlab asc, data.nourutjenispemeriksaan 
 				<textFieldExpression><![CDATA[$P{printedBy}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="391" y="59" width="170" height="15" forecolor="#FFFFFF" uuid="7b4f5e95-8388-4ba9-bdd6-29c7ceebcdb7"/>
+				<reportElement x="391" y="59" width="170" height="15" forecolor="#050505" uuid="7b4f5e95-8388-4ba9-bdd6-29c7ceebcdb7"/>
 				<textElement textAlignment="Center">
 					<font fontName="Tahoma"/>
 				</textElement>
