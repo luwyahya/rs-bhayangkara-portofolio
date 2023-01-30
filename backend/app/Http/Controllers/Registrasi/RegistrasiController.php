@@ -8659,6 +8659,26 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         return $this->respond($result);
     }
+    public function getComboCaraMasukInacbg(Request $request)
+    {
+        $dataLogin = $request->all();
+        $dataCaraMasuk = \DB::table('caramasukinacbg_m as lu')
+            ->select('lu.namaexternal', 'lu.kodeexternal','lu.id')
+            ->where('lu.statusenabled', true)
+            ->get();
+        $dataCaraNaikKelas = \DB::table('naikkelasinacbg_m as lu')
+            ->select('lu.nama', 'lu.id')
+            ->where('lu.statusenabled', true)
+            ->get();
+        
+        $result = array(
+            'dataCaraMasuk' => $dataCaraMasuk,
+            'dataCaraNaikKelas' => $dataCaraNaikKelas,
+            'message' => 'inhuman',
+        );
+
+        return $this->respond($result);
+    }
     public function getDiagnosaPasienByNorecAPD(Request $request)
     {
         $data = \DB::table('pasiendaftar_t as pd')

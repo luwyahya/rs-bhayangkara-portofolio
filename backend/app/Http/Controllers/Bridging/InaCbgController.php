@@ -657,12 +657,15 @@ class InaCbgController   extends ApiController
                 ->leftjoin('kelas_m as kls2', 'kls2.id', '=', 'asu.objectkelasdijaminfk')
                 ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                 ->leftjoin('diagnosaberatbadanbayi_t as dbb', 'dbb.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('caramasukinacbg_m as cmi', 'cmi.id', '=', 'pd.caramasukinacbgfk')
+                ->leftjoin('naikkelasinacbg_m as nki', 'nki.id', '=', 'pd.upgradeclasspayorinacbg')
                 ->select('pd.norec as noregistrasifk','pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi',
                 'kls2.reportdisplay as namakelas','ps.tgllahir','pg.namalengkap as namadokter',
                 'pd.objectstatuspulangfk','pd.objectruanganlastfk','pd.nocmfk',
                 'dbb.beratbadan','hg.cbgdescription','ps.nocm','ps.namapasien','ps.objectjeniskelaminfk',
                 'kls2.nourut as nokelasdijamin',
-                'ps.noidentitas',
+                'ps.noidentitas','pd.caramasukinacbgfk','cmi.namaexternal as caramasuk','cmi.kodeexternal as kodecaramasuk',
+                'pd.sistoleinacbg','pd.diastoleinacbg','nki.nama as namanaikkelas',
                 DB::raw("pd.tglregistrasi,
                         pd.tglpulang,
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
@@ -2307,6 +2310,41 @@ class InaCbgController   extends ApiController
 
             $transStatus = 'true';
             $transMessage = "Simpan Berat Badan";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal  ";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveTekananDarah(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+                
+                $updatePD= PasienDaftar::where('norec', $request['noregistrasifk'])
+                    ->update([
+                            'sistoleinacbg' => $request['sistole'],
+                            'diastoleinacbg' => $request['diastole'],
+                        ]
+                    );
+
+            $transStatus = 'true';
+            $transMessage = "Simpan Tekanan Darah";
         } catch (\Exception $e) {
             $transStatus = 'false';
             $transMessage = "Gagal  ";

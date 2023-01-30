@@ -611,6 +611,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-pengajuan-klaim', 'Transaksi\Pelayanan\InaCbgController@savePengajuanKlaim');
                 Route::get('get-daftar-purif-mandiri', 'Bridging\InaCbgController@getDaftarPurifMandiri');
                 Route::post('save-beratbadanbayi', 'Bridging\InaCbgController@saveBeratBadan');
+                Route::post('save-tekananDarah', 'Bridging\InaCbgController@saveTekananDarah');
 
             });
             Route::group(['prefix' => 'farmasi'], function () {
@@ -2127,6 +2128,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-logging-meninggal2', 'RawatInap\PindahPulangController@saveLoggingMeninggal2');
             Route::post('save-logging-ubah-penjamin', 'RawatInap\PindahPulangController@saveLoggingUbahPenjamin');
             Route::post('save-pulang-pasien-eklaim', 'RawatInap\PindahPulangController@savePulangPasienEklaim');
+            Route::post('save-cara-masuk-eklaim', 'RawatInap\PindahPulangController@saveCaraMasukEklaim');
+            Route::post('save-cara-naikkelas-eklaim', 'RawatInap\PindahPulangController@saveCaraNaikKelasEklaim');
             // trisno
             Route::get('get-ruangan-blok-depo', 'RawatInap\RawatInapController@getRuanganBlokDepo');
             Route::get('get-sensus-pasien-masih-dirawat', 'RawatInap\RawatInapController@getSensusPasienMasihDirawat');
@@ -2374,7 +2377,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-combo-perjanjian', 'Registrasi\RegistrasiController@getComboPasienPerjanjian');
             Route::get('get-data-pasien-reservasi-vaksinasi', 'Registrasi\RegistrasiController@getPasienPerjanjianVaksinasi');
 
-
+            Route::get('daftar-antrian-pasien/get-combo-caramasukinacbg', 'Registrasi\RegistrasiController@getComboCaraMasukInacbg');
             Route::get('daftar-antrian-pasien/get-combo', 'Registrasi\RegistrasiController@getComboAntrianPasienOperator');
             Route::get('daftar-antrian-pasien/get-diagnosa', 'Registrasi\RegistrasiController@getDiagnosaDaftarAntrian');
             Route::get('daftar-antrian-pasien/get-daftar-antrian-pasien', 'Registrasi\RegistrasiController@getDaftarAntrianPasienDiperiksa');

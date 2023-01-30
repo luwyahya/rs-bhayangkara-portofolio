@@ -314,7 +314,9 @@
                                                         <th style="width: 10%"> Kelas Tertinggi</th>
                                                         <th style="width: 60%">{{target_kelaspelayanan}}</th>
                                                         <th style="width: 10%"> Status Naik Kelas</th>
-                                                        <th style="width: 20%"> {{target_statusnaikkelas}}</th>
+                                                        <th style="width: 20%">
+                                                            {{target_statusnaikkelas}}
+                                                        </th>
                                                     </tr>
                                                     <tr>
                                                         <th style="width: 10%"> Cara Pulang</th>
@@ -325,6 +327,28 @@
                                                         </th>
                                                         <th style="width: 10%"> DPJP</th>
                                                         <th style="width: 20%"> {{targetnama_dokter}}</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="width: 10%"> Cara Masuk</th>
+                                                        <th style="width: 60%">
+                                                            <button class="c-button cancel" ng-click="clickCaraMasuk()"
+                                                                style="float:left;width:120px">{{target_cara_masuk}}</button>
+                                                        </th>
+                                                        <th style="width: 10%"> Tekanan Darah/mmhg</th>
+                                                        <th style="width: 20%">
+                                                            <div class="grid_4">
+                                                                <input c-text-box type="input" filter=""
+                                                                    class="k-textbox" ng-model="item.sistoleinacbg" />
+                                                            </div>
+                                                            <div class="grid_4">
+                                                                <input c-text-box type="input" filter=""
+                                                                    class="k-textbox" ng-model="item.diastoleinacbg" />
+                                                            </div>
+                                                            <div class="grid_4">
+                                                                <button class="primary c-button cancel"
+                                                                    ng-click="simpanTekananDarah()">Simpan</button>
+                                                            </div>
+                                                        </th>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -349,7 +373,7 @@
                                                 <table style="width:100%;color: #4c5356;" id="customersDiagnosa">
                                                     <tr>
                                                         <th>
-                                                            <div class="grid_12">
+                                                            <div class="grid_6">
                                                                 <div class="grid_4">
                                                                     <div class="grid_12">
                                                                         <div class="grid_12">
@@ -370,6 +394,16 @@
                                                                 <div class="grid_4" style="margin-top: 16px">
                                                                     <button class="primary c-button "
                                                                         ng-click="simpanBeratBadanBayi()">Simpan</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid_6" style="margin-top: 16px">
+                                                                <div class="grid_12">
+                                                                    <label c-label item="item">Penanggung Naik Kelas</label>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <button class="c-button cancel"
+                                                                        ng-click="clickCaraNaikKelas()"
+                                                                        style="float:left;width:200px">{{target_upgrade_class_payor}}</button>
                                                                 </div>
                                                             </div>
                                                         </th>
@@ -1098,6 +1132,50 @@
             </div>
             <div class="grid_12">
                 <button class="k-button" ng-click="saveStatusPulang()" style="float:right;margin-top:4%">Simpan</button>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div kendo-window="popupEditCaraMasuk" k-title="'Edit Cara Masuk'" k-width="400" k-height="200" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Edit Cara Masuk</a>
+            </legend>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="caraMasuk"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.statusMasuk"
+                        k-data-text-field="'namaexternal'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listCaraMasuk" />
+                </div>
+            </div>
+
+            <div class="grid_12">
+                <button class="k-button" ng-click="saveCaraMasuk()" style="float:right;margin-top:4%">Simpan</button>
+            </div>
+        </fieldset>
+    </div>
+</div>
+<div kendo-window="popupEditCaraNaikKelas" k-title="'Edit Cara Naik Kelas'" k-width="400" k-height="200" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">Edit Cara Naik Kelas</a>
+            </legend>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item" c-label-text="caraNaikKelas"></label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.caraNaikKelas"
+                        k-data-text-field="'nama'" k-filter="'contains'" k-data-value-field="'id'"
+                        k-auto-bind="false" k-data-source="listNaikKelas" />
+                </div>
+            </div>
+
+            <div class="grid_12">
+                <button class="k-button" ng-click="saveNaikKelas()" style="float:right;margin-top:4%">Simpan</button>
             </div>
         </fieldset>
     </div>

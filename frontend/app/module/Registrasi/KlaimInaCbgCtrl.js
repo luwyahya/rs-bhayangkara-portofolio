@@ -222,6 +222,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.formGridHistory = false
                             $scope.formGridDetail = true
                             $scope.item = e.data
+                            $scope.item.sistoleinacbg = $scope.item.data[0].sistoleinacbg
+                            $scope.item.diastoleinacbg = $scope.item.data[0].diastoleinacbg
                             $scope.judulPasienKlaim = set.nosep + ' / ' + set.tipe
                             $scope.item.jaminan = set.jaminan
                             $scope.item.nokartu = set.nokepesertaan
@@ -232,14 +234,22 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 $scope.targetkelas_rawat = e.data.data[0].namakelas
                                 $scope.target_statusnaikkelas = 'Tidak Naik Kelas'
                                 $scope.target_kelaspelayanan = '-'
+                                $scope.target_upgrade_class_payor = 'Tidak Naik Kelas'
                             } else {
                                 $scope.paramInacbg = 'Rawat Inap'
                                 $scope.targetkelas_rawat = e.data.data[0].namakelas
                                 $scope.target_kelaspelayanan = e.data.datanaikkelas[0].kelastertinggi
-                                if (e.data.datanaikkelas[0].statusnaikkelas == '1')
+                                if (e.data.datanaikkelas[0].statusnaikkelas == '1'){
                                     $scope.target_statusnaikkelas = 'Naik Kelas'
-                                else
+                                    if(e.data.datanaikkelas[0].namanaikkelas!=null)
+                                        $scope.target_upgrade_class_payor = $scope.item.data[0].namanaikkelas
+                                    else
+                                        $scope.target_upgrade_class_payor = 'Belum Diisi'
+                                }
+                                else{
                                     $scope.target_statusnaikkelas = 'Tidak Naik Kelas'
+                                    $scope.target_upgrade_class_payor = 'Tidak Naik Kelas'
+                                }
                             }
                             $scope.targettgl_masuk = e.data.data[0].tglregistrasi
                             $scope.targettgl_pulang = e.data.data[0].tglpulang
@@ -261,7 +271,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             } else {
                                 $scope.targetdischarge_status = 'Lain-lain'
                             }
+                            $scope.target_cara_masuk = 'Belum Diisi'
+                            if (e.data.data[0].caramasuk != null)
+                                $scope.target_cara_masuk = e.data.data[0].caramasuk
 
+                           
                             $scope.listTarifRS = [
                                 { namatarif: 'Prosedur Non Bedah', tarif: e.data.dataTarif.prosedur_non_bedah, tarifx: $scope.formatRupiah(e.data.dataTarif.prosedur_non_bedah, 'Rp. ') },
                                 { namatarif: 'Tenaga Ahli', tarif: e.data.dataTarif.tenaga_ahli, tarifx: $scope.formatRupiah(e.data.dataTarif.tenaga_ahli, 'Rp. ') },
@@ -301,7 +315,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         })
                     } else {
                         $scope.isRouteLoading = false;
-                        toastr.error(e.data.metaData.message+' '+e.data.metaData.code)
+                        toastr.error(e.data.metaData.message + ' ' + e.data.metaData.code)
                         return
                     }
                 })
@@ -366,7 +380,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "width": "150px",
                     "template": "<span class='style-left'>#: namapasien #</span>",
                 },
-                 {
+                {
                     "field": "namadpjp",
                     "title": "Nama DPJP",
                     "width": "70px",
@@ -588,6 +602,18 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 getdataCombo();
                 $scope.popupEditStatusPulang.center().open();
             }
+            $scope.clickCaraMasuk = function () {
+                medifirstService.get('registrasi/daftar-antrian-pasien/get-combo-caramasukinacbg').then(function (e) {
+                    $scope.listCaraMasuk = e.data.dataCaraMasuk
+                })
+                $scope.popupEditCaraMasuk.center().open();
+            }
+            $scope.clickCaraNaikKelas = function () {
+                medifirstService.get('registrasi/daftar-antrian-pasien/get-combo-caramasukinacbg').then(function (e) {
+                    $scope.listNaikKelas = e.data.dataCaraNaikKelas
+                })
+                $scope.popupEditCaraNaikKelas.center().open();
+            }
             $scope.saveStatusPulang = function () {
                 debugger
                 var statusKeluarId = null;
@@ -638,6 +664,48 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 }
                 debugger
                 medifirstService.post('rawatinap/save-pulang-pasien-eklaim', objSave).then(function (e) {
+                    $scope.setdetail(set);
+                    $scope.popupEditStatusPulang.close();
+                })
+            }
+            $scope.saveCaraMasuk = function () {
+                debugger
+                var caraMasuk = null;
+                if ($scope.item.statusMasuk != undefined) {
+                    caraMasuk = $scope.item.statusMasuk.id;
+                }
+                
+                var pasiendaftar = {
+                    noregistrasi: $scope.item.data[0].noregistrasi,
+                    caraMasuk: caraMasuk,
+                }
+               
+                var objSave = {
+                    pasiendaftar: pasiendaftar,
+                }
+                debugger
+                medifirstService.post('rawatinap/save-cara-masuk-eklaim', objSave).then(function (e) {
+                    $scope.setdetail(set);
+                    $scope.popupEditStatusPulang.close();
+                })
+            }
+            $scope.saveNaikKelas = function () {
+                debugger
+                var caraNaikKelas = null;
+                if ($scope.item.caraNaikKelas != undefined) {
+                    caraNaikKelas = $scope.item.caraNaikKelas.id;
+                }
+                
+                var pasiendaftar = {
+                    noregistrasi: $scope.item.data[0].noregistrasi,
+                    caraNaikKelas: caraNaikKelas,
+                }
+               
+                var objSave = {
+                    pasiendaftar: pasiendaftar,
+                }
+                debugger
+                medifirstService.post('rawatinap/save-cara-naikkelas-eklaim', objSave).then(function (e) {
                     $scope.setdetail(set);
                     $scope.popupEditStatusPulang.close();
                 })
@@ -761,7 +829,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                 ]
             }
-
             $scope.simpanBeratBadanBayi = function () {
                 if ($scope.item.beratBadan == undefined) {
                     alert("Berat Badan Belum Di isi!!")
@@ -776,6 +843,26 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.isRouteLoading = false;
                     $scope.setdetail(set)
                     // window.history.back();
+                })
+            }
+            $scope.simpanTekananDarah = function () {
+                if ($scope.item.sistoleinacbg == undefined) {
+                    alert("Tekanan Darah Belum Di isi!!")
+                    return
+                }
+                if ($scope.item.diastoleinacbg == undefined) {
+                    alert("Tekanan Darah mmhg Belum Di isi!!")
+                    return
+                }
+                debugger;
+                var objSave = {
+                    sistole: $scope.item.sistoleinacbg,
+                    diastole: $scope.item.diastoleinacbg,
+                    noregistrasifk: $scope.item.data[0].noregistrasifk
+                }
+                medifirstService.post('bridging/inacbg/save-tekananDarah', objSave).then(function (e) {
+                    $scope.isRouteLoading = false;
+                    $scope.setdetail(set)
                 })
             }
 
@@ -990,6 +1077,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "nomor_kartu": set.nokepesertaan, //"233333",    
                             "tgl_masuk": $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",    
                             "tgl_pulang": $scope.item.data[0].tglregistrasi, //"2017-12-01 09:55:00",    
+                            "cara_masuk": $scope.item.data[0].kodecaramasuk,
                             "jenis_rawat": parseInt($scope.item.data[0].jenisrawat), //"1",    
                             "kelas_rawat": "3", //"1",    
                             "adl_sub_acute": "",
@@ -1002,6 +1090,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "upgrade_class_los": "",
                             "add_payment_pct": "75",
                             "birth_weight": $scope.item.data[0].beratbadan,
+                            "sistole": $scope.item.sistoleinacbg,
+                            "diastole": $scope.item.diastoleinacbg,
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
@@ -1168,7 +1258,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "nomor_sep": set.nosep, //"0901R001TEST0001",    
                             "nomor_kartu": set.nokepesertaan, //"233333",    
                             "tgl_masuk": $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",    
-                            "tgl_pulang": $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",    
+                            "tgl_pulang": $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",   
+                            "cara_masuk": $scope.item.data[0].kodecaramasuk, 
                             "jenis_rawat": parseInt($scope.item.data[0].jenisrawat), //"1",     
                             "kelas_rawat": $scope.item.data[0].nokelasdijamin,
                             "adl_sub_acute": "",
@@ -1179,8 +1270,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "upgrade_class_ind": $scope.item.datanaikkelas[0].statusnaikkelas,
                             "upgrade_class_class": $scope.item.datanaikkelas[0].kelastertinggi,
                             "upgrade_class_los": $scope.item.datanaikkelas[0].lamarawatnaikkelas,
+                            "upgrade_class_payor": $scope.target_upgrade_class_payor,
                             "add_payment_pct": "75",
                             "birth_weight": $scope.item.data[0].beratbadan,
+                            "sistole": $scope.item.sistoleinacbg,
+                            "diastole": $scope.item.diastoleinacbg,
                             "discharge_status": discharge_status,
                             "diagnosa": $scope.item.dataDiagnosa10Inacbg,
                             "procedure": $scope.item.dataDiagnosa9Inacbg,
