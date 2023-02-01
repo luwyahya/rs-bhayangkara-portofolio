@@ -224,7 +224,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.isCPPT = false;
                 }
 
-                if ($scope.dataSelected.emrigd != '' &&$scope.dataSelected.emrigd != undefined) {
+                if ($scope.dataSelected.emrigd != '' && $scope.dataSelected.emrigd != undefined) {
                     debugger
                     $scope.isEMRIGD = true;
                     $scope.emrIgd.nomorEMR = $scope.dataSelected.emrigd;
@@ -477,7 +477,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     var deposit = "Rp " + parseFloat(dat.data.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                     var totalharusdibayar = "Rp " + parseFloat(dat.data.lastharusbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                     if (totalharusdibayar == "Rp NaN")
-                    totalharusdibayar = "Rp 0,00";
+                        totalharusdibayar = "Rp 0,00";
                     var tglayeuna = ''
                     var tglpulang = moment($scope.dataSelected.tglpulang).format('YYYY-MM-DD');
                     medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglpulang).then(function (datRes) {
@@ -512,7 +512,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                             var data = {
                                 "gambarLogo": "logodokkes.jpg",
-                                "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna", "jmlbiaya2", "where","totalharusbayar"],
+                                "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna", "jmlbiaya2", "where", "totalharusbayar"],
                                 "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, dat.data.noRegistrasi,
                                     dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, tglayeuna, sisa, x, totalharusdibayar
                                 ],
@@ -619,14 +619,14 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 $scope.paramInacbg = 'Rawat Inap'
                                 $scope.targetkelas_rawat = e.data.data[0].namakelas
                                 $scope.target_kelaspelayanan = e.data.datanaikkelas[0].kelastertinggi
-                                if (e.data.datanaikkelas[0].statusnaikkelas == '1'){
+                                if (e.data.datanaikkelas[0].statusnaikkelas == '1') {
                                     $scope.target_statusnaikkelas = 'Naik Kelas'
-                                    if(e.data.datanaikkelas[0].namanaikkelas!=null)
+                                    if (e.data.datanaikkelas[0].namanaikkelas != null)
                                         $scope.target_upgrade_class_payor = $scope.item.data[0].namanaikkelas
                                     else
                                         $scope.target_upgrade_class_payor = 'Belum Diisi'
                                 }
-                                else{
+                                else {
                                     $scope.target_statusnaikkelas = 'Tidak Naik Kelas'
                                     $scope.target_upgrade_class_payor = 'Tidak Naik Kelas'
                                 }
@@ -655,7 +655,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             if (e.data.data[0].caramasuk != null)
                                 $scope.target_cara_masuk = e.data.data[0].caramasuk
 
-                           
+
                             $scope.listTarifRS = [
                                 { namatarif: 'Prosedur Non Bedah', tarif: e.data.dataTarif.prosedur_non_bedah, tarifx: $scope.formatRupiah(e.data.dataTarif.prosedur_non_bedah, 'Rp. ') },
                                 { namatarif: 'Tenaga Ahli', tarif: e.data.dataTarif.tenaga_ahli, tarifx: $scope.formatRupiah(e.data.dataTarif.tenaga_ahli, 'Rp. ') },
@@ -1054,12 +1054,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if ($scope.item.statusMasuk != undefined) {
                     caraMasuk = $scope.item.statusMasuk.id;
                 }
-                
+
                 var pasiendaftar = {
                     noregistrasi: $scope.item.data[0].noregistrasi,
                     caraMasuk: caraMasuk,
                 }
-               
+
                 var objSave = {
                     pasiendaftar: pasiendaftar,
                 }
@@ -1075,12 +1075,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if ($scope.item.caraNaikKelas != undefined) {
                     caraNaikKelas = $scope.item.caraNaikKelas.id;
                 }
-                
+
                 var pasiendaftar = {
                     noregistrasi: $scope.item.data[0].noregistrasi,
                     caraNaikKelas: caraNaikKelas,
                 }
-               
+
                 var objSave = {
                     pasiendaftar: pasiendaftar,
                 }
@@ -1639,7 +1639,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             "nomor_kartu": set.nokepesertaan, //"233333",    
                             "tgl_masuk": $scope.item.data[0].tglregistrasi, //"2017-11-20 12:55:00",    
                             "tgl_pulang": $scope.item.data[0].tglpulang, //"2017-12-01 09:55:00",   
-                            "cara_masuk": $scope.item.data[0].kodecaramasuk, 
+                            "cara_masuk": $scope.item.data[0].kodecaramasuk,
                             "jenis_rawat": parseInt($scope.item.data[0].jenisrawat), //"1",     
                             "kelas_rawat": $scope.item.data[0].nokelasdijamin,
                             "adl_sub_acute": "",

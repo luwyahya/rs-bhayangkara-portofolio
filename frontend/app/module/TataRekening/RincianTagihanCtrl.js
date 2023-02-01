@@ -1611,18 +1611,21 @@ define(['initialize'], function (initialize) {
                             }
                         }
                     }
-
+                    var totalharusdibayar = "Rp " + parseFloat(dat.data.lastharusbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    if (totalharusdibayar == "Rp NaN")
+                        totalharusdibayar = "Rp 0,00";
                     medifirstService.get("tatarekening/get-data-login-cetakan").then(function (e) {
                         var kelas = $scope.item.kelasRawat;
                         var sisa = "Rp 0,00";
                         var bayar = "Rp " + parseFloat($scope.item.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
-                        if (bayar == "Rp NaN") {
-                            bayar = "Rp 0,00";
-                        }
+                        
                         if ($scope.item.jenisPasien != "Umum/Pribadi") {
                             kelas = $scope.item.kelasPenjamin
                             bayar = "Rp " + parseFloat($scope.item.sudahbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                             // bayar = "0"
+                        }
+                        if (bayar == "Rp NaN") {
+                            bayar = "Rp 0,00";
                         }
                         if ($scope.item.jenisPasien == "Tagihan") {
                             var selisih = $scope.item.totalbilljs - $scope.item.dibayarjs
@@ -1647,6 +1650,7 @@ define(['initialize'], function (initialize) {
                         medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglpulang).then(function (dat) {
                             debugger
                             tglayeuna = dat.data.tglayeuna;
+                            var x = " noregistrasi='" + $scope.item.noRegistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai')and norec_pp is not null group by  noregistrasi,jenisproduk,tglregistrasi,tglpulang,namarekanan,tipepasien, dokterpj ,totalharusdibayar,dokter"
                             if ($scope.item.jenisPasien == "Tagihan") {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
@@ -1659,11 +1663,11 @@ define(['initialize'], function (initialize) {
                             } else {
                                 var data = {
                                     "gambarLogo": "logodokkes.jpg",
-                                    "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna"],
+                                    "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna", "jmlbiaya2", "where", "totalharusbayar"],
                                     "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.item.noRegistrasi,
-                                        $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, $scope.item.terbilang, bayar, nosep, tglayeuna
+                                        $scope.item.noCm, $scope.item.namaPasien, $scope.item.lastRuangan, $scope.item.namakamar, kelas, billing, deposit, sisa, $scope.item.isi, $scope.item.terbilang, bayar, nosep, tglayeuna, sisa, x, totalharusdibayar
                                     ],
-                                    "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                                    "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
                                 };
                             }
 
