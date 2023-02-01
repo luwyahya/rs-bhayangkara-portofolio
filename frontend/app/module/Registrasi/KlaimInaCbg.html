@@ -1236,6 +1236,84 @@
         </div>
     </div> -->
 </div>
+<div kendo-window="popUpClaim" k-title="'Claim'" k-width="400" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_12">
+                <label>Password</label>
+                <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password" />
+            </div>
+        </div>
+        <div class="grid_4" style="margin-top: 10px">
+            <button class="btnTemplate1 cancel" ng-click="simpanClaim()"><i class="fa fa-refresh"></i>Simpan</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpbatalClaim" k-title="'Batal Claim Pasien '" k-width="600" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12">
+        <div class="grid_12">
+            <fieldset class="effect-shadow" style="border-radius:  4px; margin-top: 5px;">
+                <div class="grid_10">
+                    <div class="grid_12">
+                        <label c-label item="item ">Password</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password" />
+                    </div>
+                </div>
+                <div class="grid_10">
+                    <div class="grid_12">
+                        <label c-label item="item ">Alasan Batal Closing</label>
+                    </div>
+                    <div class="grid_12">
+                        <input c-text-box type="text" rows="3" filter="'char'" class="k-textbox"
+                            ng-model="item.alasanBatalClaim" />
+                    </div>
+                </div>
+            </fieldset>
+            <div class="grid_12">
+                <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                    <button class="k-button  k-button-icontext" ng-click="saveUnclaim()"><i
+                            class="fa fa-times-circle"></i>&nbsp;Simpan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div kendo-window="popUpResumeMedis" k-title="'Rasume Resume Medis'" k-width="1700" k-height="800" k-visible="false">
+    <div class="grid_12">
+        <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead"
+            k-ng-model="modelGrid" ng-click="klik(modelGrid)">
+            <div k-detail-template>
+                <kendo-tabstrip>
+                    <div>
+                        <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
+                            k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
+                        </div>
+                    </div>
+                </kendo-tabstrip>
+                <!-- <kendo-grid id="kGrid" data-source="dataDaftarPasienPulang" options="columnDaftarPasienPulang"
+							k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+							ng-click="klikGrid(dataPasienSelected)" ng-dblclick='dbklik(dataPasienSelected)'>
+			
+						</kendo-grid> -->
+            </div>
+        </div>
+        <!-- <div class="grid_6" style="margin-top: 10px">
+					<button class="btnTemplate1" ng-click="cetakResumeMedis()">
+						<i class="fa fa-print"></i>Cetak Resume Medis</button>
+				</div> -->
+        <div class="grid_12">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button  k-button-icontext" ng-click="TutupPopUpResumeMedis()"><span
+                        class="k-icon k-cancel"></span>Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div kendo-window="popupCetak2" k-title="'Cetak Rincian Billing'" k-visible="false" k-width="600" k-height="80">
     <div class="panel panel-default container_12">
         <div class="grid_12">
