@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -34,8 +34,11 @@
 	<parameter name="terbilang" class="java.lang.String"/>
 	<parameter name="bayar" class="java.lang.String"/>
 	<parameter name="nosep" class="java.lang.String"/>
+	<parameter name="where" class="java.lang.String"/>
+	<parameter name="totalharusbayar" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select * from temp_billing_t where noregistrasi=$P{noregistrasi}]]>
+		<![CDATA[select noregistrasi,jenisproduk,sum(total) as total,tglregistrasi,tglpulang,namarekanan,tipepasien,
+dokterpj,totalharusdibayar,dokter from temp_billing_t where $P!{where}]]>
 	</queryString>
 	<field name="noregistrasi" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="noregistrasi"/>
@@ -64,10 +67,7 @@
 	<field name="dokterpj" class="java.lang.String">
 		<property name="property.name" value="value"/>
 	</field>
-	<field name="totalharusdibayar" class="java.math.BigDecimal">
-		<property name="property.name" value="value"/>
-	</field>
-	<field name="diskon" class="java.math.BigDecimal"/>
+	<field name="totalharusdibayar" class="java.lang.Float"/>
 	<variable name="total1" class="java.math.BigDecimal" resetType="Group" resetGroup="jenisproduk" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
@@ -80,7 +80,7 @@
 	<variable name="total4" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
-	<variable name="total5" class="java.math.BigDecimal" resetType="Group" resetGroup="jenisproduk" calculation="Sum">
+	<variable name="total5" class="java.lang.Float" resetType="Group" resetGroup="jenisproduk" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
 	<variable name="total6" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
@@ -89,51 +89,78 @@
 	<variable name="total7" class="java.math.BigDecimal" resetType="Column" calculation="Sum">
 		<variableExpression><![CDATA[$F{total}]]></variableExpression>
 	</variable>
+	<variable name="totaldokter" class="java.lang.Float" resetType="Group" resetGroup="dokter" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
 	<group name="jenisproduk">
 		<groupExpression><![CDATA[$F{jenisproduk}]]></groupExpression>
 		<groupHeader>
-			<band height="14">
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<band height="19">
 				<textField>
-					<reportElement x="16" y="1" width="164" height="13" uuid="7b8b0a7c-a708-4c27-9203-23f5fae8d264">
+					<reportElement x="17" y="5" width="332" height="14" uuid="862f8575-72a6-487f-8eaa-87a03727ecc7">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Bold"/>
+					<textElement>
+						<font fontName="DejaVu Serif" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$F{jenisproduk}]]></textFieldExpression>
 				</textField>
+				<textField evaluationTime="Auto" pattern="¤#,##0.##;¤-#,##0.##">
+					<reportElement x="440" y="5" width="112" height="14" uuid="9833c001-aa94-4ce0-8881-5615ea162f3d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="DejaVu Serif" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total5}]]></textFieldExpression>
+				</textField>
 				<line>
-					<reportElement x="0" y="0" width="551" height="1" uuid="e03493b3-ba06-40ee-934c-8ccc63aa6583"/>
-					<graphicElement>
-						<pen lineWidth="0.5"/>
-					</graphicElement>
+					<reportElement x="1" y="1" width="552" height="1" uuid="0b58bbea-1483-45b3-9e1f-8f0df484595d">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement x="396" y="5" width="76" height="13" uuid="e00ee42b-b39c-452f-91ab-0fb6309bad9e">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Bold"/>
+					</textElement>
+					<text><![CDATA[SUB TOTAL]]></text>
+				</staticText>
+				<line>
+					<reportElement x="396" y="18" width="154" height="1" uuid="9bc7f89b-4392-4fdd-8d6f-8f13a3864935"/>
 				</line>
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="25" splitType="Stretch">
-				<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				<textField>
-					<reportElement x="436" y="-1" width="110" height="13" uuid="cece4a41-3f03-4a1f-b2a5-cbaa6b1dc854">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Bold"/>
-					</textElement>
-					<textFieldExpression><![CDATA[($V{total5} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($V{total5})]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="374" y="-1" width="55" height="13" uuid="4ab4e2b2-2b41-4f6a-9fea-a1cbf6fe0bfa">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="false" pdfFontName="Times-Roman"/>
-					</textElement>
-					<text><![CDATA[Sub Total]]></text>
-				</staticText>
-			</band>
+			<band/>
 		</groupFooter>
+	</group>
+	<group name="dokter">
+		<groupExpression><![CDATA[$F{dokter}]]></groupExpression>
+		<groupHeader>
+			<band height="17">
+				<textField>
+					<reportElement x="30" y="3" width="242" height="14" uuid="b7f15868-0201-4689-9a76-dd621f0eb868">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="DejaVu Serif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{dokter}]]></textFieldExpression>
+				</textField>
+				<textField evaluationTime="Auto" pattern="¤#,##0.##;¤-#,##0.##">
+					<reportElement x="396" y="3" width="156" height="14" uuid="cc4321ee-bde3-4da5-9292-51a196534bee">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right">
+						<font fontName="DejaVu Serif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{totaldokter}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
 	</group>
 	<background>
 		<band splitType="Stretch"/>
@@ -148,7 +175,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Tipe]]></text>
 			</staticText>
@@ -157,28 +184,28 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="192" y="127" width="80" height="15" forecolor="#0A0101" uuid="6f165f24-b60f-46c8-adaf-d0680f8dbbeb"/>
+				<reportElement style="SubTitle" mode="Transparent" x="192" y="128" width="80" height="15" forecolor="#0A0101" uuid="6f165f24-b60f-46c8-adaf-d0680f8dbbeb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Dokter P.Jawab]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="-1" y="88" width="69" height="15" forecolor="#0A0101" uuid="e896fec8-78a6-4307-8e0f-a3762e4a9c07"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[No. RM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="-1" y="104" width="69" height="15" forecolor="#0A0101" uuid="66933890-9bdc-4c66-b518-726cd51c4b41"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Nama Pasien]]></text>
 			</staticText>
@@ -187,7 +214,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Kamar]]></text>
 			</staticText>
@@ -196,7 +223,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Kelas]]></text>
 			</staticText>
@@ -205,7 +232,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Tgl. Pulang]]></text>
 			</staticText>
@@ -214,21 +241,21 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Penjamin]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="402" y="88" width="5" height="15" forecolor="#0A0101" uuid="b16f54c5-2bb2-45c9-b43e-ce21978567e5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="402" y="104" width="5" height="15" forecolor="#0A0101" uuid="8319d416-c29e-42f0-8c32-984a8f35feba"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -237,7 +264,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -246,21 +273,21 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="70" y="88" width="5" height="15" forecolor="#0A0101" uuid="a01d087b-f50b-4983-85f5-d855c5eb3a35"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="70" y="104" width="5" height="15" forecolor="#0A0101" uuid="85ad2127-a150-484b-962a-621db9b943a5"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -269,7 +296,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[No. Registrasi]]></text>
 			</staticText>
@@ -278,7 +305,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Unit]]></text>
 			</staticText>
@@ -288,7 +315,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Tgl. Masuk]]></text>
 			</staticText>
@@ -297,7 +324,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -306,7 +333,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -315,7 +342,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -324,7 +351,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{noregistrasi}]]></textFieldExpression>
 			</textField>
@@ -334,16 +361,16 @@
 			<frame>
 				<reportElement mode="Transparent" x="101" y="10" width="451" height="67" forecolor="#000000" backcolor="#000000" uuid="6c6ca4e1-17cd-4913-93d6-5e670ea9ae8a"/>
 				<staticText>
-					<reportElement style="SubTitle" mode="Transparent" x="220" y="-4" width="66" height="15" forecolor="#0A0101" uuid="8978eac3-c578-41c9-837e-48d2b0184642"/>
+					<reportElement style="SubTitle" mode="Transparent" x="220" y="-10" width="66" height="15" forecolor="#0A0101" uuid="8978eac3-c578-41c9-837e-48d2b0184642"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="false"/>
+						<font fontName="DejaVu Serif" size="10" isBold="false"/>
 					</textElement>
 					<text><![CDATA[printed By]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="-1" y="2" width="420" height="20" forecolor="#0A0101" uuid="499a6971-49ed-4840-b17e-9b5694a50e32"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="true"/>
+						<font fontName="DejaVu Serif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{namaRS}]]></textFieldExpression>
 				</textField>
@@ -354,21 +381,21 @@
 				<textField>
 					<reportElement x="-1" y="17" width="443" height="35" forecolor="#0A0101" uuid="58cdc4f7-dab7-4243-a922-490365c84f75"/>
 					<textElement textAlignment="Left" verticalAlignment="Top">
-						<font fontName="Tahoma" size="10" isBold="true"/>
+						<font fontName="DejaVu Serif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{alamatRS}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="280" y="-7" width="171" height="18" forecolor="#0A0101" uuid="dd9bbe93-55b4-4a11-a6b9-3d64fed72dea"/>
+					<reportElement x="280" y="-13" width="171" height="18" forecolor="#0A0101" uuid="dd9bbe93-55b4-4a11-a6b9-3d64fed72dea"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="10" isBold="false"/>
+						<font fontName="DejaVu Serif" size="10" isBold="false"/>
 					</textElement>
 					<textFieldExpression><![CDATA[$P{printedBy} == null ?"-" : $P{printedBy}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement style="SubTitle" mode="Transparent" x="67" y="50" width="186" height="15" forecolor="#0A0101" uuid="21f66eeb-76fd-427c-83e9-e2f75374f854"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
-						<font fontName="Tahoma" size="12" isBold="true"/>
+						<font fontName="DejaVu Serif" size="12" isBold="true"/>
 					</textElement>
 					<text><![CDATA[REKAP BIAYA PELAYANAN]]></text>
 				</staticText>
@@ -381,7 +408,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nocm}]]></textFieldExpression>
 			</textField>
@@ -390,7 +417,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{namapasien}]]></textFieldExpression>
 			</textField>
@@ -400,7 +427,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{lastruangan}]]></textFieldExpression>
 			</textField>
@@ -410,7 +437,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[($P{namakamar} == null) ?"" : $P{namakamar}]]></textFieldExpression>
 			</textField>
@@ -420,7 +447,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{kelas}]]></textFieldExpression>
 			</textField>
@@ -430,7 +457,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tglregistrasi}]]></textFieldExpression>
 			</textField>
@@ -440,7 +467,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tglpulang}]]></textFieldExpression>
 			</textField>
@@ -451,7 +478,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{namarekanan}]]></textFieldExpression>
 			</textField>
@@ -461,21 +488,21 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tipepasien}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="277" y="126" width="273" height="31" uuid="d41fb1ff-c815-4193-9136-d6a0feac5b1e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+				<reportElement x="277" y="128" width="273" height="31" uuid="d41fb1ff-c815-4193-9136-d6a0feac5b1e"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{dokterpj}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="272" y="128" width="5" height="15" forecolor="#0A0101" uuid="62f93240-afd3-4712-b6a9-ae021bc3684e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -487,7 +514,7 @@
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[NoSEP]]></text>
 			</staticText>
@@ -496,7 +523,7 @@
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
@@ -508,7 +535,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement>
-					<font fontName="Tahoma" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="11" isBold="false" isItalic="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{nosep}]]></textFieldExpression>
 			</textField>
@@ -518,11 +545,11 @@
 		<band height="14" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<staticText>
-				<reportElement x="0" y="1" width="50" height="13" uuid="b11b7cc2-f449-43d4-8913-d9bb04d3cf32">
+				<reportElement x="17" y="1" width="50" height="13" uuid="b11b7cc2-f449-43d4-8913-d9bb04d3cf32">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Bold"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Bold"/>
 				</textElement>
 				<text><![CDATA[Jenis]]></text>
 			</staticText>
@@ -530,34 +557,16 @@
 				<reportElement x="335" y="0" width="100" height="10" uuid="e866247c-7402-46f7-b499-c751e47faf97">
 					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e3da74f0-879b-401e-bd02-a81217946cc9"/>
 				</reportElement>
+				<textElement>
+					<font fontName="DejaVu Serif"/>
+				</textElement>
 				<text><![CDATA[diskon]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="12" splitType="Stretch">
+		<band splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<textField>
-				<reportElement x="50" y="0" width="163" height="12" uuid="36e4ece2-4a32-45f1-9e7b-3d95095ee1f3">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ac45b4ef-e79a-4041-a64c-a6d22f5c4a17"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Tahoma" size="10" pdfFontName="Times-Roman"/>
-					<paragraph lineSpacing="AtLeast"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{dokter}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="436" y="-1" width="108" height="12" uuid="54c44e0f-0dfc-47f2-9cfa-fd0a44e65270">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="bd7c5b25-5bce-4c5a-a615-a1c5eb52eb1f"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font fontName="Tahoma" size="10" pdfFontName="Times-Roman"/>
-				</textElement>
-				<textFieldExpression><![CDATA[($F{total} == null) ? new Double("0") : new java.text.DecimalFormat("Rp #,##0.00").format($F{total})]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -574,7 +583,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Right">
-					<font pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Halaman "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
@@ -583,7 +592,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
-					<font pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
@@ -594,26 +603,26 @@
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="2" y="1" width="100" height="15" forecolor="#0A0101" uuid="17ca0332-91da-41a3-8364-ab1c1e0531dc"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="8" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="8" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Riwayat Registrasi :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="6" y="16" width="275" height="70" forecolor="#0A0101" uuid="45bf65f1-5d4e-4f5d-acb8-239c788eb014">
+				<reportElement x="6" y="16" width="194" height="70" forecolor="#0A0101" uuid="45bf65f1-5d4e-4f5d-acb8-239c788eb014">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
-					<font fontName="Tahoma" size="8" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="6" isBold="false" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{isi}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="341" y="19" width="95" height="15" forecolor="#0A0101" uuid="5a5538c2-2dce-4dd4-829b-a70e9db52b8b">
+				<reportElement style="SubTitle" mode="Transparent" x="215" y="20" width="95" height="15" forecolor="#0A0101" uuid="5a5538c2-2dce-4dd4-829b-a70e9db52b8b">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[JUMLAH BIAYA]]></text>
 			</staticText>
@@ -622,108 +631,99 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{jmlbiaya}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="436" y="19" width="4" height="15" forecolor="#0A0101" uuid="7ffe0e88-0c2d-4bb9-a9a7-21e01948d27c">
+				<reportElement style="SubTitle" mode="Transparent" x="434" y="19" width="4" height="15" forecolor="#0A0101" uuid="7ffe0e88-0c2d-4bb9-a9a7-21e01948d27c">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="436" y="30" width="5" height="15" forecolor="#0A0101" uuid="664221b3-68fc-441c-aeb1-f7af9c72e289">
+				<reportElement style="SubTitle" mode="Transparent" x="434" y="31" width="5" height="15" forecolor="#0A0101" uuid="664221b3-68fc-441c-aeb1-f7af9c72e289">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="341" y="31" width="95" height="15" forecolor="#0A0101" uuid="22ddeab7-2104-4b73-bcbd-7e55f1ed29be">
+				<reportElement style="SubTitle" mode="Transparent" x="215" y="32" width="145" height="15" forecolor="#0A0101" uuid="22ddeab7-2104-4b73-bcbd-7e55f1ed29be">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[DEPOSIT-UANG MUKA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="442" y="31" width="112" height="15" forecolor="#0A0101" uuid="7418fe9f-4abd-4ee9-a572-bebedb770b69">
+				<reportElement x="441" y="31" width="112" height="15" forecolor="#0A0101" uuid="7418fe9f-4abd-4ee9-a572-bebedb770b69">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{deposit}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="341" y="44" width="95" height="15" forecolor="#0A0101" uuid="62bc4df7-ca90-4a92-82fa-387650973148">
+				<reportElement style="SubTitle" mode="Transparent" x="215" y="45" width="95" height="15" forecolor="#0A0101" uuid="62bc4df7-ca90-4a92-82fa-387650973148">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[SISA DEPOSIT]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="435" y="45" width="14" height="15" forecolor="#0A0101" uuid="9f4f7e77-f946-40cf-94a0-f92c899b6d24">
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
-				</textElement>
-				<text><![CDATA[:]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="442" y="44" width="112" height="15" forecolor="#0A0101" uuid="7eec4807-45c3-4847-91d1-076a7c74e134">
+				<reportElement x="441" y="44" width="112" height="15" forecolor="#0A0101" uuid="7eec4807-45c3-4847-91d1-076a7c74e134">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{sisa}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="435" y="67" width="5" height="15" forecolor="#050000" uuid="18b660ec-0cbb-40a8-b91b-bfb3c9e3b21c">
+				<reportElement style="SubTitle" mode="Transparent" x="434" y="59" width="5" height="15" forecolor="#050000" uuid="18b660ec-0cbb-40a8-b91b-bfb3c9e3b21c">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="442" y="57" width="114" height="15" forecolor="#050505" uuid="c1899098-73e2-4bb6-8fca-5f67f9201178">
+				<reportElement x="441" y="72" width="114" height="15" forecolor="#050505" uuid="c1899098-73e2-4bb6-8fca-5f67f9201178">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left">
-					<font fontName="Tahoma" isBold="true" pdfFontName="Times-Bold"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Serif" isBold="true" pdfFontName="Times-Bold"/>
 				</textElement>
-				<textFieldExpression><![CDATA[($F{totalharusdibayar} == null) ? "Rp 0,00" : new java.text.DecimalFormat("Rp #,##0.00").format($F{totalharusdibayar})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{totalharusbayar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="290" y="57" width="148" height="15" forecolor="#0A0101" uuid="8ad5cdea-5fd2-4d84-bfb0-e897f1d7bfce"/>
+				<reportElement style="SubTitle" mode="Transparent" x="217" y="73" width="273" height="15" forecolor="#0A0101" uuid="8ad5cdea-5fd2-4d84-bfb0-e897f1d7bfce"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[BIAYA NAIK KELAS/JUMLAH BAYAR]]></text>
+				<text><![CDATA[BIAYA NAIK KELAS/ HARUS DIBAYAR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement style="SubTitle" mode="Transparent" x="0" y="93" width="103" height="15" forecolor="#0A0101" uuid="491d275e-a4a9-4db8-9bce-f00001ad0225"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[Total Biaya Terbilang :]]></text>
 			</staticText>
@@ -732,7 +732,7 @@
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" isItalic="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" isItalic="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{terbilang}]]></textFieldExpression>
 			</textField>
@@ -740,39 +740,39 @@
 				<reportElement x="0" y="110" width="555" height="1" uuid="3cb075bb-b0e3-4289-ae25-3635521bfbb3"/>
 			</line>
 			<textField>
-				<reportElement stretchType="RelativeToTallestObject" x="442" y="66" width="115" height="15" forecolor="#050000" uuid="6c42116b-e482-4fb3-ae28-ca2343f9a563">
+				<reportElement stretchType="RelativeToTallestObject" x="439" y="58" width="115" height="15" forecolor="#050000" uuid="6c42116b-e482-4fb3-ae28-ca2343f9a563">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Bold"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Bold"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{bayar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="290" y="66" width="139" height="15" forecolor="#050000" uuid="8aa6ea7c-c7bd-430b-af52-1cea0f413c1a"/>
+				<reportElement style="SubTitle" mode="Transparent" x="216" y="59" width="226" height="15" forecolor="#050000" uuid="8aa6ea7c-c7bd-430b-af52-1cea0f413c1a"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
-				<text><![CDATA[JUMLAH SUDAH BAYAR]]></text>
+				<text><![CDATA[JUMLAH YANG SUDAH DI BAYAR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="435" y="58" width="14" height="15" forecolor="#0A0101" uuid="2a9c5992-b439-4f26-a481-f0e8e04c37b4">
+				<reportElement style="SubTitle" mode="Transparent" x="434" y="72" width="6" height="15" forecolor="#0A0101" uuid="2a9c5992-b439-4f26-a481-f0e8e04c37b4">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement style="SubTitle" mode="Transparent" x="436" y="40" width="5" height="15" forecolor="#0A0101" uuid="6ed5ef79-71d5-4e2b-8427-0c3ae18db499">
+				<reportElement style="SubTitle" mode="Transparent" x="434" y="44" width="5" height="15" forecolor="#0A0101" uuid="6ed5ef79-71d5-4e2b-8427-0c3ae18db499">
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Tahoma" size="10" isBold="true" pdfFontName="Times-Roman"/>
+					<font fontName="DejaVu Serif" size="10" isBold="true" pdfFontName="Times-Roman"/>
 				</textElement>
 				<text><![CDATA[:]]></text>
 			</staticText>
