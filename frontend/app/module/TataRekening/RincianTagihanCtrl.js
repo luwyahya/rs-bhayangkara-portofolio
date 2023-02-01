@@ -1684,13 +1684,13 @@ define(['initialize'], function (initialize) {
                             }
                             if ($scope.item.jenisPasien == "BPJS") {
                                 if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                                    xhr.open('POST', 'http://192.168.0.62:1001/generic/report/rekapbillingv2bmhp.pdf');
+                                    xhr.open('POST', 'http://192.168.0.62:1001/generic/report/rekapbillingv2.pdf');
                                 } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingv2bmhp.pdf');
+                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/rekapbillingv2.pdf');
                                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                                    xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingv2bmhp.pdf');
+                                    xhr.open('POST', 'http://36.93.6.186:8797/generic/report/rekapbillingv2.pdf');
                                 } else {
-                                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingv2bmhp.pdf');
+                                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingv2.pdf');
                                 }
                             } else if ($scope.item.jenisPasien == "Umum/Pribadi") {
                                 if (window.location.hostname.indexOf('192.168.0.62') > -1) {

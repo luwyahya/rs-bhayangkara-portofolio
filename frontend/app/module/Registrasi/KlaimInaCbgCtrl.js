@@ -16,6 +16,21 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.formGridDetail = false
             $scope.formGridHistory = false
             $scope.formGridDetailKembali = false
+            $scope.istempatLaporan = true;
+            $scope.cboGrouping = true;
+            $scope.gridRoom = true;
+            $scope.gridLab = false;
+            $scope.gridResep = false;
+            $scope.gridRad = false;
+            $scope.showLab = false;
+            $scope.showRad = false;
+            $scope.showLabAna = false;
+            $scope.labAna = '';
+            $scope.lab = '';
+            $scope.rad = '';
+            $scope.isCPT = false;
+            $scope.isCPPT = false;
+            $scope.isEMRIGD = false;
             $scope.item.tglMeninggal = $scope.now;
             $scope.item.tglKeluar = $scope.now;
             var set = "";
@@ -186,7 +201,372 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     })
                 }
             }
+            $scope.show = function () {
+                $scope.gridRoom = true;
+                $scope.gridLab = false;
+                $scope.gridResep = false;
+                $scope.gridRad = false;
 
+                if ($scope.dataSelected.noregistrasi == undefined) {
+                    toastr.error('Pilih Pasien dulu', 'Info');
+                    return
+                }
+
+                if ($scope.dataSelected.cpt != '') {
+                    $scope.isCPT = true;
+                } else {
+                    $scope.isCPT = false;
+                }
+
+                if ($scope.dataSelected.cppt != '') {
+                    $scope.isCPPT = true;
+                } else {
+                    $scope.isCPPT = false;
+                }
+
+                if ($scope.dataSelected.emrigd != '' &&$scope.dataSelected.emrigd != undefined) {
+                    debugger
+                    $scope.isEMRIGD = true;
+                    $scope.emrIgd.nomorEMR = $scope.dataSelected.emrigd;
+                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + $scope.dataSelected.emrigd + "&emrfk=515", true).then(function (dat) {
+                        $scope.emrIgd = dat.data.data;
+                    })
+                } else {
+                    $scope.isEMRIGD = false;
+                }
+                var ruangan = "";
+
+                medifirstService.get("registrasi/daftar-registrasi/get-hasil-lab-inacbg?noregistrasi=" +
+                    $scope.dataSelected.noregistrasi +
+                    "&objectruanganlastfk=" + ruangan
+                ).then(function (dat) {
+                    $scope.listRuanganApd = dat.data.ruangan;
+                    const lab = $scope.listRuanganApd.filter(room => room.ruid == 575);
+                    const rad = $scope.listRuanganApd.filter(room => room.ruid == 576);
+                    const ana = $scope.listRuanganApd.filter(room => room.ruid == 453);
+                    if (lab.length > 0) {
+                        $scope.lab = lab[0];
+                        $scope.showLab = true;
+                    } else {
+                        $scope.lab = '';
+                        $scope.showLab = false;
+                    }
+                    if (rad.length > 0) {
+                        $scope.rad = rad[0];
+                        $scope.showRad = true;
+                    } else {
+                        $scope.rad = '';
+                        $scope.showRad = false;
+                    }
+                    if (ana.length > 0) {
+                        $scope.labAna = ana[0];
+                        $scope.showLabAna = true;
+                    } else {
+                        $scope.labAna = '';
+                        $scope.showLabAna = false;
+                    }
+                    $scope.item.ruanganAntrian = {
+                        id: $scope.listRuanganApd[0].id,
+                        namaruangan: $scope.listRuanganApd[0].namaruangan,
+                        norec_apd: $scope.listRuanganApd[0].norec_apd,
+                        objectdepartemenfk: $scope.listRuanganApd[0].objectdepartemenfk
+                    }
+                });
+
+                loadClaimPd()
+                $scope.popUpShow.center().open();
+
+            }
+            function loadClaimPd() {
+                medifirstService.get("registrasi/daftar-registrasi/get-status-claim-pd?noregistrasi=" + $scope.dataSelected.noregistrasi).then(function (claimpd) {
+                    $scope.statusSelesaiPeriksaPd = claimpd.data.isclaim;
+                });
+                debugger
+            }
+            $scope.cetakSEP = function (x) {
+                debugger;
+                if ($scope.dataSelected.noregistrasi != undefined && $scope.dataSelected.kelompokpasien !== "Umum/Pribadi") {
+
+                    medifirstService.get("sysadmin/settingdatafixed/get-report?namareport=sep" +
+                        '&norec=' + $scope.dataSelected.noregistrasi
+                    ).then(function (data) {
+                        debugger;
+                        var data = data.data.data;
+                        $("#nosepx").text(data[0].nosep);
+                        $("#nopendaftaran").text(data[0].noregistrasi);
+                        $("#tglsep").text(data[0].tanggalsep);
+                        $("#peserta").text(data[0].jenispeserta);
+                        $("#nokartu").text(data[0].nokepesertaan + ' / ' + data[0].nocm);
+                        // $("#cob").text(data[0].penjaminlaka);
+                        $("#namapeserta").text(data[0].namapeserta);
+                        $("#jenisrawat").text(data[0].jenisrawat);
+                        $("#tgllahir").text((moment(data[0].tgllahir).format('YYYY-MM-DD')));
+                        $("#kelasrawat").text(data[0].namakelas);
+                        $("#notelepon").text(data[0].notelpmobile);
+                        $("#penjamin").text(data[0].penjaminlakalantas);
+                        $("#politujuan").text(data[0].namaruanganfix);
+                        $("#prolanis").text(data[0].prolanisprb);
+                        $("#faskesperujuk").text(data[0].nmprovider);
+                        $("#diagnosaawal").text(data[0].namadiagnosa);
+                        $("#catatan").text(data[0].catatan);
+                        $("#cetakanke").text(1);
+                        $("#namadjpjmelayani").text(data[0].namadjpjpmelayani);
+
+                        var printdata = document.getElementById(x);
+                        printdata = printdata.innerHTML;
+                        // var editor = $("#editor").data("kendoEditor");
+                        // editor.value(printdata);
+
+                        var htmlStart =
+                            '<!DOCTYPE html>' +
+                            '<html style="border:none;border-color: white">' +
+                            '<head style="border:none;border-color: white">' +
+                            // '<div class="header" style="position: fixed;top: 0;">'+
+                            // header +
+                            '<style>' +
+                            'html { font: 11pt sans-serif; }' +
+                            '.k-grid { border-top-width: 0; }' +
+                            '.k-grid, .k-grid-content { height: auto !important; }' +
+                            '.k-grid-content { overflow: visible !important; }' +
+                            '.k-grid .k-grid-header th { border-top: none; }' +
+                            '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                            '</style>' +
+                            '</div>' +
+                            '</head>' +
+                            '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                            '<table  style="border:none; border-color: white">' +
+                            '<thead style="border:none;border-color: white">' +
+                            '<tr style="border:none;border-color: white">' +
+                            '<td style="border:none;border-color: white">' +
+                            // '<div class="page-header-space"></div>' +
+                            '<div style="border:none;border-color: white">' +
+                            // header +                                
+                            '</div>' +
+                            '</td>' +
+                            '</tr>' +
+                            '</thead>' +
+                            '<tbody>' +
+                            '<tr>' +
+                            '<td>'
+                        var htmlEnd =
+                            '</td>' +
+                            '</tr>' +
+                            '</tbody>' +
+                            '</body>' +
+                            '</div>' +
+
+
+                            '</html>';
+                        var printdata = document.getElementById(x);
+                        printdata = printdata.innerHTML;
+                        printdata = htmlStart + printdata + htmlEnd;
+                        // var editor = $("#editor").data("kendoEditor");
+                        // editor.value(printdata);
+
+                        // var cetakan=htmlStart + printableContent + htmlEnd;
+                        var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                        WindowObject.document.writeln(printdata);
+                        WindowObject.document.close();
+                        WindowObject.focus();
+
+                    })
+                } else {
+                    toastr.warning("Pasien Selain Bpjs Tidak Bisa Cetak Sep!");
+                    return;
+                }
+            }
+            $scope.Cetakv2 = function () {
+                $scope.popupCetak2.center().open();
+            }
+            $scope.Cetak = function () {
+
+                var user = medifirstService.getPegawaiLogin();
+                $scope.isRouteLoading = true;
+                medifirstService.get("tatarekening/detail-tagihan/" + $scope.dataSelected.noregistrasi + '?jenisdata=bill').then(function (dat) {
+                    var billing = "Rp " + parseFloat(dat.data.billing).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    var deposit = "Rp " + parseFloat(dat.data.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    var totalDiskon = "Rp " + parseFloat(dat.data.totalDiskon).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    if (totalDiskon == "Rp NaN")
+                        totalDiskon = "Rp 0,00";
+                    medifirstService.get("tatarekening/get-data-login-cetakan").then(function (e) {
+                        var kelas = dat.data.kelasRawat;
+                        var sisa = "Rp 0,00";
+                        var bayar = "Rp " + parseFloat(dat.data.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                        if (bayar == "Rp NaN") {
+                            bayar = "Rp 0,00";
+                        }
+                        if (dat.data.jenisPasien != "Umum/Pribadi") {
+                            kelas = dat.data.kelasPenjamin
+                            // bayar = "0"
+                        }
+
+                        if (dat.data.deposit > 0) {
+                            sisa = dat.data.deposit - parseFloat(dat.data.bayar)
+                            if (sisa > 0) {
+                                sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                            } else {
+                                sisa = "RP 0,00";
+                            }
+                        }
+                        var nosep = "-";
+                        if (dat.data.nosep != "" && dat.data.nosep != null) {
+                            nosep = dat.data.nosep
+                        }
+                        debugger;
+                        var x = "";
+                        if ($scope.item.cetakx == "sudah") {
+                            x = " nokwitansi is not null and noregistrasi= '" + $scope.dataSelected.noregistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai') order jenisproduk,ruangantindakan,tglpelayanan,namaproduk"
+                        } else if ($scope.item.cetakx == "belum") {
+                            x = " nokwitansi is null and noregistrasi= '" + $scope.dataSelected.noregistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai') order by jenisproduk,ruangantindakan,tglpelayanan,namaproduk"
+                        } else {
+                            x = " noregistrasi='" + $scope.dataSelected.noregistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai') order by jenisproduk,ruangantindakan,tglpelayanan,namaproduk"
+                        }
+                        debugger;
+
+                        var data = {
+                            "gambarLogo": "logodokkes.jpg",
+                            "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon"],
+                            "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap.toString(), $scope.dataSelected.noregistrasi,
+                                dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, x, totalDiskon
+                            ],
+                            "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        };
+
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function () {
+                            if (this.readyState == 4 && this.status == 200) {
+                                //this.response is what you're looking for
+                                // handler(this.response);
+                                console.log(this.response, typeof this.response);
+                                //var res = this.response
+                                //var file = new Blob( [res], {type: 'application/pdf'});
+                                debugger;
+                                var url = window.URL.createObjectURL(this.response)
+                                var pdf = document.getElementById('tempatLaporan');
+                                pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                                var win = window.open(url, '_blank');
+                                win.focus();
+                            }
+                        }
+
+                        if (window.location.hostname.indexOf('localhost') > -1) {
+                            xhr.open('POST', 'http://localhost:8797/generic/report/rincianbilling.pdf');
+                        } else {
+                            xhr.open('POST', '/jasper1/generic/report/rincianbilling.pdf');
+                        }
+
+                        // set `Content-Type` header
+                        xhr.setRequestHeader('Content-Type', 'application/json');
+                        xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                        xhr.responseType = 'blob';
+                        // send rquest with JSON payload
+                        xhr.send(JSON.stringify(data));
+                        $scope.isRouteLoading = false;
+                    })
+                })
+
+
+            }
+            $scope.CetakRekap = function () {
+                var user = medifirstService.getPegawaiLogin();
+                $scope.isRouteLoading = true;
+                medifirstService.get("tatarekening/detail-tagihan/" + $scope.dataSelected.noregistrasi + '?jenisdata=bill').then(function (dat) {
+                    var billing = "Rp " + parseFloat(dat.data.billing).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    var deposit = "Rp " + parseFloat(dat.data.deposit).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    var totalharusdibayar = "Rp " + parseFloat(dat.data.lastharusbayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                    if (totalharusdibayar == "Rp NaN")
+                    totalharusdibayar = "Rp 0,00";
+                    var tglayeuna = ''
+                    var tglpulang = moment($scope.dataSelected.tglpulang).format('YYYY-MM-DD');
+                    medifirstService.get("registrasi/git-tinggil-hirif?tanggal=" + tglpulang).then(function (datRes) {
+                        debugger
+                        tglayeuna = datRes.data.tglayeuna;
+                        var x = " noregistrasi='" + $scope.dataSelected.noregistrasi + "' and tglpelayanan is not null and namaproduk not in ('Biaya Administrasi','Biaya Materai')and norec_pp is not null group by  noregistrasi,jenisproduk,tglregistrasi,tglpulang,namarekanan,tipepasien, dokterpj ,totalharusdibayar,dokter"
+                        medifirstService.get("tatarekening/get-data-login-cetakan").then(function (e) {
+                            var kelas = dat.data.kelasRawat;
+                            var sisa = "Rp 0,00";
+                            var bayar = "Rp " + parseFloat(dat.data.bayar).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                            if (bayar == "Rp NaN") {
+                                bayar = "Rp 0,00";
+                            }
+                            if (dat.data.jenisPasien != "Umum/Pribadi") {
+                                kelas = dat.data.kelasPenjamin
+                                // bayar = "0"
+                            }
+
+                            if (dat.data.deposit > 0) {
+                                sisa = dat.data.deposit - parseFloat(dat.data.bayar)
+                                if (sisa > 0) {
+                                    sisa = "Rp " + parseFloat(sisa).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+                                } else {
+                                    sisa = "RP 0,00";
+                                }
+                            }
+                            var nosep = "-";
+                            if (dat.data.nosep != "" && dat.data.nosep != null) {
+                                nosep = dat.data.nosep
+                            }
+                            debugger;
+
+                            var data = {
+                                "gambarLogo": "logodokkes.jpg",
+                                "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna", "jmlbiaya2", "where","totalharusbayar"],
+                                "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, dat.data.noRegistrasi,
+                                    dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, tglayeuna, sisa, x, totalharusdibayar
+                                ],
+                                "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                            };
+
+                            var xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function () {
+                                if (this.readyState == 4 && this.status == 200) {
+                                    //this.response is what you're looking for
+                                    // handler(this.response);
+                                    console.log(this.response, typeof this.response);
+                                    //var res = this.response
+                                    //var file = new Blob( [res], {type: 'application/pdf'});
+                                    debugger;
+                                    var url = window.URL.createObjectURL(this.response)
+                                    var pdf = document.getElementById('tempatLaporan');
+                                    pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
+                                    var win = window.open(url, '_blank');
+                                    win.focus();
+                                }
+                            }
+                            if (dat.data.jenisPasien == "BPJS") {
+                                if (window.location.hostname.indexOf('localhost') > -1) {
+                                    xhr.open('POST', 'http://localhost:8797/generic/report/rekapbillingv2.pdf');
+                                } else {
+                                    xhr.open('POST', '/jasper1/generic/report/rekapbillingv2.pdf');
+                                }
+                            } else if (dat.data.jenisPasien == "Umum/Pribadi") {
+                                if (window.location.hostname.indexOf('localhost') > -1) {
+                                    xhr.open('POST', 'http://localhost:8797/generic/report/rekapbillingv2.pdf');
+                                } else {
+                                    xhr.open('POST', '/jasper1/generic/report/rekapbillingv2.pdf');
+                                }
+                            } else {
+                                if (window.location.hostname.indexOf('localhost') > -1) {
+                                    xhr.open('POST', 'http://localhost:8797/generic/report/rekapbillingv2.pdf');
+                                } else {
+                                    xhr.open('POST', '/jasper1/generic/report/rekapbillingv2.pdf');
+                                }
+                            }
+                            // set `Content-Type` header
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                            xhr.responseType = 'blob';
+                            // send rquest with JSON payload
+                            xhr.send(JSON.stringify(data));
+                            $scope.isRouteLoading = false;
+                        })
+                    })
+                })
+
+
+            }
             $scope.setdetail = function (x) {
                 set = x
                 $scope.isRouteLoading = true;
