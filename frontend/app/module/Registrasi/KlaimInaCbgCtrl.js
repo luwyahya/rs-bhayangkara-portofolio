@@ -223,6 +223,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.gridResep = false;
                 $scope.gridRad = false;
 
+                if ($scope.dataSelected == undefined) {
+                    toastr.error('Pilih Grid Pasien Dulu', 'Info');
+                    return
+                }
+
                 if ($scope.dataSelected.noregistrasi == undefined) {
                     toastr.error('Pilih Pasien dulu', 'Info');
                     return
