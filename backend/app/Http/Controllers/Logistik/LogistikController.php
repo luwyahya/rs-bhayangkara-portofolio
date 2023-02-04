@@ -50,7 +50,7 @@ use App\Transaksi\SaldoPerhari;
 use App\Transaksi\LogUpdateObat;
 use Carbon\Carbon;
 
-use App\Transaksi\Pelayananpasien;
+use App\Transaksi\PelayananPasien;
 use App\Transaksi\TukarFaktur;
 use App\Transaksi\PelayananObatTap;
 use Illuminate\Http\Request;
