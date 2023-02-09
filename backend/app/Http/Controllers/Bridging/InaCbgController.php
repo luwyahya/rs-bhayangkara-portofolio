@@ -983,11 +983,12 @@ class InaCbgController   extends ApiController
         $dataDiagnosa9Inacbg = '';
         $dataDiagnosa9InacbgImport = '';
         foreach ($dataDiagnosa9 as $item2){
-            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            $kddiagnosa=str_replace(' ', '', $item2->kddiagnosatindakan);
+            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $kddiagnosa;
             if($item2->jumlah > 1){
-                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $kddiagnosa.'+'.$item2->jumlah;
             }else{
-                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $kddiagnosa;
             }
         }
 
@@ -1047,7 +1048,7 @@ class InaCbgController   extends ApiController
                 $dataDiagnosaInacbg9Inacbg = $dataDiagnosaInacbg9Inacbg . '#' . $item2->code;
             }
         }
-
+        
         $result = array(
             'data' => $data,
             'datanaikkelas' => $datanaikkelas,
