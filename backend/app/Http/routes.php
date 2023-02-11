@@ -3509,6 +3509,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-datamaptipelayanan', 'SysAdmin\Master\MasterController@getDataMapTipeLayanan');
                 Route::post('update-tipe-layanan', 'SysAdmin\Master\MasterController@updateTipeLayanan');
 
+                Route::post('update-kelasmapruangan', 'SysAdmin\Master\MasterController@updateKelasMapRuangan');
                 //master menu gizi
                 Route::get('get-daftar-menu-gizi', 'SysAdmin\Master\MasterController@getMappingMenu');
                 Route::post('save-menu-gizi', 'Gizi\GiziController@saveMenuGizi');
