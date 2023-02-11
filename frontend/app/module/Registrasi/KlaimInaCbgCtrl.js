@@ -449,7 +449,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logodokkes.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "where", "totalDiskon"],
-                            "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap.toString(), $scope.dataSelected.noregistrasi,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap.toString(), $scope.dataSelected.noregistrasi,
                                 dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, x, totalDiskon
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -534,7 +534,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             var data = {
                                 "gambarLogo": "logodokkes.jpg",
                                 "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "nocm", "namapasien", "lastruangan", "namakamar", "kelas", "jmlbiaya", "deposit", "sisa", "isi", "terbilang", "bayar", "nosep", "tglayeuna", "jmlbiaya2", "where", "totalharusbayar"],
-                                "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, dat.data.noRegistrasi,
+                                "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, dat.data.noRegistrasi,
                                     dat.data.noCm, dat.data.namaPasien, dat.data.lastRuangan, dat.data.namakamar, kelas, billing, deposit, sisa, dat.data.isi, dat.data.terbilang, bayar, nosep, tglayeuna, sisa, x, totalharusdibayar
                                 ],
                                 "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -609,7 +609,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         var data = {
                             "gambarLogo": "logo_rs.jpg",
                             "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar"],
-                            "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", namauser, noreg,
+                            "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noreg,
                                 ruanganLast, total, kelas, namakamar
                             ],
                             "paramType": ["", "date", "", "", "", "", "", "", ""]
@@ -708,7 +708,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "norec"],
-                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", dataPasienSelected.norec_resep],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataPasienSelected.norec_resep],
                     "paramType": ["", "date", "", ""]
                 };
 
@@ -1149,7 +1149,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["gambarLogo", "namaRS", "tgllahirRS", "alamatRS", "noregistrasi", "nocm", "namapasien", "namaruangan", "jeniskelamin", "tgllahir", "tglregistrasi", "tglpulang", "kelompokpasien", "diagnosisawal", "alergi", "hasillab", "diet", "instruksianjuran", "kondisiwaktukeluar", "pengobatandilanjutkan", "tglkontrolpoli", "ringkasanriwayatpenyakit", "pemeriksaanfisik", "pemeriksaanpenunjang", "alasanrawat", "kondisiklinis", "terapi", "hasilkonsultasi", "norec", "namadiagnosaprimary", "kddiagnosaprimary", "namadiagnosasecondary", "kddiagnosasecondary", "namadiagnosatindakan", "kddiagnosatindakan", "qrcodedokter", "qrcodepasien", "namadokter", "obatobat", "tglresume", "noresep", "pasienkeluarga", "obatobatakhir", "namaobat", "jumlah", "dosis", "frekuensi", "carapemberian", "signature", "asalrujukan"],
-                    "paramValue": ["logodokkes.jpg", "RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", dataItem.noregistrasi,
+                    "paramValue": ["logodokkes.jpg", "RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", dataItem.noregistrasi,
                         dataItem.nocm, dataItem.namapasien, dataItem.namaruangan, dataItem.jeniskelamin, dataItem.tgllahir, dataItem.tglregistrasi, dataItem.tglpulang, dataItem.kelompokpasien, dataItem.diagnosisawal, dataItem.alergi, dataItem.hasillab, dataItem.diet, dataItem.instruksianjuran, dataItem.kondisiwaktukeluar, dataItem.pengobatandilanjutkan, dataItem.tglkontrolpoli, dataItem.ringkasanriwayatpenyakit, dataItem.pemeriksaanfisik, dataItem.pemeriksaanpenunjangaddlab, dataItem.alasanrawat, dataItem.kondisiklinis, dataItem.terapi, dataItem.hasillab, dataItem.norec, dataItem.namadiagnosaprimary, dataItem.kddiagnosaprimary, dataItem.namadiagnosasecondary, dataItem.kddiagnosasecondary, dataItem.namadiagnosatindakan, dataItem.kddiagnosatindakan, qrcodedokter, qrcodepasien, namadokter, dataItem.obatobat, tglresume, noresep
                         , dataItem.pasienkeluarga, dataItem.obatobatakhir, dataItem.namaobat, dataItem.jumlah, dataItem.dosis, dataItem.frekuensi, dataItem.carapemberian, signature, dataItem.asalrujukan
                     ],
@@ -1820,7 +1820,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                        "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap,
+                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
                             x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
                         ],
                         "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
