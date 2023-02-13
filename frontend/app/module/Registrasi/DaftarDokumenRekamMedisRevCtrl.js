@@ -24,6 +24,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 until3: new Date(moment($scope.now).format('YYYY-MM-DD 23:59:59')),
                 rows: 100
             }
+            $scope.pasienBatal = false;
             $scope.tglregistrasi = true
             $scope.tglkembali = false
             var test = []
@@ -174,6 +175,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 var status = "&status=NULL"
                 debugger;
                 if ($scope.model.cekpilihManual == true) {
+                    debugger
                     medifirstService.get("registrasi/dokumenrm/get-daftar-dokumen-rekmed-rjri-2?" +
                         tglKembaliAwal +
                         tglKembaliAkhir +
@@ -222,7 +224,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         dikirim +
                         status +
                         diterima).then(function (e) {
-                            $scope.isRouteLoading = false;
+                            $scope.isRouteLoading = true;
+                            $scope.pasienBatal = false
                             for (var i = 0; i < e.data.length; i++) {
                                 e.data[i].statCheckbox = false;
                             }
@@ -459,18 +462,21 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             }
             $scope.onClickTest = function (e) {
                 debugger
+                 
                 var element = $(e.currentTarget);
 
                 var checked = element.is(':checked'),
                     row = element.closest('tr'),
                     grid = $("#kGrid").data("kendoGrid"),
                     dataItem = grid.dataItem(row);
+                    debugger
                 for (var i = test.length - 1; i >= 0; i--) {
                     if (test[i].norec == dataItem.norec) {
                         test.splice(i, 1);
                         break;
                     }
                 }
+                debugger
                 $scope.selectedData.push(dataItem);
                 var json = {
                     'norec_kdr': '',
@@ -482,20 +488,24 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     'ruangantujuanfk': dataItem.objectruanganlastfk,
                     'tglkeluar': moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
                 }
-
+                 
                 medifirstService.post('registrasi/dokumenrm/save-dokumen-rekmed', json).then(function (e) {
-
+                    $scope.pasienBatal = true;
+                    $scope.findData();
                 }, function error(e) {
-
+                    
                 })
+               
                 for (var i = 0; i < test.length; i++) {
                     test[i].statCheckbox = false;
                 }
+                
                 $scope.dataPasienBatal = new kendo.data.DataSource({
                     data: test,
                     pageSize: 500,
                     serverPaging: false,
                 });
+                $scope.pasienBatal = false
             }
             $scope.onClick = function (e) {
                 debugger
@@ -750,7 +760,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
 
                 columns: [{
                     "template": "<input type='checkbox' class='checkbox' ng-click='onClickTest($event)' />",
-                    "width": 40
+                    "width": 40,
                 },
                 {
                     field: "tglregistrasi",
