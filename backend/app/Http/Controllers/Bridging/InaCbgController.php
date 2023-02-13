@@ -657,12 +657,15 @@ class InaCbgController   extends ApiController
                 ->leftjoin('kelas_m as kls2', 'kls2.id', '=', 'asu.objectkelasdijaminfk')
                 ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                 ->leftjoin('diagnosaberatbadanbayi_t as dbb', 'dbb.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('caramasukinacbg_m as cmi', 'cmi.id', '=', 'pd.caramasukinacbgfk')
+                ->leftjoin('naikkelasinacbg_m as nki', 'nki.id', '=', 'pd.upgradeclasspayorinacbg')
                 ->select('pd.norec as noregistrasifk','pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi',
                 'kls2.reportdisplay as namakelas','ps.tgllahir','pg.namalengkap as namadokter',
                 'pd.objectstatuspulangfk','pd.objectruanganlastfk','pd.nocmfk',
                 'dbb.beratbadan','hg.cbgdescription','ps.nocm','ps.namapasien','ps.objectjeniskelaminfk',
                 'kls2.nourut as nokelasdijamin',
-                'ps.noidentitas',
+                'ps.noidentitas','pd.caramasukinacbgfk','cmi.namaexternal as caramasuk','cmi.kodeexternal as kodecaramasuk',
+                'pd.sistoleinacbg','pd.diastoleinacbg','nki.nama as namanaikkelas',
                 DB::raw("pd.tglregistrasi,
                         pd.tglpulang,
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
@@ -980,11 +983,12 @@ class InaCbgController   extends ApiController
         $dataDiagnosa9Inacbg = '';
         $dataDiagnosa9InacbgImport = '';
         foreach ($dataDiagnosa9 as $item2){
-            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $item2->kddiagnosatindakan;
+            $kddiagnosa=str_replace(' ', '', $item2->kddiagnosatindakan);
+            $dataDiagnosa9Inacbg = $dataDiagnosa9Inacbg . '#' . $kddiagnosa;
             if($item2->jumlah > 1){
-                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan.'+'.$item2->jumlah;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $kddiagnosa.'+'.$item2->jumlah;
             }else{
-                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $item2->kddiagnosatindakan;
+                $dataDiagnosa9InacbgImport = $dataDiagnosa9InacbgImport . '#' . $kddiagnosa;
             }
         }
 
@@ -1044,7 +1048,7 @@ class InaCbgController   extends ApiController
                 $dataDiagnosaInacbg9Inacbg = $dataDiagnosaInacbg9Inacbg . '#' . $item2->code;
             }
         }
-
+        
         $result = array(
             'data' => $data,
             'datanaikkelas' => $datanaikkelas,
@@ -1073,7 +1077,13 @@ class InaCbgController   extends ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
                 ->leftJoin('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
                 ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
-                ->select('pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi',
+                ->leftjoin('antrianpasiendiperiksa_t as apd', function ($join) {
+                    $join->on('apd.noregistrasifk', '=', 'pd.norec');
+                    $join->on('apd.objectruanganfk', '=', 'pd.objectruanganlastfk');
+                })
+                ->leftjoin('kamar_m as km', 'km.id', '=', 'apd.objectkamarfk')
+                ->select('ps.nocm','pd.norec','pas.nosep','hg.cbgcode','pas.nokepesertaan','pd.noregistrasi','ru.namaruangan',
+                'km.namakamar',
                 DB::raw("to_char( pd.tglregistrasi, 'DD/TMMon/YYYY' ) as tglmasuk,
                         to_char( pd.tglpulang, 'DD/TMMon/YYYY' ) as tglpulang,
                         case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
@@ -1095,8 +1105,46 @@ class InaCbgController   extends ApiController
         $data = $data->orderBy('pd.tglregistrasi','desc');
         $data = $data->take(50);
         $data = $data->get();
+        $data10 = [];
+        foreach ($data as $item) {
+            $cpt = '';
+            $cppt = '';
+            $emrigd = '';
+            $datacptandcppt = \DB::table('emrpasien_t as emrp')
+                ->select('emrp.jenisemr', 'emrp.noemr')
+                ->where('emrp.noregistrasifk', $item->noregistrasi)
+                ->whereIn('emrp.jenisemr', ['catatandokter', 'catatankeperawatan', 'emrigd'])
+                ->get();
 
-        return $this->respond($data);
+            foreach ($datacptandcppt as $itemcptandcppt) {
+                if($itemcptandcppt->jenisemr == 'catatankeperawatan') {
+                    $cpt = $itemcptandcppt->noemr;
+                } else if($itemcptandcppt->jenisemr == 'catatandokter') {
+                    $cppt = $itemcptandcppt->noemr;
+                } else if($itemcptandcppt->jenisemr == 'emrigd') {
+                    $emrigd = $itemcptandcppt->noemr;
+                }
+            }
+            $data10[] = array(
+                'cbgcode' => $item->cbgcode,
+                'jaminan' => $item->jaminan,
+                'nokepesertaan' => $item->nokepesertaan,
+                'noregistrasi' => $item->noregistrasi,
+                'nosep' => $item->nosep,
+                'statusgrouping' => $item->statusgrouping,
+                'tglmasuk' => $item->tglmasuk,
+                'tglpulang' => $item->tglpulang,
+                'tipe' => $item->tipe,
+                'cpt'=>$cpt,
+                'cppt'=>$cppt,
+                'emrigd'=>$emrigd,
+                'namaruangan'=> $item->namaruangan,
+                'namakamar'=>$item->namakamar,
+                'norec'=>$item->norec,
+                'nocm'=>$item->nocm
+            );
+        };
+        return $this->respond($data10);
     }
     public function getCariDaftarSendClaim(Request $request)
     {
@@ -2307,6 +2355,41 @@ class InaCbgController   extends ApiController
 
             $transStatus = 'true';
             $transMessage = "Simpan Berat Badan";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal  ";
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveTekananDarah(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+                
+                $updatePD= PasienDaftar::where('norec', $request['noregistrasifk'])
+                    ->update([
+                            'sistoleinacbg' => $request['sistole'],
+                            'diastoleinacbg' => $request['diastole'],
+                        ]
+                    );
+
+            $transStatus = 'true';
+            $transMessage = "Simpan Tekanan Darah";
         } catch (\Exception $e) {
             $transStatus = 'false';
             $transMessage = "Gagal  ";

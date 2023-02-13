@@ -9,7 +9,7 @@ define(['initialize'], function (initialize) {
             var dataSelected = []
             var comboboxorigin = []
             var setUpdate = "";
-
+            var kintil ='';
             loadData()
             $scope.listStatus = [
                 { "id": "1", "name": "true" },
@@ -634,15 +634,21 @@ define(['initialize'], function (initialize) {
                 setUpdate = ai
                 $scope.item.namaKamar = ai.namakamar
                 $scope.item.status = { id: '2', name: 'false' }
+                $scope.item.kelas = { id: ai.objectkelasfk, namakelas: ai.namakelas }
                 if (ai.statusenabled == true)
                     $scope.item.status = { id: '1', name: 'true' }
                 $scope.popupUpdateKamar.open().center()
             }
             $scope.clickSaveUpdateKamar = function () {
+                if ($scope.item.kelas == ''){
+                    alert('isi kelas')
+                    return;
+                }
                 var objDelete = {
                     id: setUpdate.id,
                     statusenabled: $scope.item.status.name,
-                    namakamar: $scope.item.namaKamar
+                    namakamar: $scope.item.namaKamar,
+                    kelas: $scope.item.kelas.id
                 }
                 medifirstService.post('sysadmin/master/update-kamar', objDelete).then(function (e) {
                     $scope.findDataKamar()
@@ -890,6 +896,22 @@ define(['initialize'], function (initialize) {
                 medifirstService.post('sysadmin/master/save-data-bed', objDelete).then(function (e) {
                     $scope.findDataBed()
                     $scope.isRouteLoading = false;
+                })
+            }
+            $scope.clickUpdateMapkelas = function (x) {
+                kintil = x;
+                $scope.item.namaruanganx = x.namaruangan;
+                $scope.item.kelas = {id:x.objectkelasfk , namakelas:x.namakelas};
+                $scope.popupEditkelas.open().center();
+            }
+            $scope.clickSaveUpdateKelasruangan = function(){
+                var objDelete = {
+                    id: kintil.id, 
+                    kelas: $scope.item.kelas.id
+                }
+                medifirstService.post('sysadmin/master/update-kelasmapruangan', objDelete).then(function (e) {
+                    loadData()
+                    $scope.popupEditkelas.close();
                 })
             }
         }

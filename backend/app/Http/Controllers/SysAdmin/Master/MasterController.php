@@ -2205,7 +2205,7 @@ class MasterController extends ApiController{
             ->JOIN('kelas_m as kl','kl.id','=','mp.objectkelasfk')
             ->JOIN('ruangan_m as ru','ru.id','=','mp.objectruanganfk')
             ->join ('departemen_m as dpt','dpt.id','=','ru.objectdepartemenfk')
-            ->select('mp.id','mp.norec','mp.kodeexternal','ru.id as ruanganid','ru.namaruangan','mp.statusenabled','dpt.namadepartemen','kl.namakelas');
+            ->select('mp.id','mp.norec','mp.kodeexternal','ru.id as ruanganid','ru.namaruangan','mp.statusenabled','dpt.namadepartemen','kl.namakelas','mp.objectkelasfk');
 
         if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
             $data = $data->where('dpt.id','=',$request['deptId']);
@@ -2288,6 +2288,38 @@ class MasterController extends ApiController{
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function updateKelasMapRuangan(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            // return($request['statusenabled']);
+            // die();
+            $idMap = $request['id']; 
+            $kelas = $request['kelas'];
+            $delete = DB::update("update mapruangantokelas_m set objectkelasfk='$kelas'  where id='$idMap'");
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "as" => 'inhuman',
+            );
+        } else {
+            $transMessage = "Update gagal";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "as" => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function saveRuangan(Request $request)
     {
         DB::beginTransaction();
@@ -2339,7 +2371,7 @@ class MasterController extends ApiController{
         $data = DB::table('kamar_m as kr')
             ->join('ruangan_m as ru', 'ru.id', '=', 'kr.objectruanganfk')
             ->join('kelas_m as km','km.id','=','kr.objectkelasfk')
-            ->select('ru.objectruanganfk', 'ru.namaruangan', 'kr.namakamar','kr.id','kr.statusenabled','km.namakelas','kr.qtybed');
+            ->select('ru.objectruanganfk', 'ru.namaruangan', 'kr.namakamar','kr.id','kr.statusenabled','km.namakelas','kr.qtybed','kr.objectkelasfk');
 
        
         if(isset($request['ruangan']) && $request['ruangan']!="" && $request['ruangan']!="undefined"){
@@ -2373,7 +2405,8 @@ class MasterController extends ApiController{
             $idMap=$request['id'];
             $statusenabled=$request['statusenabled'];
             $namakamar=$request['namakamar'];
-            $delete = DB::delete("update kamar_m set statusenabled='$statusenabled',namakamar='$namakamar' where id='$idMap'");
+            $kelas = $request['kelas'];
+            $delete = DB::update("update kamar_m set statusenabled='$statusenabled',namakamar='$namakamar',  objectkelasfk='$kelas' where id='$idMap'");
 
             $transStatus = 'true';
         } catch (\Exception $e) {

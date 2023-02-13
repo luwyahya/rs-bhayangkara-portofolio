@@ -408,220 +408,220 @@ class RadiologiController extends ApiController
             //             return $this->respond($dataTea);
             //         }
                      
-    public function getRincianPelayananLabInaCbg(Request $request) {
-        $pelayanan=[];
-        $result=[];
-        
-        $pelayanan = \DB::table('antrianpasiendiperiksa_t as apd1')
-        ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd1.noregistrasifk')
-        ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-        ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-        ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        ->leftJOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
-        ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-        ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        ->leftJOIN('strukorder_t as so', 'so.norec', '=', 'pp.strukorderfk')
-        ->leftJOIN('lisorder as lis', 'lis.ono', '=', 'so.noorder')
-        ->leftJOIN('pegawai_m as pg', 'pg.id', '=', 'pp.objectpegawaipengirimfk')
-        // ->leftJOIN('order_lab as lis', 'lis.no_lab', '=',
-        //     DB::raw("so.noorder AND
-        //     lis.kode_test =(case when pr.kodeexternal = 'SOLO' or pr.kodeexternal ='LAB PAKET' then cast (pr.id as VARCHAR) else pr.kodeexternal END)
-        //     "))
-        ->select('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',  'pr.namaexternal',
-            'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan',
-            'dp.namadepartemen', 'ps.id as psid', 'apd.norec as norec_apd', 'sp.norec as norec_sp', 'pp.norec as norec_pp',
-            'ru.objectdepartemenfk', 'so.noorder', 'ru1.namaruangan as namaruanganasal', 'pd.norec as noregistrasifk', 'pp.isclaim',
-            // 'lis.no_lab as idbridging',
-            'lis.ono as idbridging',
-            'apd.objectruanganfk','pp.iscito','pp.jasa','ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap as dokterpengirim','pg.id as iddokterpengirim'
-            ,DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, DATEDIFF(d, ps.tgllahir, GETDATE()) as umur, 'Z' as flag, case when pp.isclaim=1 then 'UnClaim' else 'Claim' end as claim")
-        )
-//                    ->where('pp.kdprofile',$idProfile)
-        ->where('ru.objectdepartemenfk', 3)
-        // ->where('ru.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
-        ->groupBy('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',  'pr.namaexternal',
-            'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan', 'pp.isclaim', 'ru1.namaruangan',
-            'dp.namadepartemen', 'ps.id', 'apd.norec', 'sp.norec', 'pp.norec', 'ru.objectdepartemenfk', 'so.noorder',
-            'apd.objectruanganfk','pp.iscito','pp.jasa','lis.ono',   'ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap','pg.id', 'pd.norec')
-        ->orderBy('pp.tglpelayanan')
-        ->orderBy('pp.produkfk');
-
-
-        // $pelayanan = \DB::table('antrianpasiendiperiksa_t as apd1')
-        //     ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd1.noregistrasifk')
-        //     ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-        //     ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-        //     ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        //     ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        //     ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        //     ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        //     ->JOIN('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
-        //     ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-        //     ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
-        //     // ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
-        //     ->leftjoin('pegawai_m as pg1', 'pg1.id', '=', 'ptu.objectpegawaifk')
-        //     ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        //     ->leftJOIN('strukorder_t as so', 'so.norec', '=', 'pp.strukorderfk')
-        //     ->leftJOIN('lisorder as lis', 'lis.ono', '=', 'so.noorder')
-        //     ->leftJOIN('pegawai_m as pg', 'pg.id', '=', 'pp.objectpegawaipengirimfk')
-        //     ->select('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',
-        //             'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan',
-        //             'dp.namadepartemen', 'ps.id as psid', 'apd.norec as norec_apd', 'sp.norec as norec_sp', 'pp.norec as norec_pp',
-        //             'ru.objectdepartemenfk', 'so.noorder', 'ru1.namaruangan as namaruanganasal',
-        //             'lis.ono as idbridging', 'pp.isclaim', 'pd.norec as noregistrasifk',
-        //             'apd.objectruanganfk','pp.iscito','pp.jasa','ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap as dokterpengirim', 'pg1.namalengkap as dokterpemeriksa','pg.id as iddokterpengirim',
-        //             DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, DATEDIFF(d, ps.tgllahir, GETDATE()) as umur,'Z' as flag, case when pp.isclaim=1 then 'UnClaim' else 'Claim' end as claim")
-        //         )
-        //             ->where('ru.objectdepartemenfk', 3)
-        //             // ->groupBy('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',
-        //             //     'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan', 'ru1.namaruangan', 'pp.isclaim', 'pd.norec',
-        //             //     'dp.namadepartemen', 'ps.id', 'apd.norec', 'sp.norec', 'pp.norec', 'ru.objectdepartemenfk', 'so.noorder',
-        //             //     'apd.objectruanganfk','pp.iscito','pp.jasa','lis.ono',   'ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap', 'pg1.namalengkap','pg.id')
-        //             ->where('apd.statusenabled', true)
-        //             ->where('pp.statusenabled', true)
-        //             ->orderBy('pp.tglpelayanan')
-        //             ->orderBy('pp.produkfk');
-                    if (isset($request['departemenfk']) && $request['departemenfk'] != "" && $request['departemenfk'] != "undefined") {
-                        $pelayanan = $pelayanan->where('ru.objectdepartemenfk', '=', $request['departemenfk']);
-                    }
-                    if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
-                        $pelayanan = $pelayanan->where('ps.nocm', '=', $request['nocm']);
-                    }
-                    if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
-                        $pelayanan = $pelayanan->where('apd1.norec', '=', $request['noregistrasifk']);
-                    }
-                    if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
-                        $pelayanan = $pelayanan->where('pd.noregistrasi', '=', $request['noregistrasi']);
-                    }
-                    if (isset($request['ruid']) && $request['ruid'] != "" && $request['ruid'] != "undefined") {
-                        $pelayanan = $pelayanan->where('ru.id', '=', $request['ruid']);
-                    }
-                    $pelayanan = $pelayanan->get();
-                    
-        // return($pelayanan);
-        // die();
-
-                    if (count($pelayanan) > 0) {
-                    // $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
-                    // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                    // ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
-                    // ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
-                    // ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
-                    // ->where('ptu.objectjenispetugaspefk', 4)
-                    // ->where('pd.noregistrasi', $request['noregistrasi'])
-                    // ->get();
-                    // $result = [];
-                    
-
-                    $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
-                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                    ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
-                    ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
-                    ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
-//                    ->where('pd.kdprofile',$idProfile)
-                    ->where('ptu.objectjenispetugaspefk', 4)
-                    ->where('pd.noregistrasi', $pelayanan[0]->noregistrasi)
-                    ->get();
-                    // return($pelayananpetugas);
-                    // die();
-                foreach ($pelayanan as $item) { 
-                    $flaglab = 'N';
-                    $tglhasil = '';
-                    $tglcetak = '';
-                    $data = DB::select(DB::raw("SELECT distinct hh.flag, hh.tglhasil, hh.tglcetak
-                    FROM pelayananpasien_t  as pp
-                    left join hasillaboratorium_t  as hh on hh.norecpelayanan  = pp.norec 
-                    where   pp.norec = '$item->norec_pp'"));
-
-                    foreach ($data as $pp) {
-                        if($pp->flag == 'Y'){
-                            $flaglab = $pp->flag;
-                            $tglhasil = $pp->tglhasil;
-                            $tglcetak = $pp->tglcetak;
-                        } else {
-                            $tglhasil = $pp->tglhasil;
-                            $tglcetak = $pp->tglcetak;
-                        }
-                    }
-                    
-                    $resultp =  array(
-                        'data' => $data,
-                    );
-
-
-                    if (isset($request['noregistrasifk'])) {
-                        $diskon = $item->hargadiscount;
-                    } else {
-                        $diskon = 0;
-                    }
-                    $NamaDokter = '-';
-                    $DokterId = '';
-                    foreach ($pelayananpetugas as $hahaha) {
-                        if ($hahaha->pelayananpasien == $item->norec_pp) {
-                            $NamaDokter = $hahaha->namalengkap;
-                            $DokterId = $hahaha->id;
-                        }
-                    }
-                    $total = (((float)$item->hargasatuan - (float)$diskon) * (float)$item->jumlah ) + (float)$item->jasa ;
-
-                    $result[] = array(
-                        'nocm' => $item->nocm,
-                        'namapasien' => $item->namapasien,
-                        'jeniskelamin' => $item->jeniskelamin,
-                        'tglpelayanan' => $item->tglpelayanan,
-                        'produkfk' => $item->produkfk,
-                        'umur' => $item->umur,
-                        'namaproduk' => $item->namaproduk,
-                        'jumlah' => (float)$item->jumlah,
-                        'hargasatuan' => (float)$item->hargasatuan,
-                        'hargadiscount' => (float)$diskon,
-                        'total' => (float)$total,
-                        'nostruk' => $item->nostruk,
-                        'noregistrasi' => $item->noregistrasi,
-                        'ruangan' => $item->namaruangan,
-                        'namaruanganasal' => $item->namaruanganasal,
-                        'objectruanganfk' => $item->objectruanganfk,
-                        'departemen' => $item->namadepartemen,
-                        'objectdepartemenfk' => $item->objectdepartemenfk,
-                        'norec_apd' => $item->norec_apd,
-                        'tglhasil' => $tglhasil,
-                        'tglcetak' => $tglcetak,
-                        'norec_sp' => $item->norec_sp,
-                        'norec_pp' => $item->norec_pp,
-                        'flag' => $item->flag,
-                        'flaglab' => $flaglab, 
-                        'pp' => $resultp,
-                        'noregistrasifk' => $item->noregistrasifk,
-                        'dokter' => $NamaDokter,
-                        'dokterid' => $DokterId,
-                        'noorder' => $item->noorder,
-                        'idbridging' => $item->idbridging,
-                        'statusbridging' => $item->statusbridging,
-                        'iscito' => $item->iscito,
-                        'jasa' => (float)$item->jasa,
-                        'hr_norec' => $item->hr_norec,
-                        'isclaim' => $item->isclaim,
-                        'objectjeniskelaminfk' => $item->objectjeniskelaminfk,
-                        'tgllahir' => $item->tgllahir,
-                        'dokterpengirim' => $item->dokterpengirim,
-                        'dokterpemeriksa' => $NamaDokter,
-                        'iddokterpengirim' => $item->iddokterpengirim,
-                        'statusperiksa' => $item->statusperiksa,
-                        'nofoto' => $item->nofoto,
-                        'claim' => $item->claim,
-                    );
-                }
-            }
+            public function getRincianPelayananLabInaCbg(Request $request) {
+                $pelayanan=[];
+                $result=[];
                 
-            $dataTea =array(
-                'data' => $result,
-                'message' => 'Inhuman'
-            );
-            return $this->respond($dataTea);
-        }
+                $pelayanan = \DB::table('antrianpasiendiperiksa_t as apd1')
+                ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd1.noregistrasifk')
+                ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftJOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->JOIN('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
+                ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+                ->leftJOIN('strukorder_t as so', 'so.norec', '=', 'pp.strukorderfk')
+                ->leftJOIN('lisorder as lis', 'lis.ono', '=', 'so.noorder')
+                ->leftJOIN('pegawai_m as pg', 'pg.id', '=', 'pp.objectpegawaipengirimfk')
+                // ->leftJOIN('order_lab as lis', 'lis.no_lab', '=',
+                //     DB::raw("so.noorder AND
+                //     lis.kode_test =(case when pr.kodeexternal = 'SOLO' or pr.kodeexternal ='LAB PAKET' then cast (pr.id as VARCHAR) else pr.kodeexternal END)
+                //     "))
+                ->select('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',  'pr.namaexternal',
+                    'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan',
+                    'dp.namadepartemen', 'ps.id as psid', 'apd.norec as norec_apd', 'sp.norec as norec_sp', 'pp.norec as norec_pp',
+                    'ru.objectdepartemenfk', 'so.noorder', 'ru1.namaruangan as namaruanganasal', 'pd.norec as noregistrasifk', 'pp.isclaim',
+                    // 'lis.no_lab as idbridging',
+                    'lis.ono as idbridging',
+                    'apd.objectruanganfk','pp.iscito','pp.jasa','ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap as dokterpengirim','pg.id as iddokterpengirim'
+                    ,DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, to_char( now( ), TO_CHAR(age( now( ),  ps.tgllahir), 'YY Tahun mm Bulan DD Hari')) as umur, 'Z' as flag, case when pp.isclaim=true then 'UnClaim' else 'Claim' end as claim")
+                )
+        //                    ->where('pp.kdprofile',$idProfile)
+                ->where('ru.objectdepartemenfk', 3)
+                // ->where('ru.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
+                ->groupBy('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',  'pr.namaexternal',
+                    'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan', 'pp.isclaim', 'ru1.namaruangan',
+                    'dp.namadepartemen', 'ps.id', 'apd.norec', 'sp.norec', 'pp.norec', 'ru.objectdepartemenfk', 'so.noorder',
+                    'apd.objectruanganfk','pp.iscito','pp.jasa','lis.ono',   'ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap','pg.id', 'pd.norec')
+                ->orderBy('pp.tglpelayanan')
+                ->orderBy('pp.produkfk');
+        
+        
+                // $pelayanan = \DB::table('antrianpasiendiperiksa_t as apd1')
+                //     ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd1.noregistrasifk')
+                //     ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                //     ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                //     ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                //     ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                //     ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                //     ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                //     ->JOIN('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
+                //     ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                //     ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
+                //     // ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
+                //     ->leftjoin('pegawai_m as pg1', 'pg1.id', '=', 'ptu.objectpegawaifk')
+                //     ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+                //     ->leftJOIN('strukorder_t as so', 'so.norec', '=', 'pp.strukorderfk')
+                //     ->leftJOIN('lisorder as lis', 'lis.ono', '=', 'so.noorder')
+                //     ->leftJOIN('pegawai_m as pg', 'pg.id', '=', 'pp.objectpegawaipengirimfk')
+                //     ->select('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',
+                //             'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan',
+                //             'dp.namadepartemen', 'ps.id as psid', 'apd.norec as norec_apd', 'sp.norec as norec_sp', 'pp.norec as norec_pp',
+                //             'ru.objectdepartemenfk', 'so.noorder', 'ru1.namaruangan as namaruanganasal',
+                //             'lis.ono as idbridging', 'pp.isclaim', 'pd.norec as noregistrasifk',
+                //             'apd.objectruanganfk','pp.iscito','pp.jasa','ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap as dokterpengirim', 'pg1.namalengkap as dokterpemeriksa','pg.id as iddokterpengirim',
+                //             DB::raw("case when lis.ono is not null then 'Sudah Dikirim' else '-' end as statusbridging,'' as hr_norec ,'' as nofoto,'' as statusperiksa, DATEDIFF(d, ps.tgllahir, GETDATE()) as umur,'Z' as flag, case when pp.isclaim=1 then 'UnClaim' else 'Claim' end as claim")
+                //         )
+                //             ->where('ru.objectdepartemenfk', 3)
+                //             // ->groupBy('ps.nocm', 'ps.namapasien', 'jk.jeniskelamin', 'pp.tglpelayanan', 'pp.produkfk', 'pr.namaproduk',
+                //             //     'pp.jumlah', 'pp.hargasatuan', 'pp.hargadiscount', 'sp.nostruk', 'pd.noregistrasi', 'ru.namaruangan', 'ru1.namaruangan', 'pp.isclaim', 'pd.norec',
+                //             //     'dp.namadepartemen', 'ps.id', 'apd.norec', 'sp.norec', 'pp.norec', 'ru.objectdepartemenfk', 'so.noorder',
+                //             //     'apd.objectruanganfk','pp.iscito','pp.jasa','lis.ono',   'ps.objectjeniskelaminfk','ps.tgllahir','pg.namalengkap', 'pg1.namalengkap','pg.id')
+                //             ->where('apd.statusenabled', true)
+                //             ->where('pp.statusenabled', true)
+                //             ->orderBy('pp.tglpelayanan')
+                //             ->orderBy('pp.produkfk');
+                            if (isset($request['departemenfk']) && $request['departemenfk'] != "" && $request['departemenfk'] != "undefined") {
+                                $pelayanan = $pelayanan->where('ru.objectdepartemenfk', '=', $request['departemenfk']);
+                            }
+                            if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+                                $pelayanan = $pelayanan->where('ps.nocm', '=', $request['nocm']);
+                            }
+                            if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+                                $pelayanan = $pelayanan->where('apd1.norec', '=', $request['noregistrasifk']);
+                            }
+                            if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+                                $pelayanan = $pelayanan->where('pd.noregistrasi', '=', $request['noregistrasi']);
+                            }
+                            if (isset($request['ruid']) && $request['ruid'] != "" && $request['ruid'] != "undefined") {
+                                $pelayanan = $pelayanan->where('ru.id', '=', $request['ruid']);
+                            }
+                            $pelayanan = $pelayanan->get();
+                            
+                // return($pelayanan);
+                // die();
+        
+                            if (count($pelayanan) > 0) {
+                            // $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
+                            // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                            // ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
+                            // ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
+                            // ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
+                            // ->where('ptu.objectjenispetugaspefk', 4)
+                            // ->where('pd.noregistrasi', $request['noregistrasi'])
+                            // ->get();
+                            // $result = [];
+                            
+        
+                            $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
+                            ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                            ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
+                            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
+                            ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
+        //                    ->where('pd.kdprofile',$idProfile)
+                            ->where('ptu.objectjenispetugaspefk', 4)
+                            ->where('pd.noregistrasi', $pelayanan[0]->noregistrasi)
+                            ->get();
+                            // return($pelayananpetugas);
+                            // die();
+                        foreach ($pelayanan as $item) { 
+                            $flaglab = 'N';
+                            $tglhasil = '';
+                            $tglcetak = '';
+                            $data = DB::select(DB::raw("SELECT distinct hh.flag, hh.tglhasil, hh.tglcetak
+                            FROM pelayananpasien_t  as pp
+                            left join hasillaboratorium_t  as hh on hh.norecpelayanan  = pp.norec 
+                            where   pp.norec = '$item->norec_pp'"));
+        
+                            foreach ($data as $pp) {
+                                if($pp->flag == 'Y'){
+                                    $flaglab = $pp->flag;
+                                    $tglhasil = $pp->tglhasil;
+                                    $tglcetak = $pp->tglcetak;
+                                } else {
+                                    $tglhasil = $pp->tglhasil;
+                                    $tglcetak = $pp->tglcetak;
+                                }
+                            }
+                            
+                            $resultp =  array(
+                                'data' => $data,
+                            );
+        
+        
+                            if (isset($request['noregistrasifk'])) {
+                                $diskon = $item->hargadiscount;
+                            } else {
+                                $diskon = 0;
+                            }
+                            $NamaDokter = '-';
+                            $DokterId = '';
+                            foreach ($pelayananpetugas as $hahaha) {
+                                if ($hahaha->pelayananpasien == $item->norec_pp) {
+                                    $NamaDokter = $hahaha->namalengkap;
+                                    $DokterId = $hahaha->id;
+                                }
+                            }
+                            $total = (((float)$item->hargasatuan - (float)$diskon) * (float)$item->jumlah ) + (float)$item->jasa ;
+        
+                            $result[] = array(
+                                'nocm' => $item->nocm,
+                                'namapasien' => $item->namapasien,
+                                'jeniskelamin' => $item->jeniskelamin,
+                                'tglpelayanan' => $item->tglpelayanan,
+                                'produkfk' => $item->produkfk,
+                                'umur' => $item->umur,
+                                'namaproduk' => $item->namaproduk,
+                                'jumlah' => (float)$item->jumlah,
+                                'hargasatuan' => (float)$item->hargasatuan,
+                                'hargadiscount' => (float)$diskon,
+                                'total' => (float)$total,
+                                'nostruk' => $item->nostruk,
+                                'noregistrasi' => $item->noregistrasi,
+                                'ruangan' => $item->namaruangan,
+                                'namaruanganasal' => $item->namaruanganasal,
+                                'objectruanganfk' => $item->objectruanganfk,
+                                'departemen' => $item->namadepartemen,
+                                'objectdepartemenfk' => $item->objectdepartemenfk,
+                                'norec_apd' => $item->norec_apd,
+                                'tglhasil' => $tglhasil,
+                                'tglcetak' => $tglcetak,
+                                'norec_sp' => $item->norec_sp,
+                                'norec_pp' => $item->norec_pp,
+                                'flag' => $item->flag,
+                                'flaglab' => $flaglab, 
+                                'pp' => $resultp,
+                                'noregistrasifk' => $item->noregistrasifk,
+                                'dokter' => $NamaDokter,
+                                'dokterid' => $DokterId,
+                                'noorder' => $item->noorder,
+                                'idbridging' => $item->idbridging,
+                                'statusbridging' => $item->statusbridging,
+                                'iscito' => $item->iscito,
+                                'jasa' => (float)$item->jasa,
+                                'hr_norec' => $item->hr_norec,
+                                'isclaim' => $item->isclaim,
+                                'objectjeniskelaminfk' => $item->objectjeniskelaminfk,
+                                'tgllahir' => $item->tgllahir,
+                                'dokterpengirim' => $item->dokterpengirim,
+                                'dokterpemeriksa' => $NamaDokter,
+                                'iddokterpengirim' => $item->iddokterpengirim,
+                                'statusperiksa' => $item->statusperiksa,
+                                'nofoto' => $item->nofoto,
+                                'claim' => $item->claim,
+                            );
+                        }
+                    }
+                        
+                    $dataTea =array(
+                        'data' => $result,
+                        'message' => 'Inhuman'
+                    );
+                    return $this->respond($dataTea);
+                }
                              
     public function getRincianPelayananLabAnaInaCbg(Request $request) {
 
@@ -758,7 +758,7 @@ class RadiologiController extends ApiController
             // die();
             $data = \DB::table('antrianpasiendiperiksa_t as apd')
                 ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-                ->select('pp.tglpelayanan', 'pp.isclaim', 'pp.isrm', DB::raw("case when pp.isclaim=1 then 'UnClaim' else 'Claim' end as claim, case when pp.isrm=1 then 'YES' else 'NO' end as rm"))
+                ->select('pp.tglpelayanan', 'pp.isclaim', 'pp.isrm', DB::raw("case when pp.isclaim=true then 'UnClaim' else 'Claim' end as claim, case when pp.isrm=true then 'YES' else 'NO' end as rm"))
                 ->where('pp.statusenabled', true)
                 ->orderBy('pp.tglpelayanan')
                 ->orderBy('pp.produkfk');

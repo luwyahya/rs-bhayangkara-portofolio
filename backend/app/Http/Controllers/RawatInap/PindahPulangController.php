@@ -530,7 +530,94 @@ class PindahPulangController extends ApiController
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
 
     }
+    public function saveCaraMasukEklaim(Request $request) {
+        $detLogin =$request->all();
+        $tglAyeuna = date('Y-m-d H:i:s');
+        $r_NewPD=$request['pasiendaftar'];
+       
+        DB::beginTransaction();
+        //##Update Pasiendaftar##
+        try{
 
+            if ($r_NewPD['noregistrasi']!= 'undefined' ) {
+                $updatePD= PasienDaftar::where('noregistrasi', $r_NewPD['noregistrasi'])
+                    ->update([
+                            'caramasukinacbgfk' => $r_NewPD['caraMasuk'],
+                        ]
+                    );
+            }
+            
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+
+
+        if ($transStatus == 'true') {
+            DB::commit();
+            $transMessage = 'SUKSES';
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        } else {
+            $transMessage = "GAGAL";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
+    public function saveCaraNaikKelasEklaim(Request $request) {
+        $detLogin =$request->all();
+        $tglAyeuna = date('Y-m-d H:i:s');
+        $r_NewPD=$request['pasiendaftar'];
+       
+        DB::beginTransaction();
+        //##Update Pasiendaftar##
+        try{
+
+            if ($r_NewPD['noregistrasi']!= 'undefined' ) {
+                $updatePD= PasienDaftar::where('noregistrasi', $r_NewPD['noregistrasi'])
+                    ->update([
+                            'upgradeclasspayorinacbg' => $r_NewPD['caraNaikKelas'],
+                        ]
+                    );
+            }
+            
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+
+
+        if ($transStatus == 'true') {
+            DB::commit();
+            $transMessage = 'SUKSES';
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        } else {
+            $transMessage = "GAGAL";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+
+    }
     public function saveRujukPasien(Request $request) {
         $detLogin =$request->all();
         $tglAyeuna = date('Y-m-d H:i:s');
