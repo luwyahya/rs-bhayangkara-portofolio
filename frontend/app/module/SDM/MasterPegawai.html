@@ -271,10 +271,19 @@
                                             class="k-textbox" ng-model="item.email" />
                                     </div>
                                 </div>
-                                <div class="grid_2" style="margin-top: 20px; margin-left: 10px;">
+                                <div class="grid_4" style="margin-top: 20px;">
                                     <input type="checkbox" class="k-checkbox" id="dl" ng-model="item.dl" value="true"
                                         ng-click="cekTelemedicine(item.isTelemedicine)">
                                     <label class="k-checkbox-label" for="dl"><b>Dokter Luar</b></label>
+                                </div>
+                                <div class="grid_4">
+                                    <div class="grid_12">
+                                        <label><b>ID Hafis</b></label>
+                                    </div>
+                                    <div class="grid_12">
+                                        <input c-text-box type="input" placeholder="ID Hafis" filter="'varchar'"
+                                            class="k-textbox" ng-model="item.idhafis" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

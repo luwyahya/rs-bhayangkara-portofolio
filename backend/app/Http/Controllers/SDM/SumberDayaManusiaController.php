@@ -1388,6 +1388,8 @@ class SumberDayaManusiaController extends ApiController {
             $dataSavePegawai->nik_intern = $dataPegawai['nik'];
             $dataSavePegawai->noidentitas = $dataPegawai['nik'];
             $dataSavePegawai->nobpjs = $dataPegawai['nobpjs'];
+            $dataSavePegawai->namahafis = $dataPegawai['namahafis'];
+            $dataSavePegawai->idhafis = $dataPegawai['idhafis'];
             $dataSavePegawai->nocm = $dataPegawai['nocm'];
             if (isset($dataPegawai['golongandarah']) && $dataPegawai['golongandarah'] != "" && $dataPegawai['golongandarah'] != "undefined") {
                 $dataSavePegawai->objectgolongandarahfk = $dataPegawai['golongandarah']; //$statusPasien;
