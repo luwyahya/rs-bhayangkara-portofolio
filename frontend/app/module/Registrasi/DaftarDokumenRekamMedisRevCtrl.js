@@ -759,7 +759,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 // selectable: 'row',
 
                 columns: [{
-                    "template": "<input type='checkbox' class='checkbox' ng-click='onClickTest($event)' />",
+                    "template": "<input type='checkbox' class='checkbox' ng-click='onClick($event)' />",
                     "width": 40,
                 },
                 {
