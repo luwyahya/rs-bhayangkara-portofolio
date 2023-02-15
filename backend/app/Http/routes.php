@@ -2091,6 +2091,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-acc-number', 'Radiologi\RadiologiController@updateAccNumberInPp');
             Route::get('get-laporan-kunjungan-radiologi', 'Radiologi\RadiologiController@getLaporanKunjunganRadiologi');
             Route::get('get-rekanan', 'Radiologi\RadiologiController@getRekananKelompok');
+            Route::get('get-daftar-orderverif-rincian', 'Radiologi\RadiologiController@getDaftarOrderPenunjangverifRincian');
         });
         Route::group(['prefix' => 'rawatinap'], function () {
             Route::get('get-kab-kota', 'RawatInap\RawatInapController@getKabKota');

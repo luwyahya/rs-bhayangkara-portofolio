@@ -4351,6 +4351,201 @@ class RadiologiController extends ApiController
         );
         return $this->respond($dataResult);
     }
+    public function getDaftarOrderPenunjangverifRincian(Request $request)
+    {
+        $dataLogin = $request->all();
+        
+        $departemenfk = [25];
+        
+        $result = [];
+        if (in_array($this->settingDataFixed('KdInstalasiBedahSentral'), $departemenfk)) {
+            $data = \DB::table('strukorder_t as so')
+            ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+            ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+            ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+            ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+            ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+            ->leftJoin('pegawai_m as pg2', 'pg2.id', '=', 'pd.objectpegawaifk')
+            ->leftJoin('pelayananpasien_t as pp', 'pp.strukorderfk', '=', 'so.norec')
+            ->leftJoin('jadwaloperasijkn_t as jdopn', 'jdopn.noregistrasi2', '=', 'pd.noregistrasi')
+            ->leftJoin('pegawai_m as pg3', 'jdopn.dokteroperatorfk', '=', 'pg3.id')
+            ->leftJoin('pegawai_m as pg4', 'jdopn.dokteranestesi', '=', 'pg4.id')
+            ->select(
+                'so.diagnosa as diagnosa',
+                'pg3.namalengkap as dokter',
+                'pg4.namalengkap as anastesi',                
+                'jdopn.*',
+                'so.norec as norec_so',
+                'jdopn.norec as norec_jadwal',
+                'pd.norec as norec_pd',
+                'so.noorder',
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'pd.tglpulang',
+                'ps.nocm',
+                'ps.namapasien',
+                'klm.jeniskelamin',
+                'ps.tgllahir',
+                'kps.kelompokpasien',
+                'dp.namadepartemen',
+                'pd.objectkelasfk',
+                'kls.namakelas',
+                'so.objectruangantujuanfk',
+                'so.objectruanganfk',
+                'pd.objectkelompokpasienlastfk',
+                'ru.objectdepartemenfk',
+                'ru2.objectdepartemenfk as iddeptujuan',
+                'so.objectpegawaiorderfk',
+                'pg.namalengkap as pegawaiorder',
+                'so.tglorder',
+                'ru.namaruangan',
+                'ru2.namaruangan as ruangantujuan',
+                'so.tglpelayananakhir',
+                'pg2.namalengkap as dpjp',
+                (DB::raw("CASE WHEN so.status IS NULL 
+                         THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
+						 CASE WHEN so.status IS NULL 
+                         THEN 'MENUNGGU'
+                         WHEN jdopn.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
+                         END AS statusantrianjkn,
+                         --CONCAT(DATEDIFF(YYYY,ps.[tgllahir], GETDATE()), ' tahun') as umur
+                         to_char( ps.tgllahir, TO_CHAR(age( ps.tgllahir,  now( )), 'YY Tahun mm Bulan DD Hari')) AS umur"))
+            )
+            ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdInstalasiBedahSentral'))
+            
+            ->where('so.statusenabled', true);
+            $data = $data->whereNotNull('so.status');
+            
+        }
+
+
+        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+            $data = $data->where('so.tglorder', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+            $tgl = $request['tglAkhir'];
+            $data = $data->where('so.tglorder', '<=', $tgl);
+        }
+        if (isset($request['tglAwalOperasi']) && $request['tglAwalOperasi'] != "" && $request['tglAwalOperasi'] != "undefined") {
+            $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwalOperasi']);
+        }
+        if (isset($request['tglAkhirOperasi']) && $request['tglAkhirOperasi'] != "" && $request['tglAkhirOperasi'] != "undefined") {
+            $tgl = $request['tglAkhirOperasi'];
+            $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
+        }
+        if (isset($request['deptId']) && $request['deptId'] != "" && $request['deptId'] != "undefined") {
+            $data = $data->where('ru.objectdepartemenfk', '=', $request['deptId']);
+        }
+
+        if (isset($request['pegId']) && $request['pegId'] != "" && $request['pegId'] != "undefined") {
+            $data = $data->where('so.objectpegawaiorderfk', '=', $request['pegId']);
+        }
+        if (isset($request['ruangId']) && $request['ruangId'] != "" && $request['ruangId'] != "undefined") {
+            $data = $data->where('so.objectruanganfk', '=', $request['ruangId']);
+        }
+        if (isset($request['kelId']) && $request['kelId'] != "" && $request['kelId'] != "undefined") {
+            $data = $data->where('pd.objectkelompokpasienlastfk', '=', $request['kelId']);
+        }
+        if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'ilike', '%' . $request['noregistrasi'] . '%');
+        }
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', 'ilike', '%' . $request['nocm'] . '%');
+        }
+        if (isset($request['namapasien']) && $request['namapasien'] != "" && $request['namapasien'] != "undefined") {
+            $data = $data->where('ps.namapasien', 'ilike', '%' . $request['namapasien'] . '%');
+        }
+        if (isset($request['noOrders']) && $request['noOrders'] != "" && $request['noOrders'] != "undefined") {
+            $data = $data->where('so.noorder', 'ilike', '%' . $request['noOrders'] . '%');
+        }
+        if (isset($request['jmlRow']) && $request['jmlRow'] != "" && $request['jmlRow'] != "undefined") {
+            $data = $data->take($request['jmlRow']);
+        }
+        $data = $data->orderBy('jdopn.ok', 'asc');
+        //        $data = $data->take(100);
+        $data = $data->distinct();
+        $data = $data->get();
+        foreach ($data as $item) {
+            $detail = [];
+            $lab = 'Belum diisi';
+            $rad = 'Belum diisi';
+            $pelayananpasien = \DB::table('pasiendaftar_t as pd')
+                ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->select('apd.objectruanganfk','apd.norec')
+                ->where('pd.noregistrasi', $item->noregistrasi)
+                ->whereIn('apd.objectruanganfk', [575, 576])
+                ->distinct()
+                ->get();
+            if (count($pelayananpasien) > 0) {
+                foreach ($pelayananpasien as $ppitem) {
+                    if ($ppitem->objectruanganfk == 575) {
+                        $lab = 'Sudah diisi';
+                        $detail[] = array(
+                            'path' => "RekamMedis.TransaksiPelayananLaboratoriumDokterRev",
+                            'name' => "Laboratorium",
+                            'norec' => $ppitem->norec
+                        );
+                    } else if ($ppitem->objectruanganfk == 576) {
+                        $rad = 'Sudah diisi';
+                        $detail[] = array(
+                            'path' => "RekamMedis.TransaksiPelayananRadiologiDokterRev",
+                            'name' => "Radiologi",
+                            'norec' => $ppitem->norec
+                        );
+                    }
+                }
+            }
+             $item->detail= $detail;
+            $tindakan = \DB::table('orderpelayanan_t as op')
+                ->where('op.strukorderfk', $item->norec_so)
+                ->distinct()
+                ->get();
+             if (count($tindakan) > 0) {
+                    $namatindakan ='';
+                    $keterangantindakan='';
+                    $diagnosa='';
+                    foreach ($tindakan as $itemx) {
+                        if($namatindakan == ''){
+                            $namatindakan = $itemx->keteranganlainnya;
+                        }else{
+                            $namatindakan = $namatindakan .','. $itemx->keteranganlainnya;
+                        }
+                        if($keterangantindakan == ''){
+                            $keterangantindakan = $itemx->keteranganlainnya_quo;
+                        }else{
+                            $keterangantindakan = $keterangantindakan .','. $itemx->keteranganlainnya_quo;
+                        }
+                         if($diagnosa == ''){
+                            $diagnosa = $itemx->diagnosa;
+                        }else{
+                            $diagnosa = $diagnosa .','. $itemx->diagnosa;
+                        }
+                    }
+                }
+                $item->namatindakan= $namatindakan;
+                $item->keterangantindakan= $keterangantindakan;
+                $item->kddiagnosa= $diagnosa;
+
+            // $datass[] = array(
+            //     'data'=> $item,
+            //     'radiologi' => $rad,
+            //     'laboratorium' => $lab,
+            // );
+        }
+
+        $dataResult = array(
+            'message' =>  'inhuman',
+            'data' =>  $data,
+            // 'dataruangan' => $dataruangan
+        );
+        return $this->respond($dataResult);
+    }
     public function getDaftarOrderPenunjangverif(Request $request)
     {
         $dataLogin = $request->all();
