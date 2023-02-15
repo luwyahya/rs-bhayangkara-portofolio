@@ -246,6 +246,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             $scope.item.gpp = { id: dataCachePegawai.objectpajakpegawai, golonganpajakpegawai: dataCachePegawai.golonganpajakpegawai };
                             $scope.item.nik = dataCachePegawai.nik_intern;
                             $scope.item.nobpjs = dataCachePegawai.nobpjs;
+                            $scope.item.namahafis = dataCachePegawai.namahafis;
+                            $scope.item.idhafis = dataCachePegawai.idhafis;
                             $scope.item.nocm = dataCachePegawai.nocm;
                             $scope.item.golongandarah = { id: dataCachePegawai.objectgolongandarahfk, golongandarah: dataCachePegawai.golongandarah };
                             $scope.item.email = dataCachePegawai.email
@@ -3210,6 +3212,14 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 if ($scope.item.nobpjs != undefined) {
                     Nobpjs = $scope.item.nobpjs;
                 }
+                var Namahafis = null;
+                if ($scope.item.namahafis != undefined) {
+                    Namahafis = $scope.item.namahafis;
+                }
+                var IdHafis = null;
+                if ($scope.item.idhafis != undefined) {
+                    IdHafis = $scope.item.idhafis;
+                }
                 var Nocm = null;
                 if ($scope.item.nocm != undefined) {
                     Nocm = $scope.item.nocm;
@@ -3279,6 +3289,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         gpp: golonganpajakpegawai,
                         nik: Nik,
                         nobpjs: Nobpjs,
+                        namahafis: Namahafis,
+                        idhafis: IdHafis,
                         nocm: Nocm,
                         golongandarah: $scope.item.golongandarah != undefined ? $scope.item.golongandarah.id : null,
                         email: email,
