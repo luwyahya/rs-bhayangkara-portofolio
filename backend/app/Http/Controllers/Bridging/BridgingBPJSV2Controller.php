@@ -7144,7 +7144,7 @@ class BridgingBPJSV2Controller extends ApiController
                 }else
                     {
                         $message = array(
-                            'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RS Unand terlebih dahulu',
+                            'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RSB TK.IV Cianjur terlebih dahulu',
                             'code' => 201,
                         );
                         $result = array(
