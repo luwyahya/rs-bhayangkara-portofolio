@@ -1,3 +1,46 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .red {
+        background-color: #EBB2A2;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .green {
+        background-color: #19DDE0;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .dark-red {
+        background-color: #e8a88b;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .dark-green {
+        background-color: #17c1c4;
+        color: #000000;
+    }
+</style>
+
 <div ng-show="dataVOloaded">
     <div ng-hide="showBilling">
         <div class="grid_12 headerBox">
@@ -687,9 +730,31 @@
                                 <div ng-model="checked" ng-disabled="checked" ui-view></div>
                             </md-content>
                         </md-tab>
-                        <md-tab label="Riwayat Hasil Penunjang" ng-click="asd('resume')">
+                        <md-tab label="Riwayat Hasil Penunjang" ng-click="asd('penunjang')">
                             <md-content class="md-padding">
-                                <div ng-model="checked" ng-disabled="checked" ui-view></div>
+                                <div class="grid_6">
+                                    <div class="grid_12 headerBox">
+                                        <div class="panel-heading"
+                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
+                                            Laboratorium</div>
+                                    </div>
+
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid data-source="dataGridLab" options="columnGridLab"
+                                            style="width: auto;" k-sortable="'true'" k-groupable="true"></kendo-grid>
+                                    </div>
+                                </div>
+                                <div class="grid_6">
+                                    <div class="grid_12 headerBox">
+                                        <div class="panel-heading"
+                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
+                                            Radiologi</div>
+                                    </div>
+
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid data-source="dataGridRadio" options="columnGridRadio" style="width: auto;"  k-sortable="'true'" k-groupable="true"></kendo-grid>
+                                    </div>
+                                </div>
                             </md-content>
                         </md-tab>
                         <md-tab label="Pengkajian Awal Medis Pasien" ng-click="asd('PengkajianAwalMedis')">

@@ -403,54 +403,54 @@ define(['initialize'], function (initialize) {
                     $state.go("RincianTagihanV2.TransaksiDiagnosa");
                 } else if (kondisi == 'bedah') {
                     var reg = "&noregistrasi=" + $scope.item.noRegistrasi
-                    
+
                     medifirstService.get("radiologi/get-daftar-orderverif-rincian?" +
-                    "isNotVerif=true" + reg, true).then(function (dat) {
-                        $scope.isRouteLoading = false;
-                        for (var i = 0; i < dat.data.data.length; i++) {
-                            dat.data.data[i].no = i + 1
-                            var tanggal = $scope.now;
-                            var tanggalLahir = new Date(dat.data.data[i].tgllahir);
-                            // var umur = dateHelper.CountAge(tanggalLahir, tanggal);
-                            dat.data.data[i].umur = $scope.item.umur;
-                        }
-                        var data = dat.data.data
-                        var Warnaku = [];
-                        for (var i = 0; i < dat.data.data.length; i++) {
-                            switch (data[i].statusantrianjkn) {
-                                // data[i].no = i;
-                                //abu
-                                case "MENUNGGU":
-                                    data[i].myStyle = { 'background-color': '#606572', 'color': '#F0FFFF' };
-                                    break;
-                                //hijau
-                                case "Selesai":
-                                    data[i].myStyle = { 'background-color': '#3CB27A', 'color': '#F0FFFF' };
-                                    break;
-                                //merah
-                                case "ANTREAN":
-                                    data[i].myStyle = { 'background-color': '#FF0000', 'color': '#F0FFFF' };
-                                    break;
+                        "isNotVerif=true" + reg, true).then(function (dat) {
+                            $scope.isRouteLoading = false;
+                            for (var i = 0; i < dat.data.data.length; i++) {
+                                dat.data.data[i].no = i + 1
+                                var tanggal = $scope.now;
+                                var tanggalLahir = new Date(dat.data.data[i].tgllahir);
+                                // var umur = dateHelper.CountAge(tanggalLahir, tanggal);
+                                dat.data.data[i].umur = $scope.item.umur;
                             }
-                        }
-                        $scope.listDataPasien =
-                            new kendo.data.DataSource({
-                                data: data
-                            });
-                        $scope.listDataPasien.fetch(function (e) {
-                            var temp = [];
-                            for (var key in this._data) {
-                                if (this._data.hasOwnProperty(key)) {
-                                    var element = this._data[key];
-                                    if (angular.isFunction(element) === false && key !== "_events" && key !== "length")
-                                        temp.push(element);
+                            var data = dat.data.data
+                            var Warnaku = [];
+                            for (var i = 0; i < dat.data.data.length; i++) {
+                                switch (data[i].statusantrianjkn) {
+                                    // data[i].no = i;
+                                    //abu
+                                    case "MENUNGGU":
+                                        data[i].myStyle = { 'background-color': '#606572', 'color': '#F0FFFF' };
+                                        break;
+                                    //hijau
+                                    case "Selesai":
+                                        data[i].myStyle = { 'background-color': '#3CB27A', 'color': '#F0FFFF' };
+                                        break;
+                                    //merah
+                                    case "ANTREAN":
+                                        data[i].myStyle = { 'background-color': '#FF0000', 'color': '#F0FFFF' };
+                                        break;
                                 }
                             }
-                            $scope.listPasienverif = temp;
-                            cacheHelper.set('listBedahSentral', temp);
+                            $scope.listDataPasien =
+                                new kendo.data.DataSource({
+                                    data: data
+                                });
+                            $scope.listDataPasien.fetch(function (e) {
+                                var temp = [];
+                                for (var key in this._data) {
+                                    if (this._data.hasOwnProperty(key)) {
+                                        var element = this._data[key];
+                                        if (angular.isFunction(element) === false && key !== "_events" && key !== "length")
+                                            temp.push(element);
+                                    }
+                                }
+                                $scope.listPasienverif = temp;
+                                cacheHelper.set('listBedahSentral', temp);
+                            });
                         });
-                    });
-                }else if (kondisi == 'konsul') {
+                } else if (kondisi == 'konsul') {
                     medifirstService.get("tatarekening/get-detail-pasien?noregistrasi=" + $scope.item.noRegistrasi).then(function (e) {
 
                         for (var i = e.data.length - 1; i >= 0; i--) {
@@ -462,7 +462,7 @@ define(['initialize'], function (initialize) {
                             data: e.data
                         });
                     })
-                }else if (kondisi == 'CatatanKeperawatan') {
+                } else if (kondisi == 'CatatanKeperawatan') {
                     var arrStr = {
                         0: $scope.item.noCm,
                         1: $scope.item.namaPasien,
@@ -488,7 +488,7 @@ define(['initialize'], function (initialize) {
                     }
                     cacheHelper.set('cacheRMelektronik', arrStr);
                     $state.go("RincianTagihanV2.CatatanKeperawatan");
-                }else if (kondisi == 'PengkajianAwalKeperawatan') {
+                } else if (kondisi == 'PengkajianAwalKeperawatan') {
                     var arrStr = {
                         0: $scope.item.noCm,
                         1: $scope.item.namaPasien,
@@ -514,7 +514,7 @@ define(['initialize'], function (initialize) {
                     }
                     cacheHelper.set('cacheRMelektronik', arrStr);
                     $state.go("RincianTagihanV2.PengkajianAwal");
-                }else if (kondisi == 'PengkajianAwalMedis') {
+                } else if (kondisi == 'PengkajianAwalMedis') {
                     var arrStr = {
                         0: $scope.item.noCm,
                         1: $scope.item.namaPasien,
@@ -540,8 +540,432 @@ define(['initialize'], function (initialize) {
                     }
                     cacheHelper.set('cacheRMelektronik', arrStr);
                     $state.go("RincianTagihanV2.PengkajianAwalMedisPasien");
+                } else if (kondisi == 'penunjang') {
+                    medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm2hasil?noregistrasi=" + $scope.item.noRegistrasi + "&ruid=" + 575, true).then(function (dat) {
+                        var temphasil = dat.data;
+
+                        medifirstService.get("radiologi/get-rincian-pelayanan-lab-rm2?noregistrasi=" + $scope.item.noRegistrasi + "&ruid=" + 575
+                            // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
+                            , true).then(function (dat) {
+                                if (dat.data.data.length > 0) {
+                                    $scope.item.tgllahir = dat.data.data[0].tgllahir
+                                    $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                                }
+                                for (var i = 0; i < dat.data.data.length; i++) {
+                                    dat.data.data[i].no = i + 1
+                                    dat.data.data[i].statCheckbox = false;
+                                    //tanda trisno
+                                    for (var j = 0; j < temphasil.data.length; j++) {
+                                        if (dat.data.data[i].norec_pp == temphasil.data[j].norec) {
+                                            dat.data.data[i].flaglab = temphasil.data[j].flag;
+                                            dat.data.data[i].tglcetak = temphasil.data[j].tglcetak;
+                                            dat.data.data[i].tglhasil = temphasil.data[j].tglhasil;
+                                            // dat.data.data[i].pp.data.tglcetak = temphasil.data[j].tglcetak;
+                                            // dat.data.data[i].pp.data[0].tglcetak = temphasil.data[j].tglcetak;
+                                        }
+                                    }
+
+                                    if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
+                                        dat.data.data[i].statusbridging = "✔";
+                                        // ✅
+                                        // ✔
+                                    } else {
+                                        dat.data.data[i].statusbridging = "✘";
+                                        // ✘
+                                        // ❎
+                                    }
+                                    if (dat.data.data[i].iscito == "1") {
+                                        dat.data.data[i].statuscito = "✔";
+                                        // ✅
+                                        // ✔
+                                    } else {
+                                        dat.data.data[i].statuscito = "✘";
+                                        // ✘
+                                        // ❎
+                                    }
+                                    if (dat.data.data[i].statusperiksa == 1) {
+                                        dat.data.data[i].statusperiksa = "✔";
+                                    } else {
+                                        dat.data.data[i].statusperiksa = "✘";
+                                    }
+
+                                }
+                                if (dat.data.data.length > 0) {
+                                    if (dat.data.data[0].objectdepartemenfk == 3)
+                                        $scope.disableRad = true
+                                    if (dat.data.data[0].objectdepartemenfk == 27)
+                                        $scope.disableLab = true
+                                }
+                                $scope.isLoading = false;
+
+                                debugger
+                                $scope.dataGridLab = {
+                                    data: dat.data.data,
+                                    _data: dat.data.data,
+                                    // pageSize: 10,
+                                    selectable: true,
+                                    refresh: true,
+                                    total: dat.data.data.length,
+                                    serverPaging: false,
+                                    aggregate: [
+                                        { field: 'total', aggregate: 'sum' },
+                                    ]
+                                };
+
+                                // $scope.popUpPelayanan.center().open();
+
+                            },
+                                function (error) {
+                                    $scope.isLoading = false;
+                                });
+                    })
+
+                    medifirstService.get("radiologi/get-rincian-pelayanan-emr?noregistrasi=" + $scope.item.noRegistrasi + "&ruid=576"
+                        // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
+                        , true).then(function (dat) {
+                            if (dat.data.data.length > 0) {
+                                $scope.item.tgllahir = dat.data.data[0].tgllahir
+                                $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                            }
+                            $scope.statusSelesaiPeriksa = dat.data.data[0].isclaim
+                            for (var i = 0; i < dat.data.data.length; i++) {
+                                dat.data.data[i].no = i + 1
+                                dat.data.data[i].statCheckbox = false;
+                                if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
+                                    dat.data.data[i].statusbridging = "✔";
+                                    // ✅
+                                    // ✔
+                                } else {
+                                    dat.data.data[i].statusbridging = "✘";
+                                    // ✘
+                                    // ❎
+                                }
+                                if (dat.data.data[i].iscito == "1") {
+                                    dat.data.data[i].statuscito = "✔";
+                                    // ✅
+                                    // ✔
+                                } else {
+                                    dat.data.data[i].statuscito = "✘";
+                                    // ✘
+                                    // ❎
+                                }
+                                if (dat.data.data[i].statusperiksa == 1) {
+                                    dat.data.data[i].statusperiksa = "✔";
+                                } else {
+                                    dat.data.data[i].statusperiksa = "✘";
+                                }
+
+                            }
+                            if (dat.data.data.length > 0) {
+                                if (dat.data.data[0].objectdepartemenfk == 3)
+                                    $scope.disableRad = true
+                                if (dat.data.data[0].objectdepartemenfk == 27)
+                                    $scope.disableLab = true
+                            }
+                            $scope.isLoading = false;
+
+                            debugger
+                            $scope.dataGridRadio = {
+                                data: dat.data.data,
+                                _data: dat.data.data,
+                                // pageSize: 10,
+                                selectable: true,
+                                refresh: true,
+                                total: dat.data.data.length,
+                                serverPaging: false,
+                                aggregate: [
+                                    { field: 'total', aggregate: 'sum' },
+                                ]
+
+                            };
+                        },
+                            function (error) {
+                                $scope.isLoading = false;
+                            });
                 }
             }
+
+            $scope.columnGridRadio = {
+                scrollable: true,
+                selectable: false,
+                pageable: true,
+                columns: [
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "30px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "tglpelayanan",
+                        "title": "Tgl Pelayanan",
+                        "width": "90px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "ruangan",
+                        "title": "Ruangan",
+                        "width": "120px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     "field": "produkfk",
+                    //     "title": "Kode",
+                    //     "width" : "70px",
+                    // },
+                    {
+                        "field": "namaproduk",
+                        "title": "Layanan",
+                        "width": "160px",
+                        // "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+
+                        "template": "<button class=\"k-button custom-button=dark-red\" ng-click=\"LihatEkpertise(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "dokter",
+                        "title": "Dokter Pemeriksa",
+                        "width": "140px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "dokterpengirim",
+                        "title": "Dokter Pengririm",
+                        "width": "140px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     // "field": "claim",
+                    //     "title": "Claim",
+                    //     "width": "100px",
+                    //     "template": "<button class=\"k-button custom-button\" ng-click=\"loadClaimPpLuar(dataItem)\" style=\"margin:0 0 5px\">#: claim #</button>",
+                    //     // attributes: {
+                    //     //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    //     // },
+                    // },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "40px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Diskon",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>",
+                        // footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa Cito",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>",
+                        footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>",
+                        aggregates: ["sum"],
+                        groupFooterTemplate: "<span>Sub Total: Rp. {{formatRupiah('#=data.total.sum  #', '')}}</span>",
+                        footerTemplate: "<span >Rp. {{formatRupiah('#:data.total.sum  #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "noorder",
+                        "title": "No Order",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "nostruk",
+                        "title": "No Struk",
+                        "width": "80px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "statusbridging",
+                        "title": "Status Kirim",
+                        "width": "50px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "statusperiksa",
+                        "title": "Status Periksa",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "100px",
+                        //     attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "nofoto",
+                        "title": "No Foto",
+                        "width": "100px",
+
+                    }
+                ]
+            },
+
+                $scope.columnGridLab = {
+                    scrollable: true,
+                    selectable: false,
+                    pageable: true,
+                    columns: [{
+                        "field": "no",
+                        "title": "No",
+                        "width": "30px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "tglpelayanan",
+                        "title": "Tgl Pelayanan",
+                        "width": "90px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "ruangan",
+                        "title": "Ruangan",
+                        "width": "120px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "namaruanganasal",
+                        "title": "Ruangan Asal",
+                        "width": "120px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "namaproduk",
+                        "title": "Layanan",
+                        "width": "160px",
+                        // "template": "<button class=\"k-button custom-button #=resumemedis != 'Belum diisi' ? 'dark-green' : 'dark-red' # \" ng-click=\"ResumeRI(dataItem)\" style=\"margin:0 5px 5px\">#:  resumemedis #</button>",
+
+                        "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                        //     attributes: {
+                        //         class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        //    },
+                    },
+                    {
+                        "field": "dokterpemeriksa",
+                        "title": "Dokter Pemeriksa",
+                        "width": "140px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "dokterpengirim",
+                        "title": "Dokter Pengririm",
+                        "width": "140px",
+                        // attributes: {
+                        //     class: "#=flaglab != 'N' ? 'red' : 'green' #"
+                        // },
+                    },
+                    {
+                        "field": "tglhasil",
+                        "title": "Tgl Hasil",
+                        "width": "90px",
+                    },
+                    {
+                        "field": "tglcetak",
+                        "title": "Tgl Cetak",
+                        "width": "90px",
+                    },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "40px",
+                    },
+                    {
+                        "field": "noorder",
+                        "title": "No Order",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "nostruk",
+                        "title": "No Struk",
+                        "width": "80px"
+                    },
+                    {
+                        "field": "statusbridging",
+                        "title": "Status Kirim",
+                        "width": "50px",
+                    },
+                    {
+                        "field": "statusperiksa",
+                        "title": "Status Periksa",
+                        "width": "100px",
+
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "100px",
+                    },
+                    {
+                        "field": "nofoto",
+                        "title": "No Foto",
+                        "width": "100px",
+                    },
+
+                    ]
+                };
 
             $scope.columnKonsul = [
                 /*{
