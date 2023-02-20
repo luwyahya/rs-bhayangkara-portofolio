@@ -562,6 +562,33 @@
                                 </div>
                             </md-content>
                         </md-tab>
+                        <md-tab label="Riwayat Hasil Penunjang" ng-click="asd('penunjang')">
+                            <md-content class="md-padding">
+                                <div class="grid_6">
+                                    <div class="grid_12 headerBox">
+                                        <div class="panel-heading"
+                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
+                                            Laboratorium</div>
+                                    </div>
+
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid data-source="dataGridLab" options="columnGridLab"
+                                            style="width: auto;" k-sortable="'true'" k-groupable="true"></kendo-grid>
+                                    </div>
+                                </div>
+                                <div class="grid_6">
+                                    <div class="grid_12 headerBox">
+                                        <div class="panel-heading"
+                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
+                                            Radiologi</div>
+                                    </div>
+
+                                    <div class="grid_12 borderBox">
+                                        <kendo-grid data-source="dataGridRadio" options="columnGridRadio" style="width: auto;"  k-sortable="'true'" k-groupable="true"></kendo-grid>
+                                    </div>
+                                </div>
+                            </md-content>
+                        </md-tab>
                         <md-tab label="Riwayat Resume Medis" ng-click="asd('resume')">
                             <md-content class="md-padding">
                                 <div ng-model="checked" ng-disabled="checked" ui-view></div>
@@ -728,33 +755,6 @@
                         <md-tab label="Pengkajian Awal Keperawatan" ng-click="asd('PengkajianAwalKeperawatan')">
                             <md-content class="md-padding">
                                 <div ng-model="checked" ng-disabled="checked" ui-view></div>
-                            </md-content>
-                        </md-tab>
-                        <md-tab label="Riwayat Hasil Penunjang" ng-click="asd('penunjang')">
-                            <md-content class="md-padding">
-                                <div class="grid_6">
-                                    <div class="grid_12 headerBox">
-                                        <div class="panel-heading"
-                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
-                                            Laboratorium</div>
-                                    </div>
-
-                                    <div class="grid_12 borderBox">
-                                        <kendo-grid data-source="dataGridLab" options="columnGridLab"
-                                            style="width: auto;" k-sortable="'true'" k-groupable="true"></kendo-grid>
-                                    </div>
-                                </div>
-                                <div class="grid_6">
-                                    <div class="grid_12 headerBox">
-                                        <div class="panel-heading"
-                                            style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil
-                                            Radiologi</div>
-                                    </div>
-
-                                    <div class="grid_12 borderBox">
-                                        <kendo-grid data-source="dataGridRadio" options="columnGridRadio" style="width: auto;"  k-sortable="'true'" k-groupable="true"></kendo-grid>
-                                    </div>
-                                </div>
                             </md-content>
                         </md-tab>
                         <md-tab label="Pengkajian Awal Medis Pasien" ng-click="asd('PengkajianAwalMedis')">
