@@ -1,30 +1,6 @@
 <div>
     <div class="panel panel-default container_12" ng-hide="klikDiagnosa">
-       <div class="panel-heading grid_12">
-            <div class="grid_12">
-                <div class="grid_4">
-                    <label class='title' c-label item="item">Daftar Pasien Rawat Inap</label>
-                </div>
-                <div class="grid_2">
-                    <label class='title' c-label item="item">Jumlah Bed : </label>
-                    <button class="btnTemplate1" style="width: 160px; right: 10px;" ng-click="jumlahbed()"><input
-                            c-text-box type="input" style="width: 160px; right: 10px;" filter="'char'"
-                            class="k-textbox title" ng-model="item.total" disabled /></button>
-                </div>
-                <div class="grid_2">
-                    <label class='title' c-label item="item">Bed Isi :</label>
-                    <button class="btnTemplate1" style="width: 160px; right: 10px;" ng-click="bedisi()"><input
-                            c-text-box type="input" style="width: 160px; right: 10px; color: red;" filter="'char'"
-                            class="k-textbox title" ng-model="item.isi" disabled /></button>
-                </div>
-                <div class="grid_2">
-                    <label class='title' c-label item="item">Bed Kosong :</label>
-                    <button class="btnTemplate1" style="width: 160px; right: 10px;" ng-click="bedkosong()"><input
-                            c-text-box type="input" style="width: 160px; right: 10px; color: green;" filter="'char'"
-                            class="k-textbox title" ng-model="item.kosong" disabled /></button>
-                </div>
-            </div>
-        </div>
+        <div class="panel-heading"><label class='title' c-label item="item">Daftar Pasien Rawat Inap</label></div>
         <div class="runtext-container">
             <div class="main-runtext">
                 <marquee direction="" scrollamount="10" onmouseover="this.stop();" onmouseout="this.start();">
@@ -311,41 +287,6 @@
         </div>
     </div>
 
-    <div kendo-window="popUpJumlahBed" k-title="'Jumlah Bed'" k-visible="false" k-on-open="win2visible = true"
-        k-on-close="win2visible = false">
-        <div class="grid_12 borderBox">
-
-            <div kendo-grid id="grid" k-groupable="'true'" k-aggregate='aggregate' k-ng-model="item"
-                k-data-source="GridPasien2" k-selectable="'row'" k-sortable="'true'" k-pageable="'true'"
-                options="ColumnPasien2" ng-click="klikGrid(item)" ng-dblclick="klikdua(item)">
-            </div>
-
-        </div>
-    </div>
-
-    <div kendo-window="popUpJumlahBedIsi" k-title="'Jumlah Bed Isi'" k-visible="false" k-on-open="win2visible = true"
-        k-on-close="win2visible = false">
-        <div class="grid_12 borderBox">
-
-            <div kendo-grid id="grid" k-groupable="'true'" k-aggregate='aggregate' k-ng-model="item"
-                k-data-source="GridPasien3" k-selectable="'row'" k-sortable="'true'" k-pageable="'true'"
-                options="ColumnPasien2" ng-click="klikGrid(item)" ng-dblclick="klikdua(item)">
-            </div>
-
-        </div>
-    </div>
-
-    <div kendo-window="popUpJumlahBedKosong" k-title="'Jumlah Bed Kosong'" k-visible="false"
-        k-on-open="win2visible = true" k-on-close="win2visible = false">
-        <div class="grid_12 borderBox">
-
-            <div kendo-grid id="grid" k-groupable="'true'" k-aggregate='aggregate' k-ng-model="item"
-                k-data-source="GridPasien3" k-selectable="'row'" k-sortable="'true'" k-pageable="'true'"
-                options="ColumnPasien2" ng-click="klikGrid(item)" ng-dblclick="klikdua(item)">
-            </div>
-
-        </div>
-    </div>
     <div class="grid_12">
         <div kendo-window="popUpKasusPenyakit" k-title="'KASUS PENYAKIT'" k-visible="false"
             k-on-open="win2visible = true" k-on-close="win2visible = false">
