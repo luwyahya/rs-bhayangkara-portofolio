@@ -149,6 +149,94 @@ define(['initialize'], function (initialize) {
                 }
                 $scope.dialogCetakLabel.center().open();
             }
+
+            $scope.jumlahbed = function () {
+
+                var ruangId = ""
+                if ($scope.itema.ruangan != undefined) {
+                    var ruangId = "&ruangId=" + $scope.itema.ruangan.id
+                }
+                debugger
+                medifirstService.get("rawatinap/get-daftar-bed?" + ruangId).then(function (dat) {
+                    debugger;
+                    var data = dat.data
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].no = i + 1
+                    }
+
+                    $scope.popUpJumlahBed.center().open();
+                    $scope.GridPasien2 = new kendo.data.DataSource({
+                        data: data,
+                        group: $scope.group,
+                        pageSize: 10,
+                        total: dat.data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                });
+            }
+            $scope.bedisi = function () {
+
+                var ruangId = ""
+                if ($scope.itema.ruangan != undefined) {
+                    var ruangId = "&ruangId=" + $scope.itema.ruangan.id
+                }
+                debugger
+                medifirstService.get("rawatinap/get-daftar-bed-isi?" + ruangId).then(function (dat) {
+                    debugger;
+                    var data = dat.data
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].no = i + 1
+                    }
+
+                    $scope.popUpJumlahBedIsi.center().open();
+                    $scope.GridPasien3 = new kendo.data.DataSource({
+                        data: data,
+                        group: $scope.group,
+                        pageSize: 10,
+                        total: dat.data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                });
+            }
+            $scope.bedkosong = function () {
+
+                var ruangId = ""
+                if ($scope.itema.ruangan != undefined) {
+                    var ruangId = "&ruangId=" + $scope.itema.ruangan.id
+                }
+                debugger
+                medifirstService.get("rawatinap/get-daftar-bed-kosong?" + ruangId).then(function (dat) {
+                    debugger;
+                    var data = dat.data
+                    for (var i = 0; i < data.length; i++) {
+                        data[i].no = i + 1
+                    }
+
+                    $scope.popUpJumlahBedKosong.center().open();
+                    $scope.GridPasien3 = new kendo.data.DataSource({
+                        data: data,
+                        group: $scope.group,
+                        pageSize: 10,
+                        total: dat.data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                });
+            }
             $scope.pilihQty = function (data) {
                 let query = "";
                 loopCetakan(data, query)
@@ -362,6 +450,7 @@ define(['initialize'], function (initialize) {
                 ]).then(function (data) {
                     $scope.isRouteLoading = false;
                     var datas = data[0].data;
+                    var data = data[0].data[0].data2;
 
                     for (var i = 0; i < datas.length; i++) {
                         datas[i].no = i + 1
@@ -382,6 +471,393 @@ define(['initialize'], function (initialize) {
 
                         }
                     }
+                    debugger
+                    var arrRuang = [];
+                    var arrKamar = [];
+                    var arrTT = [];
+                    var arr = [];
+                    var arrayS = {};
+                    var arrayK = {};
+                    var arrayM = {};
+                    var arraySP = {};
+                    var arrayR = {};
+                    var arrayD = {};
+                    var arrayW = {};
+                    var stt = true;
+                    for (var i = 0; i < data.length; i++) {
+                        // debugger;
+                        arrayM = {
+                            idtempattidur: data[i].idtempattidur,
+                            idruangan: data[i].idruangan,
+                            namaruangan: data[i].namaruangan,
+                            idkamar: data[i].idkamar,
+                            namakamar: data[i].namakamar,
+                            reportdisplay: data[i].reportdisplay,
+                            nomorbed: data[i].nomorbed,
+                            idstatusbed: data[i].idstatusbed,
+                            statusbed: data[i].statusbed,
+                            kondisibed: data[i].kondisibed
+                        };
+                        arrTT.push(arrayM)
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        // debugger
+                        // arrayW={idkamar: data[i].idkamar,
+                        //      idkelas: data[i].idkelas,
+                        //      idkamar: data[i].idkamar,
+                        //      namakamar: data[i].namakamar,
+                        //      namakelas: data[i].namakelas,
+                        //      qtybed: 0,
+                        //      isi: 0,
+                        //      sp: 0,
+                        //      rs: 0,
+                        //      db: 0,
+                        //      kosong: 0};
+                        // arrKamar.push(arrayW)
+                        //kamar
+                        // debugger
+                        stt = true;
+                        for (var j = 0; j < arrKamar.length; j++) {
+                            if (data[i].idkamar == arrKamar[j].idkamar) {
+                                arrKamar[j].qtyBed = arrKamar[j].qtyBed + 1;
+                                if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 5) {
+                                    arrKamar[j].isi = arrKamar[j].isi + 1;
+                                    arrKamar[j].sp = arrKamar[j].sp + 1;
+                                } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 6) {
+                                    arrKamar[j].isi = arrKamar[j].isi + 1;
+                                    arrKamar[j].rs = arrKamar[j].rs + 1;
+                                } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 7) {
+                                    arrKamar[j].isi = arrKamar[j].isi + 1;
+                                    arrKamar[j].db = arrKamar[j].db + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 5) {
+                                    arrKamar[j].kosong = arrKamar[j].kosong + 1;
+                                    arrKamar[j].sp = arrKamar[j].sp + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 6) {
+                                    arrKamar[j].kosong = arrKamar[j].kosong + 1;
+                                    arrKamar[j].rs = arrKamar[j].rs + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 7) {
+                                    // arrKamar[j].kosong = arrKamar[j].kosong +1;
+                                    arrKamar[j].db = arrKamar[j].db + 1;
+                                } else {
+                                    arrKamar[j].kosong = arrKamar[j].kosong + 1;
+                                }
+                                stt = false;
+                            }
+                        }
+                        // debugger;
+                        if (stt == true) {
+                            var arrTTT = [];
+                            for (var j = 0; j < arrTT.length; j++) {
+                                if (arrTT[j].idkamar == data[i].idkamar) {
+                                    arrTTT.push(arrTT[j]);
+                                }
+                            }
+
+                            if (data[i].idstatusbed == 1) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    isi: 1,
+                                    kosong: 0,
+
+                                    tempattidur: arrTTT
+                                };
+                            } else {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 1,
+
+                                    tempattidur: arrTTT
+                                };
+                            }
+                            if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 5) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    isi: 1,
+                                    kosong: 0,
+                                    sp: 1,
+                                    rs: 0,
+                                    db: 0,
+                                    tempattidur: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 6) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    // isi:1,
+                                    // kosong:0,
+                                    sp: 0,
+                                    rs: 1,
+                                    db: 0,
+                                    tempattidur: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 7) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    // isi:1,
+                                    // kosong:0,
+                                    sp: 0,
+                                    rs: 0,
+                                    db: 1,
+                                    tempattidur: arrTTT
+                                };
+                            }
+                            else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 5) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 1,
+                                    sp: 1,
+                                    rs: 0,
+                                    db: 0,
+                                    tempattidur: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 6) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    // isi:0,
+                                    // kosong:1,
+                                    sp: 0,
+                                    rs: 1,
+                                    db: 0,
+                                    tempattidur: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 7) {
+                                arrayK = {
+                                    idruangan: data[i].idruangan,
+                                    idkamar: data[i].idkamar,
+                                    namakamar: data[i].namakamar,
+                                    idkelas: data[i].idkelas,
+                                    namakelas: data[i].namakelas,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    // kosong:1,
+                                    sp: 0,
+                                    rs: 0,
+                                    db: 1,
+                                    tempattidur: arrTTT
+                                };
+                            }
+                            arrKamar.push(arrayK);
+                        }
+
+
+                    }
+                    // debugger;
+                    for (var i = 0; i < data.length; i++) {
+                        stt = true;
+                        // debugger
+                        for (var j = 0; j < arrRuang.length; j++) {
+                            if (data[i].idruangan == arrRuang[j].idruangan) {
+                                arrRuang[j].qtyBed = arrRuang[j].qtyBed + 1;
+                                if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 5) {
+                                    arrRuang[j].isi = arrRuang[j].isi + 1;
+                                    arrRuang[j].sp = arrRuang[j].sp + 1;
+                                } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 6) {
+                                    arrRuang[j].isi = arrRuang[j].isi + 1;
+                                    arrRuang[j].rs = arrRuang[j].rs + 1;
+                                } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 7) {
+                                    arrRuang[j].isi = arrRuang[j].isi + 1;
+                                    arrRuang[j].db = arrRuang[j].db + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 5) {
+                                    arrRuang[j].kosong = arrRuang[j].kosong + 1;
+                                    arrRuang[j].sp = arrRuang[j].sp + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 6) {
+                                    // arrRuang[j].kosong = arrRuang[j].kosong +1;
+                                    arrRuang[j].rs = arrRuang[j].rs + 1;
+                                } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 7) {
+                                    // arrRuang[j].kosong = arrRuang[j].kosong +1;
+                                    arrRuang[j].db = arrRuang[j].db + 1;
+                                } else {
+                                    // arrRuang[j].kosong = arrRuang[j].kosong +1;
+                                    // arrRuang[j].db = arrRuang[j].db  +1 ;
+                                }
+                                stt = false;
+                            }
+                        }
+                        if (stt == true) {
+                            // debugger;
+                            var arrTTT = [];
+                            for (var j = 0; j < arrKamar.length; j++) {
+                                if (arrKamar[j].idruangan == data[i].idruangan) {
+                                    arrTTT.push(arrKamar[j]);
+                                }
+                            }
+                            if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 5) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 1,
+                                    kosong: 0,
+                                    sp: 1,
+                                    rs: 0,
+                                    db: 0,
+                                    kamar: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 6) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 0,
+                                    sp: 0,
+                                    rs: 1,
+                                    db: 0,
+                                    kamar: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 1 && data[i].objectstatusbedfktriger == 7) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 0,
+                                    sp: 0,
+                                    rs: 0,
+                                    db: 1,
+                                    kamar: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 5) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 1,
+                                    sp: 1,
+                                    rs: 0,
+                                    db: 0,
+                                    kamar: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 6) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 0,
+                                    sp: 0,
+                                    rs: 1,
+                                    db: 0,
+                                    kamar: arrTTT
+                                };
+                            } else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 7) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 0,
+                                    sp: 0,
+                                    rs: 0,
+                                    db: 1,
+                                    kamar: arrTTT
+                                }
+                            }
+                            else {
+                                // if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 5) {
+                                //  arrayS={idruangan:data[i].idruangan,
+                                //          namaruangan:data[i].namaruangan,
+                                //          qtyBed:0,
+                                //          isi:0,
+                                //          kosong:1,
+                                //          sp:1,
+                                //          rs:0,
+                                //          db:0,
+                                //          kamar:arrTTT};
+                                // }else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 6) {
+                                //  arrayS={idruangan:data[i].idruangan,
+                                //          namaruangan:data[i].namaruangan,
+                                //          qtyBed:0,
+                                //          isi:0,
+                                //          kosong:1,
+                                //          sp:0,
+                                //          rs:1,
+                                //          db:0,
+                                //          kamar:arrTTT};
+                                // }else if (data[i].idstatusbed == 2 && data[i].objectstatusbedfktriger == 7) {
+                                arrayS = {
+                                    idruangan: data[i].idruangan,
+                                    namaruangan: data[i].namaruangan,
+                                    qtyBed: 1,
+                                    isi: 0,
+                                    kosong: 0,
+                                    sp: 0,
+                                    rs: 0,
+                                    db: 0,
+                                    kamar: arrTTT
+                                };
+                            }
+
+                            arrRuang.push(arrayS);
+                        }
+
+                    }
+
+
+                    // debugger;
+                    $scope.isRouteLoading = false;
+                    debugger;
+                    $scope.dataSource2 = arrRuang;
+                    console.log(arrRuang)
+                    var ttlKamarIsi = 0
+                    var ttlKamarKosong = 0
+                    var ttlKamarProsesAdmin = 0
+                    var ttlKamarTotal = 0
+                    var ttlKamarSiapPakai = 0
+                    var ttlKamarRusak = 0
+                    var ttlKamarDibersihkan = 0
+                    for (var i = arrRuang.length - 1; i >= 0; i--) {
+
+                        var element = arrRuang[i]
+                        ttlKamarIsi = ttlKamarIsi + element.isi
+                        ttlKamarKosong = ttlKamarKosong + element.kosong
+                        ttlKamarTotal = ttlKamarTotal + element.qtyBed
+                        ttlKamarSiapPakai = ttlKamarSiapPakai + element.sp
+                        ttlKamarRusak = ttlKamarRusak + element.rs
+                        ttlKamarDibersihkan = ttlKamarDibersihkan + element.db
+
+                    }
+
+                    $scope.item.total = ttlKamarTotal
+                    $scope.item.isi = ttlKamarIsi
+                    $scope.item.kosong = ttlKamarKosong
                     debugger
                     $scope.GridPasien = new kendo.data.DataSource({
                         data: datas,
@@ -590,6 +1066,79 @@ define(['initialize'], function (initialize) {
                     aggregates: ["count"],
                     groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
                 }
+                ]
+            };
+            $scope.ColumnPasien2 = {
+                // toolbar: [
+                //     "excel",
+                // ],
+                // excel: {
+                //     fileName: "DaftarPasienRawatInap.xlsx",
+                //     allPages: true,
+                // },
+                // excelExport: function (e) {
+                //     var sheet = e.workbook.sheets[0];
+                //     sheet.frozenRows = 2;
+                //     sheet.mergedCells = ["A1:M1"];
+                //     sheet.name = "Sheet";
+
+                //     var myHeaders = [{
+                //         value: "Daftar Pasien Rawat Inap",
+                //         fontSize: 20,
+                //         textAlign: "center",
+                //         background: "#ffffff",
+                //         // color:"#ffffff"
+                //     }];
+
+                //     sheet.rows.splice(0, 0, {
+                //         cells: myHeaders,
+                //         type: "header",
+                //         height: 70
+                //     });
+                // },
+                selectable: 'row',
+                pageable: true,
+                columns: [
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "60px",
+                    },
+                    {
+                        "field": "namakamar",
+                        "title": "Nama Kamar",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "kondisibed",
+                        "title": "Kondisi Bed",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "namakelas",
+                        "title": "Nama Kelas",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "namaruangan",
+                        "title": "Nama Ruangan",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "nomorbed",
+                        "title": "Nomor Bed",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "reportdisplay",
+                        "title": "Nama Bed",
+                        "width": "180px"
+                    },
+                    {
+                        "field": "statusbed",
+                        "title": "Status Bed",
+                        "width": "180px"
+                    }
                 ]
             };
              function cipherPol2(e) {
