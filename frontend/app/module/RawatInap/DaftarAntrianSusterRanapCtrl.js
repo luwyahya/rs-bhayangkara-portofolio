@@ -57,7 +57,7 @@ define(['initialize'], function (initialize) {
             }
 
             function updateBridgingDinkes() {
-                medifirstService.postNonMessage("dinkes-jkt/post-bed").then(function (e) { })
+                // medifirstService.postNonMessage("dinkes-jkt/post-bed").then(function (e) { })
             }
 
             function updateKetersediaanTT() {
