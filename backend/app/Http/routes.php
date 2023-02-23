@@ -2091,6 +2091,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-acc-number', 'Radiologi\RadiologiController@updateAccNumberInPp');
             Route::get('get-laporan-kunjungan-radiologi', 'Radiologi\RadiologiController@getLaporanKunjunganRadiologi');
             Route::get('get-rekanan', 'Radiologi\RadiologiController@getRekananKelompok');
+            Route::get('get-daftar-orderverif-rincian', 'Radiologi\RadiologiController@getDaftarOrderPenunjangverifRincian');
         });
         Route::group(['prefix' => 'rawatinap'], function () {
             Route::get('get-kab-kota', 'RawatInap\RawatInapController@getKabKota');
@@ -2107,6 +2108,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-dokters-combos', 'RawatInap\RawatInapController@getDokters');
             Route::post('save-update-dokter-antrian', 'RawatInap\RawatInapController@updateDokterAntrian');
             Route::post('simpan-update-dokter', 'RawatInap\RawatInapController@simpanUpdateDokter');
+            Route::get('get-daftar-bed', 'RawatInap\RawatInapController@getTotalBed');
+            Route::get('get-daftar-bed-isi', 'RawatInap\RawatInapController@getTotalBedIsi');
+            Route::get('get-daftar-bed-kosong', 'RawatInap\RawatInapController@getTotalBedKosong');
             Route::get('get-ruangan-last', 'RawatInap\RawatInapController@getRuanganLast');
             Route::post('save-pasien-jatuh', 'RawatInap\RawatInapController@saveIndikatorPasienJatuh');
             Route::get('get-combo-pindahpasien', 'RawatInap\PindahPulangController@getComboPindahPulang');

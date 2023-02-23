@@ -2527,33 +2527,33 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 WHERE dp.id =5
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 496 as id,'Pasien Caterisasi Jantung Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
-                FROM departemen_m dp
-                join ruangan_m as ru on ru.objectdepartemenfk=dp.id
-                LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
-                left  join batalregistrasi_t as br on br.pasiendaftarfk=antrianpasiendiperiksa_t.noregistrasifk
-                where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and   br.norec is null) pd ON (ru.id= pd.objectruanganfk)
-                WHERE ru.id =496
-                group by dp.namadepartemen,dp.id,dp.qdepartemen
-                union all
+                --SELECT 496 as id,'Pasien Caterisasi Jantung Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
+                --FROM departemen_m dp
+                --join ruangan_m as ru on ru.objectdepartemenfk=dp.id
+                --LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
+                --left  join batalregistrasi_t as br on br.pasiendaftarfk=antrianpasiendiperiksa_t.noregistrasifk
+                --where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and   br.norec is null) pd ON (ru.id= pd.objectruanganfk)
+                --WHERE ru.id =496
+                --group by dp.namadepartemen,dp.id,dp.qdepartemen
+                --union all
                 SELECT 44 as id,'Pasien Operasi Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
                 left  join batalregistrasi_t as br on br.pasiendaftarfk=antrianpasiendiperiksa_t.noregistrasifk
                 where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and   br.norec is null) pd ON (ru.id= pd.objectruanganfk)
-                WHERE ru.id in (44,277,447)
+                WHERE ru.id in (44,277)
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 320 as id,'Pasien ESWL Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
-                FROM departemen_m dp
-                join ruangan_m as ru on ru.objectdepartemenfk=dp.id
-                LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
-                left  join batalregistrasi_t as br on br.pasiendaftarfk=antrianpasiendiperiksa_t.noregistrasifk
-                where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and   br.norec is null) pd ON (ru.id= pd.objectruanganfk)
-                WHERE ru.id =320
-                group by dp.namadepartemen,dp.id,dp.qdepartemen
-                union all
+                --SELECT 320 as id,'Pasien ESWL Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
+                --FROM departemen_m dp
+                --join ruangan_m as ru on ru.objectdepartemenfk=dp.id
+                --LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
+                --left  join batalregistrasi_t as br on br.pasiendaftarfk=antrianpasiendiperiksa_t.noregistrasifk
+                --where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and   br.norec is null) pd ON (ru.id= pd.objectruanganfk)
+                --WHERE ru.id =320
+                --group by dp.namadepartemen,dp.id,dp.qdepartemen
+                --union all
                 SELECT 4533 as id,'Pengunjung Laboratorium PA dari Luar Hari ini',count(pd.norec) as jumlah,5 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
@@ -2561,16 +2561,16 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and statusenabled=true) pd ON (ru.id= pd.objectruanganlastfk)
                 WHERE ru.objectruanganfk is null and ru.id=453
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
+                --union all
+                --SELECT 448 as id,'Pengunjung Masuk HIPERBARIK Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
+                --FROM departemen_m dp
+                --join ruangan_m as ru on ru.objectdepartemenfk=dp.id
+                --LEFT JOIN (SELECT norec,objectruanganlastfk FROM pasiendaftar_t
+                --where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and statusenabled=true) pd ON (ru.id= pd.objectruanganlastfk)
+                --WHERE ru.objectruanganfk is null and ru.id=448
+                --group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 448 as id,'Pengunjung Masuk HIPERBARIK Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
-                FROM departemen_m dp
-                join ruangan_m as ru on ru.objectdepartemenfk=dp.id
-                LEFT JOIN (SELECT norec,objectruanganlastfk FROM pasiendaftar_t
-                where tglregistrasi BETWEEN '$tglAwal' and '$tglAkhir' and statusenabled=true) pd ON (ru.id= pd.objectruanganlastfk)
-                WHERE ru.objectruanganfk is null and ru.id=448
-                group by dp.namadepartemen,dp.id,dp.qdepartemen
-                union all
-                SELECT 12 as id,'Pasien Masuk HEMODIALISA Hari ini',count(pd.norec) as jumlah,12 as qdepartemen
+                SELECT 12 as id,'Pasien Masuk HEMODIALISA Hari ini',count(pd.norec) as jumlah,9 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT antrianpasiendiperiksa_t.norec,objectruanganfk FROM antrianpasiendiperiksa_t
@@ -2579,7 +2579,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 WHERE ru.id =12
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 322 as id,'Pengunjung Masuk MCU/RIKES Hari ini',count(pd.norec) as jumlah,44 as qdepartemen
+                SELECT 322 as id,'Pengunjung Masuk MCU/RIKES Hari ini',count(pd.norec) as jumlah,10 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT norec,objectruanganlastfk FROM pasiendaftar_t
@@ -2587,7 +2587,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 WHERE ru.objectruanganfk is null and ru.id=322
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 251 as id,'Pengunjung Sentra Visum Hari ini',count(pd.norec) as jumlah,499 as qdepartemen
+                SELECT 251 as id,'Pengunjung Sentra Visum Hari ini',count(pd.norec) as jumlah,11 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT norec,objectruanganfk FROM antrianpasiendiperiksa_t
@@ -2595,7 +2595,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 WHERE ru.objectruanganfk is null and ru.id=251
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                SELECT 1000 as id,'Pasien Masuk ICU Hari ini',count(pd.norec) as jumlah,4 as qdepartemen
+                SELECT 1000 as id,'Pasien Masuk ICU Hari ini',count(pd.norec) as jumlah,8 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT norec,objectruanganlastfk FROM pasiendaftar_t
@@ -2603,7 +2603,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 WHERE dp.id in ($dept) and ru.id in (717,722,724,758,759,760,761,762,763,764,781)
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
                 union all
-                select 717 as id,'Jumlah Pasien ICU Hari ini',count(x.noregistrasi) as jumlah,4 as qdepartemen
+                select 717 as id,'Jumlah Pasien ICU Hari ini',count(x.noregistrasi) as jumlah,8 as qdepartemen
                 from ( select  pd.noregistrasi,pd.tglregistrasi
                 from pasiendaftar_t as pd 
                 inner join ruangan_m as ru on ru.id = pd.objectruanganlastfk
@@ -2611,7 +2611,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 and (  pd.tglpulang is null)
                 and pd.statusenabled=true AND ru.id IN (717,722,724,758,759,760,761,762,763,764,781)) as x
                 union all
-                select 19 as id,'Jumlah Pasien Covid-19 Hari ini',count(x.noregistrasi) as jumlah,4 as qdepartemen
+                select 19 as id,'Jumlah Pasien Covid-19 Hari ini',count(x.noregistrasi) as jumlah,12 as qdepartemen
                 from ( select  pd.noregistrasi,pd.tglregistrasi
                 from pasiendaftar_t as pd 
                 inner join ruangan_m as ru on ru.id = pd.objectruanganlastfk
@@ -2619,7 +2619,7 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 and ( pd.tglpulang is null)and ru.objectruanganfk=19
                 and pd.statusenabled=true ) as x
                 union all
-                SELECT 999 as id,'Pasien Masuk Covid-19 Hari Ini',count(pd.norec) as jumlah,4 as qdepartemen
+                SELECT 999 as id,'Pasien Masuk Covid-19 Hari Ini',count(pd.norec) as jumlah,12 as qdepartemen
                 FROM departemen_m dp
                 join ruangan_m as ru on ru.objectdepartemenfk=dp.id
                 LEFT JOIN (SELECT norec,objectruanganlastfk FROM pasiendaftar_t
@@ -2628,6 +2628,11 @@ to_date(cast(pd.tglregistrasi as TEXT),'MM')AS bulan
                 group by dp.namadepartemen,dp.id,dp.qdepartemen
        
         "));
+        
+        $volume = array_column($data, 'qdepartemen');
+       
+
+        array_multisort($volume, SORT_ASC, $data);
          return $this->respond($data);
         // $data = DB::select(DB::raw("select dp.id ,dp.namadepartemen,count(pd.norec) as jumlah
         //             from pasiendaftar_t as pd

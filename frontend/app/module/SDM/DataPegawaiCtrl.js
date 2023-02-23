@@ -405,6 +405,8 @@ define(['initialize'], function (initialize) {
                     { field: "masakerja", title: "Masa Kerja", width: "10%" },
                     { field: "tglberakhirsip", title: "Tgl SIP", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglberakhirsip #')}}</span>" },
                     { field: "tglberakhirstr", title: "Tgl STR", width: "10%", template: "<span class='style-left'>{{formatTanggal('#: tglberakhirstr #')}}</span>" },
+                    { field: "idhafis", title: "ID Hafis", width: "20%" },
+                    { field: "namahafis", title: "Nama Hafis", width: "20%" },
                     // { field: "petugasdiklat", title: "Diklat", width: "20%" },
                     // { field: "jbstruktural", title: "Jabatan Internal", width: "20%", hidden: "true" },
                     // { field: "statuspegawai", title: "Status", width: "10%" },

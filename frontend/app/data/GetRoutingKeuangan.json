@@ -151,6 +151,63 @@
         ]
     },
     {
+        "name": "RincianTagihanV2.CatatanKeperawatan",
+        "url": "/CatatanKeperawatan",
+        "templateurl": "module/EMR/CatatanKeperawatan.html",
+        "controller": "CatatanKeperawatanCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.PengkajianAwal",
+        "url": "/PengkajianAwal",
+        "templateurl": "module/EMR/PengkajianAwal.html",
+        "controller": "PengkajianAwalCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
+        "name": "RincianTagihanV2.PengkajianAwalMedisPasien",
+        "url": "/PengkajianAwalMedisPasien",
+        "templateurl": "module/EMR/PengkajianAwalMedisPasien.html",
+        "controller": "PengkajianAwalMedisPasienCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
+    {
         "name": "RincianTagihan",
         "url": "/RincianTagihan/:dataPasien",
         "templateurl": "module/TataRekening/RincianTagihan.html",
