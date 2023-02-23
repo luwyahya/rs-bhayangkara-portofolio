@@ -199,13 +199,13 @@ define(['initialize'], function (initialize) {
                     },
                     {
                         "field": "harga",
-                        "title": "Harga",
+                        "title": "Harga Netto Awal",
                         "width": "70px",
                         "template": "<span class='style-right'>{{formatRupiah('#: harga #', '')}}</span>"
                     }, 
                     {
                         "field": "hargajual",
-                        "title": "Harga Jual",
+                        "title": "Harga + 25%",
                         "width": "70px",
                         "template": "<span class='style-right'>{{formatRupiah('#: hargajual #', '')}}</span>"
                     },
@@ -749,7 +749,12 @@ define(['initialize'], function (initialize) {
                     return
                 }
 
-               
+                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160) {
+                    toastr.error("Anda Tidak Berhak Merubah Data!!!!  ");
+                    $scope.isRouteLoading = false;
+                    return
+                }
+
 
                  var objSave = {
                     'namaRuangan': $scope.item.ruangan.namaruangan,
@@ -764,6 +769,14 @@ define(['initialize'], function (initialize) {
                 }
 
                 medifirstService.post('logistik/save-adjusment-stok2', objSave).then(function (e) {
+                  
+                    var objSave2 = { 
+                        'produkfk': $scope.item.idProduk,
+                        'hargaawal': parseFloat($scope.dataSelected.harga),
+                        'hargaakhir': $scope.hargaSatuan
+                    }
+
+                    medifirstService.postNonMessage('sysadmin/logging/save-log-ubah-harga', objSave2).then(function (data) { })
                     norec_spd = '';
                     nostruterimafk = '';
                     $scope.item.idProduk = undefined;
@@ -775,6 +788,7 @@ define(['initialize'], function (initialize) {
                     $scope.HargaShow.close();
                     $scope.isRouteLoading = false;
                     $scope.hargaSatuan = 0;
+
                     //    initData();
                 })
             }
@@ -798,6 +812,11 @@ define(['initialize'], function (initialize) {
                     $scope.AdjustmentShow.close();
                     return
                 }
+                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160) {
+                    toastr.error("Anda Tidak Berhak Merubah Data!!!!  ");
+                    $scope.isRouteLoading = false;
+                    return
+                }
 
                  var objSave = {
                     'namaRuangan': $scope.item.ruangan.namaruangan,
@@ -811,6 +830,7 @@ define(['initialize'], function (initialize) {
                 }
 
                 medifirstService.post('logistik/save-adjusment-stok', objSave).then(function (e) {
+                    
                     norec_spd = '';
                     nostruterimafk = '';
                     $scope.item.idProduk = undefined;

@@ -3299,6 +3299,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-combo', 'SysAdmin\LoggingController@getCombo');
                 Route::get('get-aktivitas-user', 'SysAdmin\LoggingController@getAktivitasUser');
                 Route::get('save-log-bayar', 'SysAdmin\LoggingController@saveLogBayartTagihanPasien');
+
+                Route::post('save-log-ubah-harga', 'SysAdmin\LoggingController@saveLoggingUbahHarga');
             });
             Route::group(['prefix' => 'settingdatafixed'], function () {
                 Route::get('get-settingdatafixed', 'SysAdmin\Master\SettingDataFixedController@getDataFixed');

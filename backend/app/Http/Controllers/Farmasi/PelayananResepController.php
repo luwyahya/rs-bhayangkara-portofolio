@@ -2906,7 +2906,7 @@ class PelayananResepController extends ApiController
                         $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
                     }
                 }
-
+                return ($item->harganetto);
                 $results[] = array(
                     'norec' => $item->norec,
                     'objectprodukfk' => $item->objectprodukfk,

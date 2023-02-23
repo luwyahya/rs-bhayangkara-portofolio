@@ -56,8 +56,9 @@ define(['initialize'], function(initialize) {
                 { id: 34, jenis: 'Ubah Rekanan' },
                 { id: 35, jenis: 'Pasien Mutasi' },
                 { id: 36, jenis: 'EMR' },
-                { id: 37, jenis: 'Hapus EMR' },
-                { id: 38, jenis: 'Inisialisasi Harga' },
+              { id: 37, jenis: 'Hapus EMR' },
+              { id: 38, jenis: 'Inisialisasi Harga' },
+              { id: 39, jenis: 'Ubah Harga Obat' },
             ]
 			Load();
 
