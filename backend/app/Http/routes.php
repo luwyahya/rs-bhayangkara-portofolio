@@ -2108,6 +2108,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-dokters-combos', 'RawatInap\RawatInapController@getDokters');
             Route::post('save-update-dokter-antrian', 'RawatInap\RawatInapController@updateDokterAntrian');
             Route::post('simpan-update-dokter', 'RawatInap\RawatInapController@simpanUpdateDokter');
+            Route::get('get-daftar-bed', 'RawatInap\RawatInapController@getTotalBed');
+            Route::get('get-daftar-bed-isi', 'RawatInap\RawatInapController@getTotalBedIsi');
+            Route::get('get-daftar-bed-kosong', 'RawatInap\RawatInapController@getTotalBedKosong');
             Route::get('get-ruangan-last', 'RawatInap\RawatInapController@getRuanganLast');
             Route::post('save-pasien-jatuh', 'RawatInap\RawatInapController@saveIndikatorPasienJatuh');
             Route::get('get-combo-pindahpasien', 'RawatInap\PindahPulangController@getComboPindahPulang');
@@ -3300,6 +3303,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-combo', 'SysAdmin\LoggingController@getCombo');
                 Route::get('get-aktivitas-user', 'SysAdmin\LoggingController@getAktivitasUser');
                 Route::get('save-log-bayar', 'SysAdmin\LoggingController@saveLogBayartTagihanPasien');
+
+                Route::post('save-log-ubah-harga', 'SysAdmin\LoggingController@saveLoggingUbahHarga');
             });
             Route::group(['prefix' => 'settingdatafixed'], function () {
                 Route::get('get-settingdatafixed', 'SysAdmin\Master\SettingDataFixedController@getDataFixed');

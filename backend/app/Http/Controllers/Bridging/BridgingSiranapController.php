@@ -714,8 +714,8 @@ class BridgingSiranapController  extends ApiController
                 LEFT JOIN ruangan_m AS ru ON ru.id = kmr.objectruanganfk
                 LEFT JOIN kelas_m AS kl ON kl.id = kmr.objectkelasfk
                 WHERE 
-                        tt.statusenabled = 1
-                and kmr.statusenabled=1 
+                        tt.statusenabled = true
+                and kmr.statusenabled=true 
                 ) as x"))->first();
         $fields = array (
             'kapasitas_vip' => $q->kapasitas_vip != null ? $q->kapasitas_vip : 0,

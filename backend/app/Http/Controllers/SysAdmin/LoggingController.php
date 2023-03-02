@@ -1508,4 +1508,54 @@ class LoggingController extends ApiController
         );
         return $this->respond($result);
     }
+    public function saveLoggingUbahHarga(Request $request)
+    {
+        DB::beginTransaction();
+
+        $transStatus = true;
+        $dataLogin = $request->all();
+       
+      
+            $produk = Produk::where('id', $request['produkfk'])->first();
+            $namaproduk = $produk->namaproduk;
+            $newId = LoggingUser::max('id');
+            $newId = $newId + 1;
+            $logUser = new LoggingUser();
+            $logUser->id = $newId;
+            $logUser->norec = $logUser->generateNewId();
+            $logUser->kdprofile = 11;
+            $logUser->statusenabled = true;
+            $logUser->jenislog = 'Ubah Harga Obat';
+            $logUser->referensi = 'norec Produk';
+            $logUser->noreff =  $produk->id; //$request['noregistrasi'];
+            $logUser->objectloginuserfk = $dataLogin['userData']['id']; //$dataPegawaiUser[0]->id;
+            $logUser->tanggal = $this->getDateTime()->format('Y-m-d H:i:s');        
+            $logUser->keterangan = 'Ubah Harga Obat ' . $produk->namaproduk . ' dari harga ' .  $request['hargaawal'] . ' menjadi ' .  $request['hargaakhir'];
+ 
+            //            try {
+            $logUser->save();
+            $transMsg = "Simpan Log Sukses ";
+      
+        //
+        //            } catch (\Exception $e) {
+        //                $transStatus = false;
+        //                $transMsg = "Simpan Log Gagal ";
+        //
+        //            }
+
+        if ($transStatus == true) {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMsg
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMsg
+            );
+        }
+        return $this->respond($result); 
+    }
 }
