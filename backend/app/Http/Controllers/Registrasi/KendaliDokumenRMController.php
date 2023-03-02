@@ -690,10 +690,10 @@ class KendaliDokumenRMController extends  ApiController
             ->wherein('ru.objectdepartemenfk',[18,28,24,73,74,75]); 
             // ->wherein('ru.objectdepartemenfk','=','18');        
         if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
-            $data = $data->where('pd.tglregistrasi', '>', $filter['tglAwal']);
+            $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal']);
         }
         if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
-            $data = $data->where('pd.tglregistrasi', '<', $filter['tglAkhir']);
+            $data = $data->where('pd.tglregistrasi', '<=', $filter['tglAkhir']);
         }
         if (isset($filter['deptId']) && $filter['deptId'] != "" && $filter['deptId'] != "undefined") {
             $data = $data->where('dept.id', '=', $filter['deptId']);
