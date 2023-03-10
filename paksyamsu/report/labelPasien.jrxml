@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.5.1  -->
+<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="labelPasien" pageWidth="212" pageHeight="100" columnWidth="212" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -91,7 +91,7 @@
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RM/Umur]]></text>
+				<text><![CDATA[RM]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="3" y="37" width="50" height="16" uuid="4d021c03-b41c-4756-a5c2-3d4ba6337c5c"/>
@@ -138,7 +138,7 @@
 				<text><![CDATA[/]]></text>
 			</staticText>
 			<textField>
-				<reportElement stretchType="ElementGroupBottom" x="142" y="23" width="67" height="16" forecolor="#0A0101" uuid="79651534-7273-403a-a15d-448e11c8c0e9">
+				<reportElement stretchType="ElementGroupBottom" x="142" y="23" width="67" height="16" forecolor="#FFFFFF" uuid="79651534-7273-403a-a15d-448e11c8c0e9">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left" verticalAlignment="Top">
@@ -156,7 +156,7 @@
          com.google.zxing.BarcodeFormat.CODE_128, 1000, 300))]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="136" y="23" width="14" height="16" uuid="3461b5c7-489d-4dad-901d-106f4d84f03a"/>
+				<reportElement x="136" y="23" width="14" height="16" forecolor="#FFFFFF" uuid="3461b5c7-489d-4dad-901d-106f4d84f03a"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>

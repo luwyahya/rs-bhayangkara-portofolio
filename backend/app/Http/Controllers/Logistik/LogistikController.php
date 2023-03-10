@@ -12689,37 +12689,38 @@ class LogistikController extends ApiController
             $dataSK->save();
 
             $norecSK = $dataSK->norec;
-        $jenisTransaksi = \DB::table('jenistransaksi_m as jt')
-            ->where('jt.id', 5)
-            ->where('jt.statusenabled', true)
-            ->first();
+            
+            $jenisTransaksi = \DB::table('jenistransaksi_m as jt')
+                ->where('jt.id', 5)
+                ->where('jt.statusenabled', true)
+                ->first();
 
-        if ($this->getCountArray($jenisTransaksi) == 0) {
-            return $this->respond(array(
-                'Error' => 'Setting jenistransaksi_m dulu',
-                'message' => 'as@epic',
-            ));
-        }
-        $strMetodeAmbilHargaNetto = $jenisTransaksi->metodeambilharganetto; 
-        $strMetodeStokHargaNetto = $jenisTransaksi->metodestokharganetto;
-        $strMetodePengiriman = $jenisTransaksi->metodepengiriman;
-        $strSistemHargaNetto = $jenisTransaksi->sistemharganetto;
-        if ($strMetodePengiriman == 1) { //FIFO
-            $strMSHT = 'order by tglstruk';
-            $MetodeStokHargaNetto = 'FIFO';
-        }
-        if ($strMetodePengiriman == 2) { //LIFO
-            $strMSHT = '';
-            $MetodeStokHargaNetto = 'LIFO';
-        }
-        if ($strMetodePengiriman == 3) { //FEFO
-            $strMSHT = 'order by tglkadaluarsa';
-            $MetodeStokHargaNetto = 'FEFO';
-        }
-        if ($strMetodePengiriman == 4) { //LEFO
-            $strMSHT = '';
-            $MetodeStokHargaNetto = 'LEFO';
-        }
+            if ($this->getCountArray($jenisTransaksi) == 0) {
+                return $this->respond(array(
+                    'Error' => 'Setting jenistransaksi_m dulu',
+                    'message' => 'as@epic',
+                ));
+            }
+            $strMetodeAmbilHargaNetto = $jenisTransaksi->metodeambilharganetto; 
+            $strMetodeStokHargaNetto = $jenisTransaksi->metodestokharganetto;
+            $strMetodePengiriman = $jenisTransaksi->metodepengiriman;
+            $strSistemHargaNetto = $jenisTransaksi->sistemharganetto;
+            if ($strMetodePengiriman == 1) { //FIFO
+                $strMSHT = 'order by tglstruk';
+                $MetodeStokHargaNetto = 'FIFO';
+            }
+            if ($strMetodePengiriman == 2) { //LIFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LIFO';
+            }
+            if ($strMetodePengiriman == 3) { //FEFO
+                $strMSHT = 'order by tglkadaluarsa';
+                $MetodeStokHargaNetto = 'FEFO';
+            }
+            if ($strMetodePengiriman == 4) { //LEFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LEFO';
+            }
             foreach ($request['details'] as $item) {
                 //cari satuan standar
                 $satuanstandar = DB::select(

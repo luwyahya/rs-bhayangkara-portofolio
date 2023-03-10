@@ -1532,6 +1532,7 @@ define(['initialize'], function (initialize) {
                             if (element.ismalam == "1") element.ismalam = true
                             else element.ismalam = false
                         }
+                        $scope.munculetiket();
                         $scope.dataPopUpetiket = $scope.dataGrid;
 
                         // $scope.dataSelectedPopUpetiket = new kendo.data.DataSource({
