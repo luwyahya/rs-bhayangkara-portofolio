@@ -12293,7 +12293,7 @@ class LogistikController extends ApiController
         $strRuanganTujuan = '';
         $strRuanganTujuan = $ruanganTujuan[0]->namaruangan;
 
-        try {
+        // try {
 
             if ($request['strukkirim']['noreckirim'] == '') {
                 if ($request['strukkirim']['norecOrder'] != '') {
@@ -12689,7 +12689,37 @@ class LogistikController extends ApiController
             $dataSK->save();
 
             $norecSK = $dataSK->norec;
+        $jenisTransaksi = \DB::table('jenistransaksi_m as jt')
+            ->where('jt.id', 5)
+            ->where('jt.statusenabled', true)
+            ->first();
 
+        if ($this->getCountArray($jenisTransaksi) == 0) {
+            return $this->respond(array(
+                'Error' => 'Setting jenistransaksi_m dulu',
+                'message' => 'as@epic',
+            ));
+        }
+        $strMetodeAmbilHargaNetto = $jenisTransaksi->metodeambilharganetto; 
+        $strMetodeStokHargaNetto = $jenisTransaksi->metodestokharganetto;
+        $strMetodePengiriman = $jenisTransaksi->metodepengiriman;
+        $strSistemHargaNetto = $jenisTransaksi->sistemharganetto;
+        if ($strMetodePengiriman == 1) { //FIFO
+            $strMSHT = 'order by tglstruk';
+            $MetodeStokHargaNetto = 'FIFO';
+        }
+        if ($strMetodePengiriman == 2) { //LIFO
+            $strMSHT = '';
+            $MetodeStokHargaNetto = 'LIFO';
+        }
+        if ($strMetodePengiriman == 3) { //FEFO
+            $strMSHT = 'order by tglkadaluarsa';
+            $MetodeStokHargaNetto = 'FEFO';
+        }
+        if ($strMetodePengiriman == 4) { //LEFO
+            $strMSHT = '';
+            $MetodeStokHargaNetto = 'LEFO';
+        }
             foreach ($request['details'] as $item) {
                 //cari satuan standar
                 $satuanstandar = DB::select(
@@ -12709,22 +12739,22 @@ class LogistikController extends ApiController
                         DB::raw("select qtyproduk as qty,nostrukterimafk,norec,objectasalprodukfk as asalprodukfk,
                         hargadiscount,harganetto1 as harganetto,harganetto1 as hargasatuan
                         from stokprodukdetail_t 
-                        where objectruanganfk=:ruanganfk and objectprodukfk=:produkfk 
+                        where objectruanganfk=:ruanganfk and objectprodukfk=:produkfk   $strMSHT
                         --and qtyproduk > 0
                         "),
                         array(
                             'ruanganfk' => $request['strukkirim']['objectruanganfk'],
-                            'produkfk' => $item['produkfk'],
+                            'produkfk' => $item['produkfk'] 
                         )
                     );
 
                     //PENERIMA
                     $dataSaldoAwalT = DB::select(
                         "select sum(qtyproduk) as qty from stokprodukdetail_t 
-                        where objectruanganfk=:ruanganfk and objectprodukfk=:produkfk",
+                        where objectruanganfk=:ruanganfk and objectprodukfk=:produkfk ",
                         array(
                             'ruanganfk' => $request['strukkirim']['objectruangantujuanfk'],
-                            'produkfk' => $item['produkfk'],
+                            'produkfk' => $item['produkfk'] 
                         )
                     );
                     $saldoAwalPenerima = 0;
@@ -13121,9 +13151,9 @@ class LogistikController extends ApiController
             }
 
             $transStatus = 'true';
-        } catch (\Exception $e) {
-            $transStatus = 'false';
-        }
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        // }
 
         $transMessage = "Kirim Barang";
 
@@ -13135,6 +13165,7 @@ class LogistikController extends ApiController
                 "message" => $transMessage,
                 "nokirim" => $dataSK, //$noResep,,//$noResep,
                 "stokdetailPenerima" => $dataSTOKDETAIL2,
+                'test'=> $dataSaldoAwalK,
                 "as" => 'as@epic',
             );
         } else {
@@ -13143,13 +13174,13 @@ class LogistikController extends ApiController
             $result = array(
                 "status" => 400,
                 "message"  => $transMessage,
-                "nokirim" => $dataSK, //$noResep,
-                "stokdetail" => $dataSTOKDETAIL,
-                "stokdetailTujuan" => $dataSTOKDETAIL2,
-                "req" => $request->all(),
-                "kartuStok" => $kirim,
-                "kartuStokTujuan" => $terima,
-                "kirimproduk" => $dataKP,
+                // "nokirim" => $dataSK, //$noResep,
+                // "stokdetail" => $dataSTOKDETAIL,
+                // "stokdetailTujuan" => $dataSTOKDETAIL2,
+                // "req" => $request->all(),
+                // "kartuStok" => $kirim,
+                // "kartuStokTujuan" => $terima,
+                // "kirimproduk" => $dataKP,
                 //                "saldoawalTujuan" => $dataSaldoAwalT,
                 "as" => 'as@epic',
             );
