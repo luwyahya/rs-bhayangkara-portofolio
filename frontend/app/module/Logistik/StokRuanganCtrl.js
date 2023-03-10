@@ -749,7 +749,7 @@ define(['initialize'], function (initialize) {
                     return
                 }
 
-                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160 && $scope.dataLogin.id !== 30021) {
+                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160 && $scope.dataLogin.id !== 30021 && $scope.dataLogin.id !== 1) {
                     toastr.error("Anda Tidak Berhak Merubah Data!!!!  ");
                     $scope.isRouteLoading = false;
                     return
@@ -812,7 +812,7 @@ define(['initialize'], function (initialize) {
                     $scope.AdjustmentShow.close();
                     return
                 }
-                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160 && $scope.dataLogin.id != 30021) {
+                if ($scope.dataLogin.id !== 30071 && $scope.dataLogin.id !== 3160 && $scope.dataLogin.id != 30021 && $scope.dataLogin.id !== 1) {
                     toastr.error("Anda Tidak Berhak Merubah Data!!!!  ");
                     $scope.isRouteLoading = false;
                     return
