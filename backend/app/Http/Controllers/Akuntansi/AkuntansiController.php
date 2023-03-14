@@ -1351,6 +1351,10 @@ class AkuntansiController extends ApiController{
             $newCOA->objectmataanggaranfk = $request['objectmataanggaranfk'];
             $newCOA->objectcarabayarfk = $request['objectcarabayarfk'];
             $newCOA->objectbankfk = $request['objectbankfk'];
+            $newCOA->isbku = $request['isbku'];
+            $newCOA->iskastunai  = $request['iskastunai'];
+            $newCOA->ispajak = $request['ispajak'];
+            $newCOA->isdeposit = $request['isdeposit'];
             $newCOA->save();
 
 
@@ -1410,6 +1414,10 @@ class AkuntansiController extends ApiController{
                 $newCOA->objectmataanggaranfk = $item['objectmataanggaranfk'];
                 $newCOA->objectcarabayarfk = $item['objectcarabayarfk'];
                 $newCOA->objectbankfk = $item['objectbankfk'];
+                $newCOA->isbku = $item['isbku'];
+                $newCOA->iskastunai  = $item['iskastunai'];
+                $newCOA->ispajak = $item['ispajak'];
+                $newCOA->isdeposit = $item['isdeposit'];
                 $newCOA->save();
             }
             

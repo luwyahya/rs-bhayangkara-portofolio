@@ -564,6 +564,33 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <fieldset class="effect-shadow" style=" border-radius: 4px;background-color: #e056fd;">
+                            <legend id="filterData">
+                                <a ng-click="showAndHide()">Mapping Laporan</a>
+                            </legend>
+                            <div class="grid_12">
+                                <div class="grid_3">
+                                    <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihBKU"
+                                            id="pilihBku" ng-click="ceklispilihManual(model.cekpilihBKU)">
+                                        <label class="c-label k-checkbox-label" for="pilihBku" required>BKU</label>
+                                </div>
+                                <div class="grid_3">
+                                    <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihKas"
+                                            id="pilihKas" ng-click="ceklispilihManual(model.cekpilihKas)">
+                                        <label class="c-label k-checkbox-label" for="pilihKas" required>KAS Tunai</label>
+                                </div>
+                                <div class="grid_3">
+                                    <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihPajak"
+                                            id="pilihPajak" ng-click="ceklispilihManual(model.cekpilihPajak)">
+                                        <label class="c-label k-checkbox-label" for="pilihPajak" required>Pajak</label>
+                                </div>
+                                <div class="grid_3">
+                                    <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihDeposit"
+                                            id="pilihDeposit" ng-click="ceklispilihDeposit(model.cekpilihDeposit)">
+                                        <label class="c-label k-checkbox-label" for="pilihDeposit" required>Deposit</label>
+                                </div>
+                            </div>
+                        </fieldset>
                         <div class="grid_12">
                             <div class="grid_3" style="margin-left: 5px;">
                                 <button class="btnTemplate1" style="margin-left: 5px;" ng-click="saveMapJurnal()"> <i

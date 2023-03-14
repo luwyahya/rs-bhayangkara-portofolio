@@ -1264,6 +1264,7 @@ define(['initialize'], function (initialize) {
                 })
             }
             $scope.saveMapJurnal = function () {
+                debugger
                 var accDebit = null
                 var accKredit = null
                 var kdProduk = null
@@ -1274,6 +1275,18 @@ define(['initialize'], function (initialize) {
                 var kdMataAnggaran = null
                 var kdCaraBayar = null
                 var kdBank = null
+                var isbku = false
+                var iskas = false
+                var ispajak = false
+                var isdeposit = false
+                if ($scope.model.cekpilihBKU == true)
+                    isbku = true
+                if ($scope.model.cekpilihKas == true)
+                    iskas = true
+                if ($scope.model.cekpilihPajak == true)
+                    ispajak = true
+                if ($scope.model.cekpilihDeposit == true)
+                    isdeposit = true
                 if ($scope.item.kdAkunDebit == undefined || $scope.item.kdAkunDebit === '') {
                     toastr.error('Account Debit Belum Di Pilih', 'Peringatan');
                     return;
@@ -1335,6 +1348,10 @@ define(['initialize'], function (initialize) {
                             objectmataanggaranfk: kdMataAnggaran,
                             objectcarabayarfk: kdCaraBayar,
                             objectbankfk: kdBank,
+                            isbku: isbku,
+                            iskastunai: iskas,
+                            ispajak: ispajak,
+                            isdeposit: isdeposit
                         }
                         tempData.push(objSave);
                     });
@@ -1374,6 +1391,10 @@ define(['initialize'], function (initialize) {
                         objectmataanggaranfk: kdMataAnggaran,
                         objectcarabayarfk: kdCaraBayar,
                         objectbankfk: kdBank,
+                        isbku: isbku,
+                        iskastunai: iskas,
+                        ispajak: ispajak,
+                        isdeposit: isdeposit
                     }
 
                     medifirstService.post('akuntansi/save-map-jurnal', objSave).then(function (e) {
