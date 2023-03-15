@@ -356,6 +356,10 @@
             "urlDep": "module/BendaharaPengeluaran/PengeluaranManualCtrl"
         },
         {
+            "nameDep": "PenentuanHutangCtrl",
+            "urlDep": "module/BendaharaPengeluaran/PenentuanHutangCtrl"
+        },
+        {
             "nameDep": "SuratPertanggungJawabanCtrl",
             "urlDep": "module/BendaharaPengeluaran/SuratPertanggungJawabanCtrl"
         },

@@ -15,6 +15,7 @@ use App\Transaksi\StrukBuktiPengeluaranCaraBayar;
 use App\Transaksi\StrukClosing;
 use App\Transaksi\StrukHistori;
 use App\Transaksi\StrukPelayanan;
+use App\Transaksi\StrukPelayananDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -179,6 +180,7 @@ class BendaharaPengeluaranController extends ApiController {
                     on mj.objectkelompoktransaksifk=x.idkeltransaksi and mj.objectcarabayarfk=x.idcarabayar
                     left join chartofaccount_m as cf on cf.id=mj.objectcoadebitfk
                     left join chartofaccount_m as cf2 on cf2.id=mj.objectcoakreditfk
+                    where mj.statusenabled =true
                     GROUP BY x.idcarabayar,x.idkeltransaksi,mj.objectcoadebitfk,
                     mj.objectcoakreditfk,
                     cf.namaaccount,
@@ -385,7 +387,9 @@ class BendaharaPengeluaranController extends ApiController {
                  left join strukbuktipengeluaran_t as sbk on sbk.norec = sp.nosbklastfk
                  left join strukverifikasi_t as sv on sv.norec = spd.noverifikasifk
                  left join ruangan_m as ru on ru.id = sv.objectruanganfk
-                 where sp.objectkelompoktransaksifk=35 and sp.tglfaktur BETWEEN '$tglAwal' and '$tglAkhir'
+                 where 
+                 -- sp.objectkelompoktransaksifk=35 and ini di komen karena penentuan hutang manual custom bg jho
+                 sp.tglfaktur BETWEEN '$tglAwal' and '$tglAkhir'
                  $Supplier
                  $NoFaktur
                  $NoStruk      
@@ -924,7 +928,139 @@ class BendaharaPengeluaranController extends ApiController {
             'by'=>'as@epic',
         ));
     }
+    public function simpanPenentuanHutang(Request $request)
+    {
+        $input = $request->all();
+        $kdProfile = $this->getDataKdProfile($request);
+        $idProfile = (int) $kdProfile;
+        $satatusInputAll = "T";
+        \DB::beginTransaction();
+        // try {
+        $req = $request;
+        $status = "";
+        $noStruk = "";
+        $dataKembaliStok = "";
+      
+            $SP = new StrukPelayanan();
+            $norecSP = $SP->generateNewId();
+            $noStruk = $this->generateCode(new StrukPelayanan, 'nostruk', 13, 'RS/'.$this->getDateTime()->format('ym/'));
+            $SP->norec = $norecSP;
+            $SP->kdprofile = $idProfile;
+            $SP->statusenabled = true;
+           
+            $SP->noterima = $noStruk;
+        
 
+        $SP->nostruk = $noStruk;
+        $SP->objectkelompoktransaksifk = $input['jenisTransaksi'];;
+        $SP->objectrekananfk = $input['rekanan'];
+        $SP->namarekanan = $input['namarekanan'];
+        $SP->keteranganlainnya = 'Penentuan Hutang';
+        
+        $SP->tglfaktur = $input['tglbku'];
+        $SP->tglstruk = $input['tglbku'];
+        // $SP->objectpegawaipenerimafk = $req['struk']['pegawaimenerimafk'];
+        // $SP->objectpegawaimenerimafk = $req['struk']['pegawaimenerimafk'];
+        // $SP->objectpegawaipenanggungjawabfk = $req['struk']['objectpegawaipenanggungjawabfk'];
+        // $SP->namapegawaipenerima = $req['struk']['namapegawaipenerima'];
+        
+        $SP->totalharusdibayar = $input['totalSetor'];
+        $SP->totalppn = !empty($input['ppn']) ? $input['ppn']: null;
+
+        $SP->totalhargasatuan = $input['totalSetor'];
+        
+        $SP->tgljatuhtempo = $input['tglbku'];
+
+        $SP->save();
+
+        $dataSaldoAwalSebelumTake = 0;
+        $masuk = 0;
+        $keluar = 0;
+        $HasilKeluarMasuk = 0;
+        $tampungBrg = "";
+        $produkfkLanjut = "";
+        $produkfkLanjutKeluar = "";
+
+
+                $SPD = new StrukPelayananDetail();
+                $norecKS = $SPD->generateNewId();
+                $SPD->norec = $norecKS;
+                $SPD->kdprofile = $idProfile;
+                $SPD->statusenabled = true;
+                $SPD->nostrukfk = $SP->norec;
+                // $SPD->objectasalprodukfk = $request['struk']['asalproduk']; //$item['asalprodukfk'];
+                // $SPD->objectprodukfk = $item['produkfk'];
+                // $SPD->objectruanganfk = $req['struk']['ruanganfk'];
+                // $SPD->objectruanganstokfk = $req['struk']['ruanganfk'];
+                // $SPD->objectsatuanstandarfk = $item['satuanstandarfk'];
+                $SPD->hargadiscount = 0;
+                $SPD->hargadiscountgive = 0;
+                $SPD->hargadiscountsave = 0;
+                $SPD->harganetto = $input['totalSetor'];
+                $SPD->hargapph = 0;
+                $SPD->hargappn = !empty($input['ppn']) ? $input['ppn']: 0;
+                $SPD->hargasatuan = $input['totalSetor'];
+                
+                $SPD->keteranganlainnya = $input['keterangan'];
+                $SPD->hargasatuandijamin = 0;
+                $SPD->hargasatuanppenjamin = 0;
+                $SPD->hargatambahan = 0;
+                $SPD->hargasatuanpprofile = 0;
+                $SPD->isonsiteservice = 0;
+                $SPD->kdpenjaminpasien = 0;
+                $SPD->qtyproduk = 0;
+                $SPD->qtyprodukoutext = 0;
+                $SPD->qtyprodukoutint = 0;
+                $SPD->qtyprodukretur = 0;
+                $SPD->satuan = '-'; //$item['satuanstandar'];;
+            
+                $SPD->tglpelayanan = $this->getDateTime();
+                $SPD->is_terbayar = 0;
+                $SPD->linetotal = 0;
+                $SPD->persendiscount=0;
+
+                $SPD->statusharga = $input['totalSetor'];
+              
+                $SPD->save();
+
+            $transStatus = 'true';
+        
+
+
+        //         $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        // }
+        $transMessage = $status;
+
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Struk Pelayanan";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "data" => $SP,
+                //                "datas" => $datanorecSR,
+                //                "dataSR" => $dataSR,
+                //                "dataRR" => $dataRR,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = "Simpan Struk Pelayanan Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+                "data" => $SP,
+                //                "datas" => $datanorecSR,
+                //                "dataSR" => $dataSR,
+                //                "dataRR" => $dataRR,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function simpanBKUBk(Request $request){
         \DB::beginTransaction();
         $input = $request->all();
