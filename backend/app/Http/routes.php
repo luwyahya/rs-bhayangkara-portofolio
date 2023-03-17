@@ -223,6 +223,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('simpan-pengeluaran-bku', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanBKUBk');
             Route::post('hapus-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@hapusBukuKasTunai');
             Route::post('verifikasi-Setoran', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiSetoran');
+            Route::post('simpan-penentuan-hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanPenentuanHutang');
             //**POST**//
         });
         Route::group(['prefix' => 'bridging'], function () {
