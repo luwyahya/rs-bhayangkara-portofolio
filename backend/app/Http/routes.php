@@ -216,6 +216,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-realisasi-anggaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDaftarRealisasiAnggaran');
             Route::get('get-data-spj', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDataSPJ');
             Route::get('get-daftar-kelompok-transaksi-pengeluaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPengeluaran');
+            Route::get('get-daftar-kelompok-transaksi-penentuan-hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPenentuanHutang');
             //**GET**//
 
             //**POST**//
@@ -224,6 +225,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('hapus-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@hapusBukuKasTunai');
             Route::post('verifikasi-Setoran', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiSetoran');
             Route::post('simpan-penentuan-hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanPenentuanHutang');
+            Route::post('verifikasi-Hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiHutang');
             //**POST**//
         });
         Route::group(['prefix' => 'bridging'], function () {

@@ -231,7 +231,7 @@ define(['initialize'], function (initialize) {
 					}
 					medifirstService.post('akuntansi/save-entry-jurnal-bp', objSave).then(function (e) {
 						tempresultKelompok.data.splice(i, 1);
-						pushSave()
+						// pushSave()
 					})
 					var itemDelete = {
 						"norec_closing": resultKelompok.data[0].norec,

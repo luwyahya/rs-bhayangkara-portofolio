@@ -120,7 +120,6 @@ class BendaharaPengeluaranController extends ApiController {
         );
         return $this->respond($result);
     }
-
     public function daftarKelompokTransaksiPengeluaran(Request $request){
         $idSetting= (int)$this->settingDataFixed('seeting jurnal');
         $norec_closing=$request['norec_closing'];
@@ -202,6 +201,97 @@ class BendaharaPengeluaranController extends ApiController {
         );
         return $this->respond($result);
     }
+    public function daftarKelompokTransaksiPenentuanHutang(Request $request){
+        $idSetting= (int)$this->settingDataFixed('seeting jurnal');
+        $norec_closing=$request['norec_closing'];
+        if($idSetting==1){
+            $data10= DB::select(DB::raw("select
+	
+            y.idkeltransaksi,
+            y.total,
+            y.objectcoadebitfk,
+            y.objectcoakreditfk,
+            y.namaaccountdebit,
+            y.namaaccountkredit,
+            y.noaccountdebit,
+            y.noaccountkredit,
+            y.kelompoktransaksi,
+            
+            y.norec
+        from
+            (
+            select
+                
+                x.idkeltransaksi,
+                sum(x.totalpenerimaan)as total,
+                mj.objectcoadebitfk,
+                mj.objectcoakreditfk,
+                cf.namaaccount as namaaccountdebit,
+                cf2.namaaccount as namaaccountkredit,
+                cf.noaccount as noaccountdebit,
+                cf2.noaccount as noaccountkredit,
+                x.kelompoktransaksi,
+                
+                x.norec
+            from
+                mapjurnal_m as mj
+            left join
+                            (
+                select
+                    
+                    sp.objectkelompoktransaksifk as idkeltransaksi,
+                    sp.totalharusdibayar :: numeric as totalpenerimaan,
+                    kt.kelompoktransaksi,
+                    
+                    sp.norec
+                from
+                    strukpelayanan_t as sp 
+                left join pasiendaftar_t as pd on
+                    sp.noregistrasifk = pd.norec
+                left join ruangan_m as ru on
+                    ru.id = pd.objectruanganlastfk
+                
+                
+                left join kelompoktransaksi_m as kt on
+                    kt.id = sp.objectkelompoktransaksifk
+                
+                where
+                    sp.objectkelompoktransaksifk not in (60)
+                    AND sp.norec ='$norec_closing'
+                            ) as x
+                            on
+                mj.objectkelompoktransaksifk = x.idkeltransaksi
+                
+            left join chartofaccount_m as cf on
+                cf.id = mj.objectcoadebitfk
+            left join chartofaccount_m as cf2 on
+                cf2.id = mj.objectcoakreditfk
+            where
+                mj.statusenabled = true
+            group by
+                
+                x.idkeltransaksi,
+                mj.objectcoadebitfk,
+                mj.objectcoakreditfk,
+                cf.namaaccount,
+                cf2.namaaccount,
+                cf.noaccount,
+                cf2.noaccount,
+                x.kelompoktransaksi,
+                
+                x.norec
+                            ) as y
+        where y.idkeltransaksi is not null"));
+            
+        }
+        
+        
+         $result = array(
+            'data' => $data10,
+            'message' => 'tukangkomputer',
+        );
+        return $this->respond($result);
+    }
     public function verifikasiSetoran(Request $request) {
 
         \DB::beginTransaction();
@@ -215,6 +305,45 @@ class BendaharaPengeluaranController extends ApiController {
                     ->where('statusenabled',true)
                     ->update([ 
                                 'noverifikasiveriffk'=>$newGetNorec ]);
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Verifikasi Berhasil";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'inhuman',
+            );
+        } else {
+            $transMessage = "Verifikasi Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function verifikasiHutang(Request $request) {
+
+        \DB::beginTransaction();
+        try{
+            $input  = $request->all();
+            if($request['norec_closing'] != '') {
+                $getNorec = new StrukPelayanan();
+                $newGetNorec = $getNorec->generateNewId();
+                $sbm = StrukPelayanan::where('norec',$request['norec_closing'])
+                    // ->where('keteranganlainnya','<>','Setoran Kasir')
+                    ->where('statusenabled',true)
+                    ->update([ 
+                                'noverifikasihutangfk'=>$newGetNorec ]);
             }
             $transStatus = 'true';
         } catch (\Exception $e) {
@@ -365,8 +494,9 @@ class BendaharaPengeluaranController extends ApiController {
                  xx.nosbk,xx.noverifikasi,xx.total,xx.totalppn,xx.totaldiskon,xx.subtotal,xx.sisautang,
                  (CASE WHEN xx.totalbayar = 0 THEN 'BELUM LUNAS' 
                  WHEN xx.totalbayar <> 0 and xx.totalbayar > 0 and xx.sisautang <> 0 THEN 'BELUM LUNAS' 
-                 WHEN xx.totalbayar = xx.subtotal OR xx.sisautang = 0 THEN 'LUNAS' ELSE '' END) as status,xx.tglsbk
-                 FROM(SELECT x.norec,x.tglstruk,x.tgldokumen,x.tgljatuhtempo,x.rknid,x.namarekanan,x.nostruk,x.nodokumen,x.nopo,
+                 WHEN xx.totalbayar = xx.subtotal OR xx.sisautang = 0 THEN 'LUNAS' ELSE '' END) as status,xx.tglsbk,
+                 case when xx.noverifikasihutangfk is null then 'Verifikasi' else 'Unverifikasi' end as verifhutang
+                 FROM(SELECT x.noverifikasihutangfk,x.norec,x.tglstruk,x.tgldokumen,x.tgljatuhtempo,x.rknid,x.namarekanan,x.nostruk,x.nodokumen,x.nopo,
                  (x.totalppn*x.qty) as totalppn,
                  (x.totaldiskon*x.qty) as totaldiskon,
                  (x.total*x.qty) as total,
@@ -375,7 +505,7 @@ class BendaharaPengeluaranController extends ApiController {
                  (case when x.totalsisahutang is null then ((x.total+x.totalppn-x.totaldiskon)*x.qty) ELSE
 				 x.totalsisahutang end) as sisautang,
                  x.nosbk,x.noverifikasi,x.tglsbk
-                 FROM (SELECT sp.norec,sp.tglstruk,sp.tglfaktur as tgldokumen,sp.nostruk,sp.nosppb as nopo,sp.nofaktur as nodokumen,
+                 FROM (SELECT sp.noverifikasihutangfk,sp.norec,sp.tglstruk,sp.tglfaktur as tgldokumen,sp.nostruk,sp.nosppb as nopo,sp.nofaktur as nodokumen,
                  SUM(spd.qtyproduk) as qty,SUM(spd.hargasatuan) as total,
                  SUM(spd.hargappn) as totalppn,SUM(spd.hargadiscount) as totaldiskon,
                  CASE WHEN sbk.totaldibayar is null then 0 else sbk.totaldibayar end as totaldibayar,
@@ -393,7 +523,7 @@ class BendaharaPengeluaranController extends ApiController {
                  $Supplier
                  $NoFaktur
                  $NoStruk      
-                 GROUP BY sp.norec,sp.tglstruk,sp.tglfaktur,sp.nostruk,sp.nosppb,sp.nofaktur,sp.nosbklastfk,sbk.totaldibayar,
+                 GROUP BY sp.noverifikasihutangfk,sp.norec,sp.tglstruk,sp.tglfaktur,sp.nostruk,sp.nosppb,sp.nofaktur,sp.nosbklastfk,sbk.totaldibayar,
                           sbk.totalsudahdibayar,sp.tgljatuhtempo,rkn.id,rkn.namarekanan,sbk.nosbk,sv.noverifikasi,sbk.totalsisahutang,sbk.tglsbk) as x) as xx) as su
                  $status;"
         ));
@@ -417,7 +547,8 @@ class BendaharaPengeluaranController extends ApiController {
                 'sisautang' => $item->sisautang,
                 'status' => $item->status,
                 'norec' => $item->norec,
-                'tglsbk' => $item->tglsbk
+                'tglsbk' => $item->tglsbk,
+                'verifhutang' => $item->verifhutang
             );
         }
 
@@ -619,6 +750,9 @@ class BendaharaPengeluaranController extends ApiController {
 
     public function savePembayaranTagihanSuplier(Request $request) {
         \DB::beginTransaction();
+       
+        // return($request['sbk']['arrnorec']);
+        // die();
         $dataLogin = $request->all();
         $dataPegawaiUser = DB::select(DB::raw("select pg.id as pgid,pg.namalengkap,lu.id as luid,lu.namauser from loginuser_s as lu
                 INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
@@ -700,10 +834,17 @@ class BendaharaPengeluaranController extends ApiController {
                     $SBPCB->totaldibayarcashin = $request['sbk']['totalbayar'];
                     $SBPCB->save();
 
-                    StrukPelayanan::where('norec', $request['sbk']['nostruk'])
+                    foreach ($request['sbk']['arrnorec'] as $itemx) {
+                        StrukPelayanan::where('norec', $itemx['norec'])
                         ->update([
                                 'nosbklastfk' => $dataSBKNorec]
                         );
+                    }
+
+                    // StrukPelayanan::where('norec', $request['sbk']['nostruk'])
+                    //     ->update([
+                    //             'nosbklastfk' => $dataSBKNorec]
+                    //     );
                 }
             }
 
@@ -970,6 +1111,7 @@ class BendaharaPengeluaranController extends ApiController {
         $SP->totalhargasatuan = $input['totalSetor'];
         
         $SP->tgljatuhtempo = $input['tglbku'];
+        $SP->qtyproduk = 1;
 
         $SP->save();
 
@@ -1008,7 +1150,7 @@ class BendaharaPengeluaranController extends ApiController {
                 $SPD->hargasatuanpprofile = 0;
                 $SPD->isonsiteservice = 0;
                 $SPD->kdpenjaminpasien = 0;
-                $SPD->qtyproduk = 0;
+                $SPD->qtyproduk = 1;
                 $SPD->qtyprodukoutext = 0;
                 $SPD->qtyprodukoutint = 0;
                 $SPD->qtyprodukretur = 0;

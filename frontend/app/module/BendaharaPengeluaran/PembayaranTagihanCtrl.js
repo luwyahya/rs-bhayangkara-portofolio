@@ -16,6 +16,7 @@ define(['initialize'], function (initialize) {
       var dariSini = "";
       var nosbk = "";
       var sisautang = 0;
+      $scope.selectedData = [];
       LoadCombo();
 
       $scope.$watch('item.caraBayar', function (newValue, oldValue) {
@@ -29,7 +30,7 @@ define(['initialize'], function (initialize) {
         }
       });
 
-      if ($state.params.noTerima !== "") {        
+      if ($state.params.noTerima !== "") {
         var chacePeriode = cacheHelper.get('PembayaranTagihan');
         if (chacePeriode != undefined) {
           var arrPeriode = chacePeriode.split('#');
@@ -44,6 +45,25 @@ define(['initialize'], function (initialize) {
           sisautang = parseFloat(arrPeriode[6]);
           judul = arrPeriode[7]
           dariSini = arrPeriode[8]
+          let tempArr = arrPeriode[9]
+          let chars = tempArr.split("");
+          let inputArray = true
+          let jum = 0
+          for (let i = 0; i < chars.length; i++) {
+            if (chars[i] === ",") {
+              jum = jum+1
+              inputArray = true
+            } else {
+              if (inputArray == true) {
+                let resDokter = { norec: chars[i] }
+                $scope.selectedData.push(resDokter);
+                inputArray = false
+              }else{
+                $scope.selectedData[jum].norec=$scope.selectedData[jum].norec+chars[i]
+              }
+            }
+          }
+          debugger
         }
       }
 
@@ -138,7 +158,8 @@ define(['initialize'], function (initialize) {
           pemilik: namaPemilikRekening,
           sisautang: sisautang,
           nostruk: noRECC,
-          keterangan: $scope.item.deskripsiTransaksi
+          keterangan: $scope.item.deskripsiTransaksi,
+          arrnorec: $scope.selectedData
         }
 
         var objSave = {
