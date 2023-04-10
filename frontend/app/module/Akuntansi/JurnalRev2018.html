@@ -507,6 +507,12 @@
                                     k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
                                     k-auto-bind="false" k-data-source="listNamaBank" />
                             </div>
+                            <div class="grid_3">
+                                <label name="produk" c-label item="item" c-label-text="Asal Anggaran"></label>
+                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.asalanggaran"
+                                    k-data-text-field="'asalanggaran'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listAsalAnggaran" />
+                            </div>
                         </div>
                         <div class="grid_12">
                             <div kendo-grid id="Kgrid" k-data-source="sourceRuangan" k-selectable="'row'"
@@ -669,6 +675,17 @@
                     </div>
                     <div class="grid_12">
                         <input c-text-box type="input" class="k-textbox" ng-model="item.deskripsi" />
+                    </div>
+
+                </div>
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <label c-label item="item" c-label-text="Asal Anggaran"></label>
+                    </div>
+                    <div class="grid_12">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.asalanggaran"
+                                    k-data-text-field="'asalanggaran'" k-data-value-field="'id'" k-filter="'contains'"
+                                    k-auto-bind="false" k-data-source="listAsalAnggaran" />
                     </div>
 
                 </div>

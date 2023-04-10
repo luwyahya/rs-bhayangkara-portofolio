@@ -51,6 +51,7 @@ define(['initialize'], function (initialize) {
                         $scope.listMataAnggaran = dat.data.mastreMataAnggaran;
                         $scope.listCaraBayar = dat.data.carabayar;
                         $scope.listNamaBank = dat.data.listbank;
+                        $scope.listAsalAnggaran = dat.data.asalanggaran;
                     });
             }
             $scope.getIsiComboRuangan = function () {
@@ -1012,6 +1013,11 @@ define(['initialize'], function (initialize) {
                     alert("Isi Keterangan terlebih dahulu!!")
                     return;
                 }
+                var kdAsalAnggaran = null
+                if ($scope.item.asalanggaran != undefined && $scope.item.asalanggaran != '') {
+                    kdAsalAnggaran = $scope.item.asalanggaran.id
+                }
+                
 
                 var nomor = 0
                 if ($scope.dataPopUp == undefined) {
@@ -1036,6 +1042,7 @@ define(['initialize'], function (initialize) {
                             data.hargasatuand = $scope.item.debet
                             data.hargasatuank = $scope.item.kredit
                             data.keteranganlainnya = ''
+                            data.kdasalanggaran = kdAsalAnggaran
 
                             data2[i] = data;
                             $scope.dataPopUp = new kendo.data.DataSource({
@@ -1063,7 +1070,8 @@ define(['initialize'], function (initialize) {
                         namaaccount2: $scope.item.kdAkun.namaaccount,
                         hargasatuand: $scope.item.debet,
                         hargasatuank: $scope.item.kredit,
-                        keteranganlainnya: ''
+                        keteranganlainnya: '',
+                        kdasalanggaran : kdAsalAnggaran
                     }
                     data2.push(data)
                     $scope.dataPopUp = new kendo.data.DataSource({
@@ -1279,6 +1287,7 @@ define(['initialize'], function (initialize) {
                 var iskas = false
                 var ispajak = false
                 var isdeposit = false
+                var kdAsalAnggaran = null
                 if ($scope.model.cekpilihBKU == true)
                     isbku = true
                 if ($scope.model.cekpilihKas == true)
@@ -1331,6 +1340,10 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.namaBank != undefined && $scope.item.namaBank != '') {
                     kdBank = $scope.item.namaBank.id
                 }
+
+                if ($scope.item.asalanggaran != undefined && $scope.item.asalanggaran != '') {
+                    kdAsalAnggaran = $scope.item.asalanggaran.id
+                }
                 debugger
                 var tempData = [];
                 if ($scope.selectedData2.length > 0) {
@@ -1351,7 +1364,8 @@ define(['initialize'], function (initialize) {
                             isbku: isbku,
                             iskastunai: iskas,
                             ispajak: ispajak,
-                            isdeposit: isdeposit
+                            isdeposit: isdeposit,
+                            kdasalanggaran: kdAsalAnggaran
                         }
                         tempData.push(objSave);
                     });
