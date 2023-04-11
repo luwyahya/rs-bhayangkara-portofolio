@@ -3308,7 +3308,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $scope.hideBtnSimpan = false;
                     return;
                 }
-                if (!$scope.model.generateNoSEP) return;
+                if (!$scope.model.generateNoSEP){
+                    $scope.SimpanNonGenerate();
+                    return;
+                }
                 var listRawRequired = [
                     "item.pasien.namaruangan|k-ng-model|Ruangan",
                     // "item.asalRujukan|ng-model|Asal Rujukan",

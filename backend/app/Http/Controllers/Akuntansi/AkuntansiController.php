@@ -1418,6 +1418,7 @@ class AkuntansiController extends ApiController{
                 $newCOA->iskastunai  = $item['iskastunai'];
                 $newCOA->ispajak = $item['ispajak'];
                 $newCOA->isdeposit = $item['isdeposit'];
+                $newCOA->kdasalanggaran = $item['kdasalanggaran'];
                 $newCOA->save();
             }
             
@@ -2992,6 +2993,7 @@ class AkuntansiController extends ApiController{
                 $postingJurnalTransaksiD->hargasatuank = $item['hargasatuank'];
                 $postingJurnalTransaksiD->statusenabled = 1;
                 $postingJurnalTransaksiD->norecrelated = $norecHead;
+                $postingJurnalTransaksiD->kdasalanggaran =($item['kdasalanggaran']?$item['kdasalanggaran']:null);
                 $postingJurnalTransaksiD->save();
             }
             $transStatus = 'true';

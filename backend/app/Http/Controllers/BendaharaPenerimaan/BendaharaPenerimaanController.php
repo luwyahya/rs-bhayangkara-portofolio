@@ -123,6 +123,12 @@ class BendaharaPenerimaanController extends ApiController {
             ->select('kr.id','ba.nama', 'coa.namaaccount','coa.noaccount')
             ->get();
 
+        $asalAnggaran = \DB::table('asalanggaran_m as as')
+            ->select('as.asalanggaran', 'as.id')
+            ->where('as.statusenabled', true)
+            ->orderBy('as.asalanggaran')
+            ->get();
+
         $result = array(
             'carasetor' => $caraSetor,
             'datalogin' => $dataLogin,
@@ -136,6 +142,7 @@ class BendaharaPenerimaanController extends ApiController {
             'ruangan'=>$Ruangan,
             'mastreMataAnggaran'=>$mastreMataAnggaran,
             'listBankKe'=>$listBankKe,
+            'asalanggaran' => $asalAnggaran,
             'message' => 'inhuman',
         );
         return $this->respond($result);
