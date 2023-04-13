@@ -4038,11 +4038,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                             poliTujuans = $scope.insert.poli.kode;
                                             kdJenisPelayanan = "2";
                                         }
-                                    } else {
-                                        kdJenisPelayanan = "1";
-                                        kdPpkRujukan = "0119R004";
-                                        $scope.model.noRujukan = $scope.model.skdp;
-                                    }
+                                    } 
                                 }
                             } else {
                                 if ($scope.insert.poli == undefined) {
