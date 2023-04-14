@@ -38,7 +38,7 @@ export class VerifikasiPasienBpjsNonpolComponent implements OnInit {
   isSuksesSEP: boolean = false
   showDPJP: boolean = false
   showPasca: boolean = true
-  ppkPelayananRS: any = "1001R017"
+  ppkPelayananRS: any = "0119R004"
   test: any = "PILIH DOKTER"
   tests: any = "PILIH POLI"
   listPoli: SelectItem[]
