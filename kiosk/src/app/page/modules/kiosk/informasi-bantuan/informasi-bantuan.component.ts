@@ -45,7 +45,7 @@ export class InformasiBantuanComponent implements OnInit {
       'dokterDPJPMelayani': new FormControl(''),
     });
 
-    this.httpService.get("medifirst2000/bridging/bpjs/get-ref-dokter-dpjp?jenisPelayanan=" + 1
+    this.httpService.get("medifirst2000/bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1
       + "&tglPelayanan=" + moment(new Date()).format('YYYY-MM-DD') + "&kodeSpesialis=" + null).subscribe(data => {
         if (data.metaData.code == 200) {
           this.listDokterMelayani = [];

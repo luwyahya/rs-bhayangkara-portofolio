@@ -27,6 +27,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   dataSEP: any = {}
   diagnosa: any = {}
   listDokter: SelectItem[]
+  listDokterTemp: SelectItem[]
   listDokterMelayani: SelectItem[]
   listRujukan: SelectItem[]
   listHistori: any[]
@@ -36,7 +37,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   isSuksesSEP: boolean = false
   showDPJP: boolean = false
   showPasca: boolean = true
-  ppkPelayananRS: any = "0119R004"
+  ppkPelayananRS: any = "1001R017"
   test: any = "PILIH DOKTER"
   tests: any = "PILIH POLI"
   listPoli: SelectItem[]
@@ -196,6 +197,20 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'poliTujuan': new FormControl(''),
       'pascaRanap': new FormControl(''),
       'dokterDPJPMelayani': new FormControl(''),
+    })
+    this.httpService.get('medifirst2000/reservasionline/get-list-data').subscribe(e => {
+      this.listDokterTemp = [];
+      //tambahan hafiz
+      e.dokter.forEach(response => {
+        this.listDokterTemp.push({
+          label: response.namalengkap, value: {
+            'id': response.id,
+            'dokter': response.namalengkap,
+            'namahafis': response.namahafis,
+            'idhafis': response.idhafis
+          }
+        });
+      });
     })
     this.sub = this.route
       .queryParams
@@ -764,36 +779,125 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
           'objectdepartemenfk': res.data.objectdepartemenfk,
         })
 
-        this.httpService.get("medifirst2000/bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 2
-          + "&tglPelayanan=" + moment(new Date()).format('YYYY-MM-DD') + "&kodeSpesialis=" + kode).subscribe(data => {
+        // this.httpService.get("medifirst2000/bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 2
+        //   + "&tglPelayanan=" + moment(new Date()).format('YYYY-MM-DD') + "&kodeSpesialis=" + kode).subscribe(data => {
+        //     if (data.metaData.code == 200) {
+        //       this.listDokter = [];
+        //       this.listDokter.push({ label: '-- Dokter --', value: null });
+        //       data.response.list.forEach(response => {
+        //         this.listDokter.push({
+        //           label: response.nama, value: {
+        //             'kode': response.kode,
+        //             'nama': response.nama
+        //           }
+        //         });
+        //       });
+        //       this.listDokterMelayani = [];
+        //       this.buttons = [];
+        //       this.listDokterMelayani.push({ label: '-- Dokter Melayani --', value: null });
+        //       data.response.list.forEach(response => {
+        //         this.listDokterMelayani.push({
+        //           label: response.nama, value: {
+        //             'kode': response.kode,
+        //             'nama': response.nama
+        //           }
+        //         });
+        //         this.buttons.push({
+        //           label: response.nama, value: {
+        //             'kode': response.kode,
+        //             'nama': response.nama
+        //           }
+        //         });
+        //       });
+
+        //     } else {
+        //       this.listDokter = []
+        //       this.listDokterMelayani = [];
+        //       this.buttons = [];
+        //       this.alertService.info('Dokter DPJP tidak ada', 'Info')
+        //     }
+
+        //   });
+
+        this.httpService.get("medifirst2000/bridging/bpjs2/mjkn/antrian/getjadwal?kodepoli=" + kode
+          + "&tanggal=" + moment(new Date()).format('YYYY-MM-DD')).subscribe(data => {
             if (data.metaData.code == 200) {
               this.listDokter = [];
               this.listDokter.push({ label: '-- Dokter --', value: null });
-              data.response.list.forEach(response => {
-                this.listDokter.push({
-                  label: response.nama, value: {
-                    'kode': response.kode,
-                    'nama': response.nama
-                  }
-                });
-              });
               this.listDokterMelayani = [];
               this.buttons = [];
               this.listDokterMelayani.push({ label: '-- Dokter Melayani --', value: null });
-              data.response.list.forEach(response => {
-                this.listDokterMelayani.push({
-                  label: response.nama, value: {
-                    'kode': response.kode,
-                    'nama': response.nama
+              for (let i = 0; i < data.response.length; i++) {
+                for (let x = 0; x < this.listDokterTemp.length; x++) {
+                  if(data.response[i].kodedokter==this.listDokterTemp[x].value.idhafis){
+                    this.listDokter.push({
+                      label: data.response[i].namadokter, value: {
+                        'kode': data.response[i].kodedokter,
+                        'nama': this.listDokterTemp[x].value.namahafis,
+                        'id': this.listDokterTemp[x].value.id,
+                        'namalengkap': data.response[i].namadokter,
+                        'idhafis': data.response[i].kodedokter,
+                        'namahafis': this.listDokterTemp[x].value.namahafis,
+                        'jadwal': data.response[i].jadwal,
+                        'kodesubspesialis':data.response[i].kodesubspesialis,
+                      }
+                    });
+                    this.listDokterMelayani.push({
+                      label: data.response[i].namadokter, value: {
+                        'kode': data.response[i].kodedokter,
+                        'nama': this.listDokterTemp[x].value.namahafis,
+                        'id': this.listDokterTemp[x].value.id,
+                        'namalengkap': data.response[i].namadokter,
+                        'idhafis': data.response[i].kodedokter,
+                        'namahafis': this.listDokterTemp[x].value.namahafis,
+                        'jadwal': data.response[i].jadwal,
+                        'kodesubspesialis':data.response[i].kodesubspesialis,
+                      }
+                    });
+                    this.buttons.push({
+                      label: data.response[i].namadokter, value: {
+                        'kode': data.response[i].kodedokter,
+                        'nama': this.listDokterTemp[x].value.namahafis,
+                        'id': this.listDokterTemp[x].value.id,
+                        'namalengkap': data.response[i].namadokter,
+                        'idhafis': data.response[i].kodedokter,
+                        'namahafis': this.listDokterTemp[x].value.namahafis,
+                        'jadwal': data.response[i].jadwal,
+                        'kodesubspesialis':data.response[i].kodesubspesialis,
+                      }
+                    });
                   }
-                });
-                this.buttons.push({
-                  label: response.nama, value: {
-                    'kode': response.kode,
-                    'nama': response.nama
-                  }
-                });
-              });
+                }
+              }
+
+              // data.response.forEach(response => {
+              //   this.listDokter.push({
+              //     label: response.namadokter, value: {
+              //       'kode': response.kodedokter,
+              //       'nama': response.namadokter,
+              //       'jadwal': response.jadwal,
+              //     }
+              //   });
+              // });
+              // this.listDokterMelayani = [];
+              // this.buttons = [];
+              // this.listDokterMelayani.push({ label: '-- Dokter Melayani --', value: null });
+              // data.response.forEach(response => {
+              //   this.listDokterMelayani.push({
+              //     label: response.namadokter, value: {
+              //       'kode': response.kodedokter,
+              //       'nama': response.namadokter,
+              //       'jadwal': response.jadwal,
+              //     }
+              //   });
+              //   this.buttons.push({
+              //     label: response.namadokter, value: {
+              //       'kode': response.kodedokter,
+              //       'nama': response.namadokter,
+              //       'jadwal': response.jadwal,
+              //     }
+              //   });
+              // });
 
             } else {
               this.listDokter = []
@@ -899,15 +1003,37 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                   this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + this.noSKDP
                   ).subscribe(data => {
                     if (data.metaData.code == 200) {
-                      this.test = data.response.namaDokter
-                      this.formGroup.get('dokterDPJPMelayani').setValue({
-                        "kode": data.response.kodeDokter,
-                        "nama": data.response.namaDokter
-                      })
-                      this.formGroup.get('dokterDPJP').setValue({
-                        "kode": data.response.kodeDokterPembuat,
-                        "nama": data.response.namaDokterPembuat
-                      })
+                      debugger
+                      for (let i = 0; i < this.listDokter.length; i++) {
+                        if (this.listDokter[i].value != null) {
+                          if (this.listDokter[i].value.kode == data.response.kodeDokter) {
+                            this.formGroup.get('dokterDPJPMelayani').setValue({
+                              "kode": data.response.kodeDokter,
+                              "nama": data.response.namaDokter,
+                              "jadwal": this.listDokter[i].value.jadwal,
+                              "id": this.listDokter[i].value.id,
+                              "namahafis": this.listDokter[i].value.namahafis,
+                            })
+                            this.formGroup.get('dokterDPJP').setValue({
+                              "kode": data.response.kodeDokter,
+                              "nama": data.response.namaDokter,
+                              "jadwal": this.listDokter[i].value.jadwal,
+                              "id": this.listDokter[i].value.id,
+                              "namahafis": this.listDokter[i].value.namahafis,
+                            })
+                            this.test = data.response.namaDokter
+                          }
+                        }
+                      }
+                      // this.test = data.response.namaDokter
+                      // this.formGroup.get('dokterDPJPMelayani').setValue({
+                      //   "kode": data.response.kodeDokter,
+                      //   "nama": data.response.namaDokter
+                      // })
+                      // this.formGroup.get('dokterDPJP').setValue({
+                      //   "kode": data.response.kodeDokterPembuat,
+                      //   "nama": data.response.namaDokterPembuat
+                      // })
                     }
                   })
                 } else if (updateSurkon == 'true') {
@@ -928,15 +1054,35 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                       this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + this.noSKDP
                       ).subscribe(data => {
                         if (data.metaData.code == 200) {
-                          this.test = data.response.namaDokter
-                          this.formGroup.get('dokterDPJPMelayani').setValue({
-                            "kode": data.response.kodeDokter,
-                            "nama": data.response.namaDokter
-                          })
-                          this.formGroup.get('dokterDPJP').setValue({
-                            "kode": data.response.kodeDokterPembuat,
-                            "nama": data.response.namaDokterPembuat
-                          })
+                          debugger
+                          for (let i = 0; i < this.listDokter.length; i++) {
+                            if (this.listDokter[i].value != null) {
+                              if (this.listDokter[i].value.kode == data.response.kodeDokter) {
+                                this.formGroup.get('dokterDPJPMelayani').setValue({
+                                  "kode": data.response.kodeDokter,
+                                  "nama": data.response.namaDokter,
+                                  "jadwal": this.listDokter[i].value.jadwal,
+                                  "id": this.listDokter[i].value.id,
+                                })
+                                this.formGroup.get('dokterDPJP').setValue({
+                                  "kode": data.response.kodeDokter,
+                                  "nama": data.response.namaDokter,
+                                  "jadwal": this.listDokter[i].value.jadwal,
+                                  "id": this.listDokter[i].value.id,
+                                })
+                                this.test = data.response.namaDokter
+                              }
+                            }
+                          }
+                          // this.test = data.response.namaDokter
+                          // this.formGroup.get('dokterDPJPMelayani').setValue({
+                          //   "kode": data.response.kodeDokter,
+                          //   "nama": data.response.namaDokter
+                          // })
+                          // this.formGroup.get('dokterDPJP').setValue({
+                          //   "kode": data.response.kodeDokterPembuat,
+                          //   "nama": data.response.namaDokterPembuat
+                          // })
                         }
                       })
                     } else {
@@ -965,15 +1111,34 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                           this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + e.response.noSuratKontrol
                           ).subscribe(data => {
                             if (data.metaData.code == 200) {
-                              this.test = data.response.namaDokter
-                              this.formGroup.get('dokterDPJPMelayani').setValue({
-                                "kode": data.response.kodeDokter,
-                                "nama": data.response.namaDokter
-                              })
-                              this.formGroup.get('dokterDPJP').setValue({
-                                "kode": data.response.kodeDokterPembuat,
-                                "nama": data.response.namaDokterPembuat
-                              })
+                              for (let i = 0; i < this.listDokter.length; i++) {
+                                if (this.listDokter[i].value != null) {
+                                  if (this.listDokter[i].value.kode == data.response.kodeDokter) {
+                                    this.formGroup.get('dokterDPJPMelayani').setValue({
+                                      "kode": data.response.kodeDokter,
+                                      "nama": data.response.namaDokter,
+                                      "jadwal": this.listDokter[i].value.jadwal,
+                                      "id": this.listDokter[i].value.id,
+                                    })
+                                    this.formGroup.get('dokterDPJP').setValue({
+                                      "kode": data.response.kodeDokter,
+                                      "nama": data.response.namaDokter,
+                                      "jadwal": this.listDokter[i].value.jadwal,
+                                      "id": this.listDokter[i].value.id,
+                                    })
+                                    this.test = data.response.namaDokter
+                                  }
+                                }
+                              }
+                              // this.test = data.response.namaDokter
+                              // this.formGroup.get('dokterDPJPMelayani').setValue({
+                              //   "kode": data.response.kodeDokter,
+                              //   "nama": data.response.namaDokter
+                              // })
+                              // this.formGroup.get('dokterDPJP').setValue({
+                              //   "kode": data.response.kodeDokterPembuat,
+                              //   "nama": data.response.namaDokterPembuat
+                              // })
                             }
                           })
                         } else {
@@ -984,7 +1149,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                   })
                 }
               } else {
-                this.httpService.get("medifirst2000/bridging/bpjs2/cek-sep??nosep=" + noSepTerakhir
+                this.httpService.get("medifirst2000/bridging/bpjs2/cek-sep?nosep=" + noSepTerakhir
                 ).subscribe(data => {
                   if (data.metaData.code == 200) {
                     debugger
@@ -1001,18 +1166,37 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
                     }
                     this.httpService.post("medifirst2000/bridging/bpjs2/insert-rencana-kontrol-v2", dataSend).subscribe(e => {
                       if (e.metaData.code == 200) {
+                        this.noSKDP = e.response.noSuratKontrol
                         this.httpService.get("medifirst2000/bridging/bpjs2/cari-rencana-kontrol-v2?noRujukanKontrol=" + e.response.noSuratKontrol
                         ).subscribe(data => {
                           if (data.metaData.code == 200) {
-                            this.test = data.response.namaDokter
-                            this.formGroup.get('dokterDPJPMelayani').setValue({
-                              "kode": data.response.kodeDokter,
-                              "nama": data.response.namaDokter
-                            })
-                            this.formGroup.get('dokterDPJP').setValue({
-                              "kode": data.response.kodeDokterPembuat,
-                              "nama": data.response.namaDokterPembuat
-                            })
+                            for (let i = 0; i < this.listDokter.length; i++) {
+                              if (this.listDokter[i].value != null) {
+                                if (this.listDokter[i].value.kode == data.response.kodeDokter) {
+                                  this.formGroup.get('dokterDPJPMelayani').setValue({
+                                    "kode": data.response.kodeDokter,
+                                    "nama": data.response.namaDokter,
+                                    "jadwal": this.listDokter[i].value.jadwal,
+                                    "id": this.listDokter[i].value.id,
+                                  })
+                                  this.formGroup.get('dokterDPJP').setValue({
+                                    "kode": data.response.kodeDokter,
+                                    "nama": data.response.namaDokter,
+                                    "id": this.listDokter[i].value.id,
+                                  })
+                                  this.test = data.response.namaDokter
+                                }
+                              }
+                            }
+                            // this.test = data.response.namaDokter
+                            // this.formGroup.get('dokterDPJPMelayani').setValue({
+                            //   "kode": data.response.kodeDokter,
+                            //   "nama": data.response.namaDokter
+                            // })
+                            // this.formGroup.get('dokterDPJP').setValue({
+                            //   "kode": data.response.kodeDokterPembuat,
+                            //   "nama": data.response.namaDokterPembuat
+                            // })
                           }
                         })
                       } else {
@@ -1249,7 +1433,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
             if (this.listHistori[i].jnsPelayanan == "1") {
               this.noPascaRanap = this.listHistori[i].noSep
               var a = {
-                'nama': "RS BHAYANGKARA TK IV CIANJUR",
+                'nama': "RS BHAYANGKARA TK.IV CIANJUR",
                 'kode': this.ppkPelayananRS
               }
               var b = {
@@ -1453,13 +1637,28 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       // this.showPilihan = true
       // this.showTujuanKunj = true
       this.tujuanKunj = '2'
-      this.flagProcedure = '5'
+      this.assesmentPel = '5'
       this.kdPenunjang = ''
-      this.assesmentPel = ''
+      this.flagProcedure = ''
       this.insertLiveBridging()
+      // this.savePasienDatfatar()
     }
   }
   insertLiveBridging() {
+    if (this.pasien.nocmfk == undefined) {
+      var stt = ""
+      if (confirm('NoRM Pasien belum tersimpan di BPJS, sialhkan ambil antrian')) {
+        // Save it!
+        stt = 'true';
+        return;
+      } else {
+        // Do nothing!
+        stt = 'false'
+        return;
+      }
+      return;
+      // this.savePasien()
+    }
     this.showCetaks = true
     let asalRujukan = "2"
     // this.formGroup.get('dokterDPJP').setValue(this.formGroup.get("dokterDPJPMelayani").value)
@@ -1667,6 +1866,10 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
   }
   savePasienDaftarFix() {
+    let referensi = this.item.noKunjungan
+    if (this.noSKDP != '') {
+      referensi = this.noSKDP
+    }
     var pasiendaftar = {
       'tglregistrasi': moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       'tglregistrasidate': moment(new Date()).format('YYYY-MM-DD'),
@@ -1677,7 +1880,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'objectkelompokpasienlastfk': 2,//umum
       'objectrekananfk': 581367,
       'tipelayanan': 1,//reguler
-      'objectpegawaifk': null,
+      'objectpegawaifk': this.formGroup.get('dokterDPJPMelayani').value.id,
       'noregistrasi': '',
       'norec_pd': '',
       'israwatinap': 'false',
@@ -1689,7 +1892,22 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'objectruanganasalfk': this.formGroup.get('poliTujuan').value.kodeinternal,
       'statuspasien': 'LAMA',
       'objectkasuspenyakitlastfk': '1',
-      'sensus': null
+      'sensus': null,
+      // antrol
+      'nmhafis': this.formGroup.get('dokterDPJPMelayani').value.namahafis,
+      'nomorkartu': this.item.peserta.noKartu,
+      'nik': this.item.peserta.nik,
+      'nohp': this.item.peserta.mr.noTelepon,
+      'kodepoli': this.formGroup.get('poliTujuan').value.kode,
+      'namapoli': this.formGroup.get('poliTujuan').value.nama,
+      'kodedokter': this.formGroup.get('dokterDPJP').value.kode,
+      'namadokter': this.formGroup.get('dokterDPJP').value.nama,
+      'nomorreferensi': referensi,
+      'isjenispasienantrol': 'JKN',
+      'normantrol': this.item.peserta.mr.noMR,
+      'noantrianLoket': 0,
+      'jadwal': this.formGroup.get('dokterDPJP').value.jadwal != undefined ? this.formGroup.get('dokterDPJP').value.jadwal : '',
+      'kodesubspesialisHafis': this.formGroup.get('poliTujuan').value.kode
     }
     var antrianpasiendiperiksa = {
       'norec_apd': '',
@@ -1728,8 +1946,11 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'jenispasien': '2',
       'idruangan': this.formGroup.get('poliTujuan').value.kodeinternal,
       'norec_apd': norec_apd,
-      'idpegawai': null,
-      'isDaftarKeDua': false
+      'idpegawai': this.formGroup.get('dokterDPJPMelayani').value.id,
+      'isDaftarKeDua': false,
+      'objectdepartemenfk':this.formGroup.get('poliTujuan').value.objectdepartemenfk,
+      'statuspasien':'LAMA',
+      'jenisPel': 1
     }
     this.httpService.post('medifirst2000/registrasi/save-biaya-karcis', json).subscribe(e => {
     })
@@ -1895,6 +2116,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'namadjpjpmelayanni': this.formGroup.get('dokterDPJPMelayani').value.nama,
       'polirujukankode': this.formGroup.get('poliTujuan').value.kode,
       'polirujukannama': this.formGroup.get('poliTujuan').value.nama,
+       'hasilbridging': true
     }
     var objSave = {
       'asuransipasien': asuransipasien,

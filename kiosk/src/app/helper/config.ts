@@ -32,7 +32,7 @@ export class Configuration {
       }
     } else {
       return {
-        apiBackend: 'http://192.168.100.209/service/',
+        apiBackend: '/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }

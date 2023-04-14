@@ -50,7 +50,7 @@ export class PilihPoliComponent implements OnInit {
   isPoliSama: boolean = false
   catatan: any;
   catatanRekanan: any;
-  showNotip:boolean
+  showNotip: boolean
   constructor(@Inject(forwardRef(() => AppComponent))
   public app: AppComponent,
     private router: Router,
@@ -87,23 +87,27 @@ export class PilihPoliComponent implements OnInit {
     this.httpService.get('medifirst2000/reservasionline/get-list-data').subscribe(e => {
       this.listRuangan = [];
       this.listRuangan.push({ label: '--Pilih Poli --', value: null });
-      e.ruanganrajal.forEach(response => {
+      e.ruanganrajalKiosk.forEach(response => {
         this.listRuangan.push({
           label: response.namaruangan, value: {
             'id': response.id,
             'namaruangan': response.namaruangan,
-            'objectdepartemenfk': response.objectdepartemenfk
+            'objectdepartemenfk': response.objectdepartemenfk,
+            'kodebpjs': response.kdinternal
           }
         });
       });
 
       this.listDokter = [];
+      //tambahan hafiz
       this.listDokter.push({ label: '--Pilih Dokter --', value: null });
       e.dokter.forEach(response => {
         this.listDokter.push({
           label: response.namalengkap, value: {
             'id': response.id,
-            'dokter': response.namalengkap
+            'dokter': response.namalengkap,
+            'namahafis': response.namahafis
+
           }
         });
       });
@@ -120,20 +124,70 @@ export class PilihPoliComponent implements OnInit {
     console.log(ruangan)
     // this.item.noKunjungan = noKunjungan.label
     // this.item.diagnosa.kode = noKunjungan.value
-    this.cekJadwal(ruangan.value.id)
+    this.cekJadwal(ruangan.value)
   }
   cekJadwal(x) {
-    this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan='+x).subscribe(e => {
-      this.listDokter = [];
-      this.listDokter.push({ label: '--Pilih Dokter --', value: null });
+    this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan=' + x.id).subscribe(e => {
+      let listDokterTemp = [];
+
       e.forEach(response => {
-        this.listDokter.push({
+        listDokterTemp.push({
           label: response.namalengkap, value: {
             'id': response.id,
-            'dokter': response.namalengkap
+            'dokter': response.namalengkap,
+            'namahafis': response.namahafis,
+            'idhafis' : response.idhafis
           }
         });
       });
+
+      this.httpService.get("medifirst2000/bridging/bpjs2/mjkn/antrian/getjadwal?kodepoli=" + x.kodebpjs
+        + "&tanggal=" + moment(new Date()).format('YYYY-MM-DD')).subscribe(data => {
+          if (data.metaData.code == 200) {
+            this.listDokter = [];
+            this.listDokter.push({ label: '--Pilih Dokter --', value: null });
+            for (let i = 0; i < data.response.length; i++) {
+              for (let x = 0; x < listDokterTemp.length; x++) {
+                if(data.response[i].kodedokter==listDokterTemp[x].value.idhafis){
+                  this.listDokter.push({
+                    label: data.response[i].namadokter, value: {
+                      'id': listDokterTemp[x].value.id,
+                      'namalengkap': data.response[i].namadokter,
+                      'idhafis': data.response[i].kodedokter,
+                      'namahafis': listDokterTemp[x].value.namahafis,
+                      'jadwal': data.response[i].jadwal,
+                      'kodesubspesialis':data.response[i].kodesubspesialis,
+                    }
+                  });
+                }
+              }
+            }
+          
+
+          } else {
+            this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan=' + x.id).subscribe(e => {
+              this.listDokter = [];
+              this.listDokter.push({ label: '--Pilih Dokter --', value: null });
+              e.forEach(response => {
+                this.listDokter.push({
+                  label: response.namalengkap, value: {
+                    'id': response.id,
+                    'dokter': response.namalengkap,
+                    'namahafis': response.namahafis
+                  }
+                });
+              });
+              this.filteredOptions = this.myControl.valueChanges
+                .pipe(
+                  startWith(''),
+                  map(value => this._filter(value))
+                );
+
+            })
+          }
+
+        });
+
       this.filteredOptions = this.myControl.valueChanges
         .pipe(
           startWith(''),
@@ -141,6 +195,9 @@ export class PilihPoliComponent implements OnInit {
         );
 
     })
+
+
+
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -170,9 +227,19 @@ export class PilihPoliComponent implements OnInit {
       this.dataCache[0].tglregistrasi = moment(new Date()).format('DD-MM-YYYY HH:mm')
       this.dataCache[0].namaruangan = this.formGroup.get('idRuangan').value.namaruangan
       this.dataCache[0].idruangan = this.formGroup.get('idRuangan').value.id
-      this.dataCache[0].dokter = this.formGroup.get('idDokter').value.dokter
+      this.dataCache[0].dokter = this.formGroup.get('idDokter').value.namalengkap
       this.dataCache[0].iddokter = this.formGroup.get('idDokter').value.id
+      this.dataCache[0].namahafis = this.formGroup.get('idDokter').value.namahafis
       this.dataCache[0].objectdepartemenfk = this.formGroup.get('idRuangan').value.objectdepartemenfk
+      this.dataCache[0].kodepoli = this.formGroup.get('idRuangan').value.kodebpjs
+      this.dataCache[0].kodedokter = this.formGroup.get('idDokter').value.idhafis
+      this.dataCache[0].namadokter = this.formGroup.get('idDokter').value.namalengkap
+      this.dataCache[0].jadwal = this.formGroup.get('idDokter').value.jadwal
+      this.dataCache[0].kodepoli = this.formGroup.get('idRuangan').value.kodebpjs
+      this.dataCache[0].kodepoli = this.formGroup.get('idRuangan').value.kodebpjs
+      this.dataCache[0].kodepoli = this.formGroup.get('idRuangan').value.kodebpjs
+      this.dataCache[0].kodepoli = this.formGroup.get('idRuangan').value.kodebpjs
+      
       this.item = this.dataCache[0]
     }
 
@@ -187,23 +254,23 @@ export class PilihPoliComponent implements OnInit {
       })
     } else {
       this.savePsienDaftar()
-    }  
+    }
   }
   save() {
-    this.httpService.get('medifirst2000/registrasi/cek-pasien-daftar-duakali?nocm='+this.item.nocm+ '&tglregistrasi='
-    +moment(new Date()).format('YYYY-MM-DD')).subscribe(y => {
+    this.httpService.get('medifirst2000/registrasi/cek-pasien-daftar-duakali?nocm=' + this.item.nocm + '&tglregistrasi='
+      + moment(new Date()).format('YYYY-MM-DD')).subscribe(y => {
         debugger
         this.catatan = '';
         this.catatanRekanan = ';'
-        if(y.data.length!=0){
+        if (y.data.length != 0) {
           y.data.forEach(response => {
-            if(this.item.idruangan==response.objectruanganlastfk){
+            if (this.item.idruangan == response.objectruanganlastfk) {
               this.isPoliSama = true;
             }
-            this.catatan = this.catatan+','+response.namaruangan
+            this.catatan = this.catatan + ',' + response.namaruangan
             this.catatanRekanan = response.namarekanan
           });
-          if(this.isPoliSama == true){
+          if (this.isPoliSama == true) {
             this.alertService.warn('Peringatan', 'Pasien tidak bisa daftar di Poli yang sama')
             return;
           }
@@ -227,8 +294,8 @@ export class PilihPoliComponent implements OnInit {
           })
         } else {
           this.savePsienDaftar()
-        }  
-    })
+        }
+      })
   }
   savePsienDaftar() {
     var pasiendaftar = {
@@ -242,17 +309,31 @@ export class PilihPoliComponent implements OnInit {
       'objectrekananfk': 0,
       'tipelayanan': 1,//reguler
       'objectpegawaifk': this.item.iddokter,
+      'nmhafis': this.item.namahafis,
       'noregistrasi': '',
       'norec_pd': '',
       'israwatinap': 'false',
       'statusschedule': 'Kios-K',
-      'istelemedicine':'false',
-      'jaminankhusus':'',
-      'catatan':this.catatan,
-      'objectruanganasalfk':this.item.idruangan,
-      'statuspasien':'LAMA',
+      'istelemedicine': 'false',
+      'jaminankhusus': '',
+      'catatan': this.catatan,
+      'objectruanganasalfk': this.item.idruangan,
+      'statuspasien': 'LAMA',
       'objectkasuspenyakitlastfk': '1',
-      'sensus':null
+      'sensus': null,
+      'nomorkartu': '',
+      'nik': this.item.noidentitas,
+      'nohp': this.item.nohp,
+      'kodepoli': this.item.kodepoli,
+      'namapoli': this.item.namaruangan,
+      'kodedokter': this.item.kodedokter,
+      'namadokter': this.item.namadokter,
+      'nomorreferensi': '',
+      'isjenispasienantrol': 'NON JKN',
+      'normantrol': this.item.nocm,
+      'noantrianLoket': 0,
+      'jadwal': this.item.jadwal,
+      'kodesubspesialisHafis': this.item.kodepoli
     }
     var antrianpasiendiperiksa = {
       'norec_apd': '',
@@ -276,7 +357,7 @@ export class PilihPoliComponent implements OnInit {
       this.item.noregistrasi = response.dataPD.noregistrasi
       this.saveLogging('Pendaftaran Pasien', 'norec Pasien Daftar', response.dataPD.norec,
         'Self Registration No Registrasi (' + response.dataPD.noregistrasi + ') ')
-      this.saveBiayaKarcis(response.dataPD.noregistrasi,response.dataAPD.norec)
+      this.saveBiayaKarcis(response.dataPD.noregistrasi, response.dataAPD.norec)
       this.cacheHelper.set('cacheSelfRegis', undefined)
       this.loading = false
     }, error => {
@@ -284,14 +365,17 @@ export class PilihPoliComponent implements OnInit {
       this.showNoAntrian = false
     })
   }
-  saveBiayaKarcis(noregistrasi,norec_apd){
-    var json ={
-      'noregistrasi' : noregistrasi,
-      'jenispasien' : '1',
-      'idruangan' : this.item.idruangan,
-      'norec_apd':norec_apd,
+  saveBiayaKarcis(noregistrasi, norec_apd) {
+    var json = {
+      'noregistrasi': noregistrasi,
+      'jenispasien': '1',
+      'idruangan': this.item.idruangan,
+      'norec_apd': norec_apd,
       'idpegawai': this.item.iddokter,
-      'isDaftarKeDua':this.isDaftarKedua
+      'isDaftarKeDua': this.isDaftarKedua,
+      'objectdepartemenfk': this.item.objectdepartemenfk,
+      'statuspasien':'LAMA',
+      'jenisPel': 1
     }
     this.httpService.post('medifirst2000/registrasi/save-biaya-karcis', json).subscribe(e => {
     })
@@ -321,7 +405,7 @@ export class PilihPoliComponent implements OnInit {
         //   this.service.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
         //     // do something with response
         //   })
-    
+
         // }, error => {
         //   debugger
         // })
