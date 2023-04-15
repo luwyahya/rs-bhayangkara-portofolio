@@ -307,15 +307,15 @@ class ReservasiOnlineController extends ApiController
         //         array_multisort($count, SORT_ASC, $data10);
         //     }            
         // }
-        // $kdJenisPegawaiDokter = $this->settingDataFixed('kdJenisPegawaiDokter');
+        $kdJenisPegawaiDokter = $this->settingDataFixed('kdJenisPegawaiDokter');
 
-        // $dkoter = \DB::table('pegawai_m')
-        //     ->select('*')
-        //     ->where('statusenabled', true)
-        //     ->where('objectjenispegawaifk', $kdJenisPegawaiDokter)
-        //     ->orderBy('namalengkap')
-        //     ->get();
-        foreach ($data as $item) {
+        $dkoter = \DB::table('pegawai_m')
+            ->select('*')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk', $kdJenisPegawaiDokter)
+            ->orderBy('namalengkap')
+            ->get();
+        foreach ($dkoter as $item) {
          
             $data10[] = array(
                 'id' => $item->objectpegawaifk,
