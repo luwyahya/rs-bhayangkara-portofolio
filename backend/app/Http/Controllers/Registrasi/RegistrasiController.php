@@ -2442,7 +2442,9 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             $dataAPD->tglregistrasi =  $r_NewAPD['tglregistrasi'];
             $dataAPD->tglmasuk = $r_NewAPD['tglregistrasi'];
             $dataAPD->israwatgabung = $r_NewAPD['israwatgabung'];
-            $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
+             if (isset($r_NewPD['israwattitipan'])) {
+                $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
+             }
             if (isset($r_NewPD['nmhafis'])) {
                 $dataAPD->namahafis = $r_NewPD['nmhafis'];
             } else {
