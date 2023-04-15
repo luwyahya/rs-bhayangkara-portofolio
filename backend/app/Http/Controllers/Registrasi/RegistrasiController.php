@@ -2299,8 +2299,11 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $dataPD->statusschedule = $r_NewPD['statusschedule'];
             }
             $dataPD->tglregistrasi =  $r_NewPD['tglregistrasi'];
-            $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
-            // $dataPD->tglcsr = $r_NewPD['tglcsr'];
+             if (isset($r_NewPD['jaminankhusus']) && $r_NewPD['jaminankhusus'] != "" && $r_NewPD['jaminankhusus'] != "undefined") {
+                $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
+            }else{
+                $dataPD->objectjaminankhusus = null;
+            }// $dataPD->tglcsr = $r_NewPD['tglcsr'];
             if (isset($r_NewPD['tglcsr']) && $r_NewPD['tglcsr'] != "" && $r_NewPD['tglcsr'] != "undefined") {
                 $dataPD->tglcsr =  $r_NewPD['tglcsr'];
             }
