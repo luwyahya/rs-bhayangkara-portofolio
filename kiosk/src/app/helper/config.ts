@@ -38,7 +38,7 @@ export class Configuration {
       }
     } else {
       return {
-        apiBackend: './service/',
+        apiBackend: '/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
