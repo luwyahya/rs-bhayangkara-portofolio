@@ -168,7 +168,7 @@ Dim strKet As Boolean
     With Report
         If Not rs.EOF Then
             .txtNoPerjanjian.SetText rs!noperjanjian
-            .txtNoMR.SetText rs!noCm
+            .txtNoMr.SetText rs!noCm
             .TxtNama.SetText rs!namapasien
             .txtNamaKeluarga.SetText rs!namakeluarga
             .txtTglInput.SetText Format(rs!tglinput, "dd-MM-yyyy HH:mm")
@@ -177,7 +177,7 @@ Dim strKet As Boolean
             .txtNamaRuangan.SetText rs!namaruangan
             .txtNamaDokter.SetText rs!namalengkap
             .txtKeterangan.SetText rs!Keterangan
-            .txtPrintTglBKM.SetText "Jakarta, " & Format(Now(), "dd MMM yyyy")
+            .txtPrintTglBKM.SetText "Bandung, " & Format(Now(), "dd MMM yyyy")
             .txtPetugasCetak.SetText strIdPegawai
             
             If view = "false" Then
@@ -231,7 +231,7 @@ ReadRs "select pp.noperjanjian, ps.nocm, (upper(ps.namapasien))as namapasien,(up
     With Report
         If Not rs.EOF Then
             .txtNoPerjanjian.SetText rs!noperjanjian
-            .txtNoMR.SetText rs!noCm
+            .txtNoMr.SetText rs!noCm
             .TxtNama.SetText rs!namapasien
             .txtNamaKeluarga.SetText rs!namakeluarga
             .txtTglInput.SetText Format(rs!tglinput, "dd-MM-yyyy HH:mm")

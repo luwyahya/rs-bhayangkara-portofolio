@@ -152,10 +152,14 @@ On Error Resume Next
     For i = 1 To jumlahCetak
         'MsgBox "CETAK"
         Printer.fontSize = 10
+        Printer.Print ""
+        Printer.Print ""
+        Printer.Print ""
+        Printer.Print ""
         Printer.Print "                       RUMAH SAKIT"
         Printer.fontSize = 12
         Printer.FontBold = True
-        Printer.Print "Bhayangkara TK.IV Cianjur"
+        Printer.Print "Bhayangkara TK.IV CIANJUR"
         Printer.FontBold = False
         Printer.fontSize = 10
 '        Printer.Print "Komp Kampus Unand Jalan Universitas Andalas,"

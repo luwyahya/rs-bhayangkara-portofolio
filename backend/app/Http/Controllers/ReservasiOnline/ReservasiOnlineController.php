@@ -249,61 +249,148 @@ class ReservasiOnlineController extends ApiController
 	}
     public function getJadwalDokter(Request $request)
 	{
-        $data = \DB::table('jadwalpraktekmingguan_m as jd')
-        ->join('pegawai_m as pg','pg.id','=','jd.objectpegawaifk')
-        ->join('ruangan_m as ru','ru.id','=','jd.objectruanganfk')
-        ->select('jd.objectpegawaifk','pg.namalengkap','ru.namaruangan','pg.photo',
-        (DB::raw("to_char(jd.tglmulai, 'dddd') as day")))
-        ->where('jd.statusenabled', true)
-        // ->where('pg.id','<>',1)
-        ->orderByRaw('pg.namalengkap,jd.tglmulai desc');
+        // $data = \DB::table('jadwalpraktekmingguan_m as jd')
+        // ->join('pegawai_m as pg','pg.id','=','jd.objectpegawaifk')
+        // ->join('ruangan_m as ru','ru.id','=','jd.objectruanganfk')
+        // ->select('jd.objectpegawaifk','pg.namalengkap','ru.namaruangan','pg.photo',
+        //     'pg.namahafis','pg.idhafis', (DB::raw("replace(to_char( jd.tglmulai,'Day'), ' ', '') as day"))
+        // )
+        // ->where('jd.statusenabled', true)
+        // // ->where('pg.id','<>',1)
+        // ->orderByRaw('pg.namalengkap,jd.tglmulai desc');
 
 
-        if(isset($request['namalengkap']) &&
-            $request['namalengkap']!="" &&
-            $request['namalengkap']!="undefined"){
-            $data = $data->where('pg.namalengkap','like','%'. $request['namalengkap'] .'%' );
-        };
-        if(isset($request['idRuangan']) &&
-            $request['idRuangan']!="" &&
-            $request['idRuangan']!="undefined"){
-            $data = $data->where('ru.id','=', $request['idRuangan'] );
-        };
-        if(isset($request['idPegawai']) &&
-            $request['idPegawai']!="" &&
-            $request['idPegawai']!="undefined"){
-            $idPegawai =$request['idPegawai'];
-            $data = $data->whereRaw("pg.id in ( $idPegawai )");
-        };
+        // if(isset($request['namalengkap']) &&
+        //     $request['namalengkap']!="" &&
+        //     $request['namalengkap']!="undefined"){
+        //     $data = $data->where('pg.namalengkap','like','%'. $request['namalengkap'] .'%' );
+        // };
+        // if(isset($request['idRuangan']) &&
+        //     $request['idRuangan']!="" &&
+        //     $request['idRuangan']!="undefined"){
+        //     $data = $data->where('ru.id','=', $request['idRuangan'] );
+        // };
+        // if(isset($request['idPegawai']) &&
+        //     $request['idPegawai']!="" &&
+        //     $request['idPegawai']!="undefined"){
+        //     $idPegawai =$request['idPegawai'];
+        //     $data = $data->whereRaw("pg.id in ( $idPegawai )");
+        // };
 
-        $data = $data->get();
-        $hariini = date("l");
+        // $data = $data->get();
+        // $hariini = date("l");
         
-        $data10 = [];
-        $sama = false;
-        foreach ($data as $item) {
-            $sama = false;
-            $i = 0;
-            $o = 0;
-            if($item->day==$hariini){
-                if($sama == false){
+        // $data10 = [];
+        // $sama = false;
+        // //   return ($data);
+        // foreach ($data as $item) {
+        //     $sama = false;
+        //     $i = 0;
+        //     $o = 0;
+          
+        //     if($item->day==$hariini){
+                
+        //         if($sama == false){
                     
-                    $data10[] = array(
-                        'id'=>$item->objectpegawaifk,
-                        'namalengkap'=>$item->namalengkap,
-                        // 'photo'=>$item->photo,
-                        // 'namaruangan'=>$item->namaruangan,
-                        // 'day'=>$hariini
-                    );
-                }
-                foreach ($data10 as $key => $row) {
-                    $count[$key] = $row['id'];
-                }
-                array_multisort($count, SORT_ASC, $data10);
-            }            
+        //             $data10[] = array(
+        //                 'id'=>$item->objectpegawaifk,
+        //                 'namalengkap'=>$item->namalengkap,
+        //                 'namahafis' => $item->namahafis,
+        //                 'idhafis'=>$item->idhafis,
+        //                 // 'namaruangan'=>$item->namaruangan,
+        //                 // 'day'=>$hariini
+        //             );
+        //         }
+        //         foreach ($data10 as $key => $row) {
+        //             $count[$key] = $row['id'];
+        //         }
+        //         array_multisort($count, SORT_ASC, $data10);
+        //     }            
+        // }
+        // $kdJenisPegawaiDokter = $this->settingDataFixed('kdJenisPegawaiDokter');
+
+        // $dkoter = \DB::table('pegawai_m')
+        //     ->select('*')
+        //     ->where('statusenabled', true)
+        //     ->where('objectjenispegawaifk', $kdJenisPegawaiDokter)
+        //     ->orderBy('namalengkap')
+        //     ->get();
+        foreach ($data as $item) {
+         
+            $data10[] = array(
+                'id' => $item->objectpegawaifk,
+                'namalengkap' => $item->namalengkap,
+                'namahafis' => $item->namahafis,
+                'idhafis' => $item->idhafis,
+                // 'namaruangan'=>$item->namaruangan,
+                // 'day'=>$hariini
+            );
+            
+            foreach ($data10 as $key => $row) {
+                $count[$key] = $row['id'];
+            }
+            array_multisort($count, SORT_ASC, $data10);
+        
         }
 		return $this->respond($data10);
 	}
+    // public function getJadwalDokter(Request $request)
+	// {
+    //     $data = \DB::table('jadwalpraktekmingguan_m as jd')
+    //     ->join('pegawai_m as pg','pg.id','=','jd.objectpegawaifk')
+    //     ->join('ruangan_m as ru','ru.id','=','jd.objectruanganfk')
+    //     ->select('jd.objectpegawaifk','pg.namalengkap','ru.namaruangan','pg.photo',
+    //     (DB::raw("to_char(jd.tglmulai, 'dddd') as day")))
+    //     ->where('jd.statusenabled', true)
+    //     // ->where('pg.id','<>',1)
+    //     ->orderByRaw('pg.namalengkap,jd.tglmulai desc');
+
+
+    //     if(isset($request['namalengkap']) &&
+    //         $request['namalengkap']!="" &&
+    //         $request['namalengkap']!="undefined"){
+    //         $data = $data->where('pg.namalengkap','like','%'. $request['namalengkap'] .'%' );
+    //     };
+    //     if(isset($request['idRuangan']) &&
+    //         $request['idRuangan']!="" &&
+    //         $request['idRuangan']!="undefined"){
+    //         $data = $data->where('ru.id','=', $request['idRuangan'] );
+    //     };
+    //     if(isset($request['idPegawai']) &&
+    //         $request['idPegawai']!="" &&
+    //         $request['idPegawai']!="undefined"){
+    //         $idPegawai =$request['idPegawai'];
+    //         $data = $data->whereRaw("pg.id in ( $idPegawai )");
+    //     };
+
+    //     $data = $data->get();
+    //     $hariini = date("l");
+        
+    //     $data10 = [];
+    //     $sama = false;
+    //     foreach ($data as $item) {
+    //         $sama = false;
+    //         $i = 0;
+    //         $o = 0;
+    //         if($item->day==$hariini){
+    //             if($sama == false){
+                    
+    //                 $data10[] = array(
+    //                     'id'=>$item->objectpegawaifk,
+    //                     'namalengkap'=>$item->namalengkap,
+    //                     // 'photo'=>$item->photo,
+    //                     // 'namaruangan'=>$item->namaruangan,
+    //                     // 'day'=>$hariini
+    //                 );
+    //             }
+    //             foreach ($data10 as $key => $row) {
+    //                 $count[$key] = $row['id'];
+    //             }
+    //             array_multisort($count, SORT_ASC, $data10);
+    //         }            
+    //     }
+	// 	return $this->respond($data10);
+	// }
     public function getJadwalDokterHariIni(Request $request)
 	{
         $data = \DB::table('jadwalpraktekmingguan_m as jd')
