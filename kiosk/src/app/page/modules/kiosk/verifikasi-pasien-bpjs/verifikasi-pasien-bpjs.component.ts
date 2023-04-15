@@ -1867,8 +1867,10 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   }
   savePasienDaftarFix() {
     let referensi = this.item.noKunjungan
+    let jeniskunjungan = 1
     if (this.noSKDP != '') {
-      referensi = this.noSKDP
+      referensi = this.noSKDP;
+      jeniskunjungan = 3;
     }
     var pasiendaftar = {
       'tglregistrasi': moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
@@ -1903,6 +1905,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'kodedokter': this.formGroup.get('dokterDPJP').value.kode,
       'namadokter': this.formGroup.get('dokterDPJP').value.nama,
       'nomorreferensi': referensi,
+      'jeniskunjungan': jeniskunjungan,
       'isjenispasienantrol': 'JKN',
       'normantrol': this.item.peserta.mr.noMR,
       'noantrianLoket': 0,
