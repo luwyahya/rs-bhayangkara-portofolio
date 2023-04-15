@@ -2091,13 +2091,15 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         
         DB::beginTransaction();
-        if ($r_NewPD['isPenanggungJawab'] == 'true') {
-            $data = Pasien::where('id', $r_NewPD['nocmfk'])
-                ->update([
-                    'penanggungjawab' => $r_NewPD['penanggungjawab'],
-                    'hubungankeluargapj' => $r_NewPD['hubungankeluargapj'],
-                    'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
-                ]);
+          if(isset($r_NewPD['isPenanggungJawab'])){
+            if ($r_NewPD['isPenanggungJawab'] == 'true') {
+                $data = Pasien::where('id', $r_NewPD['nocmfk'])
+                    ->update([
+                        'penanggungjawab' => $r_NewPD['penanggungjawab'],
+                        'hubungankeluargapj' => $r_NewPD['hubungankeluargapj'],
+                        'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
+                    ]);
+            } 
         } 
 
         if ($r_NewPD['objectruanganfk'] == 251) {
