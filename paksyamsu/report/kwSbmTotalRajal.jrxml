@@ -90,7 +90,7 @@ FROM            strukpelayanan_t AS sp INNER JOIN
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RS BHAYANGKARA CIANJUR]]></text>
+				<text><![CDATA[RS BHAYANGKARA TK IV CIANJUR]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="629" y="-20" width="171" height="20" forecolor="#0A0101" uuid="2f02ce19-2fb0-4fea-a42b-d408dc2b66d8"/>
