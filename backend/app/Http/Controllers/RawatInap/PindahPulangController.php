@@ -203,7 +203,7 @@ class PindahPulangController extends ApiController
         $data = \DB::table('tempattidur_m as tt')
             ->join ('statusbed_m as sb','sb.id','=','tt.objectstatusbedfk')
             ->join ('kamar_m as km','km.id','=','tt.objectkamarfk')
-            ->select('tt.id','sb.statusbed','tt.reportdisplay')
+            ->select('ztt.id','sb.statusbed','tt.reportdisplay')
             ->where('tt.objectkamarfk', $request['idKamar'])
             ->where('tt.statusenabled',true)
             ->where('tt.objectstatusbedfktriger','=',5)
