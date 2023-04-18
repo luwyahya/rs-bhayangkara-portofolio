@@ -164,6 +164,8 @@ export class PilihPoliComponent implements OnInit {
             }
           
 
+          }else{
+            this.listDokter = [];
           }
           //  else {
           //   this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan=' + x.id).subscribe(e => {
