@@ -164,27 +164,28 @@ export class PilihPoliComponent implements OnInit {
             }
           
 
-          } else {
-            this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan=' + x.id).subscribe(e => {
-              this.listDokter = [];
-              this.listDokter.push({ label: '--Pilih Dokter --', value: null });
-              e.forEach(response => {
-                this.listDokter.push({
-                  label: response.namalengkap, value: {
-                    'id': response.id,
-                    'dokter': response.namalengkap,
-                    'namahafis': response.namahafis
-                  }
-                });
-              });
-              this.filteredOptions = this.myControl.valueChanges
-                .pipe(
-                  startWith(''),
-                  map(value => this._filter(value))
-                );
-
-            })
           }
+          //  else {
+          //   this.httpService.get('medifirst2000/reservasionline/get-jadwal-dokter?idRuangan=' + x.id).subscribe(e => {
+          //     this.listDokter = [];
+          //     this.listDokter.push({ label: '--Pilih Dokter --', value: null });
+          //     e.forEach(response => {
+          //       this.listDokter.push({
+          //         label: response.namalengkap, value: {
+          //           'id': response.id,
+          //           'dokter': response.namalengkap,
+          //           'namahafis': response.namahafis
+          //         }
+          //       });
+          //     });
+          //     this.filteredOptions = this.myControl.valueChanges
+          //       .pipe(
+          //         startWith(''),
+          //         map(value => this._filter(value))
+          //       );
+
+          //   })
+          // }
 
         });
 
