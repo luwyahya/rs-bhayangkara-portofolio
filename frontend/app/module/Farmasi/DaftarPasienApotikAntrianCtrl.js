@@ -1,7 +1,7 @@
-define(['initialize'], function (initialize) {
+define(['initialize', 'Configuration'], function (initialize, config) {
     'use strict';
-    initialize.controller('DaftarPasienApotikAntrianCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', '$mdDialog', 'CetakHelper', 'MedifirstService', '$q',
-        function (saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, $mdDialog, cetakHelper, medifirstService, $q) {
+    initialize.controller('DaftarPasienApotikAntrianCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', '$mdDialog', 'CetakHelper', 'MedifirstService', '$q', 'socket',
+        function (saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, $mdDialog, cetakHelper, medifirstService, $q, socket) {
 
             // initialize.controller('DaftarPasienApotikCtrl', ['$q', '$rootScope', '$scope', '$window' ,'medifirstService','$state','CacheHelper','DateHelper',
             //     function($q, $rootScope, $scope,window,medifirstService,$state,cacheHelper,dateHelper) {
@@ -56,13 +56,13 @@ define(['initialize'], function (initialize) {
                 }
             }
             var combojenis = [
-            {id:1 , jenis:"Non Racikan"},
-            {id:2 , jenis:"Racikan"},            
+                { id: 1, jenis: "Non Racikan" },
+                { id: 2, jenis: "Racikan" },
             ];
             var combostatus = [
-            {id:1 , statusdipanggil:"Belum Di Panggil"},
-            {id:6 , statusdipanggil:"Sudah Di Panggil"},   
-            {id:5 , statusdipanggil:"Selesai"},            
+                { id: 1, statusdipanggil: "Belum Di Panggil" },
+                { id: 6, statusdipanggil: "Sudah Di Panggil" },
+                { id: 5, statusdipanggil: "Selesai" },
             ];
             function loadCombo() {
                 medifirstService.get("farmasi/get-datacombo_dp", true).then(function (dat) {
@@ -70,23 +70,67 @@ define(['initialize'], function (initialize) {
                     $scope.listKelompokPasien = dat.data.kelompokpasien;
                     $scope.listRuangandepo = dat.data.ruanganfarmasi;
                     $scope.listjenis = combojenis;
-                    $scope.listStatusdipanggil= combostatus;
+                    $scope.listStatusdipanggil = combostatus;
                 });
             }
             $scope.cariEnter = function () {
                 init()
             }
             var onDataBound = function () {
-                            $('td').each(function () {
-                              if ($(this).text() == 'Proses') {$(this).addClass('red')}
-                              if ($(this).text() == 'Sedang Di panggil') {$(this).addClass('green')}
-                              if ($(this).text() == 'Selesai') {$(this).addClass('blue')}
-                        if ($(this).text() == 'Sudah Di Panggil') {$(this).addClass('koneng')}
-                        if ($(this).text() == 'ATENSI') {$(this).addClass('koneng')}
-                      
-                            })
-                         }
+                $('td').each(function () {
+                    if ($(this).text() == 'Proses') { $(this).addClass('red') }
+                    if ($(this).text() == 'Sedang Di panggil') { $(this).addClass('green') }
+                    if ($(this).text() == 'Selesai') { $(this).addClass('blue') }
+                    if ($(this).text() == 'Sudah Di Panggil') { $(this).addClass('koneng') }
+                    if ($(this).text() == 'ATENSI') { $(this).addClass('koneng') }
+
+                })
+            }
             function init() {
+                var listloket = [{
+                    id: 1,
+                    loket: "1"
+                },
+                {
+                    id: 2,
+                    loket: "2"
+                },
+                {
+                    id: 3,
+                    loket: "3"
+                },
+                {
+                    id: 4,
+                    loket: "4"
+                },
+                {
+                    id: 5,
+                    loket: "5"
+                },
+                {
+                    id: 6,
+                    loket: "6"
+                },
+                {
+                    id: 7,
+                    loket: "7"
+                },
+                {
+                    id: 8,
+                    loket: "8"
+                },
+                {
+                    id: 9,
+                    loket: "9"
+                },
+                {
+                    id: 10,
+                    loket: "10"
+                },
+
+                ];
+                $scope.listloket = listloket;
+
                 $scope.isRouteLoading = true;
                 var ins = ""
                 var tempInstalasi = [];
@@ -137,7 +181,7 @@ define(['initialize'], function (initialize) {
                     "&tglAkhir=" + tglAkhir +
                     "&noregistrasi=" + $scope.item.noReg +
                     "&nocm=" + $scope.item.noMr +
-                    "&jenis=Racikan"+
+                    "&jenis=Racikan" +
                     "&namapasien=" + $scope.item.namaPasien + ins + rg + statusdipanggil + kp
                     , true).then(function (dat) {
                         $scope.isRouteLoading = false;
@@ -147,26 +191,26 @@ define(['initialize'], function (initialize) {
                             var tanggalLahir = new Date(dat.data[i].tgllahir);
                             var umur = dateHelper.CountAge(tanggalLahir, tanggal);
                             dat.data[i].umur = umur.year + ' thn ' + umur.month + ' bln ' + umur.day + ' hari'
-                            if(dat.data[i].statuspanggil ==  1){
+                            if (dat.data[i].statuspanggil == 1) {
                                 dat.data[i].status = 'Proses';
                                 dat.data[i].status2 = 'PANGGIL';
                                 dat.data[i].status3 = 'Belum Selesai';
-                            }else if(dat.data[i].statuspanggil == 3){
+                            } else if (dat.data[i].statuspanggil == 3) {
                                 dat.data[i].status = 'Sedang Di panggil';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Belum Selesai';
-                            }else if(dat.data[i].statuspanggil == 5){
+                            } else if (dat.data[i].statuspanggil == 5) {
                                 dat.data[i].status = 'Selesai';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Selesai';
-                            
-                            }else if(dat.data[i].statuspanggil == 6){
+
+                            } else if (dat.data[i].statuspanggil == 6) {
                                 dat.data[i].status = 'Selesai';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Selesai';
-                            
+
                             }
-                            else{
+                            else {
                                 dat.data[i].status = 'Sudah Di Panggil';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Belum Selesai';
@@ -181,8 +225,8 @@ define(['initialize'], function (initialize) {
                     "&tglAkhir=" + tglAkhir +
                     "&noregistrasi=" + $scope.item.noReg +
                     "&nocm=" + $scope.item.noMr +
-                    "&jenis=Non Racikan"+
-                    "&namapasien=" + $scope.item.namaPasien + ins + rg + statusdipanggil +  kp
+                    "&jenis=Non Racikan" +
+                    "&namapasien=" + $scope.item.namaPasien + ins + rg + statusdipanggil + kp
                     , true).then(function (dat) {
                         $scope.isRouteLoading = false;
                         for (var i = 0; i < dat.data.length; i++) {
@@ -191,15 +235,15 @@ define(['initialize'], function (initialize) {
                             var tanggalLahir = new Date(dat.data[i].tgllahir);
                             var umur = dateHelper.CountAge(tanggalLahir, tanggal);
                             dat.data[i].umur = umur.year + ' thn ' + umur.month + ' bln ' + umur.day + ' hari'
-                            if(dat.data[i].statuspanggil ==  1){
+                            if (dat.data[i].statuspanggil == 1) {
                                 dat.data[i].status = 'Proses';
                                 dat.data[i].status2 = 'PANGGIL';
                                 dat.data[i].status3 = 'Belum Selesai';
-                            }else if(dat.data[i].statuspanggil == 3){
+                            } else if (dat.data[i].statuspanggil == 3) {
                                 dat.data[i].status = 'Sedang Di panggil';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Belum Selesai';
-                            }else{
+                            } else {
                                 dat.data[i].status = 'Selesai';
                                 dat.data[i].status2 = 'SUDAH';
                                 dat.data[i].status3 = 'Selesai';
@@ -308,143 +352,143 @@ define(['initialize'], function (initialize) {
             $scope.columnDaftarPasienPulang = {
 
                 toolbar: [
-                    
-                    ],
-                    excel: {
-                        fileName: "DaftarRegistrasiPasien.xlsx",
-                        allPages: true,
-                    },
-                    excelExport: function(e){
-                        var sheet = e.workbook.sheets[0];
-                        sheet.frozenRows = 2;
-                        sheet.mergedCells = ["A1:M1"];
-                        sheet.name = "Orders";
 
-                        var myHeaders = [{
-                            value:"Daftar Registrasi Pasien",
-                            fontSize: 20,
-                            textAlign: "center",
-                            background:"#ffffff",
-                         // color:"#ffffff"
-                     }];
+                ],
+                excel: {
+                    fileName: "DaftarRegistrasiPasien.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Orders";
 
-                     sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70});
-                 },
+                    var myHeaders = [{
+                        value: "Daftar Registrasi Pasien",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
                 selectable: 'row',
                 pageable: true,
                 dataBound: onDataBound,
                 columns:
-                [{
-                    "field": "no",
-                    "title": "No Urut",
-                    "width": "30px",
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Nama Ruangan",
-                    "width": "130px",
-                },
-                {
-                    "field": "nocm",
-                    "title": "No MR",
-                    "width": "70px",
-                },
-                {
-                    "field": "namapasien",
-                    "title": "Nama Pasien",
-                    "width": "150px",
-                },
-                {
-                    "field": "status",
-                    "title": "Status",
-                    "width": "150px",
-                },
-                {
-                    "field": "status2",
-                    "title": "Panggil",
-                    "width": "90px",
+                    [{
+                        "field": "no",
+                        "title": "No Urut",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "namaruangan",
+                        "title": "Nama Ruangan",
+                        "width": "130px",
+                    },
+                    {
+                        "field": "nocm",
+                        "title": "No MR",
+                        "width": "70px",
+                    },
+                    {
+                        "field": "namapasien",
+                        "title": "Nama Pasien",
+                        "width": "150px",
+                    },
+                    {
+                        "field": "status",
+                        "title": "Status",
+                        "width": "150px",
+                    },
+                    {
+                        "field": "status2",
+                        "title": "Panggil",
+                        "width": "90px",
 
-                    "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigrid(dataItem)\"  style=\"margin:0 0 5px\" >#:  status2 #</button> ",
-                },
-                 {
-                    "field": "status2",
-                    "title": "Pelayanan",
-                    "width": "90px",
+                        "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigrid(dataItem)\"  style=\"margin:0 0 5px\" >#:  status2 #</button> ",
+                    },
+                    {
+                        "field": "status2",
+                        "title": "Pelayanan",
+                        "width": "90px",
 
-                    "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigridselesai(dataItem)\"  style=\"margin:0 0 5px\" >#:  status3 #</button> ",
-                }
-            ]
-        };
-        $scope.columnDaftarPasienPulang2 = {
+                        "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigridselesai(dataItem)\"  style=\"margin:0 0 5px\" >#:  status3 #</button> ",
+                    }
+                    ]
+            };
+            $scope.columnDaftarPasienPulang2 = {
 
                 toolbar: [
-                    
-                    ],
-                    excel: {
-                        fileName: "DaftarRegistrasiPasien.xlsx",
-                        allPages: true,
-                    },
-                    excelExport: function(e){
-                        var sheet = e.workbook.sheets[0];
-                        sheet.frozenRows = 2;
-                        sheet.mergedCells = ["A1:M1"];
-                        sheet.name = "Orders";
 
-                        var myHeaders = [{
-                            value:"Daftar Registrasi Pasien",
-                            fontSize: 20,
-                            textAlign: "center",
-                            background:"#ffffff",
-                         // color:"#ffffff"
-                     }];
+                ],
+                excel: {
+                    fileName: "DaftarRegistrasiPasien.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:M1"];
+                    sheet.name = "Orders";
 
-                     sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70});
-                 },
+                    var myHeaders = [{
+                        value: "Daftar Registrasi Pasien",
+                        fontSize: 20,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+
+                    sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                },
                 selectable: 'row',
                 pageable: true,
                 dataBound: onDataBound,
                 columns:
-                [{
-                    "field": "no",
-                    "title": "No Urut",
-                    "width": "30px",
-                },
-                {
-                    "field": "namaruangan",
-                    "title": "Nama Ruangan",
-                    "width": "130px",
-                },
-                {
-                    "field": "nocm",
-                    "title": "No MR",
-                    "width": "70px",
-                },
-                {
-                    "field": "namapasien",
-                    "title": "Nama Pasien",
-                    "width": "150px",
-                },
-                {
-                    "field": "status",
-                    "title": "Status",
-                    "width": "150px",
-                },
-                {
-                    "field": "status2",
-                    "title": "Panggil",
-                    "width": "90px",
+                    [{
+                        "field": "no",
+                        "title": "No Urut",
+                        "width": "30px",
+                    },
+                    {
+                        "field": "namaruangan",
+                        "title": "Nama Ruangan",
+                        "width": "130px",
+                    },
+                    {
+                        "field": "nocm",
+                        "title": "No MR",
+                        "width": "70px",
+                    },
+                    {
+                        "field": "namapasien",
+                        "title": "Nama Pasien",
+                        "width": "150px",
+                    },
+                    {
+                        "field": "status",
+                        "title": "Status",
+                        "width": "150px",
+                    },
+                    {
+                        "field": "status2",
+                        "title": "Panggil",
+                        "width": "90px",
 
-                    "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigrid2(dataItem)\"  style=\"margin:0 0 5px\" >#:  status2 #</button> ",
-                },
-                {
-                    "field": "status2",
-                    "title": "Pelayanan",
-                    "width": "90px",
+                        "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigrid2(dataItem)\"  style=\"margin:0 0 5px\" >#:  status2 #</button> ",
+                    },
+                    {
+                        "field": "status2",
+                        "title": "Pelayanan",
+                        "width": "90px",
 
-                    "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigridselesai2(dataItem)\"  style=\"margin:0 0 5px\" >#:  status3 #</button> ",
-                }
-            ]
-        };
+                        "template": "<button  class=\"k-button custom-button\" ng-click=\"verifikasigridselesai2(dataItem)\"  style=\"margin:0 0 5px\" >#:  status3 #</button> ",
+                    }
+                    ]
+            };
 
 
 
@@ -474,16 +518,16 @@ define(['initialize'], function (initialize) {
                 //var bln = Math.round((selisih % 365)/(1000*60*60*24));
                 return thn + ' thn '// + bln + ' bln'
             }
-            $scope.antrian = function(){
+            $scope.antrian = function () {
                 $scope.popupantrian.center().open();
             }
-            $scope.saveantrian = function(){
+            $scope.saveantrian = function () {
                 debugger;
                 var objSave =
                 {
                     norecapd: $scope.dataSelected.norec,
                     ruanganfk: $scope.item.ruangandepo.id,
-                    jenis : $scope.item.jenis.jenis
+                    jenis: $scope.item.jenis.jenis
                 }
 
                 $scope.tombolSimpanVis = false;
@@ -515,109 +559,111 @@ define(['initialize'], function (initialize) {
 
             $scope.verifikasigrid = function (dataItem) {
                 debugger;
-                if ($scope.item.instalasi == undefined || $scope.item.instalasi == "" ) {
-                    alert("Pilih Instalasi !!")
-                    return;tempInstalasi = { id: $scope.item.instalasi.id, departemen: $scope.item.instalasi.departemen }
-                }
-
-                if ($scope.item.ruangan == undefined || $scope.item.ruangan == ""  ) {
-                    alert("Pilih Ruangan !!")
+                if ($scope.item.loket == undefined || $scope.item.loket == '') {
+                    alert('Pilih Loket terlebih dahulu!!!')
                     return;
                 }
-                if (dataItem.status !="Selesai")
-                {
+                var socket1 = io.connect(config.urlSocket)
+                var arrayS = {
+                    no: dataItem.no,
+                    nama: dataItem.namapasien,
+                    loket: $scope.item.loket.id,
+                    jenis: dataItem.jenis
+                };
+                socket1.emit('panggil-antrian', arrayS)
+                if (dataItem.status != "Selesai") {
                     var objverif = {
-                        "norec" : dataItem.norec,
+                        "norec": dataItem.norec,
                         "status": 3,
-                        "objectruanganfk":$scope.item.ruangan.id,
-                        "jenis":dataItem.jenis,
-                        "statuspanggil":dataItem.status 
+                        "jenis": dataItem.jenis,
+                        "statuspanggil": dataItem.status
                     };
 
-                    medifirstService.post('farmasi/updateantrian',objverif).then(function(e){
-                        init();              
-                    }) 
-                       
+                    medifirstService.post('farmasi/updateantrian', objverif).then(function (e) {
+                        init();
+                    })
+
                 }
-                    
+
 
             }
-             $scope.verifikasigridselesai = function (dataItem) {
+            $scope.verifikasigridselesai = function (dataItem) {
                 debugger;
-                if ($scope.item.instalasi == undefined || $scope.item.instalasi == "" ) {
-                    alert("Pilih Instalasi !!")
-                    return;tempInstalasi = { id: $scope.item.instalasi.id, departemen: $scope.item.instalasi.departemen }
-                }
-
-                if ($scope.item.ruangan == undefined || $scope.item.ruangan == ""  ) {
-                    alert("Pilih Ruangan !!")
+                if ($scope.item.loket == undefined || $scope.item.loket == '') {
+                    alert('Pilih Loket terlebih dahulu!!!')
                     return;
                 }
-                    var objverif = {
-                            "norec" : dataItem.norec,
-                            "status": 5,
-                            "objectruanganfk":$scope.item.ruangan.id,
-                            "jenis":dataItem.jenis,
-                            "statuspanggil":dataItem.status 
-                        };
+                var socket1 = io.connect(config.urlSocket)
+                var arrayS = {
+                    no: dataItem.no,
+                    nama: dataItem.namapasien,
+                    loket: $scope.item.loket.id,
+                    jenis: dataItem.jenis
+                };
+                socket1.emit('panggil-antrian', arrayS)
+                var objverif = {
+                    "norec": dataItem.norec,
+                    "status": 5,
+                    "jenis": dataItem.jenis,
+                    "statuspanggil": dataItem.status
+                };
 
-                        medifirstService.post('farmasi/updateantrian',objverif).then(function(e){
-                            init();              
-                        })  
-                         
-                    
+                medifirstService.post('farmasi/updateantrian', objverif).then(function (e) {
+                    init();
+                })
+
+
 
             }
             $scope.verifikasigrid2 = function (dataItem) {
                 debugger;
-                if ($scope.item.instalasi == undefined || $scope.item.instalasi == "" ) {
-                    alert("Pilih Instalasi !!")
-                    return;tempInstalasi = { id: $scope.item.instalasi.id, departemen: $scope.item.instalasi.departemen }
-                }
-
-                if ($scope.item.ruangan == undefined || $scope.item.ruangan == ""  ) {
-                    alert("Pilih Ruangan !!")
+                if ($scope.item.loket == undefined || $scope.item.loket == '') {
+                    alert('Pilih Loket terlebih dahulu!!!')
                     return;
                 }
-                if (dataItem.status !="Selesai")
-                {
+                var socket1 = io.connect(config.urlSocket)
+                var arrayS = {
+                    no: dataItem.no,
+                    nama: dataItem.namapasien,
+                    loket: $scope.item.loket.id,
+                    jenis: dataItem.jenis
+                };
+                socket1.emit('panggil-antrian', arrayS)
+                if (dataItem.status != "Selesai") {
                     var objverif = {
-                        "norec" : dataItem.norec,
+                        "norec": dataItem.norec,
                         "status": 3,
-                        "objectruanganfk":$scope.item.ruangan.id,
-                        "jenis":dataItem.jenis,
-                        "statuspanggil":dataItem.status  
+                        "jenis": dataItem.jenis,
+                        "statuspanggil": dataItem.status
                     };
 
-                    medifirstService.post('farmasi/updateantrian',objverif).then(function(e){
-                        init();              
-                    }) 
-                       
+                    medifirstService.post('farmasi/updateantrian', objverif).then(function (e) {
+                        init();
+                    })
+
                 }
             }
-             $scope.verifikasigridselesai2 = function (dataItem) {
+            $scope.verifikasigridselesai2 = function (dataItem) {
                 debugger;
-                if ($scope.item.instalasi == undefined || $scope.item.instalasi == "" ) {
-                    alert("Pilih Instalasi !!")
-                    return;tempInstalasi = { id: $scope.item.instalasi.id, departemen: $scope.item.instalasi.departemen }
-                }
+                var socket1 = io.connect(config.urlSocket)
+                var arrayS = {
+                    no: dataItem.no,
+                    nama: dataItem.namapasien,
+                    loket: $scope.item.loket.id,
+                    jenis: dataItem.jenis
+                };
+                socket1.emit('panggil-antrian', arrayS)
+                var objverif = {
+                    "norec": dataItem.norec,
+                    "status": 5,
+                    "jenis": dataItem.jenis,
+                    "statuspanggil": dataItem.status
+                };
 
-                if ($scope.item.ruangan == undefined || $scope.item.ruangan == ""  ) {
-                    alert("Pilih Ruangan !!")
-                    return;
-                }
-                    var objverif = {
-                            "norec" : dataItem.norec,
-                            "status": 5,
-                            "objectruanganfk":$scope.item.ruangan.id,
-                            "jenis":dataItem.jenis,
-                            "statuspanggil":dataItem.status 
-                        };
+                medifirstService.post('farmasi/updateantrian', objverif).then(function (e) {
+                    init();
+                })
 
-                        medifirstService.post('farmasi/updateantrian',objverif).then(function(e){
-                            init();              
-                        })   
-                    
 
             }
             //***********************************
