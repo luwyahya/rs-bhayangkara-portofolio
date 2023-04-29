@@ -2996,11 +2996,11 @@ class PelayananResepController extends ApiController
 
             $persenUpHargaSatuan = 0;
             foreach ($result as $item) {
-                // foreach ($persenHargaJualProduk as $hitem){
-                if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
-                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                foreach ($persenHargaJualProduk as $hitem){
+                    if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
+                        $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                    }
                 }
-                // }
                 $results[] = array(
                     'norec' => $item->norec,
                     'objectprodukfk' => $item->objectprodukfk,
