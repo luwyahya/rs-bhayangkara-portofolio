@@ -632,10 +632,10 @@ define(['initialize'], function (initialize) {
                 // $scope.popupPassword.center().open();
                 medifirstService.get("tatarekening/get-status-verif-piutang?noReg=" + $scope.dataPasienSelected.noRegistrasi, false).then(function (res) {
                     debugger;
-                    if ($scope.dataPasienSelected.deptid != '16') {
-                        window.messageContainer.error("Pasien Sudah Di Closing, Tidak Dapat Di Batal Pulang !!!");
-                        return;
-                    }
+                    // if ($scope.dataPasienSelected.deptid != '16') {
+                    //     window.messageContainer.error("Pasien Sudah Di Closing, Tidak Dapat Di Batal Pulang !!!");
+                    //     return;
+                    // }
                     if ($scope.dataPasienSelected.tglclosing != null) {
                         window.messageContainer.error("Pasien Sudah di Closing, Tidak Dapat di Batal Pulang !!!");
                         return;
