@@ -654,10 +654,10 @@ define(['initialize'], function (initialize) {
                             var ruanganIdd = "&idRuangan=" + cekKamarBed[0].id_ruangan;
                             medifirstService.get("rawatinap/get-kamarbyruangankelas?" + kelasId + ruanganIdd)
                                 .then(function (b) {
-                                    $scope.listKamar = b.data.kamar
-                                    // $scope.listKamar = _.filter(b.data.kamar, function (v) {
-                                    //     return parseFloat(v.qtybed) > parseFloat(v.jumlakamarisi);
-                                    // })
+                                    // $scope.listKamar = b.data.kamar
+                                    $scope.listKamar = _.filter(b.data.kamar, function (v) {
+                                        return parseFloat(v.qtybed) > parseFloat(v.jumlakamarisi);
+                                    })
                                 });
                         });
                         if (bed == null) {
