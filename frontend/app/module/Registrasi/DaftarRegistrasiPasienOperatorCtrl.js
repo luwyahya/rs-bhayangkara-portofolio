@@ -231,21 +231,29 @@ define(['initialize'], function (initialize) {
                     "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
                 },
                 {
+                    "field": "response",
+                    "title": "Ket Antrol",
+                    "width": "150px",
+                    "template": '# if( response==null || response=="") {# - # } else {# #= response # #} #'
+                },
+                {
                     "title": "Upload Dokumen",
                     "width": "100px",
                     "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
                 },
+
+                    {
+                        "field": "response",
+                        "title": "Keterangan",
+                        "width": "300px",
+                    },
                 {
                     "field": "isdiagnosis",
                     "title": "Diagnosis",
                     "width": "300px",
                     "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
                 },
-                {
-                    "field": "response",
-                    "title": "Keterangan",
-                    "width": "300px", 
-                },
+               
                 {
                     hidden: true,
                     "field": "ppkrujukan",
