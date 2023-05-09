@@ -240,13 +240,7 @@ define(['initialize'], function (initialize) {
                     "title": "Upload Dokumen",
                     "width": "100px",
                     "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
-                },
-
-                    {
-                        "field": "response",
-                        "title": "Keterangan",
-                        "width": "300px",
-                    },
+                }, 
                 {
                     "field": "isdiagnosis",
                     "title": "Diagnosis",
