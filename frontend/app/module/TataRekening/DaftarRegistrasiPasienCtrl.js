@@ -244,7 +244,7 @@ define(['initialize'], function (initialize) {
 				},
 				{
 					"field": "nosep",
-					"title": "No SEP",
+					"title": "No SEP2",
 					"width": "150px",
 					"template": '# if( nosep==null) {# - # } else {# #= nosep # #} #'
 				},
