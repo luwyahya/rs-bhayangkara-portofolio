@@ -12162,17 +12162,16 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         // }
         // $antrol = $antrol->get();
         foreach ($data2 as $key => $value) {
-              $antrol = \DB::table('sendtaskantrol_t')
+              $antrol = \DB::table('zzzzzzzzzzsendtaskantrol_t')
                 // ->where('taskid',1)
                 ->where('noreservasi',$value->noregistrasi )
-                ->orderBy('taskid')
-                ->take(1);
+                ->orderBy('taskid','desc') ;
             $antrol = $antrol->get();
             $value->response = '-';
             foreach ($antrol as $item) {  
                 if( $value->noregistrasi == $item->noreservasi){
                     $value->response = $item->response;
-                    break;
+                    // break;
                 }
             }
             
