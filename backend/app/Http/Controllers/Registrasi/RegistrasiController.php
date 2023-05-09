@@ -11999,7 +11999,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->leftjoin('asuransipasien_m as asu', 'pa.objectasuransipasienfk', '=', 'asu.id')
             ->leftjoin('kelas_m as klstg', 'klstg.id', '=', 'asu.objectkelasdijaminfk')
             ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
-            ->leftjoin('sendtaskantrol_t as st', 'pd.noregistrasi', '=', 'st.noreservasi')
+             
             ->leftjoin('antrianpasienregistrasi_t as apr', function ($join) {
                 $join->on('apr.noreservasi', '=', 'pd.statusschedule');
                 $join->on('apr.nocmfk', '=', 'pd.nocmfk');
@@ -12153,7 +12153,27 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
             // $i = $i+1;
         }
+        $antrol = \DB::table('sendtaskantrol_t')
+         ->where('taskid',1);
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $antrol = $antrol->where('tglinsert', '>=', $filter['tglAwal']);
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $antrol = $antrol->where('tglinsert', '<=', $filter['tglAkhir']);
+        }
+        $antrol = $antrol->get();
+        foreach ($data2 as $key => $value) {
+            $value->response = '-';
+            foreach ($antrol as $item) { 
+                if( $value->noregistrasi == $item->noreservasi){
+                    $value->response = $item->response;
+                    break;
+                }
+            }
+            
+        }
 
+                 
         for ($i = count($data2) - 1; $i >= 0; $i--) {
             if (isset($filter['isnotdiagnosis']) && $filter['isnotdiagnosis'] != "" && $filter['isnotdiagnosis'] != "undefined" && $filter['isnotdiagnosis'] != 'false' && $data2[$i]->isdiagnosis == true) {
                 array_splice($data2, $i, 1);
