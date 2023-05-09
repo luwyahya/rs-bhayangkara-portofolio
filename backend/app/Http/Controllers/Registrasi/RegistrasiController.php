@@ -12169,6 +12169,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 ->first();;
             $value->response = '-';
             foreach ($antrol as $item) { 
+                return($item);
                 if( $value->noregistrasi == $item['noreservasi']){
                     $value->response = $item['response'];
                     break;
