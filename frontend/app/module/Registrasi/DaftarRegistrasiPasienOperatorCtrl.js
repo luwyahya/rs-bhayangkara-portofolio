@@ -242,6 +242,11 @@ define(['initialize'], function (initialize) {
                     "template": '# if( isdiagnosis==false) {# - # } else {# #= isdiagnosis # #} #'
                 },
                 {
+                    "field": "response",
+                    "title": "Keterangan",
+                    "width": "300px", 
+                },
+                {
                     hidden: true,
                     "field": "ppkrujukan",
                     "title": "PPK",

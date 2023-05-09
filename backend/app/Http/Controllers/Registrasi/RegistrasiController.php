@@ -11999,6 +11999,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             ->leftjoin('asuransipasien_m as asu', 'pa.objectasuransipasienfk', '=', 'asu.id')
             ->leftjoin('kelas_m as klstg', 'klstg.id', '=', 'asu.objectkelasdijaminfk')
             ->leftjoin('jaminankhusus_m as jk', 'jk.id', '=', 'pd.objectjaminankhusus')
+            ->leftjoin('sendtaskantrol_t as st', 'pd.noregistrasi', '=', 'st.noreservasi')
             ->leftjoin('antrianpasienregistrasi_t as apr', function ($join) {
                 $join->on('apr.noreservasi', '=', 'pd.statusschedule');
                 $join->on('apr.nocmfk', '=', 'pd.nocmfk');
@@ -12047,7 +12048,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'pd.istelemedicine',
                 'jk.namaexternal as jaminankhusus',
                 'ps.noidentitas',
-                'pd.statusschedule'
+                'pd.statusschedule',
+                'st.response'
                 //                ,'ddt.objectdiagnosafk'
             )
             ->whereNull('br.norec')
