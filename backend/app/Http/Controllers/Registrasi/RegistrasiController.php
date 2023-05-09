@@ -12166,7 +12166,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 // ->where('taskid',1)
                 ->where('noreservasi',$value->noregistrasi )
                 ->orderBy('taskid')
-                ->first();;
+                ->take(1);;
             $value->response = '-';
             foreach ($antrol as $item) { 
                 return($item);
