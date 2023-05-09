@@ -12152,16 +12152,19 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
             // $i = $i+1;
         }
-        $antrol = \DB::table('sendtaskantrol_t')
-         ->where('taskid',1);
-        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
-            $antrol = $antrol->where('tglinsert', '>=', $filter['tglAwal']);
-        }
-        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
-            $antrol = $antrol->where('tglinsert', '<=', $filter['tglAkhir']);
-        }
-        $antrol = $antrol->get();
+        // $antrol = \DB::table('sendtaskantrol_t')
+        //  ->where('taskid',1);
+        // if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+        //     $antrol = $antrol->where('tglinsert', '>=', $filter['tglAwal']);
+        // }
+        // if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+        //     $antrol = $antrol->where('tglinsert', '<=', $filter['tglAkhir']);
+        // }
+        // $antrol = $antrol->get();
         foreach ($data2 as $key => $value) {
+              $antrol = \DB::table('sendtaskantrol_t')
+                ->where('taskid',1)
+                ->where('noreservasi',$value->noregistrasi );
             $value->response = '-';
             foreach ($antrol as $item) { 
                 if( $value->noregistrasi == $item->noreservasi){
