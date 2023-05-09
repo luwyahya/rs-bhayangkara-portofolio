@@ -226,7 +226,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     "field": "nosep",
-                    "title": "No SEPxxx",
+                    "title": "No SEPx22",
                     "width": "150px",
                     "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
                 },
