@@ -232,7 +232,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     "field": "response",
-                    "title": "Ket Antrol",
+                    "title": "Ketetrangan Antrol",
                     "width": "150px",
                     "template": '# if( response==null || response=="") {# - # } else {# #= response # #} #'
                 },
