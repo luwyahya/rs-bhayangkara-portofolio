@@ -12048,8 +12048,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'pd.istelemedicine',
                 'jk.namaexternal as jaminankhusus',
                 'ps.noidentitas',
-                'pd.statusschedule',
-                'st.response'
+                'pd.statusschedule' 
                 //                ,'ddt.objectdiagnosafk'
             )
             ->whereNull('br.norec')
