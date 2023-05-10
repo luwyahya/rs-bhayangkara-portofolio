@@ -2091,13 +2091,15 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         
         DB::beginTransaction();
-        if ($r_NewPD['isPenanggungJawab'] == 'true') {
-            $data = Pasien::where('id', $r_NewPD['nocmfk'])
-                ->update([
-                    'penanggungjawab' => $r_NewPD['penanggungjawab'],
-                    'hubungankeluargapj' => $r_NewPD['hubungankeluargapj'],
-                    'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
-                ]);
+          if(isset($r_NewPD['isPenanggungJawab'])){
+            if ($r_NewPD['isPenanggungJawab'] == 'true') {
+                $data = Pasien::where('id', $r_NewPD['nocmfk'])
+                    ->update([
+                        'penanggungjawab' => $r_NewPD['penanggungjawab'],
+                        'hubungankeluargapj' => $r_NewPD['hubungankeluargapj'],
+                        'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
+                    ]);
+            } 
         } 
 
         if ($r_NewPD['objectruanganfk'] == 251) {
@@ -2297,8 +2299,11 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $dataPD->statusschedule = $r_NewPD['statusschedule'];
             }
             $dataPD->tglregistrasi =  $r_NewPD['tglregistrasi'];
-            $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
-            // $dataPD->tglcsr = $r_NewPD['tglcsr'];
+             if (isset($r_NewPD['jaminankhusus']) && $r_NewPD['jaminankhusus'] != "" && $r_NewPD['jaminankhusus'] != "undefined") {
+                $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
+            }else{
+                $dataPD->objectjaminankhusus = null;
+            }// $dataPD->tglcsr = $r_NewPD['tglcsr'];
             if (isset($r_NewPD['tglcsr']) && $r_NewPD['tglcsr'] != "" && $r_NewPD['tglcsr'] != "undefined") {
                 $dataPD->tglcsr =  $r_NewPD['tglcsr'];
             }
@@ -2437,7 +2442,9 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             $dataAPD->tglregistrasi =  $r_NewAPD['tglregistrasi'];
             $dataAPD->tglmasuk = $r_NewAPD['tglregistrasi'];
             $dataAPD->israwatgabung = $r_NewAPD['israwatgabung'];
-            $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
+             if (isset($r_NewPD['israwattitipan'])) {
+                $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
+             }
             if (isset($r_NewPD['nmhafis'])) {
                 $dataAPD->namahafis = $r_NewPD['nmhafis'];
             } else {
@@ -2646,7 +2653,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                                     "kodedokter"=> $r_NewPD['kodedokter'],
                                     "namadokter"=> $r_NewPD['namadokter'],
                                     "jampraktek"=> $r_NewPD['jadwal'],
-                                    "jeniskunjungan"=> 1,
+                                    "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
                                     "nomorreferensi"=> $r_NewPD['nomorreferensi'],
                                     "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
                                     "angkaantrean"=> $noAntrian,
@@ -2812,7 +2819,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                                 "kodedokter"=> $r_NewPD['kodedokter'],
                                 "namadokter"=> $r_NewPD['namadokter'],
                                 "jampraktek"=> $r_NewPD['jadwal'],
-                                "jeniskunjungan"=> 1,
+                                "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
                                 "nomorreferensi"=> $r_NewPD['nomorreferensi'],
                                 "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
                                 "angkaantrean"=> $noAntrian,

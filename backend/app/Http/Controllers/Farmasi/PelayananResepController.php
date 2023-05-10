@@ -2983,7 +2983,7 @@ class PelayananResepController extends ApiController
                 from stokprodukdetail_t as spd
                 inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
                 inner JOIN asalproduk_m as ap on ap.id=spd.objectasalprodukfk
-                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid 
                 group by sk.norec,spd.objectprodukfk, $strMSHT,spd.objectasalprodukfk, 
                         spd.hargadiscount,
                 spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
@@ -2996,11 +2996,11 @@ class PelayananResepController extends ApiController
 
             $persenUpHargaSatuan = 0;
             foreach ($result as $item) {
-                // foreach ($persenHargaJualProduk as $hitem){
-                if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
-                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                foreach ($persenHargaJualProduk as $hitem){
+                    if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
+                        $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                    }
                 }
-                // }
                 $results[] = array(
                     'norec' => $item->norec,
                     'objectprodukfk' => $item->objectprodukfk,
