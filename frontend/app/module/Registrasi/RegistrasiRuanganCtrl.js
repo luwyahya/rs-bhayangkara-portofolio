@@ -3280,6 +3280,9 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     if ($scope.model.generateNoSEP) {
                         // $scope.generateSEP();
                         $scope.SimpanRegistrasi();
+
+                        $scope.SimpanRegistrasi();
+                        // $scope.generateSEP();
                     } else {
                         if (moment($scope.item.tglRegistrasi).format('YYYY-MM-DD') != moment($scope.model.tglSEP).format('YYYY-MM-DD')) {
                             toastr.error('TANGGAL SEP BERBEDA DENGAN TANGGAL REGISTRASI', 'Peringatan');
@@ -3312,6 +3315,11 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $scope.SimpanNonGenerate();
                     return;
                 }
+
+                if (!$scope.model.generateNoSEP) {
+                    $scope.SimpanNonGenerate();
+                    return;
+                } 
                 var listRawRequired = [
                     "item.pasien.namaruangan|k-ng-model|Ruangan",
                     // "item.asalRujukan|ng-model|Asal Rujukan",
@@ -3756,6 +3764,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         //     }
                         // } else {
                         $scope.SimpanNonGenerate();
+
+                        //simpanregistrasi pindah sebelum generate sep soalnya permintaan bg jho dari bpjs untuk antrol sebelum create sep
                         // $scope.SimpanRegistrasi();
                         $scope.isSimpan = false;
                         // }
@@ -4067,6 +4077,96 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
 
                 debugger
+                var jeniskunjungan = "";
+                if ($scope.item.asalRujukan != undefined) {
+                    if ($scope.item.asalRujukan.asalrujukan === "Puskesmas / Klinik") {
+                        jeniskunjungan = 1
+                    } else {
+                        jeniskunjungan = 4
+                    }
+                }
+                var referensi = "0000000000000000000"
+                if ($scope.model.noRujukan != undefined) {
+                    referensi = $scope.model.noRujukan
+                    jeniskunjungan = 3
+                }
+                if ($scope.model.skdp != undefined) {
+                    referensi = $scope.model.skdp
+                    jeniskunjungan = 3
+                }
+                if ($scope.item.kelompokPasien.kelompokpasien == ('BPJS')) {
+                    if ($scope.penjagaanTidakDitanggung == true) {
+                        toastr.error('PASIEN INI SUDAH ADA NOTIFNYA TIDAK DITANGGUNG, KENAPA TETEP MAU DI GENERATE SEP???', 'Peringatan');
+                        $scope.hideBtnSimpan = false;
+                        return;
+                    }
+                    if (moment($scope.item.tglRegistrasi).format('YYYY-MM-DD') != moment($scope.model.tglSEP).format('YYYY-MM-DD')) {
+                        toastr.error('TANGGAL SEP BERBEDA DENGAN TANGGAL REGISTRASI', 'Peringatan');
+                        $scope.hideBtnSimpan = false;
+                        return;
+                    }
+                    if ($scope.model.generateNoSEP) {
+                        var listRawRequired = [
+                            "item.pasien.namaruangan|k-ng-model|Ruangan",
+                            // "item.asalRujukan|ng-model|Asal Rujukan",
+                            "item.kelompokPasien|ng-model|Kelompok Pasien",
+                            // "item.pegawai|ng-model|Dokter Tidak ada jadwal hari ini",
+                            // "model.namaPenjamin|k-ng-model|Nama Penjamin",
+                            "item.rekanan|ng-model|Institusi Asal Pasien",
+                            "model.noKepesertaan|ng-model|No Kepesertaan",
+                            "item.asalRujukan|k-ng-model|Asal Rujukan",
+                            // "model.noRujukan|ng-model|No Rujukan",
+                            "model.tglRujukan|ng-model|Tgl Rujukan",
+                            "model.diagnosa|k-ng-model|Diagnosa",
+                            "model.kelasDitanggung|k-ng-model|Kelas ditanggung"
+                        ];
+
+                        var isValid = ModelItem.setValidation($scope, listRawRequired);
+                        if (isValid.status) {
+                            var kdJenisPelayanan = "";
+                            var poliTujuans = "";
+                            if ($scope.model.rawatInap === true) {
+                                if ($scope.item.jenispasien == undefined) {
+                                    toastr.error('Jenis Pasien Harus Diisi', 'Peringatan');
+                                    return
+                                } else {
+                                    if ($scope.item.jenispasien.id != 1) {
+                                        if ($scope.insert.poli == undefined) {
+                                            toastr.error('Poli Tujuan Belum Diisi', 'Peringatan');
+                                            $scope.hideBtnSimpan = false;
+                                            return;
+                                        } else {
+                                            poliTujuans = $scope.insert.poli.kode;
+                                            kdJenisPelayanan = "2";
+                                        }
+                                    }
+                                }
+                            } else {
+                                if ($scope.insert.poli == undefined) {
+                                    toastr.error('Poli Tujuan Belum Diisi', 'Peringatan');
+                                    $scope.hideBtnSimpan = false;
+                                    return;
+                                }
+                                poliTujuans = $scope.insert.poli.kode;
+                                kdJenisPelayanan = "2";
+                            }
+                            if ($scope.item.ruangan.objectdepartemenfk != 16) { } else {
+                                if ($scope.item.jenispasien != undefined) {
+
+                                    if ($scope.item.jenispasien.id != 1) {
+                                        if ($scope.model.nomorSepSuplesi == undefined) {
+                                            messageContainer.error("Jenis Pasien Harus Di isi")
+                                            return
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            $scope.hideBtnSimpan = false;
+                        }
+                    }
+                }
+              
                 var pasiendaftar = {
                     tglregistrasi: moment($scope.item.tglRegistrasi).format('YYYY-MM-DD HH:mm:ss'),
                     tglcsr: tglcsr,
@@ -4101,6 +4201,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     nmhafis: nmhafis,
                     namadokter: namadokter,
                     nomorreferensi: referensi,//$scope.model.noRujukan == undefined ? "0000000000000000000" : $scope.model.noRujukan,
+                    nomorreferensi: referensi,
                     isjenispasienantrol: isjenispasienantrol,
                     normantrol: $scope.item.pasien.nocm,
                     noantrianLoket: noantrianLoket,
@@ -4110,6 +4211,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     teleponpenanggungjawab: $scope.item.TeleponP != undefined ? $scope.item.TeleponP : null,
                     isPenanggungJawab: isPenanggungJawab,
                     kodesubspesialisHafis: kodesubspesialisHafis,
+                    kodesubspesialisHafis: kodesubspesialisHafis, 
                     jeniskunjungan: jeniskunjungan
                 }
                 var antrianpasiendiperiksa = {
