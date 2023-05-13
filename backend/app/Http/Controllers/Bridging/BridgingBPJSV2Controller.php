@@ -7157,10 +7157,10 @@ class BridgingBPJSV2Controller extends ApiController
         // die();
 
         }else{
-            $message = array(
-                'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
-                'code' => 201,
-            );
+            // $message = array(
+            //     'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
+            //     'code' => 201,
+            // );
             $result = array(
                 'metadata' => $message,
             );
@@ -7529,10 +7529,10 @@ class BridgingBPJSV2Controller extends ApiController
                 }
         }
         else{
-            $message = array(
-                'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
-                'code' => 201,
-            );
+            // $message = array(
+            //     'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
+            //     'code' => 201,
+            // );
             $result = array(
                 
                 'metadata' => $message,
