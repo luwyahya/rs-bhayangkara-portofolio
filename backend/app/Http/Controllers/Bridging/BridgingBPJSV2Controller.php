@@ -6820,7 +6820,7 @@ class BridgingBPJSV2Controller extends ApiController
         $jamawal = substr($jampraktek,0,2);
         $menitawal = substr($jampraktek,3,2);
         
-        if($tanggal > date('Y-m-d')){
+        // if($tanggal > date('Y-m-d')){
             $objSave = array(
                     'kodepoli'=> $kodePoli,
                     'tanggal'=> $tanggal
@@ -7156,15 +7156,15 @@ class BridgingBPJSV2Controller extends ApiController
         //     return(date('Y-m-d'));
         // die();
 
-        }else{
-            // $message = array(
-            //     'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
-            //     'code' => 201,
-            // );
-            $result = array(
-                'metadata' => $message,
-            );
-        }  
+        // }else{
+        //     $message = array(
+        //         'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
+        //         'code' => 201,
+        //     );
+        //     $result = array(
+        //         'metadata' => $message,
+        //     );
+        // }  
 
         return $this->respond($result);
     }
