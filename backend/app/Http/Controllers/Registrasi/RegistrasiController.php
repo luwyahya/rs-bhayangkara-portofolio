@@ -12161,20 +12161,17 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         foreach ($data as $key => $value) {
             $antrol = \DB::table('sendtaskantrol_t')
                 ->where('noreservasi', $value->noregistrasi)
-                ->where('taskid', 1)
+                ->orderby('tglinsert','asc')
                 ->select('response')
                 ->first();
             if (!empty($antrol)) {
-                foreach ($antrol as $key2) {
-                    // return($key2);
+                foreach ($antrol as $key2) { 
                     $value->response = $key2;
                 }
             } else {
                 $value->response = '-';
             }
-            $data2[] =  $value;
-
-            // $i = $i+1;
+            $data2[] =  $value; 
         }
 
         for ($i = count($data2) - 1; $i >= 0; $i--) {
