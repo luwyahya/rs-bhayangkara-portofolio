@@ -230,6 +230,13 @@ define(['initialize'], function (initialize) {
                     "width": "150px",
                     "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
                 },
+
+                    {
+                        "field": "response",
+                        "title": "Ketetrangan Antrol",
+                        "width": "150px",
+                        "template": '# if( response==null || response=="") {# - # } else {# #= response # #} #'
+                    },
                 {
                     "title": "Upload Dokumen",
                     "width": "100px",
