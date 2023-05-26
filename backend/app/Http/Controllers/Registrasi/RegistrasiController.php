@@ -12179,7 +12179,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 ->first();
             if (!empty($antrol)) {
                 foreach ($antrol as $itemxx) { 
-                    $value->responselast = $itemxx->taskid.' '.$itemxx->response;
+                    $value->responselast = $itemxx['taskid'].' '.$itemxx['response'];
                 }
             } else {
                 $value->responselast = '-';
