@@ -12177,8 +12177,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 ->orderby('taskid','desc')
                 ->select('response','taskid')
                 ->first();
-            if (!empty($antrol)) {
-                foreach ($antrol as $itemxx) { 
+            if (!empty($antrol2)) {
+                foreach ($antrol2 as $itemxx) { 
                     $value->responselast = $itemxx['taskid'].' '.$itemxx['response'];
                 }
             } else {
