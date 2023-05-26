@@ -12171,7 +12171,20 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             } else {
                 $value->response = '-';
             }
-            $data2[] =  $value; 
+
+              $antrol2 = \DB::table('sendtaskantrol_t')
+                ->where('noreservasi', $value->noregistrasi)
+                ->orderby('taskid','desc')
+                ->select('response','taskid')
+                ->first();
+            if (!empty($antrol)) {
+                foreach ($antrol as $itemxx) { 
+                    $value->responselast = $itemxx->taskid.' '.$itemxx->response;
+                }
+            } else {
+                $value->responselast = '-';
+            }
+          
         }
 
         for ($i = count($data2) - 1; $i >= 0; $i--) {

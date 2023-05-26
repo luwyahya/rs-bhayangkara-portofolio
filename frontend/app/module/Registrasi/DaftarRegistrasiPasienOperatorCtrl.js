@@ -231,12 +231,7 @@ define(['initialize'], function (initialize) {
                     "template": '# if( nosep==null || nosep=="") {# - # } else {# #= nosep # #} #'
                 },
 
-                    {
-                        "field": "response",
-                        "title": "Ketetrangan Antrol",
-                        "width": "150px",
-                        "template": '# if( response==null || response=="") {# - # } else {# #= response # #} #'
-                    },
+                  
                 {
                     "title": "Upload Dokumen",
                     "width": "100px",
@@ -260,6 +255,18 @@ define(['initialize'], function (initialize) {
                     "title": "DeptId",
                     "width": "150px",
                 },
+                    {
+                        "field": "response",
+                        "title": "Ketetrangan Antrol",
+                        "width": "150px",
+                        "template": '# if( response==null || response=="") {# - # } else {# #= response # #} #'
+                    },
+                    {
+                        "field": "responselast",
+                        "title": "Task Id Terakhir",
+                        "width": "150px",
+                        "template": '# if( response==null || response=="") {# - # } else {# #= responselast # #} #'
+                    },
 
                     // {
                     // 	"field": "statuspasien",
