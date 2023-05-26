@@ -12169,7 +12169,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     $value->response = $key2;
                 }
             } else {
-                $value->response = '-';
+                $value->response = 'Timeout';
             }
 
             $antrol2 = \DB::table('sendtaskantrol_t')
@@ -12184,7 +12184,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     $value->responselast = $itemxx->taskid.' '. $itemxx->response;
                 }
             } else {
-                $value->responselast = '-';
+                $value->responselast = 'Timeout';
             }
           
         }
