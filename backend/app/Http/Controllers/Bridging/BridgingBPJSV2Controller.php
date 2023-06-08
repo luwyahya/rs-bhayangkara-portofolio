@@ -7158,7 +7158,7 @@ class BridgingBPJSV2Controller extends ApiController
 
         // }else{
         //     $message = array(
-        //         'message' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
+        //         'm   essage' => 'Tanggal Periksa Tidak Berlaku  minimal + 1 hari dari tanggal sekarang',
         //         'code' => 201,
         //     );
         //     $result = array(
@@ -8371,8 +8371,8 @@ class BridgingBPJSV2Controller extends ApiController
         
     }
     public function BatalAntrianMjkn(Request $request) {
-        $kdbooking = $request['data']['kodebooking'];
-        $keterangan=$request['data']['keterangan'];
+        $kdbooking = $request['kodebooking'];
+        $keterangan=$request['keterangan'];
         // return($request['data']['kodebooking']);
         // die();
      
