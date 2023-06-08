@@ -218,7 +218,7 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="12" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Padang]]></text>
+				<text><![CDATA[Cianjur]]></text>
 			</staticText>
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="373" y="152" width="100" height="13" uuid="693261d6-676f-4354-9205-68efb239044e"/>
