@@ -5427,8 +5427,8 @@ class BridgingBPJSController extends ApiController
     // }
     public function BatalAntrianMjkn(Request $request)
     {
-        $kdbooking = $request['data']['kodebooking'];
-        $keterangan = $request['data']['keterangan'];
+        $kdbooking = $request['kodebooking'];
+        $keterangan = $request['keterangan'];
         // return($request['data']['kodebooking']);
         // die();
 
