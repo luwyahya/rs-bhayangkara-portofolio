@@ -24,6 +24,8 @@ use App\Transaksi\AntrianPasienRegistrasi;
 use App\Master\Pasien;
 use App\Master\Alamat;
 use App\Master\RunningNumber;
+
+use App\Transaksi\BatalRegistrasi;
 use Webpatser\Uuid\Uuid;
 use DB;
 use App\Traits\Valet;
@@ -5369,59 +5371,137 @@ class BridgingBPJSController extends ApiController
         return $this->respond($result);
         
     }
-    public function BatalAntrianMjkn(Request $request) {
-        $kdbooking = $request['kodebooking'];
-        $keterangan=$request['keterangan'];
-     
-        
-        $dataSlotingJkn = DB::select(DB::raw("SELECT   top 1    antrianpasienregistrasi_t.statuspanggil, antrianpasienregistrasi_t.statusenabled ,antrianpasienregistrasi_t.jenis + '-' + convert(char,antrianpasienregistrasi_t.noantrian) as noantrian,antrianpasienregistrasi_t.noreservasi AS nobooking, ruangankiosk_m.namaruangan AS namapoli, pegawai_m.namahafis AS namadokter, format(antrianpasienregistrasi_t.tanggalreservasi,'yyyy-MM-dd') as tanggalreservasi,antrianpasienregistrasi_t.keterangan
-        FROM            antrianpasienregistrasi_t FULL OUTER JOIN
-                                 pegawai_m ON antrianpasienregistrasi_t.objectpegawaifk = pegawai_m.id FULL OUTER JOIN
-                                 ruangankiosk_m ON antrianpasienregistrasi_t.objectruanganfk = ruangankiosk_m.kodeexternal
-        WHERE        antrianpasienregistrasi_t.noreservasi ='$kdbooking' "));
-   
-            if(!empty($dataSlotingJkn)) 
-            {
-         
+    // public function BatalAntrianMjkn(Request $request) {
+    //     $kdbooking = $request['kodebooking'];
+    //     $keterangan=$request['keterangan'];
 
-                foreach($dataSlotingJkn as $paramSlot){
-                    $nomorantrean=$paramSlot->statuspanggil;
-                    $statusenabled=$paramSlot->statusenabled;
-                }
-                if($nomorantrean >= 2)
-                {
-                    $message = array(
-                        'message' => 'Pasien Sudah Dilayani, Antrean Tidak Dapat Dibatalkan',
-                        'code' => 201,
-                    ); 
-                }elseif($statusenabled == 0)
-                {
-                    $message = array(
-                        'message' => 'Pasien Sudah Di batalkan',
-                        'code' => 201,
-                    ); 
-                }else{
-                    $dataSlotingJkn = DB::update(DB::raw("update antrianpasienregistrasi_t set statusenabled = 'false' ,keterangan='$keterangan'
-                    WHERE        noreservasi ='$kdbooking'"));
-                     $message = array(
-                         'message' => 'ok',
-                         'code' => 200,
-                     );
-                }
-               
-            }else
-            {
-                $message = array(
-                    'message' => 'Antrean Tidak Ditemukan',
-                    'code' => 201,
-                );  
+
+    //     $dataSlotingJkn = DB::select(DB::raw("SELECT   top 1    antrianpasienregistrasi_t.statuspanggil, antrianpasienregistrasi_t.statusenabled ,antrianpasienregistrasi_t.jenis + '-' + convert(char,antrianpasienregistrasi_t.noantrian) as noantrian,antrianpasienregistrasi_t.noreservasi AS nobooking, ruangankiosk_m.namaruangan AS namapoli, pegawai_m.namahafis AS namadokter, format(antrianpasienregistrasi_t.tanggalreservasi,'yyyy-MM-dd') as tanggalreservasi,antrianpasienregistrasi_t.keterangan
+    //     FROM            antrianpasienregistrasi_t FULL OUTER JOIN
+    //                              pegawai_m ON antrianpasienregistrasi_t.objectpegawaifk = pegawai_m.id FULL OUTER JOIN
+    //                              ruangankiosk_m ON antrianpasienregistrasi_t.objectruanganfk = ruangankiosk_m.kodeexternal
+    //     WHERE        antrianpasienregistrasi_t.noreservasi ='$kdbooking' "));
+
+    //         if(!empty($dataSlotingJkn)) 
+    //         {
+
+
+    //             foreach($dataSlotingJkn as $paramSlot){
+    //                 $nomorantrean=$paramSlot->statuspanggil;
+    //                 $statusenabled=$paramSlot->statusenabled;
+    //             }
+    //             if($nomorantrean >= 2)
+    //             {
+    //                 $message = array(
+    //                     'message' => 'Pasien Sudah Dilayani, Antrean Tidak Dapat Dibatalkan',
+    //                     'code' => 201,
+    //                 ); 
+    //             }elseif($statusenabled == 0)
+    //             {
+    //                 $message = array(
+    //                     'message' => 'Pasien Sudah Di batalkan',
+    //                     'code' => 201,
+    //                 ); 
+    //             }else{
+    //                 $dataSlotingJkn = DB::update(DB::raw("update antrianpasienregistrasi_t set statusenabled = 'false' ,keterangan='$keterangan'
+    //                 WHERE        noreservasi ='$kdbooking'"));
+    //                  $message = array(
+    //                      'message' => 'ok',
+    //                      'code' => 200,
+    //                  );
+    //             }
+
+    //         }else
+    //         {
+    //             $message = array(
+    //                 'message' => 'Antrean Tidak Ditemukan',
+    //                 'code' => 201,
+    //             );  
+    //         }
+
+    //         $result = array(
+    //             'metadata' => $message,
+    //         );
+    //     return $this->respond($result);
+
+    // }
+    public function BatalAntrianMjkn(Request $request)
+    {
+        $kdbooking = $request['data']['kodebooking'];
+        $keterangan = $request['data']['keterangan'];
+        // return($request['data']['kodebooking']);
+        // die();
+
+
+        $dataSlotingJkn = DB::select(DB::raw("select pd.norec,pd.istaskantrol,pd.statusenabled from pasiendaftar_t as pd 
+                        join antrianpasiendiperiksa_t as apd on pd.norec=apd.noregistrasifk and pd.objectruanganlastfk=apd.objectruanganfk
+                        join ruangankiosk_m as rk on apd.objectruanganfk::varchar=rk.kodeexternal
+                        join pegawai_m as pg on pg.namahafis=apd.namahafis
+                        where pd.statusschedule='$kdbooking'
+                        and pd.statusenabled = true limit 1"));
+
+        if (!empty($dataSlotingJkn)) {
+
+
+            foreach ($dataSlotingJkn as $paramSlot) {
+                $noregitrasifk = $paramSlot->norec;
+                $istaskantrol = $paramSlot->istaskantrol;
+                $statusenabled = $paramSlot->statusenabled;
             }
-         
-            $result = array(
-                'metadata' => $message,
+            if ($istaskantrol != null) {
+                $message = array(
+                    'message' => 'Pasien Sudah Dilayani, Antrean Tidak Dapat Dibatalkan',
+                    'code' => 201,
+                );
+            } elseif ($statusenabled == 0) {
+                $message = array(
+                    'message' => 'Pasien Sudah Di batalkan',
+                    'code' => 201,
+                );
+            } else {
+                $newBR = new BatalRegistrasi();
+                $norec = $newBR->generateNewId();
+                $newBR->norec = $norec;
+                $newBR->kdprofile = 0;
+                $newBR->statusenabled = true;
+                $newBR->alasanpembatalan = $keterangan;
+                $newBR->pasiendaftarfk = $noregitrasifk;
+                // $newBR->pegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID();
+                $newBR->pembatalanfk = 1;
+                $newBR->tanggalpembatalan = date('Y-m-d H:i:s');
+                $newBR->save();
+
+                $data2 = PasienDaftar::where('norec', $noregitrasifk)
+                    ->update([
+                        'kdprofile' => 0,
+                        'statusenabled' => false
+                    ]);
+                AntrianPasienDiperiksa::where('noregistrasifk', $noregitrasifk)
+                    ->update([
+                        'statusenabled' => false,
+                        'tglkeluar' => date('Y-m-d H:i:s'),
+                    ]);
+                $data2 = AntrianPasienRegistrasi::where('noreservasi', $kdbooking)
+                    ->update([
+                        'statusenabled' => false
+                    ]);
+
+                $message = array(
+                    'message' => 'ok',
+                    'code' => 200,
+                );
+            }
+        } else {
+            $message = array(
+                'message' => 'Antrean Tidak Ditemukan',
+                'code' => 201,
             );
+        }
+
+        $result = array(
+            'metadata' => $message,
+        );
         return $this->respond($result);
-        
     }
     public function GetJadwalOprasiSatu(Request $request) {
         $nopeserta = $request['nopeserta'];
