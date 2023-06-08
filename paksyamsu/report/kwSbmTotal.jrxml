@@ -75,7 +75,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[RUMAH SAKIT UNIVERSITAS ANDALAS]]></text>
+				<text><![CDATA[RS BHAYANGKARA TK IV CIANJUR]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="390" y="-17" width="171" height="20" forecolor="#0A0101" uuid="2f02ce19-2fb0-4fea-a42b-d408dc2b66d8"/>
