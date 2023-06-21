@@ -8592,14 +8592,14 @@ class BridgingBPJSV2Controller extends ApiController
     }
     public function SavePasienMjkn(Request $request) {
         // $token = $request['x-token'];
-        $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RSB Cianjur terlebih dahulu',
-            'code' => 201,);
-                $result = array(
+        // $message =array(  'message' => 'Gagal, Tidak ada data. Hanya berlaku untuk pasien lama, pasien baru silahkan berkunjung ke RSB Cianjur terlebih dahulu',
+        //     'code' => 201,);
+        //         $result = array(
                     
-                    'metadata' => $message
-                );
+        //             'metadata' => $message
+        //         );
     
-        return $this->respond($result);
+        // return $this->respond($result);
         $nomorkartu = $request['nomorkartu'];
         $nik=$request['nik'];
         $nama=$request['nama'];
