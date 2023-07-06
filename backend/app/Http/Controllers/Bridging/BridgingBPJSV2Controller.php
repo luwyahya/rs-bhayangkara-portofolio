@@ -6860,6 +6860,7 @@ class BridgingBPJSV2Controller extends ApiController
                 );                
                 return $this->respond($result);
             }
+            $statuspasien= 'lama';
             $dataPasienUse= DB::select(DB::raw(" 
                             select * from pasien_m where noidentitas='$nik' 
                                         "));
@@ -6868,11 +6869,23 @@ class BridgingBPJSV2Controller extends ApiController
                         select * from pasien_m where nobpjs='$nomorkartu' 
                                     "));
             }
-
-            if(!empty($dataPasienUse)){               
-                foreach($dataPasienUse as $x){
-                    $nik =$x->noidentitas;
-                }
+            if (empty($dataPasienUse)) {
+                $dataPasienUse = DB::select(DB::raw(" 
+                            select * from pasien_m where nobpjs='$nomorkartu' 
+                                        "));
+                $statuspasien= 'baru';
+            }
+            if(!empty($dataPasienUse)){ 
+                if($statuspasien == 'lama'){
+                    foreach ($dataPasienUse as $x) {
+                        $nik = $x->noidentitas;
+                    }
+                }else{
+                    foreach ($dataPasienUse as $x) {
+                        $nik = $x->nik;
+                    }
+                }              
+                
                 $dataRuangan = DB::select(DB::raw(" 
                 select namaruangan,kodeexternal from ruangankiosk_m where kdinternal ='$kodePoli' limit 1
                         "));
