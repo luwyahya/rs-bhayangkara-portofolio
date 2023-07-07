@@ -168,6 +168,7 @@ define(['initialize'], function (initialize) {
 				$scope.item.kelompoktransaksi = "";
 				$scope.item.bku = "";
                 $scope.popUpInputBaru.center().open();
+				$scope.popUpInputEdit.close();
             }
 
             $scope.klikGrid = function (dataSelected) {
@@ -181,6 +182,7 @@ define(['initialize'], function (initialize) {
 				$scope.item.kelompoktransaksi = kelompoktransaksi;
 				$scope.item.bku = {"id":idbku,"bku":bku}
                 $scope.popUpInputEdit.center().open();
+				$scope.popUpInputBaru.close();
             }
 
 			
