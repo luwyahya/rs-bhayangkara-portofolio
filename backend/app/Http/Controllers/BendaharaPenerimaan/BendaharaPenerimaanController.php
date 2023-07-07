@@ -89,7 +89,8 @@ class BendaharaPenerimaanController extends ApiController {
             ->join('bku_m as bku','bku.id','=','mp.idbku')
             ->join('kelompoktransaksi_m as kt','kt.id','=','mp.kelompoktransaksifk')
             ->select('mp.id','mp.kelompoktransaksifk','mp.idbku','bku.bku','kt.kelompoktransaksi')
-            ->where('mp.statusenabled',true);
+            ->where('mp.statusenabled',true)
+            ->where('kt.statusenabled',true);
         // if (isset($request['keterangan']) && $request['keterangan'] != "" && $request['keterangan'] != "undefined") {
         //     $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', '=', $request['keterangan']);
         // }

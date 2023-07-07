@@ -8315,7 +8315,7 @@ $dataLogin = $request->all();
             ->leftjoin('mapbkutokelompoktransaksi_m as mt','mt.kelompoktransaksifk','=','kt.id')
             ->leftjoin('bku_m as bk','bk.id','=','mt.idbku')
             ->select('kt.*','mt.idbku','bk.bku')
-            ->where('kt.statusenabled',1)->get();
+            ->where('kt.statusenabled',true)->get();
         $result = array(
             'data' => $indikator,
             'message' => 'khris@epic',
