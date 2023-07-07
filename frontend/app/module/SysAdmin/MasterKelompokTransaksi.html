@@ -16,10 +16,60 @@
 			</div>
 		</div>
 	</c-panel>
+	
+    <div class="grid_2">
+        <div class="grid_12" style="margin-top: 2px">
+            <button class="btnTemplate1" style="margin-left: 0;" ng-click="inputbaru()"><i
+                    class="fa fa-th-list"></i>Input Baru</button>
+            <!-- <kendo-button class="c-button" ng-click="LihatHasil()"><span class="title">Lihat Hasil</span></kendo-button> -->
+        </div>
+    </div>
 	<div class="grid_12" style="margin: 5px 5px 5px 5px;">
 		<div id="gridMaster" kendo-grid k-data-source="dataSource" options="daftarMasterOpt"></div>
 	</div>
 	<div class="grid_12" style="margin-top:60px">
 		<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
 	</div>
+</div>
+
+
+<div kendo-window="popUpInputBaru" k-title="'Input Baru'" k-width="500" k-visible="false"
+    k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="grid_12">
+        <!-- <div class="grid_12">
+            <div class="grid_6" style="margin-top: 5px">
+                <label c-label item="item">Kode</label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12">
+                <input style="width: 100%" type="input" class="k-textbox" ng-model="item.kode" />
+            </div>
+        </div> -->
+
+        <div class="grid_12">
+            <div class="grid_6" style="margin-top: 5px">
+                <label c-label item="item">Kelompok Transaksi</label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12">
+                <input style="width: 100%" type="input" class="k-textbox" ng-model="item.kelompoktransaksi" />
+            </div>
+        </div>
+
+        <div class="grid_12">
+            <div class="grid_6" style="margin-top: 5px">
+                <label c-label item="item">BKU</label>
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12">
+				<input style="width: 100%;" kendo-combo-box k-ng-model="item.bku"
+				k-data-text-field="'bku'" k-data-value-field="'id'" 
+				k-auto-bind="false" k-data-source="listbku" />
+            </div>
+        </div>
+
+        <div class="grid_2" style="margin-top: 5px">
+            <button class="btnTemplate1" style="margin-right: 50px;" ng-click="simpankelompoktransaksi()"> Simpan</button>
+        </div>
+    </div>
 </div>

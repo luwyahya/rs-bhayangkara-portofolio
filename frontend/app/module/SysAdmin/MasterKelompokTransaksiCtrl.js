@@ -4,9 +4,9 @@ define(['initialize'], function (initialize) {
 		function ($q, $scope, medifirstService, $timeout) {
 			$scope.isRouteLoading = true;
 			$scope.daftarMasterOpt = {
-				toolbar: [{
-					name: "create", text: "Input Baru"
-				}],
+				//toolbar: [{
+				//	name: "create", text: "Input Baru"
+				//}],
 				pageable: true,
 				scrollable: true,
 				columns: [
@@ -30,6 +30,7 @@ define(['initialize'], function (initialize) {
 				}
 			};
 			init();
+			loadCombo();
 
 			function init() {
 				$scope.item = {}; // set defined object
@@ -87,6 +88,8 @@ define(['initialize'], function (initialize) {
 					throw error;
 				})
 			};
+
+			
 		
 			$scope.Save = function (data) {
 				var item = {
@@ -151,6 +154,56 @@ define(['initialize'], function (initialize) {
 				$scope.item = {};
 			}
 			//** BATAS SUCI */
+
+			//ash
+			
+            function loadCombo() {
+                medifirstService.get("bendaharapenerimaan/get-bku", false).then(function (data) {
+                    $scope.listbku = data.data.databku;
+                });
+            }
+			$scope.inputbaru = function () {
+                $scope.popUpInputBaru.center().open();
+            }
+
+			$scope.inputedit = function () {
+                var x = [];
+                /*norecPPas = $scope.dataSelected.kode
+                medifirstService.get('radiologi/get-nokantong?norec_pp=' + norecPPas).then(function (e) {
+                    if (e.data.length > 0) {
+                        $scope.item.kode = e.data[0].nokantong
+                        $scope.item.kelompoktransaksi = e.data[0].jumlahcc
+                        $scope.item.bku = moment(e.data[0].tglpengambilan).format('YYYY-MM-DD HH:mm:ss')
+
+                    } else {
+                        $scope.item.kode = ""
+                        $scope.item.kelompoktransaksi = ""
+                        $scope.item.bku = ""
+                    }
+
+                })*/
+                $scope.popUpInputBaru.center().open();
+            }
+			
+			
+            $scope.simpankelompoktransaksi = function () {
+                var objsimpan = {
+                    //"id": $scope.item.kode,
+                    "kelompoktransaksi": $scope.item.kelompoktransaksi,
+                    "bku": $scope.item.bku.id
+                };
+				debugger
+                medifirstService.post('sysadmin/general/rensar/save-kelompok-transaksi-new', objsimpan).then(function (e) {
+                    if (e.status === 201) {
+                        //$scope.item.kode = "";
+                        $scope.item.kelompoktransaksi = "";
+                        $scope.item.bku = "";
+                        $scope.popUpInputBaru.close();
+                        init()
+                    }
+
+                })
+			};
 		}
 	]);
 });
