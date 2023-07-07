@@ -185,6 +185,16 @@ define(['initialize'], function (initialize) {
 
 			
             $scope.simpankelompoktransaksi = function () {
+		
+                if ($scope.item.kelompoktransaksi == undefined || $scope.item.kelompoktransaksi == "") {
+                    alert("Kelompok Transaksi harus diisi")
+                    return
+                }
+
+                if ($scope.item.bku == undefined || $scope.item.bku == "") {
+                    alert("BKU harus dipilih")
+                    return
+                }
                 var objsimpan = {
                     "id": $scope.item.kode,
                     "kelompoktransaksi": $scope.item.kelompoktransaksi,
@@ -202,6 +212,7 @@ define(['initialize'], function (initialize) {
                     }
 
                 })
+
 			};
 		}
 	]);
