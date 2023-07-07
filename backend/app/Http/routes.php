@@ -176,8 +176,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-setoran-kasir', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarSetoranKasir');
             Route::get('get-daftar-kelompok-transaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@daftarKelompokTransaksi');
             
-
             Route::get('get-penjamin', 'BendaharaPenerimaan\BendaharaPenerimaanController@getobjeectkelompokpasienlast');
+
+            //ash
+            Route::get('get-bku', 'BendaharaPenerimaan\BendaharaPenerimaanController@getBKU');
             //**GET**//
 
             //**POST**//
@@ -200,6 +202,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-verifikasi-jaspel', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspel');
             Route::post('save-verifikasi-jaspelnonbpjs', 'BendaharaPenerimaan\BendaharaPenerimaanController@saveVerifikasiJaspelnonbpjs');
             Route::post('unverifikasi-Setoran', 'BendaharaPenerimaan\BendaharaPenerimaanController@unverifikasiSetoran');
+
+            //ash
+            
+            Route::post('simpan-kelompoktransaksi', 'BendaharaPenerimaan\BendaharaPenerimaanController@simpanKelompokTransaksi');
             //**POST**//
         });
         Route::group(['prefix' => 'bendaharapengeluaran'], function () {
@@ -3445,6 +3451,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::post('post-pengembalian-dok-rm', 'EIS\EISController@postPengembalianRekamMedik');
                     Route::post('post-waktu-tunggu-rj', 'EIS\EISController@postWaktuTungguRawatJalan');
                     Route::post('save-kelompok-transaksi', 'EIS\EISController@saveKelompokTransaksi');
+
+                    
+                    Route::post('save-kelompok-transaksi-new', 'EIS\EISController@saveKelompokTransaksiNew'); //ash
                     /*POST*/
                 });
             });

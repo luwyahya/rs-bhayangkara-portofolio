@@ -37,6 +37,21 @@ class BendaharaPenerimaanController extends ApiController {
         parent::__construct($skip_authentication = false);
     }
 
+    //ash
+    public function getBKU(Request $request){
+        $databku = DB::table('bku_m as bk')
+            ->select('bk.id','bk.bku')
+            ->get();
+
+        $result = array(
+            'databku' => $databku,
+            'message' => 'ash',
+        );
+        return $this->respond($result);
+    }
+
+
+
     public function getDataCombo(Request $request){
         $dataLogin = $request->all();
         $caraSetor = \DB::table('carasetor_m as cs')
@@ -1626,6 +1641,7 @@ class BendaharaPenerimaanController extends ApiController {
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 
+    
     public function saveTempBukuKasUmum(Request $request){
         \DB::beginTransaction();
         try {

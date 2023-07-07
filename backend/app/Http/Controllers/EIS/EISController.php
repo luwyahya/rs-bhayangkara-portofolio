@@ -12,6 +12,7 @@ namespace App\Http\Controllers\EIS;
 use App\Http\Controllers\ApiController;
 use App\Master\JenisIndikator;
 use App\Master\KelompokTransaksi;
+use App\Master\MapBkutoKelompokTransaksi;
 use App\Master\Pasien;
 use App\Master\SettingDataFixed;
 use App\Master\TargetIndikator;
@@ -8364,6 +8365,74 @@ $dataLogin = $request->all();
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+
+    //ash
+    public function saveKelompokTransaksiNew(Request $request){
+        DB::beginTransaction();
+        try{
+            //if ($request['id'] == ''){
+            $TP = new KelompokTransaksi();
+            $idMax = KelompokTransaksi::max('id');
+            $newId = $idMax + 1;
+            $TP->kdprofile = 1;
+            $TP->id = $newId;
+            $TP->norec = $TP->generateNewId();
+            $TP->kodeexternal = $newId ;
+            $TP->kdkelompoktransaksi = $newId ;
+            $TP->qkelompoktransaksi = $newId ;
+            //}else{
+            //    $TP = KelompokTransaksi::where('id', $request['id'])->first();
+            //}
+            $TP->statusenabled = true;
+            $TP->namaexternal = $request['kelompoktransaksi'];
+            $TP->reportdisplay = $request['kelompoktransaksi'];
+            $TP->kelompoktransaksi = $request['kelompoktransaksi'];
+            $TP->save();
+
+            $transStatus = 1;
+
+            
+            //------
+            $MTP = new MapBKUtoKelompokTransaksi();
+            $idMax = MapBKUtoKelompokTransaksi::max('id');
+            $newIdm = $idMax + 1;
+            $MTP->kdprofile = 12;
+            $MTP->id =  $newIdm;
+            $MTP->norec = $MTP->generateNewId();
+            $MTP->statusenabled = true;
+            $MTP->kelompoktransaksifk = $newId;
+            $MTP->idbku = $request['bku'];
+            $MTP->save();
+
+
+        } catch (\Exception $e) {
+            $transStatus = false;
+        }
+
+        if ($transStatus) {
+            $transMessage = 'Sukses';
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'result' => $TP,
+                'as' => 'khris@epic',
+            );
+        } else {
+            $transMessage = 'Simpan Gagal';
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'as' => 'khris@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+
+
+
+
     public function getKepatuhanCuciTangan(Request $req)
     {
         $bulan = '';
