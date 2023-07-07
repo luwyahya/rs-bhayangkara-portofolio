@@ -4,7 +4,7 @@ define(['initialize'], function (initialize) {
 		function ($q, $scope, medifirstService, $timeout) {
 			$scope.isRouteLoading = true;
 			$scope.daftarMasterOpt = {
-				//toolbar: [{
+				//toolbar: [{ 
 				//	name: "create", text: "Input Baru"
 				//}],
 				pageable: true,
