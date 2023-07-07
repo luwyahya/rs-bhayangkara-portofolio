@@ -13,14 +13,15 @@ define(['initialize'], function (initialize) {
 					{ field: "kodeexternal", title: "Kode", width: 120 },
 					{ field: "kelompoktransaksi", title: "Kelompok Transaksi" },
 					// { field: "Status", title: "Status Enabled" },
-					{ command: [{ name: "destroy", text: "Disable" }, { name: "edit", text: "Edit" }], title: "&nbsp;", width: 160 }
+					{ command: [{ name: "destroy", text: "Disable" }/*, { name: "edit", text: "Edit" }*/], title: "&nbsp;", width: 160 }
 				],
 				editable: "popup",
 				save: function (e) {
 					$scope.Save(e.model);
 				},
 				edit: function (e) {
-					e.sender.columns.forEach(function (element, index /*, array */) {
+					e.sender.columns.forEach(function (element, index , array ) {
+						debugger
 						if (element.hideMe) {
 							e.container.find(".k-edit-label:eq(" + index + "), "
 								+ ".k-edit-field:eq( " + index + ")"
@@ -163,42 +164,40 @@ define(['initialize'], function (initialize) {
                 });
             }
 			$scope.inputbaru = function () {
+				$scope.item.kode = "";
+				$scope.item.kelompoktransaksi = "";
+				$scope.item.bku = "";
                 $scope.popUpInputBaru.center().open();
             }
 
-			$scope.inputedit = function () {
+            $scope.klikGrid = function (dataSelected) {
                 var x = [];
-                /*norecPPas = $scope.dataSelected.kode
-                medifirstService.get('radiologi/get-nokantong?norec_pp=' + norecPPas).then(function (e) {
-                    if (e.data.length > 0) {
-                        $scope.item.kode = e.data[0].nokantong
-                        $scope.item.kelompoktransaksi = e.data[0].jumlahcc
-                        $scope.item.bku = moment(e.data[0].tglpengambilan).format('YYYY-MM-DD HH:mm:ss')
+                var kode = $scope.dataSelected.id;
+                var kelompoktransaksi = $scope.dataSelected.kelompoktransaksi;
+                var idbku = $scope.dataSelected.idbku;
+                var bku = $scope.dataSelected.bku;
 
-                    } else {
-                        $scope.item.kode = ""
-                        $scope.item.kelompoktransaksi = ""
-                        $scope.item.bku = ""
-                    }
-
-                })*/
-                $scope.popUpInputBaru.center().open();
+				$scope.item.kode = kode;
+				$scope.item.kelompoktransaksi = kelompoktransaksi;
+				$scope.item.bku = {"id":idbku,"bku":bku}
+                $scope.popUpInputEdit.center().open();
             }
-			
+
 			
             $scope.simpankelompoktransaksi = function () {
                 var objsimpan = {
-                    //"id": $scope.item.kode,
+                    "id": $scope.item.kode,
                     "kelompoktransaksi": $scope.item.kelompoktransaksi,
                     "bku": $scope.item.bku.id
                 };
-				debugger
+				
                 medifirstService.post('sysadmin/general/rensar/save-kelompok-transaksi-new', objsimpan).then(function (e) {
                     if (e.status === 201) {
-                        //$scope.item.kode = "";
+                        $scope.item.kode = "";
                         $scope.item.kelompoktransaksi = "";
                         $scope.item.bku = "";
                         $scope.popUpInputBaru.close();
+                        $scope.popUpInputEdit.close();
                         init()
                     }
 
