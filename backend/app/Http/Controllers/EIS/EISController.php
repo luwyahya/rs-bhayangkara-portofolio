@@ -8395,14 +8395,14 @@ $dataLogin = $request->all();
             
             //------
             $MTP = new MapBKUtoKelompokTransaksi();
-            $idMax = MapBKUtoKelompokTransaksi::max('id');
+            $idMax = MapBKUtoKelompokTransaksi::max('id'); 
             $newIdm = $idMax + 1;
             $MTP->kdprofile = 12;
             $MTP->id =  $newIdm;
             $MTP->norec = $MTP->generateNewId();
-            $MTP->statusenabled = true;
+            $MTP->statusenabled = true; 
             $MTP->kelompoktransaksifk = $newId;
-            $MTP->idbku = $request['bku'];
+            $MTP->idbku = $request['bku']; 
             $MTP->save();
 
 
