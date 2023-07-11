@@ -750,6 +750,10 @@
             "urlDep": "module/SysAdmin/MasterKelompokTransaksiCtrl"
         },
         {
+            "nameDep": "MasterTipeLayananCtrl",
+            "urlDep": "module/SysAdmin/MasterTipeLayananCtrl"
+        },
+        {
             "nameDep": "StokBarangMinimumCtrl",
             "urlDep": "module/Logistik/StokBarangMinimumCtrl"
         },

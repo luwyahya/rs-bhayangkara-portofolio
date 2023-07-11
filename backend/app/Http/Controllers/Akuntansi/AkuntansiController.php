@@ -3017,7 +3017,7 @@ class AkuntansiController extends ApiController{
         DB::beginTransaction();
         $dataReq = $request->all();
 
-        try {
+        // try {
             if ($dataReq['head']['nojurnal'] == '-'){
                 $noBuktiTransaksi =$dataReq['head']['nobuktitransaksi'];
                 $noPosting = '-';
@@ -3079,9 +3079,9 @@ class AkuntansiController extends ApiController{
                 $postingJurnalTransaksiD->save();
             }
             $transStatus = 'true';
-        } catch (\Exception $e) {
-            $transStatus = 'false';
-        }
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        // }
         $transMessage = 'Entry ';
 
         if ($transStatus == 'true') {

@@ -211,7 +211,7 @@ define(['initialize'], function (initialize) {
 				selectable: 'row',
 				columns: [
 					{
-						field: "total", title: "Total", width: "150px"
+						field: "totalpenerimaan", title: "Total", width: "150px"
 					},
 					{
 						field: "kelompoktransaksi", title: "Nama Transaksi", width: "150px"

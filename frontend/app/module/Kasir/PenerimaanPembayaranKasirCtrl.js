@@ -17,6 +17,7 @@ define(['initialize'], function (initialize) {
             $scope.daftarBayar = new kendo.data.DataSource({
                 data: []
             });
+             $scope.tipelayanan='';
             FormLoad();
             showButton();
 
@@ -24,8 +25,10 @@ define(['initialize'], function (initialize) {
                 $scope.showBtnSimpan = true;
                 $scope.showBtnKembali = true;
             }
+             
 
             function FormLoad() {
+               
                 var idPegawai = medifirstService.getPegawaiLogin().id
                 medifirstService.get('registrasi/get-ruangan-login-user?idPegawai=' + idPegawai).then(function (dat) {
                     $scope.tampungidruangan = dat.data[0].objectruanganfk
@@ -192,7 +195,9 @@ define(['initialize'], function (initialize) {
 
             var urlGetDataDetail = "";
             switch ($scope.dataParams.pageFrom) {
-                case "PembayaranTagihanLayananKasir":
+         
+                case "PembayaranTagihanLayananKasir": 
+                    $scope.tipelayanan  = 'Pembayaran Tagihan Layanan Kasir'
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanPasien",
@@ -203,7 +208,7 @@ define(['initialize'], function (initialize) {
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=tagihanPasien";
                     break;
                 case "PembayaranTagihanNonLayananKasir":
-                    debugger;
+                     $scope.tipelayanan  = 'Pembayaran Tagihan Non Layanan Kasir'
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
@@ -213,6 +218,7 @@ define(['initialize'], function (initialize) {
                     break;
                 case "InputTagihanNonLayanan":
                     debugger;
+                    $scope.tipelayanan  = 'Input Tagihan Non Layanan'
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
@@ -222,6 +228,7 @@ define(['initialize'], function (initialize) {
                     break;
                 case "DaftarNonLayananKasir":
                     debugger;
+                    $scope.tipelayanan  = 'Daftar Non LayananKasir'
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
@@ -231,6 +238,7 @@ define(['initialize'], function (initialize) {
                     break;
                 case "DaftarPenjualanApotekKasir/terimaUmum":
                     debugger;
+                    $scope.tipelayanan  = 'Dafta rPenjualan Apotek Kasir' 
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
@@ -241,6 +249,8 @@ define(['initialize'], function (initialize) {
 
                 case "DaftarPenjualanApotekKasir/obatBebas":
                     debugger;
+                    
+                    $scope.tipelayanan  = 'Daftar Penjualan Apotek Kasir' 
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
@@ -249,6 +259,7 @@ define(['initialize'], function (initialize) {
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=tagihanPasien";
                     break;
                 case "PenyetoranDepositKasir":
+                     $scope.tipelayanan  = 'Penyetoran Deposit Kasir' 
                     $scope.dataPrevPage = {
                         noRegistrasi: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "depositPasien",
@@ -258,6 +269,7 @@ define(['initialize'], function (initialize) {
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRegistrasi=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=depositPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
                     break;
                 case "PenyetoranDepositKasirKembali":
+                     $scope.tipelayanan  = 'Penyetoran Deposit Kasir Kembali' 
                     $scope.dataPrevPage = {
                         noRegistrasi: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "PenyetoranDepositKasirKembali",
@@ -267,6 +279,8 @@ define(['initialize'], function (initialize) {
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRegistrasi=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=depositPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
                     break;
                 case "PembayaranPiutangKasir":
+                     $scope.tipelayanan  = 'Pembayaran Piutang Kasir' 
+
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "cicilanPasien",

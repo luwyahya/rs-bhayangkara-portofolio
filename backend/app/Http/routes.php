@@ -262,9 +262,12 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('post-all-patient-igd', 'Bridging\PHSController@PostAllPatientIGD');
                 Route::post('post-all-patient-rj', 'Bridging\PHSController@PostAllPatientRJ');
             });
+            
             Route::group(['prefix' => 'radiologi'], function () {
                 Route::post('post-order', 'Bridging\BridgingRadiologiController@postorderradiologi');
+                Route::post('post-order-2', 'Bridging\BridgingRadiologiController@postOrderPacsOtomatis');
                 Route::post('post-expertise', 'Bridging\BridgingRadiologiController@postexpertiseradiologi');
+                Route::post('update-pacs', 'Bridging\BridgingRadiologiController@updateOrderPacsInPP');
             });
 
             Route::group(['prefix' => 'anta'], function () {
@@ -2092,6 +2095,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-laporan-kunjungan-radiologi', 'Radiologi\RadiologiController@getLaporanKunjunganRadiologi');
             Route::get('get-rekanan', 'Radiologi\RadiologiController@getRekananKelompok');
             Route::get('get-daftar-orderverif-rincian', 'Radiologi\RadiologiController@getDaftarOrderPenunjangverifRincian');
+            Route::post('update-modality', 'Radiologi\RadiologiController@updatemodality');
         });
         Route::group(['prefix' => 'rawatinap'], function () {
             Route::get('get-kab-kota', 'RawatInap\RawatInapController@getKabKota');
@@ -3420,6 +3424,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::get('get-ruangan-indikator', 'EIS\EISController@getRuanganIndikatorRensar');
                     Route::get('get-indikator-rensar', 'EIS\EISController@getIndikatorRensar');
                     Route::get('get-kelompok-transaksi', 'EIS\EISController@getKelompokTransaksi');
+                    Route::get('get-tipe-layanan', 'EIS\EISController@getTipeLayanan');
 
                     Route::get('get-jenis-indikator', 'EIS\EISController@getJenisIndikator');
                     Route::get('get-target-indikator', 'EIS\EISController@getTargetIndikator');
@@ -3445,6 +3450,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::post('post-pengembalian-dok-rm', 'EIS\EISController@postPengembalianRekamMedik');
                     Route::post('post-waktu-tunggu-rj', 'EIS\EISController@postWaktuTungguRawatJalan');
                     Route::post('save-kelompok-transaksi', 'EIS\EISController@saveKelompokTransaksi');
+                    Route::post('save-tipelayanan', 'EIS\EISController@saveTipelayanan');
                     /*POST*/
                 });
             });

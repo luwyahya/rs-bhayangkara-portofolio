@@ -26,6 +26,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use DB;
 use App\Master\Ruangan;
+use App\Master\TipeLayanan;
 use App\Traits\Valet;
 use Jimmyjs\ReportGenerator\ReportMedia\PdfReport;
 
@@ -9902,5 +9903,50 @@ GROUP BY
             'message' => 'ramdanegie',
         );
         return $this->respond($result);
+    }
+
+    public function getTipeLayanan(Request $request)
+    {
+        $indikator = \DB::table('maptipelayanan_m as mp')  
+            ->JOIN('kelompoktransaksi_m as kt', 'mp.objectkelompokfk', '=', 'kt.id')
+            ->select('mp.*', 'kt.kelompoktransaksi','kt.id as idkt')
+        ->get();
+        $result = array(
+            'data' => $indikator,
+            'message' => 'khris@epic',
+        );
+        return $this->respond($result);
+    }
+    public function saveTipelayanan(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+           
+            $TP = TipeLayanan::where('id', $request['id'])->first();           
+            $TP->objectkelompokfk = $request['kelompoktransaksi']; 
+            $TP->save();
+
+            $transStatus = 1;
+        } catch (\Exception $e) {
+            $transStatus = false;
+        }
+
+        if ($transStatus) {
+            $transMessage = 'Sukses';
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'result' => $TP,
+                'as' => 'khris@epic',
+            );
+        } else {
+            $transMessage = 'Simpan Gagal';
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'as' => 'khris@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 }

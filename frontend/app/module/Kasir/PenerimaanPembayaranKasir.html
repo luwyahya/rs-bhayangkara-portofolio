@@ -111,7 +111,7 @@
 					</div>-->
 
 					<!-- Terbilang -->
-					<div class="grid_12">
+					<div class="grid_12" >
 						<div class="grid_12">
 							<label c-label item="item" c-label-text="Terbilang"></label>
 						</div>
@@ -121,6 +121,11 @@
 							<textarea style="width: 99%; height: 40px;resize: none;"
 								ng-disabled="true">{{item.terbilang}}</textarea>
 						</div>
+					</div>
+
+
+					<div class="grid_12" style="margin-top: 10px;">
+						<label c-label item="item" c-label-text="TipeLayanan"></label><span>{{tipelayanan}} </span>
 					</div>
 				</div>
 
@@ -299,13 +304,10 @@
 					<div class="clear"></div>
 
 					<!-- Button Tambah Cara Bayar -->
-					<div class="grid_4">
-						<div class="grid_12">
-							<label>&nbsp;</label>
-						</div>
-						<div class="clear"></div>
-
-						<div class="grid_12">
+					<div class="grid_12"> 
+						
+						
+						<div class="grid_4">
 							<button class="btnTemplate1" style="margin-left: 0;" ng-click="tambahCaraBayar()">Tambah
 								Bayar</button>
 						</div>
