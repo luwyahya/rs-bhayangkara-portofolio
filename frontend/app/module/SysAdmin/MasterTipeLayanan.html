@@ -1,0 +1,59 @@
+<div>
+	<c-panel item="item" header="'Master Tipe Layanan'" disabled>
+		<div class="panel panel-default container_12">
+		 
+		</div>
+	</c-panel>
+	<div class="grid_12" style="margin: 5px 5px 5px 5px;">
+		<div id="gridMaster" kendo-grid k-data-source="dataSource" options="daftarMasterOpt"></div>
+	</div>
+	<div class="grid_12" style="margin-top:60px">
+		<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+	</div>
+</div>
+
+<div kendo-window="popupketerangan" k-title="'Edit'" k-visible="false" k-width="600" k-height="200">
+	<div class="panel panel-default container_12">
+		<div class="grid_12" ng-show="flase">
+			<div class="grid_1" style="margin-top: 10px;">
+				<label c-label item="item">Id</label>
+			</div>
+
+			<div class="grid_1">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.id" disabled />
+			</div>
+		</div>
+		<div class="grid_12">
+			
+			<div class="grid_3" style="margin-top: 10px;">
+				<label c-label item="item">Tipe Layanan</label>
+			</div>
+			
+			<div class="grid_9">
+				<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tipelayanan" disabled />
+			</div>
+		</div> 
+			<div class="grid_12">
+				<div class="grid_3">
+					<label c-label item="item">Kelompok Transaksi</label>
+				</div>
+			
+				<div class="grid_9">
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompoktransaksi" k-data-text-field="'kelompoktransaksi'"
+						k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listkelompoktransaksi" />
+				</div>
+			</div>
+		<div class="grid_12">
+			<div class="grid_7" > 
+			</div>
+				<div class="grid_2" style="margin-top: 10px; margin-right: 10px;">
+					<button class="btnTemplate1" ng-click="Save()">simpan</button>
+				</div>
+				<div class="grid_2" style="margin-top: 10px;">
+					<button class="btnTemplate1" ng-click="CetakPopUpclose()">Kembali</button>
+				</div>
+		</div>
+	
+	 
+	</div>
+</div>
