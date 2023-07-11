@@ -10,7 +10,7 @@ define(['initialize'], function (initialize) {
 				columns: [
 					{ field: "id", title: "id", width: 50 },
 					{ field: "tipelayanan", title: "Tipe Layanan" },
-					{ field: "kelompoktransaksi", title: "Kelompok Transaksi" },
+					{ field: "namaexternal", title: "Kelompok Transaksi" },
 					{ field: "", title: " ",
 						template: "<button   class=\"k-button custom-button\"    ng-click=\"verifikasigrid(dataItem)\"  style=\"margin:0 0 5px\" >Edit</button> " }, 
 					// { field: "Status", title: "Status Enabled" },

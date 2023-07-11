@@ -218,7 +218,7 @@ define(['initialize'], function (initialize) {
                     break;
                 case "InputTagihanNonLayanan":
                     debugger;
-                    $scope.tipelayanan  = 'Input Tagihan Non Layanan'
+                    $scope.tipelayanan  = 'Tagihan Non Layanan'
                     $scope.dataPrevPage = {
                         noRecStrukPelayanan: $scope.dataParams.noRegistrasi,
                         tipePembayaran: "tagihanNonLayanan",
