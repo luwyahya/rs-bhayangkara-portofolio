@@ -37,6 +37,21 @@ class BendaharaPenerimaanController extends ApiController {
         parent::__construct($skip_authentication = false);
     }
 
+    //ash
+    public function getBKU(Request $request){
+        $databku = DB::table('bku_m as bk')
+            ->select('bk.id','bk.bku')
+            ->get();
+
+        $result = array(
+            'databku' => $databku,
+            'message' => 'ash',
+        );
+        return $this->respond($result);
+    }
+
+
+
     public function getDataCombo(Request $request){
         $dataLogin = $request->all();
         $caraSetor = \DB::table('carasetor_m as cs')
@@ -74,7 +89,8 @@ class BendaharaPenerimaanController extends ApiController {
             ->join('bku_m as bku','bku.id','=','mp.idbku')
             ->join('kelompoktransaksi_m as kt','kt.id','=','mp.kelompoktransaksifk')
             ->select('mp.id','mp.kelompoktransaksifk','mp.idbku','bku.bku','kt.kelompoktransaksi')
-            ->where('mp.statusenabled',true);
+            ->where('mp.statusenabled',true)
+            ->where('kt.statusenabled',true);
         // if (isset($request['keterangan']) && $request['keterangan'] != "" && $request['keterangan'] != "undefined") {
         //     $kelompokTransaksi = $kelompokTransaksi->where('bku.bku', '=', $request['keterangan']);
         // }
@@ -1626,6 +1642,7 @@ class BendaharaPenerimaanController extends ApiController {
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 
+    
     public function saveTempBukuKasUmum(Request $request){
         \DB::beginTransaction();
         try {

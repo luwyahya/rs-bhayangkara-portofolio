@@ -4,23 +4,24 @@ define(['initialize'], function (initialize) {
 		function ($q, $scope, medifirstService, $timeout) {
 			$scope.isRouteLoading = true;
 			$scope.daftarMasterOpt = {
-				toolbar: [{
-					name: "create", text: "Input Baru"
-				}],
+				//toolbar: [{ 
+				//	name: "create", text: "Input Baru"
+				//}],
 				pageable: true,
 				scrollable: true,
 				columns: [
 					{ field: "kodeexternal", title: "Kode", width: 120 },
 					{ field: "kelompoktransaksi", title: "Kelompok Transaksi" },
 					// { field: "Status", title: "Status Enabled" },
-					{ command: [{ name: "destroy", text: "Disable" }, { name: "edit", text: "Edit" }], title: "&nbsp;", width: 160 }
+					{ command: [{ name: "destroy", text: "Disable" }/*, { name: "edit", text: "Edit" }*/], title: "&nbsp;", width: 160 }
 				],
 				editable: "popup",
 				save: function (e) {
 					$scope.Save(e.model);
 				},
 				edit: function (e) {
-					e.sender.columns.forEach(function (element, index /*, array */) {
+					e.sender.columns.forEach(function (element, index , array ) {
+						debugger
 						if (element.hideMe) {
 							e.container.find(".k-edit-label:eq(" + index + "), "
 								+ ".k-edit-field:eq( " + index + ")"
@@ -30,6 +31,7 @@ define(['initialize'], function (initialize) {
 				}
 			};
 			init();
+			loadCombo();
 
 			function init() {
 				$scope.item = {}; // set defined object
@@ -87,6 +89,8 @@ define(['initialize'], function (initialize) {
 					throw error;
 				})
 			};
+
+			
 		
 			$scope.Save = function (data) {
 				var item = {
@@ -151,6 +155,67 @@ define(['initialize'], function (initialize) {
 				$scope.item = {};
 			}
 			//** BATAS SUCI */
+
+			//ash
+			
+            function loadCombo() {
+                medifirstService.get("bendaharapenerimaan/get-bku", false).then(function (data) {
+                    $scope.listbku = data.data.databku;
+                });
+            }
+			$scope.inputbaru = function () {
+				$scope.item.kode = "";
+				$scope.item.kelompoktransaksi = "";
+				$scope.item.bku = "";
+                $scope.popUpInputBaru.center().open();
+				$scope.popUpInputEdit.close();
+            }
+
+            $scope.klikGrid = function (dataSelected) {
+                var x = [];
+                var kode = $scope.dataSelected.id;
+                var kelompoktransaksi = $scope.dataSelected.kelompoktransaksi;
+                var idbku = $scope.dataSelected.idbku;
+                var bku = $scope.dataSelected.bku;
+
+				$scope.item.kode = kode;
+				$scope.item.kelompoktransaksi = kelompoktransaksi;
+				$scope.item.bku = {"id":idbku,"bku":bku}
+                $scope.popUpInputEdit.center().open();
+				$scope.popUpInputBaru.close();
+            }
+
+			
+            $scope.simpankelompoktransaksi = function () {
+		
+                if ($scope.item.kelompoktransaksi == undefined || $scope.item.kelompoktransaksi == "") {
+                    alert("Kelompok Transaksi harus diisi")
+                    return
+                }
+
+                if ($scope.item.bku == undefined || $scope.item.bku == "") {
+                    alert("BKU harus dipilih")
+                    return
+                }
+                var objsimpan = {
+                    "id": $scope.item.kode,
+                    "kelompoktransaksi": $scope.item.kelompoktransaksi,
+                    "bku": $scope.item.bku.id
+                };
+				
+                medifirstService.post('sysadmin/general/rensar/save-kelompok-transaksi-new', objsimpan).then(function (e) {
+                    if (e.status === 201) {
+                        $scope.item.kode = "";
+                        $scope.item.kelompoktransaksi = "";
+                        $scope.item.bku = "";
+                        $scope.popUpInputBaru.close();
+                        $scope.popUpInputEdit.close();
+                        init()
+                    }
+
+                })
+
+			};
 		}
 	]);
 });

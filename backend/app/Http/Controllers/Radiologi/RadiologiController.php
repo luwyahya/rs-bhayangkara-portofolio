@@ -5446,4 +5446,9 @@ class RadiologiController extends ApiController
         return $this->respond($res);
 
     }
+
+    public function updatemodality(Request $request){
+        
+
+    }
 }
