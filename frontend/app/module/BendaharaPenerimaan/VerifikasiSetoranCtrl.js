@@ -153,7 +153,10 @@ define(['initialize'], function (initialize) {
 						$scope.newtotalkredit = $scope.newtotalkredit + data.data.data[i].kredit
 					}
 					//$scope.newsaldoakhir = parseFloat($scope.newtotalkredit) - (parseFloat($scope.newtotaldebit) + parseFloat($scope.newtotaltransfer))
-					$scope.newsaldoakhir = data.data.data[data.data.data.length - 1].saldo
+					if(data.data.data.length>0){
+						$scope.newsaldoakhir = data.data.data[data.data.data.length - 1].saldo
+					}
+					
 
 					var result = []
 					result = data.data
@@ -211,7 +214,7 @@ define(['initialize'], function (initialize) {
 				selectable: 'row',
 				columns: [
 					{
-						field: "totalpenerimaan", title: "Total", width: "150px"
+						field: "total", title: "Total", width: "150px"
 					},
 					{
 						field: "kelompoktransaksi", title: "Nama Transaksi", width: "150px"

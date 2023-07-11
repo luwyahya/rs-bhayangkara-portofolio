@@ -703,9 +703,22 @@ class BendaharaPenerimaanController extends ApiController {
 //            }
 //        }
         /** @End_Save_OLD */
-        try {
+        // try {
             foreach ($input['details'] as $item){
+                //   $sbm = StrukBuktiPenerimaan::where('norec', $item['znorec_sbm'])
+                //   ->where('isverifbendahara',true)->get();
+                //     if (count($sbm) > 0) {
+                //         $transMsg = 'DATA SUDAH DI VERIF DI BENDAHARA!!';
+                //         DB::rollBack();
+                //         $result = array(
+                //             "status" => 400,
+                //             "message"  => $transMsg,
+                //             "as" => 'as@epic',
+                //         );
+                //          return $this->setStatusCode($result['status'])->respond($result, $transMsg);
+                //     }
                 $sc = StrukClosing::where('noclosing',$item['noclosing'])->first();
+              
                 $sh = StrukHistori::where('noclosing', $sc->norec)
                     ->update([
                         'statusenabled' => false
@@ -718,9 +731,9 @@ class BendaharaPenerimaanController extends ApiController {
                             ]);
 
             }
-        } catch (\Exception $e) {
-                $transStatus = false;
-        }
+        // } catch (\Exception $e) {
+        //         $transStatus = false;
+        // }
         if ($transStatus == true) {
             $transMsg = 'Batal Setor Sukses';
             DB::commit();
@@ -1309,7 +1322,8 @@ class BendaharaPenerimaanController extends ApiController {
             ->leftjoin ('strukbuktipenerimaan_t as spp',function($join)
             {
                 $join->on('spp.noclosingfk','=','sc.norec')
-                    ->where('spp.keteranganlainnya', 'like', '%'.'Setoran'.'%');
+                ->where('spp.keteranganlainnya', 'like', '%' . 'Setoran' . '%')
+                ->wherenotnull('spp.noclosingfk');
             })
             ->leftjoin('strukbuktipengeluaran_t as sbk', 'sbk.noclosingfk', '=', 'sc.norec')
             ->leftjoin('loginuser_s as lu', 'lu.id', '=', 'spp.objectpegawaipenerimafk')
