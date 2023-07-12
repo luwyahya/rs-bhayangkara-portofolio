@@ -3430,7 +3430,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::get('get-ruangan-indikator', 'EIS\EISController@getRuanganIndikatorRensar');
                     Route::get('get-indikator-rensar', 'EIS\EISController@getIndikatorRensar');
                     Route::get('get-kelompok-transaksi', 'EIS\EISController@getKelompokTransaksi');
+                    Route::get('get-kelompok-akun', 'EIS\EISController@getAkunTransaksi');
                     Route::get('get-tipe-layanan', 'EIS\EISController@getTipeLayanan');
+                    Route::get('get-mapping-bank', 'EIS\EISController@getMappingBank');
 
                     Route::get('get-jenis-indikator', 'EIS\EISController@getJenisIndikator');
                     Route::get('get-target-indikator', 'EIS\EISController@getTargetIndikator');
@@ -3457,7 +3459,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                     Route::post('post-waktu-tunggu-rj', 'EIS\EISController@postWaktuTungguRawatJalan');
                     Route::post('save-kelompok-transaksi', 'EIS\EISController@saveKelompokTransaksi');
  
-                    Route::post('save-tipelayanan', 'EIS\EISController@saveTipelayanan'); 
+                    Route::post('save-tipelayanan', 'EIS\EISController@saveTipelayanan');
+                    Route::post('save-mapakunbank', 'EIS\EISController@saveMapAkunBank'); 
                     Route::post('save-kelompok-transaksi-new', 'EIS\EISController@saveKelompokTransaksiNew'); //ash
  
                     /*POST*/

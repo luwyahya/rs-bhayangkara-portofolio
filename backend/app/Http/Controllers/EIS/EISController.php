@@ -13,6 +13,7 @@ use App\Http\Controllers\ApiController;
 use App\Master\JenisIndikator;
 use App\Master\KelompokTransaksi;
 use App\Master\MapBkutoKelompokTransaksi;
+use App\Master\MapCOA;
 use App\Master\Pasien;
 use App\Master\SettingDataFixed;
 use App\Master\TargetIndikator;
@@ -8371,7 +8372,17 @@ $dataLogin = $request->all();
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-
+    public function getAkunTransaksi(Request $request)
+    {
+        //$indikator = KelompokTransaksi::where('statusenabled',1)->get();
+        $indikator = DB::table('chartofaccount_m as kt') 
+        ->where('kt.statusenabled', true)->get();
+        $result = array(
+            'data' => $indikator,
+            'message' => 'khris@epic',
+        );
+        return $this->respond($result);
+    }
 
     //ash
     public function saveKelompokTransaksiNew(Request $request){
@@ -9999,6 +10010,38 @@ GROUP BY
         );
         return $this->respond($result);
     }
+    public function getMappingBank(Request $request)
+    {
+        $bank = \DB::table('bank_m as mp') 
+        ->where('mp.statusenabled', true)
+        ->get(); 
+        
+        $coa = \DB::table('mapaccountbank_m as mb') 
+        ->join('chartofaccount_m as coa','coa.id','=', 'mb.objectcoafk')
+        ->select('coa.id', 'coa.namaaccount','mb.objectbankfk', 'mb.id as idmap')
+        ->where('mb.statusenabled', true)
+        ->get(); 
+        
+        foreach ($bank as $item) {
+            $item->coa = '';
+            $item->idmap='';
+            $item->idcoa = '';
+            foreach ($coa as $item2) {
+                if($item->id == $item2->objectbankfk){
+                    $item->coa = $item2->namaaccount;
+                    $item->idmap = $item2->idmap;
+                    $item->idcoa = $item2->id;
+                    break;
+                }
+            }
+        }
+        $result = array(
+            'data' => $bank,
+            // 'coa' => $coa,
+            'message' => 'khris@epic',
+        );
+        return $this->respond($result);
+    }
     public function saveTipelayanan(Request $request)
     {
         DB::beginTransaction();
@@ -10006,6 +10049,47 @@ GROUP BY
            
             $TP = TipeLayanan::where('id', $request['id'])->first();           
             $TP->objectkelompokfk = $request['kelompoktransaksi']; 
+            $TP->save();
+
+            $transStatus = 1;
+        } catch (\Exception $e) {
+            $transStatus = false;
+        }
+
+        if ($transStatus) {
+            $transMessage = 'Sukses';
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'result' => $TP,
+                'as' => 'khris@epic',
+            );
+        } else {
+            $transMessage = 'Simpan Gagal';
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'as' => 'khris@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveMapAkunBank(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            if($request['id'] == ''){
+                $TP = new MapCOA();  
+                $idMax = MapCOA::max('id') +1;
+                $TP->id= $idMax; 
+                $TP->norec = $TP->generateNewId(); 
+                $TP->objectbankfk = $request['idbank'];
+            }else{
+                $TP = MapCOA::where('id', $request['id'])->first(); 
+            }
+           
+            $TP->statusenabled = true;
+            $TP->objectcoafk = $request['coa']; 
             $TP->save();
 
             $transStatus = 1;
