@@ -2373,12 +2373,12 @@ class BendaharaPenerimaanController extends ApiController {
         $filter = $request->all();
         if(isset($filter['dateStartTglSbm']) && $filter['dateStartTglSbm'] != "" && $filter['dateStartTglSbm'] != "undefined") {
             $tgl2 = $filter['dateStartTglSbm'] ;//. " 00:00:00";
-            $data = $data->where('pd.tglpulang', '>=', $tgl2);
+            $data = $data->where('sbm.tglsbm', '>=', $tgl2);
         }
 
         if(isset($filter['dateEndTglSbm']) && $filter['dateEndTglSbm'] != "" && $filter['dateEndTglSbm'] != "undefined") {
             $tgl = $filter['dateEndTglSbm'] ;//. " 23:59:59";
-            $data = $data->where('pd.tglpulang', '<=', $tgl);
+            $data = $data->where('sbm.tglsbm', '<=', $tgl);
         }
 
         if(isset($filter['idPegawai']) && $filter['idPegawai'] != "" && $filter['idPegawai'] != "undefined") {
