@@ -754,6 +754,10 @@
             "urlDep": "module/SysAdmin/MasterTipeLayananCtrl"
         },
         {
+            "nameDep": "MasterMappingAccountBankCtrl",
+            "urlDep": "module/SysAdmin/MasterMappingAccountBankCtrl"
+        },
+        {
             "nameDep": "StokBarangMinimumCtrl",
             "urlDep": "module/Logistik/StokBarangMinimumCtrl"
         },

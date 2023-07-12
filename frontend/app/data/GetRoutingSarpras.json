@@ -3647,6 +3647,25 @@
             }
         ]
     },
+      {
+        "name": "MasterMappingAccountBank",
+        "url": "/mapingakunbank",
+        "templateurl": "module/SysAdmin/MasterMappingAccountBank.html",
+        "controller": "MasterMappingAccountBankCtrl",
+        "deps": [{
+                "module": "Services",
+                "define": "Service"
+            },
+            {
+                "module": "LoginServices",
+                "define": "LoginService"
+            },
+            {
+                "module": "MedifirstService",
+                "define": "MedifirstService"
+            }
+        ]
+    },
     {
         "name": "StokBarangMinimum",
         "url": "/TWFzdGVySmVuaXNSJtbplmbarangRpa2mFi0nbi3mJuCmcA",
