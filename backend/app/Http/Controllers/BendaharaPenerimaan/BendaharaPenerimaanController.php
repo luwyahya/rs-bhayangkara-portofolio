@@ -2492,10 +2492,10 @@ class BendaharaPenerimaanController extends ApiController {
                 'idLoginUser' => $input['kdPegawai'],
             )
         );
-        $UserId = 0;
-        foreach ($dataPegawaiUser as $items){
-            $UserId = $items->userId;
-        }
+        // $UserId = 0;
+        // foreach ($dataPegawaiUser as $items){
+        //     $UserId = $items['userId'];
+        // }
         $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
             ->leftjoin('ruangan_m as ru','ru.id','=','mlu.objectruanganfk')
             ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
