@@ -2485,9 +2485,9 @@ class BendaharaPenerimaanController extends ApiController {
         \DB::beginTransaction();
         //try{
         $input  = $request->all();
-        $dataPegawaiUser = \DB::select(DB::raw("select top 1 pg.id,pg.namalengkap,lu.id as userId from loginuser_s as lu
+        $dataPegawaiUser = \DB::select(DB::raw("select  pg.id,pg.namalengkap,lu.id as userId from loginuser_s as lu
                     INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
-                    where pg.id=:idLoginUser"),
+                    where pg.id=:idLoginUser limit 1"),
             array(
                 'idLoginUser' => $input['kdPegawai'],
             )
