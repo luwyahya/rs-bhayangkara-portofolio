@@ -110,12 +110,12 @@ define(['initialize'], function (initialize) {
           "template": "<span class='style-right'>{{formatTanggal('#: tglsbk #', '')}}</span>",
           "width": "120px"
         },
-        // {
-        //   "field": "keteranganLainnya",
-        //   "title": "Keterangan",
-        //   "template": "<span class='style-left'>#: keteranganLainnya #</span>",
-        //   "width":"300px"
-        // },
+        {
+          "field": "keterangan",
+          "title": "Keterangan",
+          "template": "<span class='style-left'>#: keterangan #</span>",
+          "width":"300px"
+        },
         {
           "field": "totaldibayar",
           "title": "Total Dibayar",

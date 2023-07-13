@@ -285,7 +285,7 @@ class BendaharaPengeluaranController extends ApiController {
         $results =array();
         $data = DB::select(DB::raw("select sbk.norec as norec_sbk,sbk.tglsbk,sbk.nosbk,sbk.totaldibayar,sbk.objectkelompoktransaksifk,
 			    kt.kelompoktransaksi,lu.objectpegawaifk,pg.namalengkap,sbc.carabayarfk,cb.carabayar,
-                case when sbk.noverifikasiveriffk is not null then 'Unverif' else 'Verifikasi' end as status
+                case when sbk.noverifikasiveriffk is not null then 'Unverif' else 'Verifikasi' end as status,sbk.keterangan
                 from strukbuktipengeluaran_t as sbk
                 inner join strukbuktipengeluarancarabayar_t as sbc on sbc.nosbkfk=sbk.norec
                 left join strukpelayanan_t as sp on sp.norec = sbk.nostrukfk
@@ -303,7 +303,7 @@ class BendaharaPengeluaranController extends ApiController {
                 $ScaraBayar
                 $noSBK
                 GROUP BY sbk.norec,sbk.nosbk,sbk.tglsbk,sbk.objectkelompoktransaksifk,kt.kelompoktransaksi,
-				sbk.totaldibayar,lu.objectpegawaifk,pg.namalengkap,sbc.carabayarfk,cb.carabayar;"));
+				sbk.totaldibayar,lu.objectpegawaifk,pg.namalengkap,sbc.carabayarfk,cb.carabayar,sbk.keterangan;"));
 
         $result = array(
             'daftar' => $data,

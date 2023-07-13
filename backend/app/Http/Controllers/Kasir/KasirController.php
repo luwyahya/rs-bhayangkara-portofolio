@@ -3243,14 +3243,16 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                 $SH->pph23 = !empty($input['pph23']) ? $input['pph23'] : null;
                 $SH->pphpasal42 = !empty($input['pphpasal42']) ? $input['pphpasal42'] : null;
                 $SH->save();
+                $pasien = $pasienDaftar->pasien->first();
                 $SBK = new StrukBuktiPengeluaran();
                 $SBK->norec = $SBK->generateNewId();
                 $SBK->kdprofile = $this->getKdProfile();
-                $SBK->keteranganlainnya = !empty($input['keterangan']) ? $input['keterangan'] : 'null';
+                $SBK->keterangan = 'Pengembalian Deposit' . $pasien->namapasien;;
+                $SBK->keteranganlainnya = 'Pengembalian Deposit ' ;
                 $SBK->statusenabled = 1;
                 $SBK->objectpegawaipembayarfk = $this->getCurrentLoginID();
                 $SBK->tglsbk =  $this->getDateTime()->format('Y-m-d H:i:s');; // $this->getDateTime();
-                $SBK->totaldibayar =  $pembayaran['nominal'];
+                $SBK->totaldibayar =  $pembayaran['nominal'] * -1;
                 $SBK->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
                 $SBK->nosbk = $this->generateCode(new StrukBuktiPengeluaran(), 'nosbk', 14, 'PV-' . $this->getDateTime()->format('ym'));
                 $SBK->noclosingfk = $SC->norec;
@@ -3282,7 +3284,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                     $SBPCB->namapemilik = $pembayaran['detailBank']['namaKartu'];
                 }
 
-                $SBPCB->totaldibayarcashin = $pembayaran['nominal'];
+                $SBPCB->totaldibayarcashin = $pembayaran['nominal'] * -1;
                 $SBPCB->save();
                 $transStatus = 'true';
             }
