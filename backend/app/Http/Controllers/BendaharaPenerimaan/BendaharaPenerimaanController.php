@@ -1004,7 +1004,7 @@ class BendaharaPenerimaanController extends ApiController {
                     cb.carabayar
                     FROM
                     strukbuktipenerimaan_t AS sbm
-                    INNER JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
+                    LEFT JOIN strukpelayanan_t AS sp ON sbm.nostrukfk = sp.norec
                     LEFT JOIN pasiendaftar_t AS pd ON sp.noregistrasifk = pd.norec
                     LEFT JOIN ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
                     LEFT JOIN loginuser_s AS lu ON lu.id = sbm.objectpegawaipenerimafk
