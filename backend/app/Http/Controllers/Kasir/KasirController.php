@@ -36,6 +36,10 @@ use App\Transaksi\StrukPlanning;
 use App\Transaksi\KendaliDokumenRekamMedis;
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Transaksi\StrukBuktiPengeluaran;
+use App\Transaksi\StrukBuktiPengeluaranCaraBayar;
+use App\Transaksi\StrukClosing;
+use App\Transaksi\StrukHistori;
 use Illuminate\Support\Facades\DB;
 use Response;
 
@@ -3070,49 +3074,215 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
         );
 
         $NOSBM = array();
-
+       
         foreach($request['pembayaran'] as $pembayaran){
-            try{
-                $strukBuktiPenerimanan = new StrukBuktiPenerimaan();
-                //$SBM123213 = $strukBuktiPenerimanan->generateNewId();
-                $strukBuktiPenerimanan->norec = $strukBuktiPenerimanan->generateNewId();
-                $strukBuktiPenerimanan->kdprofile= $this->getKdProfile();
-                $strukBuktiPenerimanan->statusenabled = 1;
-                $strukBuktiPenerimanan->keteranganlainnya = "Pengembalian Deposit Pasien";
-                $strukBuktiPenerimanan->nostrukfk = $norec_sp;
-                $strukBuktiPenerimanan->objectkelompokpasienfk = $pasienDaftar->objectkelompokpasienlastfk;
-                $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
-                $strukBuktiPenerimanan->objectpegawaipenerimafk  =$this->getCurrentLoginID();
-                $strukBuktiPenerimanan->tglsbm  = $dataSP['tglstruk'];
-                $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
-                $sbmKode = $this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-'.$this->getDateTime()->format('ym'));
-                $strukBuktiPenerimanan->nosbm = $sbmKode;//$this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-'.$this->getDateTime()->format('ym'));
-                $NOSBM[] = $strukBuktiPenerimanan->nosbm;
-                $NOSBM2 = $strukBuktiPenerimanan->nosbm;
+            // try {
 
-                $strukBuktiPenerimanan->save();
+            //     $strukBuktiPenerimanan = new StrukBuktiPenerimaan();
+            //     //$SBM123213 = $strukBuktiPenerimanan->generateNewId();
+            //     $strukBuktiPenerimanan->norec = $strukBuktiPenerimanan->generateNewId();
+            //     $strukBuktiPenerimanan->kdprofile = $this->getKdProfile();
+            //     $strukBuktiPenerimanan->statusenabled = 1;
+            //     $strukBuktiPenerimanan->keteranganlainnya = "Pengembalian Deposit Pasien";
+            //     $strukBuktiPenerimanan->nostrukfk = $norec_sp;
+            //     $strukBuktiPenerimanan->objectkelompokpasienfk = $pasienDaftar->objectkelompokpasienlastfk;
+            //     $strukBuktiPenerimanan->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
+            //     $strukBuktiPenerimanan->objectpegawaipenerimafk  = $this->getCurrentLoginID();
+            //     $strukBuktiPenerimanan->tglsbm  = $dataSP['tglstruk'];
+            //     $strukBuktiPenerimanan->totaldibayar  = $pembayaran['nominal'];
+            //     $sbmKode = $this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-' . $this->getDateTime()->format('ym'));
+            //     $strukBuktiPenerimanan->nosbm = $sbmKode; //$this->generateCode(new StrukBuktiPenerimaan, 'nosbm', 14, 'RV-'.$this->getDateTime()->format('ym'));
+            //     $NOSBM[] = $strukBuktiPenerimanan->nosbm;
+            //     $NOSBM2 = $strukBuktiPenerimanan->nosbm;
+
+            //     $strukBuktiPenerimanan->save();
+            //     $transStatus = 'true';
+            // } catch (\Exception $e) {
+            //     $transStatus = 'false';
+            //     $this->transMessage = "Simpan deposit Gagal {SBP}";
+            // }
+            // $norec_sbm = $strukBuktiPenerimanan->norec;
+
+            // try {
+            //     $SBPCB = new StrukBuktiPenerimaanCaraBayar();
+            //     $SBPCB->norec = $SBPCB->generateNewId();
+            //     $SBPCB->kdprofile = $this->getKdProfile();
+            //     $SBPCB->statusenabled = 1;
+            //     $SBPCB->nosbmfk = $strukBuktiPenerimanan->norec;
+            //     $SBPCB->objectcarabayarfk = $pembayaran['caraBayar']['id'];
+            //     $SBPCB->totaldibayar = $pembayaran['nominal'];
+            //     if (isset($pembayaran['detailBank'])) {
+            //         $SBPCB->objectjeniskartufk = $pembayaran['detailBank']['jenisKartu']['id'];
+            //         $SBPCB->nokartuaccount = $pembayaran['detailBank']['noKartu'];
+            //         $SBPCB->namabankprovider = $pembayaran['detailBank']['namaKartu'];
+            //         $SBPCB->namapemilik = $pembayaran['detailBank']['namaKartu'];
+            //     }
+            //     $SBPCB->save();
+            //     $transStatus = 'true';
+            // } catch (\Exception $e) {
+            //     $transStatus = 'false';
+            //     $this->transMessage = "Simpan deposit Gagal {SBPCB}";
+            // }
+            $SP = new StrukPelayanan();
+            $SP->norec = $SP->generateNewId();
+            $AntrianPasienDiperiksa = $pasienDaftar->antrian_pasien_diperiksa->first();
+            $PP = new PelayananPasien();
+            $PP->norec  = $PP->generateNewId();
+            $PP->kdprofile = $this->getKdProfile();
+            $PP->kdprofile = $this->getKdProfile();
+            $PP->noregistrasifk = $AntrianPasienDiperiksa->norec; //salah
+            $PP->aturanpakai = "-";
+            $PP->hargasatuan = (float)$request['jumlahBayar'];
+            $PP->hargajual = (float)$request['jumlahBayar'];
+            $PP->jumlah = 1;
+            $PP->nilainormal = -1;
+            $PP->keteranganlain = "-";
+            $PP->keteranganpakai2 = "-";
+            $PP->produkfk = $this->getProdukIdDeposit();
+            $PP->stock = 1;
+            $PP->tglpelayanan = $request['tglsbm']; //$this->getDateTime();
+
+            try {
+                $PP->save();
+            } catch (\Exception $e) {
+                $this->transStatus = false;
+                $this->transMessage = "Simpan deposit Gagal {PP}";
+            }
+
+            $SP->kdprofile =  $this->getKdProfile();
+            $SP->statusenabled =  false;
+            $SP->nocmfk =  $pasienDaftar->nocmfk;
+            $SP->noregistrasifk =  $pasienDaftar->norec;
+            $SP->objectkelaslastfk =  $pasienDaftar->objectkelasfk;
+            $SP->objectkelompoktransaksifk =  $mapTipePelayanan[0]->objectkelompokfk;
+            $SP->objectpegawaipenerimafk =  $dataPegawaiUser[0]->id; //$this->getCurrentLoginID();
+            $SP->nostruk =  $this->generateCode(new StrukPelayanan, 'nostruk', 10, 'S');
+            $SP->tglstruk =  $request['tglsbm']; //$this->getDateTime();
+            $SP->objectruanganfk =  $pasienDaftar->objectruanganlastfk;
+            try {
+                $SP->save();
+            } catch (\Exception $e) {
+                $this->transStatus = false;
+                $this->transMessage = "Simpan deposit Gagal {SP}";
+            }
+
+            $strukPelayananDetail = new StrukPelayananDetail();
+            $strukPelayananDetail->norec = $strukPelayananDetail->generateNewId();
+            $strukPelayananDetail->nostrukfk = $SP->norec;
+            $strukPelayananDetail->hargadiscount = 0;
+            $strukPelayananDetail->hargadiscountgive = 0;
+            $strukPelayananDetail->hargadiscountsave = 0;
+            $strukPelayananDetail->harganetto = $PP->hargajual;
+            $strukPelayananDetail->hargapph = $PP->hargajual;
+            $strukPelayananDetail->hargappn = $PP->hargajual;
+            $strukPelayananDetail->hargasatuan = $PP->hargasatuan;
+            $strukPelayananDetail->hargasatuandijamin = 0;
+            $strukPelayananDetail->hargasatuanppenjamin = 0;
+            $strukPelayananDetail->hargasatuanpprofile = 0;
+            $strukPelayananDetail->hargatambahan = 0;
+            $strukPelayananDetail->isonsiteservice = 0;
+            $strukPelayananDetail->persendiscount = 0;
+            $strukPelayananDetail->qtyproduk = $PP->jumlah;
+            $strukPelayananDetail->qtyprodukoutext = 0;
+            $strukPelayananDetail->qtyprodukoutint = 0;
+            $strukPelayananDetail->qtyprodukretur = 0;
+            $strukPelayananDetail->satuan = 0;
+            $strukPelayananDetail->satuanstandar = 0;
+            $strukPelayananDetail->is_terbayar = 0;
+            $strukPelayananDetail->tglpelayanan = $SP->tglstruk;
+            $strukPelayananDetail->objectprodukfk = $PP->produkfk;
+            $strukPelayananDetail->objectkelasfk = $PP->kelasfk;
+
+            try {
+                $strukPelayananDetail->save();
+            } catch (\Exception $e) {
+                $this->transStatus = false;
+                $this->transMessage = "Simpan deposit Gagal {SPD}";
+            }
+            try{
+                $SC = new StrukClosing();
+                $SC->norec = $SC->generateNewId();
+                $SC->kdprofile = $this->getKdProfile();
+                $SC->noclosing = $this->generateCode(new StrukClosing, 'noclosing', 10, 'C-' . $this->getDateTime()->format('ym'));
+                $SC->objectpegawaidiclosefk = $this->getCurrentUserID();
+                $SC->totaldibayar = $pembayaran['nominal'];
+                $SC->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
+                $SC->keteranganlainnya = "PENGELUARAN BKU";                
+                $SC->tglawal = $this->getDateTime()->format('Y-m-d H:i:s');
+                $SC->tglakhir = $this->getDateTime()->format('Y-m-d H:i:s');
+                $SC->tglclosing = $this->getDateTime()->format('Y-m-d H:i:s');; //$input['tglbku'];
+                $SC->save();
+                $norec_sc = $SC->norec;
+                $noclosing_SC = $SC->noclosing;
+
+                $SH = new StrukHistori();
+                $SH->norec = $SH->generateNewId();
+                $nohistori = $this->generateCode(new StrukHistori(), 'nonhistori', 14, 'BKU-' . $this->getDateTime()->format('ym'));
+                $SH->nonhistori = $nohistori;
+                $SH->kdprofile = 0;
+                $SH->statusenabled = true;
+                $SH->totalsetortarikdeposit =  $pembayaran['nominal'];
+                $SH->tglsetortarikdeposit = $this->getDateTime()->format('Y-m-d H:i:s');
+                $SH->objectpegawaitarikdepositfk = $this->getCurrentUserID();
+                $SH->objectpegawaiterimafk = $this->getCurrentUserID(); 
+                $SH->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
+                $SH->noclosing = $norec_sc; //$SC->noclosing;
+                $SH->ketlainya ='pengembalian deposit';
+                $SH->nobukti = '';
+                $SH->kdperkiraan = '';
+                $SH->namaperkiraan = '';
+                $SH->kettransaksi = 'pengembalian deposit';
+                $SH->objectasalprodukhasilfk = !empty($input['sumberdana']) ? $input['sumberdana'] : null;
+                $SH->objectchildkelimafk = !empty($input['objectchildkelimafk']) ? $input['objectchildkelimafk'] : null;
+                $SH->objectchildkeenamfk = !empty($input['objectchildkeenamfk']) ? $input['objectchildkeenamfk'] : null;
+                $SH->objectchildketujuhfk = !empty($input['objectchildketujuhfk']) ? $input['objectchildketujuhfk'] : null;
+                $SH->jenisbiaya = !empty($input['jenisbiaya']) ? $input['jenisbiaya'] : null;
+                $SH->ppn = !empty($input['ppn']) ? $input['ppn'] : null;
+                $SH->pph21 = !empty($input['pph21']) ? $input['pph21'] : null;
+                $SH->pph22 = !empty($input['pph22']) ? $input['pph22'] : null;
+                $SH->pph23 = !empty($input['pph23']) ? $input['pph23'] : null;
+                $SH->pphpasal42 = !empty($input['pphpasal42']) ? $input['pphpasal42'] : null;
+                $SH->save();
+                $SBK = new StrukBuktiPengeluaran();
+                $SBK->norec = $SBK->generateNewId();
+                $SBK->kdprofile = $this->getKdProfile();
+                $SBK->keteranganlainnya = !empty($input['keterangan']) ? $input['keterangan'] : 'null';
+                $SBK->statusenabled = 1;
+                $SBK->objectpegawaipembayarfk = $this->getCurrentLoginID();
+                $SBK->tglsbk =  $this->getDateTime()->format('Y-m-d H:i:s');; // $this->getDateTime();
+                $SBK->totaldibayar =  $pembayaran['nominal'];
+                $SBK->objectkelompoktransaksifk = $mapTipePelayanan[0]->objectkelompokfk;
+                $SBK->nosbk = $this->generateCode(new StrukBuktiPengeluaran(), 'nosbk', 14, 'PV-' . $this->getDateTime()->format('ym'));
+                $SBK->noclosingfk = $SC->norec;
+                $SBK->asalprodukfk = !empty($input['sumberdana']) ? $input['sumberdana'] : null;
+                $SBK->save();
+                $NOSBM2 = $SBK->nosbk; 
                 $transStatus = 'true';
             }
             catch(\Exception $e){
                 $transStatus = 'false';
                 $this->transMessage = "Simpan deposit Gagal {SBP}";
             }
-            $norec_sbm=$strukBuktiPenerimanan->norec;
+            // $norec_sbm=$strukBuktiPenerimanan->norec;
 
             try{
-                $SBPCB = new StrukBuktiPenerimaanCaraBayar();
+                
+                $SBPCB = new StrukBuktiPengeluaranCaraBayar();
                 $SBPCB->norec = $SBPCB->generateNewId();
                 $SBPCB->kdprofile= $this->getKdProfile();
                 $SBPCB->statusenabled = 1;
-                $SBPCB->nosbmfk = $strukBuktiPenerimanan->norec;
-                $SBPCB->objectcarabayarfk = $pembayaran['caraBayar']['id'];
+                $SBPCB->nosbkfk = $SBK->norec;
+                $SBPCB->carabayarfk = $pembayaran['caraBayar']['id'];
                 $SBPCB->totaldibayar = $pembayaran['nominal'];
+                $SBPCB->nourutcb = 0;
                 if(isset($pembayaran['detailBank'])){
                     $SBPCB->objectjeniskartufk = $pembayaran['detailBank']['jenisKartu']['id'];
                     $SBPCB->nokartuaccount = $pembayaran['detailBank']['noKartu'];
                     $SBPCB->namabankprovider = $pembayaran['detailBank']['namaKartu'];
                     $SBPCB->namapemilik = $pembayaran['detailBank']['namaKartu'];
                 }
+
+                $SBPCB->totaldibayarcashin = $pembayaran['nominal'];
                 $SBPCB->save();
                 $transStatus = 'true';
             }
@@ -3137,11 +3307,11 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             }
             //END jurnal
             try{
-                $dt=StrukPelayanan::where('noregistrasifk', $pasienDaftar->norec)
-                    ->wherenull('statusenabled')
-                    ->update([
-                            'nosbmlastfk' => $norec_sbm]
-                    );
+                // $dt=StrukPelayanan::where('noregistrasifk', $pasienDaftar->norec)
+                //     ->wherenull('statusenabled')
+                //     ->update([
+                //             'nosbmlastfk' => $norec_sbm]
+                //     );
                 $transStatus = 'true';
             }
             catch(\Exception $e){
@@ -3149,16 +3319,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
                 $this->transMessage = "Simpan Pembayaran Gagal {SPD}";
             }
 
-            try{
-                $pasienDaftar->nosbmlastfk =$norec_sbm;
-                $noRegistrasi = $pasienDaftar['noregistrasi'];
-                $pasienDaftar->save();
-                $transStatus = 'true';
-            }
-            catch(\Exception $e){
-                $transStatus = 'false';
-                $this->transMessage = "Simpan Pembayaran Gagal {pasienDaftar}";
-            }
+           
         }
 
         if($transStatus == 'true'){
@@ -3170,7 +3331,7 @@ case when pjd.hargasatuand = 0 then pjd.hargasatuank else pjd.hargasatuand end
             $this->statusCode = 400;
             DB::rollBack();
         }
-        return $this->respond(array('noSBM'=> $NOSBM2,'noReg'=>$request['parameterTambahan']['noRegistrasi'],), $this->transMessage);
+        return $this->respond(array('noSBK'=> $NOSBM2,'noReg'=>$request['parameterTambahan']['noRegistrasi'],), $this->transMessage);
     }
 
     protected function simpanCicilanPasien($request){

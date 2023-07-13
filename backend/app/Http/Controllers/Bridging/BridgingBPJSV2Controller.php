@@ -6871,7 +6871,7 @@ class BridgingBPJSV2Controller extends ApiController
             }
             if (empty($dataPasienUse)) {
                 $dataPasienUse = DB::select(DB::raw(" 
-                            select * from pasien_m where nobpjs='$nomorkartu' 
+                            select * from antrianpasienregistrasipasienbarumjkn_t where nobpjs='$nomorkartu' 
                                         "));
                 $statuspasien= 'baru';
             }

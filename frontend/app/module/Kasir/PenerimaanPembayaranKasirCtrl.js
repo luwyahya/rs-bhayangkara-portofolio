@@ -259,12 +259,22 @@ define(['initialize'], function (initialize) {
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRecStrukPelayanan=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=tagihanPasien";
                     break;
                 case "PenyetoranDepositKasir":
-                     $scope.tipelayanan  = 'Penyetoran Deposit Kasir' 
-                    $scope.dataPrevPage = {
-                        noRegistrasi: $scope.dataParams.noRegistrasi,
-                        tipePembayaran: "depositPasien",
-                        jumlahBayar: $scope.dataParams.jumlahBayar
+                    if($scope.dataParams.jumlahBayar<0){ 
+                        $scope.tipelayanan  = 'Penyetoran Deposit Kasir Kembali' 
+                        $scope.dataPrevPage = {
+                            noRegistrasi: $scope.dataParams.noRegistrasi,
+                            tipePembayaran: "PenyetoranDepositKasirKembali",
+                            jumlahBayar: $scope.dataParams.jumlahBayar
+                        }
+                    }else{ 
+                        $scope.tipelayanan  = 'Penyetoran Deposit Kasir'
+                        $scope.dataPrevPage = {
+                            noRegistrasi: $scope.dataParams.noRegistrasi,
+                            tipePembayaran: "depositPasien",
+                            jumlahBayar: $scope.dataParams.jumlahBayar
+                        }
                     }
+                  
                     $scope.defaultPage = "DaftarPasienAktif";
                     urlGetDataDetail = "kasir/get-data-pembayaran?noRegistrasi=" + $scope.dataParams.noRegistrasi + "&tipePembayaran=depositPasien&jumlahBayar=" + $scope.dataParams.jumlahBayar;
                     break;
