@@ -34,9 +34,9 @@ define(['initialize'], function (initialize) {
 				$scope.listKdPerkiraan = [{ "id": 1, "name": "41112100000000" }, { "id": 2, "name": "4111001" }];
 				medifirstService.get('bendaharapenerimaan/get-data-combo').then(function (dat) {
 					var dataCombo = dat.data;
-					$scope.listNamaBank = dataCombo.listbank;
+					$scope.listNamaBank = dataCombo.listBankKe;
 					$scope.listCaraBayar = dataCombo.carabayar;
-					$scope.listnamaBankTransfer = dataCombo.listbankaccount;
+					$scope.listnamaBankTransfer = dataCombo.listBankKe;
 					$scope.listAsalProduk = dataCombo.asalproduk;
 				});
 			};
@@ -733,6 +733,10 @@ define(['initialize'], function (initialize) {
 					toastr.error("Keompok Transaksi belum di pilih!");
 					return;
 				}
+				if ($scope.item.caraBayar == undefined) {
+					toastr.error("Cara bayar belum di pilih!");
+					return;
+				}
 				var sumberDana = null
 				if ($scope.item.asalProduk != undefined) {
 					sumberDana = $scope.item.asalProduk.id
@@ -745,6 +749,19 @@ define(['initialize'], function (initialize) {
 				var ketTransaksi = ""
 				if ($scope.item.ketTransaksi != undefined)
 					ketTransaksi = $scope.item.ketTransaksi
+				
+				debugger;
+				var detailbank = {}
+				if($scope.item.caraBayar.id == 3){
+					detailbank = {
+						'id': $scope.item.namaBank.id,
+						'namaBank':$scope.item.namaBank.nama,
+						'namaKartu': $scope.item.namaKartu, 
+					}
+				 
+				}else{
+					detailbank = 'KOSONG'
+				}
 
 				var dataObjPost = {};
 
@@ -753,8 +770,8 @@ define(['initialize'], function (initialize) {
 					tglbku: moment($scope.item.tglbku).format('YYYY-MM-DD HH:mm'),
 					totalSetor: $scope.item.jumlahRp,
 					jenisTransaksi: $scope.item.jenisTransaksi.kelompoktransaksifk,//$scope.item.jenisTransaksi.id,
-					caraBayar: 1,//$scope.item.caraBayar.id,
-					detailBank: 'KOSONG',
+					caraBayar:  $scope.item.caraBayar.id,
+					detailBank: detailbank,
 					penerimaan: $scope.penerimaan,
 					keterangantransaksi: $scope.item.ketTransaksi,
 					kdperkiraan: $scope.item.kdPerkiraan,

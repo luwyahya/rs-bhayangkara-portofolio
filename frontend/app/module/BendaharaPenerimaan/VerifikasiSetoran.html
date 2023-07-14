@@ -276,17 +276,17 @@
 	k-on-open="win2visible = true" k-on-close="win2visible = false">
 	<div class="panel panel-default container_12" style="padding: 0px 10px;">
 		<div class="grid_12">
-			<div class="grid_12">
-				<div class="grid_12">
-					<label c-label item="item">Kelompok Transaksi</label>
-				</div>
-				<div class="clear"></div>
+			<div class="grid_12"> 
+					<div class="grid_12">
+						<label c-label item="item">Kelompok Transaksi</label>
+					</div>
+					<div class="clear"></div>
 
-				<div class="grid_12">
-					<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksi"
-						k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
-						k-auto-bind="false" k-data-source="listJenisTransaksi" ng-disabled="txtDisable" />
-				</div>
+					<div class="grid_12">
+						<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksi" k-data-text-field="'kelompoktransaksi'"
+							k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisTransaksi"
+							ng-disabled="txtDisable" />
+					</div>  
 			</div>
 
 			<div class="grid_4">
@@ -335,7 +335,7 @@
 				</div>
 			</div>
 
-			<div class="grid_12" ng-show="showCaraBayar">
+			<div class="grid_12" >
 				<div class="grid_12">
 					<label c-label item="item">Cara Bayar</label>
 				</div>
@@ -357,7 +357,7 @@
 						<div class="clear"></div>
 						<div class="grid_12">
 							<input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBank"
-								k-data-text-field="'bankAccountNama'" k-data-value-field="'id'" k-filter="'contains'"
+								k-data-text-field="'nama'" k-data-value-field="'id'" k-filter="'contains'"
 								k-auto-bind="false" k-data-source="listNamaBank" ng-disabled="txtDisable" />
 						</div>
 					</div>
