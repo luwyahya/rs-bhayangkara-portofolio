@@ -24,6 +24,8 @@ use App\Transaksi\PostingJurnal;
 use App\Transaksi\PostingJurnalD;
 
 use App\Transaksi\Sal;
+use App\Transaksi\StrukPelayananPenjamin;
+use App\Transaksi\StrukPosting;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -2803,7 +2805,10 @@ class AkuntansiController extends ApiController{
                 dp.namadepartemen,ru.namaruangan,kt.kelompoktransaksi,mj.objectpenjaminfk,
                 mj.objectdepartemenfk,mj.objectkelompoktransaksifk,
                 mj.objectmataanggaranfk,mt.namamataanggaran,mj.objectcoadebitfk,mj.objectcoakreditfk,
-                mj.objectcarabayarfk,ca.carabayar,mj.objectbankfk,bn.nama as namabank,mkt.id as mktid from mapjurnal_m as mj
+                mj.objectcarabayarfk,ca.carabayar,mj.objectbankfk,bn.nama as namabank,mkt.id as mktid,coadebit.id as idcoadebit, coakredit.id as idcoakredit,
+                coadebit.noaccount as noaccountdebit,coakredit.noaccount as noaccountkredit,
+                coadebit.namaaccount as namaaccountdebit,coakredit.namaaccount as namaaccountkredit,
+                concat(kt.kelompoktransaksi ||' D-> '|| coadebit.namaaccount || ' K-> ' || coakredit.namaaccount) as kelompoktransaksidetail from mapjurnal_m as mj
                 left join produk_m as pd on pd.id=mj.objectprodukfk
                 left join chartofaccount_m as coadebit on coadebit.id=mj.objectcoadebitfk
                 left join chartofaccount_m as coakredit on coakredit.id=mj.objectcoakreditfk
@@ -3355,6 +3360,39 @@ class AkuntansiController extends ApiController{
                 'as' => 'ea@epic',
             );
         }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function updatejurnalpenjamin(Request $request)
+    {
+        DB::beginTransaction();
+        $dataReq = $request->all();
+        // try {
+            $data = StrukPosting::where('norec', $request['nostrukfk'])
+                ->update([
+                    'statusverifjurnal' => true
+                ]);
+            $transStatus = 'true'; 
+            $transMessage = 'Entry '; 
+        // } catch (\Exception $e) {
+        //     $transStatus = false;
+        // }
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "Berhasil";
+            DB::commit();
+            $result = array(
+                "status" => 201, 
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = $transMessage . " Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400, 
+                "as" => 'as@epic',
+            );
+        }
+
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 }

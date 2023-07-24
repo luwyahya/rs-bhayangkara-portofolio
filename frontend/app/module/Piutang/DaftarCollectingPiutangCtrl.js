@@ -4,10 +4,20 @@ define(['initialize'], function (initialize) {
 		function (cacheHelper, $scope, medifirstService, $state, dateHelper) {
 			$scope.now = new Date();
 			$scope.item = {};
+			$scope.item.ketTransaksi =''
+			$scope.item.noBukti='' 
 			$scope.isRouteLoading = false;
 			$scope.listStatus = [{ "id": 1, "namaStatus": "Collecting" }, { "id": 2, "namaStatus": "Selesai" }]
-
+			init();
+			function init() {
+				medifirstService.get("akuntansi/get-data-map-jurnal", true).then(function (dat) { 
+                    $scope.listkelompoktransaksi = dat.data;
+                });
+			}
+			
 			//ON LOAD with Params
+			var tempTr = '';
+			
 			var chacePeriode = cacheHelper.get('filterDataParams');
 			if (chacePeriode != undefined) {
 				var arrPeriode = chacePeriode.split('~');
@@ -156,7 +166,13 @@ define(['initialize'], function (initialize) {
 				{
 					"field": "status",
 					"title": "Status"
-				}
+				}, 
+				{
+					"field": "statusjurnal",
+					"title": "Status Jurnal",
+					"width": "100px",
+					"template": "<button class=\"k-button custom-button\" ng-click=\"openpopUpVerifikasi(dataItem)\"  style=\"margin:0 0 5px\">#:  statusjurnal #</button> ",
+				},
 			];
 			
 			$scope.detail = function () {
@@ -212,6 +228,131 @@ define(['initialize'], function (initialize) {
 				$state.go(stateName, {
 					dataPasien: JSON.stringify(obj)
 				});
+			}
+			function loadComboPopup() {
+				var ket = ""
+			 			ket = "Penerimaan BP"
+						medifirstService.get("bendaharapenerimaan/get-data-combo?keterangan="
+							+ ket)
+							.then(function (dat) {
+								$scope.listJenisTransaksi = dat.data.kelompoktransaksi;
+								$scope.listMataAnggaran = dat.data.mataanggaran;
+
+							});
+			 
+			}
+
+			$scope.openpopUpVerifikasi = function (dataSelected) {
+				var dataItem = dataSelected;
+				var stt = 'false'
+				var massage = "Yakin mau Verifikasi data ini..?"
+				if (dataItem.status == 'Unverif')
+					massage = "Yakin mau Unverifikasi data ini..?"
+				if (confirm(massage)) {
+					// Save it!
+					stt = 'true';
+				} else {
+					// Do nothing!
+					return;
+					stt = 'false'
+				}
+				if (stt) {
+					if (dataItem.statusjurnal == 'Unverif') {
+						var itemDelete = {
+							"norec_closing": dataItem.norecsp,
+						}
+						medifirstService.post('bendaharapenerimaan/unverifikasi-Setoran', itemDelete).then(function (e) {
+							$scope.cariData();
+						})
+					} else {
+						$scope.penerimaan = true
+						loadComboPopup()
+						tempTr = dataItem
+						// $scope.item.jumlahRp = tempTr.debit
+						$scope.popUpVerifikasi.center().open()
+						$scope.item.kelompoktransaksi = "" 
+					 
+					}
+				}
+			}
+			$scope.$watch('item.jumlahRp', function (newValue, oldValue) {
+				if (newValue != "") {
+					medifirstService.get("sysadmin/general/get-terbilang/" + newValue).then(
+						function (dat) {
+							$scope.item.terbilang = dat.data.terbilang;
+						})
+				}
+			});
+			$scope.SaveKelompokTransaksi = function(){
+				 
+					var strukresep = {
+						nojurnal: '-',
+						tglentry: moment($scope.tglbku).format('YYYY-MM-DD hh:mm:ss'),
+						deskripsi: 'No Posting '+tempTr.noPosting +' ' + $scope.item.ketTransaksi+' '+ $scope.item.noBukti ,
+						nobuktitransaksi: tempTr.norecsp,
+						nostrukfk: tempTr.norecsp,
+					}
+					var data = {};
+					var data2 = [];
+					data = {
+						no: 1,
+						accountid:	$scope.item.kelompoktransaksi.idcoadebit,
+						noaccount: $scope.item.kelompoktransaksi.noaccountdebit,
+						namaaccount: $scope.item.kelompoktransaksi.namaaccountdebit,
+						namaaccount2: $scope.item.kelompoktransaksi.namaaccountdebit,
+						hargasatuand:parseFloat($scope.item.jumlahRp),
+						hargasatuank: '0',
+						keteranganlainnya: ''
+					}
+					data2.push(data)
+					data = {
+						no: 2,
+						accountid:$scope.item.kelompoktransaksi.idcoakredit,
+						noaccount:$scope.item.kelompoktransaksi.noaccountkredit,
+						namaaccount: "--- " + $scope.item.kelompoktransaksi.namaaccountdebit,
+						namaaccount2: $scope.item.kelompoktransaksi.namaaccountdebit,
+						hargasatuand: '0',
+						hargasatuank: parseFloat($scope.item.jumlahRp),
+						keteranganlainnya: ''
+					}
+					data2.push(data)
+					var objSave =
+					{
+						head: strukresep,
+						detail: data2
+					}
+					medifirstService.post('akuntansi/save-entry-jurnal-bp', objSave).then(function (e) {
+							
+						var objSave = { 
+							nostrukfk: tempTr.norecsp,
+						}
+						medifirstService.post('akuntansi/update-jurnalpenjamin', objSave).then(function (e) {
+							 $scope.cariData();
+								$scope.popUpVerifikasi.close()
+						}) 
+					 
+					}) 
+			 
+			}
+			$scope.batalPenerimaan = function () {
+				kosongkan() 
+				$scope.popUpVerifikasi.close(); 
+			}
+			function kosongkan() {
+				// $scope.item.tglbku ='';
+				$scope.item.keterangan = '';
+				$scope.item.ketTransaksi = '';
+				$scope.item.ketTransaksi = '';
+				$scope.item.kdPerkiraan = '';
+				$scope.item.jumlahRp= '';				
+				$scope.item.jumlah = '';
+				$scope.item.jenisTransaksi = undefined;
+				$scope.item.caraBayar = undefined;
+				$scope.item.namaBank = undefined;
+				$scope.item.namaBankTransfer = undefined;
+				$scope.item.namaKartu = '';
+				$scope.item.terbilang = '';
+				$scope.item.noBukti = ''; 
 			}
 			////////////////////////////////////////////////////////////
 		}

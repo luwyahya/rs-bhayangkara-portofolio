@@ -27,6 +27,7 @@ use App\Transaksi\PostingJurnal;
 use App\Transaksi\PostingJurnalD;
 use App\Transaksi\PostingJurnalTransaksiD;
 use App\Transaksi\PostingJurnalTransaksi;
+use App\Transaksi\StrukPosting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -2020,6 +2021,10 @@ class BendaharaPenerimaanController extends ApiController {
                                 'nobuktiverif'=>null,
                                 'keteranganverif'=>null,
                                 'noverifikasiveriffk'=>null ]);
+                    $sbm = StrukPosting::where('norec', $norec_closing)
+                    ->update([
+                        'statusverifjurnal' => false,
+                    ]);
                 }
             }
             $transStatus = 'true';
@@ -2047,7 +2052,78 @@ class BendaharaPenerimaanController extends ApiController {
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function unverifikasiJurnalPiutang(Request $request)
+    {
 
+        \DB::beginTransaction();
+        try {
+            $input  = $request->all();
+            if ($request['norecsp'] != '') {
+                $norec_closing = $request['norecsp'];
+                $data = DB::select(
+                    DB::raw("
+                            select pjt.nojurnal_intern from postingjurnaltransaksi_t as pjt
+                            INNER JOIN postingjurnal_t as pj on pj.norecrelated=pjt.nojurnal_intern 
+                            where pjt.nobuktitransaksi='$norec_closing'
+                        ")
+                );
+                if (!empty($data)) {
+                    $transStatus = 'false';
+                    $transMessage = "Unverifikasi Gagal, Data Sudah Diposting.. Sialhkan Hubungi Akuntansi..";
+                    DB::rollBack();
+                    $result = array(
+                        'status' => 400,
+                        'message'  => $transMessage,
+                        'as' => 'inhuman',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                } else {
+                    $norec_head = DB::select("
+                        select norec from postingjurnaltransaksi_t where nobuktitransaksi='$norec_closing'
+                    ");
+                    foreach ($norec_head as $item) {
+                        $HapusPPD = PostingJurnalTransaksiD::where('norecrelated', '=', $item->norec)->delete();
+                    }
+                    $HapusPPD2 = PostingJurnalTransaksi::where('nobuktitransaksi', '=', $norec_closing)->delete();
+                    $sbm = StrukBuktiPenerimaan::where('noclosingfk', $norec_closing)
+                        ->where('statusenabled', true)
+                        ->update([
+                            'isverifbendahara' => false,
+                            'objectpegawaiverifbendaharafk' => $input['userData']['id'],
+                            'tglverifbendahara' => null,
+                            'tgltransferkerekbank' => null,
+                            'nobuktiverif' => null,
+                            'keteranganverif' => null,
+                            'noverifikasiveriffk' => null
+                        ]);
+                  
+                }
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Unverifikasi Berhasil";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'inhuman',
+            );
+        } else {
+            $transMessage = "Verifikasi Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'inhuman',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getTargetKinerja (Request $request) {
         $data = \DB::select(DB::raw("
   SELECT * FROM targetkinerja_m

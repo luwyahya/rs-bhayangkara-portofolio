@@ -202,7 +202,13 @@ define(['initialize'], function (initialize) {
 							bool = true
 							break
 						}
+						
+						
 					}
+					if ($scope.dataPencatatanPiutang[i].status == 'Collecting') {
+							bool = true
+							break
+						}
 					if (bool == false) {
 						$scope.dataSource.add($scope.dataPencatatanPiutang[i]);
 					}
@@ -301,6 +307,59 @@ define(['initialize'], function (initialize) {
 				// 	"template": "<span class='style-center'>#: status #</span>"
 				// }
 			];
+			$scope.openpopUpVerifikasi = function (dataSelected) {
+				var dataItem = dataSelected;
+				var stt = 'false'
+				var massage = "Yakin mau Verifikasi data ini..?"
+				if (dataItem.status == 'Unverif')
+					massage = "Yakin mau Unverifikasi data ini..?"
+				if (confirm(massage)) {
+					// Save it!
+					stt = 'true';
+				} else {
+					// Do nothing!
+					return;
+					stt = 'false'
+				}
+				if (stt) {
+					if (dataItem.status == 'Unverif') {
+						var itemDelete = {
+							"norec_closing": dataItem.norec_closing,
+						}
+						medifirstService.post('bendaharapenerimaan/unverifikasi-Setoran', itemDelete).then(function (e) {
+							loadData();
+						})
+					} else {
+						$scope.penerimaan = true
+						loadComboPopup()
+						tempTr = dataItem
+						$scope.item.jumlahRp = tempTr.debit
+						$scope.popUpVerifikasi.center().open()
+						$scope.item.kelompoktransaksi = ""
+						// grid kelompok transaksi
+						medifirstService.get('bendaharapenerimaan/get-daftar-kelompok-transaksi?norec_closing=' + tempTr.norec_closing
+						).then(function (data) {
+							debugger
+							resultKelompok = data.data
+							$scope.dataSourceKelompokTransaksi = new kendo.data.DataSource({
+								data: resultKelompok.data,//data,
+								//pageSize: 10,
+								total: resultKelompok.data.length,
+								serverPaging: false,
+								schema: {
+									model: {
+										fields: {
+											jasa: { type: "nontunai" }
+										}
+									}
+								},
+
+							});
+
+						});
+					}
+				}
+			}
 			$scope.mainGridOptions = {
 				pageable: true,
 				columns: $scope.columCollecting,

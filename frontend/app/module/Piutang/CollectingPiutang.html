@@ -250,5 +250,148 @@
 		</c-panel>
 
 	</div>
+<div kendo-window="popUpVerifikasi" k-title="'Pilih Kelompok Transaksi'" k-width="1000" k-height="500" k-visible="false"
+	k-on-open="win2visible = true" k-on-close="win2visible = false">
+	<div class="panel panel-default container_12" style="padding: 0px 10px;">
+		<div class="grid_12">
+			<fieldset class="effect-shadow" style=" border-radius: 4px">
+				<legend id="filterData">
+					<a ng-click="showAndHide()">Nominal Tunai</a>
+				</legend>
+				<!-- <div class="grid_12">
+				<div class="grid_12">
+					<label c-label item="item">Kelompok Transaksi</label>
+				</div>
+				<div class="clear"></div>
 
+				<div class="grid_12">
+					<input style="width: 100%;" kendo-combo-box k-ng-model="item.jenisTransaksi"
+						k-data-text-field="'kelompoktransaksi'" k-data-value-field="'id'" k-filter="'contains'"
+						k-auto-bind="false" k-data-source="listJenisTransaksi" ng-disabled="txtDisable" />
+				</div>
+			</div> -->
+				<!-- <div class="grid_12">
+
+				<div class="grid_12">
+					<label c-label item="item">Kelompok Transaksi</label>
+				</div>
+				<div class="clear"></div>
+
+				<div class="grid_12">
+					<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kelompoktransaksi"
+						ng-disabled="true" />
+				</div>
+			</div> -->
+
+				<div class="grid_4">
+
+					<div class="grid_12">
+						<label c-label item="item">Tanggal Verif</label>
+					</div>
+					<div class="clear"></div>
+					<div class="grid_12">
+						<input style="width: 100%" k-ng-model="item.tglbku" kendo-date-picker k-max="now"
+							placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+					</div>
+				</div>
+				<div class="grid_8">
+
+					<div class="grid_12">
+						<label c-label item="item">Tanggal Transfer Ke Bank Rumah Sakit</label>
+					</div>
+					<div class="clear"></div>
+					<div class="grid_12">
+						<input style="width: 100%" k-ng-model="item.tglTransferKeBank" kendo-date-picker
+							placeholer="dd-mm-yyyy" k-format="'dd-MM-yyyy'" />
+					</div>
+				</div>
+				<div class="grid_12">
+					<div class="grid_6">
+						<div class="grid_12">
+							<label c-label item="item">Jumlah Transfer</label>
+						</div>
+						<div class="clear"></div>
+						<div class="grid_12">
+							<input c-text-box type="input" filter="numeric" class="k-textbox" ng-model="item.jumlahRp"
+								ng-disabled="txtDisable" />
+						</div>
+					</div>
+					<div class="grid_6">
+
+						<div class="grid_12">
+							<label c-label item="item">Terbilang</label>
+						</div>
+						<div class="clear"></div>
+
+						<div class="grid_12">
+							<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.terbilang"
+								ng-disabled="true" />
+						</div>
+					</div>
+				</div>
+				<div class="grid_12">
+					<div class="grid_6">
+						<div class="grid_12">
+							<label c-label item="item">No Bukti</label>
+						</div>
+						<div class="clear"></div>
+						<div class="grid_12">
+							<input c-text-box type="input" class="k-textbox" ng-model="item.noBukti"
+								ng-disabled="txtDisable" />
+						</div>
+					</div>
+					<div class="grid_6">
+
+						<div class="grid_12">
+							<label c-label item="item">Keterangan</label>
+						</div>
+						<div class="clear"></div>
+
+						<div class="grid_12">
+							<input c-text-box type="input" filter="" class="k-textbox" ng-model="item.ketTransaksi" />
+						</div>
+					</div>
+				</div>
+				<!-- <div class="grid_12">
+				<div class="grid_12 headerBox">
+					<p>Map Jurnal</p>
+					<kendo-grid id="kGrids" class="max-height" k-groupable="true"
+						data-source="dataSourceKelompokTransaksi" options="columnGridKelompokTransaksi"
+						k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+						k-ng-model="dataSelectedKelompokTransaksi"
+						ng-dblclick="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
+					</kendo-grid>
+				</div>
+			</div> -->
+				<!-- </fieldset> -->
+			</fieldset>
+		</div>
+		<div class="panel panel-default container_12">
+			<div class="grid_12">
+				<fieldset class="effect-shadow" style=" border-radius: 4px">
+					<legend id="filterData">
+						<a ng-click="showAndHide()">Detail Setor</a>
+					</legend>
+					<div class="grid_12">
+						<div class="grid_12 headerBox">
+							<p>Detail Setor</p>
+							<kendo-grid id="kGrids" class="max-height" k-groupable="true"
+								data-source="dataSourceKelompokTransaksi" options="columnGridKelompokTransaksi"
+								k-selectable="'row'" k-sortable="'true'" k-resizable="'true'"
+								k-ng-model="dataSelectedKelompokTransaksi"
+								ng-dblclick="klikGridKelompokTransaksi(dataSelectedKelompokTransaksi)">
+							</kendo-grid>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+		<div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+			<button class="k-button k-button-icontext k-primary k-grid-update" ng-click="SaveKelompokTransaksi()"><span
+					class="k-icon k-update"></span>Simpan</button>
+			<button class="k-button  k-button-icontext" ng-click="batalPenerimaan()"><span
+					class="k-icon k-cancel"></span>Batal</button>
+		</div>
+	</div>
+</div>
 	<!-- </div> -->

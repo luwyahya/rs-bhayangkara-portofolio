@@ -114,7 +114,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-data-sal', 'Akuntansi\AkuntansiController@deleteDataSal'); //done
             Route::post('save-map-jurnal', 'Akuntansi\AkuntansiController@saveMapJurnal');
             Route::post('save-map-jurnal-loop', 'Akuntansi\AkuntansiController@saveMapJurnalLoop');
-            Route::post('hapus-map-jurnal', 'Akuntansi\AkuntansiController@hapusMapJurnal');
+            Route::post('hapus-map-jurnal', 'Akuntansi\AkuntansiController@hapusMapJurnal'); 
+            Route::post('update-jurnalpenjamin', 'Akuntansi\AkuntansiController@updatejurnalpenjamin');
             /*END POST*/
         });
         Route::group(['prefix' => 'ambulance'], function () {

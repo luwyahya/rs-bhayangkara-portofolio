@@ -211,7 +211,7 @@ class PiutangController extends ApiController{
             ->join('pegawai_m as p', 'lu.objectpegawaifk', '=', 'p.id')
             ->select('sp.norec', 'sp.tglposting', 'php.noposting','rkn.id as idrekanan','rkn.namarekanan',
                 'php.statusenabled','p.namalengkap',
-                \DB::raw('SUM(spp.totalppenjamin) as totalpenjamin'), \DB::raw('sum(spp.totalsudahdibayar) as sumtotalsudahdibayar'), \DB::raw('count(php.noposting) as jlhpasien'));
+            \DB::raw('SUM(spp.totalppenjamin) as totalpenjamin'),\DB::raw("case when statusverifjurnal = true then 'Unverif' else 'Belum verif' end as statusjurnal"), \DB::raw('sum(spp.totalsudahdibayar) as sumtotalsudahdibayar'), \DB::raw('count(php.noposting) as jlhpasien'));
 
         if(isset($filter['tglAwal']) && $filter['tglAwal']!=""){
             $dataCollector = $dataCollector->where('sp.tglposting','>=', $filter['tglAwal']);
@@ -238,7 +238,9 @@ class PiutangController extends ApiController{
         $dataCollector = $dataCollector->where('php.statusenabled',1);
 
         $dataCollector=$dataCollector->groupBy('sp.norec', 'php.noposting', 'sp.tglposting','rkn.id','rkn.namarekanan','php.statusenabled',
-            'p.namalengkap');
+            'p.namalengkap',
+            'setoranpiutangjurnalfk',
+            'statusverifjurnal');
         $dataCollector =$dataCollector->get();
 
         $result = array();
@@ -262,6 +264,8 @@ class PiutangController extends ApiController{
                 'idrekanan' => $item->idrekanan,
                 'namarekanan' => $item->namarekanan,
                 'statusenabled' => $item->statusenabled,
+                'statusjurnal' => $item->statusjurnal,
+                'norecsp' => $item->norec,
             );
         }
         return $this->respond($result, 'Data Piutang yang sudah tercollecting');
