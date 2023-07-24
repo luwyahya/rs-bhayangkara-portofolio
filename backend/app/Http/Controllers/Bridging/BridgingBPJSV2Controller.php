@@ -7360,7 +7360,7 @@ class BridgingBPJSV2Controller extends ApiController
                     $respon  = $dataAntrianPost;
                     $message = array(
                         'message' => 'Ok',
-                        'code' => 200,
+                        'code' => 202,
                     );
                     
                 }  
