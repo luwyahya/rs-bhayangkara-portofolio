@@ -289,13 +289,13 @@ class PiutangController extends ApiController{
             ->select('kp.id as kpid','kp.kelompokpasien', 'spp.norec','stp.tglposting', 'pd.noregistrasi', 'pd.tglregistrasi','p.nocm',
                 'p.namapasien','spp.totalppenjamin','spp.totalharusdibayar as tarifklaim','bpjs.TARIF_INACBG as tarifklaimbpjs',
                 'spp.totalsudahdibayar','r.id as rknid', 'r.namarekanan', 'spp.totalbiaya', 'spp.noverifikasi', 'php.noposting','stp.kdhistorylogins',
-                'kls.namakelas','stp.tglposting','p.tgllahir','gagalbpjs.keterangan')
+                'kls.namakelas','stp.tglposting','p.tgllahir','gagalbpjs.keterangan','stp.statusverifjurnal')
             ->whereNotNull('spp.noverifikasi')
             ->where('php.statusenabled',1)   ;
         $dataSpp = $dataSpp->where('php.noposting', $noPosting);
         $dataSpp=$dataSpp->groupBy('kp.kelompokpasien', 'spp.norec','stp.tglposting', 'pd.noregistrasi', 'pd.tglregistrasi','p.nocm','p.namapasien','spp.totalppenjamin','spp.totalharusdibayar',
             'spp.totalsudahdibayar', 'r.namarekanan', 'spp.totalbiaya', 'spp.noverifikasi', 'php.noposting','stp.kdhistorylogins','kls.namakelas','stp.tglposting','bpjs.TARIF_INACBG',
-            'r.namarekanan','p.tgllahir','r.id','kp.id','gagalbpjs.keterangan');
+            'r.namarekanan','p.tgllahir','r.id','kp.id','gagalbpjs.keterangan','stp.statusverifjurnal');
         $dataSpp = $dataSpp->orderBy('p.namapasien');
         $dataSpp =$dataSpp->get();
 
@@ -333,6 +333,7 @@ class PiutangController extends ApiController{
                 'tarifselisihklaim' => $selisihKlaim,
                 'tarifinacbgs' => $tarifklaim,
                 'keterangan' => $item->keterangan,
+                'statusverifjurnal' => $item->statusverifjurnal
             );
         }
 
@@ -559,8 +560,8 @@ class PiutangController extends ApiController{
     }
 
     public function detailPiutangPasienCollecting($noPosting){
-        $php = DB::select(DB::raw("select top 1 norec,noposting,nostrukfk from postinghutangpiutang_t 
-                  where noposting='$noPosting' order by nostrukfk ")
+        $php = DB::select(DB::raw("select norec,noposting,nostrukfk from postinghutangpiutang_t 
+                  where noposting='$noPosting' order by nostrukfk limit 1 ")
         );
 //        $php = DB::select(DB::raw("select norec,noposting,nostrukfk from postinghutangpiutang_t
 //                  where noposting='$noPosting' order by nostrukfk limit 1")

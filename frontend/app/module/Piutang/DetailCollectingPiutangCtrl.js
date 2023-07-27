@@ -58,6 +58,15 @@ define(['initialize'], function (initialize) {
 				var stt = 'false'
 				if (confirm('Batalkan collecting? ')) {
 					// Save it!
+					debugger;
+					for (var i = 0; i <  $scope.dataSource._data.length; i++) {
+						if($scope.dataSource._data[i].statusverifjurnal == true){
+							  alert("Data Pasien "+ $scope.dataSource._data[i].namaPasien +" Sudah di verifikasi jurnal!!")
+							  return;
+						}
+ 
+					}
+	
 					medifirstService.get("piutang/batal-collected-piutang-layanan?noposting=" + noPostingC).then(function (data) {
 
 					})
