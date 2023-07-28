@@ -30,9 +30,15 @@ export class Configuration {
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
-    } else {
+    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
       return {
         apiBackend: 'http://192.168.100.209/service/',
+        headerToken: 'X-AUTH-TOKEN',
+        authLogin: ':8000',
+      }
+    } else {
+      return {
+        apiBackend: '/service/',
         headerToken: 'X-AUTH-TOKEN',
         authLogin: ':8000',
       }
