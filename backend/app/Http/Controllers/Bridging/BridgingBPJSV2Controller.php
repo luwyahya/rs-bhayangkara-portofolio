@@ -4244,6 +4244,43 @@ class BridgingBPJSV2Controller extends ApiController
                     );
         return response()->json($result);
     }
+    public function kirimNoSEP(Request $request){
+        
+
+        \DB::beginTransaction();
+        try {
+            
+            $data = PemakaianAsuransi::where('noregistrasifk',$request['norec'])
+            ->update([
+                'nosep' => $request['nosep'],
+            ]);
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Simpan Berhasil!";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "as" => 'as@epic',
+            );
+        } else {
+            $transMessage = "Simpan Gagal!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                "as" => 'as@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+       
+
+    }
     public function getListRencanaKontrolBerdasarkanNoKartuCustom(Request $request) {
         $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();

@@ -360,6 +360,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('listsuratkontrol-berdasarkan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getListRencanaKontrolBerdasarkanNoKartu');
                 Route::get('listsuratkontrol-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@cariListHistoriSuratKontrol');
                 Route::get('monitoring/HistoriPelayanan-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getMonitoringHistoriDuaBulan');
+                Route::post('monitoring/HistoriPelayanan-duabulan/noSep', 'Bridging\BridgingBPJSV2Controller@kirimNoSEP');
                  //##MJKN
                 Route::get('mjkn/antrian/getRefPoli', 'Bridging\BridgingBPJSV2Controller@mjknRefPoli');
                 Route::get('mjkn/antrian/getRefDokter', 'Bridging\BridgingBPJSV2Controller@mjknRefDokter');
@@ -1620,6 +1621,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-ksd-visum-koreksi-instalasi', 'Report\ReportController@cetakKsdVisumKoreksiInstalasi');
         Route::get('report/cetak-kfd-visum-koreksi-instalasi', 'Report\ReportController@cetakKfdVisumKoreksiInstalasi');
         Route::get('report/cetak-kll-visum-koreksi-instalasi', 'Report\ReportController@cetakKllVisumKoreksiInstalasi');
+        Route::get('report/cetak-antrian', 'Report\ReportController@cetakAntrianKiosk');
+        Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP'); 
+
+        Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
         Route::get('report/cetak-visum-new', 'Report\ReportController@cetakVisumNew');
 
         Route::group(['prefix' => 'laundry'], function () {
@@ -2490,6 +2495,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-catatan', 'Registrasi\RegistrasiController@simpanCatatan');
             Route::get('get-catatan-visum', 'Registrasi\RegistrasiController@getCatatanVisum');
             Route::get('get-angka-titik', 'Registrasi\RegistrasiController@getAngkaTitik');
+            Route::post('updatenocmlamakebaru', 'Registrasi\RegistrasiController@updatenocmlamakebaru');
 
             Route::group(['prefix' => 'daftar-registrasi'], function () {
                 // 2019-12 penambahan arif awal                
@@ -2865,6 +2871,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-slotting', 'ReservasiOnline\ReservasiOnlineController@getDaftarSlotting');
             Route::post('save-slotting', 'ReservasiOnline\ReservasiOnlineController@saveSlotting');
             Route::post('update-data-status-reservasi', 'ReservasiOnline\ReservasiOnlineController@UpdateStatConfirm');
+            Route::get('get-list-data-android', 'ReservasiOnline\ReservasiOnlineController@getListDataAndroid');
             Route::post('update-nocmfk-antrian-registrasi', 'ReservasiOnline\ReservasiOnlineController@updateNoCmInAntrianRegistrasi');
             Route::get('get-history', 'ReservasiOnline\ReservasiOnlineController@getHistoryReservasi');
             Route::get('get-history2', 'ReservasiOnline\ReservasiOnlineController@getHistoryReservasi2');
@@ -2872,6 +2879,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-history-mcu', 'ReservasiOnline\ReservasiOnlineController@getHistoryReservasiMCU');
             Route::get('get-pasien/{nocm}/{tgllahir}', 'ReservasiOnline\ReservasiOnlineController@getPasienByNoCmTglLahir');
             Route::get('get-pasien-kiosk/{nocm}/{tgllahir}', 'ReservasiOnline\ReservasiOnlineController@getPasienByNoCmTglLahirKiosk');
+            Route::get('get-pasien-kioskcekin/{nocm}/{tgllahir}', 'ReservasiOnline\ReservasiOnlineController@getPasienByNoCmTglLahirKioskCekin');
             Route::get('get-pasien-android/{nocm}/{tgllahir}', 'ReservasiOnline\ReservasiOnlineController@getPasienByNoCmTglLahirAndroid');
             Route::get('get-libur', 'ReservasiOnline\ReservasiOnlineController@getLiburSlotting');
             Route::get('get-bank-account', 'ReservasiOnline\ReservasiOnlineController@getNomorRekening');
@@ -2883,6 +2891,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('cek-reservasi-satu', 'ReservasiOnline\ReservasiOnlineController@cekReservasiDipoliYangSama');
             Route::get('get-slotting-by-ruangan-new/{kode}/{tgl}', 'ReservasiOnline\ReservasiOnlineController@getSlottingByRuanganNew');
             Route::get('get-slotting-vaksin/{tgl}', 'ReservasiOnline\ReservasiOnlineController@getSlottingVaksin');
+            Route::get('get-slotting-by-ruangan-newpoli/{kode}/{tgl}', 'ReservasiOnline\ReservasiOnlineController@getSlottingByRuanganNewpoli');
             Route::get('get-history-vaksin/{nik}', 'ReservasiOnline\ReservasiOnlineController@getHistoryVaksin');
             Route::get('get-history-vaksin-noreservasi/{noreservasi}', 'ReservasiOnline\ReservasiOnlineController@getHistoryVaksinnoreservasi');
             Route::get('get-slot-available', 'ReservasiOnline\ReservasiOnlineController@getDaftarSlottingAktif');
@@ -2900,6 +2909,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('cekversi', 'ReservasiOnline\ReservasiOnlineController@getVersi');
             Route::get('get-jadwal-dokter', 'ReservasiOnline\ReservasiOnlineController@getJadwalDokter');
             Route::get('get-list-news', 'ReservasiOnline\ReservasiOnlineController@getNewsReservasi');
+            Route::get('get-jadwal-dokterall', 'ReservasiOnline\ReservasiOnlineController@getJadwalDokterall');
             Route::post('edit', 'ReservasiOnline\ReservasiOnlineController@editReservasi');
             Route::post('edit-ro', 'ReservasiOnline\ReservasiOnlineController@editReservasiRo');
             Route::post('batal', 'ReservasiOnline\ReservasiOnlineController@batalReservasi');
@@ -2922,6 +2932,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-list-spesialis', 'ReservasiOnline\ReservasiOnlineController@getSpesialis');
             Route::post('save-booking-ranap-web', 'ReservasiOnline\ReservasiOnlineController@saveReservasiBookBedPasienLamaWeb');
             Route::post('cek-versi-app', 'ReservasiOnline\ReservasiOnlineController@cekVersi');
+            Route::post('save-android-baru', 'ReservasiOnline\ReservasiOnlineController@saveRoAndroidBaru');
+
+            Route::get('cek-pemakaianasuransi', 'ReservasiOnline\ReservasiOnlineController@geCekPemakaianAsuransi');
+
+            
+            Route::get('get-kelurahan', 'ReservasiOnline\ReservasiOnlineController@getKelurahan');
+
         });
         Route::group(['prefix' => 'sanitasi'], function () {
             Route::get('get-tempat-tidur', 'Sanitasi\SanitasiController@getTempatTidur');

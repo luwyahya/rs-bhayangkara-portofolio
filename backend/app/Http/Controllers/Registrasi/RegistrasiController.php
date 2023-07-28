@@ -566,7 +566,150 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         );
         return $this->respond($result);
     }
+    public function updatenocmlamakebaru(Request $request)
+    {
+        $detLogin = $request->all();
+       
+        // try{
+        $tahun=date("y");
+        $bulan=date("m");
+        $tanggal=date("d");
+        $extensibaru= $tahun .$bulan .$tanggal;
+        $extensinocm = RunningNumber::where('id', 1753)->first();
+        
+        $carahitung = RunningNumber::where('id', 1754)->first();
+        if($carahitung->nomer_terbaru == 1){
+            if($extensinocm->nomer_terbaru!=$extensibaru){
+                
+                RunningNumber::where('id', 1745)
+                    ->update(
+                        [
+                            'nomer_terbaru' => 0
+                        ]
+                    );
+                RunningNumber::where('id', 1753)
+                    ->update(
+                        [
+                            'nomer_terbaru' =>  $extensibaru
+                        ]
+                    );
+            }
+        }
+        
+         DB::beginTransaction();
+        //region Save Pasien 
+            $idRunningNumber = 1745; 
+            $runningNumber = RunningNumber::where('id', $idRunningNumber)->first();                
+            $noCmTerakhir = $runningNumber->nomer_terbaru + 1;
+            if($carahitung->nomer_terbaru == 1){ 
+                $jumlah_karakter = strlen($noCmTerakhir);
+                if( $jumlah_karakter == 1){
+                    $extension  = '00';
+                }else if($jumlah_karakter == 2){
+                    $extension  = '0';
+                }else{
+                    $extension  = '';
+                }
+            
+                $noCm = $extensibaru .$extension . $noCmTerakhir;
+            }else{
+                    //$extension = $runningNumber->extention;
+                    //ash
+                    $jumlah_karakter = strlen($noCmTerakhir);
+                    if( $jumlah_karakter == 1)     $extension  = '00000000';
+                    else if($jumlah_karakter == 2) $extension  = '0000000';
+                    else if($jumlah_karakter == 3) $extension  = '000000';
+                    else if($jumlah_karakter == 4) $extension  = '00000';
+                    else if($jumlah_karakter == 5) $extension  = '0000';
+                    else if($jumlah_karakter == 6) $extension  = '000';
+                    else if($jumlah_karakter == 7) $extension  = '00';
+                    else if($jumlah_karakter == 8) $extension  = '0';
+                    else if($jumlah_karakter == 9) $extension  = '';
+                    $noCm = $extension . $noCmTerakhir;
+            }
+            
 
+        
+            RunningNumber::where('id', $idRunningNumber)
+                ->update(
+                    [
+                        'nomer_terbaru' => $noCmTerakhir
+                    ]
+                );
+                
+            $dataPS = Pasien::where('nocm', $noCm)->first();
+            if (!empty($dataPS)) {
+                
+                $idRunningNumber = 1745;
+                if ($request['isbayi'] == true) {
+                    // $idRunningNumber = 13535;
+                    $idRunningNumber = 1745;
+                }
+                $runningNumber = RunningNumber::where('id', $idRunningNumber)->first();
+                // $extension = $runningNumber->extention;
+                if ($request['isbayi'] == true) {
+                    // $extension = $runningNumber->reset . $runningNumber->extention;
+                    $extension = $runningNumber->extention;
+                }
+                $noCmTerakhir = $runningNumber->nomer_terbaru + 1;
+                // $noCm = $extension . $noCmTerakhir;
+                if($carahitung->nomer_terbaru == 1){
+                    $noCmTerakhir = $runningNumber->nomer_terbaru + 1;
+                    $jumlah_karakter = strlen($noCmTerakhir);
+                    if( $jumlah_karakter == 1){
+                        $extension  = '00';
+                    }else if($jumlah_karakter == 2){
+                        $extension  = '0';
+                    }else{
+                        $extension  = '';
+                    } 
+                    $noCm = $extensibaru .$extension . $noCmTerakhir;
+                }else{
+                    //$extension = $runningNumber->extention;
+                    //ash 
+                    $jumlah_karakter = strlen($noCmTerakhir);
+                    if( $jumlah_karakter == 1)     $extension  = '00000000';
+                    else if($jumlah_karakter == 2) $extension  = '0000000';
+                    else if($jumlah_karakter == 3) $extension  = '000000';
+                    else if($jumlah_karakter == 4) $extension  = '00000';
+                    else if($jumlah_karakter == 5) $extension  = '0000';
+                    else if($jumlah_karakter == 6) $extension  = '000';
+                    else if($jumlah_karakter == 7) $extension  = '00';
+                    else if($jumlah_karakter == 8) $extension  = '0';
+                    else if($jumlah_karakter == 9) $extension  = '';
+                    $noCm = $extension . $noCmTerakhir;
+                } 
+                RunningNumber::where('id', $idRunningNumber)
+                    ->update(
+                        [
+                            'nomer_terbaru' => $noCmTerakhir
+                        ]
+                    );
+            } 
+
+           
+            $dataPS = Pasien::where('id', $request['idpasien'])->first();            
+            $dataPS->nocm = $noCm;         
+            $dataPS->save(); 
+            $transStatus = 'true'; 
+            if ($transStatus == 'true') {
+                $transMessage = "Sukses";
+                DB::commit(); 
+                $result = array(
+                    'status' => 201,
+                    'data' => $dataPS,
+                    'as' => 'ramdanegie',
+                );
+            } else {
+                $transMessage = "Simpan Gagal";
+                DB::rollBack();
+                $result = array(
+                    'status' => 400,
+                    'as' => 'ramdanegie',
+                );
+            }
+            return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getLaporanCovid(Request $request)
     {
         ini_set('max_execution_time', 500); //6 minuts

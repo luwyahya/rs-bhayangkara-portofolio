@@ -353,7 +353,231 @@ FROM            jeniskelamin_m AS jk RIGHT OUTER JOIN
            compact('raw', 'pageWidth','r','now'));
 
    }
+public function cetakAntrianKiosk(Request $request)
+    {
+        $kdProfile = (int)$request['kdprofile'];
+        $norec = $request['norec'];
+        $TglAwal =  date('Y-m-d ') . '00:00';
+        $TglAkhir = date('Y-m-d ') . '23:59';
+        $tglAyeuna = date('Y-m-d H:i:s');
+        $profile = collect(DB::select("
+                select * from profile_m where id = $kdProfile limit 1
+            "))->first();
 
+        $antrian = DB::table('antrianpasienregistrasi_t AS apr')
+        ->leftJoin('ruangan_m AS ru', 'ru.id', '=', 'apr.objectruanganfk')
+        ->select(DB::raw("apr.*,CASE WHEN ru.namaruangan IS NULL 
+                                        THEN '' ELSE ru.namaruangan END AS namaruangan"))
+        ->where('apr.norec', '=', $norec)
+            ->first();
+
+        $str = $antrian->jenis;
+        $jmlAntrian = DB::table('antrianpasienregistrasi_t')
+        ->select(DB::raw("count(noantrian) as jmlantri"))
+        ->where('statuspanggil', '=', 0)
+            ->whereBetween('tanggalreservasi', [$TglAwal, $TglAkhir])
+            ->where('jenis', '=', $str)
+            ->first();
+
+        $noAntrian = $antrian->noantrian;
+        $strJenis = $antrian->jenis;
+        $jenis = "";
+        if ($strJenis == "A") {
+            $jenis = "UMUM";
+        } elseif ($strJenis == "B") {
+            $jenis = "BPJS";
+        }
+        if (strlen($antrian->noantrian) == 1) {
+            $noAntrian = "00" . $antrian->noantrian;
+        } else {
+            $noAntrian = "0" . $antrian->noantrian;
+        }
+        $pageWidth = 250;
+        $dataReport = array(
+            'namaprofile' => $profile->namalengkap,
+            'alamat' => $profile->alamatlengkap,
+            'jenis' => $jenis,
+            'noantrian' => $strJenis . "-" . $noAntrian,
+            'jmlantrian' => $jmlAntrian->jmlantri,
+            'pageWidth'  => 365,
+            'tanggal'  => $tglAyeuna,
+        );
+
+        //        $pdf = PDF::loadView('report.pendaftaran.antrian', array(
+        //                'dataReport' => $dataReport,
+        //        ));
+        //        return $pdf->stream();
+
+        return view(
+            'pendaftaran.antrian',
+            compact('dataReport', 'pageWidth', 'profile')
+        );
+        //        return view('','$result');
+    }
+    public function cetakSEP(Request $request)
+    {
+        $kdProfile = (int)$request['kdprofile'];
+        $Noregistrasi = $request['noregistrasi'];
+        $tglAyeuna = date('Y-m-d H:i:s');
+
+        $profile = collect(DB::select("
+                select * from profile_m where id = $kdProfile limit 1
+            "))->first(); 
+        if(strlen($Noregistrasi)<=10){
+            $where = "pd.noregistrasi ='".$Noregistrasi."'";
+        }else{
+
+            $where = "pa.nosep ='".$Noregistrasi."'";
+        }
+        /*$registrasi = collect(DB::select("
+             SELECT pa.nosep,to_char(pa.tanggalsep, 'DD-MM-YYYY HH:mm') AS tanggalsep,pa.nokepesertaan,pi.nocm,pd.noregistrasi,
+                    pa.norujukan,ap.namapeserta,to_char(pi.tgllahir, 'DD-MM-YYYY') AS tgllahir,jk.jeniskelamin, 
+                    rp.namaruangan,rp.kodeexternal as namapoli,pa.ppkrujukan,  
+                    (CASE WHEN rp.objectdepartemenfk=16 then 'Rawat Inap' else 'Rawat Jalan' END) as jenisrawat, 
+                    dg.kddiagnosa, (case when dg.namadiagnosa is null then '-' else dg.namadiagnosa end) as namadiagnosa ,  
+                    ap.jenispeserta,ap.kdprovider,ap.nmprovider,kls.namakelas,pa.catatan
+             FROM pemakaianasuransi_t pa  
+             LEFT JOIN asuransipasien_m ap on pa.objectasuransipasienfk= ap.id  
+             LEFT JOIN pasiendaftar_t pd on pd.norec=pa.noregistrasifk  
+
+             LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec  
+
+             LEFT JOIN pasien_m pi on pi.id=pd.nocmfk  
+             LEFT JOIN jeniskelamin_m jk on jk.id=pi.objectjeniskelaminfk  
+             LEFT JOIN ruangan_m rp on rp.id=pd.objectruanganlastfk  
+             LEFT JOIN diagnosa_m dg on pa.diagnosisfk=dg.id 
+             LEFT JOIN kelas_m kls on kls.id=ap.objectkelasdijaminfk  
+             where pd.noregistrasi ='$Noregistrasi' 
+
+
+        "))->first();*/
+        
+        $registrasi = collect(DB::select("SELECT pa.nosep,to_char(pa.tanggalsep, 'DD-MM-YYYY HH:mm') AS tanggalsep,pa.nokepesertaan,pi.nocm,pd.noregistrasi,
+            pa.norujukan,ap.namapeserta,to_char(pi.tgllahir, 'DD-MM-YYYY') AS tgllahir,jk.jeniskelamin, 
+            rp.namaruangan,rp.kodeexternal as namapoli,pa.ppkrujukan,  
+            (CASE WHEN rp.objectdepartemenfk=16 then 'Rawat Inap' else 'Rawat Jalan' END) as jenisrawat, 
+            dg.kddiagnosa, (case when dg.namadiagnosa is null then '-' else dg.namadiagnosa end) as namadiagnosa ,  
+            ap.jenispeserta,ap.kdprovider,ap.nmprovider,kls.namakelas,pa.catatan
+            , apd.namahafis,apd.noantrian as noantrianhafis
+            FROM pemakaianasuransi_t pa  
+            LEFT JOIN asuransipasien_m ap on pa.objectasuransipasienfk= ap.id  
+            LEFT JOIN pasiendaftar_t pd on pd.norec=pa.noregistrasifk  
+
+            LEFT JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pa.noregistrasifk 
+
+            LEFT JOIN pasien_m pi on pi.id=pd.nocmfk  
+            LEFT JOIN jeniskelamin_m jk on jk.id=pi.objectjeniskelaminfk  
+            LEFT JOIN ruangan_m rp on rp.id=pd.objectruanganlastfk  
+            LEFT JOIN diagnosa_m dg on pa.diagnosisfk=dg.id 
+            LEFT JOIN kelas_m kls on kls.id=ap.objectkelasdijaminfk  
+            
+            where  $where
+            order by apd.namahafis ASC
+        "))->first();
+        
+        $SEP = $this->cekSep($registrasi->nosep);
+        if ($SEP['metaData']->code != 200) {
+            echo 'Data Tidak ada ';
+            return;
+        }
+            
+        //     $x = json_encode($SEP['response']['peserta']->nama);
+            // return($SEP['response']['peserta']->noKartu);
+        // return($SEP['response'] );
+        $pageWidth = 719;
+        $dataReport = array(
+            'namaprofile' => $profile->namalengkap,
+            'alamat' => $profile->alamatlengkap,
+            'nosep' => $registrasi->nosep,
+            'tanggalsep' => $SEP['response']['tglSep'],
+            'nokepesertaan' => $SEP['response']['peserta']->noKartu,
+            'norm' => $registrasi->nocm,
+            'noregistrasi' => $registrasi->noregistrasi,
+            'jenispeserta' => $registrasi->jenispeserta,
+            'namapeserta' => $SEP['response']['peserta']->nama,
+            'cob' => "",
+            'tgllahir' => $registrasi->tgllahir,
+            'jeniskelamin' => $registrasi->jeniskelamin,
+            'norujukan' => $registrasi->norujukan, 
+            'namaruangan' => $registrasi->namaruangan,
+            'namapoli' => $SEP['response']['poli'],
+            'ppkrujukan' => $registrasi->ppkrujukan,
+            'jenisrawat' => $registrasi->jenisrawat,
+            'kddiagnosa' => $registrasi->kddiagnosa,
+            'namadiagnosa' => $registrasi->namadiagnosa,
+            'kdprovider' => $registrasi->kdprovider,
+            'nmprovider' => $registrasi->nmprovider,
+            'namakelas' => $registrasi->namakelas,
+            'catatan' => $registrasi->catatan,
+            'tanggal' => $tglAyeuna,
+            'noantrian' => $registrasi->namahafis.'-'.$registrasi->noantrianhafis,
+        );
+        return view(
+            'pendaftaran.sep',
+            compact('dataReport', 'pageWidth', 'profile')
+        );
+        //        return view('','$result');
+    }
+    public function cetakBuktiPendaftaran(Request $request)
+    {
+        $kdProfile = (int)$request['kdprofile'];
+        $profile = collect(DB::select("
+                select * from profile_m where id = $kdProfile limit 1
+            "))->first();
+
+        $registrasi = DB::table('pasiendaftar_t AS pd')
+        ->Join('antrianpasiendiperiksa_t as apdp', 'apdp.noregistrasifk', '=', 'pd.norec')
+        ->Join('pasien_m as ps', 'pd.nocmfk', '=', 'ps.id')
+        ->leftJoin('alamat_m as ap', 'ap.nocmfk', '=', 'ps.id')
+        ->leftJoin('jeniskelamin_m as jk', 'ps.objectjeniskelaminfk', '=', 'jk.id')
+        ->leftJoin('ruangan_m as ru', 'pd.objectruanganlastfk', '=', 'ru.id')
+        ->leftJoin('pegawai_m as pp', 'pd.objectpegawaifk', '=', 'pp.id')
+        ->leftJoin('kelompokpasien_m as kp', 'pd.objectkelompokpasienlastfk', '=', 'kp.id')
+        ->leftJoin('antrianpasienregistrasi_t as apr', 'apr.noreservasi', '=', 'pd.statusschedule')
+        ->select(DB::raw("pp.namahafis,pd.noregistrasi,ps.nocm,ps.tgllahir,ps.namapasien,to_char(pd.tglregistrasi, 'DD-MM-YYYY HH:mm') AS tglregistrasi,jk.reportdisplay AS jk, 
+                     ap.alamatlengkap,ap.mobilephone2,ru.namaruangan AS ruanganperiksa,pp.namalengkap AS namadokter, 
+                     kp.kelompokpasien,apdp.noantrian,pd.statuspasien,apr.noreservasi,CASE WHEN apr.tanggalreservasi IS NULL THEN '' 
+                     ELSE to_char(apr.tanggalreservasi, 'DD-MM-YYYY HH:mm') END AS tanggalreservasi"))
+        ->where('pd.noregistrasi', $request['noregistrasi'])
+        ->first();
+
+        $statusonline = "";
+        $status = "";
+        if ($registrasi->tanggalreservasi != '') {
+            $statusonline = "PASIEN ONLINE";
+            $status = "Kartu ini adalah bukti anda mendaftar hari ini";
+        } else {
+            $statusonline = "Kartu ini adalah bukti anda mendaftar hari ini";
+        }
+        $pageWidth = 365;
+        $dataReport = array(
+            'namaprofile' => $profile->namalengkap,
+            'alamat' => $profile->alamatlengkap,
+            'tglregistrasi' => $registrasi->tglregistrasi,
+            'noregistrasi' => $registrasi->noregistrasi,
+            'norm' => $registrasi->nocm,
+            'tgllahir' => $registrasi->tgllahir,
+            'namapasien' => $registrasi->namapasien,
+            'jeniskelamin' => $registrasi->jk,
+            'alamatlengkap' => $registrasi->alamatlengkap,
+            'mobilephone2' => $registrasi->mobilephone2,
+            'ruangan' => $registrasi->ruanganperiksa,
+            'namadokter' => $registrasi->namadokter,
+            'kelompokpasien' => $registrasi->kelompokpasien,
+            'noantrian' => $registrasi->namahafis.'-'.$registrasi->noantrian,
+            'statuspasien' => $registrasi->statuspasien,
+            'noreservasi' => $registrasi->noreservasi,
+            'tanggalreservasi' => $registrasi->tanggalreservasi,
+            'statusonline' => $statusonline,
+            'status' => $status,
+        );
+
+        return view(
+            'pendaftaran.buktipendaftaran',
+            compact('dataReport', 'pageWidth', 'profile')
+        );
+        //        return view('','$result');
+    }
     public function cetakHispatologi(Request $r) {
 //        $kdProfile = (int)$r['kdprofile'];
 //        $raw = collect(DB::select("

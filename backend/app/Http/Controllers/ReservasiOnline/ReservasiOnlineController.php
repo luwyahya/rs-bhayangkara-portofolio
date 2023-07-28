@@ -546,6 +546,68 @@ class ReservasiOnlineController extends ApiController
 		);
 		return $this->respond($result);
 	}
+    public function getSlottingByRuanganNewpoli($kode, $tgl)
+    {
+        $apd = DB::select(
+            DB::raw("select count(norec) as kuntul from pasiendaftar_t where objectruanganlastfk =:ruangan
+                 and to_char(pasiendaftar_t.tglregistrasi,'yyyy-MM-dd') =:tgl
+            "),
+            array(
+                'ruangan' => $kode,
+                'tgl' => $tgl,
+            )
+        );
+        $totalpasien = 0;
+        foreach ($apd as $item) {
+            $totalpasien = $item->kuntul;
+        }
+
+        $ruangan = \DB::table('ruangan_m as ru')
+        ->join('slottingonline_m as slot', 'slot.objectruanganfk', '=', 'ru.id')
+        ->select(
+            'ru.id',
+            'ru.namaruangan',
+            'ru.objectdepartemenfk',
+            'slot.jambuka',
+            'slot.jamtutup',
+            'slot.quota',
+            DB::raw("(EXTRACT(EPOCH FROM slot.jamtutup) - EXTRACT(EPOCH FROM slot.jambuka))/3600 as totaljam")
+        )
+        //                DB::raw("datepart(hour,slot.jamtutup) -datepart(hour, slot.jambuka)as totaljam"))
+        ->where('ru.statusenabled', true)
+            ->where('ru.id', $kode)
+            ->where('slot.statusenabled', true)
+            ->first();
+        if (empty($ruangan)) {
+            $result = array(
+                'tanggal' => null,
+                'slot' => 'Belum Maping Sloting',
+                'reservasi' => null,
+                'message' => 'Slot belum tersedia di Poli ini',
+            );
+            return $this->respond($result);
+        }
+
+       
+        $quota = (float)$ruangan->quota;
+        // return($totalpasien);
+        if($totalpasien >= $quota){
+            $result = array(
+                'tanggal' => null,
+                'slot' => null,
+                'reservasi' => null,
+                'message' => 'Slot Penuh',
+            );
+            return $this->respond($result);
+        }
+        
+        $result = array(
+            'tanggal' => $tgl,
+            'slot' => $quota- $totalpasien,
+            'as' => 'ramdan@epic',
+        );
+        return $this->respond($result);
+    }
     public function getPasienByNoCmTglLahirAndroid($nocm,$tgllahir) {
 		$data = \DB::table('pasien_m as ps')
 			->leftJOIN ('alamat_m as alm','alm.nocmfk','=','ps.id')
@@ -4313,6 +4375,109 @@ class ReservasiOnlineController extends ApiController
         );
         return $this->respond($result);
     }
+     public function getPasienByNoCmTglLahirKioskCekin($nocm, $tgllahir)
+    {  
+        $data = \DB::table('pasien_m as ps')
+        ->leftJOIN('alamat_m as alm', 'alm.nocmfk', '=', 'ps.id')
+        ->leftjoin('pendidikan_m as pdd', 'ps.objectpendidikanfk', '=', 'pdd.id')
+        ->leftjoin('pekerjaan_m as pk', 'ps.objectpekerjaanfk', '=', 'pk.id')
+        ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+        ->select(
+            'ps.nocm',
+            'ps.id as nocmfk',
+            'ps.namapasien',
+            'ps.objectjeniskelaminfk',
+            'jk.jeniskelamin',
+            'alm.alamatlengkap',
+            'pdd.pendidikan',
+            'pk.pekerjaan',
+            'ps.noidentitas',
+            'ps.notelepon',
+            'ps.tempatlahir',
+            'ps.nobpjs',
+            'alm.objectdesakelurahanfk',
+            'ps.nohp',
+            DB::raw(" to_char( ps.tgllahir,'yyyy-MM-dd') as tgllahir")
+        )
+        ->where('ps.statusenabled', true); 
+        if (isset($nocm) && $nocm != "" && $nocm != "undefined" && $nocm != "null") {
+            if (strlen($nocm) == 9) {
+                $data = $data->where('ps.nocm', '=', $nocm);
+            } else { 
+                // $data = $data->where('ps.nocm','=',$nocm);
+                if (strlen($nocm) < 9) {
+                    $data = $data->where('ps.nocmlama', 'ilike', '%' . $nocm . '%');
+                } else {
+                    $data = $data->where('ps.noidentitas', '=', $nocm);
+                }
+            } 
+        }
+        $data = $data->get();
+        foreach ($data as $itemx) {
+            $nocm = $itemx->nocm;
+        }
+
+        $tglAyeuna = date('Y-m-d');
+        $dataCekDaftar = \DB::table('pasiendaftar_t as pd')
+        ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+        ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+        ->select('pd.norec', 'pd.noregistrasi', 'ru.namaruangan', 'ru.id')
+        ->where('ps.nocm', $nocm)
+            ->whereRaw("to_char(pd.tglregistrasi,'yyyy-MM-dd') = '$tglAyeuna'")
+            ->where('pd.statusenabled', true)
+            ->where('pd.objectkelompokpasienlastfk', 2)
+            ->where('ru.objectdepartemenfk', 18)
+            ->orderBy('ru.id', 'ASC')
+            ->get();
+       
+
+        $result = array(
+            'status' => 201,
+            'data' => $data,
+            'message' => 'ramdanegie',
+        );
+        return $this->respond($result);
+    }
+    public function  getKelurahan(Request $request){
+            
+        $desa = \DB::table('desakelurahan_m as ds')
+            ->join('kecamatan_m as kc', 'ds.objectkecamatanfk', '=', 'kc.id')
+            ->join('kotakabupaten_m as kk', 'ds.objectkotakabupatenfk', '=', 'kk.id')
+            ->join('propinsi_m as pp', 'ds.objectpropinsifk', '=', 'pp.id')
+            ->select(DB::raw("ds.id,UPPER(ds.namadesakelurahan) as kelurahan,
+                            ds.objectkecamatanfk,ds.objectkotakabupatenfk,ds.objectpropinsifk,
+                            kc.namakecamatan,kk.namakotakabupaten,pp.namapropinsi,CONCAT(UPPER(ds.namadesakelurahan),', ', UPPER(kc.namakecamatan), ', ', UPPER(pp.namapropinsi)) AS datakelurahan"))
+            ->where('ds.statusenabled', true)
+            //->whereLike('ds.namadesakelurahan', $request['namakelurahan'])
+            ->where('ds.namadesakelurahan', 'ilike',$request['namakelurahan'].'%')
+            ->orderBy('ds.namadesakelurahan')
+            ->limit('100')
+            ->get();
+
+        $result = array(
+            'kelurahan'=> $desa,
+            'message' => 'ramdanegie',
+        );
+        return $this->respond($result);
+    }
+    public function geCekPemakaianAsuransi(Request $request)
+    {
+        $data = \DB::table('pemakaianasuransi_t as pa')
+                    // ->select('apr.norec','apr.tanggalreservasi')
+                    // ->whereRaw("apr.tanggalreservasi = '$tgl'")
+                    ->where('pa.noregistrasifk', $request['norecpd'])
+                    // ->where('apr.noreservasi','!=','-')
+                    // ->whereNotNull('apr.noreservasi')
+                    // ->where('apr.statusenabled',true)
+                    ->get();
+         
+
+        $result = array(
+            'data' => $data,
+            'as' => 'ramdan@epic',
+        );
+        return $this->respond($result);
+    }
     public function getHistoryReservasiMCU(Request $request)
     {
         $data = \DB::table('antrianpasienregistrasi_t as apr')
@@ -4375,6 +4540,632 @@ class ReservasiOnlineController extends ApiController
             'as' => 'ramdan@epic',
         );
         return $this->respond($result);
+    }
+    public function saveRoAndroidBaru(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+
+            // DB::commit();
+            // $result = array(
+            //     "status" => 201,
+            //     "message" => 'Simpan Reservasi',
+            //     "noreservasi" => '22d78df',
+            //     "as" => 'ramdan@epic',
+            // );
+            // return $this->setStatusCode($result['status'])->respond($result, $result['message']);
+
+           if($request['version']=="null" || $request['version']=="" || $request['version']!="V.24"){
+            
+                DB::rollBack();
+                        $transStatus = 'false';
+                        $transMessage = "Gagal Reservasi";
+                        $result = array(
+                            "status" => 400,
+                            "message" => "VERSI APLIKASI ANDA BELUM DI UPDATE, SILAHKAN UNINSTAL/HAPUS APLIKASI INI. SILAHKAN INSTAL ULANG APLIKASI TERBARU DI PLYSTORE (PENDAFTARAN ONLINE RS POLRI)",
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+            }
+           
+            
+            $tipepembayaran = "";
+            $tgl =$request ['tglReservasiFix'];
+            $bulanregis=date_create($tgl);
+            $tglAwal=date_format($bulanregis,"Y-m-d 00:00:00");
+            $tglAkhir=date_format($bulanregis,"Y-m-d 23:59:59");
+
+            $tglA = $request['tglReservasiFix'];
+            $tglA=date_create($tglA);
+            $tglA=date_format($tglA,"Y-m-d");
+            
+            $tglsekarang =  date('Y-m-d');
+
+            $jamsekarang =  date('H');
+            
+            if($tglA=='2021-07-20' || $tglA=='2021-08-10' || $tglA=='2021-08-11'
+                || $tglA=='2021-08-17' || $tglA=='2021-08-21' || $tglA=='2021-08-22' || $tglA=='2021-08-28'
+                || $tglA=='2021-08-29' || $tglA=='2021-10-20'){
+                DB::rollBack();
+                $transStatus = 'false';
+                $transMessage = "Gagal Reservasi";
+                $result = array(
+                    "status" => 400,
+                    "message" => "Tanggal ini hari libur.",
+                );
+                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+            }
+            
+            if($request['poliKlinik']==253){
+                if($tglA=='2021-12-13' || $tglA=='2021-12-14' || $tglA=='2021-12-15' || $tglA=='2021-12-16'
+                    || $tglA=='2021-12-17' || $tglA=='2021-12-18' || $tglA=='2021-12-19' || $tglA=='2021-12-20'
+                    || $tglA=='2021-12-21'){
+                    DB::rollBack();
+                    $transStatus = 'false';
+                    $transMessage = "Gagal Reservasi";
+                    $result = array(
+                        "status" => 400,
+                        "message" => "Tanggal ini hari libur.",
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+            }
+            
+            if($request['poliKlinik']==543){
+                if($tglA=='2021-12-31'){
+                    DB::rollBack();
+                    $transStatus = 'false';
+                    $transMessage = "Gagal Reservasi";
+                    $result = array(
+                        "status" => 400,
+                        "message" => "Tanggal ini hari libur.",
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+            }
+            $dataRuanganTutup = [];
+            for ($i = 9 - 1; $i >= 0; $i--) {
+                if($i==1){
+                    $idruanganLibur = 33;
+                }else if($i==2){
+                    $idruanganLibur = 132;
+                }else if($i==3){
+                    $idruanganLibur = 198;
+                }else if($i==4){
+                    $idruanganLibur = 97;
+                }else if($i==5){
+                    $idruanganLibur = 7;
+                }else if($i==6){
+                    $idruanganLibur = 552;
+                }else if($i==7){
+                    $idruanganLibur = 446;
+                }else if($i==8){
+                    $idruanganLibur = 19;
+                }else if($i==9){
+                    $idruanganLibur = 19;
+                }
+                $dataRuanganTutup[] = array(
+                    'idruangan' => $idruanganLibur
+                );
+            };
+            
+            $buka = 'false';
+            foreach ($dataRuanganTutup as $itemd) {
+                if($itemd['idruangan'] == $request['poliKlinik']){
+                    $buka = 'true';
+                }
+            }
+             if($tglA=='2021-12-24'){
+                if($buka=='false'){
+                    DB::rollBack();
+                    $transStatus = 'false';
+                    $transMessage = "Gagal Reservasi";
+                    $result = array(
+                        "status" => 400,
+                        "message" => "Tanggal ini hari libur.",
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+            }
+            
+            $cekMapKelompok = \DB::table('mapkelompokpasientopenjamin_m as mkp')
+            ->join('kelompokpasien_m as kp', 'kp.id', '=', 'mkp.objectkelompokpasienfk')
+            ->join('rekanan_m as rk', 'rk.id', '=', 'mkp.kdpenjaminpasien')
+            ->select('rk.id', 'rk.namarekanan', 'kp.id as id_kelompokpasien', 'kp.kelompokpasien')
+            //            ->where('mkp.objectkelompokpasienfk', $request['kdKelompokPasien'])
+            ->where('mkp.statusenabled', true);
+            if (isset($request['tipePembayaran']) && $request['tipePembayaran'] != "" && $request['tipePembayaran'] != "undefined") {
+                $cekMapKelompok = $cekMapKelompok->where('mkp.objectkelompokpasienfk', '=', $request['tipePembayaran']);
+                $cekMapKelompok = $cekMapKelompok->where('rk.id', '=', $request['namaPenjamin']);
+            };
+            $cekMapKelompok = $cekMapKelompok->get();
+            
+            if (count($cekMapKelompok) == 0) {
+                    $transMessage = "Silahkan Pilih Nama Penjamin Dengan Benar ";
+                    DB::rollBack();
+                    $result = array(
+                        'status' => 400,
+                        'as' => 'tukangKomputer',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+           
+            if($request['poliKlinik']==543){
+                if($tglA=='2021-12-15' || $tglA=='2021-12-17'){
+                    DB::rollBack();
+                    $transStatus = 'false';
+                    $transMessage = "Gagal Reservasi";
+                    $result = array(
+                        "status" => 400,
+                        "message" => "Tanggal ini hari libur.",
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+            }
+            
+            
+            if($request['noCm']=="null" || $request['noCm']==""){
+                DB::rollBack();
+                        $transStatus = 'false';
+                        $transMessage = "Gagal Reservasi";
+                        $result = array(
+                            "status" => 400,
+                            "message" => "NoRM Anda Tidak Terdaftar",
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+            }
+            
+            if($request['tipePembayaran']==2 && $request['asalRujukan']!=7){
+                $cekKepesertaan = $this->getNoPeserta($request['noKartuPeserta']);
+                if($cekKepesertaan['status']=='tidakada'){
+                    DB::rollBack();
+                        $transStatus = 'false';
+                        $transMessage = "Gagal Reservasi";
+                        $result = array(
+                            "status" => 400,
+                            "message" => "No Peserta Tidak Ditemukan",
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }else if($cekKepesertaan['statusPeserta']=='25'){
+                    DB::rollBack();
+                        $transStatus = 'false';
+                        $transMessage = "Gagal Reservasi";
+                        $result = array(
+                            "status" => 400,
+                            "message" => "USIA ANAK PPU > 21 TH DAN 25 TH, Silahkan Update Kepesertaan",
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }else{
+                    if($request['asalRujukan']==2){
+                        $cekRujukan = $this->getNoRujukanRs($request['noRujukan']);
+                      
+                        if($cekRujukan['status']=='tidakada'){
+                            DB::rollBack();
+                            $transStatus = 'false';
+                            $transMessage = "Gagal Reservasi";
+                            $result = array(
+                                "status" => 400,
+                                "message" => "Data Rujukan Tidak Ditemukan",
+                            );
+                            return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                        }else{
+                            $tgl1 = new \DateTime($cekRujukan['tglKunjungan']);
+                            $tgl2 = new \DateTime($tglA);
+                            $d = $tgl2->diff($tgl1)->days + 1;
+                            if($d>89){
+                                DB::rollBack();
+                                $transStatus = 'false';
+                                $transMessage = "Gagal Reservasi";
+                                $result = array(
+                                    "status" => 400,
+                                    "message" => "Nomor Rujukan Anda Sudah Habis",
+                                );
+                                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                            }
+                        }
+                    }else if($request['asalRujukan']['id']!=2){
+                        $cekRujukan = $this->getNoRujukanPcare($request['noRujukan']);
+                       
+                        if($cekRujukan['status']=='tidakada'){
+                            DB::rollBack();
+                            $transStatus = 'false';
+                            $transMessage = "Gagal Reservasi";
+                            $result = array(
+                                "status" => 400,
+                                "message" => "Data Rujukan Tidak Ditemukan",
+                            );
+                            return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                        }else{
+                            $tgl1 = new \DateTime($cekRujukan['tglKunjungan']);
+                            $tgl2 = new \DateTime($tglA);
+                            $d = $tgl2->diff($tgl1)->days + 1;
+                            if($d>90){
+                                DB::rollBack();
+                                $transStatus = 'false';
+                                $transMessage = "Gagal Reservasi";
+                                $result = array(
+                                    "status" => 400,
+                                    "message" => "Nomor Rujukan Anda Sudah Habis",
+                                );
+                                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                            }
+                        }
+                    }
+                }
+            }else if($request['tipePembayaran']==2 && $request['asalRujukan']==7){
+                $cekKepesertaan = $this->getMonitoringHistori($request['noKartuPeserta']);
+              
+                if($cekKepesertaan['status']=='tidakada'){
+                    DB::rollBack();
+                        $transStatus = 'false';
+                        $transMessage = "Gagal Reservasi";
+                        $result = array(
+                            "status" => 400,
+                            "message" => "Sep Pasca Ranap Tidak Ada",
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }else{
+                    $request['noRujukan'] = $request['noRujukan']." ".$cekKepesertaan['sepRanap'];
+                }
+            }
+           
+            //ash
+            /*if($tglA==$tglsekarang){
+                DB::rollBack();
+                $transStatus = 'false';
+                $transMessage = "Gagal Reservasi";
+                $result = array(
+                    "status" => 400,
+                    "message" => "Reservasi di hari yang sama tidak bisa dilakukan.",
+                );
+                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+            }*/
+           
+            if($request['tipePembayaran']){
+                $tipepembayaran = $request['tipePembayaran'];
+            }else{
+                $tipepembayaran = $request['tipePembayaranTelemedicine'];
+                Pasien::where('nocm', $request['noCm'])->update(['notelepon'=>$request['noTelpon'],'alamatdomisili'=>$request['domisili']]);
+            }
+            
+            if($request ['isBaru'] == false){
+                $pasien  = Pasien::where('nocm',$request['noCm'])->first();
+            }
+            if(isset($pasien) && !empty($pasien)){
+                $ceksudahdaftar = \DB::table('antrianpasienregistrasi_t as apr')
+                ->select('apr.norec','apr.tanggalreservasi')
+                ->whereNotNull('apr.noreservasi')
+                ->where('apr.nocmfk',$pasien->id)
+                ->where('apr.statusenabled',true);
+                $ceksudahdaftar = $ceksudahdaftar->where('apr.tanggalreservasi', '>=', $tglAwal);
+                $ceksudahdaftar = $ceksudahdaftar->where('apr.tanggalreservasi', '<=', $tglAkhir);
+                $ceksudahdaftar = $ceksudahdaftar->get();
+                if(count($ceksudahdaftar) > 0){
+                    $result = array(
+                        "status" => 400,
+                        "message" => 'Tidak bisa Reservasi di Tgl yang sama, Coba di jadwal yang lain',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, 'Mohon maaf dijam tersebut sudah ada yang reservasi, Coba di jadwal yang lain');
+                }
+            }
+           
+            $countNoAntrianJam = AntrianPasienDiperiksa::where('objectruanganfk', $request['poliKlinik'])
+                    ->where('tglregistrasi', '>=', $tglAwal)
+                    ->where('tglregistrasi', '<=', $tglAkhir)
+                    ->where('statusenabled', true)
+                    ->max('noantrian');
+            
+            $noAntrianJam = $countNoAntrianJam;
+
+            if($request['poliKlinik']==253){
+                $x = $request['tglReservasiFix'];
+                $x=date_create($x);
+                $x=date_format($x,"Y-m-d 15:30");
+                $request['tglReservasiFix'] = $x;
+            }else if($request['poliKlinik']==543){
+                $x = $request['tglReservasiFix'];
+                $x=date_create($x);
+                $x=date_format($x,"Y-m-d 15:30");
+                $request['tglReservasiFix'] = $x;
+            }else{
+                if($noAntrianJam<2){
+                $x = $request['tglReservasiFix'];
+                $x=date_create($x);
+                $x=date_format($x,"Y-m-d 08:00");
+                $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<4){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:05");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<6){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:10");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<8){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:15");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<10){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:20");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<12){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:25");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<14){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:30");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<16){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:35");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<18){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:40");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<20){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:45");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<22){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:50");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<24){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 08:55");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<26){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:00");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<28){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:05");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<30){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:10");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<32){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:15");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<34){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:20");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<36){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:25");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<38){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:30");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<40){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:35");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<42){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:40");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<44){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:45");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<46){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:50");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<48){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 09:55");
+                    $request['tglReservasiFix'] = $x;
+                }else if($noAntrianJam<50){
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 10:00");
+                    $request['tglReservasiFix'] = $x;
+                }else{
+                    $x = $request['tglReservasiFix'];
+                    $x=date_create($x);
+                    $x=date_format($x,"Y-m-d 10:10");
+                    $request['tglReservasiFix'] = $x;
+                }
+            }
+
+         
+           
+            $newptp = new AntrianPasienRegistrasi();
+            $nontrian=AntrianPasienRegistrasi::max('noantrian')+ 1;
+            $newptp->norec = $newptp->generateNewId();;
+            $newptp->kdprofile = 0;
+            $newptp->statusenabled = true;
+            $newptp->objectruanganfk =$request['poliKlinik'];
+            $newptp->objectjeniskelaminfk =$pasien->objectjeniskelaminfk;
+            $newptp->noreservasi =substr(Uuid::generate(), 0, 7);
+            $noreservasi = $newptp->noreservasi;
+            $newptp->tanggalreservasi = $request ['tglReservasiFix'];
+            $newptp->tgllahir= $pasien->tgllahir;
+            $newptp->objectkelompokpasienfk= $tipepembayaran;
+            $newptp->objectpendidikanfk = 0;
+            $newptp->namapasien=  $pasien->namapasien;
+            $newptp->noidentitas=  $pasien->noidentitas;
+            $newptp->tglinput = date('Y-m-d H:i:s');
+            $newptp->objectasalrujukanfk= $request['asalRujukan'];
+            if($tipepembayaran == 2){
+                $newptp->nobpjs= $request['noKartuPeserta'];
+                $newptp->norujukan= $request['noRujukan'];
+              
+                $objectrekananfk = $request['namaPenjamin'];
+            }else{
+                $newptp->noasuransilain= $request['noKartuPeserta'];
+                $objectrekananfk = $request['namaPenjamin'];
+            }
+            $newptp->notelepon= $request['noTelpon'];
+            $newptp->objectpegawaifk=  ($request['dokter']?$request['dokter']:null);
+
+            if( $request ['isBaru'] == true){
+                $newptp->tipepasien = "BARU";
+                $newptp->type = "BARU";
+            }else{
+                if( $request ['isTelemedicine'] == true) {
+                    $newptp->tipepasien = "LAMA";
+                    $newptp->type = "LAMA";
+                    $newptp->istelemedicine = 1;
+                }else{
+                    $newptp->tipepasien = "LAMA";
+                    $newptp->type = "LAMA";
+                }
+            }
+
+           $newptp->isconfirm= 1;
+
+            if(isset($pasien) && !empty($pasien)){
+                $newptp->objectagamafk= $pasien->objectagamafk;
+                $alamat = Alamat::where('nocmfk',$pasien->id)->first();
+                if(!empty($alamat)){
+                    $newptp->alamatlengkap= $alamat->alamatlengkap;
+                    $newptp->objectdesakelurahanfk = $alamat->objectdesakelurahanfk;
+                    $newptp->negara= $alamat->objectnegarafk;
+                }   
+                $newptp->objectgolongandarahfk=  $pasien->objectgolongandarahfk;
+                $newptp->kebangsaan= $pasien->objectkebangsaanfk;
+                $newptp->namaayah=$pasien->namaayah;
+                $newptp->namaibu=$pasien->namaibu;
+                $newptp->namasuamiistri= $pasien->namasuamiistri;
+        
+                $newptp->noaditional= $pasien->noaditional;
+
+                $newptp->noidentitas= $pasien->noidentitas;
+                $newptp->nocmfk=  $pasien->id;
+                $newptp->paspor=  $pasien->paspor;
+                $newptp->objectpekerjaanfk=  $pasien->objectpekerjaanfk;
+                $newptp->objectpendidikanfk= $pasien->objectpendidikanfk != null? $pasien->objectpendidikanfk  : 0 ;
+                $newptp->objectstatusperkawinanfk=  $pasien->objectstatusperkawinanfk;
+                $newptp->tempatlahir= $pasien->tempatlahir;
+            }
+            
+            
+             $pasiendaftar = array(
+                'tglregistrasi'=> $request ['tglReservasiFix'],
+                'tglregistrasidate'=> date('Y-m-d', strtotime($request['tglReservasiFix'])),
+                'nocmfk'=> $pasien->id,
+                'objectruanganfk'=> $request['poliKlinik'],
+                'objectdepartemenfk'=> 18,
+                'objectkelasfk'=> 6,//nonkelas
+                'objectkelompokpasienlastfk'=> $tipepembayaran,//umum
+                'objectrekananfk'=> $objectrekananfk,
+                'tipelayanan'=> 1,//reguler
+                'objectpegawaifk'=> 1,
+                'noregistrasi'=> '',
+                'norec_pd'=> '',
+                'israwatinap'=> 'false',
+                'statusschedule'=> $noreservasi,
+                'istelemedicine'=>'false',
+                'jaminankhusus'=>'',
+                'catatan'=>null,
+                'objectruanganasalfk'=>$request['poliKlinik'],
+                'statuspasien'=>'LAMA',
+                'objectkasuspenyakitlastfk'=> '1',
+                'sensus'=>null,
+                'namahafis'=>$request['namahafis']
+             );
+             $antrianpasiendiperiksa = array(
+                'norec_apd'=> '',
+                'tglregistrasi'=> $request ['tglReservasiFix'],
+                'objectruanganfk'=> $request['poliKlinik'],
+                'objectkelasfk'=> 6,//nonkelas
+                'objectpegawaifk'=> 1,
+                'objectkamarfk'=> null,
+                'nobed'=> null,
+                'objectdepartemenfk'=> 18,
+                'objectasalrujukanfk'=> 5,//Datang Sendiri
+                'israwatgabung'=> 0,
+                'namahafis'=>$request['namahafis']
+             );
+             $objSave = array(
+                'pasiendaftar'=> $pasiendaftar,
+                'antrianpasiendiperiksa'=> $antrianpasiendiperiksa
+             );
+            //  DB::commit();
+            // $result = array(
+            //     "status" => 201,
+            //     "message" => 'Simpan Reservasi',
+            //     "noreservasi" => '22d78df',
+            //     "as" => 'ramdan@epic',
+            // );
+            // return $this->setStatusCode($result['status'])->respond($result, $result['message']);
+            $Parsing = $this->saveRegistrasiPasien($objSave);
+          
+            if($Parsing['status']==400){
+                $transStatus = 'false';
+                $transMessage = $Parsing['message'];
+                $e="";
+            }else{
+                $newptp->save();
+                $push = array(
+                    'noregistrasi'=> $Parsing['dataPD']['noregistrasi'],
+                    'jenispasien'=> $tipepembayaran,
+                    'idruangan'=> $request['poliKlinik'],
+                    'norec_apd'=> $Parsing['dataAPD']['norec'],
+                    'idpegawai'=> 1,
+                    'isDaftarKeDua'=> false
+                );
+                $karcis = $this->saveBiayaKarcis($push);
+                $transStatus = 'true';
+                $transMessage = "Simpan Reservasi";
+            }
+            
+            
+        } catch (Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Gagal Reservasi Slotting Penuh".$e;
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "noreservasi" => $noreservasi,
+                "as" => 'ramdan@epic',
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage." ".$e,
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
     public function deleteReservasi(Request $request)
     {
@@ -4958,7 +5749,108 @@ class ReservasiOnlineController extends ApiController
         );
         return $this->respond($result);
     }
+     public function getListDataAndroid(Request $request)
+    {
 
+        $deptJalan = explode (',',$this->settingDataFixed('kdDepartemenReservasiOnline'));
+        $kdDepartemenRawatJalan = [];
+        foreach ($deptJalan as $item){
+            $kdDepartemenRawatJalan []=  (int)$item;
+        }
+
+        $dataRuanganJalanKiosk = \DB::table('ruangankiosk_m as ru')
+            // ->join('ruangan_m as ru2', 'ru2.id', '=', 'ru.kodeexternal')
+            ->select('ru.kodeexternal as id','ru.namaruangan','ru.objectdepartemenfk','ru.kdinternal','ru.id as idruangankiosk')
+            ->where('ru.statusenabled', true)
+            ->wherein('ru.objectdepartemenfk', $kdDepartemenRawatJalan)
+            ->wherenotin('ru.id', array(12,448,535,243,255,322,251,544,249))
+            ->orderBy('ru.namaruangan')
+            ->get();
+
+        $kelompokPasien = \DB::table('kelompokpasien_m')
+            ->select('id','kelompokpasien')
+            ->where('statusenabled', true)
+            ->whereIn('id', array(1,2,3,12))
+            ->orderBy('kelompokpasien')
+            ->get();
+
+        $dataAsalRujukan = \DB::table('asalrujukan_m as as')
+            ->select('as.id','as.asalrujukan')
+            ->where('as.statusenabled', true)
+            ->orderBy('as.asalrujukan')
+            ->get();
+        $kdJenisPegawaiDokter = $this->settingDataFixed('kdJenisPegawaiDokter');
+        $dkoter = \DB::table('pegawai_m')
+            ->select('idhafis','namahafis','id')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk',$kdJenisPegawaiDokter)
+            ->orderBy('namalengkap')
+            ->get();
+        
+
+        $result = array(
+            'ruanganrajal' => $dataRuanganJalanKiosk,
+            'kelompokpasien' => $kelompokPasien,
+            'asalrujukan' => $dataAsalRujukan,
+            'dokter' => $dkoter,
+            'message' => 'snap',
+        );
+
+        return $this->respond($result);
+    }
+    public function getJadwalDokterall(Request $request)
+    {
+        $data = \DB::table('pegawai_m as pg')
+        ->select(
+            'pg.id',
+            'pg.namalengkap',
+            'pg.photo',
+            'pg.namahafis',
+            'pg.idhafis'
+        )
+
+            ->where('pg.id', '<>', 1)
+            ->where('pg.objectjenispegawaifk', '1')
+            ->orderByRaw('pg.namalengkap');
+
+        if (
+            isset($request['namalengkap']) &&
+            $request['namalengkap'] != "" &&
+            $request['namalengkap'] != "undefined"
+        ) {
+            $data = $data->where('pg.namalengkap', 'like', '%' . $request['namalengkap'] . '%');
+        };
+
+        if (
+            isset($request['idPegawai']) &&
+            $request['idPegawai'] != "" &&
+            $request['idPegawai'] != "undefined"
+        ) {
+            $idPegawai = $request['idPegawai'];
+            $data = $data->whereRaw("pg.id in ( $idPegawai )");
+        };
+
+        $data = $data->get();
+        $data10 = [];
+        $data11 = [];
+        $sama = false;
+        foreach ($data as $item) {
+
+
+            $data10[] = array(
+                'id' => $item->id,
+                'namalengkap' => $item->namalengkap,
+                'namahafis' => $item->namahafis,
+                'idhafis' => $item->idhafis,
+            );
+
+            foreach ($data10 as $key => $row) {
+                $count[$key] = $row['id'];
+            }
+            array_multisort($count, SORT_ASC, $data10);
+        }
+        return $this->respond($data10);
+    }
     public function getSlottingVaksin($tgl)
     {
         // return(substr($tgl,5,2));
