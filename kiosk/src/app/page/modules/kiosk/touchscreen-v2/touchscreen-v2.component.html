@@ -48,7 +48,7 @@
   <div class="ui-g content2">
     <div class="ui-g-12 ui-md-12 ui-lg-12" style="margin-top:-10px">
 
-      <div class="ui-g-12 ui-md-1 ui-lg-3"></div>
+      <!-- <div class="ui-g-12 ui-md-1 ui-lg-3"></div> -->
       <div class="ui-g-12 ui-md-12 ui-lg-4">
         <!-- pake antrian-online untuk UAT BPJS, ganti ke antrian untuk pake yg bawaan standart -->
         <button mat-raised-button color="primary" class="btnTemplate" (click)="goTo('antrian')">Antrian </button>
@@ -68,6 +68,9 @@
           Pendaftaran Mandiri
         </button>
       </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-4">
+        <button mat-raised-button color="warn" class="btnTemplate" (click)="goTo('checkin')">Check-In</button>
+      </div>
       <!-- <div class="ui-g-12 ui-md-2 ui-lg-2">
         <button mat-raised-button color="warn" class="btnTemplate" style="color:white" (click)="print('K')">
           Antrian Kasir LT-Satu
@@ -84,7 +87,7 @@
     <div class="ui-g-12 ui-md-12 ui-lg-12">
       <div class="ui-g-12 ui-md-1 ui-lg-3">
       </div>
-      <div class="ui-g-12 ui-md-12 ui-lg-1 ">
+      <div class="ui-g-12 ui-md-12 ui-lg-1">
         <a id="link-kios" [routerLink]="['/informasi-profil']">
           <img class="img-responsive img-thumbnail-humas" src="assets/img/informasi-profil.png">
           <h1>Profil</h1>
