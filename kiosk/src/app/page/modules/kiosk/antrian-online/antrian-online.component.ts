@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AppComponent } from './../../../../app.component';
 import * as $ from "jquery";
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { HttpClient, CacheService, AlertService } from 'src/app/helper';
+import { HttpClient, CacheService, AlertService, Configuration } from 'src/app/helper';
 import * as moment from "moment";
 import { SelectItem } from 'primeng/primeng';
 import { Http } from '@angular/http';
@@ -121,9 +121,12 @@ export class AntrianOnlineComponent implements OnInit {
       "idRuanganTPP": 46,
     }
     this.httpService.post('medifirst2000/kiosk/save-antrian', antrian).subscribe(response => {
-      this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
-        // do something with response
-      })
+      // this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
+      //   // do something with response
+      // })
+       window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
+              + response.noRec
+              + '&kdprofile=1', '_blank');
 
     }, error => {
 
@@ -142,9 +145,12 @@ export class AntrianOnlineComponent implements OnInit {
       "namadokter": this.formGroupAntrol.get('idDokter').value.value.nama,
     }
     this.httpService.post('medifirst2000/kiosk/save-antrian-online', antrian).subscribe(response => {
-      this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
-        // do something with response
-      })
+      // this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
+      //   // do something with response
+      // })
+       window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
+              + response.noRec
+              + '&kdprofile=1', '_blank');
 
     }, error => {
 
@@ -170,9 +176,12 @@ export class AntrianOnlineComponent implements OnInit {
       "nomorreferensi": this.item.noKunjungan
     }
     this.httpService.post('medifirst2000/kiosk/save-antrian-online-jkn', antrian).subscribe(response => {
-      this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
-        // do something with response
-      })
+      // this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
+      //   // do something with response
+      // })
+       window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
+              + response.noRec
+              + '&kdprofile=1', '_blank');
 
     }, error => {
 

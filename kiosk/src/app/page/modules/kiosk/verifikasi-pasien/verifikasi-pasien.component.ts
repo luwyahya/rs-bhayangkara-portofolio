@@ -142,6 +142,15 @@ export class VerifikasiPasienComponent implements OnInit {
         this.noTelpon = result.notelepon
         this.idPasien = result.nocmfk
         this.dataCache = result
+          if(this.noCm=='0'){
+let dataSend = { 
+                "idpasien": result.nocmfk
+            } 
+            this.httpservice.post("medifirst2000/registrasi/updatenocmlamakebaru", dataSend).subscribe(e => {   
+              this.getPasienByNoCM();  
+            }) 
+          }
+            
       } else {
         this.isInfoPasien = false
         this.dataCache = undefined

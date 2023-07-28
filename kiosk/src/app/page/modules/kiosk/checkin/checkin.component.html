@@ -24,14 +24,13 @@
         (click)="getInfoByNoReservasi()">Selanjutnya
       </button>
     </div>
-
+   
   </div>
 
   <div class="centers" *ngIf="isInfoPasien" >
     <div class="ui-g-12" style="margin-top:-60px">
       <h1 class="no-cm">No. Reservasi : {{item.noreservasi}}</h1>
-    </div>
-
+    </div> 
 
     <div class="row" >
       <div class="ui-g-12" style="margin-top: -60px;">
@@ -79,17 +78,52 @@
           </div>
           <div class="detail-pasien">
             <p class="text-regular">Dokter</p>
-            <!-- <p class="text-bold">{{item.dokter}}</p> -->
+            <p class="text-bold">{{item.dokter}}</p>
             <p class="text-bold">-</p>
           </div>
 
-        </div>
+        </div> 
+        
+          <div *ngIf="showrujukan">
+            <h1 style="text-align:center" style="color: brown;">*SILAHKAN PILIH ASAL RUJUKAN ANDA DARI :</h1>
+            
+              <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <button mat-raised-button color="accent" class="btnTemplate" style="color:white" formControlName="pCare"
+                  (click)="checkIn('1')">Puskesmas
+                </button>
+              </div>
+              <div class="ui-g-4">
+                <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+                  formControlName="rumahSakit" (click)="checkIn('2')">Rumah Sakit
+                </button>
+              </div>
+              <div class="ui-g-4">
+                <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+                  formControlName="pascaRanap" (click)="checkIn('3')">Pasca Rawat Inap
+                </button>
+              </div> 
+              <!-- <div style="text-align:center">
+                <div style="text-align:center">
+                  <button mat-raised-button color="primary" class="btnTemplates" (click)="goTo('antrian')">Jika No Rujukan Tidak
+                    Ditemukan Klik Disini </button>
+                </div>
+              </div>  -->
+          </div>
       </div>
-      <div class="ui-g-12">
+       
+      <div class="ui-g-12" *ngIf="showcekin">
         <div style="text-align:center">
-          <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="checkIn()">Check-In
+          <button mat-raised-button color="accent" class="btnTemplate" style="color:white" (click)="checkInfix()">Check-In
           </button>
         </div>
+      </div>
+      <div class="ui-g-12 ui-md-12 ui-lg-12" *ngIf="showCetaks&&!showcekin">
+        <div class="ui-g-12 ui-md-12 ui-lg-12">
+          <button mat-raised-button color="primary" class="btnTemplate" style="color:white" (click)="cetakSep()"
+            pTooltip="Pilih Simpan untuk generate No.SEP "> Cetak SEP
+          </button>
+        </div>
+      
       </div>
     </div>
   </div>

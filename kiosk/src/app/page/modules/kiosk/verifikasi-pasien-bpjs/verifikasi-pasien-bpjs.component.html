@@ -1,12 +1,10 @@
-<div class="ui-g-12 ui-md-6 ui-lg-12">
-  <div class="ui-g-12 ui-md-6 ui-lg-4">
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+  <div class="ui-g-12 ui-md-12 ui-lg-4">
     <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
       <span style="font-size:35px;" class="fa fa-arrow-left">KEMBALI KE MENU SEBELUMNYA</span>
     </a>
   </div>
-  <div class="ui-g-12 ui-md-6 ui-lg-4">
-    <!-- <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
-      Registration - Pasien {{url}}</h1> -->
+  <div class="ui-g-12 ui-md-6 ui-lg-4"> 
   </div>
 
 </div>
@@ -20,16 +18,13 @@
         formControlName="noRujukan" [matKeyboard]="'LOCALE_ID'">
       <h1 style="text-align:center" style="color: brown;">SILAHKAN PILIH ASAL RUJUKAN ANDA DARI :</h1>
       <div class="ui-g-12">
-        <div class="ui-g-3"></div>
-        <div class="ui-g-2">
+        <div class="ui-g-3  ui-md-4 ui-lg-3"></div>
+        <div class="ui-g-2  ui-md-12 ui-lg-2">
           <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white" formControlName="pCare"
             (click)="setradio('Male')">Puskesmas
-          </button>
-          <!-- <p-radioButton name="group1" value="Option 1" label=" Puskesmas " formControlName="pCare"
-            (click)="setradio('Male')" inputId="opt1">
-          </p-radioButton> -->
+          </button> 
         </div>
-        <div class="ui-g-2">
+        <div class="ui-g-2  ui-md-12 ui-lg-2">
           <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white"
             formControlName="rumahSakit" (click)="setradio2('Male')">Rumah Sakit
           </button>
@@ -37,7 +32,7 @@
             (click)="setradio2('Male')" inputId="opt2">
           </p-radioButton> -->
         </div>
-        <div class="ui-g-2">
+        <div class="ui-g-2  ui-md-12 ui-lg-2">
           <button mat-raised-button color="accent" class="btnTemplateRadio" style="color:white"
             formControlName="pascaRanap" (click)="setradio3('Male')">Pasca Rawat Inap
           </button>
@@ -48,15 +43,15 @@
       </div>
       <!-- <input class="input-no-cm jQKeyboard" type="text" placeholder="Nomor KTP" [matKeyboard]="'Azərbaycanca'" >  -->
     </div>
-    <div style="text-align:center">
-      <!-- <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
+    <!-- <div style="text-align:center">
+      <button mat-raised-button color="accent" class="btnTemplate" style="color:white"
         (click)="getNoRujukan()">Selanjutnya
-      </button> -->
+      </button>
       <div style="text-align:center">
         <button mat-raised-button color="primary" class="btnTemplates" (click)="goTo('antrian')">Jika No Rujukan Tidak
           Ditemukan Klik Disini </button>
       </div>
-    </div>
+    </div> -->
     <br />
     <br />
     <br />
@@ -147,12 +142,13 @@
         </div>
       </div>
       <div class="ui-g-12">
-        <div class="ui-g-4">
-          <p-dropdown *ngIf="showPasca" formControlName="poliTujuan" (onChange)="changePoli($event)"
+        <div class="ui-g-4 ui-md-12  ui-lg-4">
+          <!-- <p-dropdown *ngIf="showPasca" formControlName="poliTujuan" (onChange)="changePoli($event)"
             [options]="listPoli" [filter]="true" [autoWidth]="false">
-          </p-dropdown>
+          </p-dropdown> -->
+      
           <!-- <div class="ui-g-4"> -->
-          <button *ngIf="!showPasca" pButton type="button" class="btnTemplate" icon="fa fa-angle-left"
+          <button  pButton type="button" class="btnTemplate" icon="fa fa-angle-right"
             (click)="showGantiPoli = true">{{ tests }}</button>
           <!-- </div> -->
         </div>
@@ -160,17 +156,18 @@
             <p-dropdown formControlName="multiRujukan" (onChange)="changeNoRujukan($event)" [options]="listRujukan" [filter]="true" [autoWidth]="false">
             </p-dropdown>
           </div> -->
-        <div class="ui-g-4">
+        <div class="ui-g-4 ui-md-12  ui-lg-4">
           <p-dropdown *ngIf="showDPJP" formControlName="dokterDPJP" [options]="listDokter" [filter]="true"
             [autoWidth]="false">
           </p-dropdown>
+          
         </div>
-        <div class="ui-g-4" *ngIf="showDPJP">
+        <div class="ui-g-4 ui-md-12  ui-lg-4" *ngIf="showDPJP">
           <p-dropdown formControlName="dokterDPJPMelayani" [options]="listDokterMelayani" [filter]="true"
             [autoWidth]="false">
           </p-dropdown>
         </div>
-        <div class="ui-g-4">
+        <div class="ui-g-4 ui-md-12  ui-lg-4">
           <button pButton type="button" class="btnTemplate" icon="fa fa-angle-left" (click)="showGantiDokter = true">{{
             test }}</button>
         </div>
@@ -210,7 +207,7 @@
     </div>
   </div>
 
-  <p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showPilihan" [responsive]="true" showEffect="fade"
+  <p-dialog header="RS BHAYANGKARA TK IV CIANJUR" [(visible)]="showPilihan" [responsive]="true" showEffect="fade"
     [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
     appendTo="body">
     <div class="ui-g-12">
@@ -279,20 +276,20 @@
 
 </form>
 
-<p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showGantiDokter" [responsive]="true" showEffect="fade"
-  [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+<p-dialog header="RS BHAYANGKARA TK IV CIANJUR" [(visible)]="showGantiDokter" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="500" [minWidth]="400" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
   appendTo="body">
   <div class="ui-g-12">
     <div>
       <form [formGroup]="formGroupSep">
         <div class="ui-g ui-fluid">
           <div class="ui-g-12">
-            <p-panel header="Pilih Dokter" [toggleable]="true">
+            <p-panel header="Pilih Dokter" [toggleable]="true" appendTo="body">
               <div class="ui-g" style="height:500px;">
-                <div class="ui-g-12 ui-lg-12 ui-md-2">
-                  <button pButton type="button" class="btnTemplatex" style="margin-left: 5%;"
+                <div class="ui-g-12 ui-lg-12 ui-md-2"  >
+                  <button pButton type="button" class="btnTemplatex" 
                     *ngFor="let button of buttons" (click)="ChangeScreen(button)"
-                    [class.selected]="CurrentPage == button.label">
+                    [class.selected]="CurrentPage == button.label" >
                     {{ button.label }}
                   </button>
                 </div>
@@ -307,8 +304,8 @@
 </p-dialog>
 
 
-<p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showGantiPoli" [responsive]="true" showEffect="fade"
-  [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
+<p-dialog header="RS BHAYANGKARA TK IV CIANJUR" [(visible)]="showGantiPoli" [responsive]="true" showEffect="fade"
+  [modal]="true" [width]="400" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
   appendTo="body">
   <div class="ui-g-12">
     <div>

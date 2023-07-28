@@ -7,6 +7,7 @@ import { HttpClient, AlertService } from 'src/app/helper';
 import { Http } from '@angular/http';
 import * as moment from 'moment'
 import { SelectItem } from 'primeng/primeng';
+import {Configuration} from 'src/app/helper/config'
 @Component({
   selector: 'app-informasi-bantuan',
   templateUrl: './informasi-bantuan.component.html',
@@ -45,7 +46,7 @@ export class InformasiBantuanComponent implements OnInit {
       'dokterDPJPMelayani': new FormControl(''),
     });
 
-    this.httpService.get("medifirst2000/bridging/bpjs/get-ref-dokter-dpjp?jenisPelayanan=" + 1
+    this.httpService.get("medifirst2000/bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1
       + "&tglPelayanan=" + moment(new Date()).format('YYYY-MM-DD') + "&kodeSpesialis=" + null).subscribe(data => {
         if (data.metaData.code == 200) {
           this.listDokterMelayani = [];
@@ -76,9 +77,12 @@ export class InformasiBantuanComponent implements OnInit {
       return
     }
     let a = this.formGroupSep.get('noregistrasi').value
-    this.service.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-sep-new=1&norec=' + a + '&view=false').subscribe(e => {
-      // do something with response
-    });
+    // this.service.get('http://127.0.0.1:1237/printvb/Pendaftaran?cetak-sep-new=1&norec=' + a + '&view=false').subscribe(e => {
+    //   // do something with response
+    // });
+    
+     window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-sep?noregistrasi='
+        + a + '&kdprofile=1', '_blank');
   }
   batalRegistrasi() {
     if (!this.formGroupSep.get('noregistrasi').value && !this.formGroupSep.get('noregistrasi').value) {

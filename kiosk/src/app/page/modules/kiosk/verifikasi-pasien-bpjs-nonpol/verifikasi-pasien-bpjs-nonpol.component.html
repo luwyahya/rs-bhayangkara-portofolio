@@ -1,21 +1,19 @@
-<div class="ui-g-12 ui-md-6 ui-lg-12">
-  <div class="ui-g-12 ui-md-6 ui-lg-4">
+<div class="ui-g-12 ui-md-12 ui-lg-12">
+  <div class="ui-g-12 ui-md-12 ui-lg-12">
     <a id="link-kios" (click)="app.goBack()" pTooltip="Kembali Ke Menu Sebelumnya">
       <span style="font-size:35px;" class="fa fa-arrow-left">KEMBALI KE MENU SEBELUMNYA</span>
     </a>
-  </div>
-  <div class="ui-g-12 ui-md-6 ui-lg-4">
-    <!-- <h1 style="text-align: center"><img src="assets/humastemplate/images/icon-antrian.png">Self
-      Registration - Pasien {{url}}</h1> -->
-  </div>
-
+  </div>  
 </div>
 
 <form [formGroup]="formGroup">
+  
   <div class="centers" *ngIf="!isInfoPasien">
 
     <div>
-      <h1 style="text-align:center" style="color: brown;">SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA </h1>
+      <div class="ui-g-12 ui-md-12 ui-lg-4">
+        <h1 style="text-align:center" style="color: brown;">SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA </h1>
+      </div>
       <input class="input-no-cm " type="text" placeholder="SCAN KARTU BPJS ANDA ATAU MASUKAN NO KARTU BPJS ANDA"
         formControlName="noRujukan" [matKeyboard]="'LOCALE_ID'">
       <h1 style="text-align:center" style="color: brown;">SILAHKAN PILIH ASAL RUJUKAN ANDA DARI :</h1>
@@ -210,7 +208,7 @@
     </div>
   </div>
 
-  <p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showPilihan" [responsive]="true" showEffect="fade"
+  <p-dialog header="RS BHAYANGKARA TK IV CIANJUR" [(visible)]="showPilihan" [responsive]="true" showEffect="fade"
     [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
     appendTo="body">
     <div class="ui-g-12">
@@ -279,7 +277,7 @@
 
 </form>
 
-<p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showGantiDokter" [responsive]="true" showEffect="fade"
+<p-dialog header="RUMKIT BHAY TK.II Sartika Asih Bandung" [(visible)]="showGantiDokter" [responsive]="true" showEffect="fade"
   [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
   appendTo="body">
   <div class="ui-g-12">
@@ -307,7 +305,7 @@
 </p-dialog>
 
 
-<p-dialog header="RUMKIT BHAY TK.IV Cianjur" [(visible)]="showGantiPoli" [responsive]="true" showEffect="fade"
+<p-dialog header="RUMKIT BHAY TK.II Sartika Asih Bandung" [(visible)]="showGantiPoli" [responsive]="true" showEffect="fade"
   [modal]="true" [width]="1500" [minWidth]="800" [minHeight]="800" [baseZIndex]="8000" [positionTop]="80"
   appendTo="body">
   <div class="ui-g-12">
