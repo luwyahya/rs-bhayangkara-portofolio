@@ -576,6 +576,36 @@ public function cetakAntrianKiosk(Request $request)
         $result = $this->stringDecryptVclaim($key, $result);
         return ($result);
     }
+    function stringDecryptVclaim($key, $string)
+    {
+
+        $bahan = $string['response'];
+        $metadata = $string['metaData'];
+        //    return($bahan);
+        //    die();
+        $encrypt_method = 'AES-256-CBC';
+
+        // hash
+        $key_hash = hex2bin(hash('sha256', $key));
+
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hex2bin(hash('sha256', $key)), 0, 16);
+
+        $output = openssl_decrypt(base64_decode($bahan), $encrypt_method, $key_hash, OPENSSL_RAW_DATA, $iv);
+
+        $x = \LZCompressor\LZString::decompressFromEncodedURIComponent($output);
+        $result = (array) json_decode($x);
+        // return($metadata);
+        // die();
+        if ($metadata->code != 200) {
+            $result = null;
+        }
+        $data2 = array(
+            'metaData' => $metadata,
+            'response' => $result,
+        );
+        return $data2;
+    }
     public function cetakBuktiPendaftaran(Request $request)
     {
         $kdProfile = (int)$request['kdprofile'];
