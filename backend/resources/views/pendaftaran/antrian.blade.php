@@ -62,7 +62,7 @@
                         </tr>
                         <tr>
                             <td  style="text-align: center">
-                                <font style="font-size: 21pt;text-align: left;" face="Tahoma"><b>{{$dataReport['noantrian']}}</b></font>
+                                <font style="font-size: 26pt;text-align: left;" face="Tahoma"><b>{{$dataReport['noantrian']}}</b></font>
                             </td>
                         </tr>
                         <tr>
