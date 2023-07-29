@@ -47,7 +47,7 @@
                     <table  cellspacing="0" cellpadding="0" bgcolor="#FFFFFF" border="0" width="365">
                         <tr>
                             <td  style="text-align: left">
-                                <font style="font-size: 12pt;text-align: left;" face="Tahoma">Tanggal : {{$dataReport['tanggal']}}</font>
+                                <font style="font-size: 12pt;text-align: left;" face="Tahoma"><b>Tanggal : {{$dataReport['tanggal']}}</b></font>
                             </td>
                         </tr>
                         <tr>
@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <td  style="text-align: left">
-                                <font style="font-size: 21t;text-align: left;" face="Tahoma"><b>{{$dataReport['jenis']}}</b></font>
+                                <font style="font-size: 26t;text-align: left;" face="Tahoma"><b>{{$dataReport['jenis']}}</b></font>
                             </td>
                         </tr>
                         <tr>
