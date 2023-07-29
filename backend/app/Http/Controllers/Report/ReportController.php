@@ -522,6 +522,7 @@ public function cetakAntrianKiosk(Request $request)
         // $data = '12098';//$this->getIdConsumerBPJSV2();
         // $secretKey = '8pX68721CC';//$this->getPasswordConsumerBPJSV2();
         $data = $this->getIdConsumerBPJSV2();
+        return($data);
         $secretKey = $this->getPasswordConsumerBPJSV2();
         $userKey = $this->getUserKeyVclaimV2();
         // Computes the timestamp
