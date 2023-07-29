@@ -2796,7 +2796,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                                     "kodedokter"=> $r_NewPD['kodedokter'],
                                     "namadokter"=> $r_NewPD['namadokter'],
                                     "jampraktek"=> $r_NewPD['jadwal'],
-                                    "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
+                                    "jeniskunjungan"=> 1,
                                     "nomorreferensi"=> $r_NewPD['nomorreferensi'],
                                     "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
                                     "angkaantrean"=> $noAntrian,
