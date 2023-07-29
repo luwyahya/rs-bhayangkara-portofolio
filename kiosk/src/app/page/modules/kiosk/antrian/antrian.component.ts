@@ -53,13 +53,13 @@ export class AntrianComponent implements OnInit {
       "poli": '-',
       "idRuanganTPP": 46,
     }
-    this.httpService.post('medifirst2000/kiosk/save-antrian', antrian).subscribe(response => {
-      this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
-        // do something with response
-      });
-      //  window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
-      //         + response.noRec
-      //         + '&kdprofile=1', '_blank');
+    // this.httpService.post('medifirst2000/kiosk/save-antrian', antrian).subscribe(response => {
+    //   this.http.get('http://127.0.0.1:1237/printvb/cetak-antrian?cetak=1&norec=' + response.noRec).subscribe(result => {
+    //     // do something with response
+    //   });
+       window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
+              + response.noRec
+              + '&kdprofile=1', '_blank');
 
     }, error => {
 
