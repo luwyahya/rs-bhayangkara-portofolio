@@ -67,7 +67,7 @@
                         </tr>
                         <tr>
                             <td  style="text-align: left">
-                                <font style="font-size: 30t;text-align: left;" face="Tahoma"><b>{{$dataReport['jenis']}}</b></font>
+                                <font style="font-size: 30t;text-align: left;" face="Tahoma">{{$dataReport['jenis']}}</font>
                             </td>
                         </tr>
                         <tr>
