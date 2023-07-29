@@ -6,7 +6,7 @@
 
 namespace App\Http\Controllers\Report;
 use App\Http\Controllers\ApiController;
-
+use App\Traits\PelayananPasienTrait;
 use App\Traits\Valet;
 use Illuminate\Http\Request;
 
@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends ApiController
 {
-    use Valet;
+    
+    use Valet,PelayananPasienTrait;
     public function __construct()
     {
         parent::__construct($skip_authentication = true);
@@ -518,8 +519,7 @@ public function cetakAntrianKiosk(Request $request)
         );
         //        return view('','$result');
     }
-    public function cekSep($sep)
-    {
+    public function cekSep($sep) {
         // $data = '12098';//$this->getIdConsumerBPJSV2();
         // $secretKey = '8pX68721CC';//$this->getPasswordConsumerBPJSV2();
         $data = $this->getIdConsumerBPJSV2();
@@ -527,9 +527,9 @@ public function cetakAntrianKiosk(Request $request)
         $userKey = $this->getUserKeyVclaimV2();
         // Computes the timestamp
         date_default_timezone_set('UTC');
-        $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
         // Computes the signature by hashing the salt with the secret key as the key
-        $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
 
         // base64 encode…
         $encodedSignature = base64_encode($signature);
@@ -539,8 +539,8 @@ public function cetakAntrianKiosk(Request $request)
 
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $this->getPortBrigdingBPJS(),
-            CURLOPT_URL => $this->getUrlBrigdingBPJSV2() . "SEP/" . $sep,
-            //    CURLOPT_URL => "https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/".$request['nosep'],
+            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."SEP/". $sep,
+        //    CURLOPT_URL => "https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/".$request['nosep'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -552,22 +552,22 @@ public function cetakAntrianKiosk(Request $request)
             CURLOPT_HTTPHEADER => array(
                 "Cache-Control: no-cache",
                 "Content-Type: Application/x-www-form-urlencoded",
-                //                "Postman-Token: 07c605ad-c672-6e5b-562e-7cee1f9cd0ea",
-                "X-cons-id: " .  (string)$data,
-                "X-signature: " . (string)$encodedSignature,
-                "X-timestamp: " . (string)$tStamp,
-                "user_key: " . $userKey
+//                "Postman-Token: 07c605ad-c672-6e5b-562e-7cee1f9cd0ea",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key: ". $userKey
             ),
             CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
         ));
-        // return ($this->getUrlBrigdingBPJSV2() . "SEP/" . $sep);
+
         $response = curl_exec($curl);
         $err = curl_error($curl);
 
         curl_close($curl);
 
         if ($err) {
-            $result = "cURL Error #:" . $err;
+            $result= "cURL Error #:" . $err;
         } else {
             $result = (array) json_decode($response);
         }
@@ -575,6 +575,36 @@ public function cetakAntrianKiosk(Request $request)
         $key = $data . $secretKey . (string)$tStamp;
         $result = $this->stringDecryptVclaim($key, $result);
         return ($result);
+    }
+    function stringDecryptVclaim($key, $string)
+    {
+
+        $bahan = $string['response'];
+        $metadata = $string['metaData'];
+        //    return($bahan);
+        //    die();
+        $encrypt_method = 'AES-256-CBC';
+
+        // hash
+        $key_hash = hex2bin(hash('sha256', $key));
+
+        // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+        $iv = substr(hex2bin(hash('sha256', $key)), 0, 16);
+
+        $output = openssl_decrypt(base64_decode($bahan), $encrypt_method, $key_hash, OPENSSL_RAW_DATA, $iv);
+
+        $x = \LZCompressor\LZString::decompressFromEncodedURIComponent($output);
+        $result = (array) json_decode($x);
+        // return($metadata);
+        // die();
+        if ($metadata->code != 200) {
+            $result = null;
+        }
+        $data2 = array(
+            'metaData' => $metadata,
+            'response' => $result,
+        );
+        return $data2;
     }
     public function cetakBuktiPendaftaran(Request $request)
     {
