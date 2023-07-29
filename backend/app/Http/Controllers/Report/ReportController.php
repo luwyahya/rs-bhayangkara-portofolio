@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends ApiController
 {
-    use Valet;
+    
+    use Valet,PelayananPasienTrait;
     public function __construct()
     {
         parent::__construct($skip_authentication = true);
