@@ -6,7 +6,7 @@
 
 namespace App\Http\Controllers\Report;
 use App\Http\Controllers\ApiController;
-
+use App\Traits\PelayananPasienTrait;
 use App\Traits\Valet;
 use Illuminate\Http\Request;
 
@@ -521,7 +521,7 @@ public function cetakAntrianKiosk(Request $request)
     public function cekSep($sep) {
         // $data = '12098';//$this->getIdConsumerBPJSV2();
         // $secretKey = '8pX68721CC';//$this->getPasswordConsumerBPJSV2();
-        // $data = $this->getIdConsumerBPJSV2();
+        $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();
         $userKey = $this->getUserKeyVclaimV2();
         // Computes the timestamp
