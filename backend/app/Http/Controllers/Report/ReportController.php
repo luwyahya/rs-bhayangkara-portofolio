@@ -414,63 +414,6 @@ public function cetakAntrianKiosk(Request $request)
         );
         //        return view('','$result');
     }
-    public function cekSep($sep) {
-        // $data = '12098';//$this->getIdConsumerBPJSV2();
-        // $secretKey = '8pX68721CC';//$this->getPasswordConsumerBPJSV2();
-        $data = $this->getIdConsumerBPJSV2();
-        $secretKey = $this->getPasswordConsumerBPJSV2();
-        $userKey = $this->getUserKeyVclaimV2();
-        // Computes the timestamp
-        date_default_timezone_set('UTC');
-        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
-        // Computes the signature by hashing the salt with the secret key as the key
-        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
-
-        // base64 encode…
-        $encodedSignature = base64_encode($signature);
-        // return($this->getUrlBrigdingBPJSV2());
-        // die();
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
-            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."SEP/". $sep,
-        //    CURLOPT_URL => "https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/".$request['nosep'],
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_SSL_VERIFYPEER => 0,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "Cache-Control: no-cache",
-                "Content-Type: Application/x-www-form-urlencoded",
-//                "Postman-Token: 07c605ad-c672-6e5b-562e-7cee1f9cd0ea",
-                "X-cons-id: ".  (string)$data,
-                "X-signature: ". (string)$encodedSignature,
-                "X-timestamp: ". (string)$tStamp,
-                "user_key: ". $userKey
-            ),
-            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            $result= "cURL Error #:" . $err;
-        } else {
-            $result = (array) json_decode($response);
-        }
-
-        $key = $data . $secretKey . (string)$tStamp;
-        $result = $this->stringDecryptVclaim($key, $result);
-        return ($result);
-    }
     public function cetakSEP(Request $request)
     {
         $kdProfile = (int)$request['kdprofile'];
@@ -574,6 +517,63 @@ public function cetakAntrianKiosk(Request $request)
             compact('dataReport', 'pageWidth', 'profile')
         );
         //        return view('','$result');
+    }
+    public function cekSep($sep) {
+        // $data = '12098';//$this->getIdConsumerBPJSV2();
+        // $secretKey = '8pX68721CC';//$this->getPasswordConsumerBPJSV2();
+        // $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+        // return($this->getUrlBrigdingBPJSV2());
+        // die();
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
+            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."SEP/". $sep,
+        //    CURLOPT_URL => "https://new-api.bpjs-kesehatan.go.id:8080/new-vclaim-rest/SEP/".$request['nosep'],
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "Cache-Control: no-cache",
+                "Content-Type: Application/x-www-form-urlencoded",
+//                "Postman-Token: 07c605ad-c672-6e5b-562e-7cee1f9cd0ea",
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key: ". $userKey
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            $result= "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+
+        $key = $data . $secretKey . (string)$tStamp;
+        $result = $this->stringDecryptVclaim($key, $result);
+        return ($result);
     }
     public function cetakBuktiPendaftaran(Request $request)
     {
