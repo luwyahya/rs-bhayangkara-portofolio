@@ -54,11 +54,9 @@ export class AntrianComponent implements OnInit {
       "idRuanganTPP": 46,
     }
     this.httpService.post('medifirst2000/kiosk/save-antrian', antrian).subscribe(response => {
-     
        window.open(Configuration.get().apiBackend + 'medifirst2000/report/cetak-antrian?norec='
               + response.noRec
-              + '&kdprofile=1', '_blank');
-
+              + '&kdprofile=1', '_blank'); 
 
     }, error => {
 
