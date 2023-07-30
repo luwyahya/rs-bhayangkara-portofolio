@@ -114,6 +114,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     this.CurrentPage = button;
     this.test = this.CurrentPage['label'];
     this.formGroup.get('dokterDPJPMelayani').setValue(this.CurrentPage['value'])
+    this.formGroup.get('dokterDPJP').setValue(this.CurrentPage['value'])
     this.showGantiDokter = false;
   }
   ChangeScreens(button: string) {
