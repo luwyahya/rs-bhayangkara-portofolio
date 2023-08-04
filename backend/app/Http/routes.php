@@ -2262,6 +2262,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-kamarbyruangankelas', 'Registrasi\RegistrasiController@getKamarByKelasRuangan');
             Route::get('get-nobedbykamar', 'Registrasi\RegistrasiController@getNoBedByKamar');
             Route::post('save-registrasipasien', 'Registrasi\RegistrasiController@saveRegistrasiPasien');
+            Route::post('save-createpasienonline', 'Registrasi\RegistrasiController@createtaskidchecking');
             // noname
             Route::post('save-pasienisoman', 'Registrasi\RegistrasiController@simpanPasienIsoman');
             Route::post('save-simpaneisall', 'Registrasi\RegistrasiController@simpaneisall');

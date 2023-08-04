@@ -1378,7 +1378,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if(this.formGroup.get('dokterDPJP').value == '' ) {
       console.log(this.formGroup.get('dokterDPJP').value);
       
-      this.alertService.error('Dokternya dulu dong jangan Lupa');
+      this.alertService.error('Dokternya dulu dong jangan Lupa','');
       return;
     }
     if (this.isTemporaryBrigding == true) {
