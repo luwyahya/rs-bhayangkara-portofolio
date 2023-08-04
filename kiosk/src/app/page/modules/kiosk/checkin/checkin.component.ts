@@ -1267,6 +1267,7 @@ export class CheckinComponent implements OnInit {
           ? this.item.objectkelompokpasienfk
           : 1, //umum
       objectrekananfk: null,
+      jeniskunjungan = this.jeniskunjungan,
       tipelayanan: 1, //reguler
       objectpegawaifk: this.item.objectpegawaifk,
       noregistrasi: "",
