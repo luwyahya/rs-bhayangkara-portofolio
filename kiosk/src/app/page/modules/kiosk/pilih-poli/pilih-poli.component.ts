@@ -323,7 +323,7 @@ export class PilihPoliComponent implements OnInit {
       'tipelayanan': 1,//reguler
       'objectpegawaifk': this.item.iddokter,
       'nmhafis': this.item.namahafis,
-      'jeniskunjungan': 1,
+      'jeniskunjungan': 3,
       'noregistrasi': '',
       'norec_pd': '',
       'israwatinap': 'false',
