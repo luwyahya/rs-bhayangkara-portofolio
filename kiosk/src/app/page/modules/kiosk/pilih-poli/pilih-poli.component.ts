@@ -347,7 +347,8 @@ export class PilihPoliComponent implements OnInit {
       'normantrol': this.item.nocm,
       'noantrianLoket': 0,
       'jadwal': this.item.jadwal,
-      'kodesubspesialisHafis': this.item.kodepoli
+      'kodesubspesialisHafis': this.item.kodepoli,
+      'jeniskunjungan': 3,
     }
     var antrianpasiendiperiksa = {
       'norec_apd': '',
