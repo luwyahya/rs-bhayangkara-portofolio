@@ -108,6 +108,26 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         });
                     })
             }
+             $scope.SearchData2 = function () {
+                $scope.isRouteLoading = true;
+                var tglAwal = moment($scope.item.periodeAwal).format('YYYY-MM-DD');
+                var tglAkhir = moment($scope.item.periodeAkhir).format('YYYY-MM-DD');
+                medifirstService.get("bridging/inacbg/get-cari-daftar-pasien-belumClaim?" + "tglAwal=" + tglAwal +
+                    "&tglAkhir=" + tglAkhir).then(function (e) {
+                        $scope.isRouteLoading = false;
+                        var data2 = e.data
+                        $scope.dataDaftarPasienPulang2 = new kendo.data.DataSource({
+                            data: data2,
+                            // group: $scope.group,
+                            pageSize: 100,
+                            total: data2.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {}
+                            }
+                        });
+                    })
+            }
 
             $scope.$watch('item.diagnosisPrimerEklaim', function (newVal, oldVal) {
                 if (newVal.length > 2) {
