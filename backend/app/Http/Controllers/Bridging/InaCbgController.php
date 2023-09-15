@@ -1208,6 +1208,77 @@ class InaCbgController   extends ApiController
 
         return $this->respond($data2);
     }
+
+    public function getCariDaftarBelumClaim(Request $request)
+    {
+        $data = \DB::table('pasiendaftar_t as pd')
+        ->join('pemakaianasuransi_t as pas', 'pas.noregistrasifk', '=', 'pd.norec')
+        ->leftJoin('diagnosa_m as dg', 'dg.id', '=', 'pas.objectdiagnosafk')
+        ->leftjoin('batalregistrasi_t as br', 'br.pasiendaftarfk', '=', 'pd.norec')
+        ->leftjoin('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+        ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+        // ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+        ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+        ->leftJoin('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+        ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
+        ->select(
+            'pas.nosep',
+            'dg.kddiagnosa',
+            'hg.cbgcode',
+            'pg.namalengkap as namadpjp',
+            'pas.nokepesertaan',
+            'pd.noregistrasi',
+            DB::raw("to_char( pd.tglregistrasi, 'DD/TMMon/YYYY' ) as tglmasuk,
+                        to_char( pd.tglpulang, 'DD/TMMon/YYYY' ) as tglpulang,
+                        case when pd.objectkelompokpasienlastfk=2 then 'JKN' else 'Belum Dimapping' end as jaminan,
+                        case when ru.objectdepartemenfk=16 then 'RI' else 'RJ' end as tipe,
+                        hg.status as statusgrouping,ps.nocm,ps.namapasien,row_number() over(ORDER BY pd.tglpulang asc) as no,
+                        hg.totalbiayars,hg.totalpiutangpenjamin,hg.biayanaikkelas,hg.cbgdescription,
+                        pd.norec")
+        )
+        ->whereNull('br.norec') 
+        ->where('pd.objectrekananfk', '<>', '5906')
+            // ->where('hg.status', '=', 'SEND CLAIM')
+            ->whereRaw("(hg.status <> 'SEND CLAIM' OR hg.status IS NULL)")
+            ->whereNotNull('pd.tglpulang');
+        $filter = $request->all();
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $data = $data->whereBetween('pd.tglpulang', [$filter['tglAwal'] . ' 00:00', $filter['tglAkhir'] . ' 23:59']);
+        }
+        // $data = $data->orderBy('pd.tglregistrasi','desc');
+        // $data = $data->take(50);
+        $data = $data->get();
+        $data2 = [];
+        foreach ($data as $key => $value) {
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+            ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+            ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+            ->where('ddp.objectjenisdiagnosafk', 1)
+            ->where('apd.noregistrasifk', $value->norec)
+                ->select('dg.namadiagnosa')
+                ->first();
+            if (!empty($diagnosa)) {
+                foreach ($diagnosa as $key2) {
+                    // return($key2);
+                    $value->isdiagnosis = $key2;
+                }
+            } else {
+                $value->isdiagnosis = false;
+            }
+            $data2[] =  $value;
+
+            // $i = $i+1;
+        }
+
+        for ($i = count($data2) - 1; $i >= 0; $i--) {
+            if (isset($filter['isnotdiagnosis']) && $filter['isnotdiagnosis'] != "" && $filter['isnotdiagnosis'] != "undefined" && $filter['isnotdiagnosis'] != 'false' && $data2[$i]->isdiagnosis == true) {
+                array_splice($data2, $i, 1);
+            }
+        }
+
+        return $this->respond($data2);
+    }
     public function getCariDaftarPasien(Request $request)
     {
         $data = \DB::table('pasiendaftar_t as pd')

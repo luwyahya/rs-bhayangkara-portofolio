@@ -612,6 +612,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-cari-history-daftar-pasien', 'Bridging\InaCbgController@getCariHistoryDaftarPasien');
                 Route::get('get-cari-set-form-inacbg', 'Bridging\InaCbgController@getCariSetFormInacbg');
                 Route::get('get-cari-daftar-pasien-sendClaim', 'Bridging\InaCbgController@getCariDaftarSendClaim');
+                Route::get('get-cari-daftar-pasien-belumClaim', 'Bridging\InaCbgController@getCariDaftarBelumClaim');
 
                 Route::get('get-daftar-informasi-tanggungan', 'Bridging\InaCbgController@getDaftarPasienInformasiTanggungan');
                 Route::post('save-proposi-bridging-inacbg', 'Bridging\InaCbgController@saveProposiBridgingINACBG');
