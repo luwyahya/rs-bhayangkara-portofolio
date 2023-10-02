@@ -65,7 +65,8 @@ class ReservasiOnlineController extends ApiController
 			->select('ru.kodeexternal as id','ru.namaruangan','ru.objectdepartemenfk','ru.kdinternal')
 			->where('ru.statusenabled', true)
 			->wherein('ru.objectdepartemenfk', $kdDepartemenRawatJalan)
-            ->wherenotin('ru.id', array(12,448,535,243,255,322,251,544,249))
+            ->whereIn('ru.id',[15,25,1,13,11,10,45])
+            // ->wherenotin('ru.id', array(12,448,535,243,255,322,251,544,249))
 			->orderBy('ru.namaruangan')
 			->get();
 		$jk = \DB::table('jeniskelamin_m')

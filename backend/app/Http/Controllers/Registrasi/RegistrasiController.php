@@ -566,6 +566,202 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         );
         return $this->respond($result);
     }
+    public function createtaskidchecking(Request $request)
+    { 
+        // try { 
+          
+      
+            $noAntrian = 1 ;
+            // $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+            //                 ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+            //                 ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+            //                 ->where('statusenabled', true)
+            //                 ->where('namahafis',$r_NewPD['nmhafis'])
+            //                 ->max('noantrian');
+            //             $noAntrian = $countNoAntrian + 1;
+            $jampraktek=$request['jampraktek'];
+            $jamawal = substr($jampraktek,0,2);
+            $menitawal = substr($jampraktek,3,2);
+            $tanggal = $request['tanggalperiksasekarang'];
+            $dokter = \DB::table('pegawai_m as pg')
+                        ->where('id',$request['dokterpd'])
+                        ->select('idhafis')
+                        ->first();    
+            $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $request['ruangan'])
+                ->where('tglregistrasi', '>=', $request['tanggalperiksasekarang'] . ' 00:00')
+                ->where('tglregistrasi', '<=', $request['tanggalperiksasekarang'] . ' 23:59')
+                ->where('statusenabled', true)
+                ->where('namahafis', $dokter->idhafis)
+                ->max('noantrian'); 
+                    
+            $noAntrian = $countNoAntrian + 1;
+            if((int)$noAntrian==1){
+                $menitawal = $menitawal;
+            }else if((int)$noAntrian==2){
+                $menitawal = $menitawal+'10';
+            }else if((int)$noAntrian==3){
+                $menitawal = $menitawal+'20';
+            }else if((int)$noAntrian==4){
+                $menitawal = $menitawal+'30' ;                               
+            }else if((int)$noAntrian==5){
+                $menitawal = $menitawal+'40';
+            }else if((int)$noAntrian==6){
+                $menitawal = $menitawal+'50';
+            }else if((int)$noAntrian==7){
+                $menitawal = $menitawal+'61';
+            }else if((int)$noAntrian==8){
+                $menitawal = $menitawal+'70' ;                               
+            }else if((int)$noAntrian==9){
+                $menitawal = $menitawal+'80';
+            }else if((int)$noAntrian==10){
+                $menitawal = $menitawal+'90';
+            }else if((int)$noAntrian==11){
+                $menitawal = $menitawal+'100';
+            }else if((int)$noAntrian==12){
+                $menitawal = $menitawal+'110';
+            }else if((int)$noAntrian==13){
+                $menitawal = $menitawal+'121';
+            }else if((int)$noAntrian==14){
+                $menitawal = $menitawal+'130';
+            }else if((int)$noAntrian==15){
+                $menitawal = $menitawal+'140';
+            }else if((int)$noAntrian==16){
+                $menitawal = $menitawal+'150';
+            }else if((int)$noAntrian==17){
+                $menitawal = $menitawal+'160';
+            }else if((int)$noAntrian==18){
+                $menitawal = $menitawal+'170';
+            }else if((int)$noAntrian==19){
+                $menitawal = $menitawal+'181';
+            }else if((int)$noAntrian==20){
+                $menitawal = $menitawal+'190';
+            }else if((int)$noAntrian==21){
+                $menitawal = $menitawal+'200';
+            }else if((int)$noAntrian==22){
+                $menitawal = $menitawal+'210';
+            }else if((int)$noAntrian==23){
+                $menitawal = $menitawal+'220';
+            }else if((int)$noAntrian==23){
+                $menitawal = $menitawal+'230';
+            }else if((int)$noAntrian==24){
+                $menitawal = $menitawal+'241';
+            }else if((int)$noAntrian==25){
+                $menitawal = $menitawal+'250';
+            }else if((int)$noAntrian==26){
+                $menitawal = $menitawal+'260';
+            }else if((int)$noAntrian==27){
+                $menitawal = $menitawal+'270';
+            }else if((int)$noAntrian==28){
+                $menitawal = $menitawal+'280';
+            }else if((int)$noAntrian==29){
+                $menitawal = $menitawal+'290';
+            }else if((int)$noAntrian==30){
+                $menitawal = $menitawal+'301';
+            }else{
+                $menitawal = $menitawal+'310';
+            }
+
+            if($menitawal>60){
+                if($menitawal>120){
+                    if($menitawal>180){
+                        $menitawal = $menitawal-180;
+                        $jamawal = $jamawal+3;
+                    }else{
+                        $menitawal = $menitawal-120;
+                        $jamawal = $jamawal+2;
+                    }   
+                }else{
+                    $menitawal = $menitawal-60;
+                    $jamawal = $jamawal+1;
+                }
+            }
+        
+            // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+            $updateStatusschedule = PasienDaftar::where('norec',$request['norecpd'])
+                            ->update([
+                                'statusschedule'=> $request['statusschedule']
+                            ]);
+            $noregistrasi = $request['statusschedule'];
+                    
+            
+    
+            date_default_timezone_set("Asia/Jakarta");
+            $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+            $kirim = array(
+                "data" => array(
+                    "kodebooking"=> $noregistrasi,
+                    "jenispasien"=> 'JKN',
+                    "nomorkartu"=> $request['nomorkartu'],
+                    "nik"=> $request['nik'],
+                    "nohp"=> $request['nohp'],
+                    "kodepoli"=> $request['kodepoli'],
+                    "namapoli"=> $request['namapoli'],
+                    "pasienbaru"=> 0,
+                    "norm"=> $request['norm'],
+                    "tanggalperiksa"=> $tanggal,
+                    "kodedokter"=> $request['kodedokter'],
+                    "namadokter"=> $request['namadokter'],
+                    "jampraktek"=> $request['jampraktek'],
+                    "jeniskunjungan"=> $request['jeniskunjungan'],
+                    "nomorreferensi"=> $request['nomorreferensi'],
+                    "nomorantrean"=> $dokter->idhafis.'-'. $noAntrian,
+                    "angkaantrean"=> $noAntrian,
+                    "estimasidilayani"=> $timewaktu,
+                    "sisakuotajkn"=> 100,
+                    "kuotajkn"=> 100,
+                    "sisakuotanonjkn"=> 100,
+                    "kuotanonjkn"=> 100,
+                    "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
+                )
+            );
+            $kirimMjk = $this->addAntrianMJKN($kirim); 
+            
+            $tglTaskSatu = Carbon::now()->subMinute(15)->format('Y-m-d H:i:s');
+            $tglTaskDua = Carbon::now()->subMinute(10)->format('Y-m-d H:i:s'); 
+            $timewaktuTask1=strtotime($tglTaskSatu) * 1000;
+            $timewaktuTask2=strtotime($tglTaskDua) * 1000; 
+            date_default_timezone_set("Asia/Jakarta");
+            $update1 = array(
+                "data" => array(
+                    "kodebooking"=> $noregistrasi,
+                    "taskid"=> 1,
+                    "waktu"=> $timewaktuTask1
+                )
+            );
+            $updateWaktuTask1 = $this->updateWaktuTask($update1);
+
+            date_default_timezone_set("Asia/Jakarta");
+            $update2 = array(
+                "data" => array(
+                    "kodebooking"=> $noregistrasi,
+                    "taskid"=> 2,
+                    "waktu"=> $timewaktuTask2
+                )
+            );
+            $updateWaktuTask2 = $this->updateWaktuTask($update2);
+            
+            date_default_timezone_set("Asia/Jakarta");
+            $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+            $update3 = array(
+                "data" => array(
+                    "kodebooking"=> $noregistrasi,
+                    "taskid"=> 3,
+                    "waktu"=> $updateWaktuTask3
+                )
+            );
+            $updateWaktuTask = $this->updateWaktuTask($update3);
+            $response = [
+                "message" => "Oke!",
+                "data" => $kirim
+            ];
+        // } catch (\Exception $e) {
+        //     $response = [
+        //         "message" => "Error, refresh again",
+        //     ];
+        // }
+
+        return $this->respond($response);
+    }
     public function updatenocmlamakebaru(Request $request)
     {
         $detLogin = $request->all();
@@ -2962,7 +3158,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                                 "kodedokter"=> $r_NewPD['kodedokter'],
                                 "namadokter"=> $r_NewPD['namadokter'],
                                 "jampraktek"=> $r_NewPD['jadwal'],
-                                "jeniskunjungan"=> 1,
+                                "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
                                 "nomorreferensi"=> $r_NewPD['nomorreferensi'],
                                 "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
                                 "angkaantrean"=> $noAntrian,

@@ -65,6 +65,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   kdPenunjang: any = ''
   assesmentPel: any = ''
   isCekSuratKontrol: boolean = false
+  jeniskunjungan: any = 1
   listtujuanKunj: any = [
     { "id": "1", "name": "Prosedur" },
     { "id": "2", "name": "Konsul Dokter" }];
@@ -480,18 +481,21 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     this.formGroup.get('pascaRanap').setValue('')
     this.formGroup.get('pCare').setValue('Option 1')
     this.getNoRujukan()
+    this.jeniskunjungan = 1
   }
   setradio2(e: string): void {
     this.formGroup.get('pCare').setValue('')
     this.formGroup.get('pascaRanap').setValue('')
     this.formGroup.get('rumahSakit').setValue('Option 2')
     this.getNoRujukan()
+    this.jeniskunjungan = 4;
   }
   setradio3(e: string): void {
     this.formGroup.get('pCare').setValue('')
     this.formGroup.get('rumahSakit').setValue('')
     this.formGroup.get('pascaRanap').setValue('Option 3')
     this.getNoRujukan()
+    this.jeniskunjungan = 3;
   }
   cekPesertaByNoKartu(noKa) {
     let jenis = "rs"
@@ -1378,7 +1382,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if(this.formGroup.get('dokterDPJP').value == '' ) {
       console.log(this.formGroup.get('dokterDPJP').value);
       
-      this.alertService.error('Dokternya dulu dong jangan Lupa');
+      this.alertService.error('Dokternya dulu dong jangan Lupa','');
       return;
     }
     if (this.isTemporaryBrigding == true) {
@@ -1894,6 +1898,9 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
+    if (this.isKunjunganPertamaBPJS != true) {
+      this.jeniskunjungan = 3;
+    }
     var pasiendaftar = {
       'tglregistrasi': moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
       'tglregistrasidate': moment(new Date()).format('YYYY-MM-DD'),
@@ -1928,6 +1935,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
       'namadokter': this.formGroup.get('dokterDPJP').value.nama,
       'nomorreferensi': referensi,
       'isjenispasienantrol': 'JKN',
+      'jeniskunjungan': this.jeniskunjungan,
       'normantrol': this.item.peserta.mr.noMR,
       'noantrianLoket': 0,
       'jadwal': this.formGroup.get('dokterDPJP').value.jadwal != undefined ? this.formGroup.get('dokterDPJP').value.jadwal : '',

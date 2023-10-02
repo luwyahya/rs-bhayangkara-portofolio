@@ -50,6 +50,7 @@ export class PilihPoliComponent implements OnInit {
   isPoliSama: boolean = false
   catatan: any;
   catatanRekanan: any;
+  jeniskunjungan: any;
   showNotip: boolean
   constructor(@Inject(forwardRef(() => AppComponent))
   public app: AppComponent,
@@ -322,6 +323,7 @@ export class PilihPoliComponent implements OnInit {
       'tipelayanan': 1,//reguler
       'objectpegawaifk': this.item.iddokter,
       'nmhafis': this.item.namahafis,
+      'jeniskunjungan': 3,
       'noregistrasi': '',
       'norec_pd': '',
       'israwatinap': 'false',
