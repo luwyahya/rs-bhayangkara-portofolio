@@ -747,7 +747,8 @@ class InaCbgController   extends ApiController
         // return($datas);
         // die();
         foreach($datas as $item){
-            if($item->israwattitipan==false){
+           
+            if($item->israwattitipan=false){
                 $statusnaikkelas = '1';
             }
             
