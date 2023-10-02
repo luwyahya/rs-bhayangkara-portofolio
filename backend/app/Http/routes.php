@@ -222,14 +222,20 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarBukuKasTunai');
             Route::get('get-daftar-realisasi-anggaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDaftarRealisasiAnggaran');
             Route::get('get-data-spj', 'BendaharaPengeluaran\BendaharaPengeluaranController@getDataSPJ');
+            Route::get('get-daftar-kelompok-transaksi-penentuan-hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPenentuanHutang');
             Route::get('get-daftar-kelompok-transaksi-pengeluaran', 'BendaharaPengeluaran\BendaharaPengeluaranController@daftarKelompokTransaksiPengeluaran');
+
             //**GET**//
 
             //**POST**//
             Route::post('save-pembayaran-tagihan-suplier', 'BendaharaPengeluaran\BendaharaPengeluaranController@savePembayaranTagihanSuplier');
             Route::post('simpan-pengeluaran-bku', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanBKUBk');
             Route::post('hapus-buku-kas-tunai', 'BendaharaPengeluaran\BendaharaPengeluaranController@hapusBukuKasTunai');
-            Route::post('verifikasi-Setoran', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiSetoran');
+            Route::get('get-data-sbk', 'BendaharaPengeluaran\BendaharaPengeluaranController@getdaftarretur');
+            Route::post('simpan-penentuan-hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanPenentuanHutang');
+            Route::post('simpan-retur', 'BendaharaPengeluaran\BendaharaPengeluaranController@simpanhistory');
+            Route::post('verifikasi-Hutang', 'BendaharaPengeluaran\BendaharaPengeluaranController@verifikasiHutang');
+
             //**POST**//
         });
         Route::group(['prefix' => 'bridging'], function () {
