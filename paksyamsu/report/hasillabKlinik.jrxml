@@ -825,7 +825,7 @@ order by 	data.nourutdetailjenispemeriksaanlab asc, data.nourutjenispemeriksaan 
 				<text><![CDATA[printed By]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="385" y="82" width="177" height="15" uuid="30257800-4729-44c1-9593-db565d0693db"/>
+				<reportElement x="385" y="85" width="177" height="15" uuid="30257800-4729-44c1-9593-db565d0693db"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
