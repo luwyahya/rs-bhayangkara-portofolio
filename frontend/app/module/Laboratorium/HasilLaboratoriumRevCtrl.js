@@ -1235,24 +1235,28 @@ define(['initialize'], function (initialize) {
                         }
                     }
 
-
-                    if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        xhr.open('POST', 'http://192.168.0.62:1002/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                        xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                        xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    if (window.location.hostname.indexOf('localhost') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    } else  {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
-                        xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('simrs') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
-                    }
+                    }  
+                    // if (window.location.hostname.indexOf('192.168.0.62') > -1) {
+                    //     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                    //     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                    //     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
+                    //     xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('simrs') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else {
+                    //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
+                    // }
                     // set `Content-Type` header
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
