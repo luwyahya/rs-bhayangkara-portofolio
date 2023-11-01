@@ -1203,16 +1203,20 @@ define(['initialize'], function (initialize) {
                         catatan = $scope.item.catatan;
 
                     }
-
+                    var saran = '-'
+                    if ($scope.item.saran != undefined) {
+                        saran = $scope.item.saran
+                    }
+                    var qr = $scope.item.noregistrasi
                     var x = "WHERE (pp.noregistrasifk = '" + $scope.norecAPD + "')and (pp.norec in (" + $scope.item.norecPP + ')) and pg2.objectjenispegawaifk=1'
                     var y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-lab?reg=" + $scope.item.noregistrasi
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab"],
+                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab","saran","qr"],
                         "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
-                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan, namaAnalis
+                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan, namaAnalis,saran,qr
                         ],
-                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""]
                     };
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {
