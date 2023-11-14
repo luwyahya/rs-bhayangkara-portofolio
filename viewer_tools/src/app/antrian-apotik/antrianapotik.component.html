@@ -1,0 +1,178 @@
+<!-- <head>
+<meta http-equiv="refresh" content="30">
+</head> -->
+<main>
+  <style>
+    body {
+      background-image: src="./assets/img/theme/promo-1.png";
+      background-repeat: no-repeat, repeat;
+      background-color: #cccccc;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+    } 
+    @keyframes bg-blink {  
+        0% { background-color:#ff0000; }
+        100% { background-color:#ffffff; }
+    }
+    @-webkit-keyframes bg-blink {
+        0% { background-color:#ff0000; }
+        100% { background-color:#ffffff; }
+    }
+    .bg-blink {
+        -webkit-animation: bg-blink 1s linear infinite;
+        -moz-animation: bg-blink 1s linear infinite;
+        animation: bg-blink 1s linear infinite;
+    } 
+    .blink {
+      animation: blink 1s steps(5, start) infinite;
+      -webkit-animation: blink 1s steps(5, start) infinite;
+      color:#ffffff;
+    }
+    @keyframes blink {
+      to { visibility: hidden; }
+    }
+    @-webkit-keyframes blink {
+      to { visibility: hidden; }
+    } 
+  </style>
+  <font style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <div class="position-relative body">
+    <!-- shape Hero -->
+    <div class="card bg-gradient-green shadow-lg border-0">
+      <div class="p-1">
+        <div class="row align-items-center">
+          <div class="col-lg-8">
+            <div class="row ">
+              <img src="./assets/img/logorss.png" style="height: 55px;margin-left: 20px;"> 
+                <h3 class="text-white font-weight-bold" style="margin-top:10px">&nbsp;&nbsp;RS Bhayangkara Cianjur   </h3> 
+            </div> 
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="bgimg">
+      <br>
+      <div class="row  ">
+        <div class=" col-lg-12">
+          <div class="row row-grid">
+            <div class="col-lg-1" ></div>
+            <div class="col-lg-5">
+              <div class="info">
+                <h2>Racikan</h2>
+                <div style="background-color:transparent;">
+                  <h4 class="text-uppercase text-center font-weight-bold blink">{{item.r}}</h4>
+                </div>
+              </div>
+              <!-- <h1 class="text-primary text-center text-uppercase font-weight-bold">Non Racikan</h1>
+                              <h4 class="text-primary text-center text-uppercase font-weight-bold">{{item.nr}}</h4> -->
+                              <div class="table-antrian">
+                                <div class="table-responsive">
+                                  <table id="example" class="table table-striped" style="width:100%">
+                                    <thead>
+                                      <tr>
+                                        <th width='15%' align="center">Antrian</th>
+                                        <th width='55%'>Nama</th>
+                                        <th width='30%' align="center">Status</th>
+                                      </tr>
+                                    </thead>
+                                  </table>
+                                  <marquee direction="up" height="480px" width="100%" scrolldelay="200">
+                                    <table id="example" class="table table-striped" style="width:100%">
+                                      <thead>
+                                        <tr>
+                                          <th width='15%' style="color: rgba(0, 0, 0, 0);">Antrian</th>
+                                          <th width='55%' style="color: rgba(0, 0, 0, 0);">Nama</th>
+                                          <th width='30%' style="color: rgba(0, 0, 0, 0);">Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                            
+                                      
+                                        <tr *ngFor="let x of dataracikan; index as i">
+                                          <td class="text-center">{{ i+1 }}</td>
+                                          <td>{{ x.namapasien }}</td>
+                                          <td class="text-center">{{ x.status }}</td>
+                                        </tr>
+                            
+                                      </tbody>
+                            
+                                    </table>
+                                  </marquee>
+                            
+                                </div>
+                              </div>
+              <br>
+            </div>
+            <div class="col-lg-5">
+              <div class="info">
+                <h2>Non Racikan</h2>  
+                <div style="background-color:transparent;">
+                <h4 class="text-uppercase text-center font-weight-bold blink">{{item.nr}}</h4>
+                </div>
+              </div>
+                  <!-- <h1 class="text-primary text-center text-uppercase font-weight-bold">Non Racikan</h1>
+                  <h4 class="text-primary text-center text-uppercase font-weight-bold">{{item.nr}}</h4> -->
+                  <div class="table-antrian">
+                    <div class="table-responsive">
+                      <table id="example" class="table table-striped" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th width='15%'>Antrian</th>
+                            <th width='55%'>Nama</th>
+                            <th width='30%'>Status</th>
+                          </tr>
+                        </thead>
+                      </table>
+                      <marquee direction="up" height="480px" width="100%" scrolldelay="200">
+                        <table id="example" class="table table-striped" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th width='15%' style="color: rgba(0, 0, 0, 0);">Antrian</th>
+                              <th width='55%' style="color: rgba(0, 0, 0, 0);">Nama</th>
+                              <th width='30%' style="color: rgba(0, 0, 0, 0);">Status</th>
+                            </tr>
+                          </thead>
+                      
+                          <tbody>
+                      
+                          
+                            <tr *ngFor="let x of datanonracikan; index as i">
+                              <td  class="text-center">{{ i+1 }}</td>
+                              <td width='55%'>{{ x.namapasien }}</td>
+                              <td class="text-center">{{ x.status }}</td>
+                            </tr>
+                      
+                          </tbody>
+                      
+                        </table>
+                      </marquee>
+                      
+                    </div>
+                  </div>  
+                  <br>
+            </div>
+          <!-- <div class="col-lg-1"></div> -->
+          </div>
+        </div> 
+      </div> 
+    </div> 
+
+  </div>  
+ 
+    <div class="row align-items-center  bg-gradient-green"> 
+      <div class="col-md-1">
+        <h6 class="text-black">
+  
+          &copy; {{test | date: 'yyyy'}}
+          <span>Transmedic</span>.
+  
+        </h6>
+      </div>
+      <div class="col-md-11">
+        <marquee>
+          <h4 class="text-white">.............</h4>
+        </marquee>
+      </div>
+    </div>
+  </font>
+
+</main>
