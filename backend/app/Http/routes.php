@@ -1138,6 +1138,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-order', 'Farmasi\ResepElektronikController@getDaftarOrder');
             Route::get('get-daftar-detail-order', 'Farmasi\ResepElektronikController@getDaftarDetailOrder');
             Route::post('save-status-resepelektonik', 'Farmasi\ResepElektronikController@saveStatusResepElektronik');
+            Route::get('get-daftar-pasien-farmasi-antrian-belum', 'Farmasi\FarmasiController@getDaftarPasienAntrianBelum');
 
             Route::get('get-datacombo_dp', 'Farmasi\FarmasiController@getDataComboDaftarPasien');
             Route::get('get-daftar-pasien-farmasi', 'Farmasi\FarmasiController@getDaftarPasien');
@@ -1190,6 +1191,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-resep', 'Farmasi\FarmasiController@getDaftarResep');
             Route::get('get-daftar-retur-obat', 'Farmasi\FarmasiController@getDaftarReturObat');
             Route::get('get-daftar-paket-obat-pasien', 'Farmasi\FarmasiController@getDaftarPaketObatPasien');
+
 
             Route::get('get-norec_bebas', 'Farmasi\PelayananObatBebasController@GetNorecResepBebas');
             Route::get('get-detail-obat-bebas', 'Farmasi\PelayananObatBebasController@getDetailResepBebas');
@@ -2132,6 +2134,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-pasien-jatuh', 'RawatInap\RawatInapController@saveIndikatorPasienJatuh');
             Route::get('get-combo-pindahpasien', 'RawatInap\PindahPulangController@getComboPindahPulang');
             Route::get('get-pasien-bynorec/{norec_pd}/{norec_apd}', 'RawatInap\PindahPulangController@getPindahPasienByNoreg');
+             Route::get('get-daftar-viewer-bed-new', 'RawatInap\RawatInapController@getViewerbedNew');
             Route::get('get-pelayanan/{norec_pd}/{norec_apd}', 'RawatInap\PindahPulangController@getPelayanan');
             Route::get('get-pelayanan-2/{norec_pd}', 'RawatInap\PindahPulangController@getPelayanan2');
             Route::get('get-kelasbyruangan', 'RawatInap\PindahPulangController@getKelasByRuangan');

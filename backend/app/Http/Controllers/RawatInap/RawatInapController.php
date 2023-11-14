@@ -3225,6 +3225,65 @@ class RawatInapController extends ApiController
         );
         return $this->respond($result);
     }
+     public function getViewerbedNew(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            //$data = DB::select(DB::raw("
+            //   select * from v_bedebah_bed"));
+
+            //$datarekap = DB::select(DB::raw("
+            //    select deskkelas,sum(isil+isip) as total  from v_bedebah_bed group by deskkelas"));
+               
+         
+            $data= \DB::table('tempattidur_m as tt')
+            ->leftjoin('kamar_m as km', 'km.id', '=', 'tt.objectkamarfk')
+            ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'km.objectruanganfk')
+            ->leftjoin('statusbed_m as sb', 'sb.id', '=', 'tt.objectstatusbedfk')
+            ->leftjoin('kelas_m as kl', 'kl.id', '=', 'km.objectkelasfk')
+            ->leftjoin('statusbed_m as sb2', 'sb2.id', '=', 'tt.objectstatusbedfktriger')
+            ->select('ru.id as idruangan','ru.namaruangan','km.id as idkamar','km.namakamar','tt.id as idtempattidur',
+                'tt.reportdisplay','tt.nomorbed','sb.id as idstatusbed','sb.statusbed','kl.id as idkelas','kl.namakelas','tt.objectstatusbedfktriger'
+                ,'sb2.id as id_kondisibed', 
+                DB::raw('case when tt.objectstatusbedfktriger is null then \'Belum Siap Pakai\' else sb2.statusbed end as kondisibed'))
+            ->whereIn('ru.objectdepartemenfk',array(16,35))
+            ->where('ru.statusenabled',true)
+            ->where('km.statusenabled',true)
+            ->where('tt.statusenabled',true)
+            ->get();
+
+
+            
+            $datarekap=[];
+            $transMessage = "Sukses";
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+
+                "data" => $data,
+
+                "datarekap" => $datarekap,
+                //                "message" =>   $transMessae,
+                "message" => $transMessage,
+                "as" => 'ramdanegie',
+            );
+        } else {
+            $transMessage = "Simpan  Tanggal Pulang Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMessage,
+                "as" => 'ramdanegie',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     public function getDataForSidopak(Request $request) {
         $data = \DB::table('pasiendaftar_t as pd')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')

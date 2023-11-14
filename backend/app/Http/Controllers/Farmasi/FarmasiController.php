@@ -681,4 +681,43 @@ class FarmasiController extends ApiController
 
         return $this->respond($result);
     }
+    public function getDaftarPasienAntrianBelum(Request $request) {
+        $data = \DB::table('antrianpasienregistrasi_t as ap')
+            // ->join('antrianpasienregistrasi_t as apd','apd.norec','=','ap.norecapd')
+            // ->join('pasiendaftar_t as pd','pd.norec','=','apd.noregistrasifk')
+            ->join('pasien_m as ps','ap.nocmfk','=','ps.id')
+            ->join('ruangan_m as ru','ap.objectruanganfk','=','ru.id')
+            ->select('ru.namaruangan','ps.nocm','ps.namapasien','ap.statuspanggil','ap.jenis','ap.noantrian','ap.statuspanggil','ap.norec')
+            // ->whereNull('br.pasiendaftarfk')
+            ->orderBy('ap.noantrian',"asc");
+        if(isset($request['tglAwal']) && $request['tglAwal']!="" && $request['tglAwal']!="undefined"){
+            $data = $data->where('ap.tanggalreservasi','>=', $request['tglAwal']);
+        }
+        if(isset($request['tglAkhir']) && $request['tglAkhir']!="" && $request['tglAkhir']!="undefined"){
+            $tgl= $request['tglAkhir']." 23:59:59";
+            $data = $data->where('ap.tanggalreservasi','<=', $tgl);
+        }
+        if(isset($request['ruid']) && $request['ruid']!="" && $request['ruid']!="undefined"){
+            $data = $data->where('ru.id', $request['ruid']);
+        }
+
+        if(isset($request['nocm']) && $request['nocm']!="" && $request['nocm']!="undefined"){
+            $data = $data->where('ps.nocm','ilike','%'. $request['nocm'].'%');
+        }
+        if(isset($request['namapasien']) && $request['namapasien']!="" && $request['namapasien']!="undefined"){
+            $data = $data->where('ps.namapasien','ilike','%'. $request['namapasien'].'%');
+        }
+        if(isset($request['jenis']) && $request['jenis']!="" && $request['jenis']!="undefined"){
+            $data = $data->where('ap.jenis', $request['jenis']);
+        }
+
+        if(isset($request['statusdipanggil']) && $request['statusdipanggil']!="" && $request['statusdipanggil']!="undefined"){
+            $data = $data->where('ap.statuspanggil','=', $request['statusdipanggil']);
+        }
+         $data = $data->whereRaw('ap.statuspanggil::int != 5 ');
+
+         //$data = $data->where('ap.statuspanggil','=', 1); 
+        $data = $data->get();
+        return $this->respond($data);
+    }
 }
