@@ -12372,6 +12372,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'ps.namapasien',
                 'kp.kelompokpasien',
                 'rek.namarekanan',
+                'pg.idhafis',
+                'ps.nobpjs',
                 'pg.namalengkap as namadokter',
                 'pd.tglpulang',
                 'pd.statuspasien',
