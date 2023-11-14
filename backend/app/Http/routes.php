@@ -316,6 +316,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-rujukan-rs-nokartu-multi', 'Bridging\BridgingBPJSV2Controller@getRujukanNoKartuMultiRS');
                 Route::get('get-rujukan-pcare-nokartu', 'Bridging\BridgingBPJSV2Controller@getNoRujukanPcareNoKartu');
                 Route::get('get-rujukan-rs-nokartu', 'Bridging\BridgingBPJSV2Controller@getNoRujukanRsNoKartu');
+                Route::post('icare', 'Bridging\BridgingBPJSV2Controller@Icare');
                
                 //*End Fer V2*
                 //** Rujukan */
