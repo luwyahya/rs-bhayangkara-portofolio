@@ -1496,7 +1496,23 @@ define(['initialize'], function (initialize) {
                     // }
                 }
             }
-
+            $scope.cetakIcare = function(){
+               
+                    let json = {
+                        "data": { 
+                                'param': $scope.dataPasienSelected.nobpjs  ,
+                                'kodedokter': $scope.dataPasienSelected.idhafis
+                        }
+                    }
+                  medifirstService.postNonMessage("bridging/bpjs2/icare",json).then(function (e) {
+                    if(e.data.metaData.code == 200){
+                        var win = window.open(e.data.response.url, '_blank');
+                        win.focus();
+                    }else{
+                        toastr.info(e.data.metaData.message, 'Info')
+                    }
+                  })
+            }
             $scope.cetakRMK = function () {
                 var norReg = ""
                 if ($scope.dataPasienSelected.noregistrasi != undefined) {

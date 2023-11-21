@@ -1203,16 +1203,20 @@ define(['initialize'], function (initialize) {
                         catatan = $scope.item.catatan;
 
                     }
-
+                    var saran = '-'
+                    if ($scope.item.saran != undefined) {
+                        saran = $scope.item.saran
+                    }
+                    var qr = $scope.item.noregistrasi
                     var x = "WHERE (pp.noregistrasifk = '" + $scope.norecAPD + "')and (pp.norec in (" + $scope.item.norecPP + ')) and pg2.objectjenispegawaifk=1'
                     var y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-lab?reg=" + $scope.item.noregistrasi
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
-                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab"],
+                        "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan", "analislab","saran","qr"],
                         "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap,
-                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan, namaAnalis
+                            x, $scope.item.umurDay, $scope.item.objectjeniskelaminfk, tgl, tglhasil, tglpengambilan, dokter.namalengkap, ruangan, y, diagnosa, dokterPeriksa.toString(), catatan, namaAnalis,saran,qr
                         ],
-                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
+                        "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "","",""]
                     };
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function () {
@@ -1231,24 +1235,28 @@ define(['initialize'], function (initialize) {
                         }
                     }
 
-
-                    if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        xhr.open('POST', 'http://192.168.0.62:1002/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                        xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                        xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    if (window.location.hostname.indexOf('localhost') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    } else  {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
-                        xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('simrs') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
-                    } else {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
-                    }
+                    }  
+                    // if (window.location.hostname.indexOf('192.168.0.62') > -1) {
+                    //     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                    //     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                    //     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
+                    //     xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('simrs') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else {
+                    //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
+                    // }
                     // set `Content-Type` header
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');

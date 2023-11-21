@@ -524,6 +524,68 @@ class BridgingBPJSV2Controller extends ApiController
         $result =$this->stringDecryptVclaim($key,$result);
         return $this->respond($result);
     }
+
+    public function Icare(Request $request)
+    {
+        // return($request['data']);
+        // die();
+        $req = $request->all();
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
+        $userKey = $this->getUserKeyVclaimV2();
+        // Computes the timestamp
+        date_default_timezone_set('UTC');
+        $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
+        // Computes the signature by hashing the salt with the secret key as the key
+        $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
+
+        // base64 encode…
+        $encodedSignature = base64_encode($signature);
+
+        $curl = curl_init();
+        $dataJsonSend = json_encode($request['data']);
+        // return($dataJsonSend);
+        // die();
+        curl_setopt_array($curl, array(
+            CURLOPT_PORT => $this->getPortBrigdingBPJS(),
+            CURLOPT_URL =>  "https://apijkn.bpjs-kesehatan.go.id/wsihs/api/rs/validate",
+            //                CURLOPT_URL => "http://dvlp.bpjs-kesehatan.go.id:8080/VClaim-Rest/SEP/insert",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_SSL_VERIFYPEER => 0,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $dataJsonSend,
+
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "X-cons-id: " .  (string)$data,
+                "X-signature: " . (string)$encodedSignature,
+                "X-timestamp: " . (string)$tStamp,
+                "user_key:" . $userKey
+            ),
+            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl); 
+        if ($err) {
+            $result = "cURL Error #:" . $err;
+        } else {
+            $result = (array) json_decode($response);
+        }
+        $key = $data . $secretKey . (string)$tStamp;
+        
+        // die();
+        $result = $this->stringDecryptVclaim($key, $result);
+        // $res=$result['response']['poli'];
+        return $this->respond($result);
+    }
     public function updateSEP(Request $request) {
         $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();

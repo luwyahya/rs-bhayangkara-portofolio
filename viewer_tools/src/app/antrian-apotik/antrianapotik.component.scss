@@ -1,0 +1,113 @@
+.bgimg { 
+
+    /* The image used */
+        background-image: url("../../assets/img/img_9165.jpg");
+    
+      display:block;
+    width:100%;
+}
+
+.info h2 {
+    text-align: center;
+    font-family: 'Arial';
+    margin-top: 5px;
+    color:rgb(255, 230, 1);
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.info h4 {
+    text-align: center;
+    font-family: 'Arial';
+    margin-top: 5px;
+    color: rgb(255, 230, 1);
+    padding-bottom: 10px;
+    border-bottom: 1px solid #cccccc;
+}
+.info h1 {
+    text-align: center;
+    font-family: 'Arial';
+    color: rgb(255, 230, 1);
+    font-size: 60px;
+    margin: 0;
+    padding: 0;
+}
+
+.info h3 {
+    text-align: center;
+    font-family: 'Arial';
+    color: #ffffff;
+}
+
+.table-antrian {
+    /* background: #282f2f;
+    margin-top: 20px;
+    border-top: 5px solid #00d62d;
+    overflow-y: auto;
+    height: 550px; */
+    /* argin-top: 20px; */
+    background: rgba(0, 0, 0, 0.5);
+    padding: 5px 20px 10px 20px;
+    border-top: 5px solid #0087d6;
+}
+
+.table-antrian table>thead {
+    border-top: 0;
+}
+
+.table-antrian table>thead>tr>th {
+    font-family: 'Arial';
+    font-size: 25px;
+    border-bottom: 0;
+    text-align: center;
+    color: #cccccc;
+    position: sticky;
+    top: 0;
+    background: solid #0087d6;
+}
+
+.table-antrian table>thead>tr>th.ruangan,
+.table-antrian table>thead>tr>th.kelas {
+    text-align: left;
+}
+
+.table-antrian table>tbody>tr>td {
+    font-family: 'Arial';
+    color: #ffffff;
+    font-size: 20px;
+    padding: 7px;
+    text-align: left;
+}
+
+.table-antrian table>tbody>tr>td.ruangan {
+    text-align: left;
+    background: #00ac25ad;
+}
+.table-antrian table>tbody>tr>td.kiri {
+    text-align: left;
+    background: #2f4c50;
+}
+.table-antrian table>tbody>tr>td.tengah {
+    text-align: center;
+    background: #2f4c50;
+}
+
+.table-antrian table>tbody>tr>td.kapasitas {
+    color: #1efff7;
+}
+
+.table-antrian table>tbody>tr>td.rusak {
+    color: #fa1f1f;
+}
+
+.table-antrian table>tbody>tr>td.dibersihkan {
+    color: #ffffff;
+}
+
+.table-antrian table>tbody>tr>td.terpakai {
+    color: #777aff;
+}
+
+.table-antrian table>tbody>tr>td.kosong {
+    color: #00ff06;
+}

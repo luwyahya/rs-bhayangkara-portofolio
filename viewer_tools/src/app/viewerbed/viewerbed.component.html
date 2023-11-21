@@ -1,0 +1,177 @@
+<head>
+  <meta http-equiv="refresh" content="180">
+</head>
+<main>
+  <div class="bgimg" width="100%">
+    <div class="row  ">
+      <div class="col-lg-1"> 
+        <div class="topbar">
+          <img class="img-responsive img-logo-top" src="./assets/img/logorss.png" />
+        </div>
+      </div>
+      <div class="col-lg-7 col-md-7 col-sm-7">
+        <div class="topbar">
+          <h4 class="nama-rumah-sakit">RS Bhayangkara Cianjur </h4>
+          <h6 class="alamat-rumah-sakit">
+            Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211
+          </h6>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="topbar">
+          <h4 class="informasi">Ketersediaan Tempat Tidur&nbsp;&nbsp;&nbsp;</h4>
+        </div>
+      </div>
+    </div>
+   
+    
+    <div class="clearfix"></div>
+    <div class="divider"></div>
+  <div class="row  ">
+    <div class="col-lg-6 col-md-6 col-sm-6"> 
+        <div class="row  ">
+          <div *ngFor="let kuntul of kasurupanrekap; ; index as i" class="col-lg-4 col-md-4">
+            <div class="info-kamar">
+              <h2>{{ kuntul.deskkelas }}</h2>
+              <h1>{{ kuntul.total }}</h1>
+              <h3>Tersedia</h3>
+            </div>
+          </div>
+        </div>
+     
+    </div>
+<div class="col-lg-6 col-md-6 col-sm-6">
+      <div class="table-antrian">
+        <div class="table-responsive">
+          <div class="scrollable" id="tablebed">
+              <table id="example" class="table table-striped" style="width:100%">
+              <thead>
+                <tr>
+                  <th style="width: 40px;">Ruangan</th>
+                  <th style="width: 10px;">Kelas</th>
+                  <th style="width: 10px;">Kapasitas</th>
+                  <th style="width: 10px;">Rusak</th>
+                  <th style="width: 10px;">Dibersihkan</th>
+                  <th style="width: 10px;">Terpakai</th>
+                  <th style="width: 10px;">Kosong</th>
+                </tr>
+               
+              </thead>
+            
+            </table>
+          <marquee direction="up" height="400px" width="100%" scrolldelay="200">
+            <table id="example" class="table table-striped" style="width:100%"> 
+              
+              <thead>
+                <tr>
+                  <th style="width: 40px;color: rgba(0, 0, 0, 0);">_______</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">_____</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">_________</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">_____</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">___________</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">________</th>
+                  <th style="width: 10px;color: rgba(0, 0, 0, 0);">______</th>
+                </tr>
+               
+              </thead>
+              <tbody> 
+              <tr *ngFor="let kasur of kasurupan; index as i">
+                <td class="ruangan" style="width: 40px;">{{ kasur.namaruangan }}</td>
+                <td class="kelas" style="width: 10px;">{{ kasur.deskkelas }}</td>
+                <td class="kapasitas" style="width: 5px;font-size:1.4em;">{{ kasur.kapasitas }}</td>
+                <td class="rusak" style="width: 5px;font-size:1.4em;">{{ kasur.rusak }}</td>
+                <td class="dibersihkan" style="width: 5px;font-size:1.4em;">{{ kasur.dibersihkan }}</td>
+                <td class="terpakai" style="width: 5px;font-size:1.4em;">{{ kasur.isilp }}</td>
+                <td class="kosong" style="width: 5px;font-size:1.4em;">{{ kasur.kosonglp }}</td>
+              </tr>
+      
+              </tbody>
+      
+            </table>
+          </marquee>
+      
+        </div>
+      </div>
+      </div>
+      <!-- <div class="table-antrian">
+        <div class="table-responsive">
+          <div class="scrollable" id="tablebed">
+        <table  >
+          <thead>
+            <tr>
+              <th>Ruangan</th>
+              <th>Kelas</th>
+              <th>Kapasitas</th>
+              <th>Rusak</th>
+              <th>Dibersihkan</th>
+              <th>Terpakai</th>
+              <th>Kosong</th>
+            </tr>
+          </thead>
+           
+          <tbody>
+            <tr *ngFor="let kasur of kasurupan; index as i"  >
+                  <td class="ruangan">{{ kasur.namaruangan }}</td>
+                  <td class="kelas">{{ kasur.deskkelas }}</td>
+                  <td class="kapasitas">{{ kasur.kapasitas }}</td>
+                  <td class="rusak">{{ kasur.rusak }}</td>
+                  <td class="dibersihkan">{{ kasur.dibersihkan }}</td>
+                  <td class="terpakai">{{ kasur.isilp }}</td>
+                  <td class="kosong">{{ kasur.kosonglp }}</td>
+                </tr>
+          </tbody> 
+        </table>
+        </div>
+        </div>
+      </div> -->
+    
+</div>
+  </div>
+    
+  
+    <div class="clearfix"></div>
+  </div>
+<script> 
+  
+    export default {
+      data() {
+        return {
+          items: [],
+          kasurs: [],
+        };
+      },
+      async created() { 
+        setInterval(autoScroll, 100);
+      },
+      methods: {
+        
+      },
+    };
+
+    function autoScroll() {
+      var top = Math.ceil(document.getElementById("tablebed").scrollTop);
+      var hei = document.getElementById("tablebed").scrollHeight;
+      var ofh = document.getElementById("tablebed").offsetHeight;
+      if (top < hei - ofh) {
+        -1;
+        document.getElementById("tablebed").scrollTop =
+          document.getElementById("tablebed").scrollTop + 1;
+      } else {
+        document.getElementById("tablebed").scrollTop = 0;
+      }
+    }
+</script>
+
+<style>
+  .scrollable {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 70vh;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+  }
+</style>
+
+</main>
