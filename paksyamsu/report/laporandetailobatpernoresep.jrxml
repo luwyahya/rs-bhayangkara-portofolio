@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.4.3.final using JasperReports Library version 6.4.3  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lapora" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="438a9b8f-5f83-4b4f-9c2d-b53cc3e6d082">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -16,15 +16,13 @@
 	<parameter name="objectruanganfk" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="objectkelompokpasienlastfk" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="kondisi" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<parameter name="kondisi2" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="objectkelompokpasienlastfk" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) as total, pg.namalengkap,
                          CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
@@ -39,7 +37,7 @@ FROM            departemen_m  INNER JOIN
                          pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
                          pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
                          pegawai_m AS pg ON pg.id = sr.penulisresepfk
-WHERE       $P!{kondisi}  AND (ru.id = $P{objectruanganfk}) AND (pd.objectkelompokpasienlastfk = $P{objectkelompokpasienlastfk}) 
+WHERE       $P!{kondisi}  AND (ru.id = $P{objectruanganfk}) AND (pd.objectkelompokpasienlastfk = $P{objectkelompokpasienlastfk})
 group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen
 UNION ALL
 SELECT        sp.norec,to_char(sp.tglstruk,'YYYY-MM-DD') AS tglresep, sp.nostruk AS noresep, UPPER(sp.namapasien_klien) AS namapasien, '-' AS nocm, ru.namaruangan AS ruangan, pr.namaproduk,
