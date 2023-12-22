@@ -917,19 +917,16 @@ define(['initialize'], function (initialize) {
                     departpilih = $scope.item.Departemen.departemen;
                 }
                 debugger
-                var penjaminpilih = ""
-                // if ($scope.item.namaPenjamin != undefined) {
-                //     penjaminpilih = $scope.item.namaPenjamin.kelompokpasien;
-                // }
+                var penjaminpilih = "";
                 if ($scope.selectedNamaPenjamin.length != 0) {
-                    for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
-                        var c = $scope.selectedNamaPenjamin[i].id
-                        if (penjaminpilih == "") {
-                            penjaminpilih = $scope.selectedNamaPenjamin[i].id
-                        } else {
-                            penjaminpilih = penjaminpilih + "," + $scope.selectedNamaPenjamin[i].id
-                        }
-                    }
+                  for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
+                      var c = $scope.selectedNamaPenjamin[i].id
+                      if (penjaminpilih == "") {
+                          penjaminpilih = $scope.selectedNamaPenjamin[i].id
+                      } else {
+                          penjaminpilih = penjaminpilih + "," + $scope.selectedNamaPenjamin[i].id
+                      }
+                  }
                 }
                 var rekananpilih = ""
                 if ($scope.item.institusiAsalPasien != undefined) {
