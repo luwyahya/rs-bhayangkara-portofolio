@@ -4146,4 +4146,151 @@ class RawatJalanController extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+    public function getLaporanPersediaan(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = '';
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != " " && $filter['idRuangan'] != "undefined") {
+            $ruanganId = ' AND ru.id = ' . $filter['idRuangan'];
+        }
+
+        $idDept = '';
+        if (isset($filter['idDept']) && $filter['idDept'] != "" && $filter['idDept'] != "undefined") {
+            $idDept = ' AND departemen_m.id = ' . $filter['idDept'];
+        }
+
+        $idRuangan = '';
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != " " && $filter['idRuangan'] != "undefined") {
+            $idRuangan = ' AND sp.objectruanganfk = ' . $filter['idRuangan'];
+        }
+
+        $idPenjamin = '';
+        if (isset($filter['idPenjamin']) && $filter['idPenjamin'] != " " && $filter['idPenjamin'] != "undefined") {
+          $idPenjamin = ' AND pd.objectkelompokpasienlastfk = '. $filter['idPenjamin'];
+        }
+
+        $data = DB::select(DB::raw("SELECT
+                sr.norec,
+                to_char( sr.tglresep, 'YYYY-MM-DD' ) AS tglresep,
+                sr.noresep,
+                UPPER ( ps.namapasien ) AS namapasien,
+                ps.nocm,
+                ru.namaruangan AS ruangan,
+                pr.namaproduk,
+                pp.jumlah,
+                pp.hargajual,
+                ( pp.jumlah * pp.hargajual + pp.jasa ) AS total,
+                pg.namalengkap,
+                CASE
+                    
+                    WHEN pp.hargadiscount IS NULL THEN
+                    0 ELSE pp.hargadiscount
+                END AS diskon,
+                CASE
+                    
+                    WHEN pp.jasa IS NULL THEN
+                    0 ELSE pp.jasa
+                END AS jasa,
+                0 AS ppn,
+                departemen_m.namadepartemen
+                FROM
+                departemen_m
+                INNER JOIN ruangan_m ON departemen_m.ID = ruangan_m.objectdepartemenfk
+                RIGHT OUTER JOIN strukresep_t AS sr
+                INNER JOIN pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec
+                INNER JOIN ruangan_m AS ru ON ru.ID = sr.ruanganfk
+                INNER JOIN produk_m AS pr ON pr.ID = pp.produkfk
+                INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+                INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+                INNER JOIN pasien_m AS ps ON ps.ID = pd.nocmfk ON ruangan_m.ID = apd.objectruanganfk
+                LEFT OUTER JOIN pegawai_m AS pg ON pg.ID = sr.penulisresepfk
+                WHERE
+                sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+                $ruanganId $idDept $idPenjamin
+                GROUP BY
+                sr.norec,
+                sr.tglresep,
+                sr.noresep,
+                ps.namapasien,
+                ps.nocm,
+                ru.namaruangan,
+                pr.namaproduk,
+                pp.jumlah,
+                pp.hargajual,
+                pp.jasa,
+                pg.namalengkap,
+                pp.hargadiscount,
+                departemen_m.namadepartemen UNION ALL
+                SELECT
+                sp.norec,
+                to_char( sp.tglstruk, 'YYYY-MM-DD' ) AS tglresep,
+                sp.nostruk AS noresep,
+                UPPER ( sp.namapasien_klien ) AS namapasien,
+                '-' AS nocm,
+                ru.namaruangan AS ruangan,
+                pr.namaproduk,
+                spd.qtyproduk,
+                spd.hargasatuan,
+                ( spd.qtyproduk * spd.hargasatuan + spd.hargatambahan ) AS total,
+                pg.namalengkap,
+                CASE
+                    
+                    WHEN spd.hargadiscount IS NULL THEN
+                    0 ELSE spd.hargadiscount
+                END AS diskon,
+                CASE
+                    
+                    WHEN spd.hargatambahan IS NULL THEN
+                    0 ELSE spd.hargatambahan
+                END AS jasa,
+                0 AS ppn,
+                'Penujualan Bebas' AS namadepartemen
+                FROM
+                strukpelayanan_t AS sp
+                INNER JOIN strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec
+                INNER JOIN produk_m AS pr ON pr.ID = spd.objectprodukfk
+                INNER JOIN pegawai_m AS pg ON pg.ID = sp.objectpegawaipenanggungjawabfk
+                INNER JOIN ruangan_m AS ru ON ru.ID = sp.objectruanganfk
+            WHERE
+                sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir'
+                AND ( SUBSTRING ( sp.nostruk, 1, 2 ) = 'OB' )
+               $idRuangan
+            GROUP BY
+                sp.norec,
+                sp.tglstruk,
+                sp.nostruk,
+                sp.namapasien_klien,
+                nocm,
+                ru.namaruangan,
+                pr.namaproduk,
+                spd.qtyproduk,
+                spd.hargasatuan,
+                spd.hargatambahan,
+                pg.namalengkap,
+                spd.hargadiscount
+            ORDER BY
+                namadepartemen,
+                noresep"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
 }

@@ -338,7 +338,205 @@ define(['initialize'], function (initialize) {
 
 
             }
-
+            $scope.findData = function () {
+              $scope.isRouteLoading = true;
+              console.log($scope.selectedNamaPenjamin);
+              var tglAwal = moment($scope.item.tglawal).format("YYYY-MM-DD HH:mm:ss");
+              var tglAkhir = moment($scope.item.tglakhir).format(
+                "YYYY-MM-DD HH:mm:ss"
+              );
+              debugger;
+              var ruanganPilih = "";
+              if ($scope.item.ruangan != undefined) {
+                ruanganPilih = $scope.item.ruangan.id;
+              } else {
+                  toastr.warning('Ruangan Wajib Dipilih Terlebih dahulu!');
+                  return;
+              }
+              var departpilih = "";
+              if ($scope.item.Departemen != undefined) {
+                departpilih = $scope.item.Departemen.id;
+              }
+              var penjaminpilih = "";
+              if ($scope.selectedNamaPenjamin.length != 0) {
+                for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
+                    var c = $scope.selectedNamaPenjamin[i].id
+                    if (penjaminpilih == "") {
+                        penjaminpilih = $scope.selectedNamaPenjamin[i].id
+                    } else {
+                        penjaminpilih = penjaminpilih + "," + $scope.selectedNamaPenjamin[i].id
+                    }
+                }
+              }
+              medifirstService
+                .get(
+                  "rawatjalan/get-laporan-persediaan?idRuangan=" +
+                    ruanganPilih +
+                    "&tglAwal=" +
+                    tglAwal +
+                    "&tglAkhir=" +
+                    tglAkhir +
+                    "&idDept=" +
+                    departpilih +
+                    "&idPenjamin=" +
+                    penjaminpilih
+                )
+                .then(function (e) {
+                  debugger;
+                  var datas = e.data.data;
+                  $scope.GridPasien = new kendo.data.DataSource({
+                    data: datas,
+                    group: $scope.group,
+                    pageSize: 400,
+                    total: datas.length,
+                    serverPaging: false,
+                    schema: {
+                      model: {
+                        fields: {},
+                      },
+                    },
+                    aggregate: [
+                      { field: "total", aggregate: "sum" },
+                      { field: "hargajual", aggregate: "sum" },
+                      { field: "jasa", aggregate: "sum" },
+                      { field: "diskon", aggregate: "sum" },
+                    ],
+                    refresh: true,
+                    selectable: true,
+                    groupable: true,
+                    allowCopy: true,
+                  });
+                });
+            };
+            $scope.mainGridOptions = {
+              toolbar: ["excel"],
+              excel: {
+                fileName: "LaporanPersediaan.xlsx",
+                allPages: true,
+              },
+              excelExport: function (e) {
+                var sheet = e.workbook.sheets[0];
+                sheet.frozenRows = 2;
+                sheet.mergedCells = ["A1:M1"];
+                sheet.name = "LAPORAN";
+      
+                var myHeaders = [
+                  {
+                    value: "Daftar Laporan Persediaan",
+                    fontSize: 20,
+                    textAlign: "center",
+                    background: "#ffffff",
+                    // color:"#ffffff"
+                  },
+                ];
+      
+                sheet.rows.splice(0, 0, {
+                  cells: myHeaders,
+                  type: "header",
+                  height: 70,
+                });
+              },
+              scrollable: true,
+              // dataBound: onDataBound,
+              columns: [
+                {
+                  field: "tglresep",
+                  title: "Tgl Resep",
+                  width: "120px",
+                },
+                {
+                  field: "noresep",
+                  title: "No Resep",
+                  width: "120px",
+      
+                  // "template": "<button class=\"k-button custom-button\" ng-click=\"setstatuspulang(dataItem)\"  style=\"margin:0 0 5px\">#:  statuspulang #</button> ",
+                },
+                {
+                  field: "nocm",
+                  title: "No RM",
+                  width: "120px",
+      
+                  // "template": "<button class=\"k-button custom-button\" ng-click=\"setstatuspulang(dataItem)\"  style=\"margin:0 0 5px\">#:  statuspulang #</button> ",
+                },
+                {
+                  field: "namapasien",
+                  title: "Nama Pasien",
+                  width: "180px",
+      
+                  // "template": "<button class=\"k-button custom-button\" ng-click=\"setNamaKendali(dataItem)\"  style=\"margin:0 0 5px\">#:  namekendali #</button> ",
+                },
+                {
+                  field: "namalengkap",
+                  title: "Nama Dokter",
+                  width: "180px",
+                },
+                {
+                  field: "namaproduk",
+                  title: "Produk",
+                  width: "180px",
+                  // groupFooterTemplate: "<span>TOTAL</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"},
+                },
+                {
+                  field: "hargajual",
+                  title: "Harga",
+                  width: "120px",
+                  aggregates: ["sum"],
+                  template:
+                    "<span class='style-right'>{{formatRupiah('#: data.hargajual#', 'Rp.')}}</span>",
+                  // groupFooterTemplate: "<span class='style-right'>{{formatRupiah('#: data.hargajual.sum #', 'Rp.')}}</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"}
+                },
+                {
+                  field: "jumlah",
+                  title: "Jumlah",
+                  width: "80px",
+                  aggregates: ["sum"],
+                  // groupFooterTemplate: "<span>#:data.jumlah.sum #</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"}
+                },
+                {
+                  field: "jasa",
+                  title: "Jasa",
+                  width: "120px",
+                  aggregates: ["sum"],
+                  template:
+                    "<span class='style-right'>{{formatRupiah('#: data.jasa#', 'Rp.')}}</span>",
+                  // groupFooterTemplate: "<span class='style-right'>{{formatRupiah('#: data.jasa.sum #', 'Rp.')}}</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"}
+                },
+                {
+                  field: "diskon",
+                  title: "Diskon",
+                  width: "120px",
+                  aggregates: ["sum"],
+                  template:
+                    "<span class='style-right'>{{formatRupiah('#: data.diskon#', 'Rp.')}}</span>",
+                  // groupFooterTemplate: "<span class='style-right'>{{formatRupiah('#: data.diskon.sum #', 'Rp.')}}</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"}
+                },
+                {
+                  field: "total",
+                  title: "Total",
+                  width: "120px",
+                  aggregates: ["sum"],
+                  template:
+                    "<span class='style-right'>{{formatRupiah('#: data.total#', 'Rp.')}}</span>",
+                  // groupFooterTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp.')}}</span>",
+                  // groupFooterAttributes: { style: "text-align: right;"},
+                  // footerTemplate: "<span class='style-right'>{{formatRupiah('#: data.total.sum #', 'Rp.')}}</span>",
+                  // footerAttributes: { style: "text-align: right;"}
+                },
+      
+                // {
+                //     hidden: true,
+                //     field: "namaruangan",
+                //     title: "Nama Ruangan",
+                //     aggregates: ["count"],
+                //     groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
+                // }
+              ],
+            };
             $scope.CetakLapRekap = function () {
                 $scope.popUpTap = false;
                 $scope.isRouteLoading = true;

@@ -2239,6 +2239,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-order-konsul-count', 'RawatJalan\RawatJalanController@getOrderKonsulCount');
             Route::post('update-diagnosa-fretext', 'RawatJalan\RawatJalanController@updateDiagnosaFreText');
             Route::post('save-dipanggil-suster', 'RawatJalan\RawatJalanController@saveDipanggilSusterRajal');
+            Route::get('get-laporan-persediaan', 'RawatJalan\RawatJalanController@getLaporanPersediaan');
         });
         Route::group(['prefix' => 'registrasi'], function () {
             // 2021-02 penambahan trisno
