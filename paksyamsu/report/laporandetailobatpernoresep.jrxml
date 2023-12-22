@@ -16,6 +16,9 @@
 	<parameter name="objectruanganfk" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="objectkelompokpasienlastfk" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<parameter name="kondisi" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -36,7 +39,7 @@ FROM            departemen_m  INNER JOIN
                          pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
                          pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
                          pegawai_m AS pg ON pg.id = sr.penulisresepfk
-WHERE       $P!{kondisi}  AND (ru.id = $P{objectruanganfk}) 
+WHERE       $P!{kondisi}  AND (ru.id = $P{objectruanganfk}) AND (pd.objectkelompokpasienlastfk = $P{objectkelompokpasienlastfk}) 
 group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen
 UNION ALL
 SELECT        sp.norec,to_char(sp.tglstruk,'YYYY-MM-DD') AS tglresep, sp.nostruk AS noresep, UPPER(sp.namapasien_klien) AS namapasien, '-' AS nocm, ru.namaruangan AS ruangan, pr.namaproduk,
