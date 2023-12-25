@@ -9,6 +9,7 @@ define(['initialize'], function (initialize) {
             $scope.item = {};
             $scope.istempatLaporan = true;
             $scope.selectedNamaPenjamin = [];
+            $scope.isRouteLoading = false;
             FormLoad();
             $scope.dataLogin = JSON.parse(window.localStorage.getItem('pegawai'));
             var HttpClient = function () {
@@ -340,7 +341,6 @@ define(['initialize'], function (initialize) {
             }
             $scope.findData = function () {
               $scope.isRouteLoading = true;
-              console.log($scope.selectedNamaPenjamin);
               var tglAwal = moment($scope.item.tglawal).format("YYYY-MM-DD HH:mm:ss");
               var tglAkhir = moment($scope.item.tglakhir).format(
                 "YYYY-MM-DD HH:mm:ss"
@@ -382,6 +382,7 @@ define(['initialize'], function (initialize) {
                     penjaminpilih
                 )
                 .then(function (e) {
+                  $scope.isRouteLoading = false;
                   debugger;
                   var datas = e.data.data;
                   $scope.GridPasien = new kendo.data.DataSource({
@@ -901,6 +902,7 @@ define(['initialize'], function (initialize) {
 
             }
             $scope.laporandetailobatpernoresep = function () {
+                $scope.isRouteLoading = true;
                 var tglAwal = moment($scope.item.tglawal).format('YYYY-MM-DD HH:mm:ss');
                 var tglAkhir = moment($scope.item.tglakhir).format('YYYY-MM-DD HH:mm:ss');
                 var ruanganPilih = "";
@@ -933,7 +935,6 @@ define(['initialize'], function (initialize) {
                     rekananpilih = $scope.item.institusiAsalPasien.id;
                 }
 
-                $scope.isRouteLoading = true;
                 // medifirstService.get("bedah/get-data-rinciankomponen?" + 'norecapd=' + $scope.item.norec_apd).then(function (e) {
                 // var bayar = "Rp. " + parseFloat($scope.dataSelected11.total).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
                 // var nobukti =  $scope.dataSelected11.notukarfaktur +" - Tanggal " + $scope.dataSelected11.waktupembuatan

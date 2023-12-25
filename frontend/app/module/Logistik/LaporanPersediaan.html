@@ -189,14 +189,22 @@
 
 <div class="grid_12">
   <div class="grid_12">
-      <div class="grid_12 borderBox">
-          <kendo-grid id="grid" data-source="GridPasien" options="mainGridOptions"
-              k-pageable="'true'" k-sortable="'true'" k-groupable="'true'"
-              k-resizable="'true'" k-selectable="'row'"
-              k-ng-model="dataPasienSelected" ng-click="klikGrid(dataPasienSelected)"
-              ng-dblclick="klikdua(dataPasienSelected)">
-          </kendo-grid>
-      </div>
+    <div class="grid_12 borderBox">
+      <kendo-grid
+        id="grid"
+        data-source="GridPasien"
+        options="mainGridOptions"
+        k-pageable="'true'"
+        k-sortable="'true'"
+        k-groupable="'true'"
+        k-resizable="'true'"
+        k-selectable="'row'"
+        k-ng-model="dataPasienSelected"
+        ng-click="klikGrid(dataPasienSelected)"
+        ng-dblclick="klikdua(dataPasienSelected)"
+      >
+      </kendo-grid>
+    </div>
   </div>
 </div>
 
@@ -212,4 +220,8 @@
       style="font-size: 8px"
     ></div>
   </div>
+</div>
+
+<div class="grid_12" style="margin-top: 60px" ng-show="isRouteLoading">
+  <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
 </div>
