@@ -949,7 +949,10 @@ define(['initialize'], function (initialize) {
                 // var kondisi1 = "   (sr.tglresep BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "' and CAST(apd.objectruanganfk AS TEXT) ilike '%" + $scope.item.ruangann.id + "%')"
                 var kondisi1 = "   (sr.tglresep BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "')"
                 var kondisi2 = "   (sp.tglstruk BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "')"
-                var qPenjaminPilih = "AND (pd.objectkelompokpasienlastfk = '"+ penjaminpilih.toString() +"')"
+                var qPenjaminPilih = ''
+                if (penjaminpilih) {
+                  qPenjaminPilih = "AND (pd.objectkelompokpasienlastfk = '"+ penjaminpilih.toString() +"')"
+                }
                 debugger;
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
