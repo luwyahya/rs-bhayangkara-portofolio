@@ -4179,7 +4179,7 @@ class RawatJalanController extends ApiController
         }
 
         $idPenjamin = '';
-        if (isset($filter['idPenjamin']) && $filter['idPenjamin'] != " " && $filter['idPenjamin'] != "undefined") {
+        if (isset($filter['idPenjamin']) && $filter['idPenjamin'] != "" && $filter['idPenjamin'] != "undefined") {
           $idPenjamin = ' AND pd.objectkelompokpasienlastfk = '. $filter['idPenjamin'];
         }
 

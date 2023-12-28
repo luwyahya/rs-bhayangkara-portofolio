@@ -339,6 +339,9 @@ define(['initialize'], function (initialize) {
 
 
             }
+            $scope.formatRupiah = function(value, currency) {
+              return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
             $scope.findData = function () {
               $scope.isRouteLoading = true;
               var tglAwal = moment($scope.item.tglawal).format("YYYY-MM-DD HH:mm:ss");
