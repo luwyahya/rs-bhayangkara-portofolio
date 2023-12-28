@@ -351,6 +351,7 @@ define(['initialize'], function (initialize) {
                 ruanganPilih = $scope.item.ruangan.id;
               } else {
                   toastr.warning('Ruangan Wajib Dipilih Terlebih dahulu!');
+                  $scope.isRouteLoading = false;
                   return;
               }
               var departpilih = "";
