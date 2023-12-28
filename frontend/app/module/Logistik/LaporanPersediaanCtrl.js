@@ -922,7 +922,6 @@ define(['initialize'], function (initialize) {
                 if ($scope.item.Departemen != undefined) {
                     departpilih = $scope.item.Departemen.departemen;
                 }
-                debugger
                 var penjaminpilih = "";
                 if ($scope.selectedNamaPenjamin.length != 0) {
                   for (var i = $scope.selectedNamaPenjamin.length - 1; i >= 0; i--) {
@@ -934,6 +933,7 @@ define(['initialize'], function (initialize) {
                       }
                   }
                 }
+                debugger
                 var rekananpilih = ""
                 if ($scope.item.institusiAsalPasien != undefined) {
                     rekananpilih = $scope.item.institusiAsalPasien.id;
@@ -949,13 +949,15 @@ define(['initialize'], function (initialize) {
                 // var kondisi1 = "   (sr.tglresep BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "' and CAST(apd.objectruanganfk AS TEXT) ilike '%" + $scope.item.ruangann.id + "%')"
                 var kondisi1 = "   (sr.tglresep BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "')"
                 var kondisi2 = "   (sp.tglstruk BETWEEN '" + tglAwal + "' AND '" + tglAkhir + "')"
+                var qPenjaminPilih = "AND (pd.objectkelompokpasienlastfk = '"+ penjaminpilih.toString() +"')"
                 debugger;
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "objectruanganfk", "instalasi", "penjamin", "rekanan", "tglawal", "tglakhir", "kondisi", "kondisi2", "ruanganapotik"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", ruanganPilih, departpilih.toString(), penjaminpilih.toString(), rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString(), kondisi1, kondisi2, namaruanganPilih],
+                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", ruanganPilih, departpilih.toString(), qPenjaminPilih, rekananpilih.toString(), tglAwal.toString(), tglAkhir.toString(), kondisi1, kondisi2, namaruanganPilih],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
                 };
+                debugger;
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
