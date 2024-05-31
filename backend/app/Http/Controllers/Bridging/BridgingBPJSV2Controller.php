@@ -8912,7 +8912,7 @@ class BridgingBPJSV2Controller extends ApiController
         //save log mjkn
         $logmjkn = new MjknLog();
         $logmjkn->norec = $logmjkn->generateNewId();
-        $logmjkn->type = 'getantrian';
+        $logmjkn->type = 'savepasien';
         $logmjkn->data = $request;
         $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
         $logmjkn->save();
