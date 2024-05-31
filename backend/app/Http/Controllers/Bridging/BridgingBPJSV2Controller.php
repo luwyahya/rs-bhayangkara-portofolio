@@ -29,6 +29,7 @@ use App\Transaksi\BatalRegistrasi;
 use App\Transaksi\PelayananPasien;
 use App\Transaksi\PelayananPasienDetail;
 use App\Transaksi\SendTaskAntrol;
+use App\Transaksi\MjknLog;
 use Webpatser\Uuid\Uuid;
 use DB;
 use App\Traits\Valet;
@@ -6896,6 +6897,15 @@ class BridgingBPJSV2Controller extends ApiController
         
     }
     public function GetAntrianMjknAlesNew(Request $request) {
+        //save log mjkn
+        $logmjkn = new MjknLog();
+        $logmjkn->norec = $logmjkn->generateNewId();
+        $logmjkn->type = 'getantrian';
+        $logmjkn->data = $request;
+        $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
+        $logmjkn->save();
+        //-----------------------
+
         $kodePoli=$request['kodepoli'];
         $kodeDokter=$request['kodedokter'];
         $tanggal =$request['tanggalperiksa'];
@@ -8898,6 +8908,16 @@ class BridgingBPJSV2Controller extends ApiController
         //         );
     
         // return $this->respond($result);
+
+        //save log mjkn
+        $logmjkn = new MjknLog();
+        $logmjkn->norec = $logmjkn->generateNewId();
+        $logmjkn->type = 'getantrian';
+        $logmjkn->data = $request;
+        $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
+        $logmjkn->save();
+        //-----------------------
+
         $nomorkartu = $request['nomorkartu'];
         $nik=$request['nik'];
         $nama=$request['nama'];
