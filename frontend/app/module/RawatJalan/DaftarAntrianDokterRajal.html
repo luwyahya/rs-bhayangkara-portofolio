@@ -1,3 +1,10 @@
+<style>
+    .hijau {
+       color: #fff;
+       background-color: #00c40d;
+       /* border-color: #00c40d */
+   }
+</style>
 <div>
     <div class="panel panel-default container_12" ng-hide="klikDiagnosa">
         <div class="panel-heading"><label class='title' c-label item="item">Daftar Pasien Rawat Jalan</label></div>
@@ -237,6 +244,10 @@
         <div class="grid_2" style="margin-top:-10px">
             <button class="btnTemplate1" style="margin-left: 0;" ng-click="panggilRev2()"><i
                     class="fa fa-phone-square"></i>Panggil REV2</button>
+        </div>
+        <div class="grid_2" style="margin-top:-10px">
+            <button class="btnTemplate1 hijau" style="margin-left: 0;" ng-click="telemedicineRedirec()"><i
+                    class="fa fa-back"></i>Telemedicine</button>
         </div>
     </div>
     <div class="grid_12">
