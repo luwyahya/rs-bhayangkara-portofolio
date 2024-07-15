@@ -1840,7 +1840,7 @@ define(['initialize'], function (initialize) {
 
             }
             $scope.telemedicineRedirec = function() {
-                window.open("https://dokter-mybhayangkara-prelive.transmedika.co.id/login/", "_blank");
+                window.open("https://dokter-klinik-prelive.transmedika.co.id/login/", "_blank");
             }
             $scope.InsidenInternal = function () {
                 if ($scope.dataPasienSelected.norec_pd == undefined) {
