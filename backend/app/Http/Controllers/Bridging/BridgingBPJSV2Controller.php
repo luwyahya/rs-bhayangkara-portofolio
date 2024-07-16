@@ -9624,7 +9624,14 @@ class BridgingBPJSV2Controller extends ApiController
 
             // $pasien  = Pasien::where('nocm',$request['noCm'])->first();
             $pasien  = Pasien::where('noidentitas', $request['nik'])->first();
-
+            if (!empty($pasien)) {
+                $isBaru = false;
+            } else {
+                $pasien  = Pasien::where('nobpjs', $request['nomorkartu'])->first();    
+                if (!empty($pasien)) {
+                    $isBaru = false;
+                }
+            }
             //ash 2024-01-04
             if (isset($pasien) && !empty($pasien)) {
                 $tglAwal = Carbon::now()->format('Y-m-d 00:00:00');
