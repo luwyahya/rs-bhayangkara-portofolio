@@ -603,7 +603,7 @@ define(['initialize'], function (initialize) {
                     }
                 }
 
-                if ($scope.item.nocm == undefined || $scope.item.nocm == null) {
+                if ($scope.item.nocm == undefined ||$scope.item.nocm == 0 || $scope.item.nocm == null) {
 
                     //  var data={
                     //          "noreservasi":  $scope.item.noreservasi,                                 
