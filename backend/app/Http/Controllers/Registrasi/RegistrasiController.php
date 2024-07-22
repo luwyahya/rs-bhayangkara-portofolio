@@ -11225,6 +11225,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'fk.nm_fakultas',
                 'apr.noantrian as noantrianperjanjian',
                 'pm.tgllahir',
+                'pm.nocmfk',
                 DB::raw('(case when pd.statusenabled=\'false\' then \'Batal\' when pd.isjanjidisiapkan=\'true\' then \'Sedang\' else \'Belum\' end) as isjanjidisiapkan,
                 (case when pm.namapasien is null then apr.namapasien else pm.namapasien end) as namapasien, 
                 (case when apr.isconfirm=\'true\' then \'Confirm\' else \'Reservasi\' end) as status,
