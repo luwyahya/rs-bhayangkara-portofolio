@@ -629,17 +629,13 @@ define(['initialize'], function (initialize) {
                     //         noRec: $scope.item.norec
                     //     });
                     // } else {
-                        toastr.warning('Generate No CM baru sedang dilakukan')
-                        var item = {
-                            idpasien: $scope.item.nocmfk
-                        }
-    
-                        medifirstService.post('registrasi/updatenocmlamakebaru', item).then(function (e) {
+                        
+                        // medifirstService.post('registrasi/updatenocmlamakebaru', item).then(function (e) {
                             $state.go('RegistrasiPasienBaru', {
                                 noRec: 0,
                                 idPasien: $scope.item.nocmfk
                             });
-                        })
+                        // })
                     // }
 
 

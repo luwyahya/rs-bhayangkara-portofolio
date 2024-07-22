@@ -8058,7 +8058,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         } else {
             $dataPS = Pasien::where('id', $request['idpasien'])->first();
             $noCm = $dataPS->nocm;
-            if ($noCm == null) {
+            if ($noCm == null||$noCm == 0) {
                 if (isset($request['isPenunjang'])  &&  $request['isPenunjang'] == true) {
                     $noCm = $this->generateCode(new Pasien, 'nocm', 9, 'P');
                 }
