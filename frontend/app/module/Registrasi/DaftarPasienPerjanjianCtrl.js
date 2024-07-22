@@ -630,7 +630,8 @@ define(['initialize'], function (initialize) {
                     //     });
                     // } else {
                     $state.go('RegistrasiPasienBaru', {
-                        noRec: $scope.item.norec
+                        noRec: 0,
+                        idPasien: $scope.item.nocmfk
                     });
                     // }
 
