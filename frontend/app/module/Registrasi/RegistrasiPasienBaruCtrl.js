@@ -2127,7 +2127,12 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 } else {
                     cacheHelper.set('cacheStatusPasien', 'BARU');
                 }
-
+                
+                if(cacheHelper.get('CacheRegistrasiPasienOnline') != undefined){
+                    var cacheSet = cacheHelper.get('CacheRegistrasiPasienOnline')
+                        cacheHelper.set('CacheRegistrasiPasien', cacheSet);
+                        cacheHelper.set('CacheRegistrasiPasienOnline', undefined); 
+                } 
                 if ($scope.isPenunjang != undefined && $scope.isPenunjang == true) {
                     // cacheHelper.set('CacheRegisTriage', noEmr);
                     cacheHelper.set('isPenunjang', true);
@@ -2140,8 +2145,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     $state.go('UmVnaXN0cmFzaVJ1YW5nYW4=', {
                         noCm: param,
                     });
-                }
-
+                } 
+               
 
             }
             // $(document).ready(function() {

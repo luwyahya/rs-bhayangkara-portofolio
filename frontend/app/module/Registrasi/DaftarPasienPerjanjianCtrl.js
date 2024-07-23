@@ -620,6 +620,11 @@ define(['initialize'], function (initialize) {
                         5: '',
                         6: ''
                     };
+                    var cacheSet = $scope.item.norec_pd +
+                    "~" + $scope.item.noregistrasi +
+                    "~" + $scope.item.norec_apd;
+                    cacheHelper.set('CacheRegistrasiPasienOnline', cacheSet);
+
                     cacheHelper.set('CacheRegisOnline', cahce);
                     // var isMenuDinamis = JSON.parse(localStorage.getItem('isMenuDinamis'))
                     // if(isMenuDinamis && isMenuDinamis == true){
