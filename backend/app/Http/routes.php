@@ -368,7 +368,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('listsuratkontrol-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@cariListHistoriSuratKontrol');
                 Route::get('monitoring/HistoriPelayanan-duabulan/NoKartu/{noKartu}', 'Bridging\BridgingBPJSV2Controller@getMonitoringHistoriDuaBulan');
                 Route::post('monitoring/HistoriPelayanan-duabulan/noSep', 'Bridging\BridgingBPJSV2Controller@kirimNoSEP');
-                 //##MJKN
+                Route::get('cari-jumlah-sep-rujukan', 'Bridging\BridgingBPJSV2Controller@carijumlahsep');
+                
+                //##MJKN
                 Route::get('mjkn/antrian/getRefPoli', 'Bridging\BridgingBPJSV2Controller@mjknRefPoli');
                 Route::get('mjkn/antrian/getRefDokter', 'Bridging\BridgingBPJSV2Controller@mjknRefDokter');
                 Route::get('mjkn/antrian/getjadwal', 'Bridging\BridgingBPJSV2Controller@AntrianRSjadwaldokter');

@@ -28,6 +28,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             $scope.itemD = {};
             $scope.diag = {};
             $scope.item.tglRegistrasi = $scope.now;
+            $scope.item.jeniskunjungan = '';
             $scope.model = {};
             $scope.model.tglSEP = $scope.now;
             $scope.model.tglRujukan = $scope.now;
@@ -816,7 +817,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 }
 
             }
-            $scope.setRujukan = function (data) {
+            $scope.setRujukan = async function  (data) {
                 if (data != undefined) {
                     if ($scope.model.cekpilihManual == true) {
                         $scope.model.noRujukan = data.noKunjungan;
@@ -857,12 +858,31 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         $scope.model.tglRujukan = new Date(data.tglKunjungan);
 
                         toastr.info(data.peserta.statusPeserta.keterangan, 'Status Peserta');
-
+                        // medifirstService.get("bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + $scope.item.asalRujukan.id+"&norujukan="+data.noKunjungan, true, true, 10)
+                        // .then(function (xx) {
+                        //     debugger;
+                        //    $scope.item.jeniskunjungan = xx.data.response.jumlahSEP
+                        // })
                         medifirstService.get("registrasi/get-diagnosa-saeutik?kddiagnosa=" + data.diagnosa.kode, true, true, 10)
                             .then(function (xx) {
                                 $scope.sourceDiagnosa.add(xx.data[0])
                                 $scope.model.diagnosa = xx.data[0]
                             })
+                        const response = await medifirstService.get("bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + $scope.item.asalRujukan.id+"&norujukan="+data.noKunjungan, true, true, 10);
+                        if(response.data.response.jumlahSEP==0){
+                            if($scope.item.asalRujukan.id == 1){
+                                $scope.item.jeniskunjungan = 1
+                            }else{
+                                $scope.item.jeniskunjungan = 4
+                            }
+                        }else{
+                            if($scope.item.ruangan.kdinternal != data.poliRujukan.kode){
+                                $scope.item.jeniskunjungan = 2
+                            }else{
+                                $scope.item.jeniskunjungan = 3
+                            }
+                        }
+                        debugger;
                         medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1 +
                             "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis=" +
                             $scope.poliRujukanKode).then(function (z) {
@@ -4212,7 +4232,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     isPenanggungJawab: isPenanggungJawab,
                     kodesubspesialisHafis: kodesubspesialisHafis,
                     kodesubspesialisHafis: kodesubspesialisHafis, 
-                    jeniskunjungan: jeniskunjungan
+                    jeniskunjungan: $scope.item.jeniskunjungan
                 }
                 var antrianpasiendiperiksa = {
                     norec_apd: norec_Antrian,
