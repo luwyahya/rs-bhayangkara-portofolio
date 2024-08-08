@@ -66,6 +66,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   assesmentPel: any = ''
   isCekSuratKontrol: boolean = false
   jeniskunjungan: any = 1
+  tempjeniskunjungan: any = 1
   listtujuanKunj: any = [
     { "id": "1", "name": "Prosedur" },
     { "id": "2", "name": "Konsul Dokter" }];
@@ -482,13 +483,14 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     this.formGroup.get('pCare').setValue('Option 1')
     this.getNoRujukan()
     this.jeniskunjungan = 1
+    this.tempjeniskunjungan = 1
   }
   setradio2(e: string): void {
     this.formGroup.get('pCare').setValue('')
     this.formGroup.get('pascaRanap').setValue('')
     this.formGroup.get('rumahSakit').setValue('Option 2')
-    this.getNoRujukan()
-    this.jeniskunjungan = 4;
+    this.getNoRujukan()   
+    this.tempjeniskunjungan = 2
   }
   setradio3(e: string): void {
     this.formGroup.get('pCare').setValue('')
@@ -496,6 +498,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     this.formGroup.get('pascaRanap').setValue('Option 3')
     this.getNoRujukan()
     this.jeniskunjungan = 3;
+    this.tempjeniskunjungan = null
   }
   cekPesertaByNoKartu(noKa) {
     let jenis = "rs"
@@ -1893,11 +1896,25 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     }
 
   }
-  savePasienDaftarFix() {
+  async savePasienDaftarFix() {
     let referensi = this.item.noKunjungan
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
+    const response = await this.httpService.get("medifirst2000/bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + this.tempjeniskunjungan+"&norujukan="+referensi);
+    if(response.data.response.jumlahSEP==0){
+      if(this.tempjeniskunjungan == 1){
+          this.jeniskunjungan = 1
+      }else{
+          this.jeniskunjungan = 4
+      }
+  }else{
+      if(this.formGroup.get('poliTujuan').value.kodeinternal != this.formGroup.get('poliTujuan').value.kode){
+          this.jeniskunjungan = 2
+      }else{
+          this.jeniskunjungan = 3
+      }
+  }                  
     if (this.isKunjunganPertamaBPJS != true) {
       this.jeniskunjungan = 3;
     }
