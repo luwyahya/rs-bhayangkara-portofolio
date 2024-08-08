@@ -882,6 +882,15 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                 $scope.item.jeniskunjungan = 3
                             }
                         }
+                        if($scope.item.jeniskunjungan == ''){
+                            if ($scope.item.asalRujukan != undefined) {
+                                if ($scope.item.asalRujukan.asalrujukan === "Puskesmas / Klinik") {
+                                    $scope.item.jeniskunjungan = 1
+                                } else {
+                                    $scope.item.jeniskunjungan = 4
+                                }
+                            }
+                        }
                         debugger;
                         medifirstService.get("bridging/bpjs2/get-ref-dokter-dpjp?jenisPelayanan=" + 1 +
                             "&tglPelayanan=" + new moment($scope.now).format('YYYY-MM-DD') + "&kodeSpesialis=" +
