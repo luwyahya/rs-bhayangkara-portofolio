@@ -4123,6 +4123,13 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     referensi = $scope.model.skdp
                     jeniskunjungan = 3
                 }
+                if($scope.item.jeniskunjungan == 3){
+                    if ($scope.model.skdp == undefined ||$scope.model.skdp == '') {
+                        alert("Pasien Kontrol Silahkan isi no surat bisa pilih di cari history surat!!")
+                        return
+                    }
+                    referensi = $scope.model.skdp
+                }
                 if ($scope.item.kelompokPasien.kelompokpasien == ('BPJS')) {
                     if ($scope.penjagaanTidakDitanggung == true) {
                         toastr.error('PASIEN INI SUDAH ADA NOTIFNYA TIDAK DITANGGUNG, KENAPA TETEP MAU DI GENERATE SEP???', 'Peringatan');
