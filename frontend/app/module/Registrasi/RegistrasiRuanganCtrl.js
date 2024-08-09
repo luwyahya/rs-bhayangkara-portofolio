@@ -4131,6 +4131,10 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     referensi = $scope.model.skdp
                 }
                 if ($scope.item.kelompokPasien.kelompokpasien == ('BPJS')) {
+                    if($scope.item.jeniskunjungan == ''){
+                        alert("Pilih rujukan di tombol No Kartu!!")
+                        return
+                    }
                     if ($scope.penjagaanTidakDitanggung == true) {
                         toastr.error('PASIEN INI SUDAH ADA NOTIFNYA TIDAK DITANGGUNG, KENAPA TETEP MAU DI GENERATE SEP???', 'Peringatan');
                         $scope.hideBtnSimpan = false;
