@@ -3807,7 +3807,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
             };
 
 
-            $scope.SimpanRegistrasi = function () {
+            $scope.SimpanRegistrasi = async function () {
                 debugger
 
                 if ($scope.item.objectdepartemenfk != undefined) {
@@ -4137,7 +4137,29 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     //         return
                     //     }
                     // }
-
+                    const response = await medifirstService.get("bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + $scope.item.asalRujukan.id+"&norujukan="+data.noKunjungan, true, true, 10);
+                    if(response.data.response.jumlahSEP==0){
+                        if($scope.item.asalRujukan.id == 1){
+                            $scope.item.jeniskunjungan = 1
+                        }else{
+                            $scope.item.jeniskunjungan = 4
+                        }
+                    }else{
+                        if($scope.item.ruangan.kdinternal != data.poliRujukan.kode){
+                            $scope.item.jeniskunjungan = 2
+                        }else{
+                            $scope.item.jeniskunjungan = 3
+                        }
+                    }
+                    if($scope.item.jeniskunjungan == ''){
+                        if ($scope.item.asalRujukan != undefined) {
+                            if ($scope.item.asalRujukan.asalrujukan === "Puskesmas / Klinik") {
+                                $scope.item.jeniskunjungan = 1
+                            } else {
+                                $scope.item.jeniskunjungan = 4
+                            }
+                        }
+                    }
                     if ($scope.penjagaanTidakDitanggung == true) {
                         toastr.error('PASIEN INI SUDAH ADA NOTIFNYA TIDAK DITANGGUNG, KENAPA TETEP MAU DI GENERATE SEP???', 'Peringatan');
                         $scope.hideBtnSimpan = false;
