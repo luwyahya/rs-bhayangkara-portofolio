@@ -4134,6 +4134,8 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     if ($scope.item.ruangan.objectdepartemenfk == 18) {
                         if($scope.model.cekpilihPascaranap == true){
                             $scope.item.jeniskunjungan = 3;
+                        }else if($scope.model.cekpilihManual == true){
+                            $scope.item.jeniskunjungan = 3;
                         }else{
                             if($scope.item.jeniskunjungan == ''){
                                 alert("Pilih rujukan di tombol No Kartu!!")
