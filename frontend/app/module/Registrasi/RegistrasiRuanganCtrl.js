@@ -4117,7 +4117,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 var referensi = "0000000000000000000"
                 if ($scope.model.noRujukan != undefined) {
                     referensi = $scope.model.noRujukan
-                    jeniskunjungan = 3
+                    // jeniskunjungan = 3
                 }
                 if ($scope.model.skdp != undefined) {
                     referensi = $scope.model.skdp
@@ -4262,7 +4262,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     isPenanggungJawab: isPenanggungJawab,
                     kodesubspesialisHafis: kodesubspesialisHafis,
                     kodesubspesialisHafis: kodesubspesialisHafis, 
-                    jeniskunjungan: $scope.item.jeniskunjungan
+                    jeniskunjungan: jeniskunjungan
                 }
                 var antrianpasiendiperiksa = {
                     norec_apd: norec_Antrian,
