@@ -1290,7 +1290,7 @@ define(['initialize'], function (initialize) {
                                                     }
                                                 }
                                                 if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                                                    xhr.open('POST', 'http://192.168.100.209:8797/generic/report/riwayathidup.pdf');
+                                                    xhr.open('POST', 'http://192.168.100.254:8797/generic/report/riwayathidup.pdf');
                                                 } else if (window.location.hostname.indexOf('appsimrs.rsp.unand.ac.id') > -1) {
                                                     xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/riwayathidup.pdf');
                                                 } else {
