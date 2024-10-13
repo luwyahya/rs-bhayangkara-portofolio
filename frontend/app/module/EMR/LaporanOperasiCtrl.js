@@ -368,7 +368,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     // xhr.open('POST', 'http://192.168.88.56:8797/generic/report/bedah2.pdf');
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bedah2.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     // xhr.open('POST', '/jasper1/generic/report/bedah2.pdf');
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/bedah2.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {

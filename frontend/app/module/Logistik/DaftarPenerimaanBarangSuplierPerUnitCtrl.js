@@ -245,7 +245,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/RekapitulasiPembelianObat.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/RekapitulasiPembelianObat.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/RekapitulasiPembelianObat.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/RekapitulasiPembelianObat.pdf');
@@ -309,7 +309,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/penerimaanharian.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1generic/report/penerimaanharian.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/penerimaanharian.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/penerimaanharian.pdf');
@@ -369,7 +369,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/laporanrekon.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1generic/report/laporanrekon.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/laporanrekon.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/laporanrekon.pdf');

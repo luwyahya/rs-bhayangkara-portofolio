@@ -557,7 +557,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             win.focus();
                         }
                     }
-                    if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', 'http://192.168.100.254:8797/generic/report/suratketeranganmedis2.pdf');
                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                         xhr.open('POST', 'http://36.93.6.186:8797/generic/report/suratketeranganmedis2.pdf');
@@ -674,7 +674,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             win.focus();
                         }
                     }
-                    if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', 'http://192.168.100.254:8797/generic/report/suratketeranganmedis.pdf');
                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                         xhr.open('POST', 'http://36.93.6.186:8797/generic/report/suratketeranganmedis.pdf');
@@ -816,7 +816,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', 'http://192.168.100.254:8797/generic/report/suratpemeriksaanberkala.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', 'http://36.93.6.186:8797/generic/report/suratpemeriksaanberkala.pdf');

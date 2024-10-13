@@ -383,7 +383,7 @@ define(['initialize'], function (initialize) {
                     }
                     if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                         xhr.open('POST', 'http://36.93.6.186:8797/generic/report/penjualanbebas.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', 'http://192.168.100.254:8797/generic/report/penjualanbebas.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/penjualanbebas.pdf');
