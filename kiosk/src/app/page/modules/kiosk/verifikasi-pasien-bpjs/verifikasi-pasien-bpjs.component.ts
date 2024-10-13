@@ -1897,7 +1897,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
   }
   async savePasienDaftarFix() {
-    let referensi = this.item.noKunjungan
+    let referensi = this.item.noKunjungan ? this.item.noKunjungan : ''
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
