@@ -23,6 +23,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   pasien: any = {}
   dataCache: any
   item: any = {}
+  data: any;
   pasienDaftar: any = {}
   pemAsuransi: any = {}
   dataSEP: any = {}
