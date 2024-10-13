@@ -9,6 +9,7 @@ import * as moment from "moment";
 import { SelectItem } from 'primeng/primeng';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
+import 'rxjs/add/operator/toPromise';
 @Component({
   selector: 'app-verifikasi-pasien-bpjs',
   templateUrl: './verifikasi-pasien-bpjs.component.html',
@@ -22,6 +23,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   pasien: any = {}
   dataCache: any
   item: any = {}
+  data: any;
   pasienDaftar: any = {}
   pemAsuransi: any = {}
   dataSEP: any = {}
@@ -1849,8 +1851,8 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
     });
   }
-  public getJSON(jenis): Observable<any> {
-    return this.service.get("assets/jsonbridging/bpjs2/" + jenis + ".json")
+  public getJSON(jenis: any): Observable<any> {
+    return this.service.get("assets/jsonbridging/bpjs/" + jenis + ".json")
       .map(response => response.json())
       .catch(e => { console.log(e); return Observable.throw(e); })
 
@@ -1901,8 +1903,10 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
+ 
     const response:any = await this.httpService.get("medifirst2000/bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + this.tempjeniskunjungan+"&norujukan="+referensi);
     if(response.data.response.jumlahSEP==0){
+ 
       if(this.tempjeniskunjungan == 1){
           this.jeniskunjungan = 1
       }else{
