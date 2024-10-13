@@ -45,6 +45,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   noSKDP: any
   noPascaRanap: any
   item1: any = {}
+  data: any
   noReservasi: any
   showPenjagaan: boolean = false
   showGantiDokter: boolean
