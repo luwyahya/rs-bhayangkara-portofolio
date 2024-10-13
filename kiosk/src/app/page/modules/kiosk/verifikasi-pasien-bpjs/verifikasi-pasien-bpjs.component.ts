@@ -1897,12 +1897,12 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
   }
   async savePasienDaftarFix() {
-    let referensi = this.item.noKunjungan ? this.item.noKunjungan : ''
+    let referensi = this.item.noKunjungan
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
     const response = await this.httpService.get("medifirst2000/bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + this.tempjeniskunjungan+"&norujukan="+referensi);
-    if(response.data.response.jumlahSEP==0){
+    if(response.data && response.data.response.jumlahSEP==0){
       if(this.tempjeniskunjungan == 1){
           this.jeniskunjungan = 1
       }else{
