@@ -9,6 +9,7 @@ import * as moment from "moment";
 import { SelectItem } from 'primeng/primeng';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs';
+import 'rxjs/add/operator/toPromise';
 @Component({
   selector: 'app-verifikasi-pasien-bpjs',
   templateUrl: './verifikasi-pasien-bpjs.component.html',
