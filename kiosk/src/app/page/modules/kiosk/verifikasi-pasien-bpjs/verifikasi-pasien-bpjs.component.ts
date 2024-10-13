@@ -45,7 +45,6 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
   noSKDP: any
   noPascaRanap: any
   item1: any = {}
-  data: any
   noReservasi: any
   showPenjagaan: boolean = false
   showGantiDokter: boolean
@@ -1850,7 +1849,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
 
     });
   }
-  public getJSON(jenis): Observable<any> {
+  public getJSON(jenis: any): Observable<any> {
     return this.service.get("assets/jsonbridging/bpjs2/" + jenis + ".json")
       .map(response => response.json())
       .catch(e => { console.log(e); return Observable.throw(e); })
