@@ -1850,7 +1850,7 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     });
   }
   public getJSON(jenis: any): Observable<any> {
-    return this.service.get("assets/jsonbridging/bpjs2/" + jenis + ".json")
+    return this.service.get("assets/jsonbridging/bpjs/" + jenis + ".json")
       .map(response => response.json())
       .catch(e => { console.log(e); return Observable.throw(e); })
 
