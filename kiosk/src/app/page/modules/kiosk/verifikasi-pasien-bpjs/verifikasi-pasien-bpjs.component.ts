@@ -1901,8 +1901,8 @@ export class VerifikasiPasienBpjsComponent implements OnInit {
     if (this.noSKDP != '') {
       referensi = this.noSKDP
     }
-    const response = await this.httpService.get("medifirst2000/bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + this.tempjeniskunjungan+"&norujukan="+referensi);
-    if(response && response.data.response.jumlahSEP==0){
+    const responses = await this.httpService.get("medifirst2000/bridging/bpjs2/cari-jumlah-sep-rujukan?jenis=" + this.tempjeniskunjungan+"&norujukan="+referensi);
+    if(responses && responses.data.response.jumlahSEP==0){
       if(this.tempjeniskunjungan == 1){
           this.jeniskunjungan = 1
       }else{
