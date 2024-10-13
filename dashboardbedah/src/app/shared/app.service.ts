@@ -40,9 +40,9 @@ export class AppService {
       this.urlLogin = 'http://localhost:8000/service/medifirst2000/auth/sign-in';
       this.urlLogout = 'http://localhost:8000/service/medifirst2000/auth/sign-out';
     } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-      this.urlPrefix = 'http://192.168.100.209/service/medifirst2000/';
-      this.urlLogin = 'http://192.168.100.209/service/medifirst2000/auth/sign-in';
-      this.urlLogout = 'http://192.168.100.209/service/medifirst2000/auth/sign-out';
+      this.urlPrefix = 'http://192.168.100.254/service/medifirst2000/';
+      this.urlLogin = 'http://192.168.100.254/service/medifirst2000/auth/sign-in';
+      this.urlLogout = 'http://192.168.100.254/service/medifirst2000/auth/sign-out';
     } else {
       this.urlPrefix = 'http://36.93.6.186/service/medifirst2000/';
       this.urlLogin = 'http://36.93.6.186/service/medifirst2000/auth/sign-in';
