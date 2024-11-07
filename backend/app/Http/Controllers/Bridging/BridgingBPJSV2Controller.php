@@ -272,11 +272,9 @@ class BridgingBPJSV2Controller extends ApiController
 
         // Computes the timestamp
         date_default_timezone_set('UTC');
-        // $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
-        $tStamp = "1730963158";
+        $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
         // Computes the signature by hashing the salt with the secret key as the key
-        // $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
-        $signature = "gazq5edgD1xGfCt/3L87tIw3mpWA35mK+LF7Z5BzJeM=";
+        $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
 
         // base64 encode…
         $encodedSignature = base64_encode($signature);
@@ -306,7 +304,7 @@ class BridgingBPJSV2Controller extends ApiController
         ));
 
         $response = curl_exec($curl);
-        // return [ (string)$data,  (string)$encodedSignature, (string)$tStamp , $userKey ];
+        return [ (string)$data,  (string)$encodedSignature, (string)$tStamp , $userKey ];
         $err = curl_error($curl);
 
         curl_close($curl);
