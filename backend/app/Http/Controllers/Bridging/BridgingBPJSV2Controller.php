@@ -267,19 +267,16 @@ class BridgingBPJSV2Controller extends ApiController
     public function getNIK(Request $request)
     {
         $userKey = $this->getUserKeyVclaimV2();
-        // $data = $this->getIdConsumerBPJSV2();
-        $data = "12098";
-        // $secretKey = $this->getPasswordConsumerBPJSV2();
-        $secretKey = "1pP469D661";
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
 
         // Computes the timestamp
         date_default_timezone_set('UTC');
-        // $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
-        $tStamp = "1730947008";
+        $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
         // Computes the signature by hashing the salt with the secret key as the key
-        // $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
-        $signature = "jzeSLVnUkazgRTQKC3VkUorJ6N0MdaRWVYTDYMf3mmc=";
+        $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
 
+        return $tStamp;
         // base64 encode…
         $encodedSignature = base64_encode($signature);
 
