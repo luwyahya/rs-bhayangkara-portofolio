@@ -267,10 +267,8 @@ class BridgingBPJSV2Controller extends ApiController
     public function getNIK(Request $request)
     {
         $userKey = $this->getUserKeyVclaimV2();
-        // $data = $this->getIdConsumerBPJSV2();
-        $data = "15241";
-        // $secretKey = $this->getPasswordConsumerBPJSV2();
-        $secretKey = "1pP469D661uL";
+        $data = $this->getIdConsumerBPJSV2();
+        $secretKey = $this->getPasswordConsumerBPJSV2();
 
         // Computes the timestamp
         date_default_timezone_set('UTC');
