@@ -300,7 +300,7 @@ class BridgingBPJSV2Controller extends ApiController
                 "X-timestamp: " . (string)$tStamp,
                 "user_key:" . $userKey
             ),
-            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
+            // CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
         ));
 
         $response = curl_exec($curl);
