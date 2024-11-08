@@ -3302,4 +3302,36 @@ class RawatInapController extends ApiController
             return $this->respond($data);
 
     }
+    public function getRuanganRanapForAplicare(Request $request) {
+        $ruang = DB::table('ruangan_m')
+            ->select('id', 'namaruangan')
+            ->where('statusenabled', true)
+            ->where('objectdepartemenfk', 16)
+            ->get();
+
+        return $this->respond($ruang);
+    }
+    public function getKelasRuanganForAplicare(Request $request) {
+        $kelas = DB::table('kamar_m')
+            ->join('kelas_m', 'kamar_m.objectkelasfk', '=', 'kelas_m.id')
+            ->select('kelas_m.id', 'kelas_m.namakelas', 'kelas_m.namaexternal')
+            ->where('kamar_m.objectruanganfk', $request['idruangan'])
+            ->where('kamar_m.statusenabled', true)
+            ->groupBy('kelas_m.id', 'kelas_m.namakelas', 'kelas_m.namaexternal')
+            ->get();
+
+        return $this->respond($kelas);
+    }
+    public function getJumlahTTForAplicare(Request $request) {
+        $ruangId = $request['idRuangan'];
+        $kelasId = $request['idKelas'];
+        $data = DB::select(DB::raw("
+        select sum(x.id) as kapasitas, sum(x.tersedia) as tersedia from (select 1 as id, case when tt.objectstatusbedfk = 2 then 1 else 0 end as tersedia 
+        from tempattidur_m as tt inner join
+        kamar_m as kmr on kmr.id = tt.objectkamarfk inner join
+        ruangan_m as ru on ru.id = kmr.objectruanganfk
+        where ru.id = $ruangId and kmr.objectkelasfk = $kelasId and tt.statusenabled = true) as x
+        "));
+        return $this->respond($data);
+    }
 }

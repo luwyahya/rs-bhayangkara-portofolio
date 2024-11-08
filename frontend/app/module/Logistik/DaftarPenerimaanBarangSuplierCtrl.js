@@ -315,7 +315,7 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/beritaacara.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/beritaacara.pdf');
@@ -426,7 +426,7 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/beritaacara2.pdf');
                     } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/beritaacara2.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/beritaacara2.pdf');

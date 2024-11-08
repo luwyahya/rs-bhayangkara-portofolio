@@ -14430,5 +14430,27 @@
         "define": "CPHeadCtrl"
       }
     ]  
-  }
+  },
+  {
+    "name": "BPJSTools.KetersediaanKamarRS",
+    "url": "/KetersediaanKamarRS",
+    "templateurl": "module/Registrasi/KetersediaanKamarRS.html",
+    "controller": "KetersediaanKamarRSCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        },
+        {
+            "define": "BPJSTools"
+        }
+    ]
+}
 ]

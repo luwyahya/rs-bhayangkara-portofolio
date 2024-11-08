@@ -782,7 +782,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/kartupasien2.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1000/generic/report/kartupasien2.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/kartupasien2.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1000/generic/report/kartupasien2.pdf');
@@ -1248,7 +1248,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakmcu2registrasi.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakmcu2registrasi.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakmcu2registrasi.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1generic/report/cetakmcu2registrasi.pdf');
@@ -3924,7 +3924,7 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/sjprjumum.pdf');
                 } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
                     xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/sjprjumum.pdf');
@@ -3967,7 +3967,7 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/sjprjpenjamin.pdf');
                 } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
                     xhr.open('POST', 'http://appsimrs.rsp.unand.ac.id:8797/generic/report/sjprjpenjamin.pdf');

@@ -2722,6 +2722,10 @@
         {
             "nameDep": "CP_R55Ctrl",
             "urlDep": "module/ClinicalPathway/CP_R55Ctrl"
+        },
+        {
+            "nameDep": "KetersediaanKamarRSCtrl",
+            "urlDep": "module/Registrasi/KetersediaanKamarRSCtrl"
         }
     ]
 }

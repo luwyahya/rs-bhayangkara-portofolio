@@ -2087,7 +2087,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                                 xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum2.pdf');
                             } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                                 xhr.open('POST', 'http://192.168.88.56:1002/generic/report/visum2.pdf');
-                            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                            } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                                 xhr.open('POST', '/jasper1/generic/report/visum2.pdf');
                             } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                                 xhr.open('POST', '/jasper1generic/report/visum2.pdf');
@@ -2199,7 +2199,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     xhr.open('POST', 'http://192.168.0.62:8797/generic/report/buktiambil.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/buktiambil.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/buktiambil.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/buktiambil.pdf');

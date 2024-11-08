@@ -2494,7 +2494,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/suratpernyataanfix.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1000/generic/report/suratpernyataanfix.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/suratpernyataanfix.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1000/generic/report/suratpernyataanfix.pdf');
