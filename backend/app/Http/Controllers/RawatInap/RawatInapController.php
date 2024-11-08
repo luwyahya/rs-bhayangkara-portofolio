@@ -3322,4 +3322,16 @@ class RawatInapController extends ApiController
 
         return $this->respond($kelas);
     }
+    public function getJumlahTTForAplicare(Request $request) {
+        $ruangId = $request['idRuangan'];
+        $kelasId = $request['idKelas'];
+        $data = DB::select(DB::raw("
+        select sum(x.id) as kapasitas, sum(x.tersedia) as tersedia from (select 1 as id, case when tt.objectstatusbedfk = 2 then 1 else 0 end as tersedia 
+        from tempattidur_m as tt inner join
+        kamar_m as kmr on kmr.id = tt.objectkamarfk inner join
+        ruangan_m as ru on ru.id = kmr.objectruanganfk
+        where ru.id = $ruangId and kmr.objectkelasfk = $kelasId and tt.statusenabled = 1) as x
+        "));
+        return $this->respond($data);
+    }
 }
