@@ -2198,6 +2198,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-for-sidopak', 'RawatInap\RawatInapController@getDataForSidopak');
             
             Route::get('get-ruanganranap-for-aplicare', 'RawatInap\RawatInapController@getRuanganRanapForAplicare');
+            Route::get('get-kelasruangan-for-aplicare', 'RawatInap\RawatInapController@getKelasRuanganForAplicare');
         });
         Route::group(['prefix' => 'rawatjalan'], function () {
             Route::get('get-data-combo-dokter', 'RawatJalan\RawatJalanController@getDataComboDokter');

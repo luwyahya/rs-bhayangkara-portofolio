@@ -3311,4 +3311,15 @@ class RawatInapController extends ApiController
 
         return $this->respond($ruang);
     }
+    public function getKelasRuanganForAplicare(Request $request) {
+        $kelas = DB::table('kamar_m')
+            ->join('kelas_m', 'kamar_m.objectkelasfk', '=', 'kelas_m.id')
+            ->select('kelas_m.id', 'kelas_m.namakelas', 'kelas_m.namaexternal')
+            ->where('kamar_m.objectruanganfk', $request['idruangan'])
+            ->where('kamar_m.statusenabled', true)
+            ->groupBy('kelas_m.id', 'kelas_m.namakelas', 'kelas_m.namaexternal')
+            ->get();
+
+        return $this->respond($kelas);
+    }
 }
