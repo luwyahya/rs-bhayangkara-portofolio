@@ -3330,7 +3330,7 @@ class RawatInapController extends ApiController
         from tempattidur_m as tt inner join
         kamar_m as kmr on kmr.id = tt.objectkamarfk inner join
         ruangan_m as ru on ru.id = kmr.objectruanganfk
-        where ru.id = $ruangId and kmr.objectkelasfk = $kelasId and tt.statusenabled = 1) as x
+        where ru.id = $ruangId and kmr.objectkelasfk = $kelasId and tt.statusenabled = true) as x
         "));
         return $this->respond($data);
     }
