@@ -304,7 +304,6 @@ class BridgingBPJSV2Controller extends ApiController
         ));
 
         $response = curl_exec($curl);
-        // return [ (string)$data,  (string)$encodedSignature, (string)$tStamp , $userKey ];
         $err = curl_error($curl);
 
         curl_close($curl);
@@ -8339,7 +8338,7 @@ class BridgingBPJSV2Controller extends ApiController
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-        return($response);
+
         curl_close($curl);
 
         if ($err) {
