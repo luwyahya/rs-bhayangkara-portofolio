@@ -3302,4 +3302,13 @@ class RawatInapController extends ApiController
             return $this->respond($data);
 
     }
+    public function getRuanganRanapForAplicare(Request $request) {
+        $ruang = DB::table('ruangan_m')
+            ->select('id', 'namaruangan')
+            ->where('statusenabled', true)
+            ->where('objectdepartemenfk', 16)
+            ->get();
+
+        return $this->respond($ruang);
+    }
 }
