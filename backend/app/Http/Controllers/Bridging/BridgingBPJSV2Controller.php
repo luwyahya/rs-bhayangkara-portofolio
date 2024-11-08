@@ -8338,7 +8338,7 @@ class BridgingBPJSV2Controller extends ApiController
 
         $response = curl_exec($curl);
         $err = curl_error($curl);
-
+        return($response);
         curl_close($curl);
 
         if ($err) {
