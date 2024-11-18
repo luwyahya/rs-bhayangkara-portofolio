@@ -371,7 +371,7 @@ trait PelayananPasienTrait
     }
     protected function getUserKeyAntrol()
     {
-        $set = "49411b103d7802fc2cd065ad718350f2";
+        $set = "1pP469D661uL";
         return $set;
     }
     protected function getUserKeyVclaim()
