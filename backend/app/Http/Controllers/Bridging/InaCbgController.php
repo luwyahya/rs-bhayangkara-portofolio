@@ -946,7 +946,9 @@ class InaCbgController   extends ApiController
             ->leftJoin('jenisdiagnosa_m as jd', 'jd.id', '=', 'ddp.objectjenisdiagnosafk')
             ->whereIn('ru.objectdepartemenfk', [18, 16, 24,28,73,74])
             ->where('pd.norec', $noregistrasifk)
-            ->orderBy('jd.jenisdiagnosa','asc');
+            ->orderBy('jd.jenisdiagnosa', 'asc')
+            ->orderBy('ddp.tglinputdiagnosa', 'asc');
+            
 
         $dataDiagnosa10 = $dataDiagnosa10->get();
         $dataDiagnosa10Inacbg = '';

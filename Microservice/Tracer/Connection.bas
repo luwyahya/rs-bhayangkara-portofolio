@@ -34,7 +34,7 @@ Public Sub openConnection()
 '   username = "postgres"
 '   password = "j4s4medik4"
 '   database = "rs_unand"
-   host = "192.168.100.209"
+   host = "192.168.100.254"
    Port = "5432"
    username = "postgres"
    password = "j4s4medik4"

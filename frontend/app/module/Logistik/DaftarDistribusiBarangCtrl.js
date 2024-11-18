@@ -70,7 +70,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakBuktiTeransfer.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1generic/report/cetakBuktiTeransfer.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakBuktiTeransfer.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakBuktiTeransfer.pdf');

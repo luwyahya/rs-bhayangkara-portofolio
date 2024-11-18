@@ -1,0 +1,51 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Ketersediaan Kamar RS</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Kelas</label>
+            </div>
+            <div class="grid_12">
+                <input kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'"
+                    k-data-value-field="'kodekelas'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas"/>
+            </div>
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="cari()"><i class="fa fa-search"></i>Cari</button>
+        </div>
+    </div>
+    <div class="grid_12 borderBox">
+        <kendo-grid id="kGrid" data-source="sourceKamarRS" k-options="columnKamarRS"
+            k-pageable="'true'" k-sortable="'true'" k-resizable="'true'" k-selectable="'row'"
+            on-change="onChange(data)" k-ng-model="dataPasienSelected">
+        </kendo-grid>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="create()"><i class="fa fa-plus"></i>Tambah Kamar</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="update()"><i class="fa fa-refresh"></i>Update</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpCreateKamar" k-title="'Ruangan Baru'" k-width="400" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <label c-label item="item" c-label-text="Ruangan"></label>
+    <input kendo-combo-box k-ng-model="item.ruangan" k-data-text-field="'namaruangan'"
+    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listRuangan"/>
+    </br>
+    <label c-label item="item" c-label-text="Kelas"></label>
+    <input kendo-combo-box k-ng-model="item.kelas1" k-data-text-field="'namakelas'"
+    k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas1"/>
+    <br />
+    <label c-label item="item" c-label-text="Kapasitas"></label>
+    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kapasitas" disabled/>
+    <br />
+    <label c-label item="item" c-label-text="Tersedia"></label>
+    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tersedia" disabled/>
+    <div class="dialog_buttons pull-right" style="margin-top:5%">
+        <input type="button" class="confirm_yes k-button" value="Simpan" style="width: 70px" ng-click="createRuangAplicare()" />
+    </div>
+</div>

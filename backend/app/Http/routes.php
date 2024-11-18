@@ -2196,6 +2196,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-laporan-mpp', 'RawatInap\RawatInapController@getLaporanMPP');
             Route::get('get-data-sensus', 'RawatInap\RawatInapController@getDataSensus');
             Route::get('get-data-for-sidopak', 'RawatInap\RawatInapController@getDataForSidopak');
+            
+            Route::get('get-ruanganranap-for-aplicare', 'RawatInap\RawatInapController@getRuanganRanapForAplicare');
+            Route::get('get-kelasruangan-for-aplicare', 'RawatInap\RawatInapController@getKelasRuanganForAplicare');
+            Route::get('get-jumlahtt-for-aplicare', 'RawatInap\RawatInapController@getJumlahTTForAplicare');
         });
         Route::group(['prefix' => 'rawatjalan'], function () {
             Route::get('get-data-combo-dokter', 'RawatJalan\RawatJalanController@getDataComboDokter');

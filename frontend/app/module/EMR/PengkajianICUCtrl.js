@@ -5598,7 +5598,7 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/report2.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/report2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/report2.pdf');
                     } else {
                         xhr.open('POST', 'http://127.0.0.1:8797/generic/report/report2.pdf');

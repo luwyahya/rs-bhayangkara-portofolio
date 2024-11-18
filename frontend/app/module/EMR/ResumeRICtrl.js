@@ -2391,7 +2391,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     xhr.open('POST', '/jasper1generic/report/resumemedis.pdf');
                 } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
                     xhr.open('POST', 'http://36.92.186.59:1002/generic/report/resumemedis.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/resumemedis.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/resumemedis.pdf');
@@ -3192,7 +3192,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         xhr.open('POST', 'http://192.168.88.56:8797/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:8797/generic/report/hasillabKlinik.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');

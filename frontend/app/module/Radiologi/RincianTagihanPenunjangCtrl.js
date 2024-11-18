@@ -241,7 +241,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/cetakLabPA.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1003/generic/report/cetakLabPA.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakLabPA.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakLabPA.pdf');
@@ -330,7 +330,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     xhr.open('POST', 'http://simrs-rspusatpolri.com:1003/generic/report/cetakLabGDT.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1003/generic/report/cetakLabGDT.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakLabGDT.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/cetakLabGDT.pdf');
@@ -1299,7 +1299,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             // 		xhr.open('POST', 'http://192.168.0.62:1002/generic/report/labelRadiologi.pdf');
             // 	} else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
             // 		xhr.open('POST', 'http://192.168.88.56:1000/generic/report/labelRadiologi.pdf');
-            // 	} else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+            // 	} else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
             // 		xhr.open('POST', '/jasper1/generic/report/labelRadiologi.pdf');
             // 	} else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
             // 		xhr.open('POST', 'http://202.51.105.98:1000/generic/report/labelRadiologi.pdf');
@@ -1368,7 +1368,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     xhr.open('POST', 'http://192.168.0.62:1003/generic/report/labelradiologi.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1003/generic/report/labelradiologi.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/labelradiologi.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/labelradiologi.pdf');

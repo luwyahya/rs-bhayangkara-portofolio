@@ -224,8 +224,8 @@ define(['initialize'], function (initialize) {
                             xhr.open('POST', 'http://192.168.88.56:8797/generic/report/perencanaan.pdf');
                         } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                             xhr.open('POST', 'http://10.10.20.167:8797/generic/report/perencanaan.pdf');
-                        } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                            xhr.open('POST', 'http://192.168.100.209:8797/generic/report/perencanaan.pdf');
+                        } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                            xhr.open('POST', 'http://192.168.100.254:8797/generic/report/perencanaan.pdf');
                         } else {
                             xhr.open('POST', 'http://127.0.0.1:8797/generic/report/perencanaan.pdf');
                         }
@@ -280,7 +280,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', '/jasper1/generic/report/CetakSPK.pdf');
                 } else if (window.location.hostname.indexOf('http://appsimrs.rsp.unand.ac.id') > -1) {
                     xhr.open('POST', 'http://http://appsimrs.rsp.unand.ac.id:8797/generic/report/CetakSPK.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/CetakSPK.pdf');
                 } else if (window.location.hostname.indexOf('simrs') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/CetakSPK.pdf');
@@ -350,7 +350,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/perencanaanttd.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.9') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/perencanaanttd.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/perencanaanttd.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/perencanaanttd.pdf');
