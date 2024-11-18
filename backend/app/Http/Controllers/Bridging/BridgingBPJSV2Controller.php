@@ -91,6 +91,7 @@ class BridgingBPJSV2Controller extends ApiController
         } else {
             $result = (array) json_decode($response);
         }
+        return $response;
         $key = $data . $secretKey . (string)$tStamp;
         if ($result['metadata']->code == '201') {
             $result = array(
