@@ -7132,7 +7132,6 @@ class BridgingBPJSV2Controller extends ApiController
         $datakartu = array('nokartu' => $nomorkartu, 'tglsep' => $tanggal);
 
         $cekKepersertaan = $this->getNoPesertaPrivate($datakartu);
-        return $cekKepersertaan;
 
 
         $datax2 = array(
@@ -7162,6 +7161,7 @@ class BridgingBPJSV2Controller extends ApiController
             'tanggal' => $tanggal
         );
         $Parsing = $this->getJadwalDokterMjkn($objSave);
+        return $Parsing;
         if ($Parsing['status'] == 'tidakada') {
             $message = array(
                 'message' => 'Jadwal Di Hari Ini Tidak ada, Silahkan Pilih Jadwal Lain',
