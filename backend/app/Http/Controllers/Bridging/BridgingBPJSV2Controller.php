@@ -7131,8 +7131,8 @@ class BridgingBPJSV2Controller extends ApiController
         $jeniskunjungan = $request['jeniskunjungan'];
         $datakartu = array('nokartu' => $nomorkartu, 'tglsep' => $tanggal);
 
-       
         $cekKepersertaan = $this->getNoPesertaPrivate($datakartu);
+        return $cekKepersertaan;
 
 
         $datax2 = array(
