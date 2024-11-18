@@ -366,12 +366,12 @@ trait PelayananPasienTrait
     }
     protected function getPasswordConsumerAntrol()
     {
-        $set = "1pP469D661";
+        $set = "1pP469D661uL";
         return $set;
     }
     protected function getUserKeyAntrol()
     {
-        $set = "1pP469D661uL";
+        $set = "49411b103d7802fc2cd065ad718350f2";
         return $set;
     }
     protected function getUserKeyVclaim()
