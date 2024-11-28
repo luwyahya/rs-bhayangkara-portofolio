@@ -26,6 +26,8 @@ use App\Transaksi\StokProdukAdjusment;
 use App\Transaksi\StrukClosing;
 use App\Transaksi\StrukOrderBatalVerif;
 use App\Transaksi\StrukOrderBatalVerifDetail;
+
+use App\Transaksi\StrukBuktiPengeluaran;
 // use App\Transaksi\PelayananPasien;
 use Illuminate\Http\Request;
 use App\Traits\Valet;
@@ -47,6 +49,7 @@ use App\Transaksi\AntrianApotik;
 use App\Transaksi\CetakEtiket;
 use App\Master\Produk;
 use App\Transaksi\AntrianPasienRegistrasi;
+use App\Transaksi\CopyResep;
 
 
 
@@ -62,7 +65,7 @@ class PelayananResepController extends ApiController
     {
         $dataLogin = $request->all();
         $results = DB::select(
-            DB::raw("select pd.norec as norec_pd,pd.noregistrasi,kp.kelompokpasien,rk.namarekanan,pv.beratbadan,
+            DB::raw("select pd.norec as norec_pd,pd.noregistrasi,kp.kelompokpasien,rk.namarekanan,pv.beratbadan, pa.nosep,
             pg.id as pgid, pg.namalengkap as namadokterdpjp, kls.namakelas ,kls2.namakelas as kelasrawat,kmr.namakamar
             from pasiendaftar_t as pd
             left JOIN kelompokpasien_m as kp on kp.id=pd.objectkelompokpasienlastfk
@@ -92,68 +95,371 @@ class PelayananResepController extends ApiController
 
         return $this->respond($result);
     }
+
+    public function ReorderEresep(Request $request)
+    {
+        $dataAsalProduk = \DB::table('asalproduk_m as ap')
+            ->select('ap.id', 'ap.asalproduk')
+            ->get();
+        $dataSigna = \DB::table('stigma as st')
+            ->select('st.id', 'st.name')
+            ->get();
+        $dataStruk = \DB::table('strukorder_t as so')
+            ->JOIN('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'so.objectruangantujuanfk')
+            ->select('so.noorder', 'pg.id as pgid', 'pg.namalengkap', 'ru.id', 'ru.namaruangan', 'so.tglorder', 'so.isreseppulang');
+
+        if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
+            $dataStruk = $dataStruk->where('so.noorder', '=', $request['noorder']);
+        }
+        $dataStruk = $dataStruk->first();
+
+        // $dataracikan = \DB::table('strukorder_t as ss')
+        // ->JOIN('orderpelayanan_t as oo','oo.strukorderfk','=','ss.norec')
+        // ->SELECT('oo.keteranganracikan');
+        // // ->where('oo.keteranganracikan','<>','');
+        // if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
+        //     $dataracikan = $dataracikan->where('ss.noorder', '=', $request['noorder']);
+        // }
+        // $dataracikan = $dataracikan->where('oo.keteranganracikan','<>','');
+        // $dataracikan = $dataracikan->get(); 
+
+
+
+        $data = \DB::table('strukorder_t as so')
+            ->JOIN('orderpelayanan_t as op', 'op.strukorderfk', '=', 'so.norec')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'so.objectruangantujuanfk')
+            ->leftJOIN('jeniskemasan_m as jk', 'jk.id', '=', 'op.jeniskemasanfk')
+            ->leftJOIN('routefarmasi as rt', 'rt.id', '=', 'op.routefk')
+            ->leftJOIN('produk_m as pr', 'pr.id', '=', 'op.objectprodukfk')
+            ->leftJOIN('rm_sediaan_m as sdn', 'sdn.id', '=', 'pr.objectsediaanfk')
+            ->leftJOIN('satuanstandar_m as ss', 'ss.id', '=', 'op.objectsatuanstandarfk')
+            ->leftJOIN('satuanstandar_m as ss2', 'ss2.id', '=', 'op.satuanviewfk')
+            ->leftJOIN('waktuminum_m as wm', 'wm.id', '=', 'op.objectwaktuminumfk')
+            // ->leftJOIN('sediaanobat_m as sob','sob.id','=','op.objectsediaanobatfk')
+            ->select(
+                'so.noorder',
+                'op.hargasatuan',
+                'op.qtystokcurrent',
+                'so.objectruangantujuanfk',
+                'ru.namaruangan',
+                'op.rke',
+                'op.jeniskemasanfk',
+                'jk.id as jkid',
+                'jk.jeniskemasan',
+                'op.aturanpakai',
+                'op.routefk',
+                'rt.name as namaroute',
+                'op.objectprodukfk',
+                'pr.namaproduk',
+                'op.hasilkonversi',
+                'op.objectsatuanstandarfk',
+                'ss.satuanstandar',
+                'op.satuanviewfk',
+                'ss2.satuanstandar as ssview',
+                'op.qtyproduk',
+                'op.hargadiscount',
+                'op.hasilkonversi',
+                'op.qtystokcurrent',
+                'op.dosis',
+                //'op.jenisobatfk',
+                'op.hargasatuan',
+                'op.hargadiscount',
+                'pr.kekuatan',
+                'sdn.name as sediaan',
+                'op.ispagi',
+                'op.issiang',
+                'op.ismalam',
+                'op.issore',
+                'op.keteranganpakai',
+                'so.isreseppulang',
+                'pr.isobatkronis',
+                //'op.dosis2',
+                //'op.keteranganracikan',
+                'wm.waktuminum',
+                //'sob.sediaanobat',
+                //'op.objectsediaanobatfk',
+                'op.objectwaktuminumfk'
+            );
+
+        if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
+            $data = $data->where('so.noorder', '=', $request['noorder']);
+        }
+        $data = $data->get();
+
+        $orderPelayanan = [];
+        $i = 0;
+        $dataStok = DB::select(
+            DB::raw("select sk.norec,spd.objectprodukfk, sk.tglstruk,spd.objectasalprodukfk,
+                            spd.harganetto2 as hargajual,spd.harganetto2 as harganetto,spd.hargadiscount,
+                    sum(spd.qtyproduk) as qtyproduk,spd.objectruanganfk
+                    from stokprodukdetail_t as spd
+                    inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                    where  spd.objectruanganfk =:ruanganid
+                    group by sk.norec,spd.objectprodukfk, sk.tglstruk,spd.objectasalprodukfk,
+                            spd.harganetto2,spd.hargadiscount,
+                    spd.objectruanganfk
+                    order By sk.tglstruk"),
+            array(
+                'ruanganid' => $dataStruk->id
+            )
+        );
+
+        $hargajual = 0;
+        $harganetto = 0;
+        $nostrukterimafk = '';
+        $asalprodukfk = 0;
+        $asalproduk = '';
+        $jmlstok = 0;
+        $hargasatuan = 0;
+        $hargadiscount = 0;
+        $total = 0;
+        $aturanpakaifk = 0;
+        $rke = '0';
+        $dataTarifAdminResep = \DB::table('settingdatafixed_m as rt')
+            ->select('rt.namafield', 'rt.nilaifield')
+            ->where('rt.statusenabled', true)
+            ->where('rt.namafield', 'tarifadminresep')
+            ->orderBy('rt.id')
+            ->get();
+        foreach ($data as $item) {
+            $i = $i + 1;
+            $hargajual = 0;
+            $harganetto = 0;
+            $jmlstok = 0;
+            $hargasatuan = 0;
+            $hargadiscount = 0;
+            $total = 0;
+
+
+
+            $tarifadminjasa = $dataTarifAdminResep[0]->nilaifield;
+            $tarifjasa = 0;
+            $qty20 = 0;
+            if ($item->jkid == 2) {
+                $tarifjasa = $tarifadminjasa; //800;
+            }
+            if ($item->jkid == 1) {
+                if ($rke != $item->rke) {
+                    if ($item->qtyproduk > 20) {
+                        $qty20 = number_format($item->qtyproduk / 20, 0);
+                        if ($item->qtyproduk % 20 == 0) {
+                            $qty20 = $qty20;
+                        } else {
+                            $qty20 = $qty20 + 1;
+                        }
+
+                        //                        $tarifjasa = 800 * $qty20;
+                        $tarifjasa = $tarifadminjasa * $qty20;
+                    } else {
+                        //                        $tarifjasa = 800;
+                        $tarifjasa = $tarifadminjasa;
+                    }
+                    $rke = $item->rke;
+                }
+            }
+            $hargajual = round($item->hargasatuan, 0);
+            $hargasatuan = round($item->hargasatuan, 0);
+            $harganetto = round($item->hargadiscount, 0);
+
+            foreach ($dataStok as $item2) {
+                if ($item2->objectprodukfk == $item->objectprodukfk) {
+                    if ($item2->qtyproduk > $item->qtyproduk * $item->hasilkonversi) {
+                        //                        $hargajual =round($item2->hargajual+(($item2->hargajual*25)/100),0);
+                        //                        $harganetto =round( $item2->harganetto+(($item2->harganetto*25)/100),0);//$item2->harganetto;
+
+
+
+                        $nostrukterimafk = $item2->norec;
+                        $asalprodukfk = $item2->objectasalprodukfk;
+                        //                        $asalproduk = $item2->objectasalprodukfk;
+                        $jmlstok = $item2->qtyproduk;
+                        //                        $hargasatuan = $harganetto;//$item2->harganetto;
+                        $hargadiscount = $item2->hargadiscount;
+                        $total = (((float)ceil($item->qtyproduk) * ((float)$hargasatuan - (float)$hargadiscount)) * $item->hasilkonversi) + $tarifjasa;
+                        break;
+                    }
+                }
+            }
+            foreach ($dataAsalProduk as $item3) {
+                if ($asalprodukfk == $item3->id) {
+                    $asalproduk = $item3->asalproduk;
+                }
+            }
+            foreach ($dataSigna as $item4) {
+                if ($item->aturanpakai == $item4->id) {
+                    $aturanpakaifk = $item4->id;
+                }
+            }
+            if ((float)$item->dosis == 0) {
+                $item->dosis = 1;
+            }
+            // return $this->respond($item->qtyproduk);
+            $orderPelayanan[] = array(
+                'no' => $i,
+                'noregistrasifk' => '',
+                'tglregistrasi' => '',
+                'generik' => null,
+                'hargajual' => $hargajual,
+                //'jenisobatfk' => $item->jenisobatfk,
+                'kelasfk' => '',
+                'stock' => $jmlstok,
+                'harganetto' => $harganetto,
+                'nostrukterimafk' => $nostrukterimafk,
+                'ruanganfk' => $item->objectruangantujuanfk,
+                'rke' => $item->rke,
+                'jeniskemasanfk' => $item->jeniskemasanfk,
+                'jeniskemasan' => $item->jeniskemasan,
+                'aturanpakaifk' => $aturanpakaifk,
+                'aturanpakai' => $item->aturanpakai,
+                'routefk' => $item->routefk,
+                'route' => $item->namaroute,
+                'asalprodukfk' => $asalprodukfk,
+                'asalproduk' => $asalproduk,
+                'produkfk' => $item->objectprodukfk,
+                'namaproduk' => $item->namaproduk,
+                'nilaikonversi' => $item->hasilkonversi,
+                'satuanstandarfk' => $item->satuanviewfk, //objectsatuanstandarfk,
+                'satuanstandar' => $item->ssview, //satuanstandar,
+                'satuanviewfk' => $item->satuanviewfk,
+                'satuanview' => $item->ssview,
+                'jmlstok' => $item->qtystokcurrent,
+                'jumlah' => $item->qtyproduk, //ceil($item->qtyproduk),
+                'jumlahobat' => $item->qtyproduk,
+                'dosis' => $item->dosis,
+                //'dosis' => $item->dosis2,
+                'kekuatan' => $item->kekuatan,
+                'hargasatuan' => $hargasatuan,
+                'hargadiscount' => $hargadiscount,
+                'total' => $total,
+                'sediaan' => $item->sediaan,
+                'jmldosis' => (string)$item->qtyproduk / $item->dosis . '/' . (string)$item->dosis,
+                // 'jmldosis' => $item-$dosis2,
+                //                'jmldosis' => (String)$item->qtyproduk,
+                'jasa' => $tarifjasa,
+                'ispagi' => $item->ispagi,
+                'issiang' =>  $item->issiang,
+                'ismalam' =>  $item->ismalam,
+                'issore' =>  $item->issore,
+                "keterangan" => $item->keteranganpakai,
+                'obatkronis' => $item->isobatkronis,
+                //'keteranganracikan' => $item->keteranganracikan,
+                'waktuminum' => $item->waktuminum,
+                //'sediaanobat' => $item->sediaanobat,
+                'objectwaktuminumfk' => $item->objectwaktuminumfk,
+                //'objectsediaanobatfk' => $item->objectsediaanobatfk
+            );
+        }
+
+        $result = array(
+            'strukorder' => $dataStruk,
+            'orderpelayanan' => $orderPelayanan,
+            // 'dataracikan' => $dataracikan,
+        );
+        return $this->respond($result);
+    }
     public function getTransaksiPelayananApotikEtiket(Request $request)
     {
         if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
             $regEtiket =  $request['noReg'];
         }
-        $etiket = DB::select(DB::raw("select v_cetaketiket.jeniskemasanfk,v_cetaketiket.rke,v_cetaketiket.norec,v_cetaketiket.noresep,v_cetaketiket.nocm,v_cetaketiket.namaruangan,v_cetaketiket.waktu,v_cetaketiket.jumlah,v_cetaketiket.dokterresep,v_cetaketiket.carapemberian,
-            v_cetaketiket.waktuminum,case when ppok.jumlah is null then v_cetaketiket.jumlah else  ppok.jumlah+v_cetaketiket.jumlah end as jumlahtotal,  v_cetaketiket.tanggal,v_cetaketiket.tgllahir,v_cetaketiket.namapasien,v_cetaketiket.namaproduk,
-            v_cetaketiket.aturanpakai,v_cetaketiket.keteranganpakai,v_cetaketiket.ispagi,v_cetaketiket.issiang,v_cetaketiket.issore,
-            v_cetaketiket.ismalam,v_cetaketiket.satuanstandar,v_cetaketiket.tglkadaluarsa from v_cetaketiket  
-            left join pelayananpasienobatkronis_t as ppok on v_cetaketiket.strukresepfk = ppok.strukresepfk 
-            and v_cetaketiket.produkfk = ppok.produkfk
-            where v_cetaketiket.noregistrasi='$regEtiket'  and tt=1  
-            order by v_cetaketiket.namaproduk"));
-        
-        
+        $etiket = DB::select(DB::raw("select v_cetaketiket.jeniskemasanfk,v_cetaketiket.bud,v_cetaketiket.satuan,v_cetaketiket.rke,v_cetaketiket.norec,v_cetaketiket.noresep,v_cetaketiket.nocm,v_cetaketiket.namaruangan,v_cetaketiket.waktu,v_cetaketiket.jumlah,v_cetaketiket.dokterresep,v_cetaketiket.carapemberian,
+        v_cetaketiket.waktuminum,case when ppok.jumlah is null then v_cetaketiket.jumlah else  ppok.jumlah+v_cetaketiket.jumlah end as jumlahtotal,  v_cetaketiket.tanggal,v_cetaketiket.tgllahir,v_cetaketiket.namapasien,v_cetaketiket.namaproduk,
+        v_cetaketiket.aturanpakai,v_cetaketiket.keteranganpakai,v_cetaketiket.ispagi,v_cetaketiket.issiang,v_cetaketiket.issore,
+        v_cetaketiket.ismalam,v_cetaketiket.satuanstandar,v_cetaketiket.tglkadaluarsa from v_cetaketiket  
+        left join pelayananpasienobatkronis_t as ppok on v_cetaketiket.strukresepfk = ppok.strukresepfk 
+        and v_cetaketiket.produkfk = ppok.produkfk
+        where v_cetaketiket.noregistrasi='$regEtiket' and tt=1 and date(v_cetaketiket.tanggal) = current_date 
+        order by v_cetaketiket.namaproduk"));
+
+
         $data10 = [];
+        // foreach ($etiket as $itemEtiket) {
+        //     $sama = false;
+        //     $i = 0;
+        //     foreach ($data10 as $hideung) {
+        //         if ($itemEtiket->noresep == $data10[$i]['noresep']  && $itemEtiket->rke == $data10[$i]['rke'] && $itemEtiket->jeniskemasanfk == $data10[$i]['jeniskemasanfk']) {
+        //             $sama = true;
+        //             $data10[$i]['namaproduk'] = $data10[$i]['namaproduk'] . ',' . $itemEtiket->namaproduk;
+        //         }
+        //         $i = $i + 1;
+        //     }
+        //     if ($sama == false) {
+        //         $data10[] = array(
+        //             'noresep' => $itemEtiket->noresep,
+        //             'nocm' => $itemEtiket->nocm,
+        //             'namaruangan' => $itemEtiket->namaruangan,
+        //             'waktu' => $itemEtiket->waktu,
+        //             'jumlah' => $itemEtiket->jumlah,
+        //             'dokterresep' => $itemEtiket->dokterresep,
+        //             'carapemberian' => $itemEtiket->carapemberian,
+        //             'waktuminum' => $itemEtiket->waktuminum,
+        //             'jumlahtotal' => $itemEtiket->jumlahtotal,
+        //             'tglpelayanan' => $itemEtiket->tanggal,
+        //             'tgllahir' => $itemEtiket->tgllahir,
+        //             'namapasien' => $itemEtiket->namapasien,
+        //             'namaproduk' => $itemEtiket->namaproduk,
+        //             'ismalam' => $itemEtiket->ismalam,
+        //             'satuanstandar' => $itemEtiket->satuanstandar,
+        //             'tglkadaluarsa' => $itemEtiket->tglkadaluarsa,
+        //             'rke' => $itemEtiket->rke,
+        //             'ispagi' => $itemEtiket->ispagi,
+        //             'issore' => $itemEtiket->issore,
+        //             'satuan' => $itemEtiket->satuan,
+        //             'issiang' => $itemEtiket->issiang,
+        //             'noregistrasi' => $regEtiket,
+        //             'norecpp' => $itemEtiket->norec,
+        //             'keteranganpakai' => $itemEtiket->keteranganpakai,
+        //             'aturanpakai' => $itemEtiket->aturanpakai,
+        //             'jeniskemasanfk' => $itemEtiket->jeniskemasanfk,
+        //             'bud' => $itemEtiket->bud,
+        //             'hargasatuan' => '0',
+        //             'hargadiscount' => '0',
+        //             'jasa' => '0',
+        //             'total' => '0',
+        //             'kadaluarsa' => ''
+        //         );
+        //     }
+        // }
+
         foreach ($etiket as $itemEtiket) {
-            $sama = false;
-            $i = 0;
-            foreach ($data10 as $hideung) {
-                if ($itemEtiket->noresep==$data10[$i]['noresep']  && $itemEtiket->rke==$data10[$i]['rke'] && $itemEtiket->jeniskemasanfk==$data10[$i]['jeniskemasanfk']) {
-                    $sama = true;
-                    $data10[$i]['namaproduk']=$data10[$i]['namaproduk'].','.$itemEtiket->namaproduk;
-                }
-                $i = $i + 1;
-            }
-            if ($sama == false) {
-                 $data10[] = array(
-                    'noresep' => $itemEtiket->noresep,
-                    'nocm' => $itemEtiket->nocm,
-                    'namaruangan' => $itemEtiket->namaruangan,
-                    'waktu' => $itemEtiket->waktu,
-                    'jumlah' => $itemEtiket->jumlah,
-                    'dokterresep' => $itemEtiket->dokterresep,
-                    'carapemberian' => $itemEtiket->carapemberian,
-                    'waktuminum' => $itemEtiket->waktuminum,
-                    'jumlahtotal' => $itemEtiket->jumlahtotal,
-                    'tglpelayanan' => $itemEtiket->tanggal,
-                    'tgllahir' => $itemEtiket->tgllahir,
-                    'namapasien' => $itemEtiket->namapasien,
-                    'namaproduk' => $itemEtiket->namaproduk,
-                    'ismalam' => $itemEtiket->ismalam,
-                    'satuanstandar' => $itemEtiket->satuanstandar,
-                    'tglkadaluarsa' => $itemEtiket->tglkadaluarsa,
-                    'rke' => $itemEtiket->rke,
-                    'ispagi' => $itemEtiket->ispagi,
-                    'issore' => $itemEtiket->issore,
-                    'issiang' => $itemEtiket->issiang,
-                    'noregistrasi'=> $regEtiket,
-                    'norecpp'=> $itemEtiket->norec,
-                    'keteranganpakai'=> $itemEtiket->keteranganpakai,
-                    'aturanpakai'=> $itemEtiket->aturanpakai,
-                    'jeniskemasanfk'=> $itemEtiket->jeniskemasanfk,
-                    'hargasatuan'=> '0',
-                    'hargadiscount'=> '0',
-                    'jasa'=> '0',
-                    'total'=> '0',
-                    'kadaluarsa'=>''
-                );
-            }
+            $data10[] = array(
+                'noresep' => $itemEtiket->noresep,
+                'nocm' => $itemEtiket->nocm,
+                'namaruangan' => $itemEtiket->namaruangan,
+                'waktu' => $itemEtiket->waktu,
+                'jumlah' => $itemEtiket->jumlah,
+                'dokterresep' => $itemEtiket->dokterresep,
+                'carapemberian' => $itemEtiket->carapemberian,
+                'waktuminum' => $itemEtiket->waktuminum,
+                'jumlahtotal' => $itemEtiket->jumlahtotal,
+                'tglpelayanan' => $itemEtiket->tanggal,
+                'tgllahir' => $itemEtiket->tgllahir,
+                'namapasien' => $itemEtiket->namapasien,
+                'namaproduk' => $itemEtiket->namaproduk,
+                'ismalam' => $itemEtiket->ismalam,
+                'satuanstandar' => $itemEtiket->satuanstandar,
+                'tglkadaluarsa' => $itemEtiket->tglkadaluarsa,
+                'rke' => $itemEtiket->rke,
+                'ispagi' => $itemEtiket->ispagi,
+                'issore' => $itemEtiket->issore,
+                'satuan' => $itemEtiket->satuan,
+                'issiang' => $itemEtiket->issiang,
+                'noregistrasi' => $regEtiket,
+                'norecpp' => $itemEtiket->norec,
+                'keteranganpakai' => $itemEtiket->keteranganpakai,
+                'aturanpakai' => $itemEtiket->aturanpakai,
+                'jeniskemasanfk' => $itemEtiket->jeniskemasanfk,
+                'bud' => $itemEtiket->bud,
+                'hargasatuan' => '0',
+                'hargadiscount' => '0',
+                'jasa' => '0',
+                'total' => '0',
+                'kadaluarsa' => ''
+            );
         }
-        if(count($data10)>0){
+
+        if (count($data10) > 0) {
             $HapusPPD = CetakEtiket::where('noregistrasi', $regEtiket)->delete();
             foreach ($data10 as $simpan) {
                 $dataPD = new CetakEtiket();
@@ -163,6 +469,7 @@ class PelayananResepController extends ApiController
                 $dataPD->namaruangan = $simpan['namaruangan'];
                 $dataPD->waktu = $simpan['waktu'];
                 $dataPD->jumlah = $simpan['jumlah'];
+                $dataPD->satuan = $simpan['satuan'];
                 $dataPD->dokterresep = $simpan['dokterresep'];
                 $dataPD->carapemberian = $simpan['carapemberian'];
                 $dataPD->waktuminum = $simpan['waktuminum'];
@@ -189,23 +496,23 @@ class PelayananResepController extends ApiController
         $detail = $request->all();
         $result = [];
         $data = \DB::table('pelayananpasien_t as pp')
-        ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
-        ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-        ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
-        ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
-        ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
-        ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
-        ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
-        ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-        ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        ->leftJOIN('konversisatuan_t as ks', function ($join) {
-            $join->on('ks.objekprodukfk', '=', 'pr.id')
-            ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
-        })
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
             ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
             // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
             // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
@@ -230,6 +537,7 @@ class PelayananResepController extends ApiController
                 'pp.hargasatuan',
                 'pp.hargadiscount',
                 'sp.nostruk',
+                'pp.satuan',
                 'pd.noregistrasi',
                 'ks.nilaikonversi',
                 'ss2.satuanstandar as satuanstandar2',
@@ -278,23 +586,23 @@ class PelayananResepController extends ApiController
         $data = $data->get();
 
         $data2 = \DB::table('pelayananpasien_t as pp')
-        ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
-        ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-        ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
-        ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
-        ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
-        ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
-        ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
-        ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-        ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        ->leftJOIN('konversisatuan_t as ks', function ($join) {
-            $join->on('ks.objekprodukfk', '=', 'pr.id')
-            ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
-        })
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
             ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
             // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
             // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
@@ -306,7 +614,7 @@ class PelayananResepController extends ApiController
             ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
             ->join('stokprodukdetail_t as spd',  function ($join) {
                 $join->on('spd.objectprodukfk', '=', 'pp.produkfk')
-                ->on('spd.nostrukterimafk', '=', 'pp.strukterimafk');
+                    ->on('spd.nostrukterimafk', '=', 'pp.strukterimafk');
             })
             ->select(
                 'spd.tglkadaluarsa',
@@ -321,6 +629,7 @@ class PelayananResepController extends ApiController
                 'ss.satuanstandar',
                 'pp.jumlah',
                 'pp.hargasatuan',
+                'pp.satuan',
                 'pp.hargadiscount',
                 'sp.nostruk',
                 'pd.noregistrasi',
@@ -446,6 +755,7 @@ class PelayananResepController extends ApiController
                 'depoid' => $item->ruangandepoid,
                 'namaruangandepo' => $item->ruangandepo,
                 'aturanpakai' => $item->aturanpakai,
+                'satuan' => $item->satuan,
                 'dokter' => $item->dokter,
                 'namaruangan' => $item->namaruangan,
                 'kekuatan' => $item->kekuatan,
@@ -477,23 +787,23 @@ class PelayananResepController extends ApiController
         $detail = $request->all();
         $result = [];
         $data = \DB::table('pelayananpasien_t as pp')
-        ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
-        ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-        ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
-        ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
-        ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
-        ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
-        ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
-        ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-        ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        ->leftJOIN('konversisatuan_t as ks', function ($join) {
-            $join->on('ks.objekprodukfk', '=', 'pr.id')
-            ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
-        })
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
             ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
             // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
             // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
@@ -566,23 +876,23 @@ class PelayananResepController extends ApiController
         $data = $data->get();
 
         $data2 = \DB::table('pelayananpasien_t as pp')
-        ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
-        ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-        ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-        ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
-        ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-        ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
-        ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
-        ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
-        ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
-        ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
-        ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
-        ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
-        ->leftJOIN('konversisatuan_t as ks', function ($join) {
-            $join->on('ks.objekprodukfk', '=', 'pr.id')
-            ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
-        })
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
             ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
             // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
             // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
@@ -594,7 +904,7 @@ class PelayananResepController extends ApiController
             ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
             ->join('stokprodukdetail_t as spd',  function ($join) {
                 $join->on('spd.objectprodukfk', '=', 'pp.produkfk')
-                ->on('spd.nostrukterimafk', '=', 'pp.strukterimafk');
+                    ->on('spd.nostrukterimafk', '=', 'pp.strukterimafk');
             })
             ->select(
                 'spd.tglkadaluarsa',
@@ -775,12 +1085,16 @@ class PelayananResepController extends ApiController
             ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-            ->select('pp.produkfk', 'pr.namaproduk', 'pp.dosisobat',
-            DB::raw("CASE WHEN pp.isrm is null THEN 'Tambah' ELSE 'Hapus' END AS isrm, 
-            case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi"))
+            ->select(
+                'pp.produkfk',
+                'pr.namaproduk',
+                'pp.dosisobat',
+                DB::raw("CASE WHEN pp.isrm is null THEN 'Tambah' ELSE 'Hapus' END AS isrm, 
+            case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi")
+            )
             ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15])
             ->whereNotNull('pp.isobat')
-            ->where('pp.isrm',true)
+            ->where('pp.isrm', true)
             ->orderBy('pp.produkfk');
         if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
             $data = $data->where('ps.nocm', '=', $request['nocm']);
@@ -825,11 +1139,17 @@ class PelayananResepController extends ApiController
             ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
             ->LEFTJOIN('routefarmasi AS rt', 'rt.id', '=', 'pp.routefk')
-            ->select('pp.norec', 'pp.produkfk', 'pr.namaproduk', 'pp.dosisobat', 'pp.jumlah',
-            DB::raw("CASE WHEN pp.ispulang=true THEN 'Hapus' ELSE 'Tambah' END AS ispulang, 
+            ->select(
+                'pp.norec',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'pp.dosisobat',
+                'pp.jumlah',
+                DB::raw("CASE WHEN pp.ispulang=true THEN 'Hapus' ELSE 'Tambah' END AS ispulang, 
             case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi, 
-            case when rt.name is null then pp.carapemberian else rt.name end as carapemberian "))
-            ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15,16,17])
+            case when rt.name is null then pp.carapemberian else rt.name end as carapemberian ")
+            )
+            ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15, 16, 17])
             ->where('pp.ispulang', true)
             ->whereNotNull('pp.isobat')
             ->orderBy('pp.produkfk');
@@ -878,11 +1198,18 @@ class PelayananResepController extends ApiController
             ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
             ->LEFTJOIN('routefarmasi AS rt', 'rt.id', '=', 'pp.routefk')
-            ->select('pp.norec','pr.objectkelompokprodukbpjsfk', 'pp.produkfk', 'pr.namaproduk', 'pp.dosisobat', 'pp.jumlah',
-            DB::raw("CASE WHEN pp.ispulang=true THEN 'Hapus' ELSE 'Tambah' END AS ispulang, 
+            ->select(
+                'pp.norec',
+                'pr.objectkelompokprodukbpjsfk',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'pp.dosisobat',
+                'pp.jumlah',
+                DB::raw("CASE WHEN pp.ispulang=true THEN 'Hapus' ELSE 'Tambah' END AS ispulang, 
             case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi, 
-            case when rt.name is null then '-' else rt.name end as carapemberian "))
-            ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15,16,17])
+            case when rt.name is null then '-' else rt.name end as carapemberian ")
+            )
+            ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15, 16, 17])
             ->whereNull('pp.ispulang')
             ->whereNotNull('pp.isobat')
             ->orderBy('pp.produkfk');
@@ -917,13 +1244,13 @@ class PelayananResepController extends ApiController
                     'frekuensi' => $item->frekuensi,
                     'ispulang' => $item->ispulang,
                     'carapemberian' => $item->carapemberian,
-                    'kelompok'=> $item->objectkelompokprodukbpjsfk
+                    'kelompok' => $item->objectkelompokprodukbpjsfk
                 );
             }
         }
         return $this->respond($result);
     }
-    
+
     public function getTransaksiDosisRMPop(Request $request)
     {
         $detail = $request->all();
@@ -932,9 +1259,13 @@ class PelayananResepController extends ApiController
             ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-            ->select('pp.produkfk', 'pr.namaproduk', 'pp.dosisobat',
-            DB::raw("CASE WHEN pp.isrm is null THEN 'Tambah' ELSE 'Hapus' END AS isrm,  
-            case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi"))
+            ->select(
+                'pp.produkfk',
+                'pr.namaproduk',
+                'pp.dosisobat',
+                DB::raw("CASE WHEN pp.isrm is null THEN 'Tambah' ELSE 'Hapus' END AS isrm,  
+            case when pp.frekuensi is null then pp.aturanpakai else pp.frekuensi end as frekuensi")
+            )
             ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15])
             ->whereNotNull('pp.isobat')
             ->where('pp.isrm', null)
@@ -972,7 +1303,7 @@ class PelayananResepController extends ApiController
         }
         return $this->respond($result);
     }
-    
+
     public function getTransaksiStatusDosisRM(Request $request)
     {
         $detail = $request->all();
@@ -981,8 +1312,9 @@ class PelayananResepController extends ApiController
             ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
-            ->select('pp.produkfk',
-            DB::raw("CASE WHEN pp.isrm=1 THEN 'Tambah' ELSE 'Hapus' END AS isrm")
+            ->select(
+                'pp.produkfk',
+                DB::raw("CASE WHEN pp.isrm=1 THEN 'Tambah' ELSE 'Hapus' END AS isrm")
             )
             ->whereIn('pr.objectkelompokprodukbpjsfk', [13, 14, 15])
             ->whereNotNull('pp.isobat')
@@ -1093,7 +1425,7 @@ class PelayananResepController extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-    
+
     public function saveTransaksiDosisPulangRM(Request $request)
     {
         //        $kdProfile = $this->getDataKdProfile($request);
@@ -1112,15 +1444,15 @@ class PelayananResepController extends ApiController
             // // return($dataPP);
             // // die();
             // foreach ($dataPP as $key => $valuePP) {
-                // return($valuePP->norecPP);
-                // die();
-                $data = PelayananPasien::where('norec', $value['norec_pp'])
-                    ->update([
-                        'carapemberian' => $value['carapemberian'],
-                        'frekuensi' => $value['frekuensi'],
-                        'dosisobat' => $value['dosisobat'],
-                    ]);
-            }
+            // return($valuePP->norecPP);
+            // die();
+            $data = PelayananPasien::where('norec', $value['norec_pp'])
+                ->update([
+                    'carapemberian' => $value['carapemberian'],
+                    'frekuensi' => $value['frekuensi'],
+                    'dosisobat' => $value['dosisobat'],
+                ]);
+        }
         // }
 
         $transStatus = 'true';
@@ -1392,7 +1724,7 @@ class PelayananResepController extends ApiController
             }
         } catch (\Exception $e) {
             $transStatus = 'false';
-//            $transMessage = "Simpan Pelayanan Pasien";
+            //            $transMessage = "Simpan Pelayanan Pasien";
         }
 
         if ($transStatus == 'true') {
@@ -1406,7 +1738,7 @@ class PelayananResepController extends ApiController
                 "as" => 'as@epic',
             );
         } else {
-            $transMessage = "Hapus Pelayanan Apotik Gagal!!";
+            $transMessage = "Hapus Pelayanan Apotik Gagal!! Reason : " . $e->getMessage();
             DB::rollBack();
             $result = array(
                 "status" => 400,
@@ -1467,12 +1799,11 @@ class PelayananResepController extends ApiController
         try {
             // $namauser = $request['datalogin']['namaLengkap'];
             foreach ($r_SR['produk'] as $item) {
- 
+
                 $newPP = PelayananPasienObatKronis::where('strukresepfk', $item['norec_resep'])
-                ->where('produkfk',$item['produkfk'])
+                    ->where('produkfk', $item['produkfk'])
                     ->delete();
                 $transStatus = 'true';
- 
             }
         } catch (\Exception $e) {
             $transStatus = 'false';
@@ -1848,7 +2179,7 @@ class PelayananResepController extends ApiController
             ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
             ->leftJOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
             ->JOIN('stokprodukdetail_t as spd', 'spd.objectprodukfk', '=', 'pr.id')
-            ->select('pr.id', 'pr.namaproduk', 'ss.id as ssid', 'ss.satuanstandar','pr.objectkelompokprodukbpjsfk')
+            ->select('pr.id', 'pr.namaproduk', 'ss.id as ssid', 'ss.satuanstandar', 'pr.objectkelompokprodukbpjsfk')
             ->where('pr.statusenabled', true)
             // ->whereIn('jp.id',[97,283])
             ->where('spd.qtyproduk', '>', 0)
@@ -1913,17 +2244,17 @@ class PelayananResepController extends ApiController
             ->where('rt.namafield', 'tarifadminresep')
             ->orderBy('rt.id')
             ->first();
-        $dataJasaResepRacikan= \DB::table('settingdatafixed_m as rt')
-        ->select('rt.namafield', 'rt.nilaifield')
-        ->where('rt.statusenabled', true)
-        ->where('rt.namafield', 'tarifadminresepracikan')
-        ->orderBy('rt.id')
+        $dataJasaResepRacikan = \DB::table('settingdatafixed_m as rt')
+            ->select('rt.namafield', 'rt.nilaifield')
+            ->where('rt.statusenabled', true)
+            ->where('rt.namafield', 'tarifadminresepracikan')
+            ->orderBy('rt.id')
             ->first();
         $dataJasaResepNon = \DB::table('settingdatafixed_m as rt')
-        ->select('rt.namafield', 'rt.nilaifield')
-        ->where('rt.statusenabled', true)
-        ->where('rt.namafield', 'tarifadminresepnonracikan')
-        ->orderBy('rt.id')
+            ->select('rt.namafield', 'rt.nilaifield')
+            ->where('rt.statusenabled', true)
+            ->where('rt.namafield', 'tarifadminresepnonracikan')
+            ->orderBy('rt.id')
             ->first();
 
 
@@ -1996,7 +2327,7 @@ class PelayananResepController extends ApiController
         $result = array(
             'produk' => $dataProdukResult,
             'produk1' => $dataProdukResult1,
-            'penulisresep' =>   $dataPenulis2,
+            'penulisresep' => $dataPenulis2,
             'ruangan' => $dataRuangan,
             'ruanganfarmasi' => $dataRuanganFamasi,
             'ruanganfarmasiall' => $dataRuanganFamasiall,
@@ -2047,7 +2378,7 @@ class PelayananResepController extends ApiController
             ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
             ->JOIN('satuanstandar_m as ss', 'ss.id', '=', 'pr.objectsatuanstandarfk')
             ->JOIN('satuanstandar_m as ss2', 'ss2.id', '=', 'pp.satuanviewfk')
-            ->orderby('pp.rke','asc')
+            ->orderby('pp.rke', 'asc')
             ->select(
                 'sr.noresep',
                 'pp.hargasatuan',
@@ -2084,7 +2415,8 @@ class PelayananResepController extends ApiController
                 'pr.kekuatan',
                 'pp.keteranganpakai',
                 'sr.isreseppulang',
-                'pp.dosisobat'
+                'pp.dosisobat',
+                'pp.hari'
             );
 
         if (isset($request['norecResep']) && $request['norecResep'] != "" && $request['norecResep'] != "undefined") {
@@ -2124,16 +2456,16 @@ class PelayananResepController extends ApiController
                 'ss2.satuanstandar as ssview',
                 'pp.jumlah as jumlahcetak',
                 'pp.jumlah',
-            'pp.strukterimafk',
-            'pp.hargajual',
-            'pp.hargadiscount',
-            'pp.dosis',
-            'pr.kekuatan',
-            'pp.jenisobatfk',
-            'pp.jumlah as qtydetailresep',
-            'pp.jasa',
-            DB::raw("'' as ispagi,'' as issore,'' as ismalam,'' as issiang, '' as keteranganpakai,'' as isreseppulang,'' as dosisobat")
-        
+                'pp.strukterimafk',
+                'pp.hargajual',
+                'pp.hargadiscount',
+                'pp.dosis',
+                'pr.kekuatan',
+                'pp.jenisobatfk',
+                'pp.jumlah as qtydetailresep',
+                'pp.jasa',
+                DB::raw("'' as ispagi,'' as issore,'' as ismalam,'' as issiang, '' as keteranganpakai,'' as isreseppulang,'' as dosisobat")
+
                 // 'pp.dosisobat'
             );
 
@@ -2291,7 +2623,8 @@ class PelayananResepController extends ApiController
                 'issore' => $item->issore,
                 'keterangan' => $item->keteranganpakai,
                 'isreseppulang' => $item->isreseppulang,
-                'dosisobat' => $item->dosisobat
+                'dosisobat' => $item->dosisobat,
+                'hari' => $item->hari
             );
         }
         $i = 0;
@@ -2341,7 +2674,7 @@ class PelayananResepController extends ApiController
                     }
                 }
             }
-         
+
             $jmlxMakan = (((float)$item->jumlah / (float)$item->nilaikonversi) / (float)$item->dosis) * (float)$item->kekuatan;
             $pelayananPasien2[] = array(
                 'no' => $i,
@@ -2431,7 +2764,9 @@ class PelayananResepController extends ApiController
             ->leftJOIN('rm_sediaan_m as sdn', 'sdn.id', '=', 'pr.objectsediaanfk')
             ->leftJOIN('satuanstandar_m as ss', 'ss.id', '=', 'op.objectsatuanstandarfk')
             ->leftJOIN('satuanstandar_m as ss2', 'ss2.id', '=', 'op.satuanviewfk')
+            ->leftJOIN('waktuminum_m as wm', 'wm.id', '=', 'op.objectwaktuminumfk')
             ->select(
+                'op.norec',
                 'so.noorder',
                 'op.hargasatuan',
                 'op.qtystokcurrent',
@@ -2442,6 +2777,9 @@ class PelayananResepController extends ApiController
                 'jk.id as jkid',
                 'jk.jeniskemasan',
                 'op.aturanpakai',
+                'op.jumlahdet',
+                'op.det',
+                'op.detn',
                 'op.routefk',
                 'rt.name as namaroute',
                 'op.objectprodukfk',
@@ -2467,7 +2805,10 @@ class PelayananResepController extends ApiController
                 'op.issore',
                 'op.keteranganpakai',
                 'so.isreseppulang',
-                'pr.isobatkronis'
+                'pr.isobatkronis',
+                'op.jumlahxmakan',
+                'wm.waktuminum',
+                'op.isobatpulang'
             );
 
         if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
@@ -2584,6 +2925,7 @@ class PelayananResepController extends ApiController
             }
             // return $this->respond($item->qtyproduk);
             $orderPelayanan[] = array(
+                'norecpo' => $item->norec,
                 'no' => $i,
                 'noregistrasifk' => '',
                 'tglregistrasi' => '',
@@ -2620,15 +2962,22 @@ class PelayananResepController extends ApiController
                 'hargadiscount' => $hargadiscount,
                 'total' => $total,
                 'sediaan' => $item->sediaan,
-                'jmldosis' => (string)$item->qtyproduk / $item->dosis . '/' . (string)$item->dosis,
+                // 'jmldosis' => (string)$item->qtyproduk / $item->dosis . '/' . (string)$item->dosis,
+                'jmldosis' => (string)$item->jumlahxmakan . '/' . (string)$item->dosis,
+                'jumlahxmakan' => (string)$item->jumlahxmakan,
                 //                'jmldosis' => (String)$item->qtyproduk,
                 'jasa' => $tarifjasa,
                 'ispagi' => $item->ispagi,
                 'issiang' =>  $item->issiang,
                 'ismalam' =>  $item->ismalam,
                 'issore' =>  $item->issore,
-                "keterangan" => $item->keteranganpakai,
+                "anotherketerangan" => $item->keteranganpakai,
                 'obatkronis' => $item->isobatkronis,
+                'waktuminum' => $item->waktuminum,
+                'det' => $item->det,
+                'detn' => $item->detn,
+                'jumlahdet' => $item->jumlahdet,
+                'isobatpulang' => $item->isobatpulang
             );
         }
 
@@ -2743,7 +3092,7 @@ class PelayananResepController extends ApiController
 
 
     public function getProdukData(Request $request)
-       {
+    {
 
         if (isset($request['ruanganfk']) && $request['ruanganfk'] == 555 && $request['ruanganfk'] != "undefined") {
             $now = Carbon::now();
@@ -2752,21 +3101,20 @@ class PelayananResepController extends ApiController
             $produk = $request['produkfk'];
             $data = DB::select(DB::raw("select pd.noregistrasi,tglpelayanan,* from pelayananpasienobatkronis_t as pp inner join antrianpasiendiperiksa_t as apd on apd.norec=pp.noregistrasifk inner join pasiendaftar_t as pd on pd.norec=apd.noregistrasifk inner join produk_m as pr on pr.id=pp.produkfk inner join ruangan_m as ru on ru.id=apd.objectruanganfk where pd.noregistrasi='$noregis' and pr.id='$produk' and tglpelayanan between '$newDateTime' and '$now'"));
 
-            if(isset($data) !="" && $data !="undefined" && $data != []){
-                    $data = true;
-                }else{
-                    $data = false;
-                }
-            }else{
+            if (isset($data) != "" && $data != "undefined" && $data != []) {
+                $data = true;
+            } else {
                 $data = false;
             }
+        } else {
+            $data = false;
+        }
 
-            $result = array(
-                'data'=> $data,
-            );
-            return $this->respond($result);
-
-       }
+        $result = array(
+            'data' => $data,
+        );
+        return $this->respond($result);
+    }
 
     // 
     public function getProdukDetail(Request $request)
@@ -2831,6 +3179,7 @@ class PelayananResepController extends ApiController
             ->where('phjp.statusenabled', true)
             ->where('phjp.objectkelompokpasienfk', $kelompokpasien)
             ->get();
+            return ($persenHargaJualProduk);
         if (count($persenHargaJualProduk) == 0) {
             return $this->respond(array(
                 'Error' => 'Setting persenhargajualproduk_m dulu',
@@ -2896,31 +3245,33 @@ class PelayananResepController extends ApiController
                     'ruanganid' => $request['ruanganfk'],
                 )
             );
+            // return($result);
 
             $persenUpHargaSatuan = 0;
             foreach ($result as $item) {
-                if($item->qtyproduk>0){
-                foreach ($persenHargaJualProduk as $hitem) {
-                    if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto){
+                if ($item->qtyproduk > 0) {
+                    foreach ($persenHargaJualProduk as $hitem) {
+                        if ((float)$hitem->rangemin <= (float)$item->harganetto && (float)$hitem->rangemax >= (float)$item->harganetto) {
 
-                        $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                            $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                        }
                     }
-                }
-                 
-                $results[] = array(
-                    'norec' => $item->norec,
-                    'objectprodukfk' => $item->objectprodukfk,
-                    'tgl' => $item->tgl,
-                    'objectasalprodukfk' => $item->objectasalprodukfk,
-                    'asalproduk' => $item->asalproduk,
-                    'harganetto' => $item->harganetto,
-                    'hargadiscount' => $item->hargadiscount,
-                    'hargajual' => (float)$item->harganetto + (((float)$item->harganetto * (float)$persenUpHargaSatuan) / 100),
-                    'persenhargajualproduk' => $persenUpHargaSatuan,
-                    'qtyproduk' => $item->qtyproduk,
-                    'objectruanganfk' => $item->objectruanganfk,
-                    'nostrukterimafk' => $item->nostrukterimafk,
-                );
+                    // return($persenUpHargaSatuan);
+
+                    $results[] = array(
+                        'norec' => $item->norec,
+                        'objectprodukfk' => $item->objectprodukfk,
+                        'tgl' => $item->tgl,
+                        'objectasalprodukfk' => $item->objectasalprodukfk,
+                        'asalproduk' => $item->asalproduk,
+                        'harganetto' => $item->harganetto,
+                        'hargadiscount' => $item->hargadiscount,
+                        'hargajual' => (float)$item->harganetto + (((float)$item->harganetto * (float)$persenUpHargaSatuan) / 100),
+                        'persenhargajualproduk' => $persenUpHargaSatuan,
+                        'qtyproduk' => $item->qtyproduk,
+                        'objectruanganfk' => $item->objectruanganfk,
+                        'nostrukterimafk' => $item->nostrukterimafk,
+                    );
                 }
             }
         }
@@ -2983,7 +3334,7 @@ class PelayananResepController extends ApiController
                 from stokprodukdetail_t as spd
                 inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
                 inner JOIN asalproduk_m as ap on ap.id=spd.objectasalprodukfk
-                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid 
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid
                 group by sk.norec,spd.objectprodukfk, $strMSHT,spd.objectasalprodukfk, 
                         spd.hargadiscount,
                 spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
@@ -2996,11 +3347,11 @@ class PelayananResepController extends ApiController
 
             $persenUpHargaSatuan = 0;
             foreach ($result as $item) {
-                foreach ($persenHargaJualProduk as $hitem){
-                    if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
-                        $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
-                    }
+                // foreach ($persenHargaJualProduk as $hitem){
+                if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
+                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
                 }
+                // }
                 $results[] = array(
                     'norec' => $item->norec,
                     'objectprodukfk' => $item->objectprodukfk,
@@ -3421,7 +3772,8 @@ class PelayananResepController extends ApiController
             ->select('jr.id', 'jr.jenisracikan');
 
         if (isset($request['jrid']) && $request['jrid'] != "" && $request['jrid'] != "undefined") {
-            $data = $data->where('jr.id', $request['jrid']);
+            // $data = $data->where('jr.id', $request['jrid']);
+            $data = $data->where('jr.id', intval($request['jrid']));
         }
         $data = $data->get();
 
@@ -3476,7 +3828,7 @@ class PelayananResepController extends ApiController
     }
     public function SimpanDiskonObat(Request $request)
     {
-        try{
+        try {
             foreach ($request['detail'] as $item) {
                 $data = PelayananPasien::where('norec', $item['norecpp'])
                     ->first();
@@ -3505,11 +3857,9 @@ class PelayananResepController extends ApiController
         }
 
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-
     }
     public function SimpanPelayananObat(Request $request)
     {
-
         ini_set('max_execution_time', 50000); //6 minutes
         $dataApd = DB::select(
             DB::raw("select  pd.noregistrasi from pasiendaftar_t as pd 
@@ -3540,29 +3890,36 @@ class PelayananResepController extends ApiController
             );
             return $this->setStatusCode($result['status'])->respond($result, $transMessage);
         }
+
+
+
         //## StrukResep
         DB::beginTransaction();
-
+        $dataPP = [];
+        $dataKS = [];
+        $r_PPL = [];
         try {
 
             $racikanORnonracikan = 'N';
             //region @SIMPAN PELAYANAN OBAT IEU
             $dataLogin = $request->all();
             $dataPegawai = \DB::table('loginuser_s as lu')
-            ->join('pegawai_m as pg', 'pg.id', '=', 'lu.objectpegawaifk')
-            ->select('lu.objectpegawaifk', 'pg.namalengkap')
-            ->where('lu.id', $dataLogin['userData']['id'])
-            ->first();
+                ->join('pegawai_m as pg', 'pg.id', '=', 'lu.objectpegawaifk')
+                ->select('lu.objectpegawaifk', 'pg.namalengkap')
+                ->where('lu.id', $dataLogin['userData']['id'])
+                ->first();
             $r_SR = $request['strukresep'];
+
             if ($r_SR['noorder'] != '' && $r_SR['noorder'] != 'EditResep') {
                 $dataOrder = StrukOrder::where('noorder', $r_SR['noorder'])->first();
                 $dataOrder->statusorder = 5;
+                $dataOrder->namaverif = $dataLogin['userData']['id'];
                 $dataOrder->save();
 
-                $newId = LoggingUser::max('id');
-                $newId = $newId + 1;
+                // $newId = LoggingUser::max('id');
+                // $newId = $newId + 1;
                 $logUser = new LoggingUser();
-                $logUser->id = $newId;
+                $logUser->id = $logUser->generateNewId();
                 $logUser->norec = $logUser->generateNewId();
                 $logUser->kdprofile = 12;
                 $logUser->statusenabled = true;
@@ -3575,6 +3932,7 @@ class PelayananResepController extends ApiController
                 $logUser->save();
             }
             $namaPasien = $r_SR['nocm'] . ' ' . $r_SR['namapasien'];
+            // return ($r_SR['noresep']);
             $resepOld = StrukResep::where('noresep', $r_SR['noresep'])->first();
             if ($r_SR['noresep'] == '-') {
                 $newSR = new StrukResep();
@@ -3614,6 +3972,7 @@ class PelayananResepController extends ApiController
             if ($r_SR['noresep'] != '-') {
 
                 if ($r_SR['retur'] != '-') {
+
                     $isRetur = true;
                     $newSRetur = new StrukRetur();
                     $norecSRetur = $newSRetur->generateNewId();
@@ -3635,10 +3994,12 @@ class PelayananResepController extends ApiController
                     $norec_retur = $newSRetur->norec;
 
                     $r_PP = $request['pelayananpasien'];
+                    $totalretur = 0;
                     foreach ($r_PP as $r_PPLXXXX) {
                         if ((int)$r_PPLXXXX['jmlretur'] != 0) {
                             $newPPR = new PelayananPasienRetur();
                             $norecPPR = $newPPR->generateNewId();
+
                             $newPPR->norec = $norecPPR;
                             $newPPR->kdprofile = 0;
                             $newPPR->statusenabled = true;
@@ -3657,7 +4018,9 @@ class PelayananResepController extends ApiController
                             if (isset($r_PPLXXXX['routefk'])) {
                                 $newPPR->routefk = $r_PPLXXXX['routefk'];
                             }
-                            $newPPR->stock = $r_PPLXXXX['stock'];
+                            //$newPPR->stock = $r_PPLXXXX['stock']; //ash
+                            $newPPR->stock = $r_PPLXXXX['jumlahobat']; //ash
+
                             $newPPR->tglpelayanan = $r_SR['tglresep']; //$r_SR['tglresep']->format('Y-m-d H:i:s');
                             $newPPR->harganetto = $r_PPLXXXX['harganetto'];
                             $newPPR->jeniskemasanfk = $r_PPLXXXX['jeniskemasanfk'];
@@ -3673,21 +4036,27 @@ class PelayananResepController extends ApiController
                                 $newPPR->jasa = 0;
                             }
                             $newPPR->strukreturfk = $norec_retur;
+
                             $newPPR->save();
 
+
+
+
+                            $totalretur = $totalretur + ($r_PPLXXXX['jmlretur'] * $r_PPLXXXX['harganetto']);
                             //## TAMBAH STOK DARI RETUR
                             $TambahStok = (float)$r_PPLXXXX['jmlretur'] * (float)$r_PPLXXXX['nilaikonversi']; //$r_PPLXXXX['jmlretur'];
                             $newSPD = StokProdukDetail::where('nostrukterimafk', $r_PPLXXXX['nostrukterimafk'])
                                 ->where('objectruanganfk', $r_SR['ruanganfk'])
                                 ->where('objectprodukfk', $r_PPLXXXX['produkfk'])
-                                ->where('qtyproduk', '>', 0)
+                                // ->where('qtyproduk', '>', 0)
                                 ->orderby('tglkadaluarsa', 'desc')
                                 ->first();
+                            // return ($newSPD);
                             $newSPD->qtyproduk = (float)$newSPD->qtyproduk + (float)$TambahStok;
                             $newSPD->save();
                             $dataSaldoAwal = DB::select(
                                 DB::raw("select saldoawal,jumlah,status from KartuStok_t
-                                  where ruanganfk=:ruanganfk and produkfk=:produkfk order by created_at desc limit 1" ),
+                                  where ruanganfk=:ruanganfk and produkfk=:produkfk order by created_at desc limit 1"),
                                 array(
                                     'ruanganfk' => $r_SR['ruanganfk'],
                                     'produkfk' => $r_PPLXXXX['produkfk'],
@@ -3797,8 +4166,55 @@ class PelayananResepController extends ApiController
                     foreach ($HapusPP as $pp) {
                         $HapusPPD = PelayananPasienDetail::where('pelayananpasien', $pp['norec'])->delete();
                         $HapusPPP = PelayananPasienPetugas::where('pelayananpasien', $pp['norec'])->delete();
+                        $strukfk = $pp->strukfk;
+                    }
+                    $norecsbm = DB::select(
+                        DB::raw("select sbm.norec,sp.norec as norecp from pelayananpasien_t as pp 
+                                inner join strukpelayanan_t  as  sp on pp.strukfk = sp.norec
+                                inner join strukbuktipenerimaan_t as sbm on sbm.norec= sp.nosbmlastfk
+                                where pp.strukresepfk=:norecresep"),
+                        array(
+                            'norecresep' => $norec_SR
+                        )
+                    );
+                    foreach ($norecsbm as $item) {
+                        $nosbm = $item->norec;
+                        $nostrukfk = $item->norecp;
                     }
                     $Edit = PelayananPasien::where('strukresepfk', $norec_SR)->delete();
+
+                    if ($request['sby'] == 'yes') {
+                        // return ('x');
+                        $SC = new StrukClosing();
+                        $SC->norec = $SC->generateNewId();
+                        $SC->kdprofile = $this->getKdProfile();
+                        $SC->noclosing = $this->generateCode(new StrukClosing, 'noclosing', 10, 'C-' . $this->getDateTime()->format('ym'));
+                        $SC->objectpegawaidiclosefk = $this->getCurrentUserID();
+                        $SC->totaldibayar = $totalretur;
+                        $SC->objectkelompoktransaksifk = 67;
+                        $SC->keteranganlainnya = "ReturObat";
+                        $SC->tglawal = $this->getDateTime()->format('Y-m-d H:i:s');
+                        $SC->tglakhir = $this->getDateTime()->format('Y-m-d H:i:s');
+                        $SC->tglclosing = $this->getDateTime()->format('Y-m-d H:i:s');; //$input['tglbku'];
+                        $SC->save();
+                        $norec_sc = $SC->norec;
+
+                        $SBK = new StrukBuktiPengeluaran();
+                        $SBK->kdprofile = $this->getKdProfile();
+                        $SBK->keteranganlainnya = !empty($input['keterangan']) ? $input['keterangan'] : 'null';
+                        $SBK->statusenabled = 1;
+                        $SBK->nosbm_returfk = $nosbm;
+                        $SBK->nostrukfk = $nostrukfk;
+                        $SBK->objectpegawaipembayarfk = $this->getCurrentLoginID();
+                        $SBK->tglsbk = date('Y-m-d H:i:s'); // $this->getDateTime();
+                        $SBK->totaldibayar = $totalretur;
+                        $SBK->objectkelompoktransaksifk = 67;
+                        $SBK->nosbk = $this->generateCode(new StrukBuktiPengeluaran(), 'nosbk', 14, 'PV-' . $this->getDateTime()->format('ym'));
+                        $SBK->noclosingfk = $SC->norec;
+                        $SBK->norecreturfk = $norec_retur;
+                        $SBK->asalprodukfk = 2;
+                        $SBK->save();
+                    }
                 } else {
 
 
@@ -4214,7 +4630,7 @@ class PelayananResepController extends ApiController
             //## PelayananPasien
             $r_PP = $request['pelayananpasien'];
             foreach ($r_PP as $r_PPL) {
-
+                //tanda
                 $qtyJumlah = (float)$r_PPL['jumlah'] * (float)$r_PPL['nilaikonversi'];
 
                 //            if ($r_PPL['norec'] == '-') {
@@ -4228,6 +4644,9 @@ class PelayananResepController extends ApiController
                 //            $transStatus == 'false';
                 //            return $this->respond($norecPP);
                 $newPP->norec = $norecPP;
+                if (isset($strukfk)) {
+                    $newPP->strukfk = $strukfk;
+                }
                 $newPP->kdprofile = 0;
                 $newPP->statusenabled = true;
                 $newPP->noregistrasifk = $r_PPL['noregistrasifk'];
@@ -4264,12 +4683,22 @@ class PelayananResepController extends ApiController
                 $newPP->issore = $r_PPL['issore'];
                 $newPP->objectpegawailoginfk = $dataPegawai->objectpegawaifk;
                 // $newPP->keteranganpakai = $r_PPL['keterangan'];
+                if (isset($r_PPL['isobatpulang'])) {
+                    $newPP->isobatpulang = $r_PPL['isobatpulang'] !== null ? ($r_PPL['isobatpulang'] ? true : false) : null;
+                } else {
+                    $newPP->isobatpulang = null;
+                }
+
                 $newPP->dosisobat = $r_PPL['dosis'];
-                if(isset($r_PPL['objectwaktuminumfk']) && $r_PPL['objectwaktuminumfk']!="" && $r_PPL['objectwaktuminumfk']!="undefined"){
+                if (isset($r_PPL['objectwaktuminumfk']) && $r_PPL['objectwaktuminumfk'] != "" && $r_PPL['objectwaktuminumfk'] != "undefined") {
                     $newPP->objectwaktuminumfk = $r_PPL['objectwaktuminumfk'];
                 }
-                if(isset($r_PPL['keterangan']) && $r_PPL['keterangan']!="" && $r_PPL['keterangan']!="undefined"){
+                if (isset($r_PPL['keterangan']) && $r_PPL['keterangan'] != "" && $r_PPL['keterangan'] != "undefined") {
                     $newPP->keteranganpakai = $r_PPL['keterangan'];
+                }
+
+                if (isset($r_PPL['hari']) && $r_PPL['hari'] != "" && $r_PPL['hari'] != "undefined") {
+                    $newPP->hari = $r_PPL['hari'];
                 }
                 //            try {
                 $newPP->save();
@@ -4286,6 +4715,7 @@ class PelayananResepController extends ApiController
                 //                $transMessage = "Simpan Pelayanan Pasien";
                 //            }
                 $norec_PP = $newPP->norec;
+
                 //### PelayananPasienDetail
                 $dataKomponen = [];
                 $dataKomponen[] = array(
@@ -4599,8 +5029,6 @@ class PelayananResepController extends ApiController
             // endregion
             $transStatus = 'true';
         } catch (\Exception $e) {
-            // return($request['pelayananpasien']);
-            // die;
             return ($e);
             die;
             $transStatus = 'false';
@@ -4648,7 +5076,51 @@ class PelayananResepController extends ApiController
             );
         }
 
+        //===        
+
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function SimpanCopyResep(Request $request)
+    {
+        DB::beginTransaction();
+        try {
+            $r_PP = $request['pelayananpasien'];
+            foreach ($r_PP as $r_PPL) {
+                $newCR = new CopyResep();
+                $norecCR = $newCR->generateNewId();
+                $newCR->norec = $norecCR;
+                $newCR->pelayananpasienfk = $r_PPL['noregistrasifk'];
+                $newCR->det = $r_PPL['det'];
+                $newCR->detn = $r_PPL['detn'];
+                $newCR->jumlahdet = $r_PPL['jumlahdet'];
+                $newCR->norecpo = $r_PPL['norecpo'];
+                $newCR->save();
+            };
+
+            $status = 'true';
+            $message = 'Berhasil!';
+        } catch (\Exception $e) {
+            $status = 'false';
+            $message = 'Gagal!';
+        }
+        if ($status != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $message,
+                "as" => 'key'
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $message,
+                "as" => 'key'
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $result['message']);
     }
 
     public function getDataWaktuMinum(Request $request)
@@ -4800,10 +5272,10 @@ class PelayananResepController extends ApiController
             }
 
             //## Logging User
-            $newId = LoggingUser::max('id');
-            $newId = $newId + 1;
+            // $newId = LoggingUser::max('id');
+            // $newId = $newId + 1;
             $logUser = new LoggingUser();
-            $logUser->id = $newId;
+            $logUser->id = $logUser->generateNewId();
             $logUser->norec = $logUser->generateNewId();
             $logUser->kdprofile = 12;
             $logUser->statusenabled = true;
@@ -5083,6 +5555,7 @@ class PelayananResepController extends ApiController
             })
             ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
             ->leftJOIN('ruangan_m as ru2', 'ru2.id', '=', 'sr.ruanganfk')
+            ->leftJOIN('pegawai_m as pg', 'sr.penulisresepfk', '=', 'pg.id')
             ->select(
                 'ps.nocm',
                 'ps.namapasien',
@@ -5108,16 +5581,35 @@ class PelayananResepController extends ApiController
                 'pp.jasa',
                 'ru2.id as ruangandepoid',
                 'ru2.namaruangan as ruangandepo',
+                'ru.namaruangan as ruanganpasien',
+                'pg.namalengkap',
                 DB::raw("sr.noresep || '/23' as noresepok")
             )
             ->where('jp.id', 97)
             ->orderBy('pp.tglpelayanan', 'pp.rke');
+        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+            $data = $data->where('sr.tglresep', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+            $tgl = $request['tglAkhir'];
+            $data = $data->where('sr.tglresep', '<=', $tgl);
+        }
         if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
             $data = $data->where('ps.nocm', '=', $request['nocm']);
         }
-        // if(isset($request['noregistrasifk']) && $request['noregistrasifk']!="" && $request['noregistrasifk']!="undefined"){
-        //     $data = $data->where('pp.noregistrasifk','=', $request['noregistrasifk']);
-        // }
+        if (isset($request['pegawai']) && $request['pegawai'] != "" && $request['pegawai'] != "undefined") {
+            $data = $data->where('sr.penulisresepfk', '=',  $request['pegawai']);
+        }
+        if (isset($request['produk']) && $request['produk'] != "" && $request['produk'] != "undefined") {
+            $data = $data->where('pr.id', '=',  $request['produk']);
+        }
+        if (isset($request['ruangan']) && $request['ruangan'] != "" && $request['ruangan'] != "undefined") {
+            $data = $data->where('sr.ruanganfk', '=',  $request['ruangan']);
+        }
+
+        if (isset($request['ruanganasal']) && $request['ruanganasal'] != "" && $request['ruanganasal'] != "undefined") {
+            $data = $data->where('apd.objectruanganfk', '=',  $request['ruanganasal']);
+        }
         if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
             $data = $data->where('pd.noregistrasi', '=', $request['noReg']);
         }
@@ -5188,9 +5680,1093 @@ class PelayananResepController extends ApiController
                 'jasa' => $jasa,
                 'depoid' => $item->ruangandepoid,
                 'namaruangandepo' => $item->ruangandepo,
+                'dokter' => $item->namalengkap,
+                'ruanganpasien' => $item->ruanganpasien,
                 'noresepok' => $item->noresepok
             );
         }
+        return $this->respond($result);
+    }
+
+    // key 24-12-2023
+    // public function getTransaksiPelayananObat(Request $request)
+    // {
+
+    //     $filter = $request->all();
+
+    //     // return($filter);
+
+    //     $tglAwal = "";
+    //     if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+    //         $tglAwal =  $filter['tglAwal'];
+    //     }
+    //     $tglAkhir = "";
+    //     if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+    //         $tglAkhir = $filter['tglAkhir'];
+    //     }
+
+    //     $ruanganId = "";
+    //     if (isset($filter['ruangan']) && $filter['ruangan'] != "" && $filter['ruangan'] != "undefined") {
+    //         $ruanganId = $filter['ruangan'];
+    //     }
+
+    //     $nocm = "";
+    //     if (isset($filter['nocm']) && $filter['nocm'] != "" && $filter['nocm'] != "undefined") {
+    //         $nocm = $filter['nocm'];
+    //     }
+
+    //     $pegawai = "";
+    //     if (isset($filter['pegawai']) && $filter['pegawai'] != "" && $filter['pegawai'] != "undefined") {
+    //         $pegawai = $filter['pegawai'];
+    //     }
+
+    //     $produk = "";
+    //     if (isset($filter['produk']) && $filter['produk'] != "" && $filter['produk'] != "undefined") {
+    //         $produk = $filter['produk'];
+    //     }
+
+    //     $ruanganasal = "";
+    //     if (isset($filter['ruanganasal']) && $filter['ruanganasal'] != "" && $filter['ruanganasal'] != "undefined") {
+    //         $ruanganasal = $filter['ruanganasal'];
+    //     }
+
+    //     // $penjamin = "";
+    //     // if (isset($filter['penjamin']) && $filter['penjamin'] != "" && $filter['penjamin'] != "undefined") {
+    //     //     $penjamin = $filter['penjamin'];
+    //     // }
+
+    //     //         $data = DB::select(DB::raw("SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) AS total, pg.namalengkap, pd.noregistrasi, pp.rke, ss.satuanstandar, rk.namarekanan, ru2.namaruangan AS ruanganpoli, bp.namabentukproduk,
+    //     //         CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+    //     //         departemen_m.namadepartemen
+    //     // FROM            departemen_m  INNER JOIN
+    //     //         ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+    //     //         strukresep_t AS sr INNER JOIN
+    //     //         pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+    //     //         ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+    //     //         produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+    //     //         bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk INNER JOIN
+    //     //         antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+    //     //         ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk INNER JOIN
+    //     //         pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+    //     //         pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+    //     //         pegawai_m AS pg ON pg.id = sr.penulisresepfk LEFT OUTER JOIN
+    //     //         rekanan_m AS rk ON rk.id = pd.objectrekananfk
+    //     //         LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+    //     // WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir')
+    //     // AND  ru.id::TEXT ILIKE '%$ruanganId%'  
+    //     // AND ps.nocm::text ILIKE '%$nocm%'
+    //     // AND pg.ID::text  ILIKE '%$pegawai%'
+    //     // AND pr.ID::text  ILIKE '%$produk%'
+    //     // AND apd.objectruanganfk::text  ILIKE'%$ruanganasal%'
+    //     // group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen, pd.noregistrasi, pp.rke, ss.satuanstandar, rk.namarekanan, ru2.namaruangan, bp.namabentukproduk
+
+    //     // UNION ALL
+    //     // SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) AS total, pg.namalengkap, pd.noregistrasi, pp.rke, ss.satuanstandar, rk.namarekanan, ru2.namaruangan AS ruanganpoli, bp.namabentukproduk,
+    //     //         CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+    //     //         departemen_m.namadepartemen
+    //     // FROM            departemen_m  INNER JOIN
+    //     //         ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+    //     //         strukresep_t AS sr INNER JOIN
+    //     //         pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+    //     //         ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+    //     //         produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+    //     //         bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk INNER JOIN
+    //     //         antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+    //     //         ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk INNER JOIN
+    //     //         pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+    //     //         pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+    //     //         pegawai_m AS pg ON pg.id = sr.penulisresepfk
+    //     //         LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk LEFT OUTER JOIN
+    //     //         rekanan_m AS rk ON rk.id = pd.objectrekananfk
+    //     // WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir')
+    //     // AND  ru.id::TEXT ILIKE '%$ruanganId%'  
+    //     // AND ps.nocm::text ILIKE '%$nocm%'
+    //     // AND pg.ID::text  ILIKE '%$pegawai%'
+    //     // AND pr.ID::text  ILIKE '%$produk%'
+    //     // AND apd.objectruanganfk::text  ILIKE'%$ruanganasal%'
+    //     // group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen, pd.noregistrasi, pp.rke, ss.satuanstandar, rk.namarekanan, ru2.namaruangan, bp.namabentukproduk
+
+    //     // UNION ALL
+    //     // SELECT        sp.norec,to_char(sp.tglstruk,'YYYY-MM-DD') AS tglresep, sp.nostruk AS noresep, UPPER(sp.namapasien_klien) AS namapasien, '-' AS nocm, ru.namaruangan AS ruangan, pr.namaproduk,
+    //     //        spd.qtyproduk,spd.hargasatuan,(spd.qtyproduk * spd.hargasatuan + spd.hargatambahan ) AS total, pg.namalengkap, pg.namaexternal, pg.kodeexternal, pg.reportdisplay, pg.bankrekeningatasnama, pg.bankrekeningnama, pg.bankrekeningnomor, CASE WHEN spd.hargadiscount IS NULL THEN 0 ELSE spd.hargadiscount END AS diskon, CASE WHEN spd.hargatambahan IS NULL
+    //     //         THEN 0 ELSE spd.hargatambahan END AS jasa, 0 AS ppn, 'Penujualan Bebas' AS namadepartemen
+    //     // FROM            strukpelayanan_t AS sp INNER JOIN
+    //     //         strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec INNER JOIN
+    //     //         produk_m AS pr ON pr.id = spd.objectprodukfk INNER JOIN
+    //     //         pegawai_m AS pg ON pg.id = sp.objectpegawaipenanggungjawabfk INNER JOIN
+    //     //         ruangan_m AS ru ON ru.id = sp.objectruanganfk
+    //     // WHERE (sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir') AND (SUBSTRING(sp.nostruk, 1, 2) = 'OB') 
+    //     // AND (sp.objectruanganfk ::TEXT ILIKE '%$ruanganId%'  )  
+    //     // AND pr.ID::text  ILIKE '%$produk%' 
+    //     // group by sp.norec, sp.tglstruk, sp.nostruk, sp.namapasien_klien, nocm, ru.namaruangan, pr.namaproduk, spd.qtyproduk, spd.hargasatuan, spd.hargatambahan, pg.namalengkap, spd.hargadiscount, pg.namaexternal, pg.kodeexternal, pg.reportdisplay, pg.bankrekeningatasnama, pg.bankrekeningnama, pg.bankrekeningnomor
+    //     // order by namadepartemen, noresep"));
+
+    //     $data = DB::select(DB::raw("SELECT
+    //     t.noresep,
+    //     t.tglresep,
+    //     t.namapasien,
+    //     t.nocm,
+    //     t.ruangan,
+    //     t.namaproduk,
+    //     SUM(t.jumlah) AS jumlah,
+    //     SUM(t.hargajual) AS hargajual,
+    //     SUM(t.total) AS total,
+    //     t.namalengkap,
+    //     t.noregistrasi,
+    //     t.rke,
+    //     t.satuanstandar,
+    //     t.namarekanan,
+    //     t.ruanganpoli,
+    //     t.namabentukproduk,
+    //     SUM(t.diskon) AS diskon,
+    //     SUM(t.jasa) AS jasa,
+    //     SUM(t.ppn) AS ppn,
+    //     t.namadepartemen
+    //     FROM
+    //     (
+    //         SELECT
+    //             sr.noresep,
+    //             to_char(sr.tglresep, 'YYYY-MM-DD') AS tglresep,
+    //             UPPER(ps.namapasien) AS namapasien,
+    //             ps.nocm,
+    //             ru.namaruangan AS ruangan,
+    //             pr.namaproduk,
+    //             pp.jumlah,
+    //             pp.hargajual,
+    //             (pp.jumlah * pp.hargajual + pp.jasa) AS total,
+    //             pg.namalengkap,
+    //             pd.noregistrasi,
+    //             pp.rke,
+    //             ss.satuanstandar,
+    //             rk.namarekanan,
+    //             ru2.namaruangan AS ruanganpoli,
+    //             bp.namabentukproduk,
+    //             CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon,
+    //             CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa,
+    //             0 AS ppn,
+    //             departemen_m.namadepartemen
+    //         FROM
+    //             departemen_m
+    //         INNER JOIN ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk
+    //         RIGHT OUTER JOIN strukresep_t AS sr ON ruangan_m.id = sr.ruanganfk
+    //         INNER JOIN pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec
+    //         INNER JOIN ruangan_m AS ru ON ru.id = sr.ruanganfk
+    //         INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+    //         INNER JOIN bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk
+    //         INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+    //         INNER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk
+    //         INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+    //         INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+    //         LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk
+    //         LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk
+    //         LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+    //         WHERE
+    //             sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+    //             AND ru.id::TEXT ILIKE '%$ruanganId%'
+    //             AND ps.nocm::TEXT ILIKE '%$nocm%'
+    //             AND pg.ID::TEXT ILIKE '%$pegawai%'
+    //             AND pr.ID::TEXT ILIKE '%$produk%'
+    //             AND apd.objectruanganfk::TEXT ILIKE '%$ruanganasal%'
+    //         UNION ALL
+    //         SELECT
+    //             sr.noresep,
+    //             to_char(sr.tglresep, 'YYYY-MM-DD') AS tglresep,
+    //             UPPER(ps.namapasien) AS namapasien,
+    //             ps.nocm,
+    //             ru.namaruangan AS ruangan,
+    //             pr.namaproduk,
+    //             pp.jumlah,
+    //             pp.hargajual,
+    //             (pp.jumlah * pp.hargajual + pp.jasa) AS total,
+    //             pg.namalengkap,
+    //             pd.noregistrasi,
+    //             pp.rke,
+    //             ss.satuanstandar,
+    //             rk.namarekanan,
+    //             ru2.namaruangan AS ruanganpoli,
+    //             bp.namabentukproduk,
+    //             CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon,
+    //             CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa,
+    //             0 AS ppn,
+    //             departemen_m.namadepartemen
+    //         FROM
+    //             departemen_m
+    //         INNER JOIN ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk
+    //         RIGHT OUTER JOIN strukresep_t AS sr ON ruangan_m.id = sr.ruanganfk
+    //         INNER JOIN pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec
+    //         INNER JOIN ruangan_m AS ru ON ru.id = sr.ruanganfk
+    //         INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+    //         INNER JOIN bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk
+    //         INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+    //         INNER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk
+    //         INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+    //         INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+    //         LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk
+    //         LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk
+    //         LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+    //         WHERE
+    //             sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+    //             AND ru.id::TEXT ILIKE '%$ruanganId%'
+    //             AND ps.nocm::TEXT ILIKE '%$nocm%'
+    //             AND pg.ID::TEXT ILIKE '%$pegawai%'
+    //             AND pr.ID::TEXT ILIKE '%$produk%'
+    //             AND apd.objectruanganfk::TEXT ILIKE '%$ruanganasal%'
+    //         UNION ALL
+    //         SELECT
+    //             sp.nostruk,
+    //             to_char(sp.tglstruk, 'YYYY-MM-DD') AS tglresep,
+    //             UPPER(sp.namapasien_klien) AS namapasien,
+    //             '-' AS nocm,
+    //             ru.namaruangan AS ruangan,
+    //             pr.namaproduk,
+    //             spd.qtyproduk AS jumlah,
+    //             spd.hargasatuan AS hargajual,
+    //             (spd.qtyproduk * spd.hargasatuan + spd.hargatambahan) AS total,
+    //             pg.namalengkap,
+    //             pg.namaexternal,
+    //             pg.kodeexternal,
+    //             pg.reportdisplay,
+    //             pg.bankrekeningatasnama,
+    //             pg.bankrekeningnama,
+    //             pg.bankrekeningnomor,
+    //             CASE WHEN spd.hargadiscount IS NULL THEN 0 ELSE spd.hargadiscount END AS diskon,
+    //             CASE WHEN spd.hargatambahan IS NULL THEN 0 ELSE spd.hargatambahan END AS jasa,
+    //             0 AS ppn,
+    //             'Penjualan Bebas' AS namadepartemen
+    //         FROM
+    //             strukpelayanan_t AS sp
+    //         INNER JOIN strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec
+    //         INNER JOIN produk_m AS pr ON pr.id = spd.objectprodukfk
+    //         INNER JOIN pegawai_m AS pg ON pg.id = sp.objectpegawaipenanggungjawabfk
+    //         INNER JOIN ruangan_m AS ru ON ru.id = sp.objectruanganfk
+    //         WHERE
+    //             sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir'
+    //             AND SUBSTRING(sp.nostruk, 1, 2) = 'OB'
+    //             AND sp.objectruanganfk::TEXT ILIKE '%$ruanganId%'
+    //             AND pr.ID::TEXT ILIKE '%$produk%'
+    //         GROUP BY
+    //             sp.nostruk,
+    //             sp.tglstruk,
+    //             sp.namapasien_klien,
+    //             nocm,
+    //             ru.namaruangan,
+    //             pr.namaproduk,
+    //             spd.qtyproduk,
+    //             spd.hargasatuan,
+    //             spd.hargatambahan,
+    //             pg.namalengkap,
+    //             spd.hargadiscount,
+    //             pg.namaexternal,
+    //             pg.kodeexternal,
+    //             pg.reportdisplay,
+    //             pg.bankrekeningatasnama,
+    //             pg.bankrekeningnama,
+    //             pg.bankrekeningnomor
+    //         ) AS t
+    //         GROUP BY
+    //             t.noresep,
+    //             t.tglresep,
+    //             t.namapasien,
+    //             t.nocm,
+    //             t.ruangan,
+    //             t.namaproduk,
+    //             t.namalengkap,
+    //             t.noregistrasi,
+    //             t.rke,
+    //             t.satuanstandar,
+    //             t.namarekanan,
+    //             t.ruanganpoli,
+    //             t.namabentukproduk,
+    //             t.namadepartemen
+    //         ORDER BY
+    //             t.namadepartemen,
+    //             t.noresep;"));
+
+    //     $result = array(
+    //         'data' => $data,
+    //         'message' => 'as@epic',
+    //     );
+
+    //     return $this->respond($result);
+    // }
+
+    // dean 25-03-2024
+    public function getTransaksiPelayananObat(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = "";
+        if (isset($filter['ruangan']) && $filter['ruangan'] != "" && $filter['ruangan'] != "undefined") {
+            $ruanganId = "AND ru.id = " . "'" . $filter['ruangan'] . "'";
+        }
+
+        $nocm = "";
+        if (isset($filter['nocm']) && $filter['nocm'] != "" && $filter['nocm'] != "undefined") {
+            $nocm = "AND ps.nocm::TEXT = " . "'" . $filter['nocm'] . "'";
+        }
+
+        $pegawai = "";
+        if (isset($filter['pegawai']) && $filter['pegawai'] != "" && $filter['pegawai'] != "undefined") {
+            $pegawai = $filter['pegawai'];
+        }
+
+        $produk = "";
+        if (isset($filter['produk']) && $filter['produk'] != "" && $filter['produk'] != "undefined") {
+            $produk = $filter['produk'];
+        }
+
+        $ruanganasal = "";
+        if (isset($filter['ruanganasal']) && $filter['ruanganasal'] != "" && $filter['ruanganasal'] != "undefined") {
+            $ruanganasal = "AND ru2.id = " . "'" . $filter['ruanganasal'] . "'";
+        }
+        $departemen = "";
+        if (isset($filter['departemen']) && $filter['departemen'] != "" && $filter['departemen'] != "undefined") {
+            $departemen = "AND dp2.id = " . "'" . $filter['departemen'] . "'";
+        }
+
+        // $penjamin = "";
+        // if (isset($filter['penjamin']) && $filter['penjamin'] != "" && $filter['penjamin'] != "undefined") {
+        //     $penjamin = $filter['penjamin'];
+        // }
+
+        // $dataDetails = DB::select(DB::raw("SELECT
+        //     t.noresep,
+        //     t.tglresep,
+        //     t.namapasien,
+        //     t.nocm,
+        //     t.ruangan,
+        //     t.namaproduk,
+        //     SUM(t.jumlah) AS jumlah,
+        //     SUM(t.hargajual) AS hargajual,
+        //     SUM(t.total) AS total,
+        //     t.namalengkap,
+        //     t.noregistrasi,
+        //     t.rke,
+        //     t.satuanstandar,
+        //     t.namarekanan,
+        //     t.ruanganpoli,
+        //     t.namabentukproduk,
+        //     SUM(t.diskon) AS diskon,
+        //     SUM(t.jasa) AS jasa,
+        //     SUM(t.ppn) AS ppn,
+        //     t.namadepartemen
+        //     FROM
+        //     (
+        //     SELECT
+        //         sr.noresep,
+        //         to_char(sr.tglresep, 'YYYY-MM-DD') AS tglresep,
+        //         UPPER(ps.namapasien) AS namapasien,
+        //         ps.nocm,
+        //         ru.namaruangan AS ruangan,
+        //         pr.namaproduk,
+        //         pp.jumlah,
+        //         pp.hargajual,
+        //         (pp.jumlah * pp.hargajual + pp.jasa) AS total,
+        //         pg.namalengkap,
+        //         pd.noregistrasi,
+        //         pp.rke,
+        //         ss.satuanstandar,
+        //         rk.namarekanan,
+        //         ru2.namaruangan AS ruanganpoli,
+        //         bp.namabentukproduk,
+        //         CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon,
+        //         CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa,
+        //         0 AS ppn,
+        //         departemen_m.namadepartemen
+        //     FROM
+        //         departemen_m
+        //     INNER JOIN ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk
+        //     RIGHT OUTER JOIN strukresep_t AS sr ON ruangan_m.id = sr.ruanganfk
+        //     INNER JOIN pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec
+        //     INNER JOIN ruangan_m AS ru ON ru.id = sr.ruanganfk
+        //     INNER JOIN departemen_m AS dp ON dp.id = ru.objectdepartemenfk
+        //     INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+        //     INNER JOIN bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk
+        //     INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+        //     INNER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk
+        //     INNER JOIN departemen_m AS dp2 ON dp2.id = ru2.objectdepartemenfk
+        //     INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+        //     INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+        //     LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk
+        //     LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk
+        //     LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+        //     WHERE
+        //         sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+        //         $ruanganId
+        //         $departemen
+        //         $ruanganasal
+        //         $nocm
+        //         AND pg.ID::TEXT ILIKE '%$pegawai%'
+        //         AND pr.ID::TEXT ILIKE '%$produk%'
+        //     UNION ALL
+        //     SELECT
+        //         sr.noresep,
+        //         to_char(sr.tglresep, 'YYYY-MM-DD') AS tglresep,
+        //         UPPER(ps.namapasien) AS namapasien,
+        //         ps.nocm,
+        //         ru.namaruangan AS ruangan,
+        //         pr.namaproduk,
+        //         pp.jumlah,
+        //         pp.hargajual,
+        //         (pp.jumlah * pp.hargajual + pp.jasa) AS total,
+        //         pg.namalengkap,
+        //         pd.noregistrasi,
+        //         pp.rke,
+        //         ss.satuanstandar,
+        //         rk.namarekanan,
+        //         ru2.namaruangan AS ruanganpoli,
+        //         bp.namabentukproduk,
+        //         CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon,
+        //         CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa,
+        //         0 AS ppn,
+        //         departemen_m.namadepartemen
+        //     FROM
+        //         departemen_m
+        //     INNER JOIN ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk
+        //     RIGHT OUTER JOIN strukresep_t AS sr ON ruangan_m.id = sr.ruanganfk
+        //     INNER JOIN pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec
+        //     INNER JOIN ruangan_m AS ru ON ru.id = sr.ruanganfk
+        //     INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+        //     INNER JOIN bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk
+        //     INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+        //     INNER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk
+        //     INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+        //     INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+        //     LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk
+        //     LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk
+        //     LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+        //     WHERE
+        //         sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+        //         AND ru.id::TEXT ILIKE '%$ruanganId%'
+        //         $nocm
+        //         AND pg.ID::TEXT ILIKE '%$pegawai%'
+        //         AND pr.ID::TEXT ILIKE '%$produk%'
+        //         AND apd.objectruanganfk::TEXT ILIKE '%$ruanganasal%'
+        //     UNION ALL
+        //     SELECT
+        //         sp.nostruk,
+        //         to_char(sp.tglstruk, 'YYYY-MM-DD') AS tglresep,
+        //         UPPER(sp.namapasien_klien) AS namapasien,
+        //         '-' AS nocm,
+        //         ru.namaruangan AS ruangan,
+        //         pr.namaproduk,
+        //         spd.qtyproduk AS jumlah,
+        //         spd.hargasatuan AS hargajual,
+        //         (spd.qtyproduk * spd.hargasatuan + spd.hargatambahan) AS total,
+        //         pg.namalengkap,
+        //         pg.namaexternal,
+        //         pg.kodeexternal,
+        //         pg.reportdisplay,
+        //         pg.bankrekeningatasnama,
+        //         pg.bankrekeningnama,
+        //         pg.bankrekeningnomor,
+        //         CASE WHEN spd.hargadiscount IS NULL THEN 0 ELSE spd.hargadiscount END AS diskon,
+        //         CASE WHEN spd.hargatambahan IS NULL THEN 0 ELSE spd.hargatambahan END AS jasa,
+        //         0 AS ppn,
+        //         'Penjualan Bebas' AS namadepartemen
+        //     FROM
+        //         strukpelayanan_t AS sp
+        //     INNER JOIN strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec
+        //     INNER JOIN produk_m AS pr ON pr.id = spd.objectprodukfk
+        //     INNER JOIN pegawai_m AS pg ON pg.id = sp.objectpegawaipenanggungjawabfk
+        //     INNER JOIN ruangan_m AS ru ON ru.id = sp.objectruanganfk
+        //     WHERE
+        //         sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir'
+        //         AND SUBSTRING(sp.nostruk, 1, 2) = 'OB'
+        //         $ruanganId
+        //         AND pr.ID::TEXT ILIKE '%$produk%'
+        //     GROUP BY
+        //         sp.nostruk,
+        //         sp.tglstruk,
+        //         sp.namapasien_klien,
+        //         nocm,
+        //         ru.namaruangan,
+        //         pr.namaproduk,
+        //         spd.qtyproduk,
+        //         spd.hargasatuan,
+        //         spd.hargatambahan,
+        //         pg.namalengkap,
+        //         spd.hargadiscount,
+        //         pg.namaexternal,
+        //         pg.kodeexternal,
+        //         pg.reportdisplay,
+        //         pg.bankrekeningatasnama,
+        //         pg.bankrekeningnama,
+        //         pg.bankrekeningnomor
+        //     ) AS t
+        //     GROUP BY
+        //         t.noresep,
+        //         t.tglresep,
+        //         t.namapasien,
+        //         t.nocm,
+        //         t.ruangan,
+        //         t.namaproduk,
+        //         t.namalengkap,
+        //         t.noregistrasi,
+        //         t.rke,
+        //         t.satuanstandar,
+        //         t.namarekanan,
+        //         t.ruanganpoli,
+        //         t.namabentukproduk,
+        //         t.namadepartemen
+        //     ORDER BY
+        //         t.namadepartemen,
+        //         t.noresep;"));
+
+        $dataDetails = DB::select(DB::raw("SELECT
+                sr.noresep,
+                to_char(sr.tglresep, 'YYYY-MM-DD') AS tglresep,
+                UPPER(ps.namapasien) AS namapasien,
+                ps.nocm,
+                ru.namaruangan AS ruangan,
+                pr.namaproduk,
+                pp.jumlah,
+                pp.hargajual,
+                (pp.jumlah * pp.hargajual + pp.jasa) AS total,
+                pg.namalengkap,
+                pd.noregistrasi,
+                pp.rke,
+                ss.satuanstandar,
+                rk.namarekanan,
+                ru2.namaruangan AS ruanganpoli,
+                bp.namabentukproduk,
+                CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon,
+                CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa,
+                0 AS ppn,
+                departemen_m.namadepartemen
+            FROM
+                departemen_m
+            INNER JOIN ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk
+            RIGHT OUTER JOIN strukresep_t AS sr ON ruangan_m.id = sr.ruanganfk
+            INNER JOIN pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec
+            INNER JOIN ruangan_m AS ru ON ru.id = sr.ruanganfk
+            INNER JOIN departemen_m AS dp ON dp.id = ru.objectdepartemenfk
+            INNER JOIN produk_m AS pr ON pr.id = pp.produkfk
+            INNER JOIN bentukproduk_m AS bp ON bp.id = pr.objectbentukprodukfk
+            INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk
+            INNER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganfk
+						INNER JOIN departemen_m AS dp2 ON dp2.id = ru2.objectdepartemenfk
+            INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk
+            INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+            LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk
+            LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk
+            LEFT OUTER JOIN satuanstandar_m AS ss ON ss.id = pp.satuanviewfk
+            WHERE
+                sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir'
+                $ruanganId
+                $departemen
+                $ruanganasal
+                $nocm
+                AND pg.ID::TEXT ILIKE '%$pegawai%'
+                AND pr.ID::TEXT ILIKE '%$produk%'
+                "));
+
+        $result = [];
+        $totalJumlahPerNoresep = [];
+
+        foreach ($dataDetails as $data) {
+            $data->jumlah = (int) $data->jumlah;
+            $data->hargajual = (int) $data->hargajual;
+            $data->total = (int) $data->total;
+            $data->diskon = (int) $data->diskon;
+            $data->jasa = (int) $data->jasa;
+            $data->ppn = (int) $data->ppn;
+
+            $noresep = $data->noresep;
+            if (!isset($totalJumlahPerNoresep[$noresep])) {
+                $totalJumlahPerNoresep[$noresep] = 0;
+            }
+            $totalJumlahPerNoresep[$noresep] += $data->total;
+
+            $details = [
+                'noresep' => $data->noresep,
+                'tglresep' => $data->tglresep,
+                'namapasien' => $data->namapasien,
+                'nocm' => $data->nocm,
+                'ruangan' => $data->ruangan,
+                'namaproduk' => $data->namaproduk,
+                'jumlah' => $data->jumlah,
+                'hargajual' => $data->hargajual,
+                'total' => $data->total,
+                'namalengkap' => $data->namalengkap,
+                'noregistrasi' => $data->noregistrasi,
+                'rke' => $data->rke,
+                'satuanstandar' => $data->satuanstandar,
+                'namarekanan' => $data->namarekanan,
+                'ruanganpoli' => $data->ruanganpoli,
+                'namabentukproduk' => $data->namabentukproduk,
+                'diskon' => $data->diskon,
+                'jasa' => $data->jasa,
+                'ppn' => $data->ppn,
+                'namadepartemen' => $data->namadepartemen,
+                'totalJumlah' => $totalJumlahPerNoresep[$noresep]
+            ];
+
+            if (!isset($result[$data->noresep])) {
+                $result[$data->noresep] = [
+                    'noresep' => $data->noresep,
+                    'details' => []
+                ];
+            }
+
+            $result[$data->noresep]['details'][] = $details;
+        }
+
+        $result = array_values($result);
+
+        $response = [
+            'data' => $result,
+            'message' => 'de@n'
+        ];
+
+        return $this->respond($response);
+    }
+
+    // key 25-12-2023
+    public function getPersediaanObatPasien(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = "";
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $ruanganId = $filter['idRuangan'];
+        }
+
+        $data = DB::select(DB::raw("SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) as total, pg.namalengkap,
+        CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+        departemen_m.namadepartemen
+FROM            departemen_m  INNER JOIN
+        ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+        strukresep_t AS sr INNER JOIN
+        pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+        ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+        produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+        antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+        pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+        pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+        pegawai_m AS pg ON pg.id = sr.penulisresepfk
+WHERE sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir' AND (ru.id = $ruanganId) 
+group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
+    // key 25-12-2023
+    public function getPersediaanObatBebas(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = "";
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $ruanganId = $filter['idRuangan'];
+        }
+
+        $data = DB::select(DB::raw("SELECT        sp.norec,to_char(sp.tglstruk,'YYYY-MM-DD') AS tglresep, sp.nostruk AS noresep, UPPER(sp.namapasien_klien) AS namapasien, '-' AS nocm, ru.namaruangan AS ruangan, pr.namaproduk,
+        spd.qtyproduk as jumlah,spd.hargasatuan as hargajual,(spd.qtyproduk * spd.hargasatuan + spd.hargatambahan ) as total, pg.namalengkap, CASE WHEN spd.hargadiscount IS NULL THEN 0 ELSE spd.hargadiscount END AS diskon, CASE WHEN spd.hargatambahan IS NULL
+         THEN 0 ELSE spd.hargatambahan END AS jasa, 0 AS ppn, 'Penujualan Bebas' AS namadepartemen
+FROM            strukpelayanan_t AS sp INNER JOIN
+         strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec INNER JOIN
+         produk_m AS pr ON pr.id = spd.objectprodukfk INNER JOIN
+         pegawai_m AS pg ON pg.id = sp.objectpegawaipenanggungjawabfk INNER JOIN
+         ruangan_m AS ru ON ru.id = sp.objectruanganfk
+WHERE sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir' AND (SUBSTRING(sp.nostruk, 1, 2) = 'OB') AND (sp.objectruanganfk = $ruanganId) 
+group by sp.norec, sp.tglstruk, sp.nostruk, sp.namapasien_klien, nocm, ru.namaruangan, pr.namaproduk, spd.qtyproduk, spd.hargasatuan, spd.hargatambahan, pg.namalengkap, spd.hargadiscount
+order by namadepartemen, noresep"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
+    // dean 25-12-2023
+    // public function getPengeluaranObat(Request $request)
+    // {
+
+    //     $filter = $request->all();
+
+    //     // return($filter);
+
+    //     $tglAwal = "";
+    //     if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+    //         $tglAwal =  $filter['tglAwal'];
+    //     }
+    //     $tglAkhir = "";
+    //     if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+    //         $tglAkhir = $filter['tglAkhir'];
+    //     }
+
+    //     $ruanganId = "";
+    //     if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+    //         $ruanganId = $filter['idRuangan'];
+    //     }
+    //     $ruangantujuan = "";
+    //     if (isset($filter['ruangan']) && $filter['ruangan'] != "" && $filter['ruangan'] != "undefined") {
+    //         $ruangantujuan = $filter['ruangan'];
+    //     }
+    //     $departemen = "";
+    //     if (isset($filter['departemen']) && $filter['departemen'] != "" && $filter['departemen'] != "undefined") {
+    //         $departemen = "AND (ru.objectdepartemenfk = " . $filter['departemen'] . ")";
+    //     }
+
+    //     $data = DB::select(DB::raw("SELECT       namaproduk, SUM(jumlah) AS keluar, detailjenisproduk as namabentukproduk, satuanstandar,ruangan as namaruangan, kategoryproduk
+    //     FROM            (SELECT        bentukproduk_m.namabentukproduk AS detailjenisproduk, ru.namaruangan AS ruangan, pr.namaproduk, SUM(pp.jumlah) AS jumlah, std.satuanstandar, kp.kategoryproduk
+    //                               FROM            strukresep_t AS sr INNER JOIN
+    //                                                         pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+    //                                                         ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+    //                                                         produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+    //                                                         kategoryproduk_m AS kp ON kp.id = pr.objectkategoryprodukfk INNER JOIN
+    //                                                         antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+    //                                                         pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk RIGHT OUTER JOIN
+    //                                                         bentukproduk_m ON pr.objectbentukprodukfk = bentukproduk_m.id INNER JOIN
+    //                                                         pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
+    //                                                         detailjenisproduk_m ON pr.objectdetailjenisprodukfk = detailjenisproduk_m.id LEFT OUTER JOIN
+    //                                                         pegawai_m AS pg ON pg.id = sr.penulisresepfk LEFT OUTER JOIN
+    //                                                         satuanstandar_m AS std ON std.id = pr.objectsatuanstandarfk
+    //                               WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir' AND CAST(apd.objectruanganfk AS TEXT) ilike '%$ruangantujuan%' ) AND (sr.ruanganfk = $ruanganId) AND (pr.objectdetailjenisprodukfk NOT IN (1518, 1519)) $departemen
+    //                               GROUP BY ru.namaruangan, pr.namaproduk, bentukproduk_m.namabentukproduk, std.satuanstandar, kp.kategoryproduk
+
+    //                            UNION ALL
+    //                               SELECT        bentukproduk_m.namabentukproduk AS detailjenisproduk, ru.namaruangan AS ruangan, pr.namaproduk, SUM(pp.jumlah) AS jumlah, std.satuanstandar, kp.kategoryproduk
+    //                               FROM            strukresep_t AS sr INNER JOIN
+    //                                                        pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+    //                                                        ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+    //                                                        produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+    //                                                        kategoryproduk_m AS kp ON kp.id = pr.objectkategoryprodukfk INNER JOIN
+    //                                                        antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk LEFT OUTER JOIN
+    //                                                        bentukproduk_m ON pr.objectbentukprodukfk = bentukproduk_m.id INNER JOIN
+    //                                                        pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+    //                                                        pasien_m AS ps ON ps.id = pd.nocmfk INNER JOIN
+    //                                                        detailjenisproduk_m ON pr.objectdetailjenisprodukfk = detailjenisproduk_m.id LEFT OUTER JOIN
+    //                                                        pegawai_m AS pg ON pg.id = sr.penulisresepfk LEFT OUTER JOIN
+    //                                                        satuanstandar_m AS std ON std.id = pr.objectsatuanstandarfk
+    //                               WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir' AND CAST(apd.objectruanganfk AS TEXT) ilike '%$ruangantujuan%' ) AND (sr.ruanganfk = $ruanganId) AND (pr.objectdetailjenisprodukfk NOT IN (1518, 1519)) $departemen
+    //                               GROUP BY ru.namaruangan, pr.namaproduk, bentukproduk_m.namabentukproduk, std.satuanstandar, kp.kategoryproduk
+    //                               UNION ALL
+    //                               SELECT        bentukproduk_m.namabentukproduk AS detailjenisproduk, ruangan_m.namaruangan AS ruangan, produk_m.namaproduk, sum(kirimproduk_t.qtyproduk) as jumlah, satuanstandar_m.satuanstandar, kategoryproduk_m.kategoryproduk
+    //                               FROM            kirimproduk_t INNER JOIN
+    //                                                        ruangan_m ON kirimproduk_t.objectruanganfk = ruangan_m.id INNER JOIN
+    //                                                        produk_m ON kirimproduk_t.objectprodukfk = produk_m.id AND kirimproduk_t.objectprodukkirimfk = produk_m.id INNER JOIN
+    //                                                        kategoryproduk_m ON kategoryproduk_m.id = produk_m.objectkategoryprodukfk INNER JOIN
+    //                                                        detailjenisproduk_m ON produk_m.objectdetailjenisprodukfk = detailjenisproduk_m.id LEFT OUTER JOIN
+    //                                                        bentukproduk_m ON produk_m.objectbentukprodukfk = bentukproduk_m.id INNER JOIN
+    //                                                        satuanstandar_m ON produk_m.objectsatuanstandarfk = satuanstandar_m.id
+    //                               WHERE (kirimproduk_t.tglpelayanan BETWEEN '$tglAwal' AND '$tglAkhir' AND CAST(kirimproduk_t.objectruanganfk AS TEXT) ilike '%$ruangantujuan%') AND (kirimproduk_t.objectruanganpengirimfk = $ruanganId)                      
+    //                               GROUP BY ruangan_m.namaruangan,
+    //                 produk_m.namaproduk,
+    //                 bentukproduk_m.namabentukproduk,
+    //                 satuanstandar_m.satuanstandar, kategoryproduk_m.kategoryproduk ) AS x
+    //     GROUP BY namaproduk, detailjenisproduk, satuanstandar,ruangan, kategoryproduk
+    //     ORDER BY detailjenisproduk, namaproduk"));
+
+    //     $result = array(
+    //         'data' => $data,
+    //         'message' => 'as@epic',
+    //     );
+
+    //     return $this->respond($result);
+    // }
+
+    // key 15-05-2024
+    public function getPengeluaranObat(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = "";
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $ruanganId = $filter['idRuangan'];
+        }
+        $ruangantujuan = "";
+        if (isset($filter['ruangan']) && $filter['ruangan'] != "" && $filter['ruangan'] != "undefined") {
+            $ruangantujuan = $filter['ruangan'];
+        }
+        $departemen = "";
+        if (isset($filter['departemen']) && $filter['departemen'] != "" && $filter['departemen'] != "undefined") {
+            $departemen = "AND ru.objectdepartemenfk = " . $filter['departemen'];
+        }
+        $idPenjamin = "";
+        if (isset($filter['idPenjamin']) && $filter['idPenjamin'] != "" && $filter['idPenjamin'] != "undefined") {
+            $idPenjamin = "AND km.id = " . $filter['idPenjamin'];
+        }
+
+        $data = DB::select(DB::raw("SELECT namaproduk, SUM(jumlah) AS keluar, detailjenisproduk AS namabentukproduk, satuanstandar, namaruangan, kategoryproduk, namarekanan
+        FROM (
+            SELECT 
+                bentukproduk_m.namabentukproduk AS detailjenisproduk, 
+                ru.namaruangan AS namaruangan, 
+                pr.namaproduk, 
+                SUM(pp.jumlah) AS jumlah, 
+                std.satuanstandar, 
+                kp.kategoryproduk,
+                rk.namarekanan
+            FROM 
+                strukresep_t AS sr
+                INNER JOIN pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec 
+                INNER JOIN produk_m AS pr ON pr.id = pp.produkfk 
+                INNER JOIN kategoryproduk_m AS kp ON kp.id = pr.objectkategoryprodukfk 
+                INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk 
+                        INNER JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk
+                INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk 
+                INNER JOIN kelompokpasien_m AS km ON pd.objectkelompokpasienlastfk = km.id
+                INNER JOIN rekanan_m AS rk ON pd.objectrekananfk = rk.id
+                LEFT OUTER JOIN bentukproduk_m ON pr.objectbentukprodukfk = bentukproduk_m.id 
+                INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk 
+                INNER JOIN detailjenisproduk_m ON pr.objectdetailjenisprodukfk = detailjenisproduk_m.id 
+                LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk 
+                LEFT OUTER JOIN satuanstandar_m AS std ON std.id = pr.objectsatuanstandarfk
+            WHERE 
+                sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir' 
+                AND CAST(apd.objectruanganfk AS TEXT) ILIKE '%$ruangantujuan%'  
+                AND sr.ruanganfk = $ruanganId 
+                AND pr.objectdetailjenisprodukfk NOT IN (1518, 1519) 
+                $departemen $idPenjamin
+            GROUP BY 
+                ru.namaruangan, pr.namaproduk, bentukproduk_m.namabentukproduk, std.satuanstandar, kp.kategoryproduk, rk.namarekanan
+        
+            UNION ALL
+        
+            SELECT 
+                bentukproduk_m.namabentukproduk AS detailjenisproduk, 
+                ru.namaruangan AS namaruangan, 
+                pr.namaproduk, 
+                SUM(pp.jumlah) AS jumlah, 
+                std.satuanstandar, 
+                kp.kategoryproduk,
+                rk.namarekanan
+            FROM  
+                strukresep_t AS sr
+                INNER JOIN pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec 
+                INNER JOIN produk_m AS pr ON pr.id = pp.produkfk 
+                INNER JOIN kategoryproduk_m AS kp ON kp.id = pr.objectkategoryprodukfk 
+                INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk 
+                        INNER JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk
+                LEFT OUTER JOIN bentukproduk_m ON pr.objectbentukprodukfk = bentukproduk_m.id 
+                INNER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk 
+                INNER JOIN kelompokpasien_m AS km ON pd.objectkelompokpasienlastfk = km.id
+                INNER JOIN rekanan_m AS rk ON pd.objectrekananfk = rk.id
+                INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk 
+                INNER JOIN detailjenisproduk_m ON pr.objectdetailjenisprodukfk = detailjenisproduk_m.id 
+                LEFT OUTER JOIN pegawai_m AS pg ON pg.id = sr.penulisresepfk 
+                LEFT OUTER JOIN satuanstandar_m AS std ON std.id = pr.objectsatuanstandarfk
+            WHERE 
+                sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir' 
+                AND CAST(apd.objectruanganfk AS TEXT) ILIKE '%$ruangantujuan%'  
+                AND sr.ruanganfk = $ruanganId 
+                AND pr.objectdetailjenisprodukfk NOT IN (1518, 1519) 
+                $departemen $idPenjamin
+            GROUP BY 
+                ru.namaruangan, pr.namaproduk, bentukproduk_m.namabentukproduk, std.satuanstandar, kp.kategoryproduk, rk.namarekanan
+        
+            UNION ALL
+        
+            SELECT 
+                bentukproduk_m.namabentukproduk AS detailjenisproduk, 
+                ruangan_m.namaruangan AS namaruangan, 
+                produk_m.namaproduk, 
+                SUM(kirimproduk_t.qtyproduk) AS jumlah, 
+                satuanstandar_m.satuanstandar, 
+                kategoryproduk_m.kategoryproduk,
+                satuanstandar_m.namaexternal
+            FROM 
+                        kirimproduk_t
+                        INNER JOIN ruangan_m ON kirimproduk_t.objectruanganfk = ruangan_m.id
+                INNER JOIN produk_m ON kirimproduk_t.objectprodukfk = produk_m.id 
+                    AND kirimproduk_t.objectprodukkirimfk = produk_m.id 
+                INNER JOIN kategoryproduk_m ON kategoryproduk_m.id = produk_m.objectkategoryprodukfk 
+                INNER JOIN detailjenisproduk_m ON produk_m.objectdetailjenisprodukfk = detailjenisproduk_m.id 
+                LEFT OUTER JOIN bentukproduk_m ON produk_m.objectbentukprodukfk = bentukproduk_m.id 
+                INNER JOIN satuanstandar_m ON produk_m.objectsatuanstandarfk = satuanstandar_m.id
+            WHERE 
+                kirimproduk_t.tglpelayanan BETWEEN '$tglAwal' AND '$tglAkhir' 
+                AND CAST(kirimproduk_t.objectruanganfk AS TEXT) ILIKE '%$ruangantujuan%'  
+                AND kirimproduk_t.objectruanganpengirimfk = $ruanganId  
+            GROUP BY 
+                ruangan_m.namaruangan, produk_m.namaproduk, bentukproduk_m.namabentukproduk, satuanstandar_m.satuanstandar, kategoryproduk_m.kategoryproduk, satuanstandar_m.namaexternal
+        ) AS x
+        GROUP BY namaproduk, detailjenisproduk, satuanstandar, namaruangan, kategoryproduk, namarekanan
+        ORDER BY detailjenisproduk, namaproduk"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
+    // dean 25-12-2023
+    public function getObatKTT(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $ruanganId = "";
+        if (isset($filter['idRuangan']) && $filter['idRuangan'] != "" && $filter['idRuangan'] != "undefined") {
+            $ruanganId = $filter['idRuangan'];
+        }
+
+        $data = DB::select(DB::raw("SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) as total, pg.namalengkap,
+        CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+        departemen_m.namadepartemen,
+pk.namapangkat,
+sk.satuankerjapasien
+FROM            departemen_m  INNER JOIN
+        ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+        strukresep_t AS sr INNER JOIN
+        pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+        ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+        produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+        antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+        pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+        pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+        pegawai_m AS pg ON pg.id = sr.penulisresepfk
+            inner join pangkat_m as pk on ps.pangkatpolisi = pk.id
+inner join satuankerjapasien_m  as sk on ps.objectsatuankerjafk = sk.id
+WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir') AND (ru.id = $ruanganId) 
+group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen,pk.namapangkat,sk.satuankerjapasien"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
+    // key 25-12-2023
+    public function getTransaksiObatTB(Request $request)
+    {
+
+        $filter = $request->all();
+
+        // return($filter);
+
+        $tglAwal = "";
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $tglAwal =  $filter['tglAwal'];
+        }
+        $tglAkhir = "";
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $tglAkhir = $filter['tglAkhir'];
+        }
+
+        $data = DB::select(DB::raw("SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) as total, pg.namalengkap,
+        CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+        departemen_m.namadepartemen,ps.noidentitas
+FROM            departemen_m  INNER JOIN
+        ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+        strukresep_t AS sr INNER JOIN
+        pelayananpasien_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+        ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+        produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+        antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+        pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+        pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+        pegawai_m AS pg ON pg.id = sr.penulisresepfk
+WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir') and pr.istb = true
+group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen,ps.noidentitas
+
+UNION ALL
+SELECT        sr.norec,to_char(sr.tglresep,'YYYY-MM-DD') AS tglresep, sr.noresep, UPPER(ps.namapasien) AS namapasien, ps.nocm, ru.namaruangan AS ruangan, pr.namaproduk, pp.jumlah, pp.hargajual,(pp.jumlah * pp.hargajual + pp.jasa) as total, pg.namalengkap,
+        CASE WHEN pp.hargadiscount IS NULL THEN 0 ELSE pp.hargadiscount END AS diskon, CASE WHEN pp.jasa IS NULL THEN 0 ELSE pp.jasa END AS jasa, 0 AS ppn,
+        departemen_m.namadepartemen,ps.noidentitas
+FROM            departemen_m  INNER JOIN
+        ruangan_m ON departemen_m.id = ruangan_m.objectdepartemenfk RIGHT OUTER JOIN
+        strukresep_t AS sr INNER JOIN
+        pelayananpasienobatkronis_t AS pp ON pp.strukresepfk = sr.norec INNER JOIN
+        ruangan_m AS ru ON ru.id = sr.ruanganfk INNER JOIN
+        produk_m AS pr ON pr.id = pp.produkfk INNER JOIN
+        antrianpasiendiperiksa_t AS apd ON apd.norec = pp.noregistrasifk INNER JOIN
+        pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk INNER JOIN
+        pasien_m AS ps ON ps.id = pd.nocmfk ON ruangan_m.id = apd.objectruanganfk LEFT OUTER JOIN
+        pegawai_m AS pg ON pg.id = sr.penulisresepfk
+WHERE (sr.tglresep BETWEEN '$tglAwal' AND '$tglAkhir') AND pr.istb = true
+group by sr.norec, sr.tglresep, sr.noresep, ps.namapasien, ps.nocm, ru.namaruangan, pr.namaproduk, pp.jumlah, pp.hargajual, pp.jasa, pg.namalengkap, pp.hargadiscount, departemen_m.namadepartemen,ps.noidentitas
+
+UNION ALL
+SELECT        sp.norec,to_char(sp.tglstruk,'YYYY-MM-DD') AS tglresep, sp.nostruk AS noresep, UPPER(sp.namapasien_klien) AS namapasien, '-' AS nocm, ru.namaruangan AS ruangan, pr.namaproduk,
+       spd.qtyproduk,spd.hargasatuan,(spd.qtyproduk * spd.hargasatuan + spd.hargatambahan ) as total, pg.namalengkap, CASE WHEN spd.hargadiscount IS NULL THEN 0 ELSE spd.hargadiscount END AS diskon, CASE WHEN spd.hargatambahan IS NULL
+        THEN 0 ELSE spd.hargatambahan END AS jasa, 0 AS ppn, 'Penujualan Bebas' AS namadepartemen,''as noidentitas
+FROM            strukpelayanan_t AS sp INNER JOIN
+        strukpelayanandetail_t AS spd ON spd.nostrukfk = sp.norec INNER JOIN
+        produk_m AS pr ON pr.id = spd.objectprodukfk INNER JOIN
+        pegawai_m AS pg ON pg.id = sp.objectpegawaipenanggungjawabfk INNER JOIN
+        ruangan_m AS ru ON ru.id = sp.objectruanganfk
+WHERE (sp.tglstruk BETWEEN '$tglAwal' AND '$tglAkhir') AND (SUBSTRING(sp.nostruk, 1, 2) = 'OB')   and pr.istb = true
+group by sp.norec, sp.tglstruk, sp.nostruk, sp.namapasien_klien, nocm, ru.namaruangan, pr.namaproduk, spd.qtyproduk, spd.hargasatuan, spd.hargatambahan, pg.namalengkap, spd.hargadiscount
+order by namadepartemen, noresep"));
+
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+
         return $this->respond($result);
     }
 
@@ -5273,6 +6849,920 @@ class PelayananResepController extends ApiController
                 'noresep' => $item->noresep,
                 'total' => $item->total,
                 'no' => $item->no,
+            );
+        }
+        return $this->respond($result);
+    }
+
+
+    //ash -- 2023-09-01
+    public function getHistoriObat(Request $request)
+    {
+        $detail = $request->all();
+        $result = [];
+        $data = \DB::table('pelayananpasien_t as pp')
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
+            ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
+            // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
+            // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
+            // ->leftjoin('pegawai_m as pm','pm.id','=','log.objectpegawaifk')
+            ->leftJOIN('ruangan_m as ru2', 'ru2.id', '=', 'sr.ruanganfk')
+            ->leftJOIN('pegawai_m as dok', 'dok.id', '=', 'sr.penulisresepfk')
+            ->leftJOIN('rm_sediaan_m AS rs', 'rs.id', '=', 'pr.objectsediaanfk')
+            ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
+            // ->leftjoin('pelayananpasienobatkronis_t as ppk','ppk.noregistrasifk','=','apd.norec')
+            ->leftJOIN('pelayananpasienobatkronis_t as ppk', function ($join) {
+                $join->on('ppk.noregistrasifk', '=', 'pp.noregistrasifk')
+                    ->on('pp.produkfk', '=', 'ppk.produkfk');
+            })
+            ->select(
+                'pp.keteranganpakai',
+                'pp.norec',
+                'ps.nocm',
+                'ps.namapasien',
+                'jk.jeniskelamin',
+                'pp.tglpelayanan',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'ss.satuanstandar',
+                'pp.jumlah',
+                'pp.hargasatuan',
+                'pp.hargadiscount',
+                'sp.nostruk',
+                'pd.noregistrasi',
+                'ks.nilaikonversi',
+                'ss2.satuanstandar as satuanstandar2',
+                'sr.noresep',
+                'sr.norec as norec_resep',
+                'pp.rke',
+                'jkm.jeniskemasan',
+                'jk.id as jkid',
+                'pp.jenisobatfk',
+                'jra.jenisracikan',
+                'pp.jasa',
+                'ru2.id as ruangandepoid',
+                'ru2.namaruangan as ruangandepo',
+                'pp.aturanpakai',
+                'ru.namaruangan',
+                'dok.namalengkap as dokter',
+                'pp.ispagi',
+                'pp.issiang',
+                'pp.ismalam',
+                'pp.issore',
+                'sr.isreseppulang',
+                'so.tglorder',
+                'pp.dosisobat',
+                'pp.objectwaktuminumfk',
+                'pp.objectsediaanobatfk',
+                'pp.jumlahpemakaian',
+                'ppk.jumlah as jumlahkronis',
+                'pr.kekuatan',
+                DB::raw("case when ppk.jumlah is null then pp.jumlah else ppk.jumlah + pp.jumlah end as totaljumlah")
+
+                //DB::raw("CASE WHEN pr.kekuatan IS NOT NULL AND rs.name IS NOT NULL THEN pr.kekuatan + ' ' + rs.name ELSE '' END AS kekuatan,case when ppk.jumlah is null then pp.jumlah else ppk.jumlah + pp.jumlah end as totaljumlah")
+            )
+            // ->where('jp.id',97)
+            ->whereNotNull('pp.isobat')
+            ->where('pp.statusenabled', 1)
+            ->orderBy('pp.tglpelayanan', 'pp.rke');
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', '=', $request['nocm']);
+        }
+        if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+            $data = $data->where('pp.noregistrasifk', '=', $request['noregistrasifk']);
+        }
+        if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noReg']);
+        }
+        if (isset($request['norec_resep']) && $request['norec_resep'] != "" && $request['norec_resep'] != "undefined") {
+            $data = $data->where('sr.norec', '=', $request['norec_resep']);
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $data = $data->where('sr.ruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['dpid']) && $request['dpid'] != "" && $request['dpid'] != "undefined") {
+            $data = $data->where('dp.id', $request['dpid']);
+        }
+        $data = $data->get();
+
+        $rke = 0;
+        foreach ($data as $item) {
+            if (isset($item->nilaikonversi)) {
+                $nKonversi = $item->nilaikonversi;
+            } else {
+                $nKonversi = 1;
+            }
+            if (isset($item->satuanstandar)) {
+                $ss = $item->satuanstandar;
+            } else {
+                $ss = $item->satuanstandar2;
+            }
+            $JenisKemasan = $item->jeniskemasan;
+            if (isset($item->jenisracikan)) {
+                $JenisKemasan = $item->jeniskemasan . '/' . $item->jenisracikan;
+            }
+            //            $tarifjasa =0;
+            //            $qty20 =0;
+            //            if ($item->jkid == 2){
+            //                $tarifjasa = 800;
+            //            }
+            ////            $rke = 0;
+            //            if ($item->rke != $rke) {
+            //                if ($item->jkid == 1) {
+            //                    $rke=$item->rke;
+            //                    $qty20 = number_format($item->jumlah / 20, 0);
+            //                    if ($item->jumlah % 20 == 0) {
+            //                        $qty20 = $qty20;
+            //                    } else {
+            //                        $qty20 = $qty20 + 1;
+            //                    }
+            //
+            //                    $tarifjasa = 800 * $qty20;
+            //                }
+            //            }
+            $jasa = 0;
+            if (isset($item->jasa) && $item->jasa != "" && $item->jasa != "undefined") {
+                $jasa = $item->jasa;
+            }
+
+            $result[] = array(
+                'nocm' => $item->nocm,
+                'namapasien' => $item->namapasien,
+                'jeniskelamin' => $item->jeniskelamin,
+                'tglpelayanan' => $item->tglpelayanan,
+                'produkfk' => $item->produkfk,
+                'namaproduk' => $item->namaproduk,
+                'satuanstandar' => $ss,
+                // 'jumlah' => (float)$item->jumlah / (float)$nKonversi,
+                'jumlah' => (float)$item->jumlah,
+                'hargasatuan' => $item->hargasatuan,
+                'hargadiscount' => $item->hargadiscount,
+                'nostruk' => $item->nostruk,
+                'noregistrasi' => $item->noregistrasi,
+                'noresep' => $item->noresep, // .'/'.$item->noregistrasi,
+                'rke' => $item->rke,
+                'jeniskemasan' => $JenisKemasan,
+                'norec_resep' =>  $item->norec_resep,
+                'detail' => $detail,
+                'jasa' => $jasa,
+                'depoid' => $item->ruangandepoid,
+                'namaruangandepo' => $item->ruangandepo,
+                'aturanpakai' => $item->aturanpakai,
+                'dokter' => $item->dokter,
+                'namaruangan' => $item->namaruangan,
+                'kekuatan' => $item->kekuatan,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'reseppulang' => $item->isreseppulang,
+                'tglorder' => $item->tglorder,
+                // 'namauser' => $item->namaLengkap
+                'namauser' => '',
+                'dosisobat' => $item->dosisobat,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'norecpp' => $item->norec,
+                'keteranganpakai' => $item->keteranganpakai,
+                'totaljumlah' => $item->totaljumlah,
+                'jumlahkronis' => $item->jumlahkronis
+
+            );
+        }
+        return $this->respond($result);
+    }
+
+
+    //ash 2023-09-11
+
+    // public function getDataPengkajianNew(Request $request)
+    // {
+    //     $dataLogin = $request->all();
+    //     $results = DB::select(
+    //         DB::raw("SELECT p.emrpasienfk, concat(p.value,' Kg') AS beratbadan, t.tglemr
+    //             FROM emrpasiend_t AS p INNER JOIN
+    //             emrpasien_t AS t ON t.noemr = p.emrpasienfk
+    //             WHERE (p.emrdfk = '1175') AND (t.nocm = '$request[nocm]')
+    //             ORDER BY p.tgl DESC")
+    //     );
+    //     $results2 = DB::select(
+    //         DB::raw("SELECT  p.emrpasienfk, p.value AS statusalergi, p.tgl
+    //                     FROM  emrpasiend_t AS p INNER JOIN
+    //                     emrpasien_t AS t ON t.noemr = p.emrpasienfk
+    //                     WHERE (t.nocm = '$request[nocm]') AND (p.emrdfk IN ('1178', '2481', '2405', '2586'))
+    //                     ORDER BY p.tgl DESC")
+    //     );
+    //     $results3 = DB::select(
+    //         DB::raw("SELECT p.emrpasienfk, concat(p.value,' Cm') AS tinggibadan, t.tglemr
+    //             FROM emrpasiend_t AS p INNER JOIN
+    //             emrpasien_t AS t ON t.noemr = p.emrpasienfk
+    //             WHERE  (p.emrdfk = '1174') AND (t.nocm = '$request[nocm]')
+    //             ORDER BY p.tgl DESC")
+    //     );
+    //     $result = array(
+    //         'BeratBadan' => $results,
+    //         'Alergi' => $results2,
+    //         'TinggiBadan' => $results3,
+    //         'message' => 'as@epic',
+    //     );
+    //     return $this->respond($result);
+    // }
+
+    // key
+    public function getDataPengkajianNew(Request $request)
+    {
+        $nocm = $request->input('nocm');
+
+        // $results = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value || ' Kg' AS beratbadan, t.tglemr
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE p.emrdfk = '1175' AND t.nocm = :nocm
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $results2 = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value AS statusalergi, p.tgl
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE t.nocm = :nocm AND p.emrdfk IN ('1178', '2481', '2405', '2586')
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $results3 = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value || ' Cm' AS tinggibadan, t.tglemr
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE p.emrdfk = '1174' AND t.nocm = :nocm
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $result = [
+        //     'BeratBadan' => $results,
+        //     'Alergi' => $results2,
+        //     'TinggiBadan' => $results3,
+        //     'message' => 'as@epic',
+        // ];
+
+        // optimalisasi query by key
+        $results = DB::select(
+            DB::raw("
+                SELECT 
+                    t.noemr,
+                    MAX(CASE WHEN p.emrdfk = '1175' THEN p.value || ' Kg' END) AS beratbadan,
+                    MAX(CASE WHEN p.emrdfk IN ('1178', '2481', '2405', '2586') THEN p.value END) AS statusalergi,
+                    MAX(CASE WHEN p.emrdfk = '1174' THEN p.value || ' Cm' END) AS tinggibadan,
+                    MAX(t.tglemr) AS tglemr
+                FROM emrpasiend_t AS p
+                INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+                WHERE t.nocm = :nocm
+                GROUP BY t.noemr
+                ORDER BY MAX(t.tglemr) DESC
+            "),
+            ['nocm' => $nocm]
+        );
+
+        $result = [
+            'Pengkajian' => $results,
+            'message' => 'key@epic',
+        ];
+
+        return $this->respond($result);
+    }
+
+    public function getProdukDetailEmr(Request $request)
+    {
+        //        namafield	nilaifield	keteranganfungsi
+        //        MetodeAmbilHargaNetto	0	KOSONG .: pengambilan hn1 atau hn2
+
+        //        MetodeHargaNetto	2	AVG
+        //        MetodeHargaNetto	3	Harga Tertinggi
+        //        MetodeHargaNetto	1	Harga Netto #
+
+        //        MetodeStokHargaNetto	2	LIFO
+        //        MetodeStokHargaNetto	3	FEFO #
+        //        MetodeStokHargaNetto	4	LEFO
+        //        MetodeStokHargaNetto	1	FIFO
+        //        MetodeStokHargaNetto	5	Summary
+
+        //        SistemHargaNetto	7	Harga Terakhir #
+        //        SistemHargaNetto	6	LEFO
+        //        SistemHargaNetto	2	LIFO
+        //        SistemHargaNetto	3	Harga Tertinggi
+        //        SistemHargaNetto	4	AVG
+        //        SistemHargaNetto	5	FEFO
+        //        SistemHargaNetto	1	FIFO
+
+        //bucat : # setting yg dipakai
+
+
+        //        select * from settingdatafixed_m where namafield  in ('SistemHargaNetto','MetodeHargaNetto','MetodeStokHargaNetto','MetodeAmbilHargaNetto') order by namafield;
+        //        select * from jenistransaksi_m where id=5;
+        //        select * from persenhargajualproduk_m where objectjenistransaksifk =5; .:25%
+
+
+        $jenisTransaksi = \DB::table('jenistransaksi_m as jt')
+            ->where('jt.id', 5)
+            ->where('jt.statusenabled', true)
+            ->first();
+
+        if ($this->getCountArray($jenisTransaksi) == 0) {
+            return $this->respond(array(
+                'Error' => 'Setting jenistransaksi_m dulu',
+                'message' => 'as@epic',
+            ));
+        }
+        $strMetodeAmbilHargaNetto = $jenisTransaksi->metodeambilharganetto;
+        //        $strMetodeHargaNetto = $jenisTransaksi->metodeharganetto; //ketika penerimaan saja
+        $strMetodeStokHargaNetto = $jenisTransaksi->metodestokharganetto;
+        $strSistemHargaNetto = $jenisTransaksi->sistemharganetto;
+        // return($request['kelompokpasien']);
+        // die();
+        if (isset($request['kelompokpasien']) && $request['kelompokpasien'] != "" && $request['kelompokpasien'] != "undefined") {
+            $kelompokpasien = $request['kelompokpasien'];
+        } else {
+            $kelompokpasien = 1;
+        }
+
+
+        $persenHargaJualProduk = \DB::table('persenhargajualproduk_m as phjp')
+            ->JOIN('range_m as rg', 'rg.id', '=', 'phjp.objectrangefk')
+            ->select('rg.rangemin', 'rg.rangemax', 'phjp.persenuphargasatuan')
+            ->where('phjp.objectjenistransaksifk', 5)
+            ->where('phjp.statusenabled', true)
+            ->where('phjp.objectkelompokpasienfk', $kelompokpasien)
+            ->get();
+        if (count($persenHargaJualProduk) == 0) {
+            return $this->respond(array(
+                'Error' => 'Setting persenhargajualproduk_m dulu',
+                'message' => 'as@epic',
+            ));
+        }
+
+        //        $persenUpHargaSatuan = $persenHargaJualProduk->persenuphargasatuan;
+        $strHN = '';
+        $strMSHT = '';
+        $SistemHargaNetto = '';
+        $MetodeAmbilHargaNetto = '';
+        $MetodeStokHargaNetto = '';
+
+        // ### FIFO ### //
+        if ($strSistemHargaNetto == 1) {
+
+            $SistemHargaNetto = 'FIFO';
+
+            if ($strMetodeAmbilHargaNetto == 1) { //HN1
+                $strHN = 'spd.harganetto1';
+                $MetodeAmbilHargaNetto = 'HN1';
+            }
+            if ($strMetodeAmbilHargaNetto == 2) { //HN2
+                $strHN = 'spd.harganetto2';
+                $MetodeAmbilHargaNetto = 'HN2';
+            }
+
+            if ($strMetodeStokHargaNetto == 1) { //FIFO
+                $strMSHT = 'sk.tglstruk';
+                $MetodeStokHargaNetto = 'FIFO';
+            }
+            if ($strMetodeStokHargaNetto == 2) { //LIFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LIFO';
+            }
+            if ($strMetodeStokHargaNetto == 3) { //FEFO
+                $strMSHT = 'spd.tglkadaluarsa';
+                $MetodeStokHargaNetto = 'FEFO';
+            }
+            if ($strMetodeStokHargaNetto == 4) { //LEFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LEFO';
+            }
+            if ($strMetodeStokHargaNetto == 5) { //Summary
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'Summary';
+            }
+            $result = DB::select(
+                DB::raw("select sk.norec,spd.objectprodukfk, $strMSHT as tgl,spd.objectasalprodukfk,$strHN as harganetto ,
+                      spd.hargadiscount,
+                sum(spd.qtyproduk) as qtyproduk,spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
+                from stokprodukdetail_t as spd
+                inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                inner JOIN asalproduk_m as ap on ap.id=spd.objectasalprodukfk
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid 
+                --and spd.qtyproduk>0
+                group by sk.norec,spd.objectprodukfk, $strMSHT,spd.objectasalprodukfk, 
+                        $strHN,spd.hargadiscount,
+                spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
+                order By $strMSHT"),
+                array(
+                    'produkId' => $request['produkfk'],
+                    'ruanganid' => $request['ruanganfk'],
+                )
+            );
+            if (count($result) < 1) {
+                $result = array(
+                    'stok' => 'Stok Kosong',
+                );
+                return $this->respond('Stok Kosong');
+            }
+            $persenUpHargaSatuan = 0;
+            foreach ($result as $item) {
+
+                foreach ($persenHargaJualProduk as $hitem) {
+                    // if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto){
+
+                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                    // }
+                }
+
+                $results[] = array(
+                    'norec' => $item->norec,
+                    'objectprodukfk' => $item->objectprodukfk,
+                    'tgl' => $item->tgl,
+                    'objectasalprodukfk' => $item->objectasalprodukfk,
+                    'asalproduk' => $item->asalproduk,
+                    'harganetto' => $item->harganetto,
+                    'hargadiscount' => $item->hargadiscount,
+                    'hargajual' => (float)$item->harganetto + (((float)$item->harganetto * (float)$persenUpHargaSatuan) / 100),
+                    'persenhargajualproduk' => $persenUpHargaSatuan,
+                    'qtyproduk' => $item->qtyproduk,
+                    'objectruanganfk' => $item->objectruanganfk,
+                    'nostrukterimafk' => $item->nostrukterimafk,
+                );
+            }
+        }
+        // ### END-FIFO ### //
+
+        // ### Harga Tertinggi ### //
+        if ($strSistemHargaNetto == 3) {
+
+            $SistemHargaNetto = 'Harga Tertinggi';
+            if ($strMetodeAmbilHargaNetto == 1) { //HN1
+                $strHN = 'spd.harganetto1';
+                $MetodeAmbilHargaNetto = 'HN1';
+            }
+            if ($strMetodeAmbilHargaNetto == 2) { //HN2
+                $strHN = 'spd.harganetto2';
+                $MetodeAmbilHargaNetto = 'HN2';
+            }
+
+            if ($strMetodeStokHargaNetto == 1) { //FIFO
+                $strMSHT = 'sk.tglstruk';
+                $MetodeStokHargaNetto = 'FIFO';
+            }
+            if ($strMetodeStokHargaNetto == 2) { //LIFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LIFO';
+            }
+            if ($strMetodeStokHargaNetto == 3) { //FEFO
+                $strMSHT = 'spd.tglkadaluarsa';
+                $MetodeStokHargaNetto = 'FEFO';
+            }
+            if ($strMetodeStokHargaNetto == 4) { //LEFO
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'LEFO';
+            }
+            if ($strMetodeStokHargaNetto == 5) { //Summary
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'Summary';
+            }
+            $maxHarga = DB::select(
+                DB::raw("select $strHN as harga
+                from stokprodukdetail_t as spd
+                inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid"),
+                array(
+                    'produkId' => $request['produkfk'],
+                    'ruanganid' => $request['ruanganfk'],
+                )
+            );
+            $hargaTertinggi = 0;
+            foreach ($maxHarga as $item) {
+                if ($hargaTertinggi < (float)$item->harga) {
+                    $hargaTertinggi = (float)$item->harga;
+                }
+            }
+
+            $result = DB::select(
+                DB::raw("select sk.norec,spd.objectprodukfk, $strMSHT as tgl,spd.objectasalprodukfk,$hargaTertinggi as harganetto ,
+                        $hargaTertinggi  as hargajual,spd.hargadiscount,
+                sum(spd.qtyproduk) as qtyproduk,spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
+                from stokprodukdetail_t as spd
+                inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                inner JOIN asalproduk_m as ap on ap.id=spd.objectasalprodukfk
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid
+                group by sk.norec,spd.objectprodukfk, $strMSHT,spd.objectasalprodukfk, 
+                        spd.hargadiscount,
+                spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
+                order By $strMSHT"),
+                array(
+                    'produkId' => $request['produkfk'],
+                    'ruanganid' => $request['ruanganfk'],
+                )
+            );
+
+            $persenUpHargaSatuan = 0;
+            foreach ($result as $item) {
+                // foreach ($persenHargaJualProduk as $hitem){
+                if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto) {
+                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+                }
+                // }
+                $results[] = array(
+                    'norec' => $item->norec,
+                    'objectprodukfk' => $item->objectprodukfk,
+                    'tgl' => $item->tgl,
+                    'objectasalprodukfk' => $item->objectasalprodukfk,
+                    'asalproduk' => $item->asalproduk,
+                    'harganetto' => $item->harganetto,
+                    'hargadiscount' => $item->hargadiscount,
+                    'hargajual' => (float)$item->harganetto + (((float)$item->harganetto * (float)$persenUpHargaSatuan) / 100),
+                    'persenhargajualproduk' => $persenUpHargaSatuan,
+                    'qtyproduk' => $item->qtyproduk,
+                    'objectruanganfk' => $item->objectruanganfk,
+                    'nostrukterimafk' => $item->nostrukterimafk,
+                );
+            }
+        }
+        // ### END-Harga Tertinggi ### //
+
+        // ### Harga Terakhir ### //
+        if ($strSistemHargaNetto == 7) {
+
+            $SistemHargaNetto = 'Harga Terakhir';
+            if ($strMetodeAmbilHargaNetto == 1) { //HN1
+                $strHN = 'spd.harganetto1';
+                $MetodeAmbilHargaNetto = 'HN1';
+            }
+            if ($strMetodeAmbilHargaNetto == 2) { //HN2
+                $strHN = 'spd.harganetto2';
+                $MetodeAmbilHargaNetto = 'HN2';
+            }
+
+            if ($strMetodeStokHargaNetto == 1) { //FIFO
+                $strMSHT = 'sk.tglstruk';
+                $MetodeStokHargaNetto = 'FIFO';
+            }
+            if ($strMetodeStokHargaNetto == 2) { //LIFO
+                $strMSHT = 'sk.tglstruk desc';
+                $MetodeStokHargaNetto = 'LIFO';
+            }
+            if ($strMetodeStokHargaNetto == 3) { //FEFO
+                $strMSHT = 'spd.tglkadaluarsa';
+                $MetodeStokHargaNetto = 'FEFO';
+            }
+            if ($strMetodeStokHargaNetto == 4) { //LEFO
+                $strMSHT = 'spd.tglkadaluarsa desc';
+                $MetodeStokHargaNetto = 'LEFO';
+            }
+            if ($strMetodeStokHargaNetto == 5) { //Summary
+                $strMSHT = '';
+                $MetodeStokHargaNetto = 'Summary';
+            }
+            $maxHarga = DB::select(
+                DB::raw("select spd.tglpelayanan, $strHN as harga
+                from stokprodukdetail_t as spd
+                inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                where spd.objectprodukfk =:produkId "),
+                array(
+                    'produkId' => $request['produkfk'],
+                )
+            );
+            $hargaTerakhir = 0;
+            $tgl = date('2000-01-01 00:00');
+            foreach ($maxHarga as $item) {
+                if ($tgl < $item->tglpelayanan) {
+                    $tgl = $item->tglpelayanan;
+                    $hargaTerakhir = (float)$item->harga;
+                }
+            }
+            $result = [];
+            $result = DB::select(
+                DB::raw("select sk.norec,spd.objectprodukfk, $strMSHT as tgl,spd.objectasalprodukfk,$hargaTerakhir as harganetto ,
+                        $hargaTerakhir  as hargajual,spd.hargadiscount,spd.nostrukterimafk,
+                sum(spd.qtyproduk) as qtyproduk,spd.objectruanganfk,ap.asalproduk
+                from stokprodukdetail_t as spd
+                inner JOIN strukpelayanan_t as sk on sk.norec=spd.nostrukterimafk
+                inner JOIN asalproduk_m as ap on ap.id=spd.objectasalprodukfk
+                where spd.objectprodukfk =:produkId and spd.objectruanganfk =:ruanganid and spd.qtyproduk > 0
+                group by sk.norec,spd.objectprodukfk, $strMSHT, spd.objectasalprodukfk, 
+                        spd.hargadiscount,
+                spd.objectruanganfk,ap.asalproduk,spd.nostrukterimafk
+                order By $strMSHT"),
+                array(
+                    'produkId' => $request['produkfk'],
+                    'ruanganid' => $request['ruanganfk'],
+                )
+            );
+            $results = [];
+            $persenUpHargaSatuan = 0;
+            foreach ($result as $item) {
+
+                foreach ($persenHargaJualProduk as $hitem) {
+
+                    // if ((float)$hitem->rangemin < (float)$item->harganetto && (float)$hitem->rangemax > (float)$item->harganetto){
+                    $persenUpHargaSatuan = (float)$hitem->persenuphargasatuan;
+
+                    // }
+                }
+                // return('a');
+                // die();
+                $results[] = array(
+                    'norec' => $item->norec,
+                    'objectprodukfk' => $item->objectprodukfk,
+                    'tgl' => $item->tgl,
+                    'objectasalprodukfk' => $item->objectasalprodukfk,
+                    'asalproduk' => $item->asalproduk,
+                    'harganetto' => (float)$item->harganetto, //$item->harganetto,
+                    'hargadiscount' => $item->hargadiscount,
+                    'hargajual' => (float)$item->harganetto + (((float)$item->harganetto * (float)$persenUpHargaSatuan) / 100),
+                    'persenhargajualproduk' => $persenUpHargaSatuan,
+                    'qtyproduk' => $item->qtyproduk,
+                    'objectruanganfk' => $item->objectruanganfk,
+                    'nostrukterimafk' => $item->nostrukterimafk,
+                );
+            }
+        }
+        // ### END-Harga Terakhir ### //
+
+        $jmlstok = 0;
+        foreach ($result as $item) {
+            $jmlstok = $jmlstok + $item->qtyproduk;
+        }
+
+        $cekConsis = DB::select(
+            DB::raw("select * from his_obat_ms_t where hobatid=:produkfk;"),
+            array(
+                'produkfk' =>  $request['produkfk'],
+            )
+        );
+        $cekKekuatanSupranatural = DB::select(
+            DB::raw("
+
+            select pr.kekuatan,sdn.name as sediaan from produk_m as pr 
+            left join rm_sediaan_m as sdn on sdn.id=pr.objectsediaanfk
+            where pr.id=:produkfk;
+            
+            "),
+            array(
+                'produkfk' =>  $request['produkfk'],
+            )
+        );
+        $kekuatan = 0;
+        $sediaan = 0;
+        if (count($cekKekuatanSupranatural) > 0) {
+            $kekuatan = (float)$cekKekuatanSupranatural[0]->kekuatan;
+            $sediaan = $cekKekuatanSupranatural[0]->sediaan;
+            if ($kekuatan == null) {
+                $kekuatan = 0;
+            }
+        }
+        $cekdosisobat = DB::select(
+            DB::raw("
+            select pr.dosisobat from produk_m as pr
+            where pr.id=:produkfk;
+            "),
+            array(
+                'produkfk' =>  $request['produkfk'],
+            )
+        );
+        $dosiscoy = $cekdosisobat[0]->dosisobat;
+        if ($dosiscoy == null) {
+            $dosiscoy = '';
+        };
+
+        $result = array(
+            'detail' => $results,
+            'jmlstok' => $jmlstok,
+            'kekuatan' => $kekuatan,
+            'sediaan' => $sediaan,
+            'sistemharganetto' => $SistemHargaNetto,
+            'metodeambilharganetto' => $MetodeAmbilHargaNetto,
+            'metodestokharganetto' => $MetodeStokHargaNetto,
+            'consis' => count($cekConsis),
+            'dosisobat' => $dosiscoy,
+            'message' => 'as@epic',
+        );
+        return $this->respond($result);
+    }
+
+    public function getTransaksiPelayananApotikResumeRJ(Request $request)
+    {
+        // DB::connection()->setForceWritePdo();
+        $detail = $request->all();
+        $result = [];
+        $data = \DB::table('pelayananpasien_t as pp')
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->leftjoin('waktuminum_m as wm', 'wm.id', '=', 'pp.objectwaktuminumfk')
+            ->JOIN('bentukproduk_m as bp', 'bp.id', '=', 'pr.objectbentukprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
+            ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
+            // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
+            // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
+            // ->leftjoin('pegawai_m as pm','pm.id','=','log.objectpegawaifk')
+            ->leftJOIN('ruangan_m as ru2', 'ru2.id', '=', 'sr.ruanganfk')
+            ->leftJOIN('pegawai_m as dok', 'dok.id', '=', 'sr.penulisresepfk')
+            ->leftJOIN('rm_sediaan_m AS rs', 'rs.id', '=', 'pr.objectsediaanfk')
+            ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
+            ->leftJoin('kelompokprodukbpjs_m as kpb', 'kpb.id', '=', 'pr.objectkelompokprodukbpjsfk')
+            ->select(
+                'pp.keteranganpakai',
+                'pp.norec',
+                'ps.nocm',
+                'ps.namapasien',
+                'jk.jeniskelamin',
+                'pp.tglpelayanan',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'ss.satuanstandar',
+                'pp.jumlah',
+                'pp.hargasatuan',
+                'pp.hargadiscount',
+                'sp.nostruk',
+                'pd.noregistrasi',
+                'ks.nilaikonversi',
+                'ss2.satuanstandar as satuanstandar2',
+                'sr.noresep',
+                'sr.norec as norec_resep',
+                'pp.rke',
+                'jkm.jeniskemasan',
+                'jk.id as jkid',
+                'pp.jenisobatfk',
+                'jra.jenisracikan',
+                'pp.jasa',
+                'ru2.id as ruangandepoid',
+                'ru2.namaruangan as ruangandepo',
+                'pp.aturanpakai',
+                'ru.namaruangan',
+                'dok.namalengkap as dokter',
+                'pp.ispagi',
+                'pp.issiang',
+                'pp.ismalam',
+                'pp.issore',
+                'sr.isreseppulang',
+                'so.tglorder',
+                'pp.dosisobat',
+                'pp.objectwaktuminumfk',
+                'pp.objectsediaanobatfk',
+                'pp.jumlahpemakaian',
+                'wm.waktuminum',
+                'kpb.kelompokprodukbpjs',
+                'pp.isobatpulang',
+                DB::raw("CASE WHEN pr.kekuatan IS NOT NULL AND rs.name IS NOT NULL THEN pr.kekuatan || ' ' || rs.name ELSE '' END AS kekuatan")
+            )
+            // ->where('jp.id',97)
+            ->where('sr.statusenabled', null)
+            ->where('pp.statusenabled', true)
+            ->where('bp.id', '=', 73)
+            ->whereNotNull('pp.isobat')
+            ->orderBy('pp.tglpelayanan', 'pp.rke');
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', '=', $request['nocm']);
+        }
+        if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+            $data = $data->where('pp.noregistrasifk', '=', $request['noregistrasifk']);
+        }
+        if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noReg']);
+        }
+        if (isset($request['norec_resep']) && $request['norec_resep'] != "" && $request['norec_resep'] != "undefined") {
+            $data = $data->where('sr.norec', '=', $request['norec_resep']);
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $data = $data->where('sr.ruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['isresume']) && $request['isresume'] != "" && $request['isresume'] != "false") {
+            $data = $data->whereNull('pp.isobatpulang');
+        }
+        if (isset($request['norec_pp']) && $request['norec_pp'] != "" && $request['norec_pp'] != "undefined") {
+            $arrRuang = explode(',', $request['norec_pp']);
+            $kodeRuang = [];
+            foreach ($arrRuang as $item) {
+                $kodeRuang[] = $item;
+            }
+            $data = $data->whereNotIn('pp.norec', $kodeRuang);
+        }
+        $data = $data->get();
+
+        $rke = 0;
+        foreach ($data as $item) {
+            if (isset($item->nilaikonversi)) {
+                $nKonversi = $item->nilaikonversi;
+            } else {
+                $nKonversi = 1;
+            }
+            if (isset($item->satuanstandar)) {
+                $ss = $item->satuanstandar;
+            } else {
+                $ss = $item->satuanstandar2;
+            }
+            $JenisKemasan = $item->jeniskemasan;
+            if (isset($item->jenisracikan)) {
+                $JenisKemasan = $item->jeniskemasan . '/' . $item->jenisracikan;
+            }
+            //            $tarifjasa =0;
+            //            $qty20 =0;
+            //            if ($item->jkid == 2){
+            //                $tarifjasa = 800;
+            //            }
+            ////            $rke = 0;
+            //            if ($item->rke != $rke) {
+            //                if ($item->jkid == 1) {
+            //                    $rke=$item->rke;
+            //                    $qty20 = number_format($item->jumlah / 20, 0);
+            //                    if ($item->jumlah % 20 == 0) {
+            //                        $qty20 = $qty20;
+            //                    } else {
+            //                        $qty20 = $qty20 + 1;
+            //                    }
+            //
+            //                    $tarifjasa = 800 * $qty20;
+            //                }
+            //            }
+            $jasa = 0;
+            if (isset($item->jasa) && $item->jasa != "" && $item->jasa != "undefined") {
+                $jasa = $item->jasa;
+            }
+
+            $result[] = array(
+                'nocm' => $item->nocm,
+                'namapasien' => $item->namapasien,
+                'jeniskelamin' => $item->jeniskelamin,
+                'tglpelayanan' => $item->tglpelayanan,
+                'produkfk' => $item->produkfk,
+                'namaproduk' => $item->namaproduk,
+                'satuanstandar' => $ss,
+                // 'jumlah' => (float)$item->jumlah / (float)$nKonversi,
+                'jumlah' => (float)$item->jumlah,
+                'hargasatuan' => $item->hargasatuan,
+                'hargadiscount' => $item->hargadiscount,
+                'nostruk' => $item->nostruk,
+                'noregistrasi' => $item->noregistrasi,
+                'noresep' => $item->noresep, // .'/'.$item->noregistrasi,
+                'rke' => $item->rke,
+                'jeniskemasan' => $JenisKemasan,
+                'norec_resep' =>  $item->norec_resep,
+                'detail' => $detail,
+                'jasa' => $jasa,
+                'depoid' => $item->ruangandepoid,
+                'namaruangandepo' => $item->ruangandepo,
+                'aturanpakai' => $item->aturanpakai,
+                'dokter' => $item->dokter,
+                'namaruangan' => $item->namaruangan,
+                'kekuatan' => $item->kekuatan,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'reseppulang' => $item->isreseppulang,
+                'tglorder' => $item->tglorder,
+                // 'namauser' => $item->namaLengkap
+                'namauser' => '',
+                'dosisobat' => $item->dosisobat,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'norecpp' => $item->norec,
+                'keteranganpakai' => $item->keteranganpakai,
+                'waktuminum' => $item->waktuminum,
+                'kelompokprodukbpjs' => $item->kelompokprodukbpjs,
+                'isobatpulang' => $item->isobatpulang
+
             );
         }
         return $this->respond($result);
