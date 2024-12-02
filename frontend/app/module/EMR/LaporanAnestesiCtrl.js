@@ -10,7 +10,7 @@ define(['initialize'], function (initialize) {
             $scope.totalSkor = 0
             $scope.totalSkor2 = 0
             $scope.cc = {}
-            var nomorEMR = '-'
+            var nomorEMR = '-' 
             $scope.cc.emrfk = 247
             var dataLoad = []
 

@@ -314,15 +314,28 @@ define(['initialize'], function (initialize) {
                         var o = '';
                         var p = '';
                         var data = dat.data.askep
+                        var temp_a="";
+                        var temp_o="";
+                        var temp_p="";
+                        
                         for (var i = 0; i < data.length; i++) {
                             if (data[i].kolom == 1) {
-                                a = a + data[i].captionemr + "\n"
+                                if(temp_a!=data[i].captionemr) {
+                                    a = a + data[i].captionemr + "\n"
+                                    temp_a=data[i].captionemr;
+                                }
                             }
                             if (data[i].kolom == 2) {
-                                o = o + data[i].captionemr + "\n"
+                                if(temp_o!=data[i].captionemr) {
+                                    o = o + data[i].captionemr + "\n"
+                                    temp_o=data[i].captionemr;
+                                }
                             }
                             if (data[i].kolom == 3) {
-                                p = p + data[i].captionemr + "\n"
+                                if(temp_p!=data[i].captionemr) {
+                                    p = p + data[i].captionemr + "\n"
+                                    temp_p=data[i].captionemr;
+                                }
                             }
                         }
                         $scope.data.names[index].diagnosa = a
@@ -1057,7 +1070,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "noemr", "namaPasien", "norm", "jeniskelamin", "umur", "ruangan", "tglLahir", "noregistrasi"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.modelGrid.emrpasienfk, namapasien, norm, jeniskelamin, umur, ruangan, tglLahir, noregistrasi],
+                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", $scope.modelGrid.emrpasienfk, namapasien, norm, jeniskelamin, umur, ruangan, tglLahir, noregistrasi],
                     "paramType": ["", "", "", "", "", "", "", "", "", ""]
                 };
 
@@ -1084,7 +1097,7 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rencanaaskepv2.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/rencanaaskepv2.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/rencanaaskepv2.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1generic/report/rencanaaskepv2.pdf');
@@ -1092,7 +1105,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
                     xhr.open('POST', 'http://36.92.186.59:1002/generic/report/rencanaaskepv2.pdf');
                 } else {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rencanaaskepv2.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/rencanaaskepv2.pdf');
                 }
 
                 // set `Content-Type` header

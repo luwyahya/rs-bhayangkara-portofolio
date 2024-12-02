@@ -7,15 +7,27 @@ define(['initialize'], function (initialize) {
             $scope.cc = {};
             var namaEMR = ''
             var nomorEMR = ''
+            var tampungnoregistrasi = ''
             $scope.tombolSimpanVis = true
             var dataLoad = []
 
             // nomorEMR = $state.params.nomorEMR
             nomorEMR = '-'
-            var chacePeriode = cacheHelper.get('cacheNomorEMR');
-            if(chacePeriode != undefined){
-                nomorEMR = chacePeriode[0]
+            tampungnoregistrasi = '';
+            // var chacePeriode = cacheHelper.get('cacheNomorEMR');
+            // if(chacePeriode != undefined){
+            //     nomorEMR = chacePeriode[0]
+            // }
+            var chacePeriode = cacheHelper.get('cacheRMelektronik');
+            if (chacePeriode != undefined) {
+                tampungnoregistrasi = chacePeriode[3];
             }
+            medifirstService.get("emr/get-emr-transaksi?noregistrasi=" + tampungnoregistrasi + "&jenisEmr=catatandokter", true).then(function(dat) {
+                //debugger
+                if (dat.data.data[0] != undefined) {
+                    nomorEMR = dat.data.data[0].noemr
+                }
+            
 
             if (nomorEMR == '-') {
                 medifirstService.get("emr/get-rekam-medis-askep?emrid=" + $state.params.namaEMR).then(function (e) {
@@ -187,6 +199,7 @@ define(['initialize'], function (initialize) {
                     
                 });
             }
+        })
             
 
              
@@ -205,7 +218,7 @@ define(['initialize'], function (initialize) {
             // 12: $scope.header.namaruangan,
             // 13: $scope.header.DataNoregis
 
-            var chacePeriode = cacheHelper.get('cacheRekamMedis');
+            var chacePeriode = cacheHelper.get('cacheRMelektronik');
             if(chacePeriode != undefined){
                 $scope.cc.nocm = chacePeriode[0]
                 $scope.cc.namapasien = chacePeriode[1]
@@ -227,6 +240,28 @@ define(['initialize'], function (initialize) {
                     $scope.cc.norec_emr = nomorEMR       
                 }
             }
+            // var chacePeriode = cacheHelper.get('cacheNomorEMR');
+            // if(chacePeriode != undefined){
+            //     $scope.cc.nocm = chacePeriode[0]
+            //     $scope.cc.namapasien = chacePeriode[1]
+            //     $scope.cc.jeniskelamin = chacePeriode[2]
+            //     $scope.cc.noregistrasi = chacePeriode[3]
+            //     $scope.cc.umur = chacePeriode[4]
+            //     $scope.cc.kelompokpasien = chacePeriode[5]
+            //     $scope.cc.tglregistrasi = chacePeriode[6]
+            //     $scope.cc.norec = chacePeriode[7]
+            //     $scope.cc.norec_pd = chacePeriode[8]
+            //     $scope.cc.objectkelasfk = chacePeriode[9]
+            //     $scope.cc.namakelas =chacePeriode[10]
+            //     $scope.cc.objectruanganfk =chacePeriode[11]
+            //     $scope.cc.namaruangan =chacePeriode[12]  
+            //     $scope.cc.DataNoregis =chacePeriode[12]  
+            //     if (nomorEMR == '') {
+            //         $scope.cc.norec_emr = ''
+            //     }else{
+            //         $scope.cc.norec_emr = nomorEMR       
+            //     }
+            // }
 
 
             $scope.txt_change = function(index){
@@ -291,13 +326,13 @@ define(['initialize'], function (initialize) {
                             0: e.data.data.noemr 
                         }
                     cacheHelper.set('cacheNomorEMR', arrStr);
-                    debugger
+                    //debugger
                     $scope.AskepCtrl();
                 });
             }
             
 			$scope.AskepCtrl = function () {
-                debugger
+                //debugger
                 $state.go('RekamMedis.AskepCtrl', {
                     noRec: $scope.cc.norec,
                     emr: 'AskepCtrl',

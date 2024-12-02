@@ -1,0 +1,164 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .manual-gridbig {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 25%;
+    }
+
+    .manual-gridsmall {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 30%;
+    }
+
+
+
+    .manual-gridsmallest {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 9.5%;
+    }
+
+
+    .manual-gridfor3 {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 45%;
+    }
+
+    .manual-gridfor48 {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 57%;
+    }
+
+    .manual-gridfor50 {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 50%;
+    }
+
+    .grid-first {
+        width: 25%;
+        display: inline;
+        float: left;
+        padding: 5px;
+        box-sizing: border-box;
+    }
+
+    .manual-gridjumlah {
+        display: inline;
+        float: left;
+        box-sizing: border-box;
+        padding-top: 10px;
+        width: 71%;
+    }
+
+    .lebar-65 {
+        width: 65%
+    }
+</style>
+
+<!-- <div ng-controller="InputResepApotikOrderNewCtrl"> -->
+
+<div class="panel panel-default">
+    <div class="panel-heading" c-translate> Trending Obat yang sering dipakai</div>
+
+    <div class="grid_12">
+        <br>
+    </div>
+
+    <div class="grid_12" ng-show="!riwayatForm && !riwayatFormResep">
+        <!-- <div class="panel panel-default">
+                        <div class="panel-heading" c-translate>Informasi</div>
+                    </div> -->
+        <!-- <div class="grid_4"> -->
+        <!-- <fieldset class="effect-shadow" style=" border-radius: 4px"> -->
+        <!-- <legend id="filterData">
+                                        <a ng-click="showAndHide()">Daftar Obat yang Sering di Resepkan</a>
+                            </legend> -->
+        <div class="grid_4 " style=" height: 400px;margin-top: 10px;">
+            <div class="grid_12 headerBox">
+                <p>Daftar Obat</p>
+            </div>
+            <!-- <div class="grid_12 headerBox">
+                    <p>Daftar Obat yang Sering di Resepkan</p>
+                </div>
+                <div class="clear"></div> -->
+
+            <!-- grid table -->
+            <div class="grid_12 ">
+                <div id="kGrid" kendo-grid k-data-source="dataGridResepExist" k-selectable="'row'"
+                    k-columns="columnGridResepExist" k-sortable="'true'" k-pageable="'true'"
+                    k-ng-model="dataSelectedResepExist" ng-click="klikExist(dataSelectedResepExist)">
+                </div>
+
+            </div>
+        </div>
+        <!-- <div class="grid_4"> -->
+        <!-- <fieldset class="effect-shadow" style=" border-radius: 4px">
+                        <legend id="filterData">
+                            <a ng-click="showAndHide()">Stok : {{item.namaProduks}}</a>
+                        </legend> -->
+        <div class="grid_4 " style=" height: 400px;margin-top: 10px;">
+            <div class="grid_12 headerBox">
+                <p>Stok : {{item.namaProduks}}</p>
+            </div>
+            <!-- <div class="grid_12 headerBox">
+                    <p>Stok : {{item.namaProduks}}</p>
+                </div> -->
+            <div class="clear"></div>
+
+            <!-- grid table -->
+            <div class="grid_12 ">
+                <div id="kGrid" kendo-grid k-data-source="dataGridStok" k-selectable="'row'" k-columns="columnGridStok"
+                    k-sortable="'true'" k-pageable="'true'" k-ng-model="dataSelectedStok"
+                    ng-click="click(dataSelectedStok)">
+                </div>
+
+            </div>
+            </fieldset>
+        </div>
+
+    </div>
+
+    <div class="grid_12" style="margin-top:60px">
+        <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+    </div>
+</div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+</div>
+<div id="tempatLaporan" ng-hide="true"></div>

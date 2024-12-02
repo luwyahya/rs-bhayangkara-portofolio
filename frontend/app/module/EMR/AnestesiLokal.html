@@ -1,0 +1,1616 @@
+<style>
+    .manchester {
+        color: #ff3d3d;
+    }
+    .table {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    .td {
+        border: 2px solid black;
+    }
+   
+    .large-checkbox {
+        width: 25px;
+        height: 25px;
+        transform: scale(1.5); /* Increase the size of the checkbox */
+        margin-right: 10px; /* Add some space around the checkbox if needed */
+    }
+    
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>LAPORAN ANESTESI LOKAL</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">TANGGAL</label>
+            </div>
+            <div class="grid_7"> 
+                <input style="width: 100%" k-ng-model="item.obj[6548]" kendo-datetimepicker placeholer="yyyy-MM-dd"
+                    k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+            </div>
+        </div>        
+       
+    </div>
+    <div class="grid_6">
+        <div class="grid_2"  style="margin-top: 12px;">
+            <label c-label item="item">DIAGNOSA</label>
+        </div>
+        <div class="grid_7">
+            <input c-text-box type="text" filter="'char'" class="k-textbox" ng-model="item.obj[6549]" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">Jam Mulai Anestesi Lokal</label>
+            </div>
+            <div class="grid_7"> 
+                <input style="width: 100%" k-ng-model="item.obj[6550]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <table style="width: 100%;">
+        <tr>
+            <th rowspan="2" style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                NO
+            </th>
+            <th rowspan="2" style="width:15%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                Nama Obat Yang Diberikan
+            </th>
+            <th colspan="3" style="width:35%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                Dosis
+            </th>
+        </tr>
+        <tr>
+            <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                I
+            </th>
+            <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                II
+            </th>
+            <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                III
+            </th>
+        </tr>
+        <tr style="background-color: white;">
+            <td style="text-align: center;font-size: 21px;font-weight: bold;">1</td>
+            <td>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6551]" />
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6552]" id="item.obj[6552]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6552]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6553]" id="item.obj[6553]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6553]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6554]" id="item.obj[6554]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6554]" required></label>
+                </div>
+            </td>
+            
+        </tr>
+        <tr style="background-color: white;">
+            <td style="text-align: center;font-size: 21px;font-weight: bold;">2</td>
+            <td>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6555]" />
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6556]" id="item.obj[6556]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6556]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6557]" id="item.obj[6557]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6557]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6558]" id="item.obj[6558]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6558]" required></label>
+                </div>
+            </td>
+        </tr>
+        <tr style="background-color: white;">
+            <td style="text-align: center;font-size: 21px;font-weight: bold;">3</td>
+            <td>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6559]" />
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6560]" id="item.obj[6560]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6560]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6561]" id="item.obj[6561]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6561]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6562]" id="item.obj[6562]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6562]" required></label>
+                </div>
+            </td>
+        </tr>
+        <tr style="background-color: white;">
+            <td style="text-align: center;font-size: 21px;font-weight: bold;">4</td>
+            <td>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6563]" />
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6564]" id="item.obj[6564]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6564]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6565]" id="item.obj[6565]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6565]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6566]" id="item.obj[6566]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6566]" required></label>
+                </div>
+            </td>
+        </tr>
+        <tr style="background-color: white;">
+            <td style="text-align: center;font-size: 21px;font-weight: bold;">5</td>
+            <td>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6567]" />
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6568]" id="item.obj[6568]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6568]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6569]" id="item.obj[6569]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6569]" required></label>
+                </div>
+            </td>
+            <td>
+                <div class="grid_6" style="display: flex; justify-content: center; align-items: center;">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[6570]" id="item.obj[6570]" style="transform: scale(1.5);">
+                    <label class="c-label k-checkbox-label" for="item.obj[6570]" required></label>
+                </div>
+            </td>
+            
+        </tr>
+        
+        <!-- Repeat the above <tr> block for entries 3 to 5 -->
+    </table>
+    
+<hr>
+            
+            <table style="width: 100%;">
+                <tr>
+                    <th
+                        style="width:4%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       Waktu/Menit
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       RR(O)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        HR(•)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       S(v)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       D(^)
+                    </th>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6571]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6583]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6595]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6607]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6619]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6572]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6584]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6596]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6608]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6620]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6573]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6585]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6597]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6609]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6621]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6574]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6586]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6598]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6610]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6622]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6575]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6587]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6599]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6611]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6623]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6576]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6588]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6600]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6612]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6624]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6577]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6589]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6601]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6613]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6625]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6578]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6590]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6602]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6614]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6626]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6579]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6591]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6603]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6615]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6627]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6580]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6592]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6604]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6616]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6628]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6581]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6593]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6605]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6617]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6629]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6582]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6594]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listRro" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6606]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6618]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input kendo-combo-box
+                        k-ng-model="item.obj[6630]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listHrsd" />
+                        </div>
+                    </td>
+                </tr>
+                </table>
+                <div class="grid_12" style="margin-left: 83%;">
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan
+                            Grafik</button>
+                    </div>
+                </div>
+               
+            <hr>
+            
+            <div class="grid_12">
+                <div class="grid_6">
+                    <div class="grid_2"  style="margin-top: 12px;">
+                        <label c-label item="item">Satuan 02</label>
+                    </div>
+                    <div class="grid_7"> 
+                        <input c-text-box type="text" filter="'char'" class="k-textbox" ng-model="item.obj[6631]" />
+                    </div>
+                </div>        
+               
+            </div>
+            <div class="grid_6">
+                <div class="grid_2"  style="margin-top: 12px;">
+                    <label c-label item="item">Kesadaran</label>
+                </div>
+                <div class="grid_7">
+                    <input c-text-box type="text" filter="'char'" class="k-textbox" ng-model="item.obj[6632]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_6">
+                    <div class="grid_2"  style="margin-top: 12px;">
+                        <label c-label item="item">Jam Selesai Operasi</label>
+                    </div>
+                    <div class="grid_7"> 
+                        <input style="width: 100%" k-ng-model="item.obj[6633]" kendo-timepicker placeholer="HH:mm"
+                            k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="grid_6">
+                <div class="grid_2"  style="margin-top: 12px;">
+                    <label c-label item="item">Perawat Bedah</label>
+                </div>
+                <div class="grid_7"> 
+                    <input kendo-combo-box
+                k-ng-model="item.obj[6634]"
+                k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                k-filter="'contains'" k-auto-bind="false" k-data-source="listPerawatSaja" />
+                </div>
+            </div>
+            <br>
+          
+
+            <hr>
+            <div style="margin-top: 20px; width: 100%;" id="isPpis"> 
+                <div id="chartNadiPrint" style="height: 350px;"></div> 
+                <div id="chartSuhuPrint" style="height: 350px;"></div>
+                <div id="chartTensiSistolePrint" style="height: 350px;"></div>            
+                <div id="chartTensiDiastolePrint" style="height: 350px;"></div>                                            
+            </div>
+            <br>
+            <div class="grid_12">
+                <h2 style="float: left;"><b>Intruksi Post Operasi</b></h3>
+            </div>
+            
+
+            <div class="grid_12">
+                <div class="grid_6">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[6635]"
+                       style="height: 70px; width: 100%; " />
+                </div>
+            </div>      
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"> </div>
+            <div class="grid_6">
+                <div class="grid_2"  style="margin-top: 12px;">
+                    <label c-label item="item">Tanda Tangan Dokter Anestesi</label>
+                </div>
+                <div class="grid_7">
+                    <input kendo-combo-box
+                        k-ng-model="item.obj[6636]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter" />
+                </div>
+            </div>
+        </div>  
+        <div class="grid_12">
+            <div class="grid_6"></div>
+            <div class="grid_6">
+                <div class="grid_12">
+                    <div class="grid_3"></div>
+                    <div class="grid_3" style="margin-top: 22px" ng-show="isKembali">
+                        <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-arrow-left"></i>Kembali</button>
+                    </div>
+                    <div class="grid_3" ng-show="isCetak"  style="margin-top: 22px">
+                          <button id="btnCetak" class="btnTemplate1 btnHijau" onclick="printDiv2()"><i
+                                class="fa fa-print"></i>Cetak</button>
+                    </div>
+                    <div class="grid_3" style="margin-top: 22px" ng-show='tombolSimpanVis'>
+                        <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+<div kendo-window="popUpCetakS2" k-title="'Cetak Halaman 2'" k-width="1000" k-height="600" k-visible="false"
+    k-on-close="customClicked()">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div style="width: 100%" id="cetakRm2">
+            <table width="100%" style="border: none">
+                <tr style="border:none">
+                    <td style="width: 70px; border: none;">
+                        <img src="{{ logo }}" width="100%">
+                    </td>
+                    <td style="border:none">
+                        <div style="text-align: center;">
+                            <h2 style="font-size:13.0pt; margin-bottom: -10px;">RS POLRI SAID SUKANTO</h2>
+                            <p style="font-size:15px; font-weight: bold;">Jl. Raya Bogor Kramat Jati,Jakarta Timur No. Telpon 021 – 8093288 / 8090559</p>
+                        </div>
+
+                    </td>
+                    <td style="width: 300px;border: none;">
+                        <table style="width: 100%; border: none;">
+
+                            <tr style="border:none">
+                                <td style="border:none">Pasien</td>
+                                <td style="border:none">:</td>
+                                <td style="border:none">{{ cc.nocm }}/{{cc.noregistrasi}}/{{cc.namapasien}}</td>
+                            </tr>
+                            <tr style="border:none">
+                                <td style="border:none">Ruangan</td>
+                                <td style="border:none">:</td>
+                                <td style="border:none">{{ cc.namaruangan }}</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <p style="width: 100%; border-bottom: 0.5px solid; margin-bottom: -12px;"></p>
+            <p style="width: 100%; border-bottom: 1px solid #000;margin: none"></p>
+            <p align="left" style="margin-top: 50px; text-align:left; margin-bottom:0;tab-stops:177.65pt 187.0pt;">
+                <strong><span><span lang="EN-US" style="font-size:13.0pt;">Laporan Anestesi Lokal</span></span></strong><strong></strong>
+            </p>
+          
+            <table style="border: 1px solid #000; border-collapse: collapse" width="100%">
+                <tr>
+                    <td style="border: none;width: 200px">Tanggal </td>
+                    <td style="border: none;">: {{item.obj[6548]}} </td>
+                </tr>
+                <tr>
+                    <td style="border: none;width: 200px">Diagnosa </td>
+                    <td style="border: none;">: {{item.obj[6549]}} </td>
+                </tr>
+         
+                <tr>
+                    <td style="border: none;width: 200px">Jam Mulai Anestesi Lokal</td>
+                    <td style="border: none;">: {{item.obj[6550] | date:'HH:mm'}}  </td>
+                </tr>
+              
+            </table>
+            <!-- <p style="margin-bottom: 5px; font-size: 10pt;">Tanggal: {{item.obj[6548]}}</p>
+            <p style="margin-bottom: 5px; font-size: 10pt;">Diagnosa: {{item.obj[6549]}}</p>
+            <p style="margin-bottom: 5px; font-size: 10pt;">
+                Jam Mulai Anestesi Lokal: {{item.obj[6550] | date:'HH:mm'}}
+            </p> -->
+        
+          <br>
+            <table style="border: 1px solid #000; border-collapse: collapse; " width="100%">
+                <tr>
+                    <th rowspan="2" style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        NO
+                    </th>
+                    <th rowspan="2" style="width:15%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        Nama Obat Yang Diberikan
+                    </th>
+                    <th colspan="3" style="width:35%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        Dosis
+                    </th>
+                </tr>
+                <tr>
+                    <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        I
+                    </th>
+                    <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        II
+                    </th>
+                    <th style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: rgb(158, 158, 158);color: black;font-size: 21px;">
+                        III
+                    </th>
+                </tr>
+                <td style="text-align: center;font-size: 21px;font-weight: bold;">1</td>
+                <td>
+                    {{item.obj[6551]}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6552]}}" ng-model="item.obj[6552]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6552]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6553]}}" ng-model="item.obj[6553]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6553]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6554]}}" ng-model="item.obj[6554]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6554]}}" style="margin-top:5px;">
+                </td>
+                </tr>
+                <td style="text-align: center;font-size: 21px;font-weight: bold;">2</td>
+                <td>
+                    {{item.obj[6555]}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6556]}}" ng-model="item.obj[6556]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6556]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6557]}}" ng-model="item.obj[6557]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6557]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6558]}}" ng-model="item.obj[6558]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6558]}}" style="margin-top:5px;">
+                </td>
+                </tr>
+                <td style="text-align: center;font-size: 21px;font-weight: bold;">3</td>
+                <td>
+                    {{item.obj[6559]}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6560]}}" ng-model="item.obj[6560]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6560]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6561]}}" ng-model="item.obj[6561]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6561]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6562]}}" ng-model="item.obj[6562]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6562]}}" style="margin-top:5px;">
+                </td>
+                </tr>
+                <td style="text-align: center;font-size: 21px;font-weight: bold;">4</td>
+                <td>
+                    {{item.obj[6563]}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6564]}}" ng-model="item.obj[6564]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6564]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6565]}}" ng-model="item.obj[6565]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6565]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6566]}}" ng-model="item.obj[6566]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6566]}}" style="margin-top:5px;">
+                </td>
+                </tr>
+                <td style="text-align: center;font-size: 21px;font-weight: bold;">5</td>
+                <td>
+                    {{item.obj[6567]}}
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6568]}}" ng-model="item.obj[6568]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6568]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6569]}}" ng-model="item.obj[6569]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6569]}}" style="margin-top:5px;">
+                </td>
+                <td>
+                    <input type="checkbox" id="item.ctk{{item.obj[6570]}}" ng-model="item.obj[6570]" />
+                    <label class="c-label" for="item.ctk{{item.obj[6570]}}" style="margin-top:5px;">
+                </td>
+                </tr>
+                  
+               
+            </table>
+            
+            <br>
+            <table style="border: 1px solid #000; border-collapse: collapse; " width="100%">
+                <tr>
+                    <th
+                        style="width:4%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       Waktu/Menit
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       RR(O)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        HR(•)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       S(v)
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       D(^)
+                    </th>
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6571] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6583].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6595].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6607].namalengkap }}
+                    </td> 
+                     <td>
+                        {{ item.obj[6619].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6572] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{item.obj[6584].namalengkap }}
+                    </td>
+                    <td>
+                        {{item.obj[6596].namalengkap }}
+                    </td>
+                    <td>
+                        {{item.obj[6608].namalengkap }}
+                    </td>
+                    <td>
+                        {{item.obj[6620].namalengkap }}
+                    </td>
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6573] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6585].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6597].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6609].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6621].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6574] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6586].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6598].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6610].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6622].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6575] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6587].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6599].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6611].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6623].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6576] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6588].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6600].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6612].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6624].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6577] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6589].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6601].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6613].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6625].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6578] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6590].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6602].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6614].namalengkap }}
+                    </td>                    
+                    <td>
+                        {{ item.obj[6626].namalengkap }}
+                    </td>                    
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6579] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6591].namalengkap }}
+                    </td>
+                    <td>
+                        {{ item.obj[6603].namalengkap }}
+                    </td>
+                    <td>
+                        {{ item.obj[6615].namalengkap }}
+                    </td>
+                    <td>
+                        {{ item.obj[6627].namalengkap }}
+                    </td>
+                    
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6580] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6592].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6604].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6616].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6628].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6581] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6593].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6605].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6617].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6629].namalengkap }}
+                    </td> 
+                </tr>
+                <tr height="25px">
+                    <td>
+                        <span>{{item.obj[6582] | date:'HH:mm'}}</span>
+                    </td>
+                    <td>
+                        {{ item.obj[6594].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6606].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6618].namalengkap }}
+                    </td> 
+                    <td>
+                        {{ item.obj[6630].namalengkap }}
+                    </td> 
+                </tr>
+            </table>
+            <p style="margin-bottom: 5px; font-size: 10pt;">Satuan 02: {{item.obj[6631]}}</p>
+            <p style="margin-bottom: 5px; font-size: 10pt;">Kesadaran: {{item.obj[6632]}}</p>
+            <p style="margin-bottom: 5px; font-size: 10pt;">
+                Jam Selesai Operasi: {{item.obj[6633] | date:'HH:mm'}}
+            </p>
+            <p style="margin-bottom: 5px; font-size: 10pt;">
+                Perawat Bedah: {{item.obj[6634].namalengkap}}
+            </p>
+            <div style="margin-top: 20px; width: 100%;" id="isPpis"> 
+                <div id="chartNadi" style="height: 350px;"></div> 
+                <div id="chartSuhu" style="height: 350px;"></div>
+                <div id="chartTensiSistole" style="height: 350px;"></div>            
+                <div id="chartTensiDiastole" style="height: 350px;"></div>                                                
+            </div>
+            <p style="margin-bottom: 5px; font-size: 14pt;">Intruksi Post Operasi: {{item.obj[6635]}}</p>
+
+            <br>
+            <div class="grid_12">
+                <p><b> Tanda Tangan Dokter Anestesi</b></p>
+            </div>     
+            <div class="grid_12">
+                <img id='qrcode' alt="" title="QR" width="100" height="100"style="margin-left: 45px; margin-bottom: 25px;" />
+            </div>     
+            <div class="grid_12">
+                {{item.obj[6636].namalengkap}}
+            </div>     
+        </div>
+       
+    </div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+<textarea id="printing-css" style="display:none;">
+     #newPage {page-break-before: always;} 
+    #tdImage {width:50%; text-align: center;} #tdImageText {margin-top:10px; text-align:left;  }  
+    table, tr, th, td { border: 1px solid #000; border-collapse: collapse;} td { border-top : none; border-bottom: none;
+    padding: 5px;}
+    @page { size: potrait; }
+</textarea>
+<iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+<!-- <script src="../app/javascripts/qrcode.min.js"></script> -->
+<script>
+     function printDiv() { 
+        debugger;
+            var cek = document.querySelectorAll("#cetakRm input[type='checkbox']");
+            for (let i = 0; i < cek.length; i++) {
+                if (cek[i].checked) {
+                    cek[i].setAttribute("checked", "checked");
+                } else {
+                    cek[i].removeAttribute("checked", "checked");
+                }
+            } 
+            var a = document.getElementById('printing-css').value;
+            var b = document.getElementById('cetakRm').innerHTML;
+            window.frames["print_frame"].document.title = document.title;
+            window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+            window.frames["print_frame"].window.focus();
+            window.frames["print_frame"].window.print();
+    }
+      function printDiv2() { 
+        debugger;
+        var cek = document.querySelectorAll("#cetakRm2 input[type='checkbox']");
+        for (let i = 0; i < cek.length; i++) {
+            if (cek[i].checked) {
+                cek[i].setAttribute("checked", "checked");
+            } else {
+                cek[i].removeAttribute("checked");
+            }
+        }
+        debugger
+            var a = document.getElementById('printing-css').value;
+            var b = document.getElementById('cetakRm2').innerHTML;
+            window.frames["print_frame"].document.title = document.title;
+            window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b; 
+            window.frames["print_frame"].window.focus();
+            window.frames["print_frame"].window.print();
+    }
+     function printDiv3() { 
+
+            var cek = document.querySelectorAll("#cetakRm3 input[type='checkbox']");
+            for (let i = 0; i < cek.length; i++) {
+                if (cek[i].checked) {
+                    cek[i].setAttribute("checked", "checked");
+                } else {
+                    cek[i].removeAttribute("checked", "checked");
+                }
+            } 
+            debugger;
+            let cekBromage = document.getElementById('btnCetak3').dataset.bromage;
+            let cekAldrete = document.getElementById('btnCetak3').dataset.aldrete;
+            let cekSteward = document.getElementById('btnCetak3').dataset.steward;
+            
+            var isBromage = document.querySelectorAll("#isBromage");
+            var isAldrete = document.querySelectorAll("#isAldrete");
+            var isSteward = document.querySelectorAll("#isSteward");
+       
+            if (cekBromage == 'true') {
+                for (let i = 0; i < isBromage.length; i++) {
+                     isBromage[i].style.display = "inline";
+                }
+                // for (let i = 0; i < isAldrete.length; i++) {
+                //      isAldrete[i].style.display = "none";
+                // }
+                // for (let i = 0; i < isSteward.length; i++) {
+                //      isSteward[i].style.display = "none";
+                // }
+             }
+             if(cekAldrete =='true'){
+                //  for (let i = 0; i < isBromage.length; i++) {
+                //      isBromage[i].style.display = "none";
+                //  }
+                 for (let i = 0; i < isAldrete.length; i++) {
+                     isAldrete[i].style.display = "inline";
+                 }
+                //  for (let i = 0; i < isSteward.length; i++) {
+                //      isSteward[i].style.display = "none";
+                //  }
+             }
+            //  if (cekSteward  == 'true') {
+            //      for (let i = 0; i < isBromage.length; i++) {
+            //          isBromage[i].style.display = "none";
+            //      }
+            //      for (let i = 0; i < isAldrete.length; i++) {
+            //          isAldrete[i].style.display = "none";
+            //      }
+            //      for (let i = 0; i < isSteward.length; i++) {
+            //          isSteward[i].style.display = "inline";
+            //      }
+            //  }
+            
+            var a = document.getElementById('printing-css').value;
+            var b = document.getElementById('cetakRm3').innerHTML;
+            window.frames["print_frame"].document.title = document.title;
+            window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+            window.frames["print_frame"].window.focus();
+            window.frames["print_frame"].window.print();
+    }
+     function printDiv4() {
+            // debugger;
+            var cek = document.querySelectorAll("#cetakRm4 input[type='checkbox']");
+            for (let i = 0; i < cek.length; i++) {
+                if (cek[i].checked) {
+                    cek[i].setAttribute("checked", "checked");
+                } else {
+                    cek[i].removeAttribute("checked", "checked");
+                }
+            }
+            var a = document.getElementById('printing-css').value;
+            var b = document.getElementById('cetakRm4').innerHTML;
+            window.frames["print_frame"].document.title = document.title;
+            window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+            window.frames["print_frame"].window.focus();
+            window.frames["print_frame"].window.print();
+        }
+    $('.cb').on('change', function () { // on change of state
+        UpdateCost();
+    });
+    function UpdateCost() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost').val(sum.toFixed(0));
+    }
+    $('.cb2').on('change', function () { // on change of state
+        UpdateCost2();
+    });
+    function UpdateCost2() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb2:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost2').val(sum.toFixed(0));
+    }
+    $('.cb3').on('change', function () { // on change of state
+        UpdateCost3();
+    });
+    function UpdateCost3() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb3:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost3').val(sum.toFixed(0));
+    }
+    $('.cb4').on('change', function () { // on change of state
+        UpdateCost4();
+    });
+    function UpdateCost4() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb4:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost4').val(sum.toFixed(0));
+    }
+    $('.cb5').on('change', function () { // on change of state
+        UpdateCost5();
+    });
+    function UpdateCost5() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb5:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost5').val(sum.toFixed(0));
+    }
+    $('.cb6').on('change', function () { // on change of state
+        UpdateCost6();
+    });
+    function UpdateCost6() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb6:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost6').val(sum.toFixed(0));
+    }
+    $('.cb7').on('change', function () { // on change of state
+        UpdateCost7();
+    });
+    function UpdateCost7() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb7:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost7').val(sum.toFixed(0));
+    }
+    $('.cb8').on('change', function () { // on change of state
+        UpdateCost8();
+    });
+    function UpdateCost8() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb8:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost8').val(sum.toFixed(0));
+    }
+    $('.cb9').on('change', function () { // on change of state
+        UpdateCost9();
+    });
+    function UpdateCost9() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb9:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost9').val(sum.toFixed(0));
+    }
+    $('.cb10').on('change', function () { // on change of state
+        UpdateCost10();
+    });
+    function UpdateCost10() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb10:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost10').val(sum.toFixed(0));
+    }
+    $('.cb11').on('change', function () { // on change of state
+        UpdateCost11();
+    });
+    function UpdateCost11() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb11:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost11').val(sum.toFixed(0));
+    }
+    $('.cb12').on('change', function () { // on change of state
+        UpdateCost12();
+    });
+    function UpdateCost12() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb12:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost12').val(sum.toFixed(0));
+    }
+    $('.cb13').on('change', function () { // on change of state
+        UpdateCost13();
+    });
+    function UpdateCost13() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb13:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost13').val(sum.toFixed(0));
+    }
+    $('.cb14').on('change', function () { // on change of state
+        UpdateCost14();
+    });
+    function UpdateCost14() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb14:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost14').val(sum.toFixed(0));
+    }
+    $('.cb15').on('change', function () { // on change of state
+        UpdateCost15();
+    });
+    function UpdateCost15() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb15:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost15').val(sum.toFixed(0));
+    }
+    $('.cb16').on('change', function () { // on change of state
+        UpdateCost16();
+    });
+    function UpdateCost16() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb16:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost16').val(sum.toFixed(0));
+    }
+    $('.cb17').on('change', function () { // on change of state
+        UpdateCost17();
+    });
+    function UpdateCost17() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb17:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost17').val(sum.toFixed(0));
+    }
+    $('.cb18').on('change', function () { // on change of state
+        UpdateCost18();
+    });
+    function UpdateCost18() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb18:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost18').val(sum.toFixed(0));
+    }
+</script>

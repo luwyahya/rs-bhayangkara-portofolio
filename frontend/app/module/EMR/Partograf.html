@@ -1,0 +1,751 @@
+<style type="text/css">
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+
+        height: 26px;
+    }
+
+    .diagonal {
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .bintik {
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    }
+
+    .itam {
+        width: 40px;
+        height: 40px;
+        background-color: black;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    .k-slider {
+
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+
+    .activeBtn {
+        background-color: #10c4b2;
+        color: #ffffff;
+    }
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    h2 {
+        text-align: left;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+    
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+</style>
+
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate> Form Partograf</div>
+    </div>
+
+    <div class="grid_4">
+        <div class="grid_12">
+            <div class="grid_5" style="margin-top:10px">
+                <label c-label item="item" required>No. Puskesmas</label>
+            </div>
+            <div class="grid_7">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[1]" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_5" style="margin-top:10px">
+                <label c-label item="item" required>Tanggal / Jam</label>
+            </div>
+            <div class="grid_5">
+                <input style="width: 100%" k-ng-model="item.obj[2]" kendo-datepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd'" />
+            </div>
+            <div class="grid_2">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[3]" />
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="grid_4">
+        <div class="grid_12">
+            <div class="grid_4" style="margin-top:10px">
+                <label c-label item="item" required>Nama Ibu</label>
+            </div>
+            <div class="grid_8">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[4]" />
+            </div>
+        </div>
+
+        <div class="grid_12">
+                <div class="grid_1" style="margin-top:10px">
+                    <label c-label item="item" required>G</label>
+                </div>
+                <div class="grid_3">
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[5]" />
+                </div>
+
+                <div class="grid_1" style="margin-top:10px">
+                    <label c-label item="item" required>P</label>
+                </div>
+                <div class="grid_3">
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[6]" />
+                </div>
+
+                <div class="grid_1" style="margin-top:10px">
+                    <label c-label item="item" required>A</label>
+                </div>
+                <div class="grid_3">
+                    <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[7]" />
+                </div>
+        </div>
+        
+    </div>
+
+    <div class="grid_4">
+        <div class="grid_8" style="margin-top:10px">
+            <label c-label item="item" required>Ketuban pecah sejak jam</label>
+        </div>
+        <div class="grid_4">
+            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[8]" />
+        </div>
+        <div class="grid_8" style="margin-top:10px">
+            <label c-label item="item" required>Mules sejak jam</label>
+        </div>
+        <div class="grid_4">
+            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[9]" />
+        </div>
+        
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Denyut Jantung Janin</h2>
+                    </a>
+                </legend>
+
+                
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    
+                    <div id="chartJantung" style="height: 400px;"></div>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <b>Pengisian setiap 30 menit</b>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Menit</th>
+                            <th ng-repeat="list in listJantungJanin | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                {{ list.nama }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Denyut</td>
+                            <td ng-repeat="list2 in listJantungJanin | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list2.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Menit</th>
+                            <th ng-repeat="list in listJantungJanin2 | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                {{ list.nama }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>Denyut</td>
+                            <td ng-repeat="list2 in listJantungJanin2 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list2.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Air Ketuban</h2>
+                    </a>
+                </legend>
+               
+                <div class="grid_12" style="margin-top: 5px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Air Ketuban</th>
+                            <td ng-repeat="list in listKetuban | orderBy:'id'" style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Penyusutan</th>
+                            <td ng-repeat="list in listKetuban2 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Pembukaan</h2>
+                    </a>
+                </legend>
+                <div class="grid_12" style="margin-top: 5px;">
+                    <b>Input <span style="color: red;">X</span> untuk pembukaan serviks dan <span style="color: orangered;">O</span> untuk turunnya kepala</b>
+                </div>
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Cm</th>
+                            <th ng-repeat="list in listPembukaan | orderBy:'id'"  style="text-align: center; vertical-align: middle; ">
+                                {{ list.text }}
+                            </th>
+                        </tr>
+                        
+                        <tr>
+                            <th>10</th>
+                            <td  ng-repeat="list in listPembukaan10 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>9</th>
+                            <td  ng-repeat="list in listPembukaan9 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>8</th>
+                            <td  ng-repeat="list in listPembukaan8 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>7</th>
+                            <td  ng-repeat="list in listPembukaan7 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>6</th>
+                            <td  ng-repeat="list in listPembukaan6 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>5</th>
+                            <td  ng-repeat="list in listPembukaan5 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>4</th>
+                            <td  ng-repeat="list in listPembukaan4 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>3</th>
+                            <td  ng-repeat="list in listPembukaan3 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>2</th>
+                            <td  ng-repeat="list in listPembukaan2 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th>1</th>
+                            <td  ng-repeat="list in listPembukaan1 | orderBy:'id'" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="2">Jam</th>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">1</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">2</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">3</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">4</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">5</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">6</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">7</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">8</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">9</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">10</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">11</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">12</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">13</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">14</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">15</td>
+                            <td colspan="2" style="text-align: center; vertical-align: middle;">16</td>
+                        </tr>
+                        <tr>
+                            <td  ng-repeat="list in listJam1 | orderBy:'id'" colspan="2" >
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center;">
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Konstraksi Tiap 10 Menit</h2>
+                    </a>
+                </legend>
+
+                <div class="grid_12">
+
+                    <div class="grid_6">
+                        <b>Klik pada kolom yang akan diinput datanya sesuai dengan petunjuk berikut : </b>
+                        <p>
+                            # Input angka <b>1</b> untuk kontraksi yang lamanya kurang dari 20 detik <br>
+                            # Input angka <b>2</b> untuk kontraksi yang lamanya 20 - 40 detik <br>
+                            # Input angka <b>3</b> untuk kontraksi yang lamanya lebih dari 40 detik
+                        </p>
+                    </div>
+                    <div class="grid_1"></div>
+                    <div class="grid_5">
+                        <div class="grid_12" style="margin-bottom: 5px;">
+                            <b>Keterangan : </b>
+                        </div>
+                        <div class="grid_4" >
+                            <div class="bintik" style="margin-bottom: 10px;"></div>
+                            <b>< 20 detik</b>
+                        </div>
+
+                        <div class="grid_4">
+                            <div class="diagonal" style="margin-bottom: 10px;"></div>
+                            <b>20 - 40 detik</b>
+                        </div>
+
+                        <div class="grid_4">
+                            <div class="itam" style="margin-bottom: 10px;"></div>
+                            <b>> 40 detik</b>
+                        </div>
+                        
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table>
+                        <tr style="height: 35px;">
+                            <th style="text-align: center; vertical-align: middle; width: 30px; border-color: white; border-right-color: black;">5</th>
+                            <th ng-repeat="list in listKonstraksi1 | orderBy:'id'"  style="padding: 0 0 0 0 !important; {{ list.style }};" id="item.obj{{list.id}}" ng-click="showInput(list.id)">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center; {{ list.style2 }}" ng-blur="setBg(list.id)">
+                            </th>
+                        </tr>
+
+                        <tr style="height: 35px;">
+                            <th style="text-align: center; vertical-align: middle; width: 30px; border-color: white; border-right-color: black;">4</th>
+                            <th ng-repeat="list in listKonstraksi2 | orderBy:'id'"  style="padding: 0 0 0 0 !important; {{ list.style }};" id="item.obj{{list.id}}" ng-click="showInput2(list.id)">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center; {{ list.style2 }}" ng-blur="setBg2(list.id)">
+                            </th>
+                        </tr>
+
+                        <tr style="height: 35px;">
+                            <th style="text-align: center; vertical-align: middle; width: 30px; border-color: white; border-right-color: black;">3</th>
+                            <th ng-repeat="list in listKonstraksi3 | orderBy:'id'"  style="padding: 0 0 0 0 !important; {{ list.style }};" id="item.obj{{list.id}}" ng-click="showInput3(list.id)">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center; {{ list.style2 }}" ng-blur="setBg3(list.id)">
+                            </th>
+                        </tr>
+
+                        <tr style="height: 35px;">
+                            <th style="text-align: center; vertical-align: middle; width: 30px; border-color: white; border-right-color: black;">2</th>
+                            <th ng-repeat="list in listKonstraksi4 | orderBy:'id'"  style="padding: 0 0 0 0 !important; {{ list.style }};" id="item.obj{{list.id}}" ng-click="showInput4(list.id)">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center; {{ list.style2 }}" ng-blur="setBg4(list.id)">
+                            </th>
+                        </tr>
+
+                        <tr style="height: 35px;">
+                            <th style="text-align: center; vertical-align: middle; width: 30px; border-color: white; border-right-color: black;">1</th>
+                            <th ng-repeat="list in listKonstraksi5 | orderBy:'id'"  style="padding: 0 0 0 0 !important; {{ list.style }};" id="item.obj{{list.id}}" ng-click="showInput5(list.id)">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text" style="text-align: center; {{ list.style2 }}" ng-blur="setBg5(list.id)">
+                            </th>
+                        </tr>
+
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_6" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Oksitoksin</h2>
+                    </a>
+                </legend>
+
+                <div class="grid_12">
+                    <b>Jika tetesan (drip) oksitoksin sudah mulai, dokumentasi setiap 30 menit jumlah unit oksitoksin yang   diberikan per volume cairan IV dan dalam satuan tetesan per menit</b>
+                </div>
+               
+                <div class="grid_12" style="margin-top: 5px;">
+                    <table class="tg" >
+                        <tr>
+                            <th style="text-align: center; width: 100px;">Waktu / Jam</th>
+                            <th style="text-align: center;">Oksiosin U/L</th>
+                            <th style="text-align: center;">Tetes  / Menit</th>
+                        </tr>
+                        <tr ng-repeat="list in listOksitosin | orderBy:'id'">
+                            <td ng-repeat="jawab in list.detail | orderBy:'id'">
+                                <input  class="k-textbox" ng-model="item.obj[jawab.id]" type="text" >
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_6" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Obat - Obatan Lain dan Cairan IV</h2>
+                    </a>
+                </legend>
+
+                <div class="grid_12">
+                    <b>Catat semua pemberian obat-obatan tambahan dan/atau cairan IV dalam kotak yang sesuai dengan kolom waktunya</b>
+                </div>
+               
+                <div class="grid_12" style="margin-top: 5px;">
+                    <table class="tg" >
+                        <tr>
+                            <th style="text-align: center; width: 100px;">Waktu / Jam</th>
+                            <th style="text-align: center;">Obat</th>
+                        </tr>
+                        <tr ng-repeat="list in listObat | orderBy:'id'">
+                            <td ng-repeat="jawab in list.detail | orderBy:'id'">
+                                <div ng-switch on="jawab.nama">
+                                    <div ng-switch-when="Jam">
+                                        <input  class="k-textbox" ng-model="item.obj[jawab.id]" type="text" >
+                                    </div>
+                                    <div ng-switch-when="Obat">
+                                        <textarea c-text-area type="input" filter="'string'" class="k-textbox" 
+                                        ng-model="item.obj[jawab.id]" style="height: 70px; width: 100%; " />
+                                    </div>
+                                </div>
+                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Nadi</h2>
+                    </a>
+                </legend>
+
+                
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    
+                    <div id="chartNadi" style="height: 400px;"></div>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <b>Pengisian setiap 30 menit</b>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Waktu</th>
+                            <td ng-repeat="list in listNadi1 | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Nadi</th>
+                            <td ng-repeat="list in listNadi2 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Waktu</th>
+                            <td ng-repeat="list in listNadi3 | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Nadi</th>
+                            <td ng-repeat="list in listNadi4 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Tekanan Darah</h2>
+                    </a>
+                </legend>
+
+                
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    
+                    <div id="chartTd" style="height: 400px;"></div>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <b>Pengisian setiap 4 jam</b>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Waktu</th>
+                            <td ng-repeat="list in listTd1 | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>TD</th>
+                            <td ng-repeat="list in listTd2 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+            </fieldset>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Suhu tubuh</h2>
+                    </a>
+                </legend>
+
+                
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    
+                    <div id="chartSuhu" style="height: 400px;"></div>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <b>Pengisian setiap 2 jam</b>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th>Waktu</th>
+                            <td ng-repeat="list in listSuhu1 | orderBy:'id'" class="tg-yw4l" style="text-align: center; vertical-align: middle; width: 150px;">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Suhu</th>
+                            <td ng-repeat="list in listSuhu2 | orderBy:'id'"  style="text-align: center; ">
+                                <input  class="k-textbox" ng-model="item.obj[list.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+            </fieldset>
+        </div>
+    </div>
+
+
+    <div class="grid_12" style="margin-top: 20px;">
+        <div class="panel panel-default panel-white">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">
+                        <h2>Urin</h2>
+                    </a>
+                </legend>
+
+                <div class="grid_12">
+                    <b>Pengisian setiap 2 jam</b>
+                </div>
+
+                <div class="grid_12" style="margin-top: 20px;">
+                    <table class="tg" >
+                        <tr>
+                            <th style="text-align: center; vertical-align: middle;">Waktu</th>
+                            <th style="text-align: center; vertical-align: middle;">Volume</th>
+                            <th style="text-align: center; vertical-align: middle;">Protein</th>
+                            <th style="text-align: center; vertical-align: middle;">Aseton</th>
+                        </tr>
+                        <tr ng-repeat="list in listUrin | orderBy:'id'">
+                            <td ng-repeat="jawab in list.detail | orderBy:'id'">
+                                <input  class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+        
+            </fieldset>
+        </div>
+    </div>
+
+
+
+
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top: 5px;">
+                    
+            <!-- <div id="chartjantung" style="height: 300px; "></div> -->
+        </div>
+        
+    </div>
+</div>
+
+
+<div class="grid_12">
+    <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div>
+</div>
+<div ng-include='"../app/template/Shared/TemplateLoadingEMR"'></div>

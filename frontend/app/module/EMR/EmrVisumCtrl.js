@@ -283,7 +283,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -306,12 +306,12 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/visum.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum.pdf');
                 } else {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/visum.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/visum.pdf');
                 }
                 // set `Content-Type` header
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -349,7 +349,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "poto", "poto2", "poto3", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, base642, base643, nomorEMR, arrPush],
+                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.nocm, base64, base642, base643, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -368,12 +368,12 @@ define(['initialize'], function (initialize) {
                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/visum2x.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/visum2x.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum2x.pdf');
                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                     xhr.open('POST', '/jasper1/generic/report/visum2x.pdf');
                 } else {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/visum2x.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/visum2x.pdf');
                 }
                 // set `Content-Type` header
                 xhr.setRequestHeader('Content-Type', 'application/json');
@@ -406,7 +406,7 @@ define(['initialize'], function (initialize) {
                     { "id": 1119, "nama": "Permintaan visumet Reprtum ", "type": "textbox" },
                     { "id": 1120, "nama": "2. Pemeriksaan dulakukan oleh ", "type": "textbox" },
                     { "id": 1121, "nama": "Dokter pada ", "type": "textbox" },
-                    { "id": 1122, "nama": "RS BHAYANGKARA TK IV CIANJUR R.Said Sukanto Kramat Jati Jakarta atas nama: :", "type": "captionfull" },
+                    { "id": 1122, "nama": "RS Bhayangkara TK. II Sartika Asih Bandung atas nama: :", "type": "captionfull" },
                     { "id": 1123, "nama": "nama ", "type": "textbox" },
                     { "id": 1124, "nama": "Jenis Kelamin ", "type": "textbox" },
                     { "id": 1125, "nama": "Umur ", "type": "textbox" },

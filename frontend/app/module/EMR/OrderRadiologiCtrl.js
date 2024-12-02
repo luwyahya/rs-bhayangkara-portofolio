@@ -11,6 +11,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             var nocm_str = ''
             $scope.item.qty = 1
             $scope.riwayatForm = false
+            $scope.riwayatAll = false
             $scope.inputOrder = true
             $scope.CmdOrderPelayanan = true;
             $scope.OrderPelayanan = false;
@@ -193,7 +194,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
                     for (var i = 0; i < e.data.daftar.length; i++) {
                         let details = e.data.daftar[i].details;
-                        let risorder = e.data.daftar[i].risorder;
+                        let risorder = e.data.daftar[i].noorder;
                         for (let yy = 0; yy < details.length; yy++) {
                             for (let zz = 0; zz < risorder.length; zz++) {
                                 if (details[yy].norecopfk === risorder[zz].norec_op_fk) {
@@ -209,6 +210,238 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     });
 
                 });
+
+                medifirstService.get("radiologi/get-rincian-pelayanan-emr?noregistrasi=" + $scope.item.noregistrasi + "&ruid=576"
+        // medifirstService.get("lab-radiologi/get-rincian-pelayanan?objectdepartemenfk=" + departemenfk + "&noregistrasi=" +   $scope.item.noregistrasi
+                , true).then(function (dat) {
+                    if (dat.data.data.length > 0) {
+                        $scope.item.tgllahir = dat.data.data[0].tgllahir
+                        $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                    }
+                    $scope.statusSelesaiPeriksa = dat.data.data[0].isclaim
+                    for (var i = 0; i < dat.data.data.length; i++) {
+                        dat.data.data[i].no = i + 1
+                        dat.data.data[i].statCheckbox = false;
+                        if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
+                            dat.data.data[i].statusbridging = "✔";
+                            // ✅
+                            // ✔
+                        } else {
+                            dat.data.data[i].statusbridging = "✘";
+                            // ✘
+                            // ❎
+                        }
+                        if (dat.data.data[i].iscito == "1") {
+                            dat.data.data[i].statuscito = "✔";
+                            // ✅
+                            // ✔
+                        } else {
+                            dat.data.data[i].statuscito = "✘";
+                            // ✘
+                            // ❎
+                        }
+                        if( dat.data.data[i].statusperiksa == 1)
+                        {
+                            dat.data.data[i].statusperiksa = "✔";
+                        }else
+                        {
+                            dat.data.data[i].statusperiksa = "✘";
+                        }
+                        
+                    }
+                    if (dat.data.data.length > 0) {
+                        if (dat.data.data[0].objectdepartemenfk == 3)
+                            $scope.disableRad = true
+                        if (dat.data.data[0].objectdepartemenfk == 27)
+                            $scope.disableLab = true
+                    }
+                    $scope.isLoading = false;
+
+                    debugger
+                    $scope.dataGridRadio = {
+                        data: dat.data.data,
+                        _data: dat.data.data,
+                        // pageSize: 10,
+                        selectable: true,
+                        refresh: true,
+                        total: dat.data.data.length,
+                        serverPaging: false,
+                        aggregate: [
+                            { field: 'total', aggregate: 'sum' },
+                        ]
+
+                    };
+                },
+                function (error) {
+                    $scope.isLoading = false;
+                });
+
+                medifirstService.get("radiologi/get-rincian-pelayanan-emr-all?nocm=" + $scope.item.noMr + "&ruid=576", true).then(function (dat) {
+                                if (dat.data.data.length > 0) {
+                                    $scope.item.tgllahir = dat.data.data[0].tgllahir
+                                    $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
+                                }
+                                $scope.statusSelesaiPeriksa = dat.data.data[0].isclaim
+                                for (var i = 0; i < dat.data.data.length; i++) {
+                                    dat.data.data[i].no = i + 1
+                                    dat.data.data[i].statCheckbox = false;
+                                    if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
+                                        dat.data.data[i].statusbridging = "✔";
+                                        // ✅
+                                        // ✔
+                                    } else {
+                                        dat.data.data[i].statusbridging = "✘";
+                                        // ✘
+                                        // ❎
+                                    }
+                                    if (dat.data.data[i].iscito == "1") {
+                                        dat.data.data[i].statuscito = "✔";
+                                        // ✅
+                                        // ✔
+                                    } else {
+                                        dat.data.data[i].statuscito = "✘";
+                                        // ✘
+                                        // ❎
+                                    }
+                                    if( dat.data.data[i].statusperiksa == 1)
+                                    {
+                                        dat.data.data[i].statusperiksa = "✔";
+                                    }else
+                                    {
+                                        dat.data.data[i].statusperiksa = "✘";
+                                    }
+                                    
+                                }
+                                if (dat.data.data.length > 0) {
+                                    if (dat.data.data[0].objectdepartemenfk == 3)
+                                        $scope.disableRad = true
+                                    if (dat.data.data[0].objectdepartemenfk == 27)
+                                        $scope.disableLab = true
+                                }
+                                $scope.isLoading = false;
+            
+                                debugger
+                                $scope.dataGridRadioAll = {
+                                    data: dat.data.data,
+                                    _data: dat.data.data,
+                                    // pageSize: 10,
+                                    selectable: true,
+                                    refresh: true,
+                                    total: dat.data.data.length,
+                                    serverPaging: false,
+                                    aggregate: [
+                                        { field: 'total', aggregate: 'sum' },
+                                    ]
+            
+                                };
+                            },
+                            function (error) {
+                                $scope.isLoading = false;
+                            });
+            }
+            $scope.setLihatDokumen = function (dataPasienSelected) {
+                
+                medifirstService.get("registrasi/get-data-combo-dokumen?jenisdokumen=noregistrasi")
+                    .then(function (dat) {
+                        $scope.listDokumen = dat.data.listcombodokumen;
+                    });
+                $scope.dataSelectedUpload = dataPasienSelected;
+
+                medifirstService.get("registrasi/get-data-list-dokumen-registrasi?noregistrasi=" + dataPasienSelected.noregistrasi + "&norecpp=" + dataPasienSelected.norec_pp)
+                    .then(function (dat) {
+                        $scope.sourceDataListDokumen = new kendo.data.DataSource({
+                            data: dat.data.data,
+                            pageSize: 10,
+                            total: dat.data.data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {}
+                                }
+                            }
+                        });
+                    });
+                $scope.popupDokumen.center().open()
+            }
+            $scope.setLihatDokumenAll = function (dataPasienSelected) {
+                
+                medifirstService.get("registrasi/get-data-combo-dokumen?jenisdokumen=noregistrasi")
+                    .then(function (dat) {
+                        $scope.listDokumen = dat.data.listcombodokumen;
+                    });
+                $scope.dataSelectedUpload = dataPasienSelected;
+
+                medifirstService.get("registrasi/get-data-list-dokumen-registrasi?noregistrasi=" + dataPasienSelected.noregistrasi)
+                    .then(function (dat) {
+                        $scope.sourceDataListDokumen = new kendo.data.DataSource({
+                            data: dat.data.data,
+                            pageSize: 10,
+                            total: dat.data.data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {}
+                                }
+                            }
+                        });
+                    });
+                $scope.popupDokumen.center().open()
+            }
+            $scope.upload = function () {
+                var a = document.getElementById("base64textarea").value
+                var b = document.getElementById("base64textarea").name
+
+                var objData = {
+                    noregistrasi: $scope.dataSelectedUpload.noregistrasi,
+                    namafile: b,
+                    base64File: a,
+                    objectjenisdokumencasemix: $scope.item.namadokumen.id,
+                    tglDokumen: $scope.item.tglDokumen
+                }
+
+                medifirstService.post('registrasi/upload-dokumen-registrasi', objData).then(function (e) {
+                    $scope.sourceDataListDokumen = new kendo.data.DataSource({
+                        data: e.data.data,
+                        pageSize: 10,
+                        total: e.data.data.length,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                })
+            }
+            var handleFileSelect = function (evt) {
+                var files = evt.target.files;
+                var file = files[0];
+                var a = evt.target.files[0].name;
+
+                if (file.size > 2000000) {
+                    toastr.error('Maaf. File Terlalu Besar ! Maksimal Upload 2 MB.', {
+                        "showDuration": "300",
+                    })
+                    return
+                }
+
+                if (files && file) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (readerEvt) {
+                        var binaryString = readerEvt.target.result;
+                        document.getElementById("base64textarea").value = btoa(binaryString);
+                        document.getElementById("base64textarea").name = a;
+                    };
+
+                    reader.readAsBinaryString(file);
+                }
+            };
+
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                document.getElementById('filePicker').addEventListener('change', handleFileSelect, false);
+            } else {
+                alert('The File APIs are not fully supported in this browser.');
             }
             $rootScope.getRekamMedisCheck = function (bool) {
                 if (bool) {
@@ -296,6 +529,400 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "width": "40px",
                 }
             ];
+             $scope.columnGridRadio = {
+                scrollable: true,
+                selectable: false,
+                pageable: true,
+                columns: [
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "30px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "tglpelayanan",
+                        "title": "Tgl Pelayanan",
+                        "width": "90px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "ruangan",
+                        "title": "Ruangan",
+                        "width": "120px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     "field": "produkfk",
+                    //     "title": "Kode",
+                    //     "width" : "70px",
+                    // },
+                    {
+                        "field": "namaproduk",
+                        "title": "Layanan",
+                        "width": "160px",
+                        // "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+
+                        "template": "<button class=\"k-button custom-button=dark-red\" ng-click=\"LihatEkpertise(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "title": "Upload Dokumen",
+                        "width": "100px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumen(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
+                    },
+                    {
+                        "field": "nofoto",
+                        "title": "No Foto",
+                        "width": "100px",
+                    //     attributes: {
+                    //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    // },
+                    },
+                    {
+                        "field": "dokter",
+                        "title": "Dokter Pemeriksa",
+                        "width": "140px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "dokterpengirim",
+                        "title": "Dokter Pengirim",
+                        "width": "140px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     // "field": "claim",
+                    //     "title": "Claim",
+                    //     "width": "100px",
+                    //     "template": "<button class=\"k-button custom-button\" ng-click=\"loadClaimPpLuar(dataItem)\" style=\"margin:0 0 5px\">#: claim #</button>",
+                    //     // attributes: {
+                    //     //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    //     // },
+                    // },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "40px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Diskon",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>",
+                        // footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa Cito",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>",
+                        footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>",
+                        aggregates: ["sum"],
+                        groupFooterTemplate: "<span>Sub Total: Rp. {{formatRupiah('#=data.total.sum  #', '')}}</span>",
+                        footerTemplate: "<span >Rp. {{formatRupiah('#:data.total.sum  #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "noorder",
+                        "title": "No Order",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "nostruk",
+                        "title": "No Struk",
+                        "width": "80px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "statusbridging",
+                        "title": "Status Kirim",
+                        "width": "50px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                        {
+                        "field": "statusperiksa",
+                        "title": "Status Periksa",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                        
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "100px",
+                    //     attributes: {
+                    //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    // },
+                    },
+                ]
+            };
+            $scope.columnGridRadioAll = {
+                scrollable: true,
+                selectable: false,
+                pageable: true,
+                columns: [
+                    {
+                        "field": "no",
+                        "title": "No",
+                        "width": "30px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "tglpelayanan",
+                        "title": "Tgl Pelayanan",
+                        "width": "90px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "ruangan",
+                        "title": "Ruangan",
+                        "width": "120px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     "field": "produkfk",
+                    //     "title": "Kode",
+                    //     "width" : "70px",
+                    // },
+                    {
+                        "field": "namaproduk",
+                        "title": "Layanan",
+                        "width": "160px",
+                        // "template": "<button class=\"k-button custom-button #=flaglab != 'N' ? 'dark-red' : 'dark-green' # \" ng-click=\"CetakLabKlinikLangsung(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+
+                        "template": "<button class=\"k-button custom-button=dark-red\" ng-click=\"LihatEkpertise(dataItem)\" style=\"margin:0 0 5px\">#: namaproduk #</button>",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "nofoto",
+                        "title": "No Foto",
+                        "width": "100px",
+                    //     attributes: {
+                    //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    // },
+                    },
+                    {
+                    "title": "Upload Dokumen",
+                    "width": "100px",
+                    "template": "<button class=\"k-button custom-button\" ng-click=\"setLihatDokumenAll(dataItem)\"  style=\"margin:0 0 5px\">#:  'lihat' #</button> ",
+                    }, 
+                    {
+                        "field": "dokter",
+                        "title": "Dokter Pemeriksa",
+                        "width": "140px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "dokterpengirim",
+                        "title": "Dokter Pengririm",
+                        "width": "140px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    // {
+                    //     // "field": "claim",
+                    //     "title": "Claim",
+                    //     "width": "100px",
+                    //     "template": "<button class=\"k-button custom-button\" ng-click=\"loadClaimPpLuar(dataItem)\" style=\"margin:0 0 5px\">#: claim #</button>",
+                    //     // attributes: {
+                    //     //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    //     // },
+                    // },
+                    {
+                        "field": "jumlah",
+                        "title": "Qty",
+                        "width": "40px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargasatuan",
+                        "title": "Harga Satuan",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargasatuan #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "hargadiscount",
+                        "title": "Diskon",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: hargadiscount #', '')}}</span>",
+                        // footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "jasa",
+                        "title": "Jasa Cito",
+                        "width": "80px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: jasa #', '')}}</span>",
+                        footerTemplate: "<span class='style-center'>Total</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "total",
+                        "title": "Total",
+                        "width": "100px",
+                        "template": "<span class='style-right'>{{formatRupiah('#: total #', '')}}</span>",
+                        aggregates: ["sum"],
+                        groupFooterTemplate: "<span>Sub Total: Rp. {{formatRupiah('#=data.total.sum  #', '')}}</span>",
+                        footerTemplate: "<span >Rp. {{formatRupiah('#:data.total.sum  #', '')}}</span>",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "noorder",
+                        "title": "No Order",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "nostruk",
+                        "title": "No Struk",
+                        "width": "80px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
+                        "field": "statusbridging",
+                        "title": "Status Kirim",
+                        "width": "50px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                        {
+                        "field": "statusperiksa",
+                        "title": "Status Periksa",
+                        "width": "100px",
+                        // attributes: {
+                        //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                        
+                    },
+                    {
+                        "field": "statuscito",
+                        "title": "Status Cito",
+                        "width": "100px",
+                    //     attributes: {
+                    //     class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                    // },
+                    },
+                ]
+            };
+            $scope.columnListDokumen = {
+
+                selectable: 'cell',
+                pageable: true,
+                columns: [
+
+                    {
+                        "field": "reportdisplay",
+                        "title": "Jenis Dokumen",
+                        "width": "150px",
+
+                    },
+                     {
+                        "field": "tgldokumen",
+                        "title": "Tanggal Dokumen",
+                        "width": "150px",
+
+                    },
+                    {
+                        "title": "Dokumen",
+                        "width": "120px",
+                        "template": " <img style=\"margin-left: 5px;margin-top: 5px; width: 70px;height: 50px; object-fit: contain;\" src=\" #:  uploadfile # \" >"
+                    },
+                    {
+                        "title": "Lihat",
+                        "width": "100px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"printListDokumen2('cetaklistDokumen')\"  style=\"margin:0 0 5px\">#:  'Lihat Dokumen' #</button> ",
+                    },
+                    {
+                        "title": "Cetak",
+                        "width": "100px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"printListDokumen('cetaklistDokumen')\"  style=\"margin:0 0 5px\">#:  'Cetak Dokumen' #</button> ",
+                    },
+                    
+                    {
+                        "title": "Hapus",
+                        "width": "100px",
+                        "template": "<button class=\"k-button custom-button\" ng-click=\"hapusdokumen(norec)\"  style=\"margin:0 0 5px\">#:  'Hapus' #</button> ",
+                      
+                    }, 
+
+
+                ]
+            };
             $scope.columnGridRiwayat = [
                 {
                     "field": "no",
@@ -338,9 +965,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     "width": "70px",
                 },
                 {
-                    "field": "cito",
+                    "field": "iscito",
                     "title": "Cito",
-                    "template": '# if( cito==true) {# ✔ # } else {# ✘ #} #',
+                    "template": '# if( iscito==true) {# ✔ # } else {# ✘ #} #',
                     "width": "70px",
                 }
             ];
@@ -424,6 +1051,273 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 })
             }
 
+            $scope.LihatEkpertise = function (dataItem) {
+                // debugger;
+                // if ($scope.dataItem == undefined) {
+                //  window.messageContainer.error("Pilih Data Dulu!");
+                //  return;
+                // }
+                debugger
+                $scope.hideExper = false
+                $scope.norecHasilRadiologi = ''
+                $scope.item.namaPelayanan = dataItem.namaproduk
+                $scope.item.norec_pp = dataItem.norec_pp
+                // $scope.item.dokters = dataItem.dokter
+                if(dataItem.iddokterpengirim != undefined && dataItem.iddokterpengirim != "" && dataItem.iddokterpengirim != 0)
+                {
+                    $scope.item.dokterperujuk = { id: dataItem.iddokterpengirim, namalengkap: dataItem.dokterpengirim }
+                }
+                // $scope.item.dokter = { id: e.data[0].pegawaifk, namalengkap: e.data[0].namalengkap }
+                $scope.item.dokter = { id: dataItem.dokterid, namalengkap:  dataItem.dokter}
+                medifirstService.get('radiologi/get-hasil-radiologi?norec_pp=' + dataItem.norec_pp + '&idproduk=' + dataItem.produkfk).then(function (e) {
+                    if (e.data.length > 0) {
+                        // if(e.data[0].keterangan == undefined || e.data[0].keterangan == null || e.data[0].keterangan == '')
+                        // {
+                        //     medifirstService.get('sysadmin/general/get-daftar-template-hasil?idproduk=' + $scope.dataItem.produkfk + '&objectpegawaifk=' + $scope.dataItem.dokterid).then(function (res) {
+                        //         if (res.data.data.length > 0) 
+                        //                  $scope.item.keterangan = res.data.data[0].keterangan;//.replace(/~/g, "\n")
+    
+                        //         })
+                        //     $scope.norecHasilRadiologi = e.data[0].norec
+                        //     $scope.item.nofoto = e.data[0].nofoto
+                        //     $scope.item.tglInput = new Date(e.data[0].tanggal)
+                        //     $scope.item.dokter = { id: e.data[0].pegawaifk, namalengkap: e.data[0].namalengkap }
+                            
+
+                        //     $scope.item.dokterperujuk = { id: e.data[0].dokterperujuk, namalengkap: e.data[0].namadokterperujuk }
+                        //     $scope.item.ruanganperujuk = { id: e.data[0].ruanganperujukfk, namaruangan: e.data[0].namaruangan }
+                        
+                        // }else
+                        // {
+
+                            // medifirstService.get('sysadmin/general/get-daftar-template-hasil?idproduk=' + $scope.dataItem.produkfk + '&objectpegawaifk=' + $scope.dataItem.dokterid).then(function (res) {
+                            //     if (res.data.data.length == 0) 
+                            //         var objSave = {
+                            //             id :"",
+                            //             produkfk: $scope.dataItem.produkfk,
+                            //             keterangan: e.data[0].keterangan,
+                            //             objectpegawaifk: $scope.dataItem.dokterid,
+                            //             "method": 'save'
+                            //         }   
+                            //         // medifirstService.post('sysadmin/general/save-template-hasil', objSave).then(function (e) { 
+                            //         // }, function (error) {
+                            //         //     $scope.hideExper = false
+                            //         // })
+                            //     })
+                            debugger
+                            $scope.statusSelesaiPeriksa = e.data[0].isclaim
+                            $scope.norecHasilRadiologi = e.data[0].norec
+                            $scope.item.nofoto = e.data[0].nofoto
+                            $scope.item.tglInput = new Date(e.data[0].tanggal)
+                            $scope.item.dokter = { id: e.data[0].pegawaifk, namalengkap: e.data[0].namalengkap }
+                            $scope.item.keterangan = e.data[0].keterangan;//.replace(/~/g, "\n")
+
+                            $scope.item.dokterperujuk = { id: e.data[0].dokterperujuk, namalengkap: e.data[0].namadokterperujuk }
+                            $scope.item.ruanganperujuk = { id: e.data[0].ruanganperujukfk, namaruangan: e.data[0].namaruangan }
+                        // }
+                    }
+                    else
+                    {
+                        // medifirstService.get('sysadmin/general/get-daftar-template-hasil?idproduk=' + $scope.dataItem.produkfk + '&objectpegawaifk=' + $scope.dataItem.dokterid).then(function (res) {
+                        //     if (res.data.data.length > 0) 
+                        //              $scope.item.keterangan = res.data.data[0].keterangan;//.replace(/~/g, "\n")
+                        //              $scope.item.tglInput = new Date()
+                        //              $scope.item.dokter = { id:  $scope.dataItem.dokterid, namalengkap:  $scope.dataItem.dokter}
+                        //     })
+                    }
+                    
+                    if ($scope.norecHasilRadiologi != '') {
+                        var local = JSON.parse(localStorage.getItem('profile'))
+                        var nama = medifirstService.getPegawaiLogin().namaLengkap
+                        if (local != null) {
+                            var profile = local.id;
+                            window.open(config.baseApiBackend + "report/cetak-ekspertise?norec=" + $scope.norecHasilRadiologi + '&kdprofile=' + profile
+                                + '&nama=' + nama, '_blank');
+                        }
+                    }
+                    // $scope.popUpEkpertise.center().open();
+                    
+                })
+                
+                // medifirstService.get('sysadmin/general/get-daftar-template-hasil?idproduk' + $scope.dataSelected.produkfk + '&objectpegawaifk=' + $scope.dataSelected.dokterid).then(function (res) {
+                //         if (res.data.data.length > 0) 
+                //                  $scope.item.keterangan = e.data[0].keterangan;//.replace(/~/g, "\n")
+                //                  $scope.popUpEkpertise.center().open();
+                //         })
+                    
+            
+                
+                
+            }
+             $scope.hapusdokumen = function (x) {
+                debugger;
+                var stt = 'false'
+                    if (confirm('Yakin Hapus Dokumen?')) {
+                        // Save it!
+                        stt = 'true';
+                    } else {
+                        // Do nothing!
+                        return;
+                        stt = 'false'
+                    }
+                    debugger;
+                    if (stt == 'true') {
+                        if($scope.dataListDokumen==undefined){
+                            alert('Klik dulu gridnya')
+                            return;
+                        }
+                       
+                        var objDelete = {
+                            norec: $scope.dataListDokumen.norec, 
+                        }
+                         
+                        medifirstService.post('registrasi/delete-dokumen-registrasi', objDelete).then(function (e) {
+                            $scope.setLihatDokumen();
+                        })
+                    }
+             }
+            $scope.printListDokumen = function (x) {
+                       if($scope.dataListDokumen==undefined)
+                alert('Klik dulu gridnya')
+                var printdata = document.getElementById(x);
+                // printdata = printdata.innerHTML;
+                let gambar = $scope.dataListDokumen.uploadfile;
+                // var editor = $("#editor").data("kendoEditor");
+                // editor.value(printdata);
+                
+                // var tampung = ''
+                // for (let i =0; i < $scope.gambar.length; i++) {
+                //     if ($scope.gambar[i].gambar == true) {
+                //         tampung = tampung + '<img ng-src=' + $scope.gambar[i].gambar + '/>'
+                //     }
+                // }
+                var htmlStart =
+                    '<!DOCTYPE html>' +
+                    '<html style="border:none;border-color: white">' +
+                    '<head style="border:none;border-color: white">' +
+                    // '<div class="header" style="position: fixed;top: 0;">'+
+                    // header +
+                    '<style>' +
+                    'html { font: 11pt sans-serif; }' +
+                    '.k-grid { border-top-width: 0; }' +
+                    '.k-grid, .k-grid-content { height: auto !important; }' +
+                    '.k-grid-content { overflow: visible !important; }' +
+                    '.k-grid .k-grid-header th { border-top: none; }' +
+                    '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                    '</style>' +
+                    '</div>' +
+                    '</head>' +
+                    '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                    '<table  style="border:none; border-color: white">' +
+                    '<thead style="border:none;border-color: white">' +
+                    '<tr style="border:none;border-color: white">' +
+                    '<td style="border:none;border-color: white">' +
+                    // '<div class="page-header-space"></div>' +
+                    '<div style="border:none;border-color: white">' +
+                    '<embed width="100%" style="position: fixed;top: 0;" height="100%" src="' + gambar + '" /> ';
+                // '<img ng-src=' + gambar + 'height="80%" width="80%" />' +
+                // tampung
+                // header +                                
+                '</div>' +
+                    '</td>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>'
+                var htmlEnd =
+                    '</td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</body>' +
+                    '</div>' +
+
+
+                    '</html>';
+                var printdata = document.getElementById(x);
+                // printdata = printdata.innerHTML;
+                printdata = htmlStart + printdata + htmlEnd;
+                // var editor = $("#editor").data("kendoEditor");
+                // editor.value(printdata);
+
+                // var cetakan=htmlStart + printableContent + htmlEnd;
+                var WindowObject = window.open('', 'PrintWindow', 'width=1200,height=800,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+
+
+                WindowObject.document.writeln(printdata);
+                WindowObject.document.close();
+                WindowObject.focus();
+            }
+            $scope.printListDokumen2 = function (x) {
+                if($scope.dataListDokumen==undefined)
+                alert('Klik dulu gridnya')
+                var printdata = document.getElementById(x);
+                // printdata = printdata.innerHTML;
+                let gambar = $scope.dataListDokumen.uploadfile;
+                // var editor = $("#editor").data("kendoEditor");
+                // editor.value(printdata);
+                
+                // var tampung = ''
+                // for (let i =0; i < $scope.gambar.length; i++) {
+                //     if ($scope.gambar[i].gambar == true) {
+                //         tampung = tampung + '<img ng-src=' + $scope.gambar[i].gambar + '/>'
+                //     }
+                // }
+                var htmlStart =
+                    '<!DOCTYPE html>' +
+                    '<html style="border:none;border-color: white">' +
+                    '<head style="border:none;border-color: white">' +
+                    // '<div class="header" style="position: fixed;top: 0;">'+
+                    // header +
+                    '<style>' +
+                    'html { font: 11pt sans-serif; }' +
+                    '.k-grid { border-top-width: 0; }' +
+                    '.k-grid, .k-grid-content { height: auto !important; }' +
+                    '.k-grid-content { overflow: visible !important; }' +
+                    '.k-grid .k-grid-header th { border-top: none; }' +
+                    '.k-grid-toolbar, .k-grid-pager > .k-link { display: none; }' +
+                    'embed { width: 50%; height: 100%; max-width: 50%; }' +
+                    '</style>' +
+                    '</div>' +
+                    '</head>' +
+                    '<body onload="window.print();window.close()" style="border:none; border-color: white">' +
+                    '<table  style="border:none; border-color: white">' +
+                    '<thead style="border:none;border-color: white">' +
+                    '<tr style="border:none;border-color: white">' +
+                    '<td style="border:none;border-color: white">' + 
+                    '<div style="border:none;border-color: white">' +
+                    '<embed   style="position: fixed;top: 0;"   src="' + gambar + '" /> ';
+                            
+                '</div>' +
+                    '</td>' +
+                    '</tr>' +
+                    '</thead>' +
+                    '<tbody>' +
+                    '<tr>' +
+                    '<td>'
+                var htmlEnd =
+                    '</td>' +
+                    '</tr>' +
+                    '</tbody>' +
+                    '</body>' +
+                    '</div>' +
+
+
+                    '</html>';
+                var printdata = document.getElementById(x);
+                // printdata = printdata.innerHTML;
+                printdata = htmlStart + printdata + htmlEnd;
+                // var editor = $("#editor").data("kendoEditor");
+                // editor.value(printdata);
+
+                // var cetakan=htmlStart + printableContent + htmlEnd;
+                var WindowObject = window.open("", "_blank");
+
+
+                WindowObject.document.writeln(printdata);
+                // WindowObject.document.close();
+                // WindowObject.focus();
+            }
             var hasilRadDetil = function (e) {
                 e.preventDefault();
                 var tr = $(e.target).closest("tr");
@@ -920,8 +1814,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.riwayatForm = true
                 $scope.inputOrder = false;
             }
+            $scope.riwayatKeseluruhan = function () {
+                $scope.riwayatAll = true
+                $scope.inputOrder = false;
+            }
             $scope.newOrder = function () {
                 $scope.riwayatForm = false
+                $scope.riwayatAll = false
                 $scope.inputOrder = true;
             }
             $scope.Simpan = function () {

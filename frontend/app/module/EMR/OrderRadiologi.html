@@ -230,6 +230,13 @@
                             </div>
 
                         </div>
+                        <div class="grid_12">
+                            <div class="grid_6">
+                                <button class="btnTemplate1" ng-click="riwayatKeseluruhan()"><i
+                                        class="fa fa-list"></i>Riwayat Keseluruhan</button>
+                            </div>
+
+                        </div>
                     </div>
                     <div class="grid_8">
                         <fieldset>
@@ -309,11 +316,118 @@
                     </div>
 
                 </div>
+
+                <div class="grid_12">
+                    <div class="grid_12 headerBox">
+                        <div class="panel-heading" style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil Radiologi</div>
+                        <!-- <p>Hasil Radiologi</p> -->
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12 borderBox">
+                        <kendo-grid data-source="dataGridRadio" options="columnGridRadio" style="width: auto;"  k-sortable="'true'" k-groupable="true"></kendo-grid>
+                        <!-- <div id="kGrid" kendo-grid k-data-source="dataGridRadio" k-selectable="'row'"
+                            k-columns="columnGridRadio" k-pageable="'true'" k-sortable="'true'"> -->
+                        </div>
+                    </div>
+            </div>
+            <div class="grid_12" ng-show="riwayatAll">
+                <br>
+                <div class="grid_12 headerBox">
+                    <p>Daftar Order Penunjang Radiologi</p>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_12 borderBox">
+                        <div id="kGrid" kendo-grid k-data-source="dataGridRiwayat" k-selectable="'row'"
+                            k-columns="columnGridRiwayat" k-pageable="'true'" k-sortable="'true'"
+                            k-ng-model="dataSelectedRiwayat" ng-click="click(dataSelectedRiwayat)">
+                            <div k-detail-template>
+                                <kendo-tabstrip>
+                                    <div>
+                                        <div kendo-grid k-options="detailGridOptions(dataItem)"></div>
+                                    </div>
+                                </kendo-tabstrip>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="grid_12">
+                    <div class="grid_8"></div>
+
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="newOrder()"><i class="fa fa-refresh"></i>Order
+                            Baru</button>
+                    </div>
+                    <div class="grid_1">
+                        <button class="btnTemplate1 cancel" ng-click="hapusOrder()"><i
+                                class="fa fa-trash"></i>Hapus</button>
+                    </div>
+                    <div class="grid_1">
+                        <button class="btnTemplate1" is-back><i class="fa fa-arrow-left"></i>Kembali</button>
+                    </div>
+
+                </div>
+
+                <div class="grid_12">
+                    <div class="grid_12 headerBox">
+                        <div class="panel-heading" style="font-size: 18px;font-weight: bold;color: white" c-translate>Hasil Radiologi Keseluruhan</div>
+                        <!-- <p>Hasil Radiologi</p> -->
+                    </div>
+                    <div class="clear"></div>
+                    <div class="grid_12 borderBox">
+                        <kendo-grid data-source="dataGridRadioAll" options="columnGridRadioAll" style="width: auto;"  k-sortable="'true'" k-groupable="true"></kendo-grid>
+                        <!-- <div id="kGrid" kendo-grid k-data-source="dataGridRadio" k-selectable="'row'"
+                            k-columns="columnGridRadio" k-pageable="'true'" k-sortable="'true'"> -->
+                        </div>
+                    </div>
             </div>
         </div>
     </div>
 </div>
 
+<div kendo-window="popupDokumen" k-title="'Dokumen'" k-width="1200" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_4" style="margin-top:5px">
+            <label c-label item="item " c-label-text="jenis Dokumen " real></label>
+            <input style="width: 100%; " kendo-combo-box k-ng-model="item.namadokumen "
+                k-data-text-field=" 'namadokumen' " k-filter=" 'contains' " k-data-value-field=" 'value' "
+                k-auto-bind="false " k-data-source="listDokumen" />
+        </div>
+        <div class="grid_4" style="margin-top:5px">
+            <label c-label real>Tanggal Dokumen</label>
+            <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglDokumen"
+                k-format="'dd-MM-yyyy'" ng-keypress="($event.which == 13)? SearchEnter():item.tglLahir" />
+        </div>
+        <div class="grid_4" style="margin-top:5px">
+            <label c-label real>Dokumen</label>
+            <input type="file" id="filePicker">
+            <textarea id="base64textarea" placeholder="Base64 will appear here" cols="50" rows="15" hidden></textarea>
+        </div>
+        <div class="grid_4">
+            <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button  k-button-icontext" ng-click="upload()"><i
+                        class="fa fa-times-circle"></i>&nbsp;Upload</button>
+            </div>
+        </div> 
+        <div class="grid_12">
+            <fieldset class="effect-shadow" style=" border-radius: 4px">
+                <legend id="filterData">
+                    <a ng-click="showAndHide()">List Dokumen Pasien</a>
+                </legend>
+                <div class="grid_12">
+
+                    <kendo-grid id="kGrids" data-source="sourceDataListDokumen" options="columnListDokumen"
+                         k-pageable="'true'" k-sortable="'true'" k-groupable="'true'"  k-resizable="'true'" k-selectable="'row'" k-selectable="'row'"  
+                        k-ng-model="dataListDokumen">
+                    </kendo-grid>
+
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+</div>
 <div kendo-window="popUpEkpertise" k-title="'Ekspertise'" k-width="800" k-height="500" k-visible="false"
     k-on-open="win2visible = true" k-on-close="win2visible = false">
     <div class="panel panel-default container_12" style="padding: 0px 10px;">

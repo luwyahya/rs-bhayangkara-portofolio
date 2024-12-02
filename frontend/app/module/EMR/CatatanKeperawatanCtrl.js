@@ -1,8 +1,8 @@
-define(['initialize'], function (initialize) {
+define(['initialize'], function(initialize) {
     'use strict';
     initialize.controller('CatatanKeperawatanCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state',
         'CacheHelper', 'DateHelper', 'MedifirstService',
-        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
+        function($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, FormGroup, FormArray, FormBuilder) {
             $scope.noCM = $state.params.noCM;
             $scope.tombolSimpanVis = true
             $scope.noRecPap = cacheHelper.get('noRecPap');
@@ -16,6 +16,7 @@ define(['initialize'], function (initialize) {
             $scope.item.objcbo = []
             $scope.isCetak = true
             $scope.isKembali = true
+            $scope.isProsesSave = true;
             var paramSearch = ''
             $scope.noemr = ''
             $scope.user = {};
@@ -27,22 +28,66 @@ define(['initialize'], function (initialize) {
             $scope.grid = true;
             $scope.input = false;
             var nomorEMRSS = ''
-            LoadCacheHelper();
-            LoadCombo();
+            // LoadCacheHelper();
+            SetCacheHelper();
 
             function LoadCombo() {
                 // medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=askep").then(function(e) {
                 //     $scope.listAskep = e.data
                 // })
-                medifirstService.get("emr/get-combolistaskep?noregistrasi=" + $scope.cc.noregistrasi).then(function (dat) {
+                medifirstService.get("emr/get-combolistaskep?noregistrasi=" + $scope.cc.noregistrasi).then(function(dat) {
 
                     $scope.listAskep = dat.data.askep
                 })
-                medifirstService.get("emr/get-combo").then(function (dat) {
-                    debugger;
+                medifirstService.get("emr/get-combo").then(function(dat) {
+                    //debugger;
                     $scope.listPegawai = dat.data.pegawai
                 })
             }
+            function SetCacheHelper() {
+                medifirstService.get('emr/get-antrian-pasien-norec/' + $state.params.noRec).then(function(e) {
+                    var result = e.data.result 
+                    $scope.header = result
+                    var arrStr = {
+                            0: $scope.header.nocm,
+                            1: $scope.header.namapasien,
+                            2: $scope.header.jeniskelamin,
+                            3: $scope.header.noregistrasi,
+                            4: $scope.header.umur,
+                            5: $scope.header.kelompokpasien,
+                            6: $scope.header.tglregistrasi,
+                            7: $scope.header.norec,
+                            8: $scope.header.norec_pd,
+                            9: $scope.header.objectkelasfk,
+                            10: $scope.header.namakelas,
+                            11: $scope.header.objectruanganfk,
+                            12: $scope.header.namaruangan,
+                            13: $scope.checkNoregis,
+                            14: moment($scope.header.tgllahir).format('DD-MM-YYYY'),
+                            15: $scope.header.alamatlengkap,
+                            16: $scope.header.dokterdpjp,
+                            17: $scope.header.iddpjp,
+                            18: $scope.header.tgllahir,
+                            19: $scope.header.objectkelompokpasienlastfk,
+                            20: $scope.header.golongandarah,
+                            21: $scope.header.namarekanan,
+                            22: $scope.header.objectrekananfk,
+                            23: $scope.header.objectdepartemenfk,
+                            24: $scope.header.ruanganterakhir,
+                            25: $scope.header.nocmfk,
+                            26: $scope.header.objectagamafk,
+                            27: $scope.header.agama,
+                            28: $scope.header.objectpendidikanfk,
+                            29: $scope.header.pendidikan,
+                            30: $scope.header.objectpekerjaanfk,
+                            31: $scope.header.pekerjaan
+                        } 
+                        cacheHelper.set('cacheRMelektronik', arrStr); 
+                        LoadCacheHelper();
+                }) 
+              
+                   
+             }
 
             function LoadCacheHelper() {
                 var chacePeriode = cacheHelper.get('cacheRMelektronik');
@@ -65,6 +110,7 @@ define(['initialize'], function (initialize) {
                     $scope.cc.tglLahir = chacePeriode[14]
                     $scope.cc.norec_emr = '-'
                     paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
+                    LoadCombo();
                     init()
                 }
             }
@@ -72,8 +118,8 @@ define(['initialize'], function (initialize) {
             function init() {
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=catatankeperawatan", true).then(function (dat) {
-                    debugger
+                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=catatankeperawatan", true).then(function(dat) {
+                    //debugger
                     $scope.isRouteLoading = false
                     $scope.noemr = dat.data.data[0].noemr
                     $scope.cc.norec_emr = dat.data.data[0].noemr
@@ -95,11 +141,11 @@ define(['initialize'], function (initialize) {
                 });
 
                 function setobjectToModel(nomorEMRSS, emrfk) {
-                    medifirstService.get("emr/get-emr-transaksi-detail-polri-2?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
-                        debugger;
+                    medifirstService.get("emr/get-emr-transaksi-detail-polri-2?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function(dat) {
+                        //debugger;
                         $scope.isLoading = false
                         var chekedd = false
-                        // $scope.item.obj = []
+                            // $scope.item.obj = []
 
                         // $scope.item.obj2 = []
                         // $scope.item.obj[68] = $scope.now
@@ -109,25 +155,25 @@ define(['initialize'], function (initialize) {
 
                                 if (dataLoad[i].emrdfk == 149) {
                                     $scope.item.tgl.push({ emrdfk: dataLoad[i].emrdfk, values: dataLoad[i].value, norec: dataLoad[i].norec })
-                                    // $scope.data.names[0].tgl = dataLoad[0].value
+                                        // $scope.data.names[0].tgl = dataLoad[0].value
 
                                     // setRow();
                                 }
                                 if (dataLoad[i].emrdfk == 151) {
                                     $scope.item.tkh.push({ emrdfk: dataLoad[i].emrdfk, values: dataLoad[i].value, norec: dataLoad[i].norec })
-                                    // $scope.data.names[0].tgl = dataLoad[0].value
+                                        // $scope.data.names[0].tgl = dataLoad[0].value
 
                                     // setRow();
                                 }
                                 if (dataLoad[i].emrdfk == 150) {
                                     $scope.item.dg.push({ emrdfk: dataLoad[i].emrdfk, values: dataLoad[i].value, norec: dataLoad[i].norec })
-                                    // $scope.data.names[0].tgl = dataLoad[0].value
+                                        // $scope.data.names[0].tgl = dataLoad[0].value
 
                                     // setRow();
                                 }
                                 if (dataLoad[i].emrdfk == 152) {
                                     $scope.item.pg.push({ emrdfk: dataLoad[i].emrdfk, values: dataLoad[i].value, norec: dataLoad[i].norec })
-                                    // $scope.data.names[0].tgl = dataLoad[0].value
+                                        // $scope.data.names[0].tgl = dataLoad[0].value
 
                                     // setRow();
                                 }
@@ -171,13 +217,13 @@ define(['initialize'], function (initialize) {
                             }
 
                         }
-                        debugger;
+                        //debugger;
                         // $scope.item.fix = $scope.item.tgl.map((item, i) => Object.assign({}, item, $scope.item.tkh[i]))
                         const map = new Map();
                         $scope.item.tgl.forEach(item => map.set(item.emrdfk, item));
-                        $scope.item.tkh.forEach(item => map.set(item.emrdfk, { ...map.get(item.nameId), ...item }));
+                        $scope.item.tkh.forEach(item => map.set(item.emrdfk, {...map.get(item.nameId), ...item }));
                         const mergedArr = Array.from(map.values());
-                        debugger
+                        //debugger
                         if ($scope.item.tgl.length > 0 && $scope.item.dg.length > 0 && $scope.item.tkh.length > 0) {
                             setRow();
                             // setRow2();
@@ -193,15 +239,15 @@ define(['initialize'], function (initialize) {
             }
 
             function LoadData() {
-                debugger
+                //debugger
                 var emr = ''
                 if (nomorEMRSS != undefined) {
                     emr = "emrpasien=" + nomorEMRSS
                 } else {
                     emr = ''
                 }
-                medifirstService.get("emr/get-history-cpt?" + emr).then(function (dat) {
-                    debugger;
+                medifirstService.get("emr/get-history-cpt?" + emr).then(function(dat) {
+                    //debugger;
 
                     var cppt = dat.data
 
@@ -220,25 +266,25 @@ define(['initialize'], function (initialize) {
                     pageable: true,
                     scrollable: true,
                     columns: [{
-                        "field": "tgljam",
-                        "title": "Tgl CPPT",
-                        "width": "50px"
-                    },
-                    {
-                        "field": "diagnosa",
-                        "title": "Diagnosa",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "hasilkeperawatan",
-                        "title": "Hasil Keperawatan",
-                        "width": "120px",
-                    },
-                    {
-                        "field": "pegawai",
-                        "title": "Tanda Tangan Nama",
-                        "width": "120px",
-                    },
+                            "field": "tgljam",
+                            "title": "Tgl CPPT",
+                            "width": "50px"
+                        },
+                        {
+                            "field": "diagnosa",
+                            "title": "Diagnosa",
+                            "width": "120px",
+                        },
+                        {
+                            "field": "hasilkeperawatan",
+                            "title": "Hasil Keperawatan",
+                            "width": "120px",
+                        },
+                        {
+                            "field": "pegawai",
+                            "title": "Tanda Tangan Nama",
+                            "width": "120px",
+                        },
                         // { field: "emrpasienfk", title: "No", width: 40 },
                         // { field: "tglresume", title: "Tgl Resume", width: 150 },
                         // { field: "koderesume", title: "Kode Resume", width: 150 },
@@ -270,7 +316,7 @@ define(['initialize'], function (initialize) {
 
                 };
             }
-            $scope.showInput = function () {
+            $scope.showInput = function() {
                 $scope.grid = false;
                 $scope.input = true;
                 $scope.inputsave = true;
@@ -279,12 +325,12 @@ define(['initialize'], function (initialize) {
                     names: [{ idtkh: "151", tkh: "", idtgl: "149", tgl: "", iddg: "150", dg: "", idpg: "152", pg: "", norec: "", norectgl: "", norectkh: "", norecdg: "", norecpg: "" }]
                 };
             }
-            $scope.Back = function () {
+            $scope.Back = function() {
                 $scope.grid = true;
                 $scope.input = false;
             }
-            $scope.editGrid = function () {
-                debugger;
+            $scope.editGrid = function() {
+                //debugger;
                 if ($scope.modelGrid == undefined) {
                     toastr.error('Data Belum Dipilih', 'Peringatan !');
                     return;
@@ -298,8 +344,8 @@ define(['initialize'], function (initialize) {
                 $scope.inputsave = false;
                 $scope.editsave = true;
                 $scope.editsave = true;
-                medifirstService.get('emr/get-cpt-edit?norec=' + norec).then(function (dat) {
-                    debugger;
+                medifirstService.get('emr/get-cpt-edit?norec=' + norec).then(function(dat) {
+                    //debugger;
                     $scope.data.names[0].tgl = dat.data[0].tgljam
                     $scope.data.names[0].dg = { id: dat.data[0].id, caption: dat.data[0].diagnosa }
                     $scope.data.names[0].tkh = dat.data[0].hasilkeperawatan
@@ -312,8 +358,8 @@ define(['initialize'], function (initialize) {
                 names: [{ idtkh: "151", tkh: "", idtgl: "149", tgl: "", iddg: "150", dg: "", idpg: "152", pg: "", norec: "", norectgl: "", norectkh: "", norecdg: "", norecpg: "" }]
             };
 
-            $scope.Tambah = function (index) {
-                debugger;
+            $scope.Tambah = function(index) {
+                //debugger;
                 var name = { idtkh: "151", tkh: "", idtgl: "149", tgl: "", iddg: "150", dg: "", idpg: "152", pg: "", norec: "", norectgl: "", norectkh: "", norecdg: "", norecpg: "" };
                 if ($scope.data.names.length <= index + 1) {
                     $scope.data.names.splice(index + 1, 0, name);
@@ -321,7 +367,7 @@ define(['initialize'], function (initialize) {
             }
 
             function setRow(index = 1) {
-                debugger;
+                //debugger;
                 for (var i = 0; i < $scope.item.tgl.length; i++) {
                     if ($scope.data.names[i] != undefined) {
                         // $scope.data.names[i].tgl = $scope.item.tgl[i].values
@@ -351,23 +397,23 @@ define(['initialize'], function (initialize) {
                         }
                     }
                 }
-                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function (dat) {
-                    debugger;
-                    for (var m = 0; m < dat.data.length; m++) {
-                        $scope.data.names[m].tgl = dat.data[m].tgljam
-                        $scope.data.names[m].tkh = dat.data[m].hasilkeperawatan
-                        $scope.data.names[m].dg = { id: dat.data[m].id, caption: dat.data[m].diagnosa }
-                        $scope.data.names[m].pg = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
-                        $scope.data.names[m].norec = dat.data[m].norec
-                        // $scope.data.names[m].norecemr = dat.data[m].norec_emrpd
-                    }
-                })
-                // debugger;
-                // $scope.data.names[0].dg
+                medifirstService.get("emr/get-temp-emr?&emrpasien=" + $scope.cc.norec_emr).then(function(dat) {
+                        //debugger;
+                        for (var m = 0; m < dat.data.length; m++) {
+                            $scope.data.names[m].tgl = dat.data[m].tgljam
+                            $scope.data.names[m].tkh = dat.data[m].hasilkeperawatan
+                            $scope.data.names[m].dg = { id: dat.data[m].id, caption: dat.data[m].diagnosa }
+                            $scope.data.names[m].pg = { id: dat.data[m].id, namalengkap: dat.data[m].pegawai }
+                            $scope.data.names[m].norec = dat.data[m].norec
+                                // $scope.data.names[m].norecemr = dat.data[m].norec_emrpd
+                        }
+                    })
+                    // //debugger;
+                    // $scope.data.names[0].dg
             }
 
             function setRow2(index = 1) {
-                debugger;
+                //debugger;
                 for (var i = 1; i < $scope.data.names.length; i++) {
                     for (var j = 0; j < $scope.item.tkh.length; j++) {
                         var name = { idtgl: $scope.data.names[i].idtgl, tgl: $scope.data.names[i].tgl, idtkh: "151", tkh: $scope.item.tkh[j].values, iddg: "150", dg: $scope.item.dg[k].values };
@@ -380,23 +426,28 @@ define(['initialize'], function (initialize) {
             }
 
 
-            $scope.kembali = function () {
-                debugger
+            $scope.kembali = function() {
+                //debugger
                 $state.go('RekamMedis.HistoryEMR', {
                     noRec: $scope.cc.norec,
                     emr: 'LaporanOperasi',
                 });
             }
 
-            $scope.Save = function () {
-                debugger;
+            $scope.Save = function() {
+                if ($scope.isProsesSave == false) {
+                    toastr.error('Proses Penyimpanan sedang berlangsung, MOHON BERSABAR, JANGAN KLIK BERULANG-ULANG')
+                    return;
+                }
+                $scope.isProsesSave = false;
+                //debugger;
                 // var TKH = [];
                 // var TGL = [];
                 // var DG = [];
                 // var mumet = $scope.data.names
 
                 // for(let i = 0; i < mumet.length; i++) {
-                //     debugger;
+                //     //debugger;
                 //     var AnyarTKH = {
                 //         "emrdfk": mumet[i].idtkh,
                 //         "value": mumet[i].tkh,
@@ -404,7 +455,7 @@ define(['initialize'], function (initialize) {
                 //     TKH.push(AnyarTKH);
                 // }
                 // for(let i = 0; i < mumet.length; i++) {
-                //     debugger;
+                //     //debugger;
                 //     var AnyarTGL = {
                 //         "emrdfk": mumet[i].idtgl,
                 //         "value": new moment(mumet[i].tgl).format('YYYY-MM-DD 00:00:00'),
@@ -412,7 +463,7 @@ define(['initialize'], function (initialize) {
                 //     TGL.push(AnyarTGL);
                 // }
                 // for(let i = 0; i < mumet.length; i++) {
-                //     debugger;
+                //     //debugger;
                 //     var AnyarDG = {
                 //         "emrdfk": mumet[i].iddg,
                 //         "value": mumet[i].dg.caption,
@@ -431,21 +482,21 @@ define(['initialize'], function (initialize) {
                 var arrobj = $scope.data.names
                 var arrSave = []
                 var arrTemp = []
-                debugger;
+                //debugger;
                 for (var i = 0; i < arrobj.length; i++) {
                     if (arrobj[i].dg != "" && arrobj[i].pg != "" && arrobj[i].tgl != "" && arrobj[i].tkh != "") {
                         arrSave.push({ id: arrobj[i].idtkh, values: arrobj[i].tkh, norec: arrobj[i].norectkh })
                         arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD HH:mm:ss'), norec: arrobj[i].norectgl })
                         arrSave.push({ id: arrobj[i].iddg, values: arrobj[i].dg.caption, norec: arrobj[i].norecdg })
                         arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap, norec: arrobj[i].norecpg })
-                        // arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap })
+                            // arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap })
                         $scope.cc.jenisemr = 'catatankeperawatan'
                     } else if (arrobj[i].dg == "" && arrobj[i].pg != "" && arrobj[i].tgl != "" && arrobj[i].tkh != "") {
                         arrSave.push({ id: arrobj[i].idtkh, values: arrobj[i].tkh, norec: arrobj[i].norectkh })
                         arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD HH:mm:ss'), norec: arrobj[i].norectgl })
                         arrSave.push({ id: arrobj[i].iddg, values: "", norec: arrobj[i].norecdg })
                         arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap, norec: arrobj[i].norecpg })
-                        // arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap })
+                            // arrSave.push({ id: arrobj[i].idpg, values: arrobj[i].pg.namalengkap })
                         $scope.cc.jenisemr = 'catatankeperawatan'
                     } else {
 
@@ -454,53 +505,58 @@ define(['initialize'], function (initialize) {
                 for (var i = 0; i < arrobj.length; i++) {
                     if (arrobj[i].dg != "" && arrobj[i].pg != "" && arrobj[i].tgl != "" && arrobj[i].tkh != "") {
                         arrTemp.push({ idtkh: arrobj[i].idtkh, tkh: arrobj[i].tkh, idtgl: arrobj[i].idtgl, tgl: new moment(arrobj[i].tgl).format('YYYY-MM-DD HH:mm:ss'), iddg: arrobj[i].iddg, dg: arrobj[i].dg.caption, idpg: arrobj[i].idpg, pg: arrobj[i].pg.namalengkap, norec: arrobj[i].norec })
-                        // arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD 00:00:00') })
-                        // arrSave.push({ id: arrobj[i].iddg, values: arrobj[i].dg.caption })
-                        // $scope.cc.jenisemr = 'catatankeperawatan'
+                            // arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD 00:00:00') })
+                            // arrSave.push({ id: arrobj[i].iddg, values: arrobj[i].dg.caption })
+                            // $scope.cc.jenisemr = 'catatankeperawatan'
                     } else if (arrobj[i].dg == "" && arrobj[i].pg != "" && arrobj[i].tgl != "" && arrobj[i].tkh != "") {
                         arrTemp.push({ idtkh: arrobj[i].idtkh, tkh: arrobj[i].tkh, idtgl: arrobj[i].idtgl, tgl: new moment(arrobj[i].tgl).format('YYYY-MM-DD HH:mm:ss'), iddg: arrobj[i].iddg, dg: "", idpg: arrobj[i].idpg, pg: arrobj[i].pg.namalengkap, norec: arrobj[i].norec })
                     } else {
 
                     }
                 }
-                debugger;
+                //debugger;
                 var gasSave = {
                     head: $scope.cc,
                     data: arrSave,
                     temp: arrTemp,
                 }
-                medifirstService.post('emr/save-catatan-keperawatan', gasSave).then(function (e) {
-                    init()
-                    // var arrStr = {
-                    //     0: e.data.data.noemr
-                    // }
-                    // cacheHelper.set('cacheNomorEMR', arrStr);
-                    $scope.grid = true;
-                    $scope.input = false;
-                    LoadData();
+                medifirstService.post('emr/save-catatan-keperawatan', gasSave).then(function(e) {
+                    $scope.isProsesSave = true;
+                    $scope.isRouteLoading = true;
+                    setTimeout(function() {
+                        init()
+                        $scope.grid = true;
+                        $scope.input = false;
+                        $scope.isRouteLoading = false
+                        // LoadData();
+                    }, 10000);
+                        // var arrStr = {
+                        //     0: e.data.data.noemr
+                        // }
+                        // cacheHelper.set('cacheNomorEMR', arrStr);
                 })
             }
-            $scope.Edit = function () {
+            $scope.Edit = function() {
                 var arrobj = $scope.data.names
                 var arrTempEdit = []
-                debugger
+                //debugger
                 for (var i = 0; i < arrobj.length; i++) {
                     if (arrobj[i].dg != "" && arrobj[i].pg != "" && arrobj[i].tgl != "" && arrobj[i].tkh != "") {
                         arrTempEdit.push({ idtkh: arrobj[i].idtkh, tkh: arrobj[i].tkh, idtgl: arrobj[i].idtgl, tgl: new moment(arrobj[i].tgl).format('YYYY-MM-DD HH:mm:ss'), iddg: arrobj[i].iddg, dg: arrobj[i].dg.caption, idpg: arrobj[i].idpg, pg: arrobj[i].pg.namalengkap, norec: arrobj[i].norec })
-                        // arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD 00:00:00') })
-                        // arrSave.push({ id: arrobj[i].iddg, values: arrobj[i].dg.caption })
-                        // $scope.cc.jenisemr = 'catatankeperawatan'
+                            // arrSave.push({ id: arrobj[i].idtgl, values: new moment(arrobj[i].tgl).format('YYYY-MM-DD 00:00:00') })
+                            // arrSave.push({ id: arrobj[i].iddg, values: arrobj[i].dg.caption })
+                            // $scope.cc.jenisemr = 'catatankeperawatan'
                     } else {
 
                     }
                 }
-                debugger;
+                //debugger;
                 var gasSave = {
                     // head: $scope.cc,
                     // data: arrSave,
                     temp: arrTempEdit,
                 }
-                medifirstService.post('emr/edit-catatan-keperawatan', gasSave).then(function (e) {
+                medifirstService.post('emr/edit-catatan-keperawatan', gasSave).then(function(e) {
                     // init()
                     // var arrStr = {
                     //     0: e.data.data.noemr
@@ -511,19 +567,19 @@ define(['initialize'], function (initialize) {
                     LoadData();
                 })
             }
-            $scope.cetakPdf = function () {
+            $scope.cetakPdf = function() {
                 if (norecEMR == '') return
                 var client = new HttpClient();
-                client.get('http://127.0.0.1:1237/printvb/e-rekammedis?cetak-emr-traseprimer&id=' + $scope.cc.nocm + '&emr=' + norecEMR + '&view=true', function (response) {
+                client.get('http://127.0.0.1:1237/printvb/e-rekammedis?cetak-emr-traseprimer&id=' + $scope.cc.nocm + '&emr=' + norecEMR + '&view=true', function(response) {
                     // do something with response
                 });
             }
-            $scope.TambahSoap = function (index) {
+            $scope.TambahSoap = function(index) {
 
-                var ax = $scope.data.names[index].dg
-                // $scope.data.names[index].o = ax.caption;
-                medifirstService.get("emr/get-dataaskep?noemr=" + ax.emrpasienfk + "&emrfk=" +
-                    ax.id).then(function (dat) {
+                    var ax = $scope.data.names[index].dg
+                        // $scope.data.names[index].o = ax.caption;
+                    medifirstService.get("emr/get-dataaskep?noemr=" + ax.emrpasienfk + "&emrfk=" +
+                        ax.id).then(function(dat) {
                         var p = '';
                         var data = dat.data.askep
                         for (var i = 0; i < data.length; i++) {
@@ -538,8 +594,8 @@ define(['initialize'], function (initialize) {
                         $scope.data.names[index].tkh = p;
                     })
 
-            }
-            // $scope.Tambah = function(index) {
+                }
+                // $scope.Tambah = function(index) {
 
             //     var name = { idtgl: "153", tgl: "", idjp: "154", jp: "", idhp: "155", hp: "S:\nO:\nA:\nP:", idit: "156", it: "P:", iddk: "157", dk: "", norec: "", verifikasi: "", idmenyerahkan: "158", menyerahkan: "", idmenerima: "159", menerima: "", idpk: "160", pk: "", idttd: "161", ttd: "", idtgllapor: "162", tgllapor: "", idpi: "163", pi: "", idtgljawab: "164", tgljawab: "", idinstruksi: "165", instruksi: "", ids: "851", s: "S :", ido: "852", o: "O :", ida: "853", a: "A :", idp: "854", p: "P :" };
             //     if ($scope.data.names.length <= index + 1) {
@@ -547,13 +603,13 @@ define(['initialize'], function (initialize) {
             //     }
             // }
 
-            $scope.cetakPdf = function () {
-                debugger
+            $scope.cetakPdf = function() {
+                //debugger
                 // if (nomorEMR == '') return
                 // var base64 = $scope.user.poto.substring(22);
                 // var user = medifirstService.getPegawaiLogin();
                 // var arrPush = []
-                // debugger;
+                // //debugger;
                 // for (var i = 0; i <= 150 - 1; i++) {
                 //     arrPush.push({ emrdfk: i.toString(), value: "" })
                 // }
@@ -579,22 +635,22 @@ define(['initialize'], function (initialize) {
                 var jeniskelamin = $scope.cc.jeniskelamin
                 var umur = $scope.cc.umur
                 var ruangan = $scope.cc.namaruangan
-                debugger;
+                //debugger;
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
-                    "paramKey": ["namaPasien", "noemr", "norm", "jeniskelamin", "umur", "ruangan", "noregistrasi"],
-                    "paramValue": [namapasien, $scope.noemr, norm, jeniskelamin, umur, ruangan, $scope.cc.noregistrasi],
-                    "paramType": ["", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
+                    "paramKey": ["namaPasien", "noemr", "norm", "jeniskelamin", "umur", "ruangan","noregistrasi"],
+                    "paramValue": [namapasien, $scope.noemr, norm, jeniskelamin, umur, ruangan,$scope.cc.noregistrasi],
+                    "paramType": ["", "", "", "", "", "",""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         //this.response is what you're looking for
                         // handler(this.response);
                         console.log(this.response, typeof this.response);
                         //var res = this.response
                         //var file = new Blob( [res], {type: 'application/pdf'});
-                        debugger;
+                        //debugger;
                         var url = window.URL.createObjectURL(this.response)
                         var pdf = document.getElementById('tempatLaporan');
                         pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
@@ -602,16 +658,16 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                    xhr.open('POST', 'http://192.168.0.62:1002/generic/report/catatankeperawatan.pdf');
+                if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                    xhr.open('POST', 'http://192.168.1.7:1002/generic/report/catatankeperawatan.pdf');
                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/catatankeperawatan.pdf');
-                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
-                    xhr.open('POST', '/jasper1/generic/report/catatankeperawatan.pdf');
-                } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                    xhr.open('POST', '/jasper1generic/report/catatankeperawatan.pdf');
-                } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
-                    xhr.open('POST', 'http://36.92.186.59:1002/generic/report/catatankeperawatan.pdf');
+                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                    xhr.open('POST', 'http://10.5.1.2:1002/generic/report/catatankeperawatan.pdf');
+                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                    xhr.open('POST', 'http://202.51.105.98:1002/generic/report/catatankeperawatan.pdf');
+                } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
+                    xhr.open('POST', 'http://simrs-rspusatpolri.com:1002/generic/report/catatankeperawatan.pdf');
                 } else {
                     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/catatankeperawatan.pdf');
                 }
@@ -621,6 +677,57 @@ define(['initialize'], function (initialize) {
                 xhr.responseType = 'blob';
                 // send rquest with JSON payload
                 xhr.send(JSON.stringify(data));
+            }
+
+            $scope.HapusMasalah2 = function() {
+                if ($scope.modelGrid == undefined) {
+                    toastr.error('Data Belum Dipilih', 'Peringatan !');
+                    return;
+                }
+                $scope.popUpHapus.center().open()
+            }
+            $scope.HapusMasalah = function() {
+                // debugger
+                if ($scope.modelGrid == undefined) {
+                    toastr.error('Data Belum Dipilih', 'Peringatan !');
+                    return;
+                }
+                if ($scope.item.password2 != "bener") {
+                    toastr.error('Password Salah !')
+                    return
+                }               
+                var stt = 'false'
+                if (confirm('Hapus Catatan Keperawatan ?')) {
+                    stt = 'true';
+                } else {
+                    stt = 'false'
+                    $scope.popUpHapus.close()
+                    $scope.item.password2 = undefined
+                }
+                if (stt == 'true') {
+                var objSave = {
+                    "norec": $scope.modelGrid.norec,
+                    "status": false
+                }
+                medifirstService.post('emr/hapus-cpt', objSave).then(function (e) {
+                    if (e.data.status === 201) {
+                        let jsonLog = {
+                            'jenislog': "Delete Catatan Keperawatan",
+                            'referensi': 'noregistrasi',
+                            'noreff': $scope.cc.noregistrasi,
+                            'keterangan': 'Delete Catatan Keperawatan ' + 'Alasan : ' + $scope.item.alasanHapus + ' pada No Registrasi '
+                            + $scope.cc.noregistrasi,
+                            'data': [],
+                            'jenisemr': 'Catatan Keperawatan',
+                            'emrfk': $scope.cc.emrfk
+                        }
+                        medifirstService.postLoggingEMR(jsonLog).then(function(e) {
+                            $scope.popUpHapus.close()
+                            init();
+                        })
+                    }
+                })
+                }
             }
         }
     ])

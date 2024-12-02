@@ -25,6 +25,7 @@ define(['initialize'], function (initialize) {
 
             var jenisPelayananId = ''
             var namaRuanganFk = ''
+            var namaRuangan = ''
             LoadCacheHelper();
             function LoadCacheHelper() {
                 var chacePeriode = cacheHelper.get('TransaksiPelayananLaboratoriumDokterRevCtrl');
@@ -70,7 +71,6 @@ define(['initialize'], function (initialize) {
                     })
                     //** */
                 }
-
             }
             var urlHasilVansLab = ''
             medifirstService.get('sysadmin/settingdatafixed/get/urlHasilVansLab').then(function (dat) {
@@ -350,6 +350,18 @@ define(['initialize'], function (initialize) {
                 selectable: false,
                 pageable: true,
                 columns: [{
+                        "title": "",
+                        template: "# if (statCheckbox) { #" +
+                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' checked />" +
+                            "# } else { #" +
+                            "<input type='checkbox' class='checkbox' ng-click='selectRow(dataItem)' />" +
+                            "# } #",
+                        width: "30px",
+                        // attributes: {
+                        //     // class: "#=statusperiksa != '✔' ? 'red' : 'hejo' #"
+                        // },
+                    },
+                    {
                         "field": "no",
                         "title": "No",
                         "width": "30px",
@@ -636,6 +648,139 @@ define(['initialize'], function (initialize) {
                 //     "width": "70px",
                 // }
             ];
+            // key 24-11-2023
+            $scope.selectRow = function (dataItem) {
+                var dataSelect = _.find($scope.dataGridLab._data, function (data) {
+                    // aaa = {
+                    //         'produkfk' : dataItem.produkfk
+                    // }
+                    // return data.produkfk == dataItem.produkfk;
+                    return data.norec_pp == dataItem.norec_pp;
+                });
+
+                if (dataSelect.statCheckbox) {
+                    dataSelect.statCheckbox = false;
+                } else {
+                    dataSelect.statCheckbox = true;
+                }
+
+                $scope.tempCheckbox = dataSelect.statCheckbox;
+
+                reloadDataGrid($scope.dataGridLab._data);
+            }
+            var isCheckAll = false
+            $scope.selectUnselectAllRow = function () {
+                
+                var tempData = $scope.dataGridLab._data;
+
+                if (isCheckAll) {
+                    isCheckAll = false;
+                    for (var i = 0; i < tempData.length; i++) {
+                        tempData[i].statCheckbox = false;
+                    }
+                } else {
+                    isCheckAll = true;
+                    for (var i = 0; i < tempData.length; i++) {
+                        tempData[i].statCheckbox = true;
+                    }
+                }
+
+                reloadDataGrid(tempData);
+            }
+            // key 25-11-2023
+            $scope.hasilLab = function () {
+                var user = medifirstService.getPegawaiLogin();
+                var daftarCetak = [];
+                var daftarSimpan = [];
+                var produkfk = [];
+                if ($scope.dataSelected == undefined) {
+                    alert('Klik Grid Yang Dipilih');
+                    return;
+                }
+                
+                for (var i = 0; i < $scope.dataGridLab._data.length; i++) {
+                    if ($scope.dataGridLab._data[i].statCheckbox) {
+                        // daftarCetak.push($scope.dataGridLab._data[i].norec_pp)
+                        daftarCetak.push({
+                            "norec_pp": $scope.dataGridLab._data[i].norec_pp,
+                            "tglPelayanan": $scope.dataGridLab._data[i].tglpelayanan,
+                            "produkfk": $scope.dataGridLab._data[i].produkfk,
+                        })
+                    }
+                }
+                for (var i = 0; i < $scope.dataGridLab._data.length; i++) {
+                    if ($scope.dataGridLab._data[i].statCheckbox) {
+                        // daftarCetak.push($scope.dataGridLab._data[i].norec_pp)
+                        daftarSimpan.push({
+                            "norec_pp": $scope.dataGridLab._data[i].norec_pp,
+                        })
+                    }
+                }
+                var dataCetakFix = '';
+                var result = ''
+                for (let i = 0; i < daftarCetak.length; i++) {
+                    const element = daftarCetak[i];
+                    if (daftarCetak.length == 1) {
+                        dataCetakFix = "'" + element.norec_pp + "'"
+                    } else if (daftarCetak.length == i + 1) {
+                        dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ""
+                    } else {
+                        dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ","
+                    }
+
+                }
+
+                if (daftarCetak.length == 0) {
+                    toastr.error('Ceklis data yang mau di cetak')
+                    return
+                }
+
+                if (norec_apd != null) {
+                    var dokterP = "";
+                    var idDokterP = "";
+                    if ($scope.dataSelected != undefined) {
+                        dokterP = $scope.dataSelected.dokter;
+                        idDokterP = $scope.dataSelected.dokterid;
+
+                    }
+                    var arrStr = {
+                        0: $scope.item.noMr,
+                        1: $scope.item.namaPasien,
+                        2: $scope.item.jenisKelamin,
+                        3: $scope.item.noregistrasi,
+                        4: $scope.item.umur,
+                        5: $scope.item.kelompokPasien,
+                        6: $scope.item.tglRegistrasi,
+                        7: norec_apd,
+                        8: norec_pd,
+                        9: $scope.item.kelas.id,
+                        10: $scope.item.kelas.namakelas,
+                        11: namaRuanganFk,
+                        12: namaRuangan,
+                        13: $scope.item.tgllahir,
+                        14: $scope.item.objectjeniskelaminfk,
+                        15: dataCetakFix,
+                        // 16: $scope.dataGridLab._data[i].tglpelayanan ,
+                        17: dokterP,
+                        16: idDokterP,
+                        18: daftarSimpan,
+                        19: daftarCetak,
+                        20: $scope.dataSelected.NamaAnalisLab
+
+                    }
+                    cacheHelper.set('chaceHasilLab2', arrStr);
+
+                    
+                    $state.go('HasilLaboratoriumRev', {
+                        norecPd: norec_pd,
+                        norecApd: norec_apd,
+                        norecPP: dataCetakFix,
+                        pforukfk: daftarCetak
+
+                    })
+                }
+
+            }
             $scope.detailGridOptions = function (dataItem) {
                 return {
                     dataSource: new kendo.data.DataSource({
@@ -967,7 +1112,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "tglpengambilan", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                        "paramValue": ["RUMAH SAKIT MEDIKA DJAYA", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jalan Parit Haji Husin 1 Blok MD No. 1 Telp: 0561- 5688558", user.namaLengkap,
+                        "paramValue": ["RS BHAYANGKARA TK. II SARTIKA ASIH BANDUNG", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap,
                             x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, tglpelayanan, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
                         ],
                         "paramType": ["", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -985,7 +1130,7 @@ define(['initialize'], function (initialize) {
                         }
                     }
                     if (window.location.hostname.indexOf('localhost') > -1) {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
+                        xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     } else  {
                         xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
                     }  

@@ -4,6 +4,15 @@
         border-spacing: 0;
         border-color: #aabcfe;
     }
+    fieldset
+    {
+    border-radius:
+    5px;
+    border:
+    1px
+    solid
+    #228be6;
+    }
 
     .tg td {
         font-family: Arial, sans-serif;
@@ -160,16 +169,25 @@
             <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1240]"
                 style="height: 100px;" placeholder="" />
         </div>
-        <div class="grid_6">
+        <div class="grid_12">
             <div class="grid_12" style="margin-top: 15px;">
-                <label c-label item="item"><b>RIWAYAT PENYAKIT DAHULU DAN ALERGI (tanggal/tahun)</b></label>
+                <label c-label item="item"><b>RIWAYAT PENYAKIT DAHULU (tanggal/tahun)</b></label>
             </div>
             <div class="grid_12">
                 <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1241]"
                     style="height: 100px;" placeholder="" />
             </div>
         </div>
-        <div class="grid_6">
+        <div class="grid_12">
+            <div class="grid_12" style="margin-top: 15px;">
+                <label c-label item="item"><b>ALERGI</b></label>
+            </div>
+            <div class="grid_12">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[2586]"
+                    style="height: 100px;" placeholder="" />
+            </div>
+        </div>
+        <div class="grid_12">
             <div class="grid_12" style="margin-top: 15px;">
                 <label c-label item="item"><b>RIWAYAT PENGOBATAN</b></label>
             </div>
@@ -204,7 +222,41 @@
                 </div>
             </div>
             <div class="grid_12">
-                <div class="grid_3" style="margin-top: 15px;"><b>TEKANAN DARAJ</b></div>
+                <div class="grid_9">
+                    <div class="grid_2" style="margin-top:12px; margin-left:13%; margin-right: -13%;">
+                        <label c-label item="item" required>E</label>
+                    </div>
+                    <div class="grid_2">
+                        <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 4'"
+                            k-ng-model="item.obj[2241]" k-data-text-field="'text'"
+                            k-filter="'contains'" k-data-value-field="'value'"
+                            k-data-source="listGcsE" />
+                            
+                    </div>
+                    <div class="grid_2" style="margin-top:12px;margin-left:13%; margin-right: -13%;">
+                        <label c-label item="item" required>M</label>
+                    </div>
+                    <div class="grid_2">
+                        <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 6'"
+                            k-ng-model="item.obj[2242]" k-data-text-field="'text'"
+                            k-filter="'contains'" k-data-value-field="'value'"
+                            k-data-source="listGcsM" />
+                            
+                    </div>
+                    <div class="grid_2" style="margin-top:12px;margin-left:13%; margin-right: -13%;">
+                        <label c-label item="item" required>V</label>
+                    </div>
+                    <div class="grid_2">
+                        <input required style="width: 100%;" kendo-combo-box placeholder="'1 - 5'"
+                            k-ng-model="item.obj[2243]" k-data-text-field="'text'"
+                            k-filter="'contains'" k-data-value-field="'value'"
+                            k-data-source="listGcsV" />
+                            
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_3" style="margin-top: 15px;"><b>TEKANAN DARAH</b></div>
                 <div class="grid_6">
                     <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[1169]" />
                     <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">mmHg</label>
@@ -236,7 +288,7 @@
             <div class="grid_12">
                 <div class="grid_3" style="margin-top: 15px;"><b>KEADAAN UMUM</b></div>
                 <div class="grid_6" style="margin-top: 10px;">
-                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1258]" k-data-text-field="'text'"
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[3124]" k-data-text-field="'text'"
                         k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
                         k-data-source="listKeadaanUmum" />
                     <!-- <div ng-repeat="stat in listKeadaanUmum  | orderBy:'id'">
@@ -277,6 +329,152 @@
             <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1246]"
                 style="height: 100px;" placeholder="" />
         </div>
+        <!-- <div class="grid_6">
+            <fieldset style="margin-top: 10px;    height: 200;">
+                <legend>
+                    <b>DRAWING PARU-PARU</b>
+                </legend>
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    <div class="grid_12">
+                        <div id="surface-container" style="background-image:url({{user.poto}}); height: 350px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                            <div class="surface" style="background-image:url({{user.poto}}); height: 350px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <div class="grid_4">
+                                    <button class='k-button clear'>Clear drawing</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var geom = kendo.geometry;
+                            var Point = geom.Point;
+                            var draw = kendo.drawing;
+                            var Path = draw.Path;
+                            var path;
+
+                            $("#surface-container").on("mousemove", function(e) {
+                                if (!path) {
+                                    return;
+                                }
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                path.lineTo(newPoint);
+                            }).on("mousedown", function(e) {
+                                path = new Path({
+                                    stroke: {
+                                        color: 'red',
+                                        width: 2,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                });
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                for (var i = 0; i < 1; i++) {
+                                    path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                }
+
+                                surface.draw(path);
+                            }).on("mouseup", function(e) {
+                                path = undefined;
+                            });
+
+                            var surface = draw.Surface.create($(".surface"));
+                            // 
+
+
+                            $(".clear").click(function() {
+                                surface.clear();
+                            });
+                        </script>
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="padding: 5pt 10pt">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[2319]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+                </div>
+            </fieldset>
+        </div> -->
+        <!-- <fieldset style="margin-top: 10px;    height: 200;">
+        <div class="grid_12" style="margin-top: 5px;">
+            <div class="grid_12">
+                <div id="surface-container" style="background-image:url({{user.poto}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                    <div class="surface" style="background-image:url({{user.poto}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                </div>
+
+                <div class="grid_6">
+                    <div class="grid_12">
+                        <div class="grid_4">
+                            <button class='k-button clear'>Clear drawing</button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <script>
+                    var geom = kendo.geometry;
+                    var Point = geom.Point;
+                    var draw = kendo.drawing;
+                    var Path = draw.Path;
+                    var path;
+
+                    $("#surface-container").on("mousemove", function(e) {
+                        if (!path) {
+                            return;
+                        }
+
+                        var offset = $(this).offset();
+                        var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                        path.lineTo(newPoint);
+                    }).on("mousedown", function(e) {
+                        path = new Path({
+                            stroke: {
+                                color: 'red',
+                                width: 2,
+                                lineCap: "round",
+                                lineJoin: "round"
+                            }
+                        });
+
+                        var offset = $(this).offset();
+                        var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                        for (var i = 0; i < 1; i++) {
+                            path.lineTo(newPoint.clone().translate(i * 1, 0));
+                        }
+
+                        surface.draw(path);
+                    }).on("mouseup", function(e) {
+                        path = undefined;
+                    });
+
+                    var surface = draw.Surface.create($(".surface"));
+                    // 
+
+
+                    $(".clear").click(function() {
+                        surface.clear();
+                    });
+                </script>
+            </div>
+            
+            <div class="grid_12" style="padding: 5pt 10pt">
+                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1272]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+            </div>
+        </fieldset> -->
+
+        </div>
         <div class="grid_12" style="margin-top: 15px;"><b>PARU (inspeksi, paipasi, perkusi, auskultasi)</b></div>
         <div class="grid_12">
             <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1247]"
@@ -301,6 +499,14 @@
         <div class="grid_12">
             <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1251]"
                 style="height: 100px;" placeholder="" />
+        </div>
+        <div style="margin-bottom: 15px; margin-top: 10px;" class="panel panel-default container_12">
+            <div class="panel-heading" c-translate>PEMERIKSAAN PENUNJANG</div>
+        </div>
+        <div class="grid_12" style="margin-top: 15px;"><b>HASIL LABORATORIUM RUTIN (ditulis lengkap), Pemeriksaan Penunjang Lain, Misal : Rontgen, EKG, dll (Kesimpulan Saja)</b></div>
+        <div class="grid_12">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[2217]"
+                style="height: 100px;" placeholder="Masukkan Hasil Pemeriksaan Penunjang" />
         </div>
         <div style="margin-bottom: 15px; margin-top: 10px;" class="panel panel-default container_12">
             <div class="panel-heading" c-translate>DAFTAR MASALAH / DIAGNOSIS</div>

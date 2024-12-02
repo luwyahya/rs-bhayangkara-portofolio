@@ -145,6 +145,10 @@
                 </button>
             </div>
             <div class="grid_2">
+                <button class="btnTemplate1" ng-click="HapusMasalah2()"><i class="fa fa-edit"></i>Hapus
+                </button>
+            </div>
+            <div class="grid_2">
                 <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-edit"></i>Kembali
                 </button>
             </div>
@@ -153,7 +157,7 @@
                 </button>
             </div> -->
             <div class="grid_2">
-                <button class="btnTemplate1" ng-click="cetakPdf()"><i class="fa fa-print"></i>Cetak Jasper
+                <button class="btnTemplate1" ng-click="cetakPdf()"><i class="fa fa-print"></i>Cetak
                 </button>
             </div>
             <!-- <div class="grid_2">
@@ -254,4 +258,27 @@
         </div>
     </div>
 </div>
+<div kendo-window="popUpHapus" k-title="'Hapus Catatan Keperawatan'" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Alasan Hapus</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.alasanHapus" />
+            </div>
+            <div class="grid_12">
+                <label c-label item="item ">Password</label>
+            </div>
+            <div class="grid_12">
+                <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password2" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4" style="margin-top: 5px">
+                <button class="btnTemplate1" style="margin-left: 200%;" ng-click="HapusMasalah()"> Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>

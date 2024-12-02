@@ -1,0 +1,843 @@
+<style>
+    .manchester {
+        color: #ff3d3d;
+    }
+    .table {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    .td {
+        border: 2px solid black;
+    }
+    
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>LAPORAN ANESTESI SEDASI</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">TANGGAL</label>
+            </div>
+            <div class="grid_7"> 
+                <input style="width: 100%" k-ng-model="item.obj[6421]" kendo-datetimepicker placeholer="yyyy-MM-dd"
+                    k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+            </div>
+        </div>        
+       
+    </div>
+    <div class="grid_6">
+        <div class="grid_2"  style="margin-top: 12px;">
+            <label c-label item="item">DIAGNOSA</label>
+        </div>
+        <div class="grid_7">
+            <input c-text-box type="text" filter="'char'" class="k-textbox" ng-model="item.obj[6422]" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">Jam Mulai Anestesi Sedasi</label>
+            </div>
+            <div class="grid_7"> 
+                <input style="width: 100%" k-ng-model="item.obj[6423]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_3">
+                <div class="grid_12" style="margin-top:10px">
+                    <label c-label item="item" required>1. Tindakan:</label>
+                </div>
+            </div>           
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6424]"
+                    id="item.obj[6424]">
+                <label class="c-label k-checkbox-label" for="item.obj[6424]" required>MRI</label>
+            </div>
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6425]"
+                    id="item.obj[6425]">
+                <label class="c-label k-checkbox-label" for="item.obj[6425]" required>CT-SCAN</label>
+            </div>         
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6426]"
+                    id="item.obj[6426]">
+                <label class="c-label k-checkbox-label" for="item.obj[6426]" required>ENDOSCOPY</label>
+            </div>         
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6427]"
+                    id="item.obj[6427]">
+                <label class="c-label k-checkbox-label" for="item.obj[6427]" required>BRONCOSCPY</label>
+            </div>         
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6428]"
+                    id="item.obj[6428]">
+                <label class="c-label k-checkbox-label" for="item.obj[6428]" required>KONTRAS</label>
+            </div>         
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6429]"
+                    id="item.obj[6429]">
+                <label class="c-label k-checkbox-label" for="item.obj[6429]" required>NON-KONTRAS</label>
+            </div>         
+            <div class="grid_2" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[6430]"
+                    id="item.obj[6430]">
+                <label class="c-label k-checkbox-label" for="item.obj[6430]" required>Lainnya</label>
+            </div> 
+            <div class="grid_5"style="margin-left:-80px; margin-top:15px;"  ng-show="edukasilainnya">
+                <input required c-text-box type="input" class="k-textbox"
+                ng-model="item.obj[6431]" />
+            </div>        
+        </div>
+       
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">Jenis Anestesi Sedasi</label>
+            </div>
+            <div class="grid_7">
+                <input kendo-combo-box
+                    k-ng-model="item.obj[6432]"
+                    k-data-text-field="'text'" k-data-value-field="'value'"
+                    k-filter="'contains'" k-auto-bind="false" k-data-source="listAnastesi" />
+            </div>
+        </div>
+    </div> 
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">Dokter Anestesi</label>
+            </div>
+            <div class="grid_7">
+                <input kendo-combo-box
+                    k-ng-model="item.obj[6433]"
+                    k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                    k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter" />
+            </div>
+        </div>
+    </div>   
+    <div class="grid_12">
+        <div class="grid_6">
+            <div class="grid_2"  style="margin-top: 12px;">
+                <label c-label item="item">Perawat Anestesi</label>
+            </div>
+            <div class="grid_7">
+                <input kendo-combo-box
+                    k-ng-model="item.obj[6434]"
+                    k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                    k-filter="'contains'" k-auto-bind="false" k-data-source="listPerawatSaja" />
+            </div>
+        </div>
+    </div>   
+   
+<hr>
+
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width:5%; font-weight: bold; text-align: left; background-color: rgb(147, 147, 241); color: black; font-size: 21px; height: 50px;">
+                        Jam Pengisian
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6435]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6436]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6437]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6438]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6439]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6440]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6441]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6442]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                    <td style="background-color: rgb(147, 147, 241);">
+                        <input style="width: 100%" k-ng-model="item.obj[6443]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                       Suhu
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6444]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6445]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6446]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6447]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6448]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6449]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6450]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6451]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6452]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                        Nadi
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6453]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6454]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6455]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6456]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6457]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6458]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6459]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6460]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6461]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                       Tensi Sistole
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6462]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6463]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6464]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6465]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6466]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6467]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6468]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6469]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6470]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                        Tensi Distole
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6471]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6472]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6473]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6474]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6475]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6476]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6477]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6478]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6479]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                        RR
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6480]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6481]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6482]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6483]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6484]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6485]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6486]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6487]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6488]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                       SUHU
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6489]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6490]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6491]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6492]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6493]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6494]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6495]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6496]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6497]"
+                            />
+                    </td>
+                </tr>
+                <tr>
+                    <td
+                        style="width:20%;font-weight: bold;text-align: left;background-color: rgb(255, 255, 255);color: black;font-size: 21px;">
+                        SPO2
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6498]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6499]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6500]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6501]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6502]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6503]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6504]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6505]"
+                            />
+                    </td>
+                    <td>
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6506]"
+                            />
+                    </td>
+                </tr>
+            </table>
+            
+            <hr>
+            <div class="grid_12" style="margin-top:10px"> 
+                <h2 style="float: left;"><b>5. Medikasi</b></h3>
+            </div>
+            <table style="width: 100%;">
+                <tr>
+                    <th
+                        style="width:4%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       Jam Pemberian
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       Nama Obat
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        Dosis Obat
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                       Rute Obat
+                    </th>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6507]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6508]"
+                                placeholder="Masukkan Nama Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6509]"
+                                placeholder="Masukkan Dosis Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6510]"
+                                    placeholder="Rute Obat" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6511]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6512]"
+                                placeholder="Masukkan Nama Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6513]"
+                                placeholder="Masukkan Dosis Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6514]"
+                                    placeholder="Rute Obat" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6515]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6516]"
+                                placeholder="Masukkan Nama Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6517]"
+                                placeholder="Masukkan Dosis Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6518]"
+                                    placeholder="Rute Obat" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6519]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6520]"
+                                placeholder="Masukkan Nama Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6521]"
+                                placeholder="Masukkan Dosis Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6522]"
+                                    placeholder="Rute Obat" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6523]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                        
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6524]"
+                                placeholder="Masukkan Nama Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6525]"
+                                placeholder="Masukkan Dosis Obat" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <div class="grid_12">
+                                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6526]"
+                                    placeholder="Rute Obat" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </table>
+            <hr>
+            <div class="grid_12" style="margin-top:10px"> 
+                <h2 style="float: left;"><b>6. Pemberian Cairan</b></h3>
+        </div>
+            <table style="width: 100%;">
+                <tr>
+                    <th
+                        style="width:4%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        Jam Pemberian
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        Nama Cairan
+                    </th>
+                    <th
+                        style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: yellow;color: black;font-size: 21px;">
+                        Jumlah Cairan
+                    </th>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6527]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6528]"
+                                placeholder="Masukkan Nama Cairan" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6529]"
+                                placeholder="Masukkan Jumlah Cairan ..... Cc" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6530]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6531]"
+                                placeholder="Masukkan Nama Cairan" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6532]"
+                                placeholder="Masukkan Jumlah Cairan ..... Cc" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6533]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6534]"
+                                placeholder="Masukkan Nama Cairan" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6535]"
+                                placeholder="Masukkan Jumlah Cairan ..... Cc" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6536]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6537]"
+                                placeholder="Masukkan Nama Cairan" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6538]"
+                                placeholder="Masukkan Jumlah Cairan ..... Cc" />
+                        </div>
+                    </td>
+                </tr>
+                <tr style="background-color: white;">
+                    <td>
+                        <div class="grid_12">
+                            <input style="width: 100%" k-ng-model="item.obj[6539]" kendo-timepicker placeholer="HH:mm"
+                        k-format="'HH:mm'" parsedate="HH:mm"/>
+                    </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6540]"
+                                placeholder="Masukkan Nama Cairan" />
+                        </div>
+                    </td>
+                    <td>
+                        <div class="grid_12">
+                            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[6541]"
+                                placeholder="Masukkan Jumlah Cairan ..... Cc" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="grid_3">
+                        <div class="grid_12" style="margin-top:10px"> 
+                                <h2 style="float: left;"><b>7. AirWay</b></h3>
+                        </div>
+                    </div>           
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[6542]"
+                            id="item.obj[6542]">
+                        <label class="c-label k-checkbox-label" for="item.obj[6542]" required>02</label>
+                    </div>
+                    <div class="grid_2" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[6543]"
+                            id="item.obj[6543]">
+                        <label class="c-label k-checkbox-label" for="item.obj[6543]" required>Face Mask</label>
+                    </div>         
+                    <div class="grid_2" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[6544]"
+                            id="item.obj[6544]">
+                        <label class="c-label k-checkbox-label" for="item.obj[6544]" required>ETT</label>
+                    </div>         
+                        
+                </div>
+               
+            </div>
+
+            <hr>
+            <br>
+            <div class="grid_12">
+                <h2 style="float: left;"><b>8. Masalah Intra Anestesi Sedasi</b></h3>
+            </div>
+            
+            <div class="grid_12">
+                <div class="grid_6">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[6545]"
+                       style="height: 70px; width: 100%; " />
+                </div>
+            </div>
+            <hr>
+            <div class="grid_12">
+                <h2 style="float: left;"><b>9. Durasi Anestesi Sedasi</b></h3>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <input style="width: 100%" k-ng-model="item.obj[6546]" kendo-timepicker placeholer="HH:mm"
+                    k-format="'HH:mm'" parsedate="HH:mm"/>  
+                </div>
+            </div>
+         
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"> </div>
+            <div class="grid_6">
+                <div class="grid_2"  style="margin-top: 12px;">
+                    <label c-label item="item">Tanda Tangan Dokter Anestesi</label>
+                </div>
+                <div class="grid_7">
+                    <input kendo-combo-box
+                        k-ng-model="item.obj[6547]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                        k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter" />
+                </div>
+            </div>
+        </div>  
+    <div class="grid_12">
+        <div ng-include='"../app/module/EMR/TemplateButtonEMRNew" '></div>
+    </div>
+</div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

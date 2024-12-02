@@ -436,7 +436,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "norm", "umur", "jeniskelamin", "namapasien", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -459,15 +459,15 @@ define(['initialize'], function (initialize) {
                 //     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/evaluasiigd.pdf');
                 // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                 //     xhr.open('POST', 'http://192.168.88.56:8797/generic/report/evaluasiigd.pdf');
-                // } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                // } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                 //     xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 // } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                 //     xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 // } else {
-                //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/evaluasiigd.pdf');
+                //     xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 // }
                 if (window.location.hostname.indexOf('localhost') > -1) {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/evaluasiigd.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 } else {
                     xhr.open('POST', '/jasper1/generic/report/evaluasiigd.pdf');
                 }
@@ -503,7 +503,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -529,7 +529,7 @@ define(['initialize'], function (initialize) {
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:8797/generic/report/emrigd2.pdf');
                 } else {
-                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/emrigd2.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/emrigd2.pdf');
                 }
                 // set `Content-Type` header
                 xhr.setRequestHeader('Content-Type', 'application/json');

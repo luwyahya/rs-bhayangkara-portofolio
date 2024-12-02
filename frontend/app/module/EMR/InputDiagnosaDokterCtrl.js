@@ -16,7 +16,18 @@ define(['initialize'], function (initialize) {
             $scope.item.kasusbaru = true
             $scope.item.kasuslama = false
 
+            var responData = "";
+            $scope.hasilgrouping = false
+            $scope.tarifrs = ''
+            $scope.biayanaikkelas = ''
+            $scope.tarifinacbg = ''
+            var noreg = ''
+            $scope.formatRupiah = function (value, currency) {
+                return currency + " " + parseFloat(value).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+            }
+
             LoadCache();
+            getdatagrouping();
             function LoadCache() {
                 LoadCombo();
                 var chacePeriode = cacheHelper.get('CacheInputDiagnosaDokter');
@@ -578,6 +589,7 @@ define(['initialize'], function (initialize) {
                 }
                 validasiIcd10();
                 console.log(JSON.stringify($scope.objSave));
+                $scope.groupingMasal();
                 medifirstService.post('emr/save-diagnosa-pasien', $scope.objSave).then(function (e) {
 
                     $scope.savePeriksaDokter()
@@ -680,7 +692,308 @@ define(['initialize'], function (initialize) {
                 cacheHelper.set('cacheCPPT', arrStr);
                 $state.go('CPPT')
             }
+            function getdatagrouping() {
+                var reg = $scope.item.noregistrasi
+                medifirstService.get("bridging/inacbg/get-daftar-informasi-tanggungan?noreg=" +  $scope.item.noregistrasi + "&kelId=2" 
+				).then(function (data) { 
+					$scope.isRouteLoading = false;
+					$scope.datagroup = data.data[0] 
+                    $scope.hasilgrouping = true 
+                    $scope.tarifrs = $scope.formatRupiah($scope.datagroup.totaltagihan, 'Rp.')
+                    $scope.biayanaikkelas = $scope.datagroup.biayanaikkelas == null ? $scope.formatRupiah(0, 'Rp.') :  $scope.formatRupiah($scope.datagroup.biayanaikkelas, 'Rp.');
+                    $scope.tarifinacbg = $scope.datagroup.totalpiutangpenjamin == null ? $scope.formatRupiah(0, 'Rp.'): $scope.formatRupiah($scope.datagroup.totalpiutangpenjamin, 'Rp.');
+                    var diff = Math.abs(new Date() - new Date($scope.datagroup.tglregistrasi))
+                    var lamadirawat = Math.ceil(diff / 1000 / 60 / 60 / 24) + ' hari'
+                    $scope.datagroup.lamadirawat = lamadirawat 
+                    var jenis_rawat = 1 //ranap
+                    if ($scope.datagroup.deptid != 16) {
+                        jenis_rawat = 2
+                    }
+                    var upgrade_class_ind = 0
+                    var upgrade_class_class = ''
+                    var add_payment_pct = 0
+                    if ($scope.datagroup.nokelasdijamin > $scope.datagroup.nokelasdaftar) {
+                        upgrade_class_ind = 1
+                        upgrade_class_class = $scope.datagroup.namakelasdaftar
+                        add_payment_pct = 0
+                    } 
+                    var discharge_status = 0
+                    if ($scope.datagroup.objectstatuspulangfk == 1 || $scope.datagroup.objectstatuspulangfk == 6) {
+                        discharge_status = 1
+                    } else if ($scope.datagroup.objectstatuspulangfk == 4 || $scope.datagroup.objectstatuspulangfk == 5 || $scope.datagroup.objectstatuspulangfk == 10 ||
+                        $scope.datagroup.objectstatuspulangfk == 11) {
+                        discharge_status = 2
+                    } else if ($scope.datagroup.objectstatuspulangfk == 2 || $scope.datagroup.objectstatuspulangfk == 8 || $scope.datagroup.objectstatuspulangfk == 3) {
+                        discharge_status = 3
+                    } else if ($scope.datagroup.objectstatuspulangfk == 9) {
+                        discharge_status = 4
+                    } else {
+                        discharge_status = 5
+                    }
+                    if (jenis_rawat == 2) {
+                        $scope.datagroup.nokelasdijamin = ''
+                    }
+                    $scope.datagroup = {
+                        "nomor_sep": $scope.datagroup.nosep,    //"0901R001TEST0001",    
+                        "nomor_kartu": $scope.datagroup.nokepesertaan,    //"233333",    
+                        "tgl_masuk": $scope.datagroup.tglregistrasi,    //"2017-11-20 12:55:00",    
+                        "tgl_pulang": moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),//$scope.datagroup.tglpulang,    //"2017-12-01 09:55:00",    
+                        "jenis_rawat": jenis_rawat,    //"1",    
+                        "kelas_rawat": $scope.datagroup.nokelasdijamin,    //"1",    
+                        "adl_sub_acute": '',    //"15",    
+                        "adl_chronic": '',    //"12",    
+                        "icu_indikator": '',    //"1",    
+                        "icu_los": '',    //"2",    
+                        "ventilator_hour": '',    //"5",    
+                        "upgrade_class_ind": upgrade_class_ind,    //"1",    
+                        "upgrade_class_class": upgrade_class_class,    //"vip",    
+                        "upgrade_class_los": '',    //"5",    
+                        "add_payment_pct": '',    //"35",    
+                        "birth_weight": '',    //"0",    
+                        "discharge_status": discharge_status,    //"1",    
+                        "diagnosa": $scope.datagroup.icd10,    //"S71.0#A00.1",    
+                        "procedure": $scope.datagroup.icd9,    //"81.52#88.38",    
+                        "tarif_rs": {
+                            "prosedur_non_bedah": $scope.datagroup.tarif_rs.prosedur_non_bedah,    //"300000",      
+                            "prosedur_bedah": $scope.datagroup.tarif_rs.prosedur_bedah,    //"20000000",      
+                            "konsultasi": $scope.datagroup.tarif_rs.konsultasi,    //"300000",      
+                            "tenaga_ahli": $scope.datagroup.tarif_rs.tenaga_ahli,    //"200000",      
+                            "keperawatan": $scope.datagroup.tarif_rs.keperawatan,    // "80000",      
+                            "penunjang": $scope.datagroup.tarif_rs.penunjang,    //"1000000",      
+                            "radiologi": $scope.datagroup.tarif_rs.radiologi,    //"500000",      
+                            "laboratorium": $scope.datagroup.tarif_rs.laboratorium,    //"600000",      
+                            "pelayanan_darah": $scope.datagroup.tarif_rs.pelayanan_darah,    //"150000",      
+                            "rehabilitasi": $scope.datagroup.tarif_rs.rehabilitasi,    //"100000",      
+                            "kamar": $scope.datagroup.tarif_rs.kamar,    //"6000000",      
+                            "rawat_intensif": $scope.datagroup.tarif_rs.rawat_intensif,    //"2500000",      
+                            "obat": $scope.datagroup.tarif_rs.obat,    //"2000000",      
+                            "obat_kronis": $scope.datagroup.tarif_rs.obat_kronis,    //"2000000",      
+                            "obat_kemoterapi": $scope.datagroup.tarif_rs.obat_kemoterapi,    //"2000000",      
+                            "alkes": $scope.datagroup.tarif_rs.alkes,    //"500000",      
+                            "bmhp": $scope.datagroup.tarif_rs.bmhp,    //"400000",      
+                            "sewa_alat": $scope.datagroup.tarif_rs.sewa_alat,    //"210000"    
+                        },
+                        "tarif_poli_eks": 0,    //"100000",    
+                        "nama_dokter": $scope.datagroup.namadokter,    //"RUDY, DR //"AP",    
+                        "payor_id": '3',    //"3",    ",    
+                        "kode_tarif": $scope.datagroup.kodetarif,    //'RSAB',   
+                        "payor_cd": 'JKN',    //"JKN",    
+                        "cob_cd": '#',    //"0001",    
+                        "coder_nik": $scope.datagroup.codernik,    //"123123123123"  
+                        "nomor_rm": $scope.datagroup.nocm,    //"123-45-28",
+                        "nama_pasien": $scope.datagroup.namapasien,    //"Efan Andrian",
+                        "tgl_lahir": $scope.datagroup.tgllahir,    //"1985-01-01 02:00:00",
+                        "gender": $scope.datagroup.objectjeniskelaminfk,    //"2"
+                        "norec_pd": $scope.datagroup.norec
+                    }
+                       
+                   
+                 
+					 
+                })
+            }
+            $scope.groupingMasal = function () {
+				$scope.isRouteLoading = true;
+				 
 
+				var dt1 = {}
+				var dt2 = []
+			 
+					dt1 = {
+						"metadata": {
+							"method": "new_claim"
+						},
+						"data": {
+							"nomor_kartu": $scope.datagroup.nomor_kartu,
+							"nomor_sep": $scope.datagroup.nomor_sep,
+							"nomor_rm": $scope.datagroup.nomor_rm,
+							"nama_pasien": $scope.datagroup.nama_pasien,
+							"tgl_lahir": $scope.datagroup.tgl_lahir,
+							"gender": $scope.datagroup.gender
+						}
+					}
+					dt2.push(dt1)
+			 
+
+				var objData = {
+					"data": dt2
+				}
+				// medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function(e)
+				medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+					// LoadData();
+					var dt1 = {}
+					var dt2 = []
+			 
+
+						dt1 = {
+							"metadata": {
+								"method": "set_claim_data",
+								"nomor_sep": $scope.datagroup.nomor_sep
+							},
+							"data": {
+								"nomor_sep": $scope.datagroup.nomor_sep,    //"0901R001TEST0001",    
+								"nomor_kartu": $scope.datagroup.nomor_kartu,    //"233333",    
+								"tgl_masuk": $scope.datagroup.tgl_masuk,    //"2017-11-20 12:55:00",    
+								"tgl_pulang": $scope.datagroup.tgl_pulang,    //"2017-12-01 09:55:00",    
+								"jenis_rawat": $scope.datagroup.jenis_rawat,    //"1",    
+								"kelas_rawat": $scope.datagroup.kelas_rawat,    //ini adalah kelas tanggungan BPJS   
+								"adl_sub_acute": $scope.datagroup.adl_sub_acute,    //"15",    
+								"adl_chronic": $scope.datagroup.adl_chronic,    //"12",    
+								"icu_indikator": $scope.datagroup.icu_indikator,    //"1",    
+								"icu_los": $scope.datagroup.icu_los,    //"2",    
+								"ventilator_hour": $scope.datagroup.ventilator_hour,    //"5",    
+								"upgrade_class_ind": $scope.datagroup.upgrade_class_ind,    //"1",    
+								"upgrade_class_class": $scope.datagroup.upgrade_class_class,    //"vip",    
+								"upgrade_class_los": $scope.datagroup.upgrade_class_los,    //"5",    
+								"add_payment_pct": "75",    //"35",    
+								"birth_weight": $scope.datagroup.birth_weight,    //"0",    
+								"discharge_status": $scope.datagroup.discharge_status,    //"1",    
+								"diagnosa":$scope.item.diagnosa.kdDiagnosa,    //"S71.0#A00.1",    
+								"procedure": $scope.datagroup.procedure,    //"81.52#88.38",    
+								"tarif_rs": {
+									"prosedur_non_bedah": $scope.datagroup.tarif_rs.prosedur_non_bedah,    //"300000",      
+									"prosedur_bedah": $scope.datagroup.tarif_rs.prosedur_bedah,    //"20000000",      
+									"konsultasi": $scope.datagroup.tarif_rs.konsultasi,    //"300000",      
+									"tenaga_ahli": $scope.datagroup.tarif_rs.tenaga_ahli,    //"200000",      
+									"keperawatan": $scope.datagroup.tarif_rs.keperawatan,    // "80000",      
+									"penunjang": $scope.datagroup.tarif_rs.penunjang,    //"1000000",      
+									"radiologi": $scope.datagroup.tarif_rs.radiologi,    //"500000",      
+									"laboratorium": $scope.datagroup.tarif_rs.laboratorium,    //"600000",      
+									"pelayanan_darah": $scope.datagroup.tarif_rs.pelayanan_darah,    //"150000",      
+									"rehabilitasi": $scope.datagroup.tarif_rs.rehabilitasi,    //"100000",      
+									"kamar": $scope.datagroup.tarif_rs.kamar,    //"6000000",      
+									"rawat_intensif": $scope.datagroup.tarif_rs.rawat_intensif,    //"2500000",      
+									"obat": $scope.datagroup.tarif_rs.obat,    //"2000000",  
+									"obat_kronis": "0",
+									"obat_kemoterapi": "0",
+									"alkes": $scope.datagroup.tarif_rs.alkes,    //"500000",      
+									"bmhp": $scope.datagroup.tarif_rs.bmhp,    //"400000",      
+									"sewa_alat": $scope.datagroup.tarif_rs.sewa_alat,    //"210000"    
+								},
+								"tarif_poli_eks": $scope.datagroup.tarif_poli_eks,    //"100000",    
+								"nama_dokter": $scope.datagroup.nama_dokter,    //"RUDY, DR",    
+								"kode_tarif": $scope.datagroup.kode_tarif,    //"AP",    
+								"payor_id": $scope.datagroup.payor_id,    //"3",    
+								"payor_cd": $scope.datagroup.payor_cd,    //"JKN",    
+								"cob_cd": $scope.datagroup.cob_cd,    //"0001",    
+								"coder_nik": "123123123123"
+							}
+						}
+						dt2.push(dt1)
+ 
+					var objData = {
+						"data": dt2
+					}
+					medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+						// LoadData();	
+						var dt1 = {}
+						var dt2 = []
+ 
+							dt1 = {
+								"metadata": {
+									"method": "grouper",
+									"stage": "1"
+								},
+								"data": {
+									"nomor_sep": $scope.datagroup.nomor_sep
+								}
+							}
+							dt2.push(dt1) 
+
+
+
+						var objData = {
+							"data": dt2
+						}
+						medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+							var proporsiPush = []
+							var dijamin = "0"
+							 
+                            for (var x = e.data.dataresponse.length - 1; x >= 0; x--) {
+                                if (e.data.dataresponse[x].dataresponse.metadata.code != 400) {
+                                    if ($scope.datagroup.nomor_sep == e.data.dataresponse[x].datarequest.data.nomor_sep) {
+                                        dijamin = e.data.dataresponse[x].dataresponse.response.cbg.tariff
+                                        if (dijamin == undefined) { dijamin = "0" }
+                                        
+                                        var dataproposi = {
+                                            "noregistrasifk": $scope.datagroup.norec_pd,
+                                            "totalDijamin": dijamin,//e.data.dataresponse[x].dataresponse.response.cbg.tariff,
+                                            "biayaNaikkelas": "0",
+                                            "diagnosa": $scope.item.diagnosa.kdDiagnosa,
+                                            "tglcek": moment($scope.now).format('YYYY-MM-DD')
+                                        }
+                                        proporsiPush.push(dataproposi) 
+                                        delete $scope.item.diagnosa;
+                                    }
+                                }
+                            } 
+							var objData = {
+								"data": proporsiPush
+							}
+							var objData2 = {
+								"proporsi": proporsiPush
+							}
+							if (objData.data.length == 0) {
+								var dt1 = {}
+								var dt2 = []
+					 
+									dt1 = {
+										"metadata": {
+											"method": "delete_claim"
+										},
+										"data": {
+											"nomor_sep": $scope.datagroup.nomor_sep,///$scope.dataPasienSelected.nosep,
+											"coder_nik": "123123123123",//$scope.datagroup.coder_nik   
+										}
+									}
+									dt2.push(dt1)
+								 
+								var objData = {
+									"data": dt2
+								}
+								medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+									//
+									$scope.isRouteLoading = false;
+									responData = e.data.dataresponse;
+									toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
+                                     getdatagrouping();
+								})
+							} else {
+								// medifirstService.saveInformasiTanggungan(objData).then(function (e)
+								medifirstService.post('bridging/inacbg/save-informasi-tanggungan', objData2).then(function (e) {
+									
+									//ini untuk proposional kan utang per tindakan
+									var dt1 = {}
+									var dt2 = []
+									// for (var i = dataSave.length - 1; i >= 0; i--) {
+										dt1 = {
+											"metadata": {
+												"method": "delete_claim"
+											},
+											"data": {
+												"nomor_sep": $scope.datagroup.nomor_sep,///$scope.dataPasienSelected.nosep,
+												"coder_nik": "123123123123",//$scope.datagroup.coder_nik   
+											}
+										}
+										dt2.push(dt1)
+									// }
+									var objData = {
+										"data": dt2
+									}
+									medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) { 
+                                         getdatagrouping();
+										$scope.isRouteLoading = false;
+										responData = e.data.dataresponse;
+										toastr.info(responData[0].dataresponse.metadata.message, 'INACBG');
+									})
+								})
+							}
+							// loadData()
+						})
+					})
+
+				})
+			}
         }
 
     ]);

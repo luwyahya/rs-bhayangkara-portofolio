@@ -1,0 +1,662 @@
+<style>
+    #canvasDiv {
+        position: relative;
+        border: 2px dashed grey;
+        height: 300px;
+    }
+    
+    .k-window-content .k-content {
+        overflow: none
+    }
+    
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+    
+    .warnaa {
+        color: black
+    }
+    
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+    
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+    
+    .tg .tg-yw4l {
+        vertical-align: top;
+    }
+    
+    .tg .nilai {
+        vertical-align: middle;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .tg .jawaban {
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    .header {
+        font-size: 120%;
+        font-weight: 700;
+    }
+    
+    .footer {
+        text-align: center;
+        font-size: 11pt;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+    
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+    
+    img.painScale {
+        display: inline-block;
+        margin: 2% auto;
+    }
+    
+    .headingPainScale {
+        font-size: 150%;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10%;
+    }
+    
+    .k-slider {
+        width: 94%;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+    
+    .palKiri {
+        text-align: left;
+        vertical-align: middle
+    }
+    
+    .palTengah {
+        text-align: center;
+        vertical-align: middle
+    }
+    
+    .palKanan {
+        text-align: right;
+        vertical-align: middle
+    }
+     .k-window-content .k-content {
+        overflow: none
+    }
+    
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+    
+    .warnaa {
+        color: black
+    }
+    
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+    
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+    
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+    
+    .tg .tg-yw4l {
+        vertical-align: top;
+    }
+    
+    .tg .nilai {
+        vertical-align: middle;
+        text-align: center;
+        font-weight: bold;
+    }
+    
+    .tg .jawaban {
+        vertical-align: middle;
+        text-align: center;
+    }
+    
+    .header {
+        font-size: 120%;
+        font-weight: 700;
+    }
+    
+    .footer {
+        text-align: center;
+        font-size: 11pt;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+    
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+    
+    img.painScale {
+        display: inline-block;
+        margin: 2% auto;
+    }
+    
+    .headingPainScale {
+        font-size: 150%;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 10%;
+    }
+    
+    .k-slider {
+        width: 94%;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+    
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+        height: 26px;
+    }
+
+</style>
+
+<!-- <div ng-show="dataVOloaded"> -->
+    <div class="grid_12">
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                    <md-tab label="FORMULIR ASESMEN ULANG RISIKO JATUH PASIEN DEWASA (USIA ≤ 60 TAHUN)">
+                        <!-- <md-content class="md-padding">
+                            <div class="panel panel-default panel-white">
+                                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                    <div class="grid_6">
+                                        <div class="grid_12"><label c-label item="item" required>Tanggal/Jam</label>
+                                        </div>
+                                        <div class="grid_6">
+                                            <input k-ng-model="item.obj[jawab.id]" kendo-date-time-picker placeholer="yyyy-MM-dd HH:mm"
+                                            k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_6">
+                                        <div class="grid_6"><b>Tanda Tangan</b>
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]" k-data-text-field=" 'namalengkap'"
+                                                k-filter=" 'contains'                                                                                                                                                                                "
+                                                k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listPerawat" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_12">
+                                        <div class="grid_6">
+                                            <div class="grid_12"><label c-label item="item" required>Ruangan yang dituju</label>
+                                            </div>
+                                            <div class="grid_12"><input required style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1]"
+                                                    k-data-text-field="'namaruangan'" k-filter="'contains'" k-data-value-field="'id'"
+                                                    k-data-source="listRuangan" />
+                                            </div>
+                                        </div>
+                                        <div class="grid_6">
+                                            <div class="grid_12"><b>Dokter yang mengirim</b>
+                                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2]"
+                                                    k-data-text-field=" 'namalengkap'"
+                                                    k-filter=" 'contains'                                                                                                                                                                                "
+                                                    k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listDokter" />
+                                            </div>
+                                        </div>
+                                        <div class="grid_6">
+                                            <div class="grid_12"><b>Kelas / No. TT</b></div>
+                                            <div class="grid_12">
+                                                <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[3561]"
+                                                    placeholder="Kelas/No.TT"></textarea>
+                                                <input c-text-box type="input"  filter="" class="k-textbox" ng-model="item.obj[3]" />
+                                            </div> 
+                                        </div> 
+                                        <div class="grid_6">
+                                            <div class="grid_6"><b>Dokter</b>
+                                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]" k-data-text-field=" 'namalengkap'"
+                                                    k-filter=" 'contains'                                                                                                                                                                                "
+                                                    k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listDokter" />
+                                            </div>
+                                        </div> -->
+                                        
+                                    </div>
+                                            <div class="panel panel-default panel-white">
+                                                <fieldset class="effect-shadow" style=" border-radius: 4px">
+                                                    <legend id="filterData">
+                                                        <a ng-click="showAndHideNutrisi()">
+                                                            <h2><span class="fa fa-plus warnaa">
+                                                                </span> &nbsp;<i>Tulis scor pada kolom hasil sesuai hasi pengkajian</i></h2>
+                                                        </a>
+                                                    </legend>
+                                                    <div class="grid_12">
+                                                    <table class="tg">
+                                                        <tr>
+                                                            <th class="tg-yw4l">No</th>
+                                                            <th class="tg-yw4l jawaban">Variabel</th>
+                                                            <th class="tg-yw4l">Standar</th>
+                                                            <th class="tg-yw4l">Hasil</th>
+                                                            
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="2">
+                                                            1
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="2">
+                                                           Riwayat Jatuh (jatuh akibat penyakit akut, pembedahan dan geropsychiatric dalam 3 bulan terakhir)
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                                ya
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="5" id="5" class="k-checkbox" ng-model="item.obj[5]"
+                                                                    value="0" ng-click="cekSkor('a',5,25,true)">
+                                                                <label class="k-checkbox-label" for="5">25</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                                Tidak
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="6" id="6" class="k-checkbox" ng-model="item.obj[6]"
+                                                                    value="0" ng-click="cekSkor('a',6,0,true)">
+                                                                <label class="k-checkbox-label" for="6">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="2">
+                                                            2
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="2">
+                                                          Diagnosis Sekunder (lebih dari 1 diagnosis)
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                                ya
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="7" id="7" class="k-checkbox" ng-model="item.obj[7]"
+                                                                    value="0" ng-click="cekSkor('a',7,15,true)">
+                                                                <label class="k-checkbox-label" for="7">15</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                                Tidak
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="8" id="8" class="k-checkbox" ng-model="item.obj[8]"
+                                                                    value="0" ng-click="cekSkor('a',8,0,true)">
+                                                                <label class="k-checkbox-label" for="8">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="3">
+                                                            3
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="3">
+                                                         Alat Bantu Berjalan
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                             Tidak ada/kursi roda / bedrest / selalu di bantu perawat
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="9" id="9" class="k-checkbox" ng-model="item.obj[9]"
+                                                                    value="0" ng-click="cekSkor('a',9,0,true)">
+                                                                <label class="k-checkbox-label" for="9">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                           Kruk, Tongkat, Walker
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="10" id="10" class="k-checkbox" ng-model="item.obj[10]"
+                                                                    value="0" ng-click="cekSkor('a',10,15,true)">
+                                                                <label class="k-checkbox-label" for="10">15</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                            Furniture/Perabot
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="11" id="11" class="k-checkbox" ng-model="item.obj[11]"
+                                                                    value="0" ng-click="cekSkor('a',11,30,true)">
+                                                                <label class="k-checkbox-label" for="11">30</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="2">
+                                                            4
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="2">
+                                                          Penggunaan Intravenous
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                               Tidak
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="12" id="12" class="k-checkbox" ng-model="item.obj[12]"
+                                                                    value="0" ng-click="cekSkor('a',12,0,true)">
+                                                                <label class="k-checkbox-label" for="12">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                               Ya
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="13" id="13" class="k-checkbox" ng-model="item.obj[13]"
+                                                                    value="0" ng-click="cekSkor('a',13,20,true)">
+                                                                <label class="k-checkbox-label" for="13">20</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="3">
+                                                            5
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="3">
+                                                         Kemampuan Berjalan
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                             Normal, bedrest/tirah baring/imobilisasi
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="14" id="14" class="k-checkbox" ng-model="item.obj[14]"
+                                                                    value="0" ng-click="cekSkor('a',14,0,true)">
+                                                                <label class="k-checkbox-label" for="14">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                         Lemah (menggunakan pegangan untuk keseimbangan)
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="15" id="15" class="k-checkbox" ng-model="item.obj[15]"
+                                                                    value="0" ng-click="cekSkor('a',15,10,true)">
+                                                                <label class="k-checkbox-label" for="15">10</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                           Terganggu (sulit berdiri), kelemahan ekstremitas, gangguan sendi dan tulang
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="16" id="16" class="k-checkbox" ng-model="item.obj[16]"
+                                                                    value="0" ng-click="cekSkor('a',16,20,true)">
+                                                                <label class="k-checkbox-label" for="16">20</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l"rowspan="4">
+                                                            6
+                                                            </td>
+                                                            <td class="tg-yw4l" rowspan="4">
+                                                         Status Mental
+                                                            </td>
+                                                            <td class="tg-yw4l">
+                                                           Sadar Akan Kemampuannya
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="17" id="17" class="k-checkbox" ng-model="item.obj[17]"
+                                                                    value="0" ng-click="cekSkor('a',17,0,true)">
+                                                                <label class="k-checkbox-label" for="17">0</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                        Tidak Sadar Akan kemampuannya (post operasi, Geriatric >65 Tahun, tidak sadar, bingung, vertigo, gangguan sistem sirkulasi)
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="18" id="18" class="k-checkbox" ng-model="item.obj[18]"
+                                                                    value="0" ng-click="cekSkor('a',18,15,true)">
+                                                                <label class="k-checkbox-label" for="18">15</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                          Defisit sensori penglihatan dan pendengaran
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="19" id="19" class="k-checkbox" ng-model="item.obj[19]"
+                                                                    value="0" ng-click="cekSkor('a',19,15,true)">
+                                                                <label class="k-checkbox-label" for="19">15</label>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="tg-yw4l">
+                                                          Menggunakan Obat Psikotropik/penenang, obat jantung (anti aritmia, vasodilator, anti hipertensi, Betablocker dll.)
+                                                            </td>
+                                                            <td>
+                                                                <input type="checkbox" name="20" id="20" class="k-checkbox" ng-model="item.obj[20]"
+                                                                    value="0" ng-click="cekSkor('a',20,15,true)">
+                                                                <label class="k-checkbox-label" for="20">15</label>
+                                                            </td>
+                                                        </tr>
+
+                                                         <tr>
+                                                            <td class="tg-yw4l nilai" colspan="3">Total</td>
+                                                            <td class="tg-yw4l nilai"> {{totalSkor}}
+                                                            </td>
+                                                            
+                                                        </tr>
+                                        
+                                                    </table>
+                                                    <div class="grid_12">
+                                                             
+                                                        <div class="grid_12" ng-repeat="list in listKesimpulan | orderBy:'id'" style="padding: 5pt 10pt">
+                                                            <b>{{list.nama}}</b>
+                                                            <div class="grid_12" style="padding: 5pt">
+                                                                <div ng-repeat="jawab in list.detail | orderBy:'id'">
+                                                                    <div ng-switch on="jawab.type">
+                                                                        <div class="{{jawab.grid}}" ng-switch-when="checkbox" style="margin-top: 20px">
+                                                                            <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}"
+                                                                                ng-model="item.obj[jawab.id]">
+                                                                            <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                                                                &nbsp;{{jawab.nama}}</label>
+                                                    
+                                                                        </div>
+                                                                        <div class="{{jawab.grid}}" ng-switch-when="textbox" style="margin-top: 15px">
+                                                                            <div class="grid_2">
+                                                                                <label for="item.obj{{jawab.id}}">
+                                                                                    &nbsp;{{jawab.nama}}</label>
+                                                                            </div>
+                                                                            <div class="grid_10">
+                                                                                <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="grid_6" ng-switch-when="diagnosa" style="margin-top: 15px">
+                                                    
+                                                                            <div class="grid_2"><label item="item" required>Diagnosa Utama</label></div>
+                                                                            <div class="grid_10"><input style="width: 100%;" kendo-combo-box
+                                                                                    k-ng-model="item.obj[548]" k-data-text-field="'diagnosa'" k-filter="'contains'"
+                                                                                    k-data-value-field="'id'" k-data-source="listDiagnosa" /></div>
+                                                    
+                                                                        </div>
+                                                                        <div class="{{jawab.grid}}" ng-switch-when="label" style="margin-top: 20px">
+                                                    
+                                                                            <div class="grid_12"><label item="item" required>{{jawab.nama}}</label></div>
+                                                    
+                                                    
+                                                                        </div>
+                                                                        <div class="grid_12" ng-switch-when="enter" style="margin-top: 20px">
+                                                    
+                                                    
+                                                    
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                </fieldset>
+                            
+                                <!-- <div class="grid_6">
+                                    <div class="grid_6"><b>Perawat Yang Mengkaji</b>
+                                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[3000]"
+                                            k-data-text-field=" 'namalengkap'"
+                                            k-filter=" 'contains'                                                                                                                                                                                "
+                                            k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listPerawat" />
+                                    </div>
+                                </div> -->
+    
+                                <div class="grid_12">
+                                    <div class="grid_6"></div>
+                                    <div class="grid_3">
+                                        <c-button click='Simpan' style="width: 100%; padding:0px;margin:0px;" class="success" item="item" position="'right'" is-validate click="Simpan">
+                                            <span class="title">Simpan</span>
+                                        </c-button>
+                                    </div>
+                                    <div class="grid_3">
+                                        <c-button click='Batal' style="width: 100%; padding:0px;margin:0px;" class="error" item="item" position="'right'" is-validate click="Batal">
+                                            <span class="title">Batal</span>
+                                        </c-button>
+                                    </div>
+                                </div>
+                            </md-content>
+                        </md-tab>
+                    </md-tabs>
+                </md-content>
+            </div>
+        </div>
+     <!-- </div> -->

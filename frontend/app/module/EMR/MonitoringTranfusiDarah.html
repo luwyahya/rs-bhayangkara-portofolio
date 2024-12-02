@@ -1,0 +1,429 @@
+<style type="text/css">
+    fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    .k-slider-horizontal {
+        display: inline-block;
+        float: left;
+        width: 450px;
+
+        height: 26px;
+    }
+
+    .diagonal {
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .bintik {
+        width: 40px;
+        height: 40px;
+        background-color: #ffffff;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23000000' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
+    }
+
+    .itam {
+        width: 40px;
+        height: 40px;
+        background-color: black;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    .red {
+        background-color: #ff3860;
+        color:  #FFFFFF;
+        /*font-weight:
+        bold;
+        */
+    }
+
+    .hejo {
+        background-color: #19c419;
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .k-slider {
+
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 1%;
+        margin-bottom: 5%;
+        display: inline-block;
+    }
+
+    .activeBtn {
+        background-color: #10c4b2;
+        color: #ffffff;
+    }
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    h2 {
+        text-align: left;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+    
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .lt {
+        margin-top: 10px;
+    }
+
+    .lt2 {
+        margin-top: 5px;
+    }
+
+    .lt3 {
+        margin-top: 15px;
+    }
+
+    .minlt {
+        margin-top: -5px;
+    }
+
+    .minlt2 {
+        margin-top: -3px;
+    }
+
+    .bt {
+        margin-bottom: 7px;
+    }
+
+    .parentFieldTambahan {
+        position: relative;
+    }
+
+    .keteranganFieldTambahan {
+        position:absolute;
+        right: 0;
+        margin-top: 5px;
+        margin-right: 6px;
+        width: 50px; 
+        background-color: #41abf2; 
+        color: white;
+        padding: 7px 5px 5px 5px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .btnTemplate1.hapus {
+        background-color: rgb(238, 71, 71);
+    }
+
+    .formTitle {
+        font-size: 15px; 
+        color: #41abf2;
+        font-weight: bold;
+    }
+    .formTitle2 {
+        font-size: 15px; 
+        color: #009933;
+        font-weight: bold;
+    }
+
+    .formHeading {
+        font-size: 14px; 
+        color: #41abf2;
+        font-weight: bold;
+    }
+    .formHeading2 {
+        font-size: 14px; 
+        color: #009933;
+        font-weight: bold;
+    }
+
+    .bb {
+        border-bottom: 1px dotted #b3d9ff;
+    }
+
+    .labelSpan {
+        position: relative;
+    }
+
+    .labelSpan span {
+        position: absolute; 
+        right: 0;
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+</style>
+
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" style="text-transform: uppercase;" c-translate> Monitoring Tranfusi Darah</div>
+    </div>
+
+    <div class="grid_12 lt bb">
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Tanggal</label>
+        </div>
+        <div class="grid_2">
+            <input style="width: 100%" k-ng-model="item.obj[4172]" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+        </div>
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Golongan Darah</label>
+        </div>
+        <div class="grid_2">
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1501]" 
+            k-data-text-field=" 'golongandarah'" k-filter=" 'contains'" 
+            k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listGolonganDarah" />
+            <!-- <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[19]" /> -->
+        </div>
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Jenis Jumlah Darah</label>
+        </div>
+        <div class="grid_2">
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1418]"
+                k-data-text-field="'text'" k-data-value-field="'id'" k-filter="'contains'"
+                k-auto-bind="false" k-data-source="listjjd" />
+        </div>
+
+        <div class="grid_1"></div>
+
+        <div class="grid_3">
+            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[248]" ng-show="showLainLain"/>
+        </div>
+
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>No. Labu darah</label>
+        </div>
+        <div class="grid_2">
+            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[20]" />
+        </div>
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_2" style="margin-top:10px">
+            <label c-label item="item" required>Tanggal Kadaluarsa</label>
+        </div>
+        <div class="grid_2">
+            <input style="width: 100%" k-ng-model="item.obj[1147]" kendo-datepicker placeholer="yyyy-mm-dd" k-format="'yyyy-MM-dd'" />
+        </div>
+
+        <div class="grid_1"></div>
+
+        <div class="grid_1" style="margin-top:10px">
+            <label c-label item="item" required>Jumlah</label>
+        </div>
+        <div class="grid_2 parentFieldTambahan">
+            <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[21]">
+            <label class="keteranganFieldTambahan">CC</label>
+        </div>
+
+    </div>
+
+    <div class="grid_12 lt3 bb" style="padding-bottom: 10px;">
+        <div class="grid_12 lt" >
+            <div class="grid_10"></div>
+            <div class="grid_2">
+                <button class="btnTemplate1"  ng-show="btnAddTtv" ng-click="tambahInputanTtv()">Tambah Inputan</button>
+            </div>
+        </div>
+        <table class="tg lt2" >
+            <tr ng-repeat="list in listTtv | orderBy:'id'">
+                <td ng-repeat="jawab in list.detail | orderBy:'id'" style="text-align: center;" ng-show="{{ jawab.show }}">
+                    <div ng-switch on="jawab.type">
+                        <div ng-switch-when="label">
+                            <label c-label item="item">{{jawab.nama}}</label>
+                        </div>
+                        <div ng-switch-when="textbox">
+                            <input  class="k-textbox" ng-model="item.obj[jawab.id]" type="text" >
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_12" style="margin-top:10px; margin-bottom: 10px;">
+            <label c-label item="item" required>Reaksi Alergi</label>
+        </div>
+        <div class="grid_12"  style="margin-bottom: 10px;">
+            <div class="grid_3">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[50]"
+                    id="item.obj[50]">
+                <label class="c-label k-checkbox-label" for="item.obj[50]" required>Demam</label>
+            </div>
+            <div class="grid_3">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[51]"
+                    id="item.obj[51]">
+                <label class="c-label k-checkbox-label" for="item.obj[51]" required>Menggigil</label>
+            </div>
+            <div class="grid_3">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[52]"
+                    id="item.obj[52]">
+                <label class="c-label k-checkbox-label" for="item.obj[52]" required>Gatal-gatal</label>
+            </div>
+            <div class="grid_3">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[53]"
+                    id="item.obj[53]">
+                <label class="c-label k-checkbox-label" for="item.obj[53]" required>Ruam/Merah-merah</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[54]"
+                    id="item.obj[54]" ng-click="showReaksiLain(item.obj[54])">
+                <label class="c-label k-checkbox-label" for="item.obj[54]" required>Lainnya</label>
+            </div>
+            <div class="grid_3" ng-show="reaksiLainnya">
+                <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[247]" />
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_1" style="margin-top:10px">
+            <label c-label item="item" required>Tindakan</label>
+        </div>
+        <div class="grid_6">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" 
+            ng-model="item.obj[1417]" style="height: 70px; width: 100%; " />
+            <!-- <input required c-text-box type="input" class="k-textbox" ng-model="item.obj[248]" /> -->
+        </div>
+    </div>
+
+    <div class="grid_12 lt2 bb">
+        <div class="grid_1" style="margin-top:10px">
+            <label c-label item="item" required>Perawat</label>
+        </div>
+        <div class="grid_3">
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1466]" 
+            k-data-text-field=" 'namalengkap'" k-filter=" 'contains'" 
+            k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listPerawat" />
+        </div>
+    </div>
+
+</div>
+
+
+<div class="grid_12 bb">
+    <div class="grid_6">
+        <div class="grid_3" style="margin-top: 12px" ng-show='tombolSimpanVis'>
+            <button class="btnTemplate1" ng-click="Save()"><i class="fa fa-save"></i>Simpan</button>
+        </div>
+        
+        <div class="grid_3" style="margin-top: 12px" ng-show='tombolSimpanVis'>
+            <button class="btnTemplate1" ng-click="Batal()"><i class="fa fa-refresh"></i>Batal</button>
+        </div>
+    </div>
+    <!-- <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div> -->
+</div>
+
+<div class="grid_12 lt">
+    <div>
+        <div class="grid_12">
+            <div class="grid_12  headerBox" style="font-size: 15px; color: white; padding: 7px;">
+                Riwayat Monitoring Tranfusi Darah
+            </div>
+            <div class="clear"></div>
+            <div class="grid_12 borderBox" style="margin-bottom: 5px;">
+                <div id="kGrid" kendo-grid k-data-source="dataGridRiwayat" k-selectable="'row'"
+                    k-columns="columnGridRiwayat" k-sortable="'true'" k-pageable="'true'"
+                    k-ng-model="dataSelected" ng-click="click(dataSelected)">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid_12 lt2">
+            <div class="grid_6"></div>
+            <div class="grid_6">
+                <div class="grid_3" style="margin-top: 10px">
+                    <button class="btnTemplate1" ng-click="edit()"><i class="fa fa-pencil"></i>Edit</button>
+                </div>
+                
+                <div class="grid_3" style="margin-top: 10px">
+                    <button class="btnTemplate1" ng-click="verifikasi()"><i class="fa fa-check"></i>Verifikasi</button>
+                </div>
+                <div class="grid_3" style="margin-top: 10px">
+                    <button class="btnTemplate1" ng-click="unverifikasi()"><i class="fa fa-ban"></i>Unverifikasi</button>
+                </div>
+                <div class="grid_3" style="margin-top: 10px">
+                    <button class="btnTemplate1 hapus" ng-click="hapus()"><i class="fa fa-trash"></i>Hapus</button>
+                </div>
+            </div>
+            <!-- <div ng-include='"../app/module/EMR/TemplateButtonDinamis" '></div> -->
+        </div>
+    </div>
+</div>
+<div ng-include='"../app/template/Shared/TemplateLoadingEMR"'></div>

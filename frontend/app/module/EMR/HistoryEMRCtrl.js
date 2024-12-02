@@ -40,6 +40,7 @@ define(['initialize'], function (initialize) {
             var dataHead = [];
             $scope.NorecSurveilans = "";
             var noRegistrasi = '';
+            let dataTampung = []
             // loadPertama();
             LoadCacheHelper();
             // LoadDataCombo();
@@ -496,13 +497,14 @@ define(['initialize'], function (initialize) {
 
             function init() {
                 $scope.header = {};
-                medifirstService.get('emr/get-antrian-pasien-norec-grid/' + $state.params.noRec).then(function (dat) {
+                medifirstService.get('emr/get-antrian-pasien-norec-griddetail/' + $state.params.noRec).then(function (dat) {
                     var result = dat.data
 
+                    dataTampung = dat.data
 
                     var data = []
                     for (var i = result.length - 1; i >= 0; i--) {
-                        result[i].details.sort(function (a, b) {
+                        /*result[i].details.sort(function (a, b) {
                             if (a.name < b.name) {
                                 return -1;
                             }
@@ -510,7 +512,7 @@ define(['initialize'], function (initialize) {
                                 return 1;
                             }
                             return 0;
-                        })
+                        })*/
                         data.push(result[i]);
                     }
 
@@ -693,7 +695,7 @@ define(['initialize'], function (initialize) {
                                     var data = {
                                         "gambarLogo": "logo_rs.jpg",
                                         "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar", "norec", "totalAkhir", "discount", "umur"],
-                                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noregistrasi,
+                                        "paramValue": ["RSUD Sumedang", "1980-12-25 00:00:00", "Jl. Palasari No.80, Kotakulon, Kec. Sumedang Sel., Kabupaten Sumedang, Jawa Barat 45311", namauser, noregistrasi,
                                             ruangan, total, kelas, namakamar, norecobat, totalBayar, totalDiscount, umur
                                         ],
                                         "paramType": ["", "date", "", "", "", "", "", "", "", "", "", "", ""]
@@ -717,12 +719,12 @@ define(['initialize'], function (initialize) {
                                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/cetakResepRIncianRajal.pdf');
                                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/cetakResepRIncianRajal.pdf');
-                                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                         xhr.open('POST', '/jasper1/generic/report/cetakResepRIncianRajal.pdf');
                                     } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                                         xhr.open('POST', '/jasper1generic/report/cetakResepRIncianRajal.pdf');
                                     } else {
-                                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/cetakResepRIncianRajal.pdf');
+                                        xhr.open('POST', '/jasper1/generic/report/cetakResepRIncianRajal.pdf');
                                     }
 
                                     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -759,7 +761,7 @@ define(['initialize'], function (initialize) {
                                 var data = {
                                     "gambarLogo": "logo_rs.jpg",
                                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "noregistrasi", "lastruangan", "total", "kelas", "namakamar"],
-                                    "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", namauser, noregistrasi,
+                                    "paramValue": ["RSUD Sumedang", "1980-12-25 00:00:00", "Jl. Palasari No.80, Kotakulon, Kec. Sumedang Sel., Kabupaten Sumedang, Jawa Barat 45311", namauser, noregistrasi,
                                         ruanganLast, total, kelas, namakamar
                                     ],
                                     "paramType": ["", "date", "", "", "", "", "", "", ""]
@@ -786,14 +788,14 @@ define(['initialize'], function (initialize) {
                                     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/rekapbillingApotik.pdf');
                                 } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/rekapbillingApotik.pdf');
-                                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                                } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                                     xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
                                 } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
                                     xhr.open('POST', '/jasper1generic/report/rekapbillingApotik.pdf');
                                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/rekapbillingApotik.pdf');
                                 } else {
-                                    xhr.open('POST', 'http://127.0.0.1:8797/generic/report/rekapbillingApotik.pdf');
+                                    xhr.open('POST', '/jasper1/generic/report/rekapbillingApotik.pdf');
                                 }
 
                                 // set `Content-Type` header
@@ -1729,7 +1731,8 @@ define(['initialize'], function (initialize) {
                 {
                     "field": "namaruangan",
                     "title": "Nama Ruangan",
-                    "width": "150px"
+                    "width": "150px",
+                    "template": "<center><button class=\"k-button custom-button\" ng-click=\"klikHistory(dataItem)\" style=\"margin:0 0 5px\">#: namaruangan #</button></center>"
                 },
                 {
                     "field": "details",
@@ -1992,6 +1995,22 @@ define(['initialize'], function (initialize) {
                 $state.go('RekamMedis.PengkajianSurveilansRev', {
                     noRec: dataItem.norec,
                     emr: 'PengkajianSurveilansRev',
+                });
+            }
+            $scope.TriaseIGD = function (dataItem) {
+                debugger
+                setCache(dataItem)
+                $state.go('RekamMedis.TriaseIGD', {
+                    noRec: dataItem.norec,
+                    emr: 'TriaseIGD',
+                });
+            }
+            $scope.PengkajianMedisIGD = function (dataItem) {
+                debugger
+                setCache(dataItem)
+                $state.go('RekamMedis.PengkajianMedisIGD', {
+                    noRec: dataItem.norec,
+                    emr: 'PengkajianMedisIGD',
                 });
             }
 
@@ -2368,6 +2387,73 @@ define(['initialize'], function (initialize) {
                     window.messageContainer.error("Pilih Pasien Dahulu!");
                     return;
                 }
+            }
+
+            $scope.klikHistory = function (dataItem) {
+                gridBaru(dataItem);
+            }
+            function gridBaru(dataItem) {
+                $scope.isRouteLoading = true;
+                $scope.header = {};
+                medifirstService.get('emr/get-antrian-pasien-norec-gridnew/' + dataItem.norec).then(function(dat) {
+                    $scope.isRouteLoading = false;
+                    var result = dat.data
+                    for(let i = 0; i < dataTampung.length; i++) {
+                        if (dataTampung[i].norec == result[0].norec) {
+                            dataTampung[i] = result[0]
+                        }
+                    }
+
+                    var data = []
+                    for (var i = dataTampung.length - 1; i >= 0; i--) {
+                        dataTampung[i].details.sort(function(a, b) {
+                            if (a.name < b.name) { return -1; }
+                            if (a.name > b.name) { return 1; }
+                            return 0;
+                        })
+                        data.push(dataTampung[i]);
+                    }
+                    $scope.header = data
+                    $scope.dataDaftar = new kendo.data.DataSource({
+                        data: $scope.header,
+                        pageSize: 10,
+                        serverPaging: false,
+                        schema: {
+                            model: {
+                                fields: {}
+                            }
+                        }
+                    });
+                }); 
+                $scope.columnDaftar = {
+                    selectable: 'row',
+                    pageable: true,
+                    scrollable: true,
+                    columns: [{
+                            "field": "tglregistrasi",
+                            "title": "Tgl Registrasi",
+                            "width": "120px"
+                        },
+                        {
+                            "field": "noregistrasi",
+                            "title": "Noregistrasi",
+                            "width": "100px"
+                        },
+                        {
+                            "field": "namaruangan",
+                            "title": "Nama Ruangan",
+                            "width": "150px",
+                            "template": "<button class=\"k-button custom-button\" ng-click=\"klikHistory(dataItem)\" style=\"margin:0 0 5px\">#: namaruangan #</button>",
+                        },
+                        {
+                            "field": "details",
+                            "title": "Form yang sudah di isi",
+    
+                            "template": "# for(var i=0; i < details.length;i++){# <span class=\"button-details custom-button='dark-green' \" )\" >#= details[i].name #  <em class=\"k-button k-button-icon k-cancle\"" +
+                            " style=\" margin: 3px;padding-left: .4em;padding-right: .4em;\"  ng-click=\"asupKaForm('#=details[i].path#', '#=data.nocm#', '#=data.namapasien#', '#=data.jeniskelamin#', '#=data.umur#', '#=data.kelompokpasien#', '#=data.tglregistrasi#', '#=data.norec#', '#=data.norec_pd#', '#=data.objectkelasfk#', '#=data.namakelas#', '#=data.objectruanganfk#', '#=data.namaruangan#', '#=data.noregistrasi#', '#=data.alamatlengkap#', '#=data.dokterdpjp#', '#=data.iddpjp#', '#=data.tgllahir#', '#=data.objectkelompokpasienlastfk#', '#=data.kelaspasien#', '#=data.kelaspenjamin#', '#=data.namakamar#','#=data.objectrekananfk#', objectdepartemenfk) \" > <span class=\"k-sprite k-icon k-i-search\"  style=\"float: left;margin-top: 0.3em;padding-bottom: 2px;\" >Details</span></em></span> #}#",
+                        },
+                    ]
+                };
             }
             //***********************************
         }

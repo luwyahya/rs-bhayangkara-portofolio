@@ -1,0 +1,669 @@
+<style>
+    .btnHijau {
+        background-color: #6bdb1a;
+        color: white;
+    }
+    .btnHijau:hover {
+        background-color: #53ab13;
+        color: white;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Pengkajian Awal Mata</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">KELUHAN UTAMA</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1261]" placeholder="Masukkan Keluhan Utama"></textarea>
+        </div>
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">KELUHAN TAMBAHAN</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1262]" placeholder="Masukkan Keluhan Tambahan"></textarea>
+        </div>
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">RIWAYAT PENYAKIT LALU</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1263]" placeholder="Masukkan Riwayat Penyakit Lalu"></textarea>
+        </div>
+        <div class="grid_6">
+            <fieldset style="margin-top: 10px;    height: 200;">
+                <legend>
+                    <b>Pemeriksaan Fisk / STATUS OPHTHALMOLOGIST</b>
+                </legend>
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    <div class="grid_12">
+                        <div id="surface-container" style="background-image:url({{user.poto}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                            <div class="surface" style="background-image:url({{user.poto}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <div class="grid_4">
+                                    <button class='k-button clear'>Clear drawing</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var geom = kendo.geometry;
+                            var Point = geom.Point;
+                            var draw = kendo.drawing;
+                            var Path = draw.Path;
+                            var path;
+
+                            $("#surface-container").on("mousemove", function(e) {
+                                if (!path) {
+                                    return;
+                                }
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                path.lineTo(newPoint);
+                            }).on("mousedown", function(e) {
+                                path = new Path({
+                                    stroke: {
+                                        color: 'red',
+                                        width: 2,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                });
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                for (var i = 0; i < 1; i++) {
+                                    path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                }
+
+                                surface.draw(path);
+                            }).on("mouseup", function(e) {
+                                path = undefined;
+                            });
+
+                            var surface = draw.Surface.create($(".surface"));
+                            // 
+
+
+                            $(".clear").click(function() {
+                                surface.clear();
+                            });
+                        </script>
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="padding: 5pt 10pt">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1272]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_6">
+            <fieldset style="margin-top: 10px;    height: 200;">
+                <legend>
+                    <b>Pemeriksaan Fisk / STATUS OPHTHALMOLOGIST</b>
+                </legend>
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    <div class="grid_12">
+                        <div id="surface-container2" style="background-image:url({{user.poto2}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                            <div class="surface2" style="background-image:url({{user.poto2}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <div class="grid_4">
+                                    <button class='k-button clear2'>Clear drawing</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var geom = kendo.geometry;
+                            var Point = geom.Point;
+                            var draw = kendo.drawing;
+                            var Path = draw.Path;
+                            var path;
+
+                            $("#surface-container2").on("mousemove", function(e) {
+                                if (!path) {
+                                    return;
+                                }
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                path.lineTo(newPoint);
+                            }).on("mousedown", function(e) {
+                                path = new Path({
+                                    stroke: {
+                                        color: 'red',
+                                        width: 2,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                });
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                for (var i = 0; i < 1; i++) {
+                                    path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                }
+
+                                surface2.draw(path);
+                            }).on("mouseup", function(e) {
+                                path = undefined;
+                            });
+
+                            var surface2 = draw.Surface.create($(".surface2"));
+                            // 
+
+
+                            $(".clear2").click(function() {
+                                surface2.clear();
+                            });
+                        </script>
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="padding: 5pt 10pt">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1273]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <h3 style="float: left;"><b>HASIL PEMERIKSAAN</b></h3>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="item" required> <b>JENIS PEMERIKSAAN</b></label>
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>MATA KANAN</label>
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>MATA KIRI</label>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 1%;">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>1. VISUS SINE KOREKSI</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1325]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1324]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>2. VISUS KACAMATA KOREKSI</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1327]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1326]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>3. ADDISI</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1329]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1328]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>4. KACA MATA LAMA</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1331]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1330]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>5. STREAK RETINOSKOPI</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1586]" placeholder="Masukan Hasil Pemeriksaan"/> 
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1585]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>6. KEDUDUKAN BOLA MATA</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1588]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1587]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>7. GERAKAN BOLA MATA</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1590]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1589]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>8. PALPEBRA SUPERIOR</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1592]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1591]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>9. PALREBRA INFERIOR</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1594]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1593]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>10. KONJUNGTIVA PALPEBRALIS</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1596]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1595]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>11. KONJUNGTIVA BULBI</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1598]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1597]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>12. KORNEA</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1600]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1599]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>13. KAMERA OCULI ANTERIOR</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1602]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1601]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>14. IRIS</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1604]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1603]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>15. PUPIL</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1606]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1605]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>16. LENSA</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1608]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1607]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 1%;">
+                <label c-label item="item" required>17. VITREOUS</label>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1610]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+            <div class="grid_4">
+                <input required c-text-box type="input"  class="k-textbox"
+                    ng-model="item.obj[1609]" placeholder="Masukan Hasil Pemeriksaan"/>
+            </div>
+        </div>
+
+        <div class="grid_6">
+            <fieldset style="margin-top: 10px;    height: 200;">
+                <legend>
+                    <b>FUNDUSKOPI / RETINA</b>
+                </legend>
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    <div class="grid_12">
+                        <div id="surface-container3" style="background-image:url({{user.poto3}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                            <div class="surface3" style="background-image:url({{user.poto3}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <div class="grid_4">
+                                    <button class='k-button clear3'>Clear drawing</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var geom = kendo.geometry;
+                            var Point = geom.Point;
+                            var draw = kendo.drawing;
+                            var Path = draw.Path;
+                            var path;
+
+                            $("#surface-container3").on("mousemove", function(e) {
+                                if (!path) {
+                                    return;
+                                }
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                path.lineTo(newPoint);
+                            }).on("mousedown", function(e) {
+                                path = new Path({
+                                    stroke: {
+                                        color: 'red',
+                                        width: 2,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                });
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                for (var i = 0; i < 1; i++) {
+                                    path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                }
+
+                                surface3.draw(path);
+                            }).on("mouseup", function(e) {
+                                path = undefined;
+                            });
+
+                            var surface3 = draw.Surface.create($(".surface3"));
+                            // 
+
+
+                            $(".clear3").click(function() {
+                                surface3.clear();
+                            });
+                        </script>
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="padding: 5pt 10pt">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1613]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+                </div>
+            </fieldset>
+        </div>
+        <div class="grid_6">
+            <fieldset style="margin-top: 10px;    height: 200;">
+                <legend>
+                    <b>FUNDUSKOPI / RETINA</b>
+                </legend>
+
+                <div class="grid_12" style="margin-top: 5px;">
+                    <div class="grid_12">
+                        <div id="surface-container4" style="background-image:url({{user.poto4}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;">
+                            <div class="surface4" style="background-image:url({{user.poto4}}); height: 770px; width:100%; background-repeat: no-repeat; background-size: 70%; background-position: center;"></div>
+                        </div>
+
+                        <div class="grid_6">
+                            <div class="grid_12">
+                                <div class="grid_4">
+                                    <button class='k-button clear4'>Clear drawing</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <script>
+                            var geom = kendo.geometry;
+                            var Point = geom.Point;
+                            var draw = kendo.drawing;
+                            var Path = draw.Path;
+                            var path;
+
+                            $("#surface-container4").on("mousemove", function(e) {
+                                if (!path) {
+                                    return;
+                                }
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                path.lineTo(newPoint);
+                            }).on("mousedown", function(e) {
+                                path = new Path({
+                                    stroke: {
+                                        color: 'red',
+                                        width: 2,
+                                        lineCap: "round",
+                                        lineJoin: "round"
+                                    }
+                                });
+
+                                var offset = $(this).offset();
+                                var newPoint = new Point(e.pageX - offset.left, e.pageY - offset.top);
+
+                                for (var i = 0; i < 1; i++) {
+                                    path.lineTo(newPoint.clone().translate(i * 1, 0));
+                                }
+
+                                surface4.draw(path);
+                            }).on("mouseup", function(e) {
+                                path = undefined;
+                            });
+
+                            var surface4 = draw.Surface.create($(".surface4"));
+                            // 
+
+
+                            $(".clear4").click(function() {
+                                surface4.clear();
+                            });
+                        </script>
+                    </div>
+
+                </div>
+
+                <div class="grid_12" style="padding: 5pt 10pt">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[1614]" placeholder="Keterangan Gambar" style="height: 80px; width: 98%; " />
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">PEMERIKSAAN KHUSUS</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1264]" placeholder="Masukkan Pemeriksaan Khusus"></textarea>
+        </div>
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">DIAGNOSA KERJA</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1265]" placeholder="Masukkan Diagnosa Kerja"></textarea>
+        </div>
+        <!-- <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_2" style="margin-top:10px">
+                    <label c-label item="item" required>Diagnosa Medis</label>
+                </div>
+                <div class="grid_10">
+                    <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.obj[1265]" k-data-text-field="'namadiagnosa'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listDiagnosa" />
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">DIAGNOSA MEDIS</label>
+        </div>
+        <div class="grid_12">
+            <div class="grid_8">
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.obj[1265]" k-data-text-field="'namadiagnosa'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listDiagnosa" />
+            </div>
+        </div> -->
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">DIAGNOSA BANDING</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1266]" placeholder="Masukkan Diagnosa Banding"></textarea>
+        </div>
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">RENCANA PENGOBATAN / TINDAKAN </label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1267]" placeholder="Masukkan Rencana Pengobatan / Tindakan"></textarea>
+        </div>
+        <!-- <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">EDUKASI</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1268]"></textarea>
+        </div> -->
+        <!-- <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">TINDAKAN</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" style="height: 76px;width: 100%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[1269]"></textarea>
+        </div> -->
+        <div class="grid_12" style="margin-top: 1%;">
+            <label c-label item="item" style="font-size: 16px;">Dokter Penanggung Jawab (DPJP)</label>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <input required style="width: 100%;" kendo-combo-box placeholder="'Silahkan Pilih Nama Dokter'" k-ng-model="item.obj[1274]" 
+                k-data-text-field="'namalengkap'" k-filter="'contains'" k-data-value-field="'id'" k-data-source="listDokter" />
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6"></div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="simpan()">Simpan</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="kembali()">Kembali</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 btnHijau" ng-click="cetak()">Cetak</button>
+        </div>
+    </div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

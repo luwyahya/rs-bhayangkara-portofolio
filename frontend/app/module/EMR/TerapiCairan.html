@@ -1,0 +1,119 @@
+<style>    
+    .hejo {
+		background-color: #19c419;
+		color: #ffffff;
+		font-weight: bold;
+	}
+    .persija {
+        color: #fff; 
+        background-color: #ff071c;
+        border-color: #ff071c
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Daftar Pemberian Terapi Cairan / Infus</div>
+    </div>
+    <div class="panel panel-default container_12" style="padding: 0px 10px;margin-top: 10px;">
+        <div class="grid_12">
+            <div class="grid_2">
+                <label c-label item="item" required>Tgl & Jam Terapi</label>
+                <input style="width: 100%" k-ng-model="item.tgljamterapi" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"/>
+            </div>
+            <div class="grid_5">
+                <label c-label item="item" required>Jenis Selang / Jenis Cairan</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.jeniscairan" />
+            </div>
+            <div class="grid_5">
+                <label c-label item="item" required>Obat Yang Ditambahkan</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.namaobat" />
+            </div>            
+            <div class="grid_2">
+                <label c-label item="item" required>Volume (ml)</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.volume" />
+            </div>      
+            <div class="grid_3">
+                <label c-label item="item" required>Tetesan (Menit/jam)</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.tetesan" />
+            </div>  
+            <div class="grid_3">
+                <label c-label item="item" required>Lama Terapi Cairan/Infus Diberikan</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.lamaterapi" />
+            </div>      
+            <div class="grid_2">
+                <label c-label item="item" required>Waktu Mulai</label>
+                <input style="width: 100%" k-ng-model="item.waktumulai" kendo-timepicker
+                        placeholer="HH:mm" k-format="'HH:mm'" parsedate="HH:mm"/>
+            </div> 
+            <div class="grid_2">
+                <label c-label item="item" required>Waktu Selesai</label>
+                <input style="width: 100%" k-ng-model="item.waktuselesai" kendo-timepicker
+                        placeholer="HH:mm" k-format="'HH:mm'" parsedate="HH:mm"/>
+            </div>   
+        </div>
+        <div class="grid_12">
+            <div class="grid_3">
+                <label c-label item="item" required>Nama Program Dokter</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.namadokter" k-data-text-field="'namalengkap'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPegawai" />
+            </div>
+            <div class="grid_3">
+                <label c-label item="item" required>Nama Perawat Pemasang</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.pegawaipasang" k-data-text-field="'namalengkap'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPegawai" />
+            </div>
+            <div class="grid_3">
+                <label c-label item="item" required>Nama Perawat Verifikator</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.pegawaiverifikator" k-data-text-field="'namalengkap'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPegawai" />
+            </div>
+            <div class="grid_3">
+                <label c-label item="item" required>Keterangan</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.keterangan" />
+            </div> 
+        </div>
+        <div class="grid_12">
+            <div class="grid_8"></div>
+            <div class="grid_2"></div>
+            <div class="grid_2">
+                <button class="btnTemplate1" ng-click="simpanTerapi()">Simpan</button>
+            </div>          
+    </div>
+    <hr>
+
+    
+    <div class="grid_12">    
+        <div class="grid_12">
+            <div id="gridTerapi" kendo-grid k-data-source="sourceTerapi" options="gridTerapi" k-ng-model="dataSelected" ng-click="klik(dataSelected)" k-selectable="'row'"></div>
+        </div>            
+    </div>
+    <div class="grid_12">
+        <div class="grid_6"></div>
+        <div class="grid_2"></div>        
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="deleteTerapi()"> Hapus Terapi</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 hejo" ng-click="Cetak()"> Cetak</button>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+<div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>

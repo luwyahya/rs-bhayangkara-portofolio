@@ -1,0 +1,467 @@
+<style>
+    .btnHijau {
+        background-color: #6bdb1a;
+        color: white;
+    }
+
+    .btnHijau:hover {
+        background-color: #53ab13;
+        color: white;
+    }
+
+    .table {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+
+    .td {
+        border: 2px solid black;
+        /* background-color: #d2b48c; */
+        background-color: rgb(0, 204, 255);
+        color: black;
+    }
+    /* .tandaan {
+      background-color: #ff0303;
+      color: #ffffff;
+  } */
+
+/* .k-checkbox-label:before {
+    border-color: #10c4b2;
+    background: #fff;
+    border-radius: 1px;
+} */
+
+    /* table, th, td {
+        border: 2px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        background-color: #96D4D4;
+    } */
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>PENILAIAN RISIKO JATUH PASIEN</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_6">
+                <div class="grid_2" style="margin-top:10px">
+                    <label c-label item="item" style="font-size: 16px;" required>Tanggal</label>
+                </div>
+                <div class="grid_5">
+                    <input style="width: 100%" k-ng-model="item.obj[2793]" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm"
+                        k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>                
+            </div>         
+        </div>
+
+
+        <div class="grid_12">
+            <h2 style="float: left;"><b>PENILAIAN RISIKO JATUH PASIEN DEWASA (Usia > 18 s/d < 60 Tahun)</b></h2>
+        </div>
+        <div class="grid_12">
+            <table class="table td">
+                <tr class="td">
+                    <th class="td" style="width: 5%; font-size: 20px;">
+                        No
+                    </th>
+                    <th class="td" style="width: 20%; font-size: 20px;">
+                        Parameter
+                    </th>
+                    <th class="td" style="font-size: 20px;">
+                        Kriteria & Nilai
+                    </th>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px; text-align: center;">1.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px; text-align: center;">Riwayat Jatuh, yang baru atau dalam 3 bulan Terakhir </p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_3" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2794]" value="0"
+                                    id="item.obj[2794]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2794]" style="font-size: 16px;" required> Tidak (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2795]" value="25"
+                                    id="item.obj[2795]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2795]" style="font-size: 16px;" required>Ya (25)</label>
+                            </div>
+                        </div>                       
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">2.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">Diagnosis Medis Sekunder > 1</p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_3" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2796]" value="0"
+                                    id="item.obj[2796]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2796]" style="font-size: 16px;" required>Tidak (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_3" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2797]" value="25"
+                                    id="item.obj[2797]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2797]" style="font-size: 16px;" required>Ya (25)</label>
+                            </div>
+                        </div>                      
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">3.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">Alat Bantu Jalan</p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_10" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2798]" value="0"
+                                    id="item.obj[2798]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2798]" style="font-size: 16px;" required> Bed Resti/Dibantu Perawat (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2799]" value="15"
+                                    id="item.obj[2799]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2799]" style="font-size: 16px;" required>penopang / Tongkat / Walker (15)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2800]" value="30"
+                                    id="item.obj[2800]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2800]" style="font-size: 16px;" required>Furniter (30)</label>
+                            </div>
+                        </div>                      
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">4.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">Menggunakan Infus</p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2801]" value="3"
+                                    id="item.obj[2801]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2801]" style="font-size: 16px;" required>Tidak (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2802]" value="25"
+                                    id="item.obj[2802]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2802]" style="font-size: 16px;" required>Ya (25)</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">5.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">Cara Berjalan / Berpindah</p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_11" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2803]" value="0"
+                                    id="item.obj[2803]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2803]" style="font-size: 16px;" required>Normal / Bed Rest / Mobilisasi (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2804]" value="15"
+                                    id="item.obj[2804]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2804]" style="font-size: 16px;" required>Lemah (15)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2805]" value="30"
+                                    id="item.obj[2805]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2805]" style="font-size: 16px;" required>Terganggu (30)</label>
+                            </div>
+                        </div>                        
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">6.</p>
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 16px;text-align: center;">Situasi Mental</p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2806]" value="0"
+                                    id="item.obj[2806]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2806]" style="font-size: 16px;" required>Orientasi Sesuai Kemampuan Diri (0)</label>
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <div class="grid_5" style=" margin: auto;">
+                                <input type="checkbox" class="k-checkbox cb2" ng-model="item.obj[2807]" value="15"
+                                    id="item.obj[2807]" style="margin: auto;">
+                                <label class="c-label k-checkbox-label" for="item.obj[2807]" style="font-size: 16px;" required>Lupa Keterbatasan Diri (15)</label>
+                            </div>
+                        </div>                      
+                    </td>
+                </tr>
+                <tr class="td">
+                    <td class="td">                       
+                    </td>
+                    <td class="td">
+                        <p style="font-size: 19px; float: right;"><b>Total skor</b></p>
+                    </td>
+                    <td class="td">
+                        <div class="grid_12">
+                            <div class="grid_1">
+                                <input style="font-size: 16px;" required c-text-box type="input" class="k-textbox" id="totalcost2"
+                                    ng-model="item.obj[2807]" disabled />
+                            </div>
+                        </div>
+                        <div class="grid_12">
+                            <p style="font-size: 18px;"><b>Skor 0-24   : Lanjutkan dengan Pencegahan Jatuh Pasien Dewasa</b>
+                            </p>
+                            <p style="font-size: 18px;"><b>Skor 25-50 : Pasang Kancing Kuning Dilanjutkan dengan Pencegahan Resiko Jatuh</b></p>
+                            <p style="font-size: 18px;"><b>Skor > 51 : Pasang Kancing Kuning Dilanjutkan Dengan Pencegahan Resiko Jatuh</b></p>
+                        </div>                                            
+                    </td>
+                </tr>                          
+            </table>
+        </div>
+
+        <div class="grid_12" ng-show="TidakBerisiko">
+            <table class="table td" style="width: 50%; margin-left: auto; margin-right: auto;" >
+                <tr class="td">
+                    <th class="td" colspan="2" style="font-size: 16px;">
+                        Langkah-langkah Pencegahan dan Pengamanan Pasien Resiko Jatuh Dewasa
+                    </th>
+                </tr>
+                <tr class="td">
+                    <th class="td" style="width: 5%;font-size: 16px;">
+                        1.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Pasang Kancing Kuning di Gelang Identitas Pasien
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        2.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Pasang Tanda Resiko Jatuh di Tiang Infus Pasien
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        3.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Rapihkan dan Jatuhkan Barang-barang di Sekitar Tempat Tidur yang Menghalangi Jalan
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        4.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Biarkan Pintu Terbuka 
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        5.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Bel Pasien Dekatkan di Tempat Tidur Pasien 
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        6.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Rendahkan Tempat Tidur dan Dalam Keadaan Terkunci
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        7.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Pasang Pagar Pengaman Tempat Tidur
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        8.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Tawarkan / Bantu Bila Pasien Akan ke Kamar Kecil Secara Teratur
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        9.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Anjurkan Pasien Menggunakan Alas Kaki yang Tidak Licin
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        10.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Tidak Membiarkan Pasien Seorang Diri
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        11.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Lampu Hidup di Malam Hari
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        12.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Bila Memungkinkan Pindahkan Kamar Pasien Lebih Dekat dengan Ruangan Jaga Perawat (Nurse Station)
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        13.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Jika Pasien menunjukkan Adanya Gangguan Kognitif gunakan Tali Pengaman (Non Emergency Restraint)
+                    </th>                    
+                </tr>                
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        14.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Edukasi Pasien dan Keluarga Mengenai Pencegahan Jatuh
+                    </th>                    
+                </tr>                
+            </table>
+        </div>
+
+        <div class="grid_12" ng-show="Berisiko">
+            <table class="table td" style="width: 50%; margin-left: auto; margin-right: auto;">
+                <tr class="td">
+                    <th class="td" colspan="2" style="font-size: 16px;">
+                        Resiko Tinggi (Skor > 12)
+                    </th>
+                </tr>
+                <tr class="td">
+                    <th class="td" style="width: 5%;">
+                        1.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Melakukan Semua petunjuk dalam ketentuan umum
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        2.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Pasang Kancing kuning pada tiang infus
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        3.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Gantungkan penanda resiko tinggi jatuh pada tiang infus
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        4.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Biarkan pintu kamar tetap terbuka kecuali jika pasien isolasi
+                    </th>                    
+                </tr>
+                <tr class="td">
+                    <th class="td" style="font-size: 16px;">
+                        5.
+                    </th>                    
+                    <th class="td" style="text-align: left;font-size: 16px;">
+                        Pindahkan semua perlengkapan yang tidak dipakai keluar ruangan sehingga area ruangan bebas dari hambatan
+                </tr>                   
+            </table>
+        </div>
+
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_8"></div>
+    <div class="grid_2">
+        <button class="btnTemplate1" ng-click="Save()">Simpan</button>
+    </div>
+    <!-- <div class="grid_2">
+        <button class="btnTemplate1 btnHijau" ng-click="Cetak()">Cetak</button>
+    </div> -->
+</div>
+
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<script>
+    $('.cb').on('change', function () { // on change of state
+        UpdateCost();
+    });
+    function UpdateCost() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost').val(sum.toFixed(0));
+    }
+    $('.cb2').on('change', function () { // on change of state
+        UpdateCost2();
+    });
+    function UpdateCost2() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb2:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost2').val(sum.toFixed(0));
+    }
+</script>

@@ -2,6 +2,34 @@ define(['initialize'], function (initialize) {
     'use strict';
     initialize.controller('PengkajianICUCtrl', ['$q', '$rootScope', '$scope', '$state', 'CacheHelper', 'MedifirstService', '$parse',
         function ($q, $rootScope, $scope, $state, cacheHelper, medifirstService, $parse) {
+             
+            
+            hakakses();
+            //Tambahan untuk cek hak akses di user 18-07-2023
+            function hakakses() {
+                //--ash--test hakakses---------------------------
+                var check_url = window.location.hash;
+                let check_url_dat = check_url.replace("#/", "");
+                let isHome = check_url_dat.substring(0, 4);
+
+
+                if(isHome!='home') {
+                    const myArray = check_url_dat.split("/");
+                    var datauserlogin = JSON.parse(localStorage.getItem('datauserlogin'));
+                    
+                    medifirstService.get("sysadmin/menu/get-modul-check?idUser="+ datauserlogin.id + "&alamatURL=" + myArray[0] + "&alamatALL=" + myArray  ).then(function (dataA) {
+                        if(dataA.data.length>0) {
+                            
+                            medifirstService.get("sysadmin/menu/get-hak-akses-check?idUser="+ datauserlogin.id + "&alamatURL=" + myArray[0] + "&alamatALL=" + myArray ).then(function (data) {
+                                if(data.data.length<1) {
+                                    $state.go('home');
+                                }
+                            });
+                        }
+                    });
+                }
+                //--------------------------------------------------              
+            }
             $scope.item = {};
             $scope.isRouteLoading = false;
             $scope.dataVOloaded = true;
@@ -45,6 +73,7 @@ define(['initialize'], function (initialize) {
             var namaRuanganFk = ''
             $scope.SistoleChart = false;
             $scope.NonSistoleChart = false;
+            $scope.ObatChart = false;
             var paramSearch = '';
             var nomorEMR = '-';
             $scope.satu = [
@@ -76,9 +105,39 @@ define(['initialize'], function (initialize) {
                             dataCombo[i].simbol = "▲";
                         } else if (dataCombo[i].id == 15) {
                             dataCombo[i].simbol = "";
+                        } else if (dataCombo[i].id == 16) {
+                            dataCombo[i].simbol = "M";
+                        } else if (dataCombo[i].id == 17) {
+                            dataCombo[i].simbol = "%";
                         }
                     }
                     $scope.listVitalSigns = dataCombo;
+                });
+
+                medifirstService.get("emr/get-data-combo-emr", true).then(function (dat) {
+                    var dataCombo = dat.data.obatobatans
+                    for (var i = 0; i < dataCombo.length; i++) {
+                        if (dataCombo[i].id == 1) {
+                            dataCombo[i].simbol = "✓";
+                        } else if (dataCombo[i].id == 2) {
+                            dataCombo[i].simbol = "☑";
+                        } else if (dataCombo[i].id == 3) {
+                            dataCombo[i].simbol = "☑➝";
+                        } else if (dataCombo[i].id == 4) {
+                            dataCombo[i].simbol = "T☑";
+                        } else if (dataCombo[i].id == 5) {
+                            dataCombo[i].simbol = "A";
+                        } else if (dataCombo[i].id == 6) {
+                            dataCombo[i].simbol = "⊗";
+                        } else if (dataCombo[i].id == 7) {
+                            dataCombo[i].simbol = "K";
+                        } else if (dataCombo[i].id == 8) {
+                            dataCombo[i].simbol = "ESO";
+                        } else if (dataCombo[i].id == 9) {
+                            dataCombo[i].simbol = "TAP";
+                        }
+                    }
+                    $scope.listObatObatans = dataCombo;
                 });
 
                 medifirstService.getPart('registrasi/get-daftar-combo-pegawai-all', true, 10).then(function (e) {
@@ -254,7 +313,8 @@ define(['initialize'], function (initialize) {
                 nomorEMR = $scope.dataSelected.nomoremr;
                 GridColumnLoad();
                 tampildetail(true);
-                medifirstService.get("emr/get-masalah?jenis=penunjang&norecemricufk=" + norec_Emr, true).then(function (dat) {
+                medifirstService.get("emr/get-masalah?norecemricufk=" + norec_Emr, true).then(function (dat) {
+                    debugger
                     $scope.dataGridobat = dat.data.data;
                     $scope.dataGridperawat = dat.data.data1;
                     $scope.dataGridperawat2 = dat.data.data2;
@@ -278,6 +338,7 @@ define(['initialize'], function (initialize) {
                     for (var i = 0; i < Data.length; i++) {
 
                         var vital = null;
+                        var obat = null;
                         // if (Data.[i].group == '1. VITAL SIGNS') {
                         //     vital = $scope.item.VSigns.id
                         // }
@@ -287,7 +348,8 @@ define(['initialize'], function (initialize) {
                             group: Data[i].group,
                             field: Data[i].field,
                             keteranganobservasi: Data[i].nilaiobservasi,
-                            vitalsigns: vital
+                            vitalsigns: vital,
+                            obats: obat
                         }
                         data_Save.push(datas);
                     }
@@ -380,6 +442,34 @@ define(['initialize'], function (initialize) {
 
 
             $scope.columnDaftar = {
+                toolbar: [
+                    "excel",
+    
+                ],
+                excel: {
+                    fileName: "Riwayat Pengkajian ICU.xlsx",
+                    allPages: true,
+                },
+                excelExport: function (e) {
+                    var sheet = e.workbook.sheets[0];
+                    sheet.frozenRows = 2;
+                    sheet.mergedCells = ["A1:H1"];
+                    sheet.name = "Riwayat Pengkajian";
+    
+                    var myHeaders = [{
+                        value: "Riwayat Pengkajian ICU",
+                        fontSize: 15,
+                        textAlign: "center",
+                        background: "#ffffff",
+                        // color:"#ffffff"
+                    }];
+    
+                    sheet.rows.splice(0, 0, {
+                        cells: myHeaders,
+                        type: "header",
+                        height: 50
+                    });
+                },
                 // toolbar: [{
                 //     name: "create", text: "Input Baru",
                 //     template: '<button ng-click="inputBaru()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Konsul</button>'
@@ -493,10 +583,7 @@ define(['initialize'], function (initialize) {
             function init() {
                 datana = [{
                     'group': '1. VITAL SIGNS',
-                    'desc': '220',
-                    'desc1': '41',
-                    'desc2': '200',
-                    'desc3': '100',
+                    'desc': 'TD',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -524,10 +611,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '1. VITAL SIGNS',
-                    'desc': '200',
-                    'desc1': '40',
-                    'desc2': '180',
-                    'desc3': '90',
+                    'desc': 'MAP',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -555,10 +639,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '1. VITAL SIGNS',
-                    'desc': '180',
-                    'desc1': '39',
-                    'desc2': '160',
-                    'desc3': '80',
+                    'desc': 'TEMP',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -586,10 +667,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '1. VITAL SIGNS',
-                    'desc': '160',
-                    'desc1': '38',
-                    'desc2': '140',
-                    'desc3': '70',
+                    'desc': 'HR',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -617,10 +695,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '1. VITAL SIGNS',
-                    'desc': '140',
-                    'desc1': '37',
-                    'desc2': '120',
-                    'desc3': '60',
+                    'desc': 'RR',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -648,10 +723,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '1. VITAL SIGNS',
-                    'desc': '120',
-                    'desc1': '36',
-                    'desc2': '100',
-                    'desc3': '50',
+                    'desc': 'SPO2',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -678,165 +750,8 @@ define(['initialize'], function (initialize) {
                     'c600': ''
                 },
                 {
-                    'group': '1. VITAL SIGNS',
-                    'desc': '100',
-                    'desc1': '35',
-                    'desc2': '80',
-                    'desc3': '40',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '1. VITAL SIGNS',
-                    'desc': '80',
-                    'desc1': '34',
-                    'desc2': '60',
-                    'desc3': '30',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '1. VITAL SIGNS',
-                    'desc': '60',
-                    'desc1': '33',
-                    'desc2': '40',
-                    'desc3': '20',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '1. VITAL SIGNS',
-                    'desc': '40',
-                    'desc1': '32',
-                    'desc2': '20',
-                    'desc3': '10',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '1. VITAL SIGNS',
-                    'desc': '20',
-                    'desc1': '31',
-                    'desc2': '0',
-                    'desc3': '0',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                }, {
                     'group': '1. VITAL SIGNS',
                     'desc': 'EKG/NADI',
-                    'desc1': '',
-                    'desc2': '',
-                    'desc3': 'EKG/NADI',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -861,42 +776,10 @@ define(['initialize'], function (initialize) {
                     'c400': '',
                     'c500': '',
                     'c600': ''
-                }, {
+                },
+                {
                     'group': '1. VITAL SIGNS',
                     'desc': 'CVP',
-                    'desc1': '',
-                    'desc2': '',
-                    'desc3': 'CVP',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                }, {
-                    'group': '1. VITAL SIGNS',
-                    'desc': 'Sat O2',
-                    'desc1': '',
-                    'desc2': '',
-                    'desc3': 'Sat O2',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -956,7 +839,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '2. SSP',
-                    'desc': 'RM',
+                    'desc': 'GCS',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -984,7 +867,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '2. SSP',
-                    'desc': 'BM',
+                    'desc': 'Uk Pupil Ka',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -1012,7 +895,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '2. SSP',
-                    'desc': 'RV',
+                    'desc': 'Uk Pupil Ki',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -1040,7 +923,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '2. SSP',
-                    'desc': 'Reaksi dan besa Pupil Ka',
+                    'desc': 'Extremitas TKa/TKi',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -1068,63 +951,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '2. SSP',
-                    'desc': 'Reaksi dan besa Pupil Ki',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '2. SSP',
-                    'desc': 'EXTREMITAS Tka/Tki',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '2. SSP',
-                    'desc': 'EXTREMITAS Kka/Kki',
+                    'desc': 'Extremitas KKa/KKi',
                     'c700': '',
                     'c800': '',
                     'c900': '',
@@ -1421,910 +1248,526 @@ define(['initialize'], function (initialize) {
                         'desc': 'INFUS :',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'I',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'II',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'III',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'IV',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'V',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'VI',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'VII',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'VIII',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'IX',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'X',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'ORAL/NGT',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'Darah',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'Plasma Expander',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
                         'desc': 'Albumin',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
                     },
                     {
                         'group': '4. intake',
-                        'desc': 'Jumlah 1 jam kumulatif',
+                        'desc': 'Jumlah 1 jam',
                         'c700x': '',
                         'c700': '',
-                        'c800': '',
                         'c900': '',
-                        'c1000': '',
                         'c1100': '',
-                        'c1200': '',
                         'c1300': '',
-                        'c1400': '',
                         'c1500': '',
-                        'c1600': '',
                         'c1700': '',
-                        'c1800': '',
                         'c1900': '',
-                        'c2000': '',
                         'c2100': '',
-                        'c2200': '',
                         'c2300': '',
-                        'c2400': '',
                         'c100': '',
-                        'c200': '',
                         'c300': '',
-                        'c400': '',
                         'c500': '',
-                        'c600': '',
                         'c700a': '',
-                        'c800a': '',
                         'c900a': '',
-                        'c1000a': '',
                         'c1100a': '',
-                        'c1200a': '',
                         'c1300a': '',
-                        'c1400a': '',
                         'c1500a': '',
-                        'c1600a': '',
                         'c1700a': '',
-                        'c1800a': '',
                         'c1900a': '',
-                        'c2000a': '',
                         'c2100a': '',
-                        'c2200a': '',
                         'c2300a': '',
-                        'c2400a': '',
                         'c100a': '',
-                        'c200a': '',
                         'c300a': '',
-                        'c400a': '',
                         'c500a': '',
-                        'c600a': ''
+                    },
+                    {
+                        'group': '4. intake',
+                        'desc': 'Komulatif',
+                        'c700x': '',
+                        'c700': '',
+                        'c900': '',
+                        'c1100': '',
+                        'c1300': '',
+                        'c1500': '',
+                        'c1700': '',
+                        'c1900': '',
+                        'c2100': '',
+                        'c2300': '',
+                        'c100': '',
+                        'c300': '',
+                        'c500': '',
+                        'c700a': '',
+                        'c900a': '',
+                        'c1100a': '',
+                        'c1300a': '',
+                        'c1500a': '',
+                        'c1700a': '',
+                        'c1900a': '',
+                        'c2100a': '',
+                        'c2300a': '',
+                        'c100a': '',
+                        'c300a': '',
+                        'c500a': '',
+                    },
+                    {
+                        'group': '4. intake',
+                        'desc': 'Keseimbangan Carian',
+                        'c700x': '',
+                        'c700': '',
+                        'c900': '',
+                        'c1100': '',
+                        'c1300': '',
+                        'c1500': '',
+                        'c1700': '',
+                        'c1900': '',
+                        'c2100': '',
+                        'c2300': '',
+                        'c100': '',
+                        'c300': '',
+                        'c500': '',
+                        'c700a': '',
+                        'c900a': '',
+                        'c1100a': '',
+                        'c1300a': '',
+                        'c1500a': '',
+                        'c1700a': '',
+                        'c1900a': '',
+                        'c2100a': '',
+                        'c2300a': '',
+                        'c100a': '',
+                        'c300a': '',
+                        'c500a': '',
                     }
 
                 ];
                 datana4 = [{
-                    'group': '4. OUTPUT',
-                    'desc': 'KESADARAN',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '4. OUTPUT',
-                    'desc': 'OUTPUT',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
                     'group': '4. OUTPUT',
                     'desc': 'URINE',
                     'c700x': '',
@@ -2558,7 +2001,7 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '4. OUTPUT',
-                    'desc': 'JUMLAH KUMULATIF 1',
+                    'desc': 'JUMLAH 1 JAM',
                     'c700x': '',
                     'c700': '',
                     'c800': '',
@@ -2587,7 +2030,36 @@ define(['initialize'], function (initialize) {
                 },
                 {
                     'group': '4. OUTPUT',
-                    'desc': 'JUMLAH KUMULATIF 2',
+                    'desc': 'KOMULATIF',
+                    'c700x': '',
+                    'c700': '',
+                    'c800': '',
+                    'c900': '',
+                    'c1000': '',
+                    'c1100': '',
+                    'c1200': '',
+                    'c1300': '',
+                    'c1400': '',
+                    'c1500': '',
+                    'c1600': '',
+                    'c1700': '',
+                    'c1800': '',
+                    'c1900': '',
+                    'c2000': '',
+                    'c2100': '',
+                    'c2200': '',
+                    'c2300': '',
+                    'c2400': '',
+                    'c100': '',
+                    'c200': '',
+                    'c300': '',
+                    'c400': '',
+                    'c500': '',
+                    'c600': ''
+                },
+                {
+                    'group': '4. OUTPUT',
+                    'desc': 'Keseimbangan Carian',
                     'c700x': '',
                     'c700': '',
                     'c800': '',
@@ -2615,586 +2087,586 @@ define(['initialize'], function (initialize) {
                     'c600': ''
                 },
 
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'PH',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'PO2',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'PCO2',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'HCO3',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'BE',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'SAT.02',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'K',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Na/Cl',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Ca',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Mg/Fosfor',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'HB /Leukosit',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'HT. / Tromb',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Ureum',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Creatinin',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Glukose',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Protein',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'Alb/ Glob',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'SGOT/SGPT',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'BL.T/CL.T',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
-                {
-                    'group': '5. LABORAOTIUM',
-                    'desc': 'PT/APTT',
-                    'c700x': '',
-                    'c700': '',
-                    'c800': '',
-                    'c900': '',
-                    'c1000': '',
-                    'c1100': '',
-                    'c1200': '',
-                    'c1300': '',
-                    'c1400': '',
-                    'c1500': '',
-                    'c1600': '',
-                    'c1700': '',
-                    'c1800': '',
-                    'c1900': '',
-                    'c2000': '',
-                    'c2100': '',
-                    'c2200': '',
-                    'c2300': '',
-                    'c2400': '',
-                    'c100': '',
-                    'c200': '',
-                    'c300': '',
-                    'c400': '',
-                    'c500': '',
-                    'c600': ''
-                },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'PH',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'PO2',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'PCO2',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'HCO3',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'BE',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'SAT.02',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'K',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Na/Cl',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Ca',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Mg/Fosfor',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'HB /Leukosit',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'HT. / Tromb',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Ureum',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Creatinin',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Glukose',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Protein',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'Alb/ Glob',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'SGOT/SGPT',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'BL.T/CL.T',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
+                // {
+                //     'group': '5. LABORAOTIUM',
+                //     'desc': 'PT/APTT',
+                //     'c700x': '',
+                //     'c700': '',
+                //     'c800': '',
+                //     'c900': '',
+                //     'c1000': '',
+                //     'c1100': '',
+                //     'c1200': '',
+                //     'c1300': '',
+                //     'c1400': '',
+                //     'c1500': '',
+                //     'c1600': '',
+                //     'c1700': '',
+                //     'c1800': '',
+                //     'c1900': '',
+                //     'c2000': '',
+                //     'c2100': '',
+                //     'c2200': '',
+                //     'c2300': '',
+                //     'c2400': '',
+                //     'c100': '',
+                //     'c200': '',
+                //     'c300': '',
+                //     'c400': '',
+                //     'c500': '',
+                //     'c600': ''
+                // },
 
 
 
@@ -3803,7 +3275,42 @@ define(['initialize'], function (initialize) {
                 };
 
                 $scope.columnData1 = {
+                    toolbar: [
+                        "excel",
+                        "pdf"
+                    ],
+                    excel: {
+                        fileName: "VITAL SIGNS.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:Z1"];
+                        sheet.name = "Orders";
 
+                        var myHeaders = [{
+                            value: "VITAL SIGNS",
+                            fontSize: 20,
+                            textAlign: "center",
+                            background: "#ffffff",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                    },
+                    pdf: {
+                        fileName: "VITAL SIGNS.pdf",
+                        allPages: true,
+                        paperSize: "A4",
+                        landscape: true,
+                        margin: { top: "1cm", right: "1cm", bottom: "1cm", left: "1cm" },
+                    },
+                    pdfExport: function (e) {
+                        var pageOptions = e.sender.options.pageable;
+                        e.sender.options.allPages = pageOptions && pageOptions.pageSize === 'all';
+                        e.promise.done(function () {
+                            e.sender.options.allPages = false;
+                        });
+                    },
                     selectable: 'cell',
                     // pageable: true,
                     dataBound: $scope.onDataBound,
@@ -3816,153 +3323,170 @@ define(['initialize'], function (initialize) {
                     },
                     {
                         "field": "desc",
-                        "title": "BP",
-                        "width": "50px",
+                        "title": "Description",
+                        "width": "200px",
                         "template": "<span class='style-rigth'>#: desc #</span>"
-                    },
-                    {
-                        "field": "desc1",
-                        "title": "T",
-                        "width": "50px",
-                        "template": "<span class='style-rigth'>#: desc1 #</span>"
-                    },
-                    {
-                        "field": "desc2",
-                        "title": "HR",
-                        "width": "50px",
-                        "template": "<span class='style-rigth'>#: desc2 #</span>"
-                    },
-                    {
-                        "field": "desc3",
-                        "title": "RR",
-                        "width": "50px",
-                        "template": "<span class='style-rigth'>#: desc3 #</span>"
                     },
                     {
                         "field": "c700",
                         "title": "7:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c800",
                         "title": "8:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900",
                         "title": "9:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1000",
                         "title": "10:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100",
                         "title": "11:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1200",
                         "title": "12:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300",
                         "title": "13:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1400",
                         "title": "14:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500",
                         "title": "15:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1600",
                         "title": "16:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700",
                         "title": "17:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1800",
                         "title": "18:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900",
                         "title": "19:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2000",
                         "title": "20:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100",
                         "title": "21:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2200",
                         "title": "22:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300",
                         "title": "23:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2400",
                         "title": "24:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100",
                         "title": "1:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c200",
                         "title": "2:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300",
                         "title": "3:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c400",
                         "title": "4:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500",
                         "title": "5:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c600",
                         "title": "6:00",
-                        "width": "50px"
+                        "width": "80px"
                     }
                     ]
                 };
 
                 $scope.columnData2 = {
+                    toolbar: [
+                        "excel",
+                        "pdf"
+                    ],
+                    excel: {
+                        fileName: "SSP & RESPIRASI.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:Z1"];
+                        sheet.name = "Orders";
 
+                        var myHeaders = [{
+                            value: "SSP & RESPIRASI",
+                            fontSize: 20,
+                            textAlign: "center",
+                            background: "#ffffff",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                    },
+                    pdf: {
+                        fileName: "SSP & RESPIRASI.pdf",
+                        allPages: true,
+                        paperSize: "A4",
+                        landscape: true,
+                        margin: { top: "1cm", right: "1cm", bottom: "1cm", left: "1cm" },
+                    },
+                    pdfExport: function (e) {
+                        var pageOptions = e.sender.options.pageable;
+                        e.sender.options.allPages = pageOptions && pageOptions.pageSize === 'all';
+                        e.promise.done(function () {
+                            e.sender.options.allPages = false;
+                        });
+                    },
                     selectable: 'cell',
                     // pageable: true,
                     dataBound: $scope.onDataBound2,
@@ -3989,128 +3513,163 @@ define(['initialize'], function (initialize) {
                     {
                         "field": "c700",
                         "title": "7:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
 
                     {
                         "field": "c800",
                         "title": "8:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900",
                         "title": "9:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1000",
                         "title": "10:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100",
                         "title": "11:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1200",
                         "title": "12:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300",
                         "title": "13:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1400",
                         "title": "14:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500",
                         "title": "15:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1600",
                         "title": "16:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700",
                         "title": "17:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1800",
                         "title": "18:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900",
                         "title": "19:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2000",
                         "title": "20:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100",
                         "title": "21:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2200",
                         "title": "22:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300",
                         "title": "23:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2400",
                         "title": "24:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100",
                         "title": "1:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c200",
                         "title": "2:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300",
                         "title": "3:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c400",
                         "title": "4:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500",
                         "title": "5:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c600",
                         "title": "6:00",
-                        "width": "50px"
+                        "width": "80px"
                     }
                     ]
                 };
                 $scope.columnData3 = {
+                    toolbar: [
+                        "excel",
+                        "pdf"
+                    ],
+                    excel: {
+                        fileName: "INTAKE.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:AA1"];
+                        sheet.name = "Orders";
 
+                        var myHeaders = [{
+                            value: "INTAKE",
+                            fontSize: 20,
+                            textAlign: "center",
+                            background: "#ffffff",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                    },
+                    pdf: {
+                        fileName: "INTAKE.pdf",
+                        allPages: true,
+                        paperSize: "A4",
+                        landscape: true,
+                        margin: { top: "1cm", right: "1cm", bottom: "1cm", left: "1cm" },
+                    },
+                    pdfExport: function (e) {
+                        var pageOptions = e.sender.options.pageable;
+                        e.sender.options.allPages = pageOptions && pageOptions.pageSize === 'all';
+                        e.promise.done(function () {
+                            e.sender.options.allPages = false;
+                        });
+                    },
                     selectable: 'cell',
                     // pageable: true,
                     dataBound: $scope.onDataBound3,
@@ -4136,247 +3695,162 @@ define(['initialize'], function (initialize) {
                     {
                         "field": "c700",
                         "title": "CM7:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c800",
-                        "title": "CA7:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900",
                         "title": "CM8:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1000",
-                        "title": "CA8:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100",
                         "title": "CM9:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1200",
-                        "title": "CA9:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300",
                         "title": "CM10:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1400",
-                        "title": "CA10:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500",
                         "title": "CM11:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1600",
-                        "title": "CA11:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700",
                         "title": "CM12:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1800",
-                        "title": "CA12:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900",
                         "title": "CM13:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2000",
-                        "title": "CA13:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100",
                         "title": "CM14:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2200",
-                        "title": "CA14:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300",
                         "title": "CM15:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2400",
-                        "title": "CA15:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100",
                         "title": "CM16:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c200",
-                        "title": "CA16:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300",
                         "title": "CM17:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c400",
-                        "title": "CA17:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500",
                         "title": "CM18:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c600",
-                        "title": "CA18:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c700a",
                         "title": "CM19:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c800a",
-                        "title": "CA19:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900a",
                         "title": "CM20:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1000a",
-                        "title": "CA20:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100a",
                         "title": "CM21:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1200a",
-                        "title": "CA21:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300a",
                         "title": "CM22:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1400a",
-                        "title": "CA22:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500a",
                         "title": "CM23:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1600a",
-                        "title": "CA23:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700a",
                         "title": "CM24:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c1800a",
-                        "title": "CA24:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900a",
                         "title": "CM1:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2000a",
-                        "title": "CA1:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100a",
                         "title": "CM2:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2200a",
-                        "title": "CA2:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300a",
                         "title": "CM3:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c2400a",
-                        "title": "CA3:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100a",
                         "title": "CM4:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c200a",
-                        "title": "CA4:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300a",
                         "title": "CM5:00",
-                        "width": "75px"
-                    },
-                    {
-                        "field": "c400a",
-                        "title": "CA5:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500a",
                         "title": "CM6:00",
-                        "width": "75px"
+                        "width": "80px"
                     },
-                    {
-                        "field": "c600a",
-                        "title": "CA6:00",
-                        "width": "75px"
-                    }
                     ]
                 };
                 $scope.columnData5 = {
+                    toolbar: [
+                        "excel",
+                        "pdf"
+                    ],
+                    excel: {
+                        fileName: "OBAT-OBATAN.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:AC1"];
+                        sheet.name = "Orders";
 
+                        var myHeaders = [{
+                            value: "OBAT-OBATAN",
+                            fontSize: 20,
+                            textAlign: "center",
+                            background: "#ffffff",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                    },
+                    pdf: {
+                        fileName: "OBAT-OBATAN.pdf",
+                        allPages: true,
+                        paperSize: "A4",
+                        landscape: true,
+                        margin: { top: "1cm", right: "1cm", bottom: "1cm", left: "1cm" },
+                    },
+                    pdfExport: function (e) {
+                        var pageOptions = e.sender.options.pageable;
+                        e.sender.options.allPages = pageOptions && pageOptions.pageSize === 'all';
+                        e.promise.done(function () {
+                            e.sender.options.allPages = false;
+                        });
+                    },
                     selectable: 'cell',
                     // pageable: true,
                     dataBound: $scope.onDataBound5,
@@ -4396,145 +3870,180 @@ define(['initialize'], function (initialize) {
                     {
                         "field": "c700x",
                         "title": "OBAT",
-                        "width": "70px",
+                        "width": "75px",
                         // "template": "<span class='style-rigth'>#: desc #</span>"
                     }, {
                         "field": "c700x2",
                         "title": "DOSIS",
-                        "width": "70px",
+                        "width": "75px",
                         // "template": "<span class='style-rigth'>#: desc #</span>"
                     },
                     {
                         "field": "c700x3",
                         "title": "DOKTER",
-                        "width": "70px",
+                        "width": "75px",
                         // "template": "<span class='style-rigth'>#: desc #</span>"
                     },
                     {
                         "field": "c700",
                         "title": "7:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
 
                     {
                         "field": "c800",
                         "title": "8:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900",
                         "title": "9:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1000",
                         "title": "10:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100",
                         "title": "11:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1200",
                         "title": "12:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300",
                         "title": "13:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1400",
                         "title": "14:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500",
                         "title": "15:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1600",
                         "title": "16:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700",
                         "title": "17:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1800",
                         "title": "18:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900",
                         "title": "19:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2000",
                         "title": "20:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100",
                         "title": "21:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2200",
                         "title": "22:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300",
                         "title": "23:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2400",
                         "title": "24:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100",
                         "title": "1:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c200",
                         "title": "2:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300",
                         "title": "3:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c400",
                         "title": "4:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500",
                         "title": "5:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c600",
                         "title": "6:00",
-                        "width": "50px"
+                        "width": "80px"
                     }
                     ]
                 };
                 $scope.columnData4 = {
+                    toolbar: [
+                        "excel",
+                        "pdf"
+                    ],
+                    excel: {
+                        fileName: "OUTPUT.xlsx",
+                        allPages: true,
+                    },
+                    excelExport: function (e) {
+                        var sheet = e.workbook.sheets[0];
+                        sheet.frozenRows = 2;
+                        sheet.mergedCells = ["A1:AA1"];
+                        sheet.name = "Orders";
 
+                        var myHeaders = [{
+                            value: "OUTPUT",
+                            fontSize: 20,
+                            textAlign: "center",
+                            background: "#ffffff",
+                        }];
+                        sheet.rows.splice(0, 0, { cells: myHeaders, type: "header", height: 70 });
+                    },
+                    pdf: {
+                        fileName: "OUTPUT.pdf",
+                        allPages: true,
+                        paperSize: "A4",
+                        landscape: true,
+                        margin: { top: "1cm", right: "1cm", bottom: "1cm", left: "1cm" },
+                    },
+                    pdfExport: function (e) {
+                        var pageOptions = e.sender.options.pageable;
+                        e.sender.options.allPages = pageOptions && pageOptions.pageSize === 'all';
+                        e.promise.done(function () {
+                            e.sender.options.allPages = false;
+                        });
+                    },
                     selectable: 'cell',
                     // pageable: true,
                     dataBound: $scope.onDataBound4,
@@ -4561,128 +4070,128 @@ define(['initialize'], function (initialize) {
                     {
                         "field": "c700x",
                         "title": ".",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c700",
                         "title": "7:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
 
                     {
                         "field": "c800",
                         "title": "8:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c900",
                         "title": "9:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1000",
                         "title": "10:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1100",
                         "title": "11:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1200",
                         "title": "12:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1300",
                         "title": "13:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1400",
                         "title": "14:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1500",
                         "title": "15:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1600",
                         "title": "16:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1700",
                         "title": "17:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1800",
                         "title": "18:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c1900",
                         "title": "19:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2000",
                         "title": "20:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2100",
                         "title": "21:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2200",
                         "title": "22:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2300",
                         "title": "23:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c2400",
                         "title": "24:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c100",
                         "title": "1:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c200",
                         "title": "2:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c300",
                         "title": "3:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c400",
                         "title": "4:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c500",
                         "title": "5:00",
-                        "width": "50px"
+                        "width": "80px"
                     },
                     {
                         "field": "c600",
                         "title": "6:00",
-                        "width": "50px"
+                        "width": "80px"
                     }
                     ]
                 };
@@ -4707,11 +4216,16 @@ define(['initialize'], function (initialize) {
                         };
                         data_head.push(datas);
 
-                        if ($scope.selectedData.group == "1. VITAL SIGNS") {
-                            $scope.vitalSigns = true;
-                        } else {
-                            $scope.vitalSigns = false;
-                        }
+                        // if ($scope.selectedData.group == "1. VITAL SIGNS") {
+                        //     $scope.vitalSigns = true;
+                        //     $scope.obatobatans = false;
+                        // } else if ($scope.selectedData.group == "OBAT-OBATAN") {
+                        //     $scope.obatobatans = true;
+                        //     $scope.vitalSigns = false;
+                        // } else {
+                        //     $scope.vitalSigns = false;
+                        //     $scope.obatobatans = false;
+                        // }
                         $scope.showDetail(data_head, $scope.selectedData);
                     }
                 });
@@ -4734,11 +4248,16 @@ define(['initialize'], function (initialize) {
                         };
                         data_head.push(datas);
 
-                        if ($scope.selectedData.group == "1. VITAL SIGNS") {
-                            $scope.vitalSigns = true;
-                        } else {
-                            $scope.vitalSigns = false;
-                        }
+                        // if ($scope.selectedData.group == "1. VITAL SIGNS") {
+                        //     $scope.vitalSigns = true;
+                        //     $scope.obatobatans = false;
+                        // } else if ($scope.selectedData.group == "OBAT-OBATAN") {
+                        //     $scope.obatobatans = true;
+                        //     $scope.vitalSigns = false;
+                        // } else {
+                        //     $scope.vitalSigns = false;
+                        //     $scope.obatobatans = false;
+                        // }
                         $scope.showDetail(data_head, $scope.selectedData);
                     }
                 });
@@ -4761,11 +4280,16 @@ define(['initialize'], function (initialize) {
                         };
                         data_head.push(datas);
 
-                        if ($scope.selectedData.group == "1. VITAL SIGNS") {
-                            $scope.vitalSigns = true;
-                        } else {
-                            $scope.vitalSigns = false;
-                        }
+                        // if ($scope.selectedData.group == "1. VITAL SIGNS") {
+                        //     $scope.vitalSigns = true;
+                        //     $scope.obatobatans = false;
+                        // } else if ($scope.selectedData.group == "OBAT-OBATAN") {
+                        //     $scope.obatobatans = true;
+                        //     $scope.vitalSigns = false;
+                        // } else {
+                        //     $scope.vitalSigns = false;
+                        //     $scope.obatobatans = false;
+                        // }
                         $scope.showDetail(data_head, $scope.selectedData);
                     }
                 });
@@ -4788,11 +4312,16 @@ define(['initialize'], function (initialize) {
                         };
                         data_head.push(datas);
 
-                        if ($scope.selectedData.group == "1. VITAL SIGNS") {
-                            $scope.vitalSigns = true;
-                        } else {
-                            $scope.vitalSigns = false;
-                        }
+                        // if ($scope.selectedData.group == "1. VITAL SIGNS") {
+                        //     $scope.vitalSigns = true;
+                        //     $scope.obatobatans = false;
+                        // } else if ($scope.selectedData.group == "OBAT-OBATAN") {
+                        //     $scope.obatobatans = true;
+                        //     $scope.vitalSigns = false;
+                        // } else {
+                        //     $scope.vitalSigns = false;
+                        //     $scope.obatobatans = false;
+                        // }
                         $scope.showDetail(data_head, $scope.selectedData);
                     }
                 });
@@ -4815,11 +4344,16 @@ define(['initialize'], function (initialize) {
                         };
                         data_head.push(datas);
 
-                        if ($scope.selectedData.group == "1. VITAL SIGNS") {
-                            $scope.vitalSigns = true;
-                        } else {
-                            $scope.vitalSigns = false;
-                        }
+                        // if ($scope.selectedData.group == "1. VITAL SIGNS") {
+                        //     $scope.vitalSigns = true;
+                        //     $scope.obatobatans = false;
+                        // } else if ($scope.selectedData.group == "OBAT-OBATAN") {
+                        //     $scope.obatobatans = true;
+                        //     $scope.vitalSigns = false;
+                        // } else {
+                        //     $scope.vitalSigns = false;
+                        //     $scope.obatobatans = false;
+                        // }
                         $scope.showDetail(data_head, $scope.selectedData);
                     }
                 });
@@ -4835,35 +4369,80 @@ define(['initialize'], function (initialize) {
                     for (var i = 0; i < Object.keys($scope.selectedData).length; i++) {
                         for (var j = 0; j < data_head.length; j++) {
                             if (data_head[0].group == "1. VITAL SIGNS") {
-                                $scope.SistoleChart = true;
-                                $scope.NonSistoleChart = false;
+                                // $scope.SistoleChart = true;
+                                // $scope.NonSistoleChart = false;
+                                // $scope.ObatChart = false;
                                 if (data_head[j].field == Object.keys($scope.selectedData)[i]) {
                                     if ($scope.selectedData[Object.keys($scope.selectedData)[i]] != "") {
                                         var isi = $scope.selectedData[Object.keys($scope.selectedData)[i]].split(" ");
                                         // var isiCombo = isi[1].split(" ");
                                         medifirstService.get("emr/get-data-riwayat-emr-icu-detail?NoRegistrasi=" + norec_pd, true).then(function (dat) {
                                             var datas = dat.data.data_riwayat;
-                                            for (var i = 0; i < datas.length; i++) {
-                                                if (datas[i].objectvitalsigns != undefined || datas[i].objectvitalsigns != null) {
-                                                    if (datas[i].objectvitalsigns == 1) {
-                                                        datas[i].simbol = "⋁";
-                                                    } else if (datas[i].objectvitalsigns == 2) {
-                                                        datas[i].simbol = "⋀";
-                                                    } else if (datas[i].objectvitalsigns == 3) {
-                                                        datas[i].simbol = "⬤";
-                                                    } else if (datas[i].objectvitalsigns == 4) {
-                                                        datas[i].simbol = "▲";
-                                                    }
-                                                    $scope.item.VSigns = { id: datas[i].objectvitalsigns, vitalsigns: datas[i].vitalsigns, simbol: datas[i].simbol }
-                                                }
-                                            }
+                                            // for (var i = 0; i < datas.length; i++) {
+                                            //     if (datas[i].objectvitalsigns != undefined || datas[i].objectvitalsigns != null) {
+                                            //         if (datas[i].objectvitalsigns == 1) {
+                                            //             datas[i].simbol = "⋁";
+                                            //         } else if (datas[i].objectvitalsigns == 2) {
+                                            //             datas[i].simbol = "⋀";
+                                            //         } else if (datas[i].objectvitalsigns == 3) {
+                                            //             datas[i].simbol = "⬤";
+                                            //         } else if (datas[i].objectvitalsigns == 4) {
+                                            //             datas[i].simbol = "▲";
+                                            //         } else if (datas[i].objectvitalsigns == 16) {
+                                            //             datas[i].simbol = "M";
+                                            //         } else if (datas[i].objectvitalsigns == 17) {
+                                            //             datas[i].simbol = "%";
+                                            //         } 
+                                            //         $scope.item.VSigns = { id: datas[i].objectvitalsigns, vitalsigns: datas[i].vitalsigns, simbol: datas[i].simbol }
+                                            //     }
+                                            // }
+                                            $scope.item.Isian = isi[1]
+                                        });
+                                    }
+                                }
+                            // key
+                            } else if (data_head[0].group == "OBAT-OBATAN") {
+                                // $scope.ObatChart = true;
+                                // $scope.SistoleChart = false;
+                                // $scope.NonSistoleChart = false;
+                                if (data_head[j].field == Object.keys($scope.selectedData)[i]) {
+                                    if ($scope.selectedData[Object.keys($scope.selectedData)[i]] != "") {
+                                        var isi = $scope.selectedData[Object.keys($scope.selectedData)[i]].split(" ");
+                                        // var isiCombo = isi[1].split(" ");
+                                        medifirstService.get("emr/get-data-riwayat-emr-icu-detail-obat?NoRegistrasi=" + norec_pd, true).then(function (dat) {
+                                            var datas = dat.data.data_riwayat;
+                                            // for (var i = 0; i < datas.length; i++) {
+                                            //     if (datas[i].objectobats != undefined || datas[i].objectobats != null) {
+                                            //         if (datas[i].objectobats == 1) {
+                                            //             datas[i].simbol = "✓";
+                                            //         } else if (datas[i].objectobats == 2) {
+                                            //             datas[i].simbol = "☑";
+                                            //         } else if (datas[i].objectobats == 3) {
+                                            //             datas[i].simbol = "☑➝";
+                                            //         } else if (datas[i].objectobats == 4) {
+                                            //             datas[i].simbol = "T☑";
+                                            //         } else if (datas[i].objectobats == 5) {
+                                            //             datas[i].simbol = "A";
+                                            //         } else if (datas[i].objectobats == 6) {
+                                            //             datas[i].simbol = "⊗";
+                                            //         } else if (datas[i].objectobats == 7) {
+                                            //             datas[i].simbol = "K";
+                                            //         } else if (datas[i].objectobats == 8) {
+                                            //             datas[i].simbol = "ESO";
+                                            //         } else if (datas[i].objectobats == 9) {
+                                            //             datas[i].simbol = "TAP";
+                                            //         }
+                                            //         $scope.item.Obats = { id: datas[i].objectobats, obats: datas[i].obats, simbol: datas[i].simbol }
+                                            //     }
+                                            // }
                                             $scope.item.Isian = isi[1]
                                         });
                                     }
                                 }
                             } else {
-                                $scope.SistoleChart = false;
-                                $scope.NonSistoleChart = true;
+                                // $scope.SistoleChart = false;
+                                // $scope.NonSistoleChart = true;
+                                // $scope.ObatChart = false;
                                 if (data_head[j].field == Object.keys($scope.selectedData)[i]) {
                                     if ($scope.selectedData[Object.keys($scope.selectedData)[i]] != "") {
                                         $scope.item.Isian = $scope.selectedData[Object.keys($scope.selectedData)[i]]
@@ -4890,28 +4469,53 @@ define(['initialize'], function (initialize) {
                     return;
                 }
 
-                if (data_head[0].group == "1. VITAL SIGNS" && $scope.item.VSigns == undefined) {
-                    toastr.warning('Vital Signs harus diisi, Peringatan!')
-                    return;
-                }
+                // if (data_head[0].group == "1. VITAL SIGNS" && $scope.item.VSigns == undefined) {
+                //     toastr.warning('Vital Signs harus diisi, Peringatan!')
+                //     return;
+                // }
+
+                // // key
+                // if (data_head[0].group == "OBAT-OBATAN" && $scope.item.Obats == undefined) {
+                //     toastr.warning('Keterangan Obat harus diisi, Peringatan!')
+                //     return;
+                // }
 
                 var vital = null;
                 if ($scope.item.VSigns != undefined) {
                     vital = $scope.item.VSigns.id
                 }
 
+                var obat = null;
+                if ($scope.item.Obats != undefined) {
+                    obat = $scope.item.Obats.id
+                }
+
                 for (var i = 0; i < Object.keys($scope.selectedData).length; i++) {
                     for (var j = 0; j < data_head.length; j++) {
                         if (data_head[0].group == "1. VITAL SIGNS") {
                             if (data_head[j].field == Object.keys($scope.selectedData)[i]) {
-                                $scope.selectedData[Object.keys($scope.selectedData)[i]] = $scope.item.VSigns.simbol + " " + $scope.item.Isian
+                                $scope.selectedData[Object.keys($scope.selectedData)[i]] = $scope.item.Isian
                                 var datas = {
                                     column: data_head[0].judulatas,
                                     desc: data_head[0].judulsamping,
                                     group: data_head[0].group,
                                     field: data_head[0].field,
                                     keteranganobservasi: $scope.selectedData[Object.keys($scope.selectedData)[i]],
-                                    vitalsigns: vital
+                                    // vitalsigns: vital
+                                }
+                                data_Save.push(datas);
+                            }
+                        // key
+                        } else if(data_head[0].group == "OBAT-OBATAN") {
+                            if (data_head[j].field == Object.keys($scope.selectedData)[i]) {
+                                $scope.selectedData[Object.keys($scope.selectedData)[i]] = $scope.item.Isian
+                                var datas = {
+                                    column: data_head[0].judulatas,
+                                    desc: data_head[0].judulsamping,
+                                    group: data_head[0].group,
+                                    field: data_head[0].field,
+                                    keteranganobservasi: $scope.selectedData[Object.keys($scope.selectedData)[i]],
+                                    // obats: obat
                                 }
                                 data_Save.push(datas);
                             }
@@ -4924,7 +4528,7 @@ define(['initialize'], function (initialize) {
                                     group: data_head[0].group,
                                     field: data_head[0].field,
                                     keteranganobservasi: $scope.selectedData[Object.keys($scope.selectedData)[i]],
-                                    vitalsigns: vital
+                                    // vitalsigns: vital
                                 }
                                 data_Save.push(datas);
                             }
@@ -4951,6 +4555,7 @@ define(['initialize'], function (initialize) {
                 data_head = [];
                 $scope.item.Isian = undefined;
                 $scope.item.VSigns = undefined;
+                $scope.item.Obats = undefined;
             }
 
             $scope.formatTanggal = function (tanggal) {
@@ -5253,13 +4858,16 @@ define(['initialize'], function (initialize) {
                                         $scope.item.objcbo[data.options.idididid] = data
                                     })
                                 }
-                                for (var ii = e.data.kolom3.child.length - 1; ii >= 0; ii--) {
-                                    if (e.data.kolom3[i].child[ii].cbotable != null) {
-                                        medifirstService.getPart2(e.data.kolom3[i].child[ii].id, e.data.kolom3[i].child[ii].cbotable, true, true, 20).then(function (data) {
-                                            $scope.item.objcbo[data.options.idididid] = data
-                                        })
+                                // key
+                                if (e.data.kolom3 && e.data.kolom3.child && Array.isArray(e.data.kolom3.child)) {
+                                    for (var ii = e.data.kolom3.child.length - 1; ii >= 0; ii--) {
+                                        if (e.data.kolom3.child[ii].cbotable != null) {
+                                            medifirstService.getPart2(e.data.kolom3.child[ii].id, e.data.kolom3.child[ii].cbotable, true, true, 20).then(function (data) {
+                                                $scope.item.objcbo[data.options.idididid] = data;
+                                            });
+                                        }
                                     }
-                                }
+                                } 
                             }
 
                         })
@@ -5569,7 +5177,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         "gambarLogo": "logo_rs.jpg",
                         "paramKey": ["namaRS", "alamatRS", "norecemricu", "dataLoad", "namapasien", "noregistrasi", "umur", "sex", "jaminan", "kelas", "nocm", "golongandarah", "test"],
-                        "paramValue": ["RS BHAYANGKARA TK IV CIANJUR", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", norec_Emr, arrPush,
+                        "paramValue": ["RSUD MARIA WALANDA MARAMIS", "Jl. Prof. Arnold Mononutu, Kel.Sarongsong II, Airmadidi, Minahasa Utara, Sulawesi Utara", norec_Emr, arrPush,
                             namapasien, noregistrasi, umur, sex, jaminan, kelas, nocm, golongandarah, base64
                         ],
                         "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", ""]
@@ -5598,10 +5206,10 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://192.168.88.56:1002/generic/report/report2.pdf');
                     } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                         xhr.open('POST', 'http://10.10.20.167:1002/generic/report/report2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                    } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
                         xhr.open('POST', '/jasper1/generic/report/report2.pdf');
                     } else {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/report2.pdf');
+                        xhr.open('POST', '/jasper1/generic/report/report2.pdf');
                     }
 
                     // set `Content-Type` header
@@ -5615,67 +5223,75 @@ define(['initialize'], function (initialize) {
 
             }
 
+            // key
             $scope.simpanmasalah = function () {
-                norec_Emr = $scope.dataSelected.norec;
+                var norec_Emr = $scope.dataSelected.norec; // Inisialisasi norec_Emr di sini
                 var objSave = {
                     "norecemricufk": norec_Emr,
                     "jam": $scope.item.jam,
                     "masalah": $scope.item.masalah,
                     "intruksi": $scope.item.intruksi,
-                    "paraf": $scope.item.dokter.namalengkap,
-                    "kelompok": "-",
+                    "paraf": $scope.item.dokter ? $scope.item.dokter.namalengkap : "", // Periksa apakah $scope.item.dokter ada sebelum mengakses namalengkap
+                    "kelompok": $scope.item.kelompok ? $scope.item.kelompok.id : "-",
                     "jenis": "m1"
-                }
+                };
+            
                 medifirstService.post('emr/save-masalah', objSave).then(function (e) {
-                    norec_Emr = $scope.dataSelected.norec;
+                    // Mengosongkan input setelah berhasil disimpan
                     $scope.item.jam = "";
                     $scope.item.masalah = "";
                     $scope.item.intruksi = "";
                     $scope.item.dokter = "";
+            
                     $scope.popupEtiket.close();
-                    medifirstService.get("emr/get-masalah?jenis=penunjang&norecemricufk=" + norec_Emr, true).then(function (dat) {
+
+                    // Memperbarui dataGrid setelah menyimpan
+                    medifirstService.get("emr/get-masalah?norecemricufk=" + norec_Emr, true).then(function (dat) {
                         $scope.dataGridobat = dat.data.data;
                         $scope.dataGridperawat = dat.data.data1;
                         $scope.dataGridperawat2 = dat.data.data2;
                         $scope.dataGridperawat3 = dat.data.data3;
-
                         $scope.p1 = dat.data.datax[0].paraf;
                         $scope.p2 = dat.data.datax2[0].paraf;
                         $scope.p3 = dat.data.datax3[0].paraf;
                     });
-                })
-            }
+                });
+            };
+            
+            // key
             $scope.simpanmasalah2 = function () {
-                norec_Emr = $scope.dataSelected.norec;
-
+                var norec_Emr = $scope.dataSelected.norec; // Menambahkan deklarasi norec_Emr
+                var norechead = ''; // Menambahkan deklarasi norechead
+            
                 var objSave = {
                     "norecemricufk": norec_Emr,
                     "norechead": norechead,
-                    "jam": $scope.item.jam2,
-                    "masalah": $scope.item.masalah2,
-                    "paraf": $scope.item.dokter2.namalengkap,
-                    "kelompok": $scope.item.kelompok.id,
+                    "jam2": $scope.item.jam2,
+                    "masalah2": $scope.item.masalah2,
+                    "paraf2": $scope.item.dokter2 ? $scope.item.dokter2.namalengkap : "",
+                    "kelompok2": $scope.item.kelompok ? $scope.item.kelompok.id : "-",
                     "jenis": "m2"
-                }
+                };
+            
                 medifirstService.post('emr/save-masalah', objSave).then(function (e) {
-                    norec_Emr = $scope.dataSelected.norec;
                     $scope.item.kelompok = "";
                     $scope.item.dokter2 = "";
                     $scope.item.jam2 = "";
                     $scope.item.masalah2 = "";
                     $scope.popupEtiket2.close();
-                    medifirstService.get("emr/get-masalah?jenis=penunjang&norecemricufk=" + norec_Emr, true).then(function (dat) {
+            
+                    var intruksi = $scope.item.intruksi || ""; // Menggunakan operator ternary untuk menghindari kesalahan jika intruksi tidak terdefinisi
+                    medifirstService.get("emr/get-masalah?norecemricufk=" + norec_Emr, true).then(function (dat) {
                         $scope.dataGridobat = dat.data.data;
                         $scope.dataGridperawat = dat.data.data1;
                         $scope.dataGridperawat2 = dat.data.data2;
                         $scope.dataGridperawat3 = dat.data.data3;
-
                         $scope.p1 = dat.data.datax[0].paraf;
                         $scope.p2 = dat.data.datax2[0].paraf;
                         $scope.p3 = dat.data.datax3[0].paraf;
                     });
-                })
-            }
+                });
+            };
 
             $scope.simpansoap = function () {
                 if (nomorEMR == null) {
@@ -5701,7 +5317,7 @@ define(['initialize'], function (initialize) {
                     $scope.item.S = "";
                     $scope.item.O = "";
                     $scope.item.A = "";
-                    $scope.item.p = "";
+                    $scope.item.P = "";
                     $scope.popupEtiket3.close();
                     medifirstService.get("emr/get-soapicu?&norecemricufk=" + norec_Emr + "&noemr=" + nomorEMR, true).then(function (dat) {
                         $scope.dataGridsoap = dat.data.data;
@@ -5795,10 +5411,10 @@ define(['initialize'], function (initialize) {
                 editable: "incell",
                 //tanda
                 columns: [
-                    { field: "S", title: "S", width: 50 },
-                    { field: "O", title: "O", width: 50 },
-                    { field: "A", title: "A", width: 50 },
-                    { field: "P", title: "P", width: 50 },
+                    { field: "s", title: "S", width: 50 },
+                    { field: "o", title: "O", width: 50 },
+                    { field: "a", title: "A", width: 50 },
+                    { field: "p", title: "P", width: 50 },
                 ],
 
             };
@@ -5829,10 +5445,10 @@ define(['initialize'], function (initialize) {
 
                     if (dat.data.data.length > 0) {
 
-                        $scope.item.S = dat.data.data[0].S;
-                        $scope.item.O = dat.data.data[0].O;
-                        $scope.item.A = dat.data.data[0].A;
-                        $scope.item.P = dat.data.data[0].P;
+                        $scope.item.S = dat.data.data[0].s;
+                        $scope.item.O = dat.data.data[0].o;
+                        $scope.item.A = dat.data.data[0].a;
+                        $scope.item.P = dat.data.data[0].p;
                         tempnorecsoap = dat.data.data[0].norec
                         // $scope.item.dokter2.namalengkap = dat.data.data[0].paraf;
                         // $scope.item.dokter2  = { id:dat.data.data[0].id , namalengkap: dat.data.data[0].paraf }
@@ -5843,9 +5459,48 @@ define(['initialize'], function (initialize) {
                 });
 
             })
+            // key 12-12-2023
+            $scope.hapus = function() {
+                 
+                if ($scope.dataSelected.norec == undefined) {
+                    toastr.error('Pilih Data Dahulu !')
+                    return
+                }
+                $scope.popUpDeletePassword.center().open()
+            }
+            $scope.savePasswordDelete = function() {
+                if ($scope.item.password12 != "bener") {
+                    toastr.error('Password Salah !')
+                    return
+                }
+                let objSave = {
+                    norec: $scope.dataSelected.norec
+                }
+                medifirstService.post('emr/delete-icu', objSave).then(function(e) {
+                    let jsonLog = {
+                        'jenislog': "Delete Pengkajian ICU",
+                        'referensi': 'noregistrasi',
+                        'noreff': $scope.cc.noregistrasi,
+                        'keterangan': 'Delete Pengkajian ICU ' + 'Alasan : ' + $scope.item.alasanHapus + ' pada No Registrasi '
+                        + $scope.cc.noregistrasi,
+                        'data': [],
+                        'jenisemr': 'Pengkajian ICU',
+                        'emrfk': $scope.cc.emrfk
+                    }
+                    medifirstService.postLoggingEMR(jsonLog).then(function(e) {
+                        // debugger
+                        //$scope.popUpDeletePassword.close()
+                        //$scope.item.alasanHapus = undefined
+                        //init()
+                        //LoadData();
+                    })
+                })
+                $scope.popUpDeletePassword.close()
+                $scope.item.alasanHapus = undefined
+                LoadCacheHelper();
 
-
-        }
+            }
+        } // BATAS SUCI
     ]);
 });
 

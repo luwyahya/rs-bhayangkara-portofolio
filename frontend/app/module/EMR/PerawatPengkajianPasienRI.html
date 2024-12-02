@@ -1,0 +1,114 @@
+<style type="text/css">
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+    
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+    
+    .k-treeview .k-item {
+        background-color: #f9f9f9 !important;
+    }
+    
+    .k-checkbox-label:before {
+        margin: 1px 0px 0px 6px;
+    }
+</style>
+
+<div ng-show="dataVOloaded">
+    <div class="grid_12">
+        <div ng-cloak>
+            <md-content>
+                <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
+                    <md-tab label="Riwayat Pengkajian Keperawatan">
+                        <md-content class="md-padding">
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <div class="grid_12 borderBox">
+                                        <div id="kGrid" kendo-grid k-data-source="dataSource2" k-selectable="'row'" k-columns="columnNoregistrasi" k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelected">
+                                            <div k-detail-template>
+                                                <kendo-tabstrip>
+                                                    <div>
+                                                        <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'" k-selectable="'row'" k-ng-model="current" ng-click="kl(current)">
+                                                        </div>
+                                                    </div>
+                                                </kendo-tabstrip>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="grid_12">
+                                    <div kendo-grid k-data-source="sourcePAP" k-selectable="'row'" options="mainGridOptions" k-ng-model="current"
+                                        ng-click="kl(current)"></div>
+                                </div> -->
+                                <div class="grid_12">
+                                    <div class="grid_6"></div>
+                                    <div class="grid_3">
+                                        <button class="c-button" ng-click="Lihat()" style="font-size:20px">Lihat</button>
+                                    </div>
+                                    <div class="grid_3">
+                                        <button class="c-button" ng-click="munculpopup()" style="font-size:20px">Buat Baru</button>
+                                    </div>
+                                </div>
+                            </div>
+                             
+                        </md-content>
+                    </md-tab>
+                    <md-tab label="Pengkajian Detail">
+                        <md-content class="md-padding" k-on-change="getListRuanganByDp()">
+                            <div class="grid_12" k-on-change="getListRuanganByDp()">
+                                <!-- <div class="grid_3" >
+                                    <div class="grid_12" >
+                                        <div class="grid_12">
+                                            <div id="treeview"
+                                            kendo-tree-view="tree" 
+                                            k-data-source="treeSourceBedah" 
+                                            options="mainTreeViewBedahOption" 
+                                            ng-model="treeView"
+                                            ng-click="klikBedah(tree)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="grid_12">
+                                    <div ui-view k-on-change="getListRuanganByDp()"></div>
+                                </div>
+                            </div>
+                        </md-content>
+                    </md-tab>
+                </md-tabs>
+            </md-content>
+        </div>
+        <div kendo-window="popuppengkajian" k-title="'Pengkajian'" k-visible="false" k-width="1000" k-height="600">
+            <div class="panel panel-default container_12">
+                <div class="grid_12 ">
+                    <div kendo-grid k-data-source="datapengkajian" k-selectable="'row'" k-columns="columnDaftarPengkajian"
+                        k-pageable="'true'" k-sortable="'true'" k-ng-model="dataSelectedPengkajian" ng-click="klikpengkajian(dataSelectedPengkajian)">        
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+                        <button class="k-button  k-button-icontext" ng-click="create()"><span
+                                class="k-icon k-i-plus-circle"></span>Buat Pengkajian</button>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
+    </div>
+
+
+
+</div>

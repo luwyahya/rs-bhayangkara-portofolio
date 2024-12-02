@@ -24,6 +24,10 @@
     .k-checkbox-label:before {
         margin: 1px 0px 0px 6px;
     }
+
+    .k-window-actions .k-window-action {
+    display: none !important;
+    }
 </style>
 
 <div ng-show="dataVOloaded">
@@ -60,10 +64,12 @@
                                                 class="fa fa-search"></i>Lihat</button>
                                         <!-- <button class="c-button" ng-click="Lihat()" style="font-size:20px">Lihat</button> -->
                                     </div>
-
+                                    <div class="grid_3">
+                                        <button class="btnTemplate1 cancel" style="margin-left: 0;" ng-click="hapus()"><i class="fa fa-trash"></i>Hapus</button>
+                                    </div>
                                     <div class="grid_2">
-                                        <button class="btnTemplate1" ng-click="cetakPdf()"><i class="fa fa-print"></i>Cetak Jasper
-                                        </button>
+                                        <!-- <button class="btnTemplate1" ng-click="cetakPdf()"><i class="fa fa-print"></i>Cetak Jasper
+                                        </button> -->
                                     </div>
                                 </div>
                             </div>
@@ -329,7 +335,8 @@
                                         </c-button> -->
                                     </div>
                                 </div>
-                                <div class="grid_12">
+
+                                <!-- <div class="grid_12">
                                     <fieldset style="margin-top: 10px; ">
                                         <legend><b>-</b></legend>
                                         <div class="grid_12" style="margin-top:10px">
@@ -338,7 +345,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -366,7 +373,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -388,7 +395,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -410,7 +417,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -439,7 +446,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -461,7 +468,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -483,7 +490,7 @@
                                             </div>
                                             <div class="grid_12">
                                                 <div class="grid_12 headerBox">
-                                                    <!-- <p>Obat atau Cairan</p> -->
+                                                    <p>Obat atau Cairan</p>
                                                 </div>
                                                 <div class="clear"></div>
                                                 <div class="grid_12 borderBox">
@@ -495,7 +502,7 @@
 
                                         </div>
                                     </fieldset>
-                                </div>
+                                </div> -->
 
                                 <!-- <div class="grid_3">
                                     <div class="grid_12">
@@ -1426,13 +1433,47 @@
 
 
         <!-- Pop Up End Pop Up Detail Peserta -->
-        <div kendo-window="PopUpDetailPeserta" k-title="'Input Fromulir Observasi Harian'" k-width="800" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div kendo-window="PopUpDetailPeserta" k-title="'Input Formulir Observasi Harian'" k-width="800" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false" k-actions="['Close']">
             <div class="panel panel-default container_12" style="padding: 0px 10px;">
                 <div class="grid_12">
                     <div class="grid_12" ng-show="SistoleChart">
+                        <!-- <div class="grid_6">
+                            <img src="images/VitalSigns.png" style="width: 180px;">
+                        </div> -->
                         <div class="grid_6">
-                            <img src="images/Simbol_Sistole.jpg">
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <label c-label item="item">Group</label>
+                                </div>
+
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.GroupHeader" disabled />
+                                </div>
+                            </div>
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <label c-label item="item">Deskripsi</label>
+                                </div>
+
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.Deskripsi" disabled />
+                                </div>
+                            </div>
+                            <div class="grid_12">
+                                <div class="grid_12">
+                                    <label c-label item="item">Jam Input</label>
+                                </div>
+
+                                <div class="grid_12">
+                                    <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.JamInput" disabled />
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="grid_12" ng-show="ObatChart">
+                        <!-- <div class="grid_6">
+                            <img src="images/ObatObatans.png" style="width: 380px;">
+                        </div> -->
                         <div class="grid_6">
                             <div class="grid_12">
                                 <div class="grid_12">
@@ -1503,7 +1544,7 @@
                             <textarea required class="k-textbox" style="height: 76px; width: 100%; resize: none; margin-top: 5px" ng-model="item.Isian"></textarea>
                         </div>
                     </div>
-                    <div class="grid_6" ng-show="vitalSigns">
+                    <!-- <div class="grid_6" ng-show="vitalSigns">
                         <div class="grid_12">
                             <label c-label item="item">Vital Signs</label>
                         </div>
@@ -1511,7 +1552,16 @@
                         <div class="grid_12">
                             <input style="width: 100%;" kendo-combo-box k-ng-model="item.VSigns" k-data-text-field="'simbol'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listVitalSigns" />
                         </div>
-                    </div>
+                    </div> -->
+                    <!-- <div class="grid_6" ng-show="obatobatans">
+                        <div class="grid_12">
+                            <label c-label item="item">Keterangan Obat</label>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="grid_12">
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.Obats" k-data-text-field="'simbol'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listObatObatans" />
+                        </div>
+                    </div> -->
                 </div>
                 <div class="pull-right" style="margin-top:4%">
                     <button class="k-button" ng-click="tambah()">Simpan</button>
@@ -1667,5 +1717,21 @@
                     <button class="c-button" ng-click="simpansoap()">Simpan</button>
                 </div>
             </div>
+        </div>
+    </div>
+    <div kendo-window="popUpDeletePassword" k-title="'Password'" k-width="500" k-visible="false"
+        k-on-open="win2visible = true" k-on-close="win2visible = false">
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Alasan Hapus</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.alasanHapus" />
+            </div>
+            <div class="grid_12">
+                <label c-label item="item">Password</label>
+                <input c-text-box type="password" filter="'char'" class="k-textbox" ng-model="item.password12" />
+            </div>
+        </div>
+        <div class="dialog_buttons pull-right" style="margin-top:5%; margin-left: 30px;">
+            <button class="btnTemplae1" ng-click="savePasswordDelete()">Delete</button>
         </div>
     </div>

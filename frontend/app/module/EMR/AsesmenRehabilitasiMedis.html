@@ -1,0 +1,1472 @@
+
+<style type="text/css">
+    .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        border-color: #aabcfe;
+    }
+    fieldset
+    {
+    border-radius:
+    5px;
+    border:
+    1px
+    solid
+    #228be6;
+    }
+
+    .tg td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #669;
+        background-color: #e8edff;
+    }
+
+    .tg th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 10px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #aabcfe;
+        color: #039;
+        background-color: #b9c9fe;
+    }
+
+    .tg .tg-yw4l {
+        vertical-align: top
+    }
+
+
+    .rowstyle {
+        border-bottom: 1px dashed lightblue
+    }
+
+    .footer {
+        text-align: center;
+        font-size: 120%;
+        font-weight: 700;
+        margin-bottom: 20px
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    textarea {
+        font-family: 'Comfortaa', cursive, 'OpenSans-Regular';
+    }
+
+    .carousel-inner>.item>a>img,
+    .carousel-inner>.item>img,
+    .img-responsive,
+    .thumbnail a>img,
+    .thumbnail>img {
+        display: block;
+        max-width: 80%;
+        height: auto;
+    }
+
+    img {
+        vertical-align: middle;
+    }
+
+    img {
+        border: 0;
+    }
+
+    .photo-pasien {
+        /* display: inline-block; */
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        /* background-size: 32px 35px; */
+        /* background-position: center center; */
+        vertical-align: middle;
+    }
+    
+    .btnHijau {
+        background-color: #255602;
+        color: white;
+    }
+    .btnHijau:hover {
+        background-color: #255602;
+        color: white;
+    }
+</style>
+<div class="grid_12">
+    <div class="grid_12">
+        <div style="margin-bottom: 10px" class="panel panel-default container_12">
+            <div class="panel-heading text-center">ASESMEN REHABILITASI MEDIS</div>
+        </div>
+
+<!-- ---------------------- -->
+        <fieldset style="margin-bottom: 20px;">
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Tanggal dan Jam :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -40px;">
+                    <input style="width: 100%" k-ng-model="item.obj[8195]" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm"
+                        k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+                </div>
+                <div class="grid_1"></div>
+                <div class="grid_1">
+                    <p c-label item="item">BB :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8196]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Kg</label>
+                </div>
+                <div class="grid_1"></div>
+                <div class="grid_1">
+                    <p c-label item="item">TB :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8197]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Cm</label>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_2" style="margin-top:10px">
+                    <label c-label item="item" required>Rujukan :</label>
+                </div>
+            </div>
+            <div class="grid_1" style="margin-top:2px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8198]"
+                    id="item.obj[8198]">
+                <label class="c-label k-checkbox-label" for="item.obj[8198]" required>Ya dari</label>
+            </div>
+            <div class="grid_3" style="margin-top:2px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8199]"
+                    id="item.obj[8199]">
+                <label class="c-label k-checkbox-label" for="item.obj[8199]" required>RS</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8200]" />
+            </div>
+            <div class="grid_3" style="margin-top:2px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8201]"
+                    id="item.obj[8201]">
+                <label class="c-label k-checkbox-label" for="item.obj[8201]" required>Puskesmas</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8202]" />
+            </div>
+            <div class="grid_3" style="margin-top:2px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8203]"
+                    id="item.obj[8203]">
+                <label class="c-label k-checkbox-label" for="item.obj[8203]" required>Dr.</label>
+                <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8204]" />
+            </div>
+            <div class="grid_1" style="margin-top:2px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8205]"
+                    id="item.obj[8205]">
+                <label class="c-label k-checkbox-label" for="item.obj[8205]" required>Lainnya</label>
+            </div>
+            <div class="grid_8" ng-show="lainnya">
+                <div class="grid_12">
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.obj[8206]" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Diagnosis Rujukan :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -30px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8207]" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_1">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8208]"
+                    id="item.obj[8208]">
+                <label class="c-label k-checkbox-label" for="item.obj[8208]" required>Tidak</label>
+            </div>
+            <div class="grid_2" style="margin-left: 20px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8209]"
+                    id="item.obj[8209]">
+                <label class="c-label k-checkbox-label" for="item.obj[8209]" required>Datang Sendiri</label>
+            </div>
+            <div class="grid_2">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[8210]"
+                    id="item.obj[8210]">
+                <label class="c-label k-checkbox-label" for="item.obj[8210]" required>Diantar</label>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 20px;">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Riwayat Alergi</p>
+                </div>
+                <div class="grid_1">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[8211]"
+                    id="item.obj[8211]">
+                    <label class="c-label k-checkbox-label" for="item.obj[8211]" required>Ya</label>
+                </div>
+                <div class="grid_1">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[8212]"
+                    id="item.obj[8212]">
+                    <label class="c-label k-checkbox-label" for="item.obj[8212]" required>Tidak</label>
+                </div>
+                <div class="grid_2">
+                    <p c-label item="item">Ket :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -105px;">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8213]"
+                style="height: 100px;" placeholder=""></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_12">
+                <div class="grid_4">
+                    <p c-label item="item">Pemeriksaan Rehabilitasi Medik (dr.SpKFR) :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -30px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8219]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_4">
+                    <p c-label item="item">Anamnesa (Keluhan Utama, RPS, RPD) :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -30px;">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8220]"
+                style="height: 100px;" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_4">
+                    <p c-label item="item">Riwayat Sosial Ekonomi :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -30px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8221]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_4">
+                    <p c-label item="item">Riwayat Avocasional & Vocasional :</p>
+                </div>
+                <div class="grid_6" style="margin-left: -30px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8222]" />
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="grid_12">
+            <p c-label item="item">I. Keadaan Umum</p>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Kesadaran :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8223]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Tanda vital</p>
+                </div>
+                <div class="grid_1" style="margin-left: -80px;">
+                    <p c-label item="item">Td</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8224]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">mmHg</label>
+                </div>
+                <div class="grid_1" style="margin-right: -20px;">
+                    <p c-label item="item">N</p>
+                </div>
+                <div class="grid_2" style="margin-left: -52px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8225]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">x/mnt</label>
+                </div>
+                <div class="grid_1" style="margin-right: -20px;">
+                    <p c-label item="item">R</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8226]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">x/mnt</label>
+                </div>
+                <div class="grid_1" style="margin-right: -20px;">
+                    <p c-label item="item">S</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8227]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">°C</label>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_1">
+                    <p c-label item="item">Nyeri :</p>
+                </div>
+                <div class="grid_1">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[8228]"
+                    id="item.obj[8228]">
+                    <label class="c-label k-checkbox-label" for="item.obj[8228]" required>Tidak</label>
+                </div>
+                <div class="grid_1">
+                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[8229]"
+                    id="item.obj[8229]">
+                    <label class="c-label k-checkbox-label" for="item.obj[8229]" required>Ya</label>
+                </div>
+                <div class="grid_1">
+                    <p c-label item="item">Lokasi :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -30px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8230]" />
+                </div>
+                <div class="grid_2">
+                    <p c-label item="item">Intensitas (0-10)</p>
+                </div>
+                <div class="grid_2" style="margin-left: -60px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8231]" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_7" style="margin-top: 40px;">
+                <div ng-repeat="list in listNyeriAnak | orderBy:'id'">
+                    <div ng-repeat="opsi in list.detail | orderBy:'id'" ng-init="listIndex = $index + 1">
+                        <div class="grid_2" style="text-align: center; vertical-align: middle;">
+                            <img class="normalTidakNormal" style="cursor: pointer;"
+                                src="stylesheets/skalanyeri/{{listIndex}}.png" ng-model="item.obj[3393]"
+                                ng-click="getSkalaNyeri(list, opsi)"
+                                ng-class="{'activeBtn': activeStatus == opsi.descNilai}">
+                            <div class="grid_12">
+                                <label for="{{opsi.descNilai}}"><b>{{opsi.descNilai}}</b></label>
+                            </div>
+                            <div class="grid_12">
+                                <label for="{{opsi.nama}}"><b>{{opsi.nama}}</b></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_4" ng-repeat="list in listSkorWong | orderBy:'id'" style="padding: 5pt 10pt">
+                <b>{{list.nama}}</b>
+                <div class="grid_12" style="padding: 5pt">
+                    <div ng-repeat="jawab in list.detail | orderBy:'id'">
+                        <div ng-switch on="jawab.type">
+                            <div class="grid_4" ng-switch-when="checkbox">
+                                <input type="checkbox" class="k-checkbox" id="item.obj{{jawab.id}}"
+                                    ng-model="item.obj[jawab.id]">
+                                <label class="k-checkbox-label" for="item.obj{{jawab.id}}">
+                                    &nbsp;{{jawab.nama}}</label>
+
+                            </div>
+                            <div class="grid_8">
+                                <div class="grid_8">
+                                    <label class="k-label">
+                                        &nbsp;{{jawab.ket}}</label>
+                                </div>
+                                <div class="grid_4" ng-switch-when="textbox"
+                                    style="margin-top: -15px;margin-left:-10px">
+                                    <input class="k-textbox" ng-model="item.obj[jawab.id]" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">IMT :</p>
+                </div>
+                <div class="grid_1" style="margin-left: -80px;">
+                    <p c-label item="item">TB :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -55px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8232]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Cm</label>
+                </div>
+                <div class="grid_1" style="margin-right: -20px;">
+                    <p c-label item="item">BB :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -35px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8233]" />
+                    <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Kg</label>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">Postur :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8234]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">Ambulasi :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8235]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">Resiko Jatuh :</p>
+                    </div>
+                    <div class="grid_1" style="margin-left: -65px;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[8236]"
+                        id="item.obj[8236]">
+                        <label class="c-label k-checkbox-label" for="item.obj[8236]" required>Tidak</label>
+                    </div>
+                    <div class="grid_1" style="margin-left: -20px;">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[8237]"
+                        id="item.obj[8237]">
+                        <label class="c-label k-checkbox-label" for="item.obj[8237]" required>Ya</label>
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-left: -10px;">
+                    <div class="grid_4">
+                        <p c-label item="item">II. Pemeriksaan SSP (Nerves : I - XII) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8238]" />
+                    </div>
+                </div>
+                <div class="grid_12" style="margin-left: -10px;">
+                    <div class="grid_3">
+                        <p c-label item="item">III. Pemeriksaan at Regio (a/r) :</p>
+                    </div>
+                    <div class="grid_1">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[8239]"
+                        id="item.obj[8239]">
+                        <label class="c-label k-checkbox-label" for="item.obj[8239]" required>a</label>
+                    </div>
+                    <div class="grid_1">
+                        <input type="checkbox" class="k-checkbox" ng-model="item.obj[8240]"
+                        id="item.obj[8240]">
+                        <label class="c-label k-checkbox-label" for="item.obj[8240]" required>r</label>
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">head and neck :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8241]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">a/r    thoraks :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8242]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">a/r    abdomen :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8243]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">a/r    back (punggung) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8244]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_2">
+                        <p c-label item="item">a/r    anggota gerak :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8245]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_1"></div>
+                    <div class="grid_4" style="margin-left: -35px;">
+                        <p c-label item="item">● Look (deformitas, pola jalan) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8246]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_1"></div>
+                    <div class="grid_4" style="margin-left: -35px;">
+                        <p c-label item="item">● Feel (Tanda Radang, Nyeri Tekan, Tonus, Turgor) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8247]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_1"></div>
+                    <div class="grid_4" style="margin-left: -35px;">
+                        <p c-label item="item">● Movement (ROM, MMT, Nyeri Gerak) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8248]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_1"></div>
+                    <div class="grid_2">
+                        <p c-label item="item">- Test Provokasi :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8249]" />
+                    </div>
+                </div>
+                <div class="grid_12">
+                    <div class="grid_1"></div>
+                    <div class="grid_2">
+                        <p c-label item="item">- Test Fungsional (lampiran) :</p>
+                    </div>
+                    <div class="grid_6">
+                        <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8250]" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="grid_6" style="margin-top: 15px;"><b>Pemeriksaan Penunjang</b></div>
+        <div class="grid_12">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8251]"
+                style="height: 100px;" placeholder=""></textarea>
+        </div>
+        <hr>
+        <div class="grid_12">
+            <p c-label item="item">Diagnosa</p>
+            <div class="grid_12">
+                <div class="grid_1"></div>
+                <div class="grid_2">
+                    <p c-label item="item">● Impairment :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8252]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_1"></div>
+                <div class="grid_2">
+                    <p c-label item="item">● Disability :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8253]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_1"></div>
+                <div class="grid_2">
+                    <p c-label item="item">● Handycap :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8254]" />
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="grid_6" style="margin-top: 15px;"><b>Problem</b></div>
+        <div class="grid_12">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8256]"
+                style="height: 100px;" placeholder=""></textarea>
+        </div>
+        <hr>
+        <div class="grid_6" style="margin-top: 15px;"><b>Program</b></div>
+        <div class="grid_12">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8257]"
+                style="height: 100px;" placeholder=""></textarea>
+        </div>
+        <hr>
+        <div class="grid_6" style="margin-top: 15px;"><b>Goal</b></div>
+        <div class="grid_12">
+            <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8258]"
+                style="height: 100px;" placeholder=""></textarea>
+        </div>
+        <hr>
+        <div class="grid_6" style="margin-top: 15px;"><b>Evaluasi</b></div>
+        <div class="grid_12">
+            <div class="grid_6">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8259]" />
+        </div>
+        </div>
+        <!-- <div class="grid_12" style="margin-bottom: 20px;">
+        <div class="grid_6"></div>
+        <div class="grid_6">
+            <div class="grid_12" style="margin-top: 15px;">
+                <label c-label item="item"><b>DPJP Rehabilitasi Medik</b></label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[8260]"
+                        k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listPegawai" />
+            </div>
+        </div>
+        </div> -->
+        </fieldset>
+        <fieldset>
+        <div class="grid_12" style="margin-bottom: 20px;">
+            <label c-label item="item" style="font-size: 20px; margin-top: 20px; text-align: center;">Lembar Hasil Tindakan Uji Fungsi Prosedur Kedokteran Fisik dan Rehabilitasi</label>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_4">
+                    <p c-label item="item">Lembar Hasil Tindakan Uji Fungsi/Prosedur KFR</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8261]" />
+                </div>
+                <div class="grid_1">
+                    <p c-label item="item">Koding :</p>
+                </div>
+                <div class="grid_1" style="margin-left: -20px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8262]" />
+                </div>
+            </div>
+            <!-- <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">No.MR :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8263]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Nama :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8264]" />
+                </div>
+                <div class="grid_1" style="margin-right: -50px; margin-left: 20px;">
+                    <p c-label item="item">L/P :</p>
+                </div>
+                <div class="grid_3">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8265]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Tanggal lahir/Usia :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8266]" />
+                </div>
+                <div class="grid_2" style="margin-left: -2px; margin-right: -10px;">
+                    <p c-label item="item">Tanggal pemeriksaan</p>
+                </div>
+                <div class="grid_2">
+                    <input style="width: 100%" k-ng-model="item.obj[8267]" kendo-datetimepicker placeholer="yyyy-MM-dd"
+                        k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Alamat/telepon :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8268]" />
+                </div>
+            </div> -->
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Diagnosis fungsional :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8269]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Diagnosis medis :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8270]" />
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">instrumen Uji Fungsi/Prosedur KFR :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8271]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Hasil yang didapat :</p>
+                </div>
+                <div class="grid_6">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[8272]"
+                style="height: 100px;" placeholder=""></textarea>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Kesimpulan :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8273]" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Rekomendasi :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[8274]" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6"></div>
+            <div class="grid_6">
+                <div class="grid_12" style="margin-top: 15px;">
+                    <label c-label item="item"><b>DPJP Rehabilitasi Medik</b></label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[8275]"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listPegawai" />
+                </div>
+            </div>
+            </div>
+        </fieldset>
+</div>
+
+<div class="grid_12">
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_8"></div>
+        <div class="grid_2" ng-show="isSave">
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span> SIMPAN</b></button>
+        </div>
+        <div class="grid_2" ng-show="isUpdate">
+            <button class="btnTemplate1" ng-click="Save()"><b style="font-size:1.1em"><span class="fa fa-save"></span> UPDATE</b></button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" onclick="history.back()"><b style="font-size:1.1em"><span class="fa fa-arrow-left"></span> KEMBALI</b></button>
+        </div>
+        <!-- <div class="grid_2">
+            <button class="btnTemplate1" ng-click="openPopUpKons()"><b style="font-size:0.9em">KONSUL DAN TANGGAL KONTROL</b></button>
+        </div> -->
+        <!-- <div class="grid_2" ng-show="isUpdateCetak">
+            <button class="btnTemplate1 btnHijau" ng-click="cetakPdf()"><b style="font-size:1.1em"><span class="fa fa-print"></span> CETAK</b></button>
+        </div> -->
+    </div>
+</div>
+
+<div class="gird_12">
+    <fieldset>
+        <div class="grid_12" style="margin-bottom: 20px;">
+            <label c-label item="item" style="font-size: 20px; margin-top: 20px; text-align: center;">Lembar Konsul dan Tanggal Kontrol Pasien</label>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">No.RM :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.norm" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Nama Pasien :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.namapasien" />
+                </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Diagnosa :</p>
+                </div>
+                <div class="grid_6">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.diagnosa" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-bottom: 10px;">
+            <div class="grid_12">
+                <div class="grid_2">
+                    <p c-label item="item">Permintaan Terapi :</p>
+                </div>
+                <div class="grid_6">
+                    <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.perterapi"
+                style="height: 100px;" placeholder=""></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="clear"></div>
+            <div class="grid_12 borderBox" style="margin-bottom: 5px;">
+                <div id="kGrid" 
+                     kendo-grid 
+                     k-data-source="dataGridKons"
+                     k-options="gridOptions" 
+                     k-selectable="'row'"
+                     k-ng-model="dataSelected" 
+                     ng-click="click(dataSelected)">
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_4"></div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1 cancel" ng-click="HapusKonsul()"><b style="font-size:1.1em">HAPUS DATA</button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="EditKonsul()"><b style="font-size:1.1em">EDIT DATA</button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="TtdDokterTerapis()"><b style="font-size:0.8em">TTD DOKTER/TERAPIS</button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="TtdPasien()"><b style="font-size:1.1em">TTD PASIEN</button>
+                    </div>
+            </div>
+        </div>
+        <div class="grid_12" style="margin-right: -100px;">
+            <div class="grid_12">
+                <div class="grid_6"></div>
+                <div class="grid_2">
+                    <p c-label item="item">Tempat :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -100px;">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.tempat" />
+                </div>
+                <div class="grid_2">
+                    <p c-label item="item">Tanggal :</p>
+                </div>
+                <div class="grid_2" style="margin-left: -100px;">
+                    <input style="width: 100%" k-ng-model="item.tanggal" kendo-datetimepicker placeholer="yyyy-MM-dd"
+                        k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_6" style="margin-top: 15px;">
+                <div class="grid_12">
+                    <label c-label item="item"><b>Pasien</b></label>
+                </div>
+                <div class="grid_12">
+                    <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.pasienttd" />
+                </div>
+            </div>
+            <div class="grid_6">
+                <div class="grid_12" style="margin-top: 15px;">
+                    <label c-label item="item"><b>Dr.SpKFR</b></label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.spkfr"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listPegawai" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_8"></div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="cetakKonsul()"><b style="font-size:1.1em"><span class="fa fa-save"></span> CETAK</b></button>
+                    </div>
+                    <div class="grid_2">
+                        <button class="btnTemplate1" ng-click="SaveKonsul()"><b style="font-size:1.1em"><span class="fa fa-save"></span> SIMPAN</b></button>
+                    </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+
+<div kendo-window="popUpTanggalKons" k-title="'Daftar Jadwal Konsul'" k-width="650" k-height="340" k-visible="false" k-on-open="win2visible = true"
+        k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Program</label>
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.program" />
+                </div>
+            </div>
+            <div class="grid_12"> 
+                <div class="grid_6">
+                    <label c-label item="item" required>Tanggal</label>
+                    <input style="width: 100%" k-ng-model="item.tanggalkons" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                </div>
+            </div>
+            <!-- <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Pasien</label>
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.pasienkons" />
+                </div>
+            </div> -->
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Dokter</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokterkons"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listPegawai" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Terapis</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.terapis"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listTerapis" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="SaveTglKonsul()">Simpan</button>
+                </div>
+            </div>
+        </div>
+</div>
+<div kendo-window="popUpInputDokterTerapis" k-title="'input/Edit Dokter/Terapis'" k-width="650" k-height="340" k-visible="false" k-on-open="win2visible = true"
+        k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Dokter</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokterkons"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listPegawai" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Terapis</label>
+                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.terapis"
+                            k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                            k-auto-bind="false" k-data-source="listTerapis" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="SaveDokterTerapis()">Simpan</button>
+                </div>
+            </div>
+        </div>
+</div>
+<div kendo-window="popUpEditDataKonsul" k-title="'Edit Data Konsul'" k-width="650" k-height="340" k-visible="false" k-on-open="win2visible = true"
+        k-on-close="win2visible = false">
+        <div class="panel panel-default container_12" style="padding: 0px 10px;">
+            <div class="grid_12">
+                <div class="grid_10">
+                    <label c-label item="item" required>Program</label>
+                    <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.program" />
+                </div>
+            </div>
+            <div class="grid_12"> 
+                <div class="grid_6">
+                    <label c-label item="item" required>Tanggal</label>
+                    <input style="width: 100%" k-ng-model="item.tanggalkons" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd" k-format="'yyyy-MM-dd'" parsedate="yyyy-MM-dd" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_10"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="EditDataKonsul()">Simpan</button>
+                </div>
+            </div>
+        </div>
+</div>
+
+<!-- ===================================================================================================== -->
+<!-- CETAKAN EMR                                                                                           -->
+<!-- ash 2023-10-10                                                                                        -->
+<!-- ===================================================================================================== -->
+<div kendo-window="popUpCetak" k-title="'Preview Pengkajian Awal Medis'" k-width="1200" k-height="700" k-visible="false"
+k-on-close="customClicked()">
+  <div class="panel panel-default container_12" style="padding: 10px 10px;">
+  <div class=" panel-body">
+      <div class="grid_12">
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+          <a class="no-print k-button  k-button-icontext" href="javascript:printDiv('cetakRm');">Cetak PDF</a>
+          <button class="k-button  btnHapus k-button-icontext" ng-click="tutupSurat()"><span
+              class="k-icon k-cancel"></span>Tutup</button>
+  
+        </div>
+      </div>
+  </div>
+
+  <div class="panel-body">
+    <div class="grid_12 animated containerBorderBox">
+      <div class="grid_12">
+        <div class="grid_12" style="margin-top: 20px">
+          <div class="grid_12"> 
+            <div class="grid_12" style="margin-top: 10px">
+              <body>    
+                <div style="width: 100%" id="cetakRm"> 
+                <table width="100%" style=" border: 0.5px solid #000;" cellspacing="0" cellpadding="5">
+                  <!-- KOP SURAT -->
+                  <tr>
+                    <td style="width: 20%; border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                        <img src="data:image/jpeg;base64,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kklKSSSSUpJJJJSkkkklKSSSSUpJJJJSkkkklKSSSSUpJJJJT//Z/+0aNFBob3Rvc2hvcCAzLjAAOEJJTQQEAAAAAAAHHAIAAAIHawA4QklNBCUAAAAAABAQEJ7bVFdzlzIJ25hl4WfiOEJJTQQvAAAAAABKQwABAFgCAABYAgAAAAAAAAAAAADIGQAA7BMAAAAAAAAAAAAAyBkAAOwTAAAAASgFAAD8AwAAAQAPJwEARgBpAGwAZQBzAAAA/yI4QklNA+0AAAAAABAAYAMSAAEAAQBgAxIAAQABOEJJTQQmAAAAAAAOAAAAAAAAAAAAAD+AAAA4QklNBA0AAAAAAAQAAAAeOEJJTQQZAAAAAAAEAAAAHjhCSU0D8wAAAAAACQAAAAAAAAAAAQA4QklNBAoAAAAAAAEAADhCSU0nEAAAAAAACgABAAAAAAAAAAI4QklNA/UAAAAAAEgAL2ZmAAEAbGZmAAYAAAAAAAEAL2ZmAAEAoZmaAAYAAAAAAAEAMgAAAAEAWgAAAAYAAAAAAAEANQAAAAEALQAAAAYAAAAAAAE4QklNA/gAAAAAAHAAAP////////////////////////////8D6AAAAAD/////////////////////////////A+gAAAAA/////////////////////////////wPoAAAAAP////////////////////////////8D6AAAOEJJTQQIAAAAAAAQAAAAAQAAAkAAAAJAAAAAADhCSU0EHgAAAAAABAAAAAA4QklNBBoAAAAAA0sAAAAGAAAAAAAAAAAAAACKAAAAlgAAAAsATABvAGcAbwBDAGUAdABhAGsAYQBuAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAACWAAAAigAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAbnVsbAAAAAIAAAAGYm91bmRzT2JqYwAAAAEAAAAAAABSY3QxAAAABAAAAABUb3AgbG9uZwAAAAAAAAAATGVmdGxvbmcAAAAAAAAAAEJ0b21sb25nAAAAigAAAABSZ2h0bG9uZwAAAJYAAAAGc2xpY2VzVmxMcwAAAAFPYmpjAAAAAQAAAAAABXNsaWNlAAAAEgAAAAdzbGljZUlEbG9uZwAAAAAAAAAH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dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp0aWZmPSJodHRwOi8vbnMuYWRvYmUuY29tL3RpZmYvMS4wLyIgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iIHhhcDpDcmVhdGVEYXRlPSIyMDIzLTExLTE5VDAwOjM4OjM0KzA3OjAwIiB4YXA6TW9kaWZ5RGF0ZT0iMjAyMy0xMS0xOVQwMDozODozNCswNzowMCIgeGFwOk1ldGFkYXRhRGF0ZT0iMjAyMy0xMS0xOVQwMDozODozNCswNzowMCIgeGFwOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1MzIFdpbmRvd3MiIGRjOmZvcm1hdD0iaW1hZ2UvanBlZyIgcGhvdG9zaG9wOkNvbG9yTW9kZT0iMyIgcGhvdG9zaG9wOklDQ1Byb2ZpbGU9InNSR0IgSUVDNjE5NjYtMi4xIiBwaG90b3Nob3A6SGlzdG9yeT0iIiB4YXBNTTpJbnN0YW5jZUlEPSJ1dWlkOjdDN0M5OTM5Mzk4NkVFMTFCRDExRjc2MDNFQTBCRjY4IiB4YXBNTTpEb2N1bWVudElEPSJ1dWlkOjdCN0M5OTM5Mzk4NkVFMTFCRDExRjc2MDNFQTBCRjY4IiB0aWZmOk9yaWVudGF0aW9uPSIxIiB0aWZmOlhSZXNvbHV0aW9uPSI5NjAxMjAvMTAwMDAiIHRpZmY6WVJlc29sdXRpb249Ijk2MDEyMC8xMDAwMCIgdGlmZjpSZXNvbHV0aW9uVW5pdD0iMiIgdGlmZjpOYXRpdmVEaWdlc3Q9IjI1NiwyNTcsMjU4LDI1OSwyNjIsMjc0LDI3NywyODQsNTMwLDUzMSwyODIsMjgzLDI5NiwzMDEsMzE4LDMxOSw1MjksNTMyLDMwNiwyNzAsMjcxLDI3MiwzMDUsMzE1LDMzNDMyOzExMzVGNkNBOTY2RDAyNDQ5QzE1QkVEOTE5ODBBRDk2IiBleGlmOlBpeGVsWERpbWVuc2lvbj0iMTUwIiBleGlmOlBpeGVsWURpbWVuc2lvbj0iMTM4IiBleGlmOkNvbG9yU3BhY2U9IjEiIGV4aWY6TmF0aXZlRGlnZXN0PSIzNjg2NCw0MDk2MCw0MDk2MSwzNzEyMSwzNzEyMiw0MDk2Miw0MDk2MywzNzUxMCw0MDk2NCwzNjg2NywzNjg2OCwzMzQzNCwzMzQzNywzNDg1MCwzNDg1MiwzNDg1NSwzNDg1NiwzNzM3NywzNzM3OCwzNzM3OSwzNzM4MCwzNzM4MSwzNzM4MiwzNzM4MywzNzM4NCwzNzM4NSwzNzM4NiwzNzM5Niw0MTQ4Myw0MTQ4NCw0MTQ4Niw0MTQ4Nyw0MTQ4OCw0MTQ5Miw0MTQ5Myw0MTQ5NSw0MTcyOCw0MTcyOSw0MTczMCw0MTk4NSw0MTk4Niw0MTk4Nyw0MTk4OCw0MTk4OSw0MTk5MCw0MTk5MSw0MTk5Miw0MTk5Myw0MTk5NCw0MTk5NSw0MTk5Niw0MjAxNiwwLDIsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMsMTQsMTUsMTYsMTcsMTgsMjAsMjIsMjMsMjQsMjUsMjYsMjcsMjgsMzA7NENEQkY4QzEyNTBEMjRFOTIxQjIxQTk2Q0ZFNjhBMUQiPiA8eGFwTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0idXVpZDo5QzcxQ0E4NDE4NjdFRTExQTA1QUQ4QUFFQUE0RDg4RiIgc3RSZWY6ZG9jdW1lbnRJRD0idXVpZDo5QjcxQ0E4NDE4NjdFRTExQTA1QUQ4QUFFQUE0RDg4RiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8P3hwYWNrZXQgZW5kPSJ3Ij8+/+IM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" 
+                        width="100%" style="display:block;">
+                    </td>
+                        <td style=" border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                            <center><strong><span lang="EN-US" style="font-size:14.0pt;">PENGKAJIAN AWAL MEDIS REHABILITASI MEDIS</span></strong></center>
+                        </td>
+                        <td style="width: 40%; border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                            <table style="border: none;">
+                                <tr>
+                                <td style="border: none;">No Rekam Medis</td>
+                                <td style="border: none;">: {{header.nocm}}</td>
+                                </tr>
+                                <tr>
+                                <td style="border: none;">Nama </td>
+                                <td style="border: none;">: {{header.namapasien}}</td>
+                                </tr>
+                                <tr>
+                                <td style="border: none;">Jenis Kelamin</td>
+                                <td style="border: none;">: {{header.jeniskelamin}}</td>
+                                </tr>
+                                <tr>
+                                <td style="border: none;">Tanggal Lahir</td>
+                                <td style="border: none;">: {{header.tgllahir}}</td>
+                                </tr>
+                                <tr>
+                                <td style="border: none;">Ruangan</td>
+                                <td style="border: none;">: {{header.namaruangan}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                  </tr>
+
+
+
+                  <!-- HEADER SURAT -->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+
+                    <table style="border: none;">
+                        <tr>
+                            <td style="border: none;" colspan="2" width="50%"><b><i>Diisi dalam 1x24 jam oleh DPJP</i></b></td>
+                            
+                            <td style="border: none;" width="20%">Tgl Masuk </td>
+                            <td style="border: none;" width="30%">: {{item.obj[1147]|date:'yyyy-MM-dd HH:mm'}}</td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;" width="20%">Sumber Informasi </td>
+                            <td style="border: none;" width="30%">
+                            </td>
+                            <td style="border: none;" width="20%">Tgl Pengkajian </td>
+                            <td style="border: none;" width="30%">: {{item.obj[1239]}}&nbsp;{{item.obj[1148]}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border : none">
+                                
+                                <table style="border : none">
+                                    <tr><td style="border : none">                                    
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[1150]" id="item.obj[1150]">
+                                    
+                                    <label class="c-label k-checkbox-label" for="item.obj[1150]" required>Pasien</label>                        
+                                    </td><td style="border : none">                                        
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[1151]" id="item.obj[1151]">
+                                                           
+                                    <label class="c-label k-checkbox-label" for="item.obj[1152]" required>Keluarga</label>   
+                                    </td><td style="border : none">                                        
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[1152]" id="item.obj[1152]">
+                                    
+                                    <label class="c-label k-checkbox-label" for="item.obj[1152]" required>Lainnya</label>  {{item.obj[1153]}}                         
+                                    </td></tr>
+
+                                </table>
+                            </td>
+                            <td colspan="2" style="border : none"></td>
+                        </tr>
+                    </table>
+                  </td></tr>
+
+
+
+                  <!-- ANAMNESIS -->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p align="center">
+                        <strong><span lang="EN-US" style="font-size:13.0pt;">ANAMNESIS</span></strong>
+                    </p>
+                  </td></tr>
+                  
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">1. Keluhan Utama :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1154]}}</td></tr>
+                    </table>
+
+                    
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;" align="left">2. Nyeri :</th></tr>
+                        <tr><td style="border: none;">
+                            <table style="border : none">
+                                <tr><td style="border : none" width="100px">
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[1334]"
+                                    id="item.obj[1334]" readonly>
+                                    <label class="c-label k-checkbox-label" for="item.obj[1334]" required>Ya</label>
+                                </td><td style="border : none" width="100px">
+                                    <input type="checkbox" class="k-checkbox" ng-model="item.obj[1335]"
+                                    id="item.obj[1335]" readonly>
+                                    <label class="c-label k-checkbox-label" for="item.obj[1335]" required>Tidak</label>
+                                </td></tr>
+                            </table>
+                        </td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">3. Riwayat Penyakit Sekarang :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1240]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">4. Riwayat Penyakit Sebelumnya :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1241]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">5. Riwayat Psikologis :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[2586]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">6. Riwayat Penyakit Keluarga :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1243]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">7. Riwayat Alergi :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1244]}}</td></tr>
+                    </table>
+                  </td></tr>
+
+
+                  <!-- PEMERIKSAAN FISIK -->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p align="center">
+                        <strong><span lang="EN-US" style="font-size:13.0pt;">PEMERIKSAAN FISIK</span></strong>
+                    </p>
+                  </td></tr>
+
+                  <tr>
+                    <td colspan="3"  style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                        <table style="border:none">
+                            <tr>
+                                <td width="50%" style="border:none">
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Kesadaran</b></td>
+                                        <td style="border: none;">: {{item.obj[1168].text}}</td>                
+                                        </tr>
+                                    </table>  
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>E</b> : {{item.obj[2241].text}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>M</b> : {{item.obj[2242].text}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>V</b> : {{item.obj[2243].text}}</td>
+                                        </tr>
+                                    </table> 
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Tekanan Darah</b></td>
+                                        <td style="border: none;">: {{item.obj[1169]}} &nbsp; mmHg</td>                
+                                        </tr>
+                                    </table>  
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Nadi</b></td>
+                                        <td style="border: none;">: {{item.obj[1170]}} &nbsp; x/menit</td>                
+                                        </tr>
+                                    </table>  
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Suhu</b></td>
+                                        <td style="border: none;">: {{item.obj[1172]}} &nbsp; °C</td>                
+                                        </tr>
+                                    </table>  
+                                </td>
+                                <td width="50%" style="border:none">
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Pernafasan</b></td>
+                                        <td style="border: none;">: {{item.obj[1173]}} &nbsp; x/menit</td>                
+                                        </tr>
+                                    </table>  
+                                    <!--
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Keadaan Umum</b></td>
+                                        <td style="border: none;">: {{item.obj[3124].text}}</td>                
+                                        </tr>
+                                    </table>  
+                                    -->
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Tinggi Badan</b></td>
+                                        <td style="border: none;">: {{item.obj[1174]}} &nbsp; cm</td>                
+                                        </tr>
+                                    </table>  
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>Berat Badan</b></td>
+                                        <td style="border: none;">: {{item.obj[1175]}} &nbsp; kg</td>                
+                                        </tr>
+                                    </table>  
+                                    <table style="border: none;">
+                                        <tr>
+                                        <td style="border: none;width: 200px"><b>IMT/Status Gizi</b></td>
+                                        <td style="border: none;">: {{item.obj[1176]}}</td>                
+                                        </tr>
+                                    </table>  
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                  </tr>
+
+
+
+                  <!-- STATUS GENERALIS-->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p>
+                        <strong><span lang="EN-US" style="font-size:11.0pt;">I. STATUS GENERALIS</span></strong>
+                    </p>
+                  </td></tr>
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">1. Keadaan Umum :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1245]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">2. Kepala :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1246]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">3. Leher :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1247]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">4. Toraks :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1248]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">5. Abdomen :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1249]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">6. Urogenital :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1250]}}</td></tr>
+                    </table>
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">7. Ekstimitas :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1251]}}</td></tr>
+                    </table>
+                  </td></tr>
+
+
+
+                                   
+                  
+                  <!-- STATUS NEUROLOGIS-->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p>
+                        <strong><span lang="EN-US" style="font-size:11.0pt;">II. STATUS NEUROMUSCULAR</span></strong>
+                    </p>
+                  </td></tr>
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <!-- <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">1. Status Neurologis :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1252]}}</td></tr>
+                    </table> -->
+
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">1. Atas Indikasi :</th></tr>
+                        <tr><td style="border: none;">{{ item.obj[1253]}}</td></tr>
+                    </table>
+                  </td></tr>
+ 
+
+
+                  
+                  <!-- DIAGNOSIS-->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p align="center">
+                        <strong><span lang="EN-US" style="font-size:13.0pt;">DIAGNOSIS</span></strong>
+                    </p>
+                  </td></tr>
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><td style="border: none;"><p style="white-space: pre;">{{ item.obj[1258]}}</p></td></tr>
+                    </table>
+                  </td></tr>
+
+                  
+                  
+                  <!-- RENCANA PENATALAKSANAAN -->
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <p align="center">
+                        <strong><span lang="EN-US" style="font-size:13.0pt;">RENCANA PENATALAKSANAAN</span></strong>
+                    </p>
+                  </td></tr>
+                  <tr><td colspan="3" style="border-bottom: 0.1px solid #000;border-right: 0.1px solid #000;">
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">1. Terapi :</th></tr>
+                        <tr><td style="border: none;"><p style="white-space: pre;">{{ item.obj[1254]}}</p></td></tr>
+                    </table>
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">2. Penunjang yang Direncanakan :</th></tr>
+                        <tr><td style="border: none;"><p style="white-space: pre;">{{ item.obj[1256]}}</p></td></tr>
+                    </table>
+                    <table style="border: none;margin-bottom:15px">
+                        <tr><th style="border: none;">3. Tindakan dan Pemeriksaan :</th></tr>
+                        <tr><td style="border: none;"><p style="white-space: pre;">{{ item.obj[1255]}}</p></td></tr>
+                    </table>
+
+
+                    
+                    <table style="border: none;" >
+                        <tr>
+                            <td id="tdImage" style="border: none;width: 60%"></td>
+                            <td id="tdImage" style="border: none;width: 40%">
+      
+                            <p>Dokter Penanggung Jawab Pelayanan / DPJP</p>
+                            <div style="height: 100px;"></div>
+                            <p>{{item.obj[1257].text}}</p>
+      
+      
+                            </td>  
+                        </tr>
+                    </table>
+                  </td></tr>              
+                </table>  
+
+              </div>
+
+
+            </body>
+          </div> 
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class=" panel-body">
+    <div class="grid_12">
+      <!-- <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+              </div> -->
+      <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+        <!-- <button class="k-button  k-button-icontext k-primary k-grid-update" ng-click="saveSurat()"><span class="k-icon k-update"></span>Simpan</button> -->
+        <a class="no-print k-button  k-button-icontext" href="javascript:printDiv('cetakRm');">Cetak PDF</a>
+        <button class="k-button  btnHapus k-button-icontext" ng-click="tutupSurat()"><span
+            class="k-icon k-cancel"></span>Tutup</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<textarea id="printing-css" style="display:none;">
+  .no-print{display:none} .normalTidakNormal {width:50px;} #newPage {page-break-before: always;} 
+  #tdImage {width:50%; text-align: center;} #tdImageText {margin-top:10px; text-align:left;}
+  -webkit-print-color-adjust: exact !important;
+  </textarea>
+  <iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+  
+  <script type="text/javascript">
+  
+    function printDiv() {
+  
+      var cek = document.querySelectorAll("#cetakRm input[type='checkbox']");
+      for(let i = 0; i < cek.length; i++) {
+          if(cek[i].checked) {
+              cek[i].setAttribute("checked", "checked");
+          } else {
+              cek[i].removeAttribute("checked", "checked");
+          }
+      }
+  
+  
+      var a = document.getElementById('printing-css').value;
+      var b = document.getElementById('cetakRm').innerHTML;
+      window.frames["print_frame"].document.title = document.title;
+      window.frames["print_frame"].document.body.innerHTML =  '<style>' + a + '</style>' + b;
+      window.frames["print_frame"].window.focus();
+      window.frames["print_frame"].window.print();
+    }
+</script>

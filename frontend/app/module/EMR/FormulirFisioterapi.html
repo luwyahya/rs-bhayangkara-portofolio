@@ -1,0 +1,542 @@
+<style>
+    .btnHijau {
+        background-color: #6bdb1a;
+        color: white;
+    }
+
+    .btnHijau:hover {
+        background-color: #53ab13;
+        color: white;
+    }
+
+    -->fieldset {
+        border-radius: 5px;
+        border: 1px solid #228be6;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #228be6;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Formulir Fisioterapi</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 20px; margin-top: 20px; text-align: center;">FORMULIR
+                FISIOTERAPI</label>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>I. PENGUMPULAN DATA IDENTITAS PASIEN (S)</b></h2>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Pendidikan Terakhir</label>
+            </div>
+        </div>
+        <div class="grid_5" style="margin-left: -7%;">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2237]" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Pekerjaan</label>
+            </div>
+        </div>
+        <div class="grid_5" style="margin-left: -7%;">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2238]" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Hobi</label>
+            </div>
+        </div>
+        <div class="grid_5" style="margin-left: -7%;">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2239]" />
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>II. PENGUMPULAN DATA RIWAYAT PENYAKIT (S)</b></h2>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">Keluhan Utama :</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Masukkan Keluhan Utama" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2187]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top: 1%;">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">Riwayat Penyakit Sekarang :</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Masukkan Riwayat Penyakit" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2188]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top: 1%;">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">Riwayat Penyakit Dahulu :</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Masukkan Riwayat Penyakit Dahulu" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2189]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top: 1%;">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">Riwayat Penyakit Keluarga :</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Masukkan Riwayat Penyakit Keluarga" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2190]"></textarea>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>III. PEMERIKSAAN (O)</b></h2>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12">
+            <h3 style="float: left;"><b>A. PEMERIKSAAN UMUM</b></h3>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Cara Datang</label>
+            </div>
+        </div>
+        <div class="grid_2" style="margin-top:0.8%">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[2191]" id="item.obj[2191]">
+            <label class="c-label k-checkbox-label" for="item.obj[2191]" required>Kooperatif</label>
+        </div>
+        <div class="grid_2" style="margin-top:0.8%">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[2192]" id="item.obj[2192]">
+            <label class="c-label k-checkbox-label" for="item.obj[2192]" required>Tidak Kooperatif</label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Tensi</label>
+            </div>
+        </div>
+        <div class="grid_5">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2193]" />
+            <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Tensi</label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>RR</label>
+            </div>
+        </div>
+        <div class="grid_5">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2194]" />
+            <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">RR</label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Nadi</label>
+            </div>
+        </div>
+        <div class="grid_5">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2195]" />
+            <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Nadi</label>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_9">
+                <label c-label item="item" required>Suhu</label>
+            </div>
+        </div>
+        <div class="grid_5">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2196]" />
+            <label class="keteranganFieldTambahan" style="margin-top: 15px;margin-right: 30px">Suhu</label>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h3 style="float: left;"><b>B. PEMERIKSAAN KHUSUS</b></h3>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 1%;">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">- Inspeksi</label>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 2%; margin-top:1%">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">• Statis</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Silahkan masukkan data disini" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2197]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 2%; margin-top:1%">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">• Dinamis</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Silahkan masukkan data disini" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2198]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 1%; margin-top:1%">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">- Palpasi</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Silahkan masukkan data disini" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2199]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 1%; margin-top:1%">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">- Pemeriksaan (Muskuloskeletal, Neuromuskular,
+                Kardiopulmonal, Integumen)</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Silahkan masukkan data disini" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2200]"></textarea>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-left: 1%; margin-top:1%">
+        <div class="grid_12">
+            <label c-label item="item" style="font-size: 16px;">- Tes Spesifik</label>
+        </div>
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Silahkan masukkan data disini" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2201]"></textarea>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>IV. PENGUMPULAN DATA TERTULIS PEMERIKSAAN PENUNJANG</b></h2>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_3">
+            <div class="grid_9">
+                <label c-label item="item" required>Pemeriksaan</label>
+            </div>
+        </div>
+        <div class="grid_6">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2202]"
+                placeholder="Silahkan masukkan Pemeriksaan" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_3">
+            <div class="grid_9">
+                <label c-label item="item" required>Tanggal Pemeriksaan</label>
+            </div>
+        </div>
+        <div class="grid_6">
+            <input style="width: 100%" k-ng-model="item.obj[2203]" kendo-datetimepicker placeholer="yyyy-MM-dd HH:mm"
+                k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_3">
+            <div class="grid_9">
+                <label c-label item="item" required>Hasil</label>
+            </div>
+        </div>
+        <div class="grid_6">
+            <input c-text-box type="input" filter="'char'" class="k-textbox" ng-model="item.obj[2204]"
+                placeholder="Silahkan masukkan hasil pemeriksaan" />
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>V. DIAGNOSA FISIOTERAPI</b></h2>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top: -1%;">
+        <div class="grid_12">
+            <textarea required class="k-textbox" placeholder="Masukkan Diagnosa Fisioterapi" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2205]"></textarea>
+        </div>
+    </div>
+
+    <div class="grid_12">
+        <div class="grid_12">
+            <h2 style="float: left;"><b>VI. TUJUAN FISIOTERAPI</b></h2>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top: -1%;">
+        <div class="grid_12" style="margin-bottom: 2%;">
+            <textarea required class="k-textbox" placeholder="Masukkan Tujuan Fisioterapi" style="height: 150px;width: 90%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2206]"></textarea>
+        </div>
+    </div>
+</div>
+
+<table style="width: 92%;">
+    <tr>
+        <th
+            style="width:2%;height:10%;font-weight: bold;text-align: center;background-color: #228be6 ;color: white;font-size: 21px;">
+            TANGGAL
+        </th>
+        <th
+            style="width:15%;height:10%;font-weight: bold;text-align: center;background-color: #228be6;color: white;font-size: 21px;">
+            JENIS TINDAKAN
+        </th>
+        <th
+            style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: #228be6;color: white;font-size: 21px;">
+            EVALUASI
+        </th>
+        <th
+            style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: #228be6;color: white;font-size: 21px;">
+            FISIOTERAPIS (Nama & TTD)
+        </th>
+        <th
+            style="width:5%;height:10%;font-weight: bold;text-align: center;background-color: #228be6;color: white;font-size: 21px;">
+            Action
+        </th>
+    </tr>
+    <tr style="background-color: white;">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2221]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2222]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2223]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2224]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: white;">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2225]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2226]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2227]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2228]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: white;">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2229]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2230]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2231]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2232]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: white;">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2233]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2234]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2235]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2236]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+        <td>
+        <div class="grid_12" ng-show="show">
+            <button class="btnTemplate1" style="width: 20%;" ng-click="tambah1()">+</button>
+        </div>
+    </td>
+    </tr>
+    <tr style="background-color: white;" ng-show="showlah2">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2237]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2238]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2239]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2240]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12" ng-show="show2">
+                <button class="btnTemplate1" style="width: 20%;" ng-click="tambah2()">+</button>
+                <button class="btnTemplate1" style="width: 20%;" ng-click="hapus2()">-</button>
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: white;" ng-show="showlah3">
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%" k-ng-model="item.obj[2241]" kendo-datepicker placeholer="yyyy-MM-dd HH:mm"
+                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Inputkan Jenis Tindakan" style="height: 150px;width: 98%;margin-top: 5px;margin-left: 5px;
+            resize: none;" ng-model="item.obj[2242]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <textarea required class="k-textbox" placeholder="Masukan Evaluasi" style="height: 150px;width: 95%;margin-top: 5px;margin-left: 5px;
+                resize: none;" ng-model="item.obj[2243]"></textarea>
+            </div>
+        </td>
+        <td>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2244]" k-data-text-field="'text'"
+                    k-data-value-field="'value'" k-filter="'contains'" k-auto-bind="false"
+                    k-data-source="listPegawai" />
+            </div>
+        </td>
+        <td>
+            <div class="grid_12" ng-show="show3">
+                <button class="btnTemplate1" style="width: 20%;" ng-click="hapus3()">-</button>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div class="grid_12">
+    <div class="grid_8"></div>
+    <div class="grid_2">
+        <button class="btnTemplate1" ng-click="Save()">Simpan</button>
+    </div>
+    <!-- <div class="grid_2">
+        <button class="btnTemplate1 cancel" ng-click="kembali()">Kembali</button>
+    </div>
+    <div class="grid_2">
+        <button class="btnTemplate1 btnHijau" ng-click="cetak()">Cetak</button>
+    </div> -->
+</div>
+
+
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<script>
+    $('.cb').on('change', function () { // on change of state
+        UpdateCost();
+    });
+    function UpdateCost() {
+        var sum = 0;
+        var gn, elem;
+        $('.cb:checked').each(function () {
+            sum += Number($(this).val());
+        })
+
+        $('#totalcost').val(sum.toFixed(0));
+    }
+</script>

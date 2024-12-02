@@ -1,0 +1,57 @@
+<style>
+    .button-details {
+    background: none;
+    color: black;
+    border-radius: 15px;
+    border: 1px solid;
+    padding: 2px 7px 2px;
+    font-family: inherit;
+    line-height: 1.72em;
+    text-align: center;
+    /* cursor: pointer; */
+    text-decoration: none;
+    background-color: rgb(0, 255, 221);
+    display: inline-block;
+    min-width: 78px;
+    vertical-align: middle;
+    margin-top: 5px;
+    }
+    .dark-green { 
+        background-color: #7ef6ff;
+		color: #000000;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Dokumen Rekam Medis</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 borderBox">
+            <kendo-grid data-source="sourceDrm" options="columnDrm"
+                k-ng-model="dataSelected" k-groupable="true"
+                ng-click="klik(dataSelected)">
+            </kendo-grid>
+        </div>
+    </div>
+</div>
+<div class="grid_12">
+    <div class="grid_2" style="margin-top: 22px">
+        <button class="c-button" ng-click="ubahTanggalDokumen()">Ubah Tanggal Dokumen</button>
+    </div>
+</div>
+<div kendo-window="popUpUbahTanggal" k-title="'Pilih Tanggal'" k-width="800" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_12 padDatePicker">
+                <div class="grid_12">
+                    <input style="width: 100%" k-ng-model="item.ubahTanggal" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                </div>
+            </div>
+        </div>
+        <div class="grid_4" style="margin-top: 10px">
+            <button class="btnTemplate1" ng-click="ubahTanggalDokumen2()"><i
+                    class="fa fa-refresh"></i>Simpan</button>
+        </div>
+    </div>
+</div>
