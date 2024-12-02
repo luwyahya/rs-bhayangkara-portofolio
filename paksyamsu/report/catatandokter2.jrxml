@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketeranganmedis" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="194"/>
+	<property name="ireport.y" value="290"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="167"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="823"/>
+	<style name="Title" forecolor="#FFFFFF" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{flag}.equals("Y")]]></conditionExpression>
+			<style forecolor="#FF0000"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="namaPasien" class="java.lang.String"/>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="noemr" class="java.lang.String"/>
+	<parameter name="norm" class="java.lang.String"/>
+	<parameter name="jeniskelamin" class="java.lang.String"/>
+	<parameter name="umur" class="java.lang.String"/>
+	<parameter name="ruangan" class="java.lang.String"/>
+	<parameter name="ttd" class="java.lang.String"/>
+	<parameter name="dpjp" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[select DISTINCT ON (temp.tgljam, temp.hasilpemeriksaan)
+	CAST ( TEMP.tgljam AS VARCHAR ) AS tgljam,
+	temp.profesi,
+	temp.hasilpemeriksaan,
+	ps.tgllahir,
+	temp.instruksitenaga,
+	CASE WHEN temp.menyerahkan != '' 
+		THEN concat('Yang Menyerahkan ', TEMP.menyerahkan)
+		ELSE '' 
+	END AS menyerahkan,
+	CASE WHEN temp.menerima != ''
+		THEN concat('Yang Menerima', TEMP.menerima)
+		ELSE ''
+	END AS menerima,
+	CASE WHEN temp.pasienkeluarga != ''
+		THEN concat('Pasien / Keluarga', TEMP.pasienkeluarga)
+		ELSE ''
+	END AS pasienkeluarga,
+	temp.pegawai,
+	CASE WHEN temp.tgllapor != 'Invalid date'
+		THEN concat('Tanggal Lapor', CAST(TEMP.tgllapor AS VARCHAR))
+		ELSE ''
+	END AS lapor,
+	CASE WHEN temp.tgljawab != 'Invalid date'
+		THEN concat('Tanggal Jawab', CAST(TEMP.tgljawab AS VARCHAR))
+		ELSE ''
+	END AS instruksi,
+	CASE WHEN temp.penerimainstruksi != ''
+		THEN concat('Penerima Instruksi', TEMP.penerimainstruksi)
+		ELSE ''
+	END AS penerimainstruksi,
+	CASE WHEN temp.pemberiinstruksi != ''
+		THEN concat('Pemberi Instruksi', TEMP.pemberiinstruksi)
+		ELSE ''
+	END AS pemberiinstruksi,
+	CASE WHEN temp.ttd != ''
+		THEN concat('Penulis CPPT', TEMP.ttd)
+		ELSE ''
+	END AS ttd, ttp.tandatangan,
+	CASE WHEN temp.pegawai IS NOT NULL
+		THEN concat('http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-new?idPegawai=', CAST ( pg2.ID AS VARCHAR ))
+		ELSE 'Data Tidak Ditemukan'
+	END AS qrcode  
+FROM tempemr_t  AS temp
+INNER JOIN emrpasien_t as emr ON emr.noemr = temp.emrpasienfk
+INNER JOIN pasien_m AS ps ON ps.nocm = emr.nocm
+LEFT JOIN pegawai_m AS pg ON pg.namalengkap = temp.ttd
+LEFT JOIN tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
+LEFT JOIN pegawai_m AS pg2 ON pg2.namalengkap = temp.pegawai
+WHERE emrpasienfk= $P{noemr} AND temp.statusenabled = true
+ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
+	</queryString>
+	<field name="tgllahir" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tgljam" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="profesi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="hasilpemeriksaan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="instruksitenaga" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="menyerahkan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="menerima" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="pasienkeluarga" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="ttd" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="lapor" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="instruksi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="penerimainstruksi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="pemberiinstruksi" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="pegawai" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="tandatangan" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<field name="qrcode" class="java.lang.String">
+		<property name="property.name" value="value"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="2" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="116">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image>
+				<reportElement x="2" y="3" width="77" height="77" uuid="7e4f0b80-aa4a-45cd-a6b4-caffb8e23e56">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<rectangle radius="10">
+				<reportElement x="382" y="1" width="190" height="70" uuid="8516f51d-eee9-45a5-987e-e9d8e9f4489b"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="386" y="3" width="46" height="14" uuid="4a47cb81-c945-4078-9747-5bc14a5490a5"/>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="15" width="46" height="14" uuid="f0a75e8b-4900-46b7-a3c0-c74cd67c37ad"/>
+				<text><![CDATA[RM/Reg]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="386" y="27" width="46" height="14" uuid="aa9478cf-092a-460a-ba46-be048829b564"/>
+				<text><![CDATA[TTL/JK]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="570" height="26" uuid="28dc409e-5a0c-49e1-ae61-b587eafbcecb"/>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[CATATAN PERKEMBANGAN PASIEN TERINTEGRASI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="3" width="6" height="14" uuid="9f2438df-1c81-4926-a892-b3437ca37e5e"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="15" width="6" height="14" uuid="08594eca-305a-4ee1-ae4a-ea49c5029d2e"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="27" width="6" height="14" uuid="3451de80-246d-4b0f-b230-698ef7c59c58"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="15" width="6" height="14" uuid="0e0188f5-dce7-42cd-a895-14dc408bd691"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="497" y="27" width="6" height="14" uuid="ad2afa4b-ef0f-40e1-a8f8-391b11c8642a"/>
+				<text><![CDATA[/]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="438" y="3" width="124" height="14" uuid="ca268e0d-52f7-4919-804c-029d09eae234"/>
+				<textFieldExpression><![CDATA[$P{namaPasien}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="15" width="59" height="14" uuid="67083daf-75d4-4ed9-a2a8-3aae45ae15e2"/>
+				<textFieldExpression><![CDATA[$P{norm}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="503" y="15" width="59" height="14" uuid="04747a2e-a8db-48f6-ad85-618cdd448fe0"/>
+				<textFieldExpression><![CDATA[$P{jeniskelamin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="438" y="27" width="59" height="14" uuid="6254c996-9d6f-4ba6-b912-a31f2b83c60b"/>
+				<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="503" y="27" width="59" height="14" uuid="55d869c6-6794-431d-a3d0-254cefeba49a"/>
+				<textFieldExpression><![CDATA[$P{umur}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="386" y="39" width="46" height="14" uuid="2c4c30d3-2d9d-4e9c-a08b-afa70953c34d"/>
+				<text><![CDATA[Ruangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="432" y="39" width="6" height="14" uuid="76f7a14c-0145-47eb-9380-95fbbda4dafe"/>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="438" y="39" width="124" height="14" uuid="1f3ffd89-56dc-4b9a-be54-d45ce6851929"/>
+				<textFieldExpression><![CDATA[$P{ruangan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="79" y="22" width="302" height="30" uuid="8ecb06ec-43a8-455d-a9d7-4f36af3b6aea"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN 
+Rumah Sakit Bhayangkara TK II SARTIKA ASIH]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="53" width="303" height="30" uuid="42e1634c-11f7-4cba-9b5e-e8f29c940a92"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256, No.Tlp: (022) 5229544, Website : rsbsabandung.com, E-mail : rsud.RSBSABandung@yahoo.co.id]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="89" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="566" height="1" uuid="1be74581-6fbd-410c-ab8f-66f9100a1cd9">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="0" y="88" width="566" height="1" uuid="d2c81540-01ed-44af-a1de-083fef34f08c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="1" y="2" width="59" height="32" uuid="f2e1ea32-972b-4afb-9561-e479a51285a2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[TANGGAL /
+JAM]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="1" width="1" height="87" uuid="7bfee7ae-c809-418f-bf11-52e3a7a6197d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="60" y="1" width="1" height="87" uuid="17696b6d-cc3b-4fbf-a029-fd8cf77ee10d">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="63" y="2" width="52" height="32" uuid="194559ee-add0-42ec-a7e1-537a56afd986">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[PROFESI /
+BAGIAN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="117" y="1" width="1" height="87" uuid="9414b7b4-b852-43b4-ada6-53dc970d5090">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="370" y="1" width="1" height="87" uuid="fc3f7f7d-ca47-4a64-bc0d-02af5dd89312">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="478" y="1" width="86" height="48" uuid="c2884a8b-0d79-4ef2-859d-045909746dd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VERIFIKASI
+DPJP
+(bubuhkan stempel nama, paraf, Tgl, jam)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="565" y="1" width="1" height="87" uuid="ba222127-32ab-4424-b9e5-1d7d3f9b904e">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="119" y="2" width="252" height="32" uuid="510e9ada-73ec-4e64-88a2-da409cf44f02">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[HASIL PEMERIKSAAN, ANALISIS, RENCANA
+PENATALAKSANAAN PASIEN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="118" y="30" width="252" height="40" uuid="096ec063-ddfa-4dd6-974c-894d79f6d09f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(Dituliskan dengan Format SOAP/ADIME, disertai dengan target
+yang terukur, evaluasi hasil tatalaksana  dituliskan dalam assesmen,
+harap bubuhkan stempel nama, dan paraf pada setiap akhir catatan)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="0" width="108" height="54" uuid="db7d1dca-132a-4486-8674-79978be48643"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Instruksi Tenaga
+Kesehatan Termasuk
+Pasca
+Bedah / Prosedur]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="369" y="54" width="108" height="30" uuid="9bb876eb-413f-476f-8a92-3b6214f2b757"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(Instruksi ditulis dengan
+rinci dan jelas)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="478" y="49" width="86" height="34" uuid="ea5b349c-9cc6-46cd-b88b-39e70670bf4b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[(DPJP harus membaca seluruh rencana perawatan)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="476" y="1" width="1" height="87" uuid="53aef084-a9a8-4db4-830f-363cf739d7b0">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="81" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="0" y="0" width="61" height="20" uuid="61426d4e-6657-4058-8b3d-e493421f0f5c">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tgljam}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="57" height="20" uuid="fa502713-a605-49a3-a647-bb89f99f2dbb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profesi}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="122" y="0" width="244" height="20" uuid="96b092a2-a139-48c0-a3ed-62b1d2678e32">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hasilpemeriksaan}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="375" y="0" width="96" height="20" uuid="5ffa18f7-4d97-40f4-ac37-d37dbaf6fa6b">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{instruksitenaga}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement x="481" y="40" width="80" height="19" uuid="37a74690-d215-4f75-af2d-72f87ae7c0c0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pegawai}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" stretchType="ContainerBottom" x="0" y="0" width="1" height="81" uuid="18515990-0109-48a7-8b9e-7d67087dfb4c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="ContainerHeight" x="60" y="0" width="1" height="81" uuid="3c7d6636-2add-43b1-8c3b-052add764a0f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="ContainerHeight" x="117" y="0" width="1" height="81" uuid="a01fb759-6c38-4e25-a691-64fa1a997654">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="ContainerHeight" x="370" y="0" width="1" height="81" uuid="c17f088d-87ac-4aa5-bbaa-b52c423282f9">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="ContainerHeight" x="476" y="0" width="1" height="81" uuid="4616b2d7-6f5c-4932-82a0-94028b5bb4f3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="ContainerHeight" x="565" y="0" width="1" height="81" uuid="03503526-30d6-44a3-bcdd-2704c3e42977">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="124" y="22" width="54" height="32" forecolor="#F207B0" uuid="deee2e35-7037-45a3-94f5-3d57573c73fb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{menyerahkan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="179" y="22" width="63" height="32" forecolor="#F207B0" uuid="3fa1c117-9d10-4268-9901-44636e54dcc7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{menerima}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="123" y="70" width="119" height="10" forecolor="#F207B0" uuid="e0847a9a-eb0d-4196-81de-37e25fc48f2b">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pasienkeluarga}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="120" y="45" width="64" height="35" forecolor="#F207B0" uuid="bee5c339-90aa-4202-863b-9efca39de325">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{penerimainstruksi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="200" y="45" width="64" height="35" forecolor="#F207B0" uuid="766eae83-3067-4afa-a074-51421bbd12c4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pemberiinstruksi}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="270" y="45" width="96" height="35" forecolor="#F207B0" uuid="b2b5dccb-7726-40eb-9b50-487fd8e43df8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ttd}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center">
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="280" y="54" width="86" height="16" uuid="ed82e42f-0dad-42fb-b062-3006451b83eb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[net.sf.jasperreports.engine.util.JRImageLoader.getInstance(new SimpleJasperReportsContext()).loadAwtImageFromBytes(javax.xml.bind.DatatypeConverter.parseBase64Binary($F{tandatangan}.replace("data:image/png;base64,","").replace("data:image/jpeg;base64,","")))]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="480" y="0" width="82" height="40" uuid="3187ebac-4f62-41de-a97d-bed6b25a73e7"/>
+				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+new com.google.zxing.qrcode.QRCodeWriter().encode(
+$F{qrcode},
+com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="436" y="0" width="130" height="21" uuid="0e0616c0-0147-4932-a256-747f6bd55e2f">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[011/RMI/2015]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="566" height="1" uuid="56322b26-9435-437d-8df7-647fa0eb32c7">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</columnFooter>
+	<lastPageFooter>
+		<band>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</lastPageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
