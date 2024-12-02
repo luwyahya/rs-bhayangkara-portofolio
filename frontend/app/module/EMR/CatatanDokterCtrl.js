@@ -846,7 +846,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     if (window.location.hostname.indexOf('localhost') > -1) {
                         xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
                     } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
-                        xhr.open('POST', 'http://36.93.6.186:2222/generic/report/catatandokter2.pdf');
+                        xhr.open('POST', 'http://103.151.226.36:2222/generic/report/catatandokter2.pdf');
                     } else {
                         xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
                     }
@@ -870,8 +870,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 } else {
                     if (window.location.hostname.indexOf('localhost') > -1) {
                         xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('36.93.6.186:8201') > -1) {
-                        xhr.open('POST', 'http://36.93.6.186:8201/generic/report/catatandokter2.pdf');
+                    } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                        xhr.open('POST', 'http://36.78.27.51:8201/generic/report/catatandokter2.pdf');
                     } else {
                         xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
                     }
