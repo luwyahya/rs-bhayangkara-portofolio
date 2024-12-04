@@ -4975,12 +4975,20 @@ class RadiologiController extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Simpan PelayananPasien Sukses";
             DB::commit();
+
+            // $ihs = null;
+            // if ($request['objectruangantujuanfk'] != 576) {
+            //     $objetoRequest = new \Illuminate\Http\Request();
+            //     $objetoRequest['noorder'] = $request['noorder'];
+            //     $ihs = app('App\Http\Controllers\Bridging\IHSController')->Specimen($objetoRequest, true);
+            // }
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
                 'dataPP' => $PelPasien,
 //                'dataPPP' => $PelPasienPetugas,
                 'dataPPD' => $PelPasienDetail,
+                // 'Specimen' => $ihs,
                 'as' => 'ramdanegie',
             );
         } else {

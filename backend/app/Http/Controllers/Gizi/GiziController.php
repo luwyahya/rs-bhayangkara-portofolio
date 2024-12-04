@@ -595,10 +595,14 @@ class GiziController extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Simpan Order Pelayanan";
             DB::commit();
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noorder'] = $dataSO->noorder;
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->Composition($objetoRequest, true);
             $result = array(
                 "status" => 201,
                 "message" => $transMessage,
                 "strukorder" => $dataSO,
+                "Composition" => $ihs,
                 "as" => 'inhuman',
             );
         } else {

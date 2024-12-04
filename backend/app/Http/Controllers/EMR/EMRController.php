@@ -7887,10 +7887,17 @@ class EMRController  extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Data Tersimpan";
             DB::commit();
+            $ihs = null;
+            if (isset($request['detaildiagnosatindakanpasien']['noregistrasi'])) {
+              $objetoRequest = new \Illuminate\Http\Request();
+              $objetoRequest['noregistrasi'] = $request['detaildiagnosatindakanpasien']['noregistrasi'];
+              $ihs = app('App\Http\Controllers\Bridging\IHSController')->Procedure($objetoRequest, true);
+            }
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
                 'data' => $dataDiagnosa,
+                'Procedure' => $ihs,
                 'as' => 'egie@ramdan',
             );
         } else {
@@ -8809,9 +8816,13 @@ class EMRController  extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Simpan Order Pelayanan Apotik Berhasil";
             DB::commit();
+            // $objetoRequest = new \Illuminate\Http\Request();
+            // $objetoRequest['noorder'] = $newSO->noorder;
+            // $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationRequest($objetoRequest, true);
             $result = array(
                 "status" => 201,
                 "message" => $transMessage,
+                // 'MedicationRequest' => isset($ihs) ? $ihs : null,
                 "noresep" => $newSO, //$noResep,,//$noResep,
                 "as" => 'as@epic',
             );
@@ -9623,10 +9634,17 @@ class EMRController  extends ApiController
             if ($request['norec_so'] == "") {
                 $transMessage = "Simpan Order Pelayanan";
                 DB::commit();
+                $ihs = null;
+                if ($request['departemenfk'] != 27) {
+                    $objetoRequest = new \Illuminate\Http\Request();
+                    $objetoRequest['noorder'] = $dataSO->noorder;
+                    $ihs = app('App\Http\Controllers\Bridging\IHSController')->ServiceRequest($objetoRequest, true);
+                }
                 $result = array(
                     "status" => 201,
                     "message" => $transMessage,
                     "strukorder" => $dataSO,
+                    "ServiceRequest" => $ihs,
                     "as" => 'inhuman',
                 );
             } else {
