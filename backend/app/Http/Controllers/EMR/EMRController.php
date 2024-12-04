@@ -9420,8 +9420,9 @@ class EMRController  extends ApiController
         $dataEMRICU->objectpegawaifk = $dataPegawai->objectpegawaifk;
         $dataEMRICU->jenisemr = $dataReq['jenisemr'];
         $dataEMRICU->save();
+        
         $norecEMR = $dataEMRICU->norec;
-
+        // return $norecEMR;
         foreach ($dataDetail as $item) {
             $dataEMRICU_D = new RekamMedisICUDetail();
             $dataEMRICU_D->norec = $dataEMRICU_D->generateNewId();
@@ -9444,19 +9445,28 @@ class EMRController  extends ApiController
             $dataEMRIntraAnestesi->tanggalintra = $item['tanggalintra'];
             $dataEMRIntraAnestesi->jenisintra = $item['jenisintra'];
             $dataEMRIntraAnestesi->labelintra = $item['labelintra'];
-            $dataEMRIntraAnestesi->nilaipasca = $item['nilaipasca'];
-            $dataEMRIntraAnestesi->tanggalpasca = $item['tanggalpasca'];
-            $dataEMRIntraAnestesi->jenispasca = $item['jenispasca'];
-            $dataEMRIntraAnestesi->labelpasca = $item['labelpasca'];
+            $dataEMRIntraAnestesi->nilaipasca = isset($item['nilaipasca']) && $item['nilaipasca'] !== '' 
+                ? $item['nilaipasca'] 
+                : null;
+            $dataEMRIntraAnestesi->tanggalpasca = isset($item['tanggalpasca']) && $item['tanggalpasca'] !== '' 
+                ? $item['tanggalpasca'] 
+                : null;
+            $dataEMRIntraAnestesi->jenispasca = isset($item['jenispasca']) && $item['jenispasca'] !== '' 
+                ? $item['jenispasca'] 
+                : null;
+            $dataEMRIntraAnestesi->labelpasca = isset($item['labelpasca']) && $item['labelpasca'] !== '' 
+                ? $item['labelpasca'] 
+                : null;
             $dataEMRIntraAnestesi->emricufk = $norecEMR;
             $dataEMRIntraAnestesi->save();
         }
+        
 
         //## Logging User
-        // $newId = LoggingUser::max('id');
-        // $newId = $newId + 1;
+        $newId = LoggingUser::max('id');
+        $newId = $newId + 1;
         $logUser = new LoggingUser();
-        $logUser->id = $logUser->generateNewId();
+        $logUser->id = $newId;
         $logUser->norec = $logUser->generateNewId();
         $logUser->kdprofile = 0;
         $logUser->statusenabled = 1;
@@ -9552,23 +9562,33 @@ class EMRController  extends ApiController
             $dataEMRPascaAnestesi->norec = $dataEMRPascaAnestesi->generateNewId();
             $dataEMRPascaAnestesi->statusenabled = 1;
             $dataEMRPascaAnestesi->noregistrasi = $dataReq['noregistrasi'];
-            $dataEMRPascaAnestesi->nilaiintra = $item['nilaiintra'];
+            $dataEMRPascaAnestesi->nilaiintra = isset($item['nilaiintra']) && $item['nilaiintra'] !== '' 
+                ? $item['nilaiintra'] 
+                : null;
             $dataEMRPascaAnestesi->tanggalintra = $item['tanggalintra'];
             $dataEMRPascaAnestesi->jenisintra = $item['jenisintra'];
             $dataEMRPascaAnestesi->labelintra = $item['labelintra'];
-            $dataEMRPascaAnestesi->nilaipasca = $item['nilaipasca'];
-            $dataEMRPascaAnestesi->tanggalpasca = $item['tanggalpasca'];
-            $dataEMRPascaAnestesi->jenispasca = $item['jenispasca'];
-            $dataEMRPascaAnestesi->labelpasca = $item['labelpasca'];
+            $dataEMRPascaAnestesi->nilaipasca = isset($item['nilaipasca']) && $item['nilaipasca'] !== '' 
+                ? $item['nilaipasca'] 
+                : null;
+            $dataEMRPascaAnestesi->tanggalpasca = isset($item['tanggalpasca']) && $item['tanggalpasca'] !== '' 
+                ? $item['tanggalpasca'] 
+                : null;
+            $dataEMRPascaAnestesi->jenispasca = isset($item['jenispasca']) && $item['jenispasca'] !== '' 
+                ? $item['jenispasca'] 
+                : null;
+            $dataEMRPascaAnestesi->labelpasca = isset($item['labelpasca']) && $item['labelpasca'] !== '' 
+                ? $item['labelpasca'] 
+                : null;
             $dataEMRPascaAnestesi->emricufk = $norecEMR;
             $dataEMRPascaAnestesi->save();
         }
-
+        
         //## Logging User
-        // $newId = LoggingUser::max('id');
-        // $newId = $newId + 1;
+        $newId = LoggingUser::max('id');
+        $newId = $newId + 1;
         $logUser = new LoggingUser();
-        $logUser->id = $logUser->generateNewId();
+        $logUser->id = $newId;
         $logUser->norec = $logUser->generateNewId();
         $logUser->kdprofile = 0;
         $logUser->statusenabled = 1;
