@@ -792,6 +792,8 @@ define(['initialize'], function (initialize) {
                             "catatan": $scope.resultGrids._data[i].catatan,
                             "skor": $scope.resultGrids._data[i].skor,
                             "catatancetak": catatan,
+                            "nilainormal": $scope.resultGrids._data[i].nilainormalstr,
+                            "satuan": $scope.resultGrids._data[i].satuanstandar
                         });
                 }
 

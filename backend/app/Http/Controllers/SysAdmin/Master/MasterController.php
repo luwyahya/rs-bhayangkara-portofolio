@@ -8,6 +8,7 @@
 namespace App\Http\Controllers\SysAdmin\Master;
 
 use App\Http\Controllers\ApiController;
+use App\Master\Departemen;
 use App\Master\HargaNettoProdukByKelas1;
 use App\Master\HargaNettoProdukByKelasD;
 use App\Master\JenisDiet;
@@ -19,6 +20,10 @@ use App\Master\KomponenHarga;
 use App\Master\MapKelompokPasientoPenjamin;
 use App\Master\MapRuanganToProduk;
 use App\Master\Produk;
+use App\Master\KelompokProduk;
+use App\Master\JenisProduk;
+use App\Master\DetailJenisProduk;
+use App\Master\IHS_MapBahanZat;
 use App\Master\Rekanan;
 use App\Master\Ruangan;
 use App\Master\SiklusGizi;
@@ -46,7 +51,7 @@ class MasterController extends ApiController{
 
         //get data
         $data = \DB::table('produk_m as p')
-            ->select('p.id','p.kdproduk','p.kdbarcode','p.deskripsiproduk','p.namaproduk as namaproduk','dj.detailjenisproduk','p.statusenabled')
+            ->select('p.id','p.kdproduk','p.kdbarcode','p.deskripsiproduk','p.namaproduk as namaproduk','dj.detailjenisproduk','p.statusenabled','p.kdproduk_intern')
             ->leftJoin('rm_sediaan_m as rm','rm.id','=','p.objectsediaanfk')
             ->leftJoin('merkproduk_m as mp','mp.id','=','objectmerkprodukfk')
             ->leftJoin('rekanan_m as rk','rk.id','=','p.objectrekananfk')
@@ -74,6 +79,8 @@ class MasterController extends ApiController{
             $data = $data->where('p.kodebmn','=',$filter['kdBmn']);
         }elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
             $data = $data->where('p.namaproduk','ilike','%'.$filter['nmProduk'].'%');
+        }elseif (isset($filter['detailjenisproduk']) && !empty($filter['detailjenisproduk'])) {
+            $data = $data->where('p.objectdetailjenisprodukfk','=',$filter['detailjenisproduk']);
         }elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
             $data = $data->where('p.namaproduk','ilike','%'.$filter['nmProduk'].'%');
         }elseif (isset($filter['nmDepart']) && !empty($filter['nmDepart'])) {
@@ -129,6 +136,459 @@ class MasterController extends ApiController{
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function getListProdukData(Request $request,$limit=null){ //ash 11-08-2023
+        //get request
+        $filter = $request->all();
+
+        //get data 
+        $data = \DB::table('produk_m as p')
+            ->select('p.id','p.objectdepartemenfk','p.kdproduk','p.kdbarcode','p.deskripsiproduk','p.namaproduk as namaproduk','dj.detailjenisproduk','p.statusenabled')
+            ->leftJoin('rm_sediaan_m as rm','rm.id','=','p.objectsediaanfk')
+            ->leftJoin('merkproduk_m as mp','mp.id','=','objectmerkprodukfk')
+            ->leftJoin('rekanan_m as rk','rk.id','=','p.objectrekananfk')
+            ->leftJoin('golongandarah_m as gd','gd.id','=','p.golongandarahfk')
+            ->leftJoin('status_barang_m as sb','sb.id','=','p.objectstatusbarangfk')
+            ->leftJoin('rhesus_m as rh','rh.id','=','p.rhesusfk')
+            ->leftJoin('rm_generik_m as rg','rg.id','=','p.objectgenerikfk')
+            ->leftJoin('rm_detail_obat_m as rd','rd.id','=','p.objectdetailobatfk')
+            ->leftJoin('bahansample_m as bs','bs.id','=','p.bahansamplefk')
+            ->leftJoin('chartofaccount_m as ch','ch.id','=','p.objectaccountfk')
+            ->leftJoin('bahanproduk_m as bh','bh.id','=','p.objectbahanprodukfk')
+            ->leftJoin('bentukproduk_m as bp','bp.id','=','p.objectbentukprodukfk')
+            ->leftJoin('departemen_m as dp','dp.id','=','p.objectdepartemenfk')
+            ->leftJoin('detailgolonganproduk_m as dg','dg.id','=','p.objectdetailgolonganprodukfk')
+            ->leftJoin('detailjenisproduk_m as dj','dj.id','=','p.objectdetailjenisprodukfk')
+            ->leftJoin('jenisproduk_m as jsm','jsm.id','=','dj.objectjenisprodukfk');
+
+        if(isset($filter['kdProduk']) && !empty($filter['kdProduk'])){
+            $data = $data->where('p.id','=',$filter['kdProduk']);
+        }elseif (isset($filter['kdInternal']) && !empty($filter['kdInternal'])) {
+            $data = $data->where('p.kdproduk','=',$filter['kdInternal']);
+        }elseif (isset($filter['kdBarcode']) && !empty($filter['kdBarcode'])) {
+            $data = $data->where('p.kdbarcode','=',$filter['kdBarcode']);
+        }elseif (isset($filter['kdBmn']) && !empty($filter['kdBmn'])) {
+            $data = $data->where('p.kodebmn','=',$filter['kdBmn']);
+        }elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
+            $data = $data->where('p.namaproduk','ilike','%'.$filter['nmProduk'].'%');
+        }elseif (isset($filter['nmProduk']) && !empty($filter['nmProduk'])) {
+            $data = $data->where('p.namaproduk','ilike','%'.$filter['nmProduk'].'%');
+        }elseif (isset($filter['nmDepart']) && !empty($filter['nmDepart'])) {
+            if($filter['nmDepart'] == 16)
+            {
+                $data = $data->where('jsm.id','=',97);
+            }else{
+                $data = $data->where('p.objectdepartemenfk','=',$filter['nmDepart']);
+            }
+        }
+        if(isset($filter['detailJenis']) && !empty($filter['detailJenis'])){
+            $data = $data->where('p.objectdetailjenisprodukfk','=',$filter['detailJenis']);
+        }
+
+
+       
+        $data = $data->orderBy('p.namaexternal');
+        $data = $data->take($filter['jmlRows']);
+        $data = $data->get();
+        return $this->respond($data);
+    }
+
+    public function getkelompokprodukNew(Request $request)
+    {
+        try {
+            $getData = \DB::table('kelompokproduk_m as kp')
+                        ->select('kp.id', 'kp.kelompokproduk', 'dp.id as idDepartemen','kp.kodeexternal',
+                                \DB::raw("(CASE WHEN dp.namadepartemen IS NULL THEN '-' ELSE dp.namadepartemen END) AS namadepartemen"))
+                        ->leftJoin('departemen_m as dp', 'dp.id', '=', 'kp.objectdepartemenfk')
+                        ->where('kp.statusenabled', true);
+            if(isset($request['klpproduk'])) {
+                $getData = $getData->where('kp.kelompokproduk', 'ilike', '%' . $request['klpproduk'] . '%');
+            }
+            
+            if(isset($request['id'])) {
+                $getData = $getData->where('kp.id', $request['id']);
+                $getData = $getData->first();
+            } else {
+                $getData = $getData->orderBy('kp.id', 'DESC');
+                $getData = $getData->get();
+            }
+            $response = [
+                "message" => "Oke!",
+                "messageCode" => 200,
+                "data" => $getData
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+
+        return $this->respond($response);
+    }
+
+    public function savekelompokprodukNew (Request $request)
+    {
+        if(!$request['objectdepartemenfk'] ){
+            $data = [
+                "kelompokproduk" => $request['kelompokproduk'],
+                "objectdepartemenfk" => null,
+                "kodeexternal" => $request['kodeexternal']
+            ];
+        } else {
+            $data = [
+                "kelompokproduk" => $request['kelompokproduk'],
+                "objectdepartemenfk" => $request['objectdepartemenfk'],
+                "kodeexternal" => $request['kodeexternal']
+            ];
+        }
+
+        try {
+            $newId = KelompokProduk::max('id');
+            $newId = $newId + 1;
+            $savedData = new KelompokProduk();
+            $savedData->id = $newId;
+            $savedData->kdprofile = 0;
+            $savedData->statusenabled = true;
+            $savedData->kodeexternal=$data['kodeexternal'];
+            $savedData->norec = $newId;
+            $savedData->reportdisplay = $data['kelompokproduk'];
+            $savedData->objectdepartemenfk = $data['objectdepartemenfk'];
+            $savedData->kdkelompokproduk = $newId;
+            $savedData->kelompokproduk = $data['kelompokproduk'];
+            $savedData->qkelompokproduk = $newId;
+            $savedData->save();
+            $response = [
+                "message" => "Data berhasil disimpan",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal disimpan" . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function deletekelompokprodukNew(Request $request)
+    {
+        $id = $request['id'];
+        try {
+            $deleteData = KelompokProduk::where('id', $id)->delete();
+            $response = [
+                "message" => "Data berhasil dihapus",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => 'Data gagal dihapus!'.$e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function updatekelompokprodukNew(Request $request, $id)
+    {
+        $idKelompokProduk = $id;
+        if(!$request['objectdepartemenfk']){
+            $data = [
+                "kelompokproduk" => $request['kelompokproduk'],
+                "reportdisplay" => $request['reportdisplay'],
+                "objectdepartemenfk" => null,
+                "kodeexternal"=>$request['kode']
+            ];
+        } else {
+            $data = [
+                "kelompokproduk" => $request['kelompokproduk'],
+                "reportdisplay" => $request['reportdisplay'],
+                "objectdepartemenfk" => $request['objectdepartemenfk'],
+                "kodeexternal"=>$request['kode']
+            ];
+        }
+
+        try {
+            $savedData = KelompokProduk::where('id', $idKelompokProduk)->update($data);
+            $response = [
+                "message" => "Data berhasil diupdate",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal diupdate " . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function getjenisprodukNew(Request $request)
+    {
+        try {
+            $getData = \DB::table('jenisproduk_m as jm')
+                        ->select('jm.id', 'dm.id as idDepartement','jm.kodeexternal', 'kp.id as idKelompokProduk', 'jm.jenisproduk', 'dm.namadepartemen', 'kp.kelompokproduk')
+                        ->join('kelompokproduk_m as kp', 'kp.id', '=', 'jm.objectkelompokprodukfk');
+
+            if(isset($request['jnsproduk'])) {
+                $getData = $getData->where('kp.kelompokproduk', 'ilike', '%' . $request['jnsproduk'] . '%');
+            }
+
+            if(isset($request['forDetail'])) {
+                $getData = $getData->leftJoin('departemen_m as dm', 'dm.id', '=', 'jm.objectdepartemenfk');
+            } else{
+                $getData = $getData->join('departemen_m as dm', 'dm.id', '=', 'jm.objectdepartemenfk');
+            }
+            $getData = $getData->where('jm.statusenabled', true);
+            if(isset($request['id'])) {
+                $getData = $getData->where('jm.id', $request['id']);
+                $getData = $getData->first();
+            } else {
+                $getData = $getData->orderBy('jm.id', 'DESC');
+                $getData = $getData->get();
+            }
+            $response = [
+                "message" => "Oke!",
+                "messageCode" => 200,
+                "data" => $getData
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+
+        return $this->respond($response);
+    }
+
+    public function getkelompokprodukByDepartemen(Request $request, $id)
+    {
+        $idDepartemen = $id;
+        try {
+            $getData = \DB::table('kelompokproduk_m')
+                        ->select('id', 'kelompokproduk')
+                        ->where('statusenabled', true)
+                        ->where('objectdepartemenfk', $idDepartemen)
+                        ->get();
+            $response = [
+                "message" => "Oke!",
+                "messageCode" => 200,
+                "data" => $getData
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+
+        return $this->respond($response);
+    }
+
+    public function savejenisprodukNew (Request $request)
+    {
+        $data = [
+            "jenisproduk" => $request['jenisproduk'],
+            "objectdepartemenfk" => $request['objectdepartemenfk'],
+            "objectkelompokprodukfk" => $request['objectkelompokprodukfk'],
+            "kodeexternal"=>$request['kodeexternal']
+        ];
+        try {
+            $newId = JenisProduk::max('id');
+            $newId = $newId + 1;
+            $savedData = new JenisProduk();
+            $savedData->id = $newId;
+            $savedData->kdprofile = 0;
+            $savedData->statusenabled = true;
+            $savedData->kodeexternal = $data['kodeexternal'];;
+            $savedData->namaexternal = $data['jenisproduk'];
+            $savedData->norec = $newId;
+            $savedData->reportdisplay = $data['jenisproduk'];
+            $savedData->objectdepartemenfk = $data['objectdepartemenfk'];
+            $savedData->objectkelompokprodukfk = $data['objectkelompokprodukfk'];
+            $savedData->jenisproduk = $data['jenisproduk'];
+            $savedData->kdjenisproduk = $newId;
+            $savedData->qjenisproduk = $newId;
+            $savedData->save();
+            $response = [
+                "message" => "Data berhasil disimpan",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal disimpan" . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function deletejeniskprodukNew(Request $request)
+    {
+        $id = $request['id'];
+        try {
+            $deleteData = JenisProduk::where('id', $id)->delete();
+            $response = [
+                "message" => "Data berhasil dihapus",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => 'Data gagal dihapus! ' . $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function updatejenisprodukNew(Request $request, $id)
+    {
+        $idJenisProduk = $id;
+        $data = [
+            "namaexternal" => $request['jenisproduk'],
+            "reportdisplay" => $request['jenisproduk'],
+            "objectdepartemenfk" => $request['objectdepartemenfk'],
+            "objectkelompokprodukfk" => $request['objectkelompokprodukfk'],
+            "jenisproduk" => $request['jenisproduk'],
+            "kodeexternal" => $request['kodejenis']
+            
+        ];
+
+        try {
+            $savedData = JenisProduk::where('id', $idJenisProduk)->update($data);
+            $response = [
+                "message" => "Data berhasil diupdate",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal diupdate" . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function getdetailjenisprodukNew(Request $request)
+    {
+        try {
+            $getData = \DB::table('detailjenisproduk_m as djm')
+                        ->select('djm.id', 'dm.id as idDepartement','djm.kodeexternal','jm.id as idJenisproduk', 'djm.detailjenisproduk','jm.jenisproduk', \DB::raw("(CASE WHEN dm.namadepartemen IS NULL THEN '-' ELSE dm.namadepartemen END)AS namadepartemen"))
+                        ->leftjoin('departemen_m as dm', 'dm.id', '=', 'djm.objectdepartemenfk')
+                        ->join('jenisproduk_m as jm', 'jm.id', '=', 'djm.objectjenisprodukfk')
+                        ->where('djm.statusenabled', true);
+
+            if(isset($request['dtlproduk'])) {
+                $getData = $getData->where('kp.kelompokproduk', 'ilike', '%' . $request['dtlproduk'] . '%');
+            }
+                        
+            if(isset($request['id'])) {
+                $getData = $getData->where('jm.id', $request['id']);
+                $getData = $getData->first();
+            } else {
+                $getData = $getData->orderBy('djm.id', 'DESC');
+                $getData = $getData->get();
+            }
+            $response = [
+                "message" => "Oke!",
+                "messageCode" => 200,
+                "data" => $getData
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+
+        return $this->respond($response);
+    }
+
+    public function savedetailjenisprodukNew (Request $request)
+    {
+        $data = [
+            "detailjenisproduk" => $request['detailjenisproduk'],
+            "objectdepartemenfk" => $request['objectdepartemenfk'],
+            "objectjenisprodukfk" => $request['objectjenisprodukfk'],
+            "kodeexternal" => $request['kodeexternal']
+        ];
+        try {
+            $newId = DetailJenisProduk::max('id');
+            $newId = $newId + 1;
+            $savedData = new DetailJenisProduk();
+            $savedData->id = $newId;
+            $savedData->kdprofile = 0;
+            $savedData->statusenabled = true;
+            $savedData->kodeexternal = $data['kodeexternal'];
+            $savedData->namaexternal = $data['detailjenisproduk'];
+            $savedData->norec = $newId;
+            $savedData->reportdisplay = $data['detailjenisproduk'];
+            $savedData->objectdepartemenfk = $data['objectdepartemenfk'];
+            $savedData->objectjenisprodukfk = $data['objectjenisprodukfk'];
+            $savedData->detailjenisproduk = $data['detailjenisproduk'];
+            $savedData->isregistrasiaset = $newId;
+            $savedData->kddetailjenisproduk = $newId;
+            $savedData->qdetailjenisproduk = $newId;
+            $savedData->save();
+            $response = [
+                "message" => "Data berhasil disimpan",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal disimpan" . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function deletedetailjeniskprodukNew(Request $request)
+    {
+        $id = $request['id'];
+        try {
+            $deleteData = DetailJenisProduk::where('id', $id)->delete();
+            $response = [
+                "message" => "Data berhasil dihapus",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => 'Data gagal dihapus! ' . $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+        return $this->respond($response);
+    }
+
+    public function updatedetailjenisprodukNew(Request $request, $id)
+    {
+        // return $request->all();
+        $idDetailJenisProduk = $id;
+        $data = [
+            "namaexternal" => $request['detailjenisproduk'],
+            "reportdisplay" => $request['detailjenisproduk'],
+            "objectdepartemenfk" => $request['objectdepartemenfk'],
+            "objectjenisprodukfk" => $request['objectjenisprodukfk'],
+            "detailjenisproduk" => $request['detailjenisproduk'],
+            "kodeexternal" => $request['kodeexternal']
+        ];
+
+        try {
+            $savedData = DetailJenisProduk::where('id', $idDetailJenisProduk)->update($data);
+            $response = [
+                "message" => "Data berhasil diupdate",
+                "messageCode" => 200,
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => "Data gagal diupdate" . $e->errorInfo,
+                "messageCode" => 500,
+            ];
+        }
+        return $this->respond($response);
     }
 
     public function saveDataProduk(Request $request){

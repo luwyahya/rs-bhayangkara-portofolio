@@ -1157,6 +1157,7 @@ class LaboratoriumController extends ApiController
                     // detailpemeriksaan
                 ])->first();
                 if(!empty($cek)){
+                    $norec[] = $value['norec_hasil'];
                    if($value['hasil'] == '')
                    {
                        $hapus = HasilLaboratorium::where(
@@ -1190,6 +1191,8 @@ class LaboratoriumController extends ApiController
                                 'catatan' => $value['catatan'],
                                 'catatancetak' => $value['catatancetak'],
                                 'skor' => $value['skor'],
+                                'satuan' => $value['satuan'],
+                                'nilainormal' => $value['nilainormal'],
                             ]
                         );
                     }
@@ -1214,7 +1217,10 @@ class LaboratoriumController extends ApiController
                     $h->catatan = $value['catatan'];
                     $h->catatancetak = $value['catatancetak'];
                     $h->skor = $value['skor'];
+                    $h->satuan = $value['satuan'];
+                    $h->nilainormal = $value['nilainormal'];
                     $h->save();
+                    $norec[] = $h->norec;
                     //loging
                    
                 }
@@ -1268,9 +1274,28 @@ class LaboratoriumController extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Sukses";
             DB::commit();
+            $ihs = null;
+
+            foreach ($norec as $it) {
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['norec_hasil'] = $it;
+                $ihs = app('App\Http\Controllers\Bridging\IHSController')->ObservationLab($objetoRequest, true);
+            }
+            $ihs2 = null;
+
+            $objetoRequest2 = new \Illuminate\Http\Request();
+            $objetoRequest2['norec_hasil'] = $it;
+            $objetoRequest2['norec_arr'] = $norec;
+
+            $ihs2 = app('App\Http\Controllers\Bridging\IHSController')->DiagnosticReport($objetoRequest2, true);
+
+
             $result = array(
                 "status" => 201,
                 "message" => $transMessage,
+                "Observation" => $ihs,
+                "DiagnosticReport" => $ihs2,
+                "norec" => $norec,
                 "as" => 'er@epic',
             );
 
