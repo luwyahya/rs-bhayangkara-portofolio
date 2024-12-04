@@ -389,9 +389,16 @@ class PindahPulangController extends ApiController
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest ['noregistrasi']= $r_NewPD['noregistrasi'];
             $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
+
+             #satusehat
+             $ihsEncounter = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
+             $ihsCondition = app('App\Http\Controllers\Bridging\IHSController')->Condition($objetoRequest, true);
+
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
+                'Condition' => isset($ihsCondition) ? $ihsCondition : null,
+                'Encounter' => isset($ihsEncounter) ? $ihsEncounter : null,
 //                'dataPD' => $dataPD,
 //                'dataAPD' => $dataAPD,
 //                'dataRPP'=> $dataRPP,

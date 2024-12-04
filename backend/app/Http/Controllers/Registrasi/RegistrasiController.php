@@ -3237,6 +3237,12 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $objetoRequest = new \Illuminate\Http\Request();
                 $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
             // }
+
+            //#satusehat
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noregistrasi'] = $dataPD->noregistrasi;
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
+
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
