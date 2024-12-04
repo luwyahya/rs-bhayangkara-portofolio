@@ -211,6 +211,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     if($scope.cc.noregistrasi2 != $scope.cc.noregistrasi){
                         $scope.btnTambah = false;
                     }
+                    debugger
                     init()
                     LoadData();
                     LoadCombo();
@@ -815,6 +816,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 let noregistrasi = $scope.cc.noregistrasi
                 medifirstService.get('emr/get-ttd-ppa?idDpjp=' + $scope.cc.iddpjp)
                 .then(function(dat) {
+                    debugger
                     let ttd = '';
                     if (dat.data[0] != undefined) {
                         ttd = dat.data[0].tandatangan

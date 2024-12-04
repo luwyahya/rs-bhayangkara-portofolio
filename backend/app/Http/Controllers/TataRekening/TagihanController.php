@@ -1992,14 +1992,14 @@ class TagihanController  extends ApiController
                 'kl.namakelas',
                 DB::raw('case when skd.namaexternal is null then \'Belum Di Kirim\' else skd.namaexternal end as namekendali')
             )
-            ->where('pd.noregistrasi', $noRegister)
+            ->where('pd.noregistrasi', (string)$noRegister)
             ->orderBy('apd.tglmasuk', 'asc')
             ->first();
         $riwayatinap = \DB::table('antrianpasiendiperiksa_t as apd')
             ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ru.namaruangan', 'apd.tglmasuk', 'apd.tglkeluar', 'pd.noregistrasi')
-            ->where('pd.noregistrasi', $noRegister)
+            ->where('pd.noregistrasi', (string)$noRegister)
             ->where('ru.objectdepartemenfk', '16')
             ->where('apd.statusenabled', true)
             ->orderBy('apd.tglmasuk')
@@ -2294,14 +2294,23 @@ class TagihanController  extends ApiController
             )
         );
         $dataTotalBillJs = DB::select(
-            DB::raw("select 
-                                               sum(y.total) as total
-                                               from (select * from(
-                                               select row_number() over (partition by norec_pp order by kodeexternal) as rownum ,
-                                               * from v_jimat where noregistrasi= $noRegister ) as x
-                                               where rownum =1) as y ;
-            ")
+            DB::raw("
+                SELECT SUM(y.total) AS total
+                FROM (
+                    SELECT * 
+                    FROM (
+                        SELECT 
+                            ROW_NUMBER() OVER (PARTITION BY norec_pp ORDER BY kodeexternal) AS rownum,
+                            total, norec_pp, kodeexternal -- Hindari * untuk efisiensi dan keamanan
+                        FROM v_jimat 
+                        WHERE noregistrasi = :noregistrasi
+                    ) AS x
+                    WHERE rownum = 1
+                ) AS y
+            "),
+            ['noregistrasi' => (string)$noRegister] // Parameter binding untuk keamanan
         );
+        
 
         $totalBilling = 0;
         $totalBilling = $dataTotalBill[0]->total;
@@ -2314,15 +2323,24 @@ class TagihanController  extends ApiController
             $totalBillingjS = $dataTotalBillJs[0]->total;
         }
         $dataTotaldibayarjs = DB::select(
-            DB::raw("select case when sp.totalharusdibayar is null then 0 else sp.totalharusdibayar end as total 
-                from pasiendaftar_t as pd
-                INNER JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
-                INNER JOIN pelayananpasien_t as pp on pp.noregistrasifk=apd.norec
-                INNER JOIN strukpelayanan_t as sp on sp.norec=pp.strukfk
-                where  pd.noregistrasi= $noRegister  and sp.nosbmlastfk is not null and pp.produkfk not in (402611) order by sp.tglstruk desc;
-            ")
-
+            DB::raw("
+                SELECT 
+                    CASE 
+                        WHEN sp.totalharusdibayar IS NULL THEN 0 
+                        ELSE sp.totalharusdibayar 
+                    END AS total
+                FROM pasiendaftar_t AS pd
+                INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
+                INNER JOIN pelayananpasien_t AS pp ON pp.noregistrasifk = apd.norec
+                INNER JOIN strukpelayanan_t AS sp ON sp.norec = pp.strukfk
+                WHERE pd.noregistrasi = :noregistrasi
+                  AND sp.nosbmlastfk IS NOT NULL
+                  AND pp.produkfk NOT IN (402611)
+                ORDER BY sp.tglstruk DESC
+            "),
+            ['noregistrasi' => $noRegister] // Binding variabel
         );
+        
 
         $dataTotaldibayar = DB::select(
             DB::raw("select sum(((case when pp.hargajual is null then 0 else pp.hargajual  end - case when pp.hargadiscount is null then 0 else pp.hargadiscount end) * pp.jumlah) + case when pp.jasa is null then 0 else pp.jasa end) as total
@@ -2333,7 +2351,7 @@ class TagihanController  extends ApiController
                 where  pd.noregistrasi=:noregistrasi and sp.nosbmlastfk is not null and pp.produkfk not in (402611);
             "),
             array(
-                'noregistrasi' => $noRegister,
+                'noregistrasi' => (string)$noRegister,
             )
         );
         $dibayar = 0;

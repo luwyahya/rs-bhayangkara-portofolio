@@ -818,7 +818,186 @@ class RadiologiController extends ApiController
             );
             return $this->respond($result);
         }
-
+        public function getRincianPelayananEMRAll(Request $request)
+        {
+            $result = [];
+            $pelayanan = \DB::table('pelayananpasien_t as pp')
+                ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+                ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftJOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+                ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+                ->leftJOIN('strukorder_t as so', 'so.norec', '=', 'pp.strukorderfk')
+                ->leftJOIN('pegawai_m as pg', 'pg.id', '=', 'pp.objectpegawaipengirimfk')
+                ->leftJOIN(
+                    'ris_order as ris',
+                    'ris.order_no',
+                    '=',
+                    DB::raw('so.noorder AND ris.order_code=pp.produkfk')
+                )
+                ->leftJOIN(
+                    'hasilradiologi_t AS hr',
+                    'hr.pelayananpasienfk',
+                    '=',
+                    DB::raw("pp.norec AND hr.statusenabled = true ")
+                )
+                ->select(
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'jk.jeniskelamin',
+                    'pp.tglpelayanan',
+                    'pp.produkfk',
+                    'pr.namaproduk',
+                    'pr.namaexternal',
+                    'pp.jumlah',
+                    'pp.hargasatuan',
+                    'pp.hargadiscount',
+                    'sp.nostruk',
+                    'pd.noregistrasi',
+                    'ru.namaruangan',
+                    'dp.namadepartemen',
+                    'ps.id as psid',
+                    'apd.norec as norec_apd',
+                    'sp.norec as norec_sp',
+                    'pp.norec as norec_pp',
+                    'ru.objectdepartemenfk',
+                    'so.noorder',
+                    'ris.order_key as idbridging',
+                    'apd.objectruanganfk',
+                    'pp.iscito',
+                    'pp.jasa',
+                    'ps.objectjeniskelaminfk',
+                    'ps.tgllahir',
+                    'pg.namalengkap as dokterpengirim',
+                    'pg.id as iddokterpengirim',
+                    DB::raw("case when ris.order_key is not null then 'Sudah Dikirim' else '-' end as statusbridging,hr.norec AS hr_norec"),
+                    DB::raw("case when hr.nofoto is not null then hr.nofoto else '-' end as nofoto"),
+                    DB::raw("case when hr.nofoto is not null then 1 else 0 end as statusperiksa")
+                )
+                ->where('ru.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiRadiologi'))
+                ->groupBy(
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'jk.jeniskelamin',
+                    'pp.tglpelayanan',
+                    'pp.produkfk',
+                    'pr.namaproduk',
+                    'pr.namaexternal',
+                    'pp.jumlah',
+                    'pp.hargasatuan',
+                    'pp.hargadiscount',
+                    'sp.nostruk',
+                    'pd.noregistrasi',
+                    'ru.namaruangan',
+                    'dp.namadepartemen',
+                    'ps.id',
+                    'apd.norec',
+                    'sp.norec',
+                    'pp.norec',
+                    'ps.objectjeniskelaminfk',
+                    'ps.tgllahir',
+                    'pg.namalengkap',
+                    'ru.objectdepartemenfk',
+                    'so.noorder',
+                    'ris.order_key',
+                    'apd.objectruanganfk',
+                    'pp.iscito',
+                    'pp.jasa',
+                    'hr.norec',
+                    'hr.nofoto',
+                    'pg.id'
+                )
+                ->orderBy('pp.tglpelayanan');
+            if (isset($request['departemenfk']) && $request['departemenfk'] != "" && $request['departemenfk'] != "undefined") {
+                $pelayanan = $pelayanan->where('ru.objectdepartemenfk', '=', $request['departemenfk']);
+            }
+            if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+                $pelayanan = $pelayanan->where('ps.nocm', '=', $request['nocm']);
+            }
+            if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+                $pelayanan = $pelayanan->where('pp.noregistrasifk', '=', $request['noregistrasifk']);
+            }
+            if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+                $pelayanan = $pelayanan->where('pd.noregistrasi', '=', $request['noregistrasi']);
+            }
+            $pelayanan = $pelayanan->whereNull('pp.strukresepfk');
+            $pelayanan = $pelayanan->get();
+            if (count($pelayanan) > 0) {
+                $pelayananpetugas = \DB::table('pasiendaftar_t as pd')
+                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
+                    ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
+                    ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
+                    ->where('ptu.objectjenispetugaspefk', 4)
+                    ->where('pd.noregistrasi', $pelayanan[0]->nocm)
+                    ->get();
+    
+    
+                $result = [];
+                foreach ($pelayanan as $item) {
+                    if (isset($request['noregistrasifk'])) {
+                        $diskon = $item->hargadiscount;
+                    } else {
+                        $diskon = 0;
+                    }
+                    $NamaDokter = '-';
+                    $DokterId = '';
+                    foreach ($pelayananpetugas as $hahaha) {
+                        if ($hahaha->pelayananpasien == $item->norec_pp) {
+                            $NamaDokter = $hahaha->namalengkap;
+                            $DokterId = $hahaha->id;
+                        }
+                    }
+                    $total = (((float)$item->hargasatuan - (float)$diskon) * (float)$item->jumlah) + (float)$item->jasa;
+                    $result[] = array(
+                        'nocm' => $item->nocm,
+                        'namapasien' => $item->namapasien,
+                        'jeniskelamin' => $item->jeniskelamin,
+                        'tglpelayanan' => $item->tglpelayanan,
+                        'produkfk' => $item->produkfk,
+                        'namaproduk' => $item->namaproduk,
+                        'namaexternal' => $item->namaexternal,
+                        'jumlah' => (float)$item->jumlah,
+                        'hargasatuan' => (float)$item->hargasatuan,
+                        'hargadiscount' => (float)$diskon,
+                        'total' => (float)$total,
+                        'nostruk' => $item->nostruk,
+                        'noregistrasi' => $item->noregistrasi,
+                        'ruangan' => $item->namaruangan,
+                        'objectruanganfk' => $item->objectruanganfk,
+                        'departemen' => $item->namadepartemen,
+                        'objectdepartemenfk' => $item->objectdepartemenfk,
+                        'norec_apd' => $item->norec_apd,
+                        'norec_sp' => $item->norec_sp,
+                        'norec_pp' => $item->norec_pp,
+                        'dokter' => $NamaDokter,
+                        'dokterid' => $DokterId,
+                        'noorder' => $item->noorder,
+                        'idbridging' => $item->idbridging,
+                        'statusbridging' => $item->statusbridging,
+                        'iscito' => $item->iscito,
+                        'jasa' => (float)$item->jasa,
+                        'hr_norec' => $item->hr_norec,
+                        'objectjeniskelaminfk' => $item->objectjeniskelaminfk,
+                        'tgllahir' => $item->tgllahir,
+                        'dokterpengirim' => $item->dokterpengirim,
+                        'iddokterpengirim' => $item->iddokterpengirim,
+                        'statusperiksa' => $item->statusperiksa,
+                        'nofoto' => $item->nofoto,
+                    );
+                }
+            } else {
+                $result = [];
+            }
+            $dataTea = array(
+                'data' => $result,
+                'message' => 'Inhuman'
+            );
+            return $this->respond($dataTea);
+        }
         public function getLabInaCbgGridBedah(Request $request) {
             // return($request['objectruanganfk']);
             // die();
@@ -4975,7 +5154,7 @@ class RadiologiController extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Simpan PelayananPasien Sukses";
             DB::commit();
-
+            
             // $ihs = null;
             // if ($request['objectruangantujuanfk'] != 576) {
             //     $objetoRequest = new \Illuminate\Http\Request();

@@ -720,7 +720,7 @@ define(['initialize'], function (initialize) {
                 for (var i = arrobj.length - 1; i >= 0; i--) {
                     if(arrobj[i] == 3124 || arrobj[i] == 1257  || arrobj[i] == 1582 ) {
                         arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].value  + '~' + $scope.item.obj[parseInt(arrobj[i])].text })
-                    } else if (arrobj[i] == 1168 ||   arrobj[i] == 2241 || arrobj[i] == 2242 || arrobj[i] == 2243) {
+                    } else if (arrobj[i] == 1168 ||   arrobj[i] == 2241 || arrobj[i] == 2242 || arrobj[i] == 2243 || arrobj[i] == 471|| arrobj[i] == 470) {
                         arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
                     } else {
                         arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })

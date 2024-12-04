@@ -254,25 +254,30 @@ define(['initialize'], function(initialize) {
                 $scope.pilihpengkajian = pilihpengkajian;
                
             }
-
+            $scope.str_replace = function(search, replace, subject) {
+                return subject.split(search).join(replace);
+            };
+            
             $scope.create = function() {
-                $scope.isEdit = true
-                $scope.isSemua = true
-
+                $scope.isEdit = true;
+                $scope.isSemua = true;
+            debugger
                 cacheHelper.set('dataVOloaded', true);
                 var tmp = {
                     "norec": '',
                     "tglregistrasi": DateHelper.getPeriodeFormatted(new Date()),
                     "nocm": $scope.noCM,
                     "objectruanganfk": $scope.idRuangan,
-                    "noregistrasifk": $state.params.noRec,
+                    "noregistrasifk": $scope.str_replace('-new', '', $state.params.noRec), // Perbaikan di sini
                     "pegawaifk": $scope.PegawaiLogin2.id,
-                    "emrfk":$scope.pilihpengkajian.id
-                }
+                    "emrfk": $scope.pilihpengkajian.id
+                };
+            
+            
                 
                 medifirstService.post('emr/save-pengkajianpasien', tmp).then(function(response) {
                     cacheHelper.set('noRecPapNew', response.data.pap.norec);
-                    loadGrid()
+                   
 
                     // $scope.myVar = 2
                     // var noemr2 = '-'
@@ -288,16 +293,18 @@ define(['initialize'], function(initialize) {
                     $state.go(url, {
                         namaEMR:  $scope.pilihpengkajian.id,
                         nomorEMR: $scope.pilihpengkajian.id,
-                        norecAPD: $state.params.noRec,
-                        noRec: $state.params.noRec,
+                        norecAPD: $scope.str_replace('-new', '', $state.params.noRec),
+                        noRec: $scope.str_replace('-new', '', $state.params.noRec),
                         dataVOloaded: true
                     });
 
                     var arrStr = {
                         0: $scope.pilihpengkajian.id
                     }
+                    
                     cacheHelper.set('cacheNomorEMR', arrStr);
                     $scope.popuppengkajian.close()
+                    loadGrid()
                 })
 
             }

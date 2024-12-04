@@ -999,4 +999,43 @@ class ModulAplikasiController extends ApiController
         );
         return $this->respond($result);
     }
+    public function getModulCheck(Request $request)
+    {
+
+        $dtakses = explode(",", $request['alamatALL']);
+        $jum = count($dtakses);
+
+        if ($jum > 1) $checkURL = $dtakses[$jum - 1];
+        else $checkURL = $request['alamatURL'];
+
+        $dataraw3 = [];
+        $dataRaw = \DB::table('objekmodulaplikasi_s as oma')
+            ->join('mapobjekmodulaplikasitomodulaplikasi_s as acdc', 'acdc.objekmodulaplikasiid', '=', 'oma.id')
+            ->join(
+                'maploginusertomodulaplikasi_s as maps',
+                function ($join) {
+                    $join->on('maps.objectmodulaplikasifk', '=', 'acdc.modulaplikasiid');
+                }
+            )
+            ->join('modulaplikasi_s as ma', 'ma.id', '=', 'acdc.modulaplikasiid')
+            ->where('oma.statusenabled', true)
+            ->where('ma.reportdisplay', 'Menu')
+            //->where('maps.objectloginuserfk',$request['idUser'] )
+            ->where('oma.alamaturlform', 'ILIKE', '%' . $checkURL . '%')
+
+            ->select(
+                'oma.id',
+                'oma.kdobjekmodulaplikasihead',
+                'oma.objekmodulaplikasi',
+                'oma.alamaturlform',
+                'ma.modulaplikasi',
+                'acdc.modulaplikasiid',
+                'oma.kodeexternal'
+            )
+            ->orderBy('oma.nourut');
+        $dataRaw = $dataRaw->get();
+
+        return $this->respond($dataRaw);
+    }
+
 }

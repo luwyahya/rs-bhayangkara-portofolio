@@ -4625,7 +4625,7 @@ class PelayananResepController extends ApiController
             //                        'noresep' => $noResep]
             //                );
             //            }
-            // $objetoRequest = new \Illuminate\Http\Request();
+           // $objetoRequest = new \Illuminate\Http\Request();
             // $objetoRequest['noresep'] = $newSR->noresep;
             // $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationDispense($objetoRequest, true);
 
@@ -5278,6 +5278,463 @@ class PelayananResepController extends ApiController
                 'noresep' => $item->noresep,
                 'total' => $item->total,
                 'no' => $item->no,
+            );
+        }
+        return $this->respond($result);
+    }
+    public function getHistoriObat(Request $request)
+    {
+        $detail = $request->all();
+        $result = [];
+        $data = \DB::table('pelayananpasien_t as pp')
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->JOIN('detailjenisproduk_m as djp', 'djp.id', '=', 'pr.objectdetailjenisprodukfk')
+            ->JOIN('jenisproduk_m as jp', 'jp.id', '=', 'djp.objectjenisprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
+            ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
+            // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
+            // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
+            // ->leftjoin('pegawai_m as pm','pm.id','=','log.objectpegawaifk')
+            ->leftJOIN('ruangan_m as ru2', 'ru2.id', '=', 'sr.ruanganfk')
+            ->leftJOIN('pegawai_m as dok', 'dok.id', '=', 'sr.penulisresepfk')
+            ->leftJOIN('rm_sediaan_m AS rs', 'rs.id', '=', 'pr.objectsediaanfk')
+            ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
+            // ->leftjoin('pelayananpasienobatkronis_t as ppk','ppk.noregistrasifk','=','apd.norec')
+            ->leftJOIN('pelayananpasienobatkronis_t as ppk', function ($join) {
+                $join->on('ppk.noregistrasifk', '=', 'pp.noregistrasifk')
+                    ->on('pp.produkfk', '=', 'ppk.produkfk');
+            })
+            ->select(
+                'pp.keteranganpakai',
+                'pp.norec',
+                'ps.nocm',
+                'ps.namapasien',
+                'jk.jeniskelamin',
+                'pp.tglpelayanan',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'ss.satuanstandar',
+                'pp.jumlah',
+                'pp.hargasatuan',
+                'pp.hargadiscount',
+                'sp.nostruk',
+                'pd.noregistrasi',
+                'ks.nilaikonversi',
+                'ss2.satuanstandar as satuanstandar2',
+                'sr.noresep',
+                'sr.norec as norec_resep',
+                'pp.rke',
+                'jkm.jeniskemasan',
+                'jk.id as jkid',
+                'pp.jenisobatfk',
+                'jra.jenisracikan',
+                'pp.jasa',
+                'ru2.id as ruangandepoid',
+                'ru2.namaruangan as ruangandepo',
+                'pp.aturanpakai',
+                'ru.namaruangan',
+                'dok.namalengkap as dokter',
+                'pp.ispagi',
+                'pp.issiang',
+                'pp.ismalam',
+                'pp.issore',
+                'sr.isreseppulang',
+                'so.tglorder',
+                'pp.dosisobat',
+                'pp.objectwaktuminumfk',
+                'pp.objectsediaanobatfk',
+                'pp.jumlahpemakaian',
+                'ppk.jumlah as jumlahkronis',
+                'pr.kekuatan',
+                DB::raw("case when ppk.jumlah is null then pp.jumlah else ppk.jumlah + pp.jumlah end as totaljumlah")
+
+                //DB::raw("CASE WHEN pr.kekuatan IS NOT NULL AND rs.name IS NOT NULL THEN pr.kekuatan + ' ' + rs.name ELSE '' END AS kekuatan,case when ppk.jumlah is null then pp.jumlah else ppk.jumlah + pp.jumlah end as totaljumlah")
+            )
+            // ->where('jp.id',97)
+            ->whereNotNull('pp.isobat')
+            ->where('pp.statusenabled', 1)
+            ->orderBy('pp.tglpelayanan', 'pp.rke');
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', '=', $request['nocm']);
+        }
+        if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+            $data = $data->where('pp.noregistrasifk', '=', $request['noregistrasifk']);
+        }
+        if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noReg']);
+        }
+        if (isset($request['norec_resep']) && $request['norec_resep'] != "" && $request['norec_resep'] != "undefined") {
+            $data = $data->where('sr.norec', '=', $request['norec_resep']);
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $data = $data->where('sr.ruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['dpid']) && $request['dpid'] != "" && $request['dpid'] != "undefined") {
+            $data = $data->where('dp.id', $request['dpid']);
+        }
+        $data = $data->get();
+
+        $rke = 0;
+        foreach ($data as $item) {
+            if (isset($item->nilaikonversi)) {
+                $nKonversi = $item->nilaikonversi;
+            } else {
+                $nKonversi = 1;
+            }
+            if (isset($item->satuanstandar)) {
+                $ss = $item->satuanstandar;
+            } else {
+                $ss = $item->satuanstandar2;
+            }
+            $JenisKemasan = $item->jeniskemasan;
+            if (isset($item->jenisracikan)) {
+                $JenisKemasan = $item->jeniskemasan . '/' . $item->jenisracikan;
+            }
+            //            $tarifjasa =0;
+            //            $qty20 =0;
+            //            if ($item->jkid == 2){
+            //                $tarifjasa = 800;
+            //            }
+            ////            $rke = 0;
+            //            if ($item->rke != $rke) {
+            //                if ($item->jkid == 1) {
+            //                    $rke=$item->rke;
+            //                    $qty20 = number_format($item->jumlah / 20, 0);
+            //                    if ($item->jumlah % 20 == 0) {
+            //                        $qty20 = $qty20;
+            //                    } else {
+            //                        $qty20 = $qty20 + 1;
+            //                    }
+            //
+            //                    $tarifjasa = 800 * $qty20;
+            //                }
+            //            }
+            $jasa = 0;
+            if (isset($item->jasa) && $item->jasa != "" && $item->jasa != "undefined") {
+                $jasa = $item->jasa;
+            }
+
+            $result[] = array(
+                'nocm' => $item->nocm,
+                'namapasien' => $item->namapasien,
+                'jeniskelamin' => $item->jeniskelamin,
+                'tglpelayanan' => $item->tglpelayanan,
+                'produkfk' => $item->produkfk,
+                'namaproduk' => $item->namaproduk,
+                'satuanstandar' => $ss,
+                // 'jumlah' => (float)$item->jumlah / (float)$nKonversi,
+                'jumlah' => (float)$item->jumlah,
+                'hargasatuan' => $item->hargasatuan,
+                'hargadiscount' => $item->hargadiscount,
+                'nostruk' => $item->nostruk,
+                'noregistrasi' => $item->noregistrasi,
+                'noresep' => $item->noresep, // .'/'.$item->noregistrasi,
+                'rke' => $item->rke,
+                'jeniskemasan' => $JenisKemasan,
+                'norec_resep' =>  $item->norec_resep,
+                'detail' => $detail,
+                'jasa' => $jasa,
+                'depoid' => $item->ruangandepoid,
+                'namaruangandepo' => $item->ruangandepo,
+                'aturanpakai' => $item->aturanpakai,
+                'dokter' => $item->dokter,
+                'namaruangan' => $item->namaruangan,
+                'kekuatan' => $item->kekuatan,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'reseppulang' => $item->isreseppulang,
+                'tglorder' => $item->tglorder,
+                // 'namauser' => $item->namaLengkap
+                'namauser' => '',
+                'dosisobat' => $item->dosisobat,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'norecpp' => $item->norec,
+                'keteranganpakai' => $item->keteranganpakai,
+                'totaljumlah' => $item->totaljumlah,
+                'jumlahkronis' => $item->jumlahkronis
+
+            );
+        }
+        return $this->respond($result);
+    }
+    public function getDataPengkajianNew(Request $request)
+    {
+        $nocm = $request->input('nocm');
+
+        // $results = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value || ' Kg' AS beratbadan, t.tglemr
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE p.emrdfk = '1175' AND t.nocm = :nocm
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $results2 = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value AS statusalergi, p.tgl
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE t.nocm = :nocm AND p.emrdfk IN ('1178', '2481', '2405', '2586')
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $results3 = DB::select(
+        //     DB::raw("SELECT p.emrpasienfk, p.value || ' Cm' AS tinggibadan, t.tglemr
+        // FROM emrpasiend_t AS p
+        // INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+        // WHERE p.emrdfk = '1174' AND t.nocm = :nocm
+        // ORDER BY p.tgl DESC"),
+        //     ['nocm' => $nocm]
+        // );
+
+        // $result = [
+        //     'BeratBadan' => $results,
+        //     'Alergi' => $results2,
+        //     'TinggiBadan' => $results3,
+        //     'message' => 'as@epic',
+        // ];
+
+        // optimalisasi query by key
+        $results = DB::select(
+            DB::raw("
+                SELECT 
+                    t.noemr,
+                    MAX(CASE WHEN p.emrdfk = '1175' THEN p.value || ' Kg' END) AS beratbadan,
+                    MAX(CASE WHEN p.emrdfk IN ('1178', '2481', '2405', '2586') THEN p.value END) AS statusalergi,
+                    MAX(CASE WHEN p.emrdfk = '1174' THEN p.value || ' Cm' END) AS tinggibadan,
+                    MAX(t.tglemr) AS tglemr
+                FROM emrpasiend_t AS p
+                INNER JOIN emrpasien_t AS t ON t.noemr = p.emrpasienfk
+                WHERE t.nocm = :nocm
+                GROUP BY t.noemr
+                ORDER BY MAX(t.tglemr) DESC
+            "),
+            ['nocm' => $nocm]
+        );
+
+        $result = [
+            'Pengkajian' => $results,
+            'message' => 'key@epic',
+        ];
+
+        return $this->respond($result);
+    }
+    public function getTransaksiPelayananApotikResumeRJ(Request $request)
+    {
+        // DB::connection()->setForceWritePdo();
+        $detail = $request->all();
+        $result = [];
+        $data = \DB::table('pelayananpasien_t as pp')
+            ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'pp.noregistrasifk')
+            ->JOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->JOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->JOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
+            ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->JOIN('jeniskemasan_m as jkm', 'jkm.id', '=', 'pp.jeniskemasanfk')
+            ->leftJoin('jenisracikan_m as jra', 'jra.id', '=', 'pp.jenisobatfk')
+            ->leftJoin('satuanstandar_m as ss', 'ss.id', '=', 'pp.satuanviewfk')
+            ->leftJoin('satuanstandar_m as ss2', 'ss2.id', '=', 'pr.objectsatuanstandarfk')
+            ->leftjoin('waktuminum_m as wm', 'wm.id', '=', 'pp.objectwaktuminumfk')
+            ->JOIN('bentukproduk_m as bp', 'bp.id', '=', 'pr.objectbentukprodukfk')
+            ->leftJOIN('strukpelayanan_t as sp', 'sp.norec', '=', 'pp.strukfk')
+            ->leftJOIN('konversisatuan_t as ks', function ($join) {
+                $join->on('ks.objekprodukfk', '=', 'pr.id')
+                    ->on('ks.satuanstandar_tujuan', '=', 'pp.satuanviewfk');
+            })
+            ->leftJOIN('strukresep_t as sr', 'sr.norec', '=', 'pp.strukresepfk')
+            // ->leftjoin('logginguser_t as lu','lu.noreff','=','sr.norec')
+            // ->leftjoin('loginuser_s as log','log.id','=','lu.objectloginuserfk')
+            // ->leftjoin('pegawai_m as pm','pm.id','=','log.objectpegawaifk')
+            ->leftJOIN('ruangan_m as ru2', 'ru2.id', '=', 'sr.ruanganfk')
+            ->leftJOIN('pegawai_m as dok', 'dok.id', '=', 'sr.penulisresepfk')
+            ->leftJOIN('rm_sediaan_m AS rs', 'rs.id', '=', 'pr.objectsediaanfk')
+            ->leftJOIN('strukorder_t AS so', 'so.norec', '=', 'sr.orderfk')
+            ->leftJoin('kelompokprodukbpjs_m as kpb', 'kpb.id', '=', 'pr.objectkelompokprodukbpjsfk')
+            ->select(
+                'pp.keteranganpakai',
+                'pp.norec',
+                'ps.nocm',
+                'ps.namapasien',
+                'jk.jeniskelamin',
+                'pp.tglpelayanan',
+                'pp.produkfk',
+                'pr.namaproduk',
+                'ss.satuanstandar',
+                'pp.jumlah',
+                'pp.hargasatuan',
+                'pp.hargadiscount',
+                'sp.nostruk',
+                'pd.noregistrasi',
+                'ks.nilaikonversi',
+                'ss2.satuanstandar as satuanstandar2',
+                'sr.noresep',
+                'sr.norec as norec_resep',
+                'pp.rke',
+                'jkm.jeniskemasan',
+                'jk.id as jkid',
+                'pp.jenisobatfk',
+                'jra.jenisracikan',
+                'pp.jasa',
+                'ru2.id as ruangandepoid',
+                'ru2.namaruangan as ruangandepo',
+                'pp.aturanpakai',
+                'ru.namaruangan',
+                'dok.namalengkap as dokter',
+                'pp.ispagi',
+                'pp.issiang',
+                'pp.ismalam',
+                'pp.issore',
+                'sr.isreseppulang',
+                'so.tglorder',
+                'pp.dosisobat',
+                'pp.objectwaktuminumfk',
+                'pp.objectsediaanobatfk',
+                'pp.jumlahpemakaian',
+                'wm.waktuminum',
+                'kpb.kelompokprodukbpjs',
+                'pp.isobatpulang',
+                DB::raw("CASE WHEN pr.kekuatan IS NOT NULL AND rs.name IS NOT NULL THEN pr.kekuatan || ' ' || rs.name ELSE '' END AS kekuatan")
+            )
+            // ->where('jp.id',97)
+            ->where('sr.statusenabled', null)
+            ->where('pp.statusenabled', true)
+            ->where('bp.id', '=', 73)
+            ->whereNotNull('pp.isobat')
+            ->orderBy('pp.tglpelayanan', 'pp.rke');
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', '=', $request['nocm']);
+        }
+        if (isset($request['noregistrasifk']) && $request['noregistrasifk'] != "" && $request['noregistrasifk'] != "undefined") {
+            $data = $data->where('pp.noregistrasifk', '=', $request['noregistrasifk']);
+        }
+        if (isset($request['noReg']) && $request['noReg'] != "" && $request['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noReg']);
+        }
+        if (isset($request['norec_resep']) && $request['norec_resep'] != "" && $request['norec_resep'] != "undefined") {
+            $data = $data->where('sr.norec', '=', $request['norec_resep']);
+        }
+        if (isset($request['ruanganfk']) && $request['ruanganfk'] != "" && $request['ruanganfk'] != "undefined") {
+            $data = $data->where('sr.ruanganfk', '=', $request['ruanganfk']);
+        }
+        if (isset($request['isresume']) && $request['isresume'] != "" && $request['isresume'] != "false") {
+            $data = $data->whereNull('pp.isobatpulang');
+        }
+        if (isset($request['norec_pp']) && $request['norec_pp'] != "" && $request['norec_pp'] != "undefined") {
+            $arrRuang = explode(',', $request['norec_pp']);
+            $kodeRuang = [];
+            foreach ($arrRuang as $item) {
+                $kodeRuang[] = $item;
+            }
+            $data = $data->whereNotIn('pp.norec', $kodeRuang);
+        }
+        $data = $data->get();
+
+        $rke = 0;
+        foreach ($data as $item) {
+            if (isset($item->nilaikonversi)) {
+                $nKonversi = $item->nilaikonversi;
+            } else {
+                $nKonversi = 1;
+            }
+            if (isset($item->satuanstandar)) {
+                $ss = $item->satuanstandar;
+            } else {
+                $ss = $item->satuanstandar2;
+            }
+            $JenisKemasan = $item->jeniskemasan;
+            if (isset($item->jenisracikan)) {
+                $JenisKemasan = $item->jeniskemasan . '/' . $item->jenisracikan;
+            }
+            //            $tarifjasa =0;
+            //            $qty20 =0;
+            //            if ($item->jkid == 2){
+            //                $tarifjasa = 800;
+            //            }
+            ////            $rke = 0;
+            //            if ($item->rke != $rke) {
+            //                if ($item->jkid == 1) {
+            //                    $rke=$item->rke;
+            //                    $qty20 = number_format($item->jumlah / 20, 0);
+            //                    if ($item->jumlah % 20 == 0) {
+            //                        $qty20 = $qty20;
+            //                    } else {
+            //                        $qty20 = $qty20 + 1;
+            //                    }
+            //
+            //                    $tarifjasa = 800 * $qty20;
+            //                }
+            //            }
+            $jasa = 0;
+            if (isset($item->jasa) && $item->jasa != "" && $item->jasa != "undefined") {
+                $jasa = $item->jasa;
+            }
+
+            $result[] = array(
+                'nocm' => $item->nocm,
+                'namapasien' => $item->namapasien,
+                'jeniskelamin' => $item->jeniskelamin,
+                'tglpelayanan' => $item->tglpelayanan,
+                'produkfk' => $item->produkfk,
+                'namaproduk' => $item->namaproduk,
+                'satuanstandar' => $ss,
+                // 'jumlah' => (float)$item->jumlah / (float)$nKonversi,
+                'jumlah' => (float)$item->jumlah,
+                'hargasatuan' => $item->hargasatuan,
+                'hargadiscount' => $item->hargadiscount,
+                'nostruk' => $item->nostruk,
+                'noregistrasi' => $item->noregistrasi,
+                'noresep' => $item->noresep, // .'/'.$item->noregistrasi,
+                'rke' => $item->rke,
+                'jeniskemasan' => $JenisKemasan,
+                'norec_resep' =>  $item->norec_resep,
+                'detail' => $detail,
+                'jasa' => $jasa,
+                'depoid' => $item->ruangandepoid,
+                'namaruangandepo' => $item->ruangandepo,
+                'aturanpakai' => $item->aturanpakai,
+                'dokter' => $item->dokter,
+                'namaruangan' => $item->namaruangan,
+                'kekuatan' => $item->kekuatan,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'reseppulang' => $item->isreseppulang,
+                'tglorder' => $item->tglorder,
+                // 'namauser' => $item->namaLengkap
+                'namauser' => '',
+                'dosisobat' => $item->dosisobat,
+                'ispagi' => $item->ispagi,
+                'issiang' => $item->issiang,
+                'ismalam' => $item->ismalam,
+                'issore' => $item->issore,
+                'norecpp' => $item->norec,
+                'keteranganpakai' => $item->keteranganpakai,
+                'waktuminum' => $item->waktuminum,
+                'kelompokprodukbpjs' => $item->kelompokprodukbpjs,
+                'isobatpulang' => $item->isobatpulang
+
             );
         }
         return $this->respond($result);

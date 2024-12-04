@@ -3237,7 +3237,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $objetoRequest = new \Illuminate\Http\Request();
                 $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
             // }
-
+            
             //#satusehat
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest['noregistrasi'] = $dataPD->noregistrasi;
@@ -12139,8 +12139,11 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 'pr.namaproduk as produk',
                 'pp.produkfk',
                 'pd.noregistrasi',
-                DB::raw("DATEDIFF(d, ps.tgllahir, GETDATE()) as umur,format(ps.tgllahir,'yyyy-MM-dd HH:mm') as tgllahir,format(pp.tglpelayanan,'yyyy-MM-dd HH:mm') as tglpelayanan")
-            )
+                DB::raw("EXTRACT(DAY FROM AGE(ps.tgllahir)) as umur"),
+                DB::raw("TO_CHAR(ps.tgllahir, 'YYYY-MM-DD HH24:MI') as tgllahir"),
+                DB::raw("TO_CHAR(pp.tglpelayanan, 'YYYY-MM-DD HH24:MI') as tglpelayanan")
+            )            
+            
             ->where('pd.noregistrasi', $request['noregistrasi'])
             ->where('pp.isbedah', true);
         $pelayanan = $pelayanan->get();
@@ -24670,5 +24673,37 @@ GROUP BY y.KET
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getDokumenPenunjang(Request $request) {
+        $data = \DB::table('dokumen_t as d')
+            ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'd.norec_pd')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'd.objectruanganfk')
+            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->join('loginuser_s as log', 'log.id', '=', 'd.iduserupload')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'log.objectpegawaifk')
+            ->join('jenisdokumen_m as jd', 'jd.id', '=', 'd.jenisdokumenfk')
+            ->select('ps.nocm', 'pd.noregistrasi', 'ru.id as idruangan', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap', 'd.tglupload', 'pd.norec', 'pd.nocmfk', 'd.norec as norec_doc', 'd.namapemeriksaan', 'd.keterangan', 'jd.jenisdokumen','d.statusenabled', 'd.ispapj')
+            ->where('d.statusenabled',true);
+            if (isset($request['nocmfk']) && $request['nocmfk'] != '' && $request['nocmfk'] != 'undefined') {
+                $data = $data->where('d.nocmfk', $request['nocmfk']);
+            }
+            if (isset($request['jenisdokumen']) && $request['jenisdokumen'] != '' && $request['jenisdokumen'] != 'undefined') {
+                $data = $data->where('d.jenisdokumenfk', $request['jenisdokumen']);
+            }
+            if (isset($request['noRegistrasi']) && $request['noRegistrasi'] != '' && $request['noRegistrasi'] != 'undefined') {
+                $data = $data->where('pd.noregistrasi', $request['noRegistrasi']);
+            }
+            if (isset($request['jenisdokumen']) && $request['jenisdokumen'] != '' && $request['jenisdokumen'] != 'undefined') {
+                $data = $data->where('pd.noregistrasi', $request['jenisdokumen']);
+            }
+            if (isset($request['isInaCbg']) && $request['isInaCbg'] != '' && $request['isInaCbg'] != 'undefined') {
+                $data = $data->where('jd.namaexternal', 'INACBG');
+            }
+            if (isset($request['isPapj']) && $request['isPapj'] != '' && $request['isPapj'] != 'undefined') {
+                $data = $data->where('ispapj', true);
+            }
+            $data = $data->get();
+
+        return $this->respond($data);
     }
 }

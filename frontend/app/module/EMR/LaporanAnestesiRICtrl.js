@@ -4187,8 +4187,17 @@ define(['initialize'], function (initialize) {
                     arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseFloat(arrobj[i])].text }) 
                 }
                 else {
-                    arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseFloat(arrobj[i])] })
+                    let value = $scope.item.obj[parseFloat(arrobj[i])];
+                
+                    // Periksa apakah value kosong atau undefined
+                    if (!value && value !== 0) {
+                        value = null; // Jika kosong, tetapkan null
                     }
+                
+                    // Push ke array dengan id dan nilai yang telah diatur
+                    arrSave.push({ id: arrobj[i], values: value });
+                }
+                
                 }
 
                 // debugger

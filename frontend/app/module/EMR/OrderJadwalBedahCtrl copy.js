@@ -1173,7 +1173,7 @@ define(['initialize'], function(initialize) {
             }
             $scope.create = function() {
                 $scope.myVar = 2
-
+debugger
                 var noemr2 = '-'
                 $state.go("RekamMedis.OrderJadwalBedah.ProsedurKeselamatan", {
                     namaEMR: 1,

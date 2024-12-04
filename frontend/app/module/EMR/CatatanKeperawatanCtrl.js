@@ -575,7 +575,7 @@ define(['initialize'], function(initialize) {
                 });
             }
             $scope.TambahSoap = function(index) {
-
+debugger
                     var ax = $scope.data.names[index].dg
                         // $scope.data.names[index].o = ax.caption;
                     medifirstService.get("emr/get-dataaskep?noemr=" + ax.emrpasienfk + "&emrfk=" +

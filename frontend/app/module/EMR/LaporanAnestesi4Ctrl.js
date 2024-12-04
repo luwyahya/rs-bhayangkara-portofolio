@@ -77,8 +77,8 @@ define(['initialize'], function (initialize) {
                         { "text": "0", "value": "R" }
                     ]
                     $scope.listSedasi = [
-                        { "text": "0", "value": "Moderat" },
-                        { "text": "0", "value": "Dalam" }
+                        { "id": "0", "sedasi": "Moderat" },
+                        { "id": "1", "sedasi": "Dalam" }
                     ]
                     $scope.listAnestesiUmum = [
                         { "text": "0", "value": "LMA" },
