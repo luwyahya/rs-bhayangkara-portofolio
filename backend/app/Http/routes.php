@@ -721,6 +721,42 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-nik/{nik}', 'Bridging\BridgingDukcapilController@getNIKwilayahProv');
                 Route::get('get-nik-indo/{nik}', 'Bridging\BridgingDukcapilController@getNikNasional');
             });
+
+            // ROUTE BRIDGING SATU SEHAT
+            Route::group(['prefix' => 'ihs'], function () {
+              Route::post('tools', 'Bridging\IHSController@ihsTools');
+              Route::post('generate-token', 'Bridging\IHSController@generateToken');
+              Route::post('Organization', 'Bridging\IHSController@Organization');
+              Route::post('Location', 'Bridging\IHSController@Location');
+              Route::post('Encounter', 'Bridging\IHSController@Encounter');
+              Route::post('Condition', 'Bridging\IHSController@Condition');
+              Route::post('Practitioner', 'Bridging\IHSController@Practitioner');
+              Route::post('update-ihs-pasien', 'Bridging\IHSController@updateIHSPasien');
+              Route::post('Medication', 'Bridging\IHSController@Medication');
+              Route::post('MedicationRequest', 'Bridging\IHSController@MedicationRequest');
+              Route::post('MedicationDispense', 'Bridging\IHSController@MedicationDispense');
+              Route::post('MedicationDispenseObatBebas', 'Bridging\IHSController@MedicationDispenseObatBebas');
+              Route::post('Observation', 'Bridging\IHSController@Observation');
+              Route::post('Procedure', 'Bridging\IHSController@Procedure');
+              Route::post('Immunization', 'Bridging\IHSController@Immunization');
+              Route::post('Composition', 'Bridging\IHSController@Composition');
+              Route::post('ServiceRequest', 'Bridging\IHSController@ServiceRequest');
+              Route::post('Specimen', 'Bridging\IHSController@Specimen');
+              Route::post('ObservationLab', 'Bridging\IHSController@ObservationLab');
+              Route::post('ObservationRad', 'Bridging\IHSController@ObservationRad');
+              Route::post('DiagnosticReport', 'Bridging\IHSController@DiagnosticReport');
+              Route::post('ObservationLabDiagnos', 'Bridging\IHSController@ObservationLabDiagnos');
+              Route::post('AllergyIntolerance', 'Bridging\IHSController@AllergyIntolerance');
+              Route::post('ClinicalImpression', 'Bridging\IHSController@ClinicalImpression');
+              Route::post('ObservationKesadaran', 'Bridging\IHSController@ObservationKesadaran');
+              Route::post('ProcedureEdukasi', 'Bridging\IHSController@ProcedureEdukasi');
+              Route::post('ConditionSaatMeninggalkanRS', 'Bridging\IHSController@ConditionSaatMeninggalkanRS');
+              Route::get('get-pasien', 'Bridging\IHSController@getPasienByIHSId');
+
+              Route::post('Encounter-tes', 'Bridging\IHSController@Encountertes');
+              Route::get('get-list', 'Bridging\IHSController@getList');
+              Route::get('Encounter-list', 'Bridging\IHSController@EncounterList');
+          });
         });
         Route::group(['prefix' => 'CSSD'], function () {
             //****CSSD****
@@ -3615,6 +3651,15 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('delete-kategorydiet', 'SysAdmin\Master\GiziController@deleteKategoryDiet');
                 Route::post('updatekekuatan', 'SysAdmin\Master\MasterController@updatekekuatan');
                 // POST //
+                Route::get('get-daftar-master-departemen', 'SysAdmin\Master\MasterController@getDataMasterDepartemen');
+                Route::get('get-daftar-master-ruangan', 'SysAdmin\Master\MasterController@getDataMasterRuangan');
+                Route::get('get-daftar-master-pegawai', 'SysAdmin\Master\MasterController@getDataMasterPegawai');
+
+                Route::get('get-data-produkapotik', 'SysAdmin\Master\MasterController@getListProdukApotik');
+                Route::get('get-data-combo-master-rev', 'SysAdmin\Master\MasterController@getDataComboMasterRev');
+                Route::post('save-data-produk-apotik', 'SysAdmin\Master\MasterController@saveDataProdukApotik');
+                Route::post('save-data-master-departemen', 'SysAdmin\Master\MasterController@saveDataMasterDepartemen');
+                Route::post('delete-data-master-departemen', 'SysAdmin\Master\MasterController@deleteDataDepartemen');
             });
         });
         Route::group(['prefix' => 'tatarekening'], function () {

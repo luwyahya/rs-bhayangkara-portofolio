@@ -5271,6 +5271,66 @@
     ]
 },
 {
+  "name": "IHS_tools",
+  "url": "/IHS_tools",
+  "templateurl": "module/Bridging/IHS_tools.html",
+  "controller": "IHS_toolsCtrl",
+  "deps": [
+      {
+          "module": "Services",
+          "define": "Service"
+      },
+      {
+          "module": "LoginServices",
+          "define": "LoginService"
+      },
+      {
+          "module": "MedifirstService",
+          "define": "MedifirstService"
+      }
+  ]
+},
+{
+  "name": "MasterRuangan",
+  "url": "/TWFzdGVyUnVhbmdhbg==",
+  "templateurl": "module/SysAdmin/MasterRuangan.html",
+  "controller": "MasterRuanganCtrl",
+  "deps": [
+      {
+          "module": "Services",
+          "define": "Service"
+      },
+      {
+          "module": "LoginServices",
+          "define": "LoginService"
+      },
+      {
+          "module": "MedifirstService",
+          "define": "MedifirstService"
+      }
+  ]
+},
+{
+  "name": "MasterProdukApotik",
+  "url": "/TWFzdGVyUHJvZHVrQXBvdGlr",
+  "templateurl": "module/Farmasi/MasterProdukApotik.html",
+  "controller": "MasterProdukApotikCtrl",
+  "deps": [
+      {
+          "module": "Services",
+          "define": "Service"
+      },
+      {
+          "module": "LoginServices",
+          "define": "LoginService"
+      },
+      {
+          "module": "MedifirstService",
+          "define": "MedifirstService"
+      }
+  ]
+},
+{
     "name": "RekamMedis.InputResepApotikOrderRev",
     "url": "/InputResepApotikOrderRev",
     "templateurl": "module/EMR/InputResepApotikOrderRev.html",

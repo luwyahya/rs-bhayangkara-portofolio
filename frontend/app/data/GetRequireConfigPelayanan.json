@@ -1173,6 +1173,18 @@
             "urlDep": "module/EMR/EwsCtrl"
         },
         {
+          "nameDep": "IHS_toolsCtrl",
+          "urlDep": "module/Bridging/IHS_toolsCtrl"
+        },
+        {
+          "nameDep": "MasterRuanganCtrl",
+          "urlDep": "module/SysAdmin/MasterRuanganCtrl"
+        },
+        {
+          "nameDep": "MasterProdukApotikCtrl",
+          "urlDep": "module/Farmasi/MasterProdukApotikCtrl"
+        },
+        {
             "nameDep": "EmrTriaseIGDCtrl",
             "urlDep": "module/IGD/EmrTriaseIGDCtrl"
         },
