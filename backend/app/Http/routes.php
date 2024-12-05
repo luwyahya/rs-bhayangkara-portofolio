@@ -2672,6 +2672,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('identifikasi-label', 'Registrasi\RegistrasiController@IdentifikasiLabel');
             Route::get('identifikasi-kartu-pasien', 'Registrasi\RegistrasiController@IdentifikasiKartuPasien');
             Route::get('identifikasi-rmk', 'Registrasi\RegistrasiController@IdentifikasiRMK');
+            Route::get('get-kelas-penjamin', 'Registrasi\RegistrasiController@getKelasPenjamin');
 
             Route::post('save-diagnosa-rmk', 'Registrasi\RegistrasiController@saveDiagnosaPasienRMK');
             Route::post('save-master-faskes', 'Registrasi\RegistrasiController@saveMasterFaskes'); //done

@@ -24706,4 +24706,16 @@ GROUP BY y.KET
 
         return $this->respond($data);
     }
+    public function getKelasPenjamin(Request $request) {
+        $data = \DB::table('pasiendaftar_t as pd')
+            ->leftJoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('asuransipasien_m as ap', 'ap.id', '=', 'pa.objectasuransipasienfk')
+            ->leftJoin('kelas_m as kls', 'kls.id', '=', 'ap.objectkelasdijaminfk')
+            ->select('kls.namakelas')
+            ->where('pd.noregistrasi', $request['noregistrasi'])
+            ->get();
+
+        return $this->respond($data);
+    }
+
 }

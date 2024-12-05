@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="data-pegawai" pageWidth="595" pageHeight="842" columnWidth="421" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="ireport.zoom" value="1.399522140629201"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="11"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="86512c4e-7c39-4ea1-a1ee-f46c6ed9e8a5">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+	</subDataset>
+	<parameter name="gambarLogo" class="java.awt.Image"/>
+	<parameter name="namapetugas" class="java.lang.String"/>
+	<parameter name="namapasien" class="java.lang.String"/>
+	<parameter name="umur" class="java.lang.String"/>
+	<parameter name="jeniskelamin" class="java.lang.String"/>
+	<parameter name="nocm" class="java.lang.String"/>
+	<parameter name="pangkat" class="java.lang.String"/>
+	<parameter name="kesatuan" class="java.lang.String"/>
+	<parameter name="diagnosa" class="java.lang.String"/>
+	<parameter name="tglmasuk" class="java.lang.String"/>
+	<parameter name="tgloperasi" class="java.lang.String"/>
+	<parameter name="tglsurat" class="java.lang.String"/>
+	<parameter name="dokter" class="java.lang.String"/>
+	<parameter name="alamat" class="java.lang.String"/>
+	<parameter name="nohp" class="java.lang.String"/>
+	<parameter name="qrcode" class="java.lang.String"/>
+	<parameter name="ruangan" class="java.lang.String"/>
+	<parameter name="penjamin" class="java.lang.String"/>
+	<parameter name="kelaspenjamin" class="java.lang.String"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\aplikasi\\jasperreport\\report\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT namapasien FROM pasien_m limit 1]]>
+	</queryString>
+	<field name="namapasien" class="java.lang.String">
+		<property name="namapasien" value="value"/>
+	</field>
+	<group name="jenisproduk">
+		<groupHeader>
+			<band height="281">
+				<line>
+					<reportElement x="-1" y="0" width="1" height="281" uuid="3bcbaac1-f5bf-4db5-8d5f-dc6c5ec203dd"/>
+				</line>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="40" y="28" width="250" height="15" forecolor="#0A0101" uuid="160e2d51-52d2-4f2f-9b4e-aa4a468d1897"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Mohon disiapkan untuk rawat inap pasien :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="381" y="199" width="50" height="15" forecolor="#0A0101" uuid="4367e8ce-f251-4020-ba95-b760935c2415">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Jakarta, ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="175" y="6" width="205" height="15" forecolor="#0A0101" uuid="cc9db98a-5763-4344-9b77-5cd23bb6e9b8"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[SURAT PERMOHONAN RAWAT INAP]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="46" width="100" height="15" forecolor="#0A0101" uuid="ae8c2a06-9779-4faa-8948-9795e746c7f8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="61" width="100" height="15" forecolor="#0A0101" uuid="b8c88e0d-9d78-4179-90ff-afa5c0504ab8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pangkat]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="76" width="100" height="15" forecolor="#0A0101" uuid="02c7b241-3379-4fed-b5a1-95158df4b912"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kesatuan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="46" width="5" height="15" forecolor="#0A0101" uuid="f8753c70-7aab-4048-a6ec-d13f43e263a9"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="61" width="5" height="15" forecolor="#0A0101" uuid="ece6d815-c282-46f4-9652-7aa700ef232d"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="76" width="5" height="15" forecolor="#0A0101" uuid="05df6cca-f094-48e0-85c7-28f832df3111"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="125" y="46" width="244" height="15" forecolor="#0A0101" uuid="d9b4de7f-340f-480d-bfa0-1f98da9e9207"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{namapasien}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="61" width="244" height="15" forecolor="#0A0101" uuid="b9c78c92-6ba3-4a18-b6ba-b0a6dcb168be"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{pangkat}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="76" width="244" height="15" forecolor="#0A0101" uuid="78b67c2d-e305-4acf-b48f-5edc985eff22"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{kesatuan}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="433" y="199" width="120" height="15" uuid="6f03ec70-907e-4d65-9289-2bdc71b11248">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tglsurat}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="30" y="224" width="260" height="15" forecolor="#0A0101" uuid="d69653f5-a4f8-4f90-934a-d9538baf2ddd">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Atas bantuannya kami ucapkan terima kasih]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="332" y="253" width="220" height="15" uuid="676023f9-ce61-4467-8003-bbfe4c835f76">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dokter}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="125" y="121" width="420" height="15" forecolor="#0A0101" uuid="74ee0314-22e5-4764-a711-74fa11ebc83b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{diagnosa}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="121" width="100" height="15" forecolor="#0A0101" uuid="0374ad85-846a-49e6-b842-a99682d463ea"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Diagnosa]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="121" width="5" height="15" forecolor="#0A0101" uuid="7f272d58-e4bd-482b-8f66-6fb4be84d9d3"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="381" y="-29" width="164" height="39" forecolor="#0A0101" uuid="4ec4c5d0-c630-4b83-97a7-ef03bd9c36e8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Yth.	Administrasi Rawat Inap
+	Di
+	Jakarta]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="136" width="100" height="15" forecolor="#0A0101" uuid="8f01c190-7aef-406e-966b-0822a6741d27"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tanggal masuk]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="136" width="5" height="15" forecolor="#0A0101" uuid="e97e7d27-cb19-427b-89c0-293c2a79a940"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="125" y="136" width="420" height="15" forecolor="#0A0101" uuid="751f09ea-8614-4a35-b36d-826cddbe7468"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tglmasuk}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="151" width="5" height="15" forecolor="#0A0101" uuid="09596500-6eae-4d51-aca5-82dec28e68c1"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="151" width="100" height="15" forecolor="#0A0101" uuid="040b051f-373f-45ba-b4c9-4becc58f4edd"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tanggal operasi]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="151" width="420" height="15" forecolor="#0A0101" uuid="1f740280-a630-4a20-820b-69ff9a62f2fc"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tgloperasi}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="166" width="100" height="15" forecolor="#0A0101" uuid="e8a70583-3b24-464f-8bef-2fce0f2d4ec3"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Alamat]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="125" y="166" width="420" height="15" forecolor="#0A0101" uuid="0e139c8e-50e8-4912-a3c1-9da2c1c1f051"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{alamat}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="166" width="5" height="15" forecolor="#0A0101" uuid="2ca82b2e-0677-4c81-a228-01a5cc392b51"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="125" y="181" width="420" height="15" forecolor="#0A0101" uuid="b163c144-689b-48a3-abce-47b552526b73"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{nohp}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="181" width="100" height="15" forecolor="#0A0101" uuid="6d9dd5cd-e3e5-408a-a29b-c9784eb468ee"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No. Telp]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="181" width="5" height="15" forecolor="#0A0101" uuid="f1d2078c-cadb-4308-aa36-cfd5c816ba4b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="371" y="46" width="38" height="15" forecolor="#0A0101" uuid="5a877452-3a51-4a9f-b868-0e81d61ecf49"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Umur]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="449" y="46" width="5" height="15" forecolor="#0A0101" uuid="350d8131-52e8-4253-9d89-593dc5834629"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="454" y="46" width="98" height="15" forecolor="#0A0101" uuid="9170634a-fc12-4025-ac25-f268867244e8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{umur}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="449" y="63" width="5" height="15" forecolor="#0A0101" uuid="b0cd85e5-8160-41ea-9891-a4a00683e866"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="454" y="63" width="98" height="15" forecolor="#0A0101" uuid="be422917-61df-48b5-8787-aa85264b1118"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{jeniskelamin}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="371" y="63" width="78" height="15" forecolor="#0A0101" uuid="1be89e02-b668-40cf-a136-438b6fc28fec"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Jenis Kelamin]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="449" y="80" width="5" height="15" forecolor="#0A0101" uuid="6a3f8ebc-3b2f-4007-af57-5df0e265fca8"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="454" y="80" width="98" height="15" forecolor="#0A0101" uuid="9dd3ca47-24ce-4f3b-b574-27ae5969d3d5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{nocm}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="371" y="80" width="38" height="15" forecolor="#0A0101" uuid="02ec629e-ec58-42be-a8ea-c7b3ba4a78ce"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No RM]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="468" y="264" width="90" height="15" forecolor="#0A0101" uuid="7b8eb5fe-15c9-4166-8284-1922991e6791">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Bottom">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[001a/RMI/2015]]></text>
+				</staticText>
+				<line>
+					<reportElement x="554" y="0" width="1" height="280" uuid="5f488eb0-ac55-423c-b403-7c2df8c9685e"/>
+				</line>
+				<line>
+					<reportElement x="0" y="280" width="555" height="1" uuid="5946dcbc-07c9-412e-b415-4274f27169f7"/>
+				</line>
+				<image>
+					<reportElement x="431" y="214" width="50" height="40" uuid="67c90aad-05c1-4802-8a8d-0647bd08ac5d"/>
+					<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+new com.google.zxing.qrcode.QRCodeWriter().encode(
+$P{qrcode},
+com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
+				</image>
+				<textField>
+					<reportElement x="125" y="196" width="420" height="15" forecolor="#0A0101" uuid="43d871fe-46f6-4724-b3d9-89a16f4ec4e0"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{ruangan}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="196" width="100" height="15" forecolor="#0A0101" uuid="560e9834-6c79-4797-bca1-1d21de66c13e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Ruangan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="196" width="5" height="15" forecolor="#0A0101" uuid="47b582c4-2b30-4e8d-8787-de6e5ac079ce"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="91" width="244" height="15" forecolor="#0A0101" uuid="f75e799c-5ac4-4e2f-a6ff-bd66b085ce0f"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{penjamin}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="91" width="100" height="15" forecolor="#0A0101" uuid="d73cc6bc-4897-4df8-a402-baa41412774e"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Penjamin]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="91" width="5" height="15" forecolor="#0A0101" uuid="9d58d7b2-a5b2-4e4b-96fd-be5c7245d473"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="20" y="106" width="100" height="15" forecolor="#0A0101" uuid="02f5993e-4fc3-4469-b146-586ad6b88ead"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Kelas Penjamin]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="125" y="106" width="244" height="15" forecolor="#0A0101" uuid="d5dbaf6e-a6f7-4d9d-a234-228f049ac44a"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{kelaspenjamin}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement style="SubTitle" mode="Transparent" x="120" y="106" width="5" height="15" forecolor="#0A0101" uuid="d4c7cae4-6b5f-4977-8aac-49cd8d3ec615"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="DejaVu Sans" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="111" splitType="Stretch">
+			<line>
+				<reportElement x="20" y="109" width="312" height="1" uuid="44e30a45-3d16-420d-a97f-7131fbef5702"/>
+			</line>
+			<image>
+				<reportElement x="140" y="6" width="72" height="57" uuid="97705585-a0b5-4ec7-86f3-ae10c220e6af"/>
+				<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="SubTitle" mode="Transparent" x="21" y="68" width="311" height="41" forecolor="#0A0101" uuid="03fd4d79-859c-42c1-ad6e-6a1d8e7a31a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI
+RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO
+Jalan Raya Bogor Kramat Jati Jakarta Timur 13510]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" uuid="8dbcc0be-6c1a-461d-b3df-56499046ede0"/>
+			</line>
+			<line>
+				<reportElement x="554" y="0" width="1" height="111" uuid="e2035a65-8171-491a-9e2d-0ad5420e6fd1">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="-1" y="0" width="1" height="111" uuid="7dc072df-d182-422e-83b8-72a804f9a26e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+		</band>
+	</pageHeader>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

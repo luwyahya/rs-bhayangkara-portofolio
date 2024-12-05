@@ -681,7 +681,9 @@ define(['initialize'], function (initialize) {
 
                     // if (datauserkelompok == "ppa") {
                         if (window.location.hostname.indexOf('localhost') > -1) {
-                            xhr.open('POST', 'http://127.0.0.16:8797/generic/report/suratPermohonanRawatInap.pdf');
+                            xhr.open('POST', 'http://localhost:8797/generic/report/suratPermohonanRawatInap.pdf');
+                        } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                            xhr.open('POST', 'http://103.151.226.36:2222/generic/report/suratPermohonanRawatInap.pdf');
                         } else {
                             xhr.open('POST', '/jasper1/generic/report/suratPermohonanRawatInap.pdf');
                         }
@@ -991,7 +993,9 @@ define(['initialize'], function (initialize) {
                     }
                     
                     if (window.location.hostname.indexOf('localhost') > -1) {
-                        xhr.open('POST', 'http://127.0.0.16:8797/generic/report/suratPermohonanRawatInap.pdf');
+                        xhr.open('POST', 'http://localhost:8797/generic/report/suratPermohonanRawatInap.pdf');
+                    } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                        xhr.open('POST', 'http://103.151.226.36:2222/generic/report/suratPermohonanRawatInap.pdf');
                     } else {
                         xhr.open('POST', '/jasper1/generic/report/suratPermohonanRawatInap.pdf');
                     }
