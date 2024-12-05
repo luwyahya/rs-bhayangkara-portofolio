@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="perencanaan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" isIgnorePagination="true" uuid="dc16ac77-ba85-4c05-87fe-8ab269570601">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
@@ -18,20 +18,55 @@
 		<parameter name="noemr" class="java.lang.String"/>
 		<parameter name="emrfk" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select distinct * from (
-                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
-                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=1 and  emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
-                    union all
+			<![CDATA[SELECT DISTINCT *
+FROM (
+    SELECT 
+        emraskep_t.kolom,  
+        emrpasiend_t.emrpasienfk, 
+        CAST(emrpasiend_t.emrdfk AS TEXT) AS emrdfk, 
+        CAST(emrpasiend_t.emrfk AS TEXT) AS emrfk, 
+        emrpasiend_t.tgl, 
+        emr_t.namaemr, 
+        emr_t.caption, 
+        CASE 
+            WHEN type = 'combobox' THEN emraskep_t.caption || substring(emrpasiend_t.value FROM 3 FOR 10)
+            ELSE emraskep_t.caption 
+        END AS captionemr, 
+        emrpasiend_t.value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and emraskep_t.kolom = 1 
+        and emrpasiend_t.value <> '0'
+    
+    UNION ALL
 
-                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
-                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
-                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr}) and style is not null and type='label' and emraskep_t.emrfk=  $P{emrfk} and emraskep_t.kolom=1 ) as x
-                    order by kolom,nourut]]>
+    SELECT DISTINCT
+        emraskep_t.kolom, 
+        '' AS emrpasienfk, 
+        '' AS emrdfk, 
+        '' AS emrfk, 
+        NULL::timestamp AS tgl,  -- Menggunakan NULL dengan tipe timestamp
+        emr_t.namaemr, 
+        emr_t.caption, 
+        emraskep_t.caption AS captionemr, 
+        '' AS value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id 
+    RIGHT OUTER JOIN emraskep_t ON emr_t.id = emraskep_t.emrfk
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and style IS NOT NULL 
+        and type = 'label' 
+        and emraskep_t.kolom = 1
+) AS x
+ORDER BY x.kolom, x.nourut]]>
 		</queryString>
 		<field name="captionemr" class="java.lang.String"/>
 	</subDataset>
@@ -40,20 +75,55 @@
 		<parameter name="noemr" class="java.lang.String"/>
 		<parameter name="emrfk" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select distinct * from (
-                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
-                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=2 and emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
-                    union all
+			<![CDATA[SELECT DISTINCT *
+FROM (
+    SELECT 
+        emraskep_t.kolom,  
+        emrpasiend_t.emrpasienfk, 
+        CAST(emrpasiend_t.emrdfk AS TEXT) AS emrdfk, 
+        CAST(emrpasiend_t.emrfk AS TEXT) AS emrfk, 
+        emrpasiend_t.tgl, 
+        emr_t.namaemr, 
+        emr_t.caption, 
+        CASE 
+            WHEN type = 'combobox' THEN emraskep_t.caption || substring(emrpasiend_t.value FROM 3 FOR 10)
+            ELSE emraskep_t.caption 
+        END AS captionemr, 
+        emrpasiend_t.value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and emraskep_t.kolom = 1 
+        and emrpasiend_t.value <> '0'
+    
+    UNION ALL
 
-                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
-                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
-                    WHERE        (emrpasiend_t.emrpasienfk =$P{noemr})   and style is not null and type='label' and emraskep_t.emrfk='527' and emraskep_t.kolom=2  and emraskep_t.emrfk=  $P{emrfk}) as x
-                    order by kolom,nourut]]>
+    SELECT DISTINCT
+        emraskep_t.kolom, 
+        '' AS emrpasienfk, 
+        '' AS emrdfk, 
+        '' AS emrfk, 
+        NULL::timestamp AS tgl,  -- Menggunakan NULL dengan tipe timestamp
+        emr_t.namaemr, 
+        emr_t.caption, 
+        emraskep_t.caption AS captionemr, 
+        '' AS value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id 
+    RIGHT OUTER JOIN emraskep_t ON emr_t.id = emraskep_t.emrfk
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and style IS NOT NULL 
+        and type = 'label' 
+        and emraskep_t.kolom = 1
+) AS x
+ORDER BY x.kolom, x.nourut]]>
 		</queryString>
 		<field name="captionemr" class="java.lang.String"/>
 	</subDataset>
@@ -62,20 +132,55 @@
 		<parameter name="noemr" class="java.lang.String"/>
 		<parameter name="emrfk" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select distinct * from (
-                    SELECT      emraskep_t.kolom,  emrpasiend_t.emrpasienfk, emrpasiend_t.emrdfk, emrpasiend_t.emrfk, emrpasiend_t.tgl, emr_t.namaemr, emr_t.caption, case when type ='combobox' then  emraskep_t.caption + substring(emrpasiend_t.value,3,10) else emraskep_t.caption end AS captionemr, emrpasiend_t.value, emraskep_t.type,emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id
-                    WHERE        (emrpasiend_t.emrpasienfk = $P{noemr})  and emraskep_t.kolom=3 and emrpasiend_t.value <>'0' and emraskep_t.emrfk=  $P{emrfk}
-                    union all
+			<![CDATA[SELECT DISTINCT *
+FROM (
+    SELECT 
+        emraskep_t.kolom,  
+        emrpasiend_t.emrpasienfk, 
+        CAST(emrpasiend_t.emrdfk AS TEXT) AS emrdfk, 
+        CAST(emrpasiend_t.emrfk AS TEXT) AS emrfk, 
+        emrpasiend_t.tgl, 
+        emr_t.namaemr, 
+        emr_t.caption, 
+        CASE 
+            WHEN type = 'combobox' THEN emraskep_t.caption || substring(emrpasiend_t.value FROM 3 FOR 10)
+            ELSE emraskep_t.caption 
+        END AS captionemr, 
+        emrpasiend_t.value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emraskep_t ON emrpasiend_t.emrdfk = emraskep_t.id 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and emraskep_t.kolom = 1 
+        and emrpasiend_t.value <> '0'
+    
+    UNION ALL
 
-                    SELECT  distinct   emraskep_t.kolom, '' as emrpasienfk,'' as emrdfk,'' as  emrfk, '' as tgl, emr_t.namaemr, emr_t.caption, emraskep_t.caption AS captionemr, '' as value, emraskep_t.type, emraskep_t.nourut
-                    FROM            emrpasiend_t INNER JOIN
-                                            emr_t ON emrpasiend_t.emrfk = emr_t.id RIGHT OUTER JOIN
-                                            emraskep_t ON emr_t.id = emraskep_t.emrfk
-                    WHERE        (emrpasiend_t.emrpasienfk =$P{noemr})   and style is not null and type='label' and emraskep_t.emrfk='527' and emraskep_t.kolom=3  and emraskep_t.emrfk=  $P{emrfk})as x
-                    order by kolom,nourut]]>
+    SELECT DISTINCT
+        emraskep_t.kolom, 
+        '' AS emrpasienfk, 
+        '' AS emrdfk, 
+        '' AS emrfk, 
+        NULL::timestamp AS tgl,  -- Menggunakan NULL dengan tipe timestamp
+        emr_t.namaemr, 
+        emr_t.caption, 
+        emraskep_t.caption AS captionemr, 
+        '' AS value, 
+        emraskep_t.type, 
+        emraskep_t.nourut
+    FROM emrpasiend_t 
+    INNER JOIN emr_t ON emrpasiend_t.emrfk = emr_t.id 
+    RIGHT OUTER JOIN emraskep_t ON emr_t.id = emraskep_t.emrfk
+    WHERE 
+       (emrpasiend_t.emrpasienfk = $P{noemr})
+        and style IS NOT NULL 
+        and type = 'label' 
+        and emraskep_t.kolom = 1
+) AS x
+ORDER BY x.kolom, x.nourut]]>
 		</queryString>
 		<field name="captionemr" class="java.lang.String"/>
 	</subDataset>
