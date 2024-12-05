@@ -745,15 +745,15 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 
                 // Penjagaan Limit Akses cetak hanya 3 user dibawah ini aja
                 // 25388(Rosita), 26920(wiwit), 26687(teguh), 320263(admin)                
-                namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };                
-                if(namalengkap.id != 25388 && namalengkap.id != 26920 && namalengkap.id != 26687 && namalengkap.id != 320263 && namalengkap.id != 27116 && namalengkap.id != 27368 && namalengkap.id != 27127 && namalengkap.id != 27429 && namalengkap.id != 27114 && namalengkap.id != 27348 && namalengkap.id != 27424 && namalengkap.id != 27388 && 
-                namalengkap.id != 27427 && namalengkap.id != 27024 && namalengkap.id != 27316 && namalengkap.id != 26945 && namalengkap.id != 27295 && namalengkap.id != 27418 && namalengkap.id != 27175 && namalengkap.id != 27492 && namalengkap.id != 25589  && namalengkap.id != 27323 && namalengkap.id != 320261232 && namalengkap.id != 27041 && namalengkap.id != 320261586
-                //biling
-                && namalengkap.id != 25554 && namalengkap.id != 25525 && namalengkap.id != 26911 && namalengkap.id != 26933 && namalengkap.id != 26995 && namalengkap.id != 27464 && namalengkap.id != 27482 && namalengkap.id != 27494 && namalengkap.id != 27491 && namalengkap.id != 27455 && namalengkap.id != 320261569 && namalengkap.id != 320261639) {
-                    // toastr.error('Akses Dikunci, Silahkan Konfirmasi ke bagian Rekam Medis apabila mau Cetak CPPT pasien ini !!')
-                    // return
-                    aksescetak = false;
-                }
+                // namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };                
+                // if(namalengkap.id != 25388 && namalengkap.id != 26920 && namalengkap.id != 26687 && namalengkap.id != 320263 && namalengkap.id != 27116 && namalengkap.id != 27368 && namalengkap.id != 27127 && namalengkap.id != 27429 && namalengkap.id != 27114 && namalengkap.id != 27348 && namalengkap.id != 27424 && namalengkap.id != 27388 && 
+                // namalengkap.id != 27427 && namalengkap.id != 27024 && namalengkap.id != 27316 && namalengkap.id != 26945 && namalengkap.id != 27295 && namalengkap.id != 27418 && namalengkap.id != 27175 && namalengkap.id != 27492 && namalengkap.id != 25589  && namalengkap.id != 27323 && namalengkap.id != 320261232 && namalengkap.id != 27041 && namalengkap.id != 320261586
+                // //biling
+                // && namalengkap.id != 25554 && namalengkap.id != 25525 && namalengkap.id != 26911 && namalengkap.id != 26933 && namalengkap.id != 26995 && namalengkap.id != 27464 && namalengkap.id != 27482 && namalengkap.id != 27494 && namalengkap.id != 27491 && namalengkap.id != 27455 && namalengkap.id != 320261569 && namalengkap.id != 320261639) {
+                //     // toastr.error('Akses Dikunci, Silahkan Konfirmasi ke bagian Rekam Medis apabila mau Cetak CPPT pasien ini !!')
+                //     // return
+                //     aksescetak = false;
+                // }
 
                 // if ($scope.cc.namaruangan == "BOUGENVILE-NICU" || $scope.cc.namaruangan == "ICU BEDAH JANTUNG" || $scope.cc.namaruangan == "CENDRAWASIH 2  ICU " || $scope.cc.namaruangan == "HCU 1" || $scope.cc.namaruangan == "HCU 2" || $scope.cc.namaruangan == "HCU 3  dr.GALIH" || $scope.cc.namaruangan == "ECU" || $scope.cc.namaruangan == "ICCU" ||
                 //     $scope.cc.namaruangan == "ICU A 1" || $scope.cc.namaruangan == "ICU A 2" || $scope.cc.namaruangan == "ICU KHUSUS" || $scope.cc.namaruangan == "NICU B" || $scope.cc.namaruangan == "ICU PROMOTER LT.6" || $scope.cc.namaruangan == "ICU B" || $scope.cc.namaruangan == "NICU BX") {
@@ -844,14 +844,30 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                             win.focus();
                         }
                     }
-                if(aksescetak == true ){
+                // if(aksescetak == true ){
                     if (window.location.hostname.indexOf('localhost') > -1) {
-                        xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
-                        xhr.open('POST', 'http://103.151.226.36:2222/generic/report/catatandokter2.pdf');
-                    } else {
                         xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
-                    }
+                    } else  {
+                        xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
+                    }  
+                    // if (window.location.hostname.indexOf('192.168.0.62') > -1) {
+                    //     xhr.open('POST', 'http://192.168.0.62:1002/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                    //     xhr.open('POST', 'http://192.168.88.56:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                    //     xhr.open('POST', 'http://10.10.20.167:1004/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('103.93.237.70') > -1) {
+                    //     xhr.open('POST', 'http://103.93.237.70:1003/generic/report/hasillabKlinik.pdf');
+                    // } else if (window.location.hostname.indexOf('simrs') > -1) {
+                    //     xhr.open('POST', '/jasper1/generic/report/hasillabKlinik.pdf');
+                    // } else {
+                    //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
+                    // }
+                    // set `Content-Type` header
                     // if (window.location.hostname.indexOf('192.168.1.7') > -1) {
                     //     xhr.open('POST', 'http://192.168.1.7:1002/generic/report/catatandokter2.pdf');
                     // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
@@ -869,32 +885,32 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     // } else {
                     //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/catatandokter2.pdf');
                     // }
-                } else {
-                    if (window.location.hostname.indexOf('localhost') > -1) {
-                        xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
-                        xhr.open('POST', 'http://36.78.27.51:8201/generic/report/catatandokter2.pdf');
-                    } else {
-                        xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
-                    }
-                    // if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                    //     xhr.open('POST', 'http://192.168.1.7:1002/generic/report/catatandokter2Salinan.pdf');
-                    // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                    //     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/catatandokter2Salinan.pdf');
-                    // } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                    //     xhr.open('POST', 'http://10.5.1.2:1003/generic/report/catatandokter2Salinan.pdf');
-                    // } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    //     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/catatandokter2Salinan.pdf');
-                    // } else if (window.location.hostname.indexOf('192.168.1.74') > -1) {
-                    //     xhr.open('POST', 'http://192.168.1.74:1002/generic/report/catatandokter2Salinan.pdf');
-                    // } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
-                    //     xhr.open('POST', 'http://simrs-rspusatpolri.com:1002/generic/report/catatandokter2Salinan.pdf');
-                    // // } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
-                    // //     xhr.open('POST', 'http://simrs-rspusatpolri.com:1002/generic/report/catatandokter2.pdf');
-                    // } else {
-                    //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/catatandokter2Salinan.pdf');
-                    // }
-                }
+                // } else {
+                //     if (window.location.hostname.indexOf('localhost') > -1) {
+                //         xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
+                //     } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                //         xhr.open('POST', 'http://36.78.27.51:8201/generic/report/catatandokter2.pdf');
+                //     } else {
+                //         xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
+                //     }
+                //     // if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                //     //     xhr.open('POST', 'http://192.168.1.7:1002/generic/report/catatandokter2Salinan.pdf');
+                //     // } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                //     //     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/catatandokter2Salinan.pdf');
+                //     // } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                //     //     xhr.open('POST', 'http://10.5.1.2:1003/generic/report/catatandokter2Salinan.pdf');
+                //     // } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                //     //     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/catatandokter2Salinan.pdf');
+                //     // } else if (window.location.hostname.indexOf('192.168.1.74') > -1) {
+                //     //     xhr.open('POST', 'http://192.168.1.74:1002/generic/report/catatandokter2Salinan.pdf');
+                //     // } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
+                //     //     xhr.open('POST', 'http://simrs-rspusatpolri.com:1002/generic/report/catatandokter2Salinan.pdf');
+                //     // // } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
+                //     // //     xhr.open('POST', 'http://simrs-rspusatpolri.com:1002/generic/report/catatandokter2.pdf');
+                //     // } else {
+                //     //     xhr.open('POST', 'http://127.0.0.1:8797/generic/report/catatandokter2Salinan.pdf');
+                //     // }
+                // }
                     // set `Content-Type` header
                     xhr.setRequestHeader('Content-Type', 'application/json');
                     xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
