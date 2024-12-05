@@ -26611,5 +26611,117 @@ WHERE rm.norec = '$norec_resume'
         }
         return $this->respond($response);
     }
+    public function getImageAnestesi(Request $request) {
+        $data = DB::table('jenissurat_m as js')
+            // ->select('js.*')//just take field template only for faster 
+            ->select('js.id','js.name','js.template')
+            ->whereIn('js.id', [45,46,47,48])
+            ->orderBy('js.id', 'asc')
+            ->get();
+
+        return $this->respond($data);
+    }
+    public function getRiwayatAnestesi(Request $request) {
+        DB::connection()->setForceWritePdo();
+        $noregistrasi = $request['noregistrasi'];
+        // cek kapungkur anyar atawa lami
+        $emrpasien_t = DB::table('emrpasien_t')
+        ->select('noemr')
+        ->where('noregistrasifk', $noregistrasi)
+        ->where('emrfk', 2023)
+        ->exists();
+
+    if ($emrpasien_t) {      
+        $data = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 2023);   
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data = $data->where('ep.noemr', '=', $request['noemr']);
+        }    
+        $data = $data->orderBy('ep.tglemr', 'desc')
+            ->get();
+
+        $data2 = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 2023);    
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data2 = $data2->where('ep.noemr', '=', $request['noemr']);
+        }    
+        $data2 = $data2->orderBy('ep.tglemr', 'desc')
+            ->get();   
+    } else {
+        $data = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 2023);               
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data = $data->where('ep.noemr', '=', $request['noemr']);           
+        }    
+        $data = $data->orderBy('ep.tglemr', 'desc')
+            ->get();
+
+        $data2 = \DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ep.pegawaifk')
+            ->select('ep.tglemr', 'pg.namalengkap', 'ep.norec', 'ep.noemr')
+            ->where('ep.noregistrasifk', $request['noregistrasi'])
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 2023);    
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data2 = $data2->where('ep.noemr', '=', $request['noemr']);            
+        }           
+        $data2 = $data2->orderBy('ep.tglemr', 'desc')
+            ->get(); 
+    }
     
+            $result = array(
+                'data' => $data,
+                'data2' => $data2,
+                'message' => 'ash',
+            );
+            return $this->respond($result);
+    }
+    public function SaveEmrHtmlAnestesi(Request $request)
+    {
+        // try{
+        // return  $request;
+            $EMR = EMRPasien::where('noemr', $request['noemr'])
+                        ->first();
+            $EMR->cetakananestesi = $request['data'];
+            $EMR->save();
+            $transStatus = 'true';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        // }
+        $transMessage = 'Saving Cetak Anestesi ';    
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "data" => $EMR, 
+                "as" => 'as@epic',
+            );
+            // $this->saveEMRBackup($data, $head, $norec_EMR);
+        } else {
+            $transMessage = $transMessage . " Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "data" => $data,
+                //                "keys" => $keys,
+                //                "dtdt" => $dtdt,
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
 }

@@ -1543,4 +1543,43 @@ public function cetakAntrianKiosk(Request $request)
         return view('visum.visumnew',
         compact('raw','request'));
     }
+    public function cetakTTDAnestesi(Request $r) {
+        DB::connection()->setForceWritePdo();
+        $emrpasienfk = $r['emrpasienfk'];
+
+        $emrpasiennew_t = DB::table('emrpasien_t')
+        ->select('noemr')
+        ->where('noemr', $emrpasienfk)
+        ->exists();
+
+        if($emrpasiennew_t){
+            $data = DB::select(DB::raw("
+            SELECT        noemr
+            FROM            emrpasien_t
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '916')
+            "));
+        } else {
+            $data = DB::select(DB::raw("
+            SELECT        noemr
+            FROM            emrpasien_t
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '916')
+            "));
+        }
+
+        
+    
+        if (!empty($data)) {
+            $ambildaridata = $data[0]->noemr;
+    
+            $qrCodePemeriksa = new QrCode("http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-anestesi-2?emrpasienfk=" . $ambildaridata);
+            $qrCodePemeriksa2 = $qrCodePemeriksa->writeDataUri();
+    
+            // Ubah respons menjadi URL gambar
+            $imageUrl = 'data:image/png;base64,' . str_replace('data:image/png;base64,', '', $qrCodePemeriksa2);
+    
+            return $this->respond(['imageUrl' => $imageUrl]);
+        } else {
+            return $this->respond("Data not found for the given emrpasienfk.");
+        }
+    }
 }    

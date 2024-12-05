@@ -4201,42 +4201,29 @@ define(['initialize'], function (initialize) {
                 }
 
                 // debugger
-                if (totalcost7.value != "") {
-                    arrSave.push ({ id: "5660", values: totalcost7.value})
-                }
-                if (totalcost8.value != "") {
-                    arrSave.push ({ id: "5661", values: totalcost8.value})
-                }
-                if (totalcost9.value != "") {
-                    arrSave.push ({ id: "5662", values: totalcost9.value})
-                }``
-                if (totalcost10.value != "") {
-                    arrSave.push ({ id: "5663", values: totalcost10.value})
-                }
-                if (totalcost11.value != "") {
-                    arrSave.push ({ id: "5664", values: totalcost11.value})
-                }
-                if (totalcost12.value != "") {
-                    arrSave.push ({ id: "5665", values: totalcost12.value})
-                }
-                if (totalcost13.value != "") {
-                    arrSave.push ({ id: "5666", values: totalcost13.value})
-                }
-                if (totalcost14.value != "") {
-                    arrSave.push ({ id: "5667", values: totalcost14.value})
-                }
-                if (totalcost15.value != "") {
-                    arrSave.push ({ id: "5668", values: totalcost15.value})
-                }
-                if (totalcost16.value != "") {
-                    arrSave.push ({ id: "5669", values: totalcost16.value})
-                }
-                if (totalcost17.value != "") {
-                    arrSave.push ({ id: "5670", values: totalcost17.value})
-                }
-                if (totalcost18.value != "") {
-                    arrSave.push ({ id: "5671", values: totalcost18.value})
-                }
+                
+                let totalCosts = [
+                    { id: "5660", value: totalcost7.value },
+                    { id: "5661", value: totalcost8.value },
+                    { id: "5662", value: totalcost9.value },
+                    { id: "5663", value: totalcost10.value },
+                    { id: "5664", value: totalcost11.value },
+                    { id: "5665", value: totalcost12.value },
+                    { id: "5666", value: totalcost13.value },
+                    { id: "5667", value: totalcost14.value },
+                    { id: "5668", value: totalcost15.value },
+                    { id: "5669", value: totalcost16.value },
+                    { id: "5670", value: totalcost17.value },
+                    { id: "5671", value: totalcost18.value }
+                ];
+                
+                totalCosts.forEach(item => {
+                    arrSave.push({
+                        id: item.id,
+                        values: item.value !== undefined && item.value !== "" ? item.value : null
+                    });
+                });
+                
                 // if(totalcost7[0] != undefined){
                 //     if (totalcost7[0].value != "") {
                 //         arrSave.push ({ id: "5660", values: totalcost7[0].value})

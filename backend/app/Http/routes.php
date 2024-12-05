@@ -1001,6 +1001,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-pengkajianpasienrj/{nocm}/{emrfk}', 'EMR\EMRController@getPengkajianPasienirj');
             Route::post('save-ttv', 'EMR\EMRController@savettv');
             Route::get('get-ttv', 'EMR\EMRController@getttv');
+            Route::post('save-emr-heml-anastesi', 'EMR\EMRController@SaveEmrHtmlAnestesi');
 
             //ash 03-08-2023 Farmasi Meso
             Route::get('get-combo-meso', 'EMR\EMRController@getComboMeso'); //ash 03-08-2023
@@ -1314,7 +1315,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-order-bedah', 'EMR\EMRController@deleteOrderBedah');
             Route::post('update-is-cppt', 'EMR\EMRController@updateIsCppt');
             Route::get('get-order-penunjang-to-cppt', 'EMR\EMRController@getOrderPenunjangToCppt');
-
+    
+         
 
             //ash -- 2023-09-01
             Route::get('get-riwayat-laporan-operasi', 'EMR\EMRController@getRiwayatLaporanOperasi');
@@ -1325,6 +1327,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-image-medis-igd', 'EMR\EMRController@getImageMedisIgd');
             Route::get('get-dokumen-upload', 'EMR\EMRController@getDokumenUpload');
             Route::post('hapus-dokumen-upload', 'EMR\EMRController@deleteDokumen');
+            Route::get('get-riwayat-anestesi', 'EMR\EMRController@getRiwayatAnestesi');
 
             Route::get('get-kepentingan-resume-rj', 'EMR\EMRController@getKepentinganResumeRj');
 
@@ -1891,6 +1894,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-kll-visum-koreksi-instalasi', 'Report\ReportController@cetakKllVisumKoreksiInstalasi');
         Route::get('report/cetak-antrian', 'Report\ReportController@cetakAntrianKiosk');
         Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP'); 
+        Route::get('report/cetak-ttd-anestesi', 'Report\ReportController@cetakTTDAnestesi');
 
         Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
         Route::get('report/cetak-visum-new', 'Report\ReportController@cetakVisumNew');
