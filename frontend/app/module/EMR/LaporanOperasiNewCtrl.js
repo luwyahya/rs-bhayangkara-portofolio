@@ -470,21 +470,13 @@ define(['initialize'], function(initialize) {
                     win.focus();
                 }
             }
-            if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                xhr.open('POST', 'http://192.168.0.62:1002/generic/report/LaporanOperasiSalinan.pdf');
-            } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                xhr.open('POST', 'http://192.168.88.56:1001/generic/report/LaporanOperasiSalinan.pdf');
-            } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                xhr.open('POST', 'http://10.10.20.167:1001/generic/report/LaporanOperasiSalinan.pdf');
-            } else if (window.location.hostname.indexOf('192.168.100.209') > -1) {
-                xhr.open('POST', 'http://192.168.100.209:8797/generic/report/LaporanOperasiSalinan.pdf');
-            } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                xhr.open('POST', 'http://36.93.6.186:8797/generic/report/LaporanOperasiSalinan.pdf');
-            } else if (window.location.hostname.indexOf('simrs') > -1) {
-                xhr.open('POST', '/jasper1/generic/report/LaporanOperasiSalinan.pdf');
+            if (window.location.hostname.indexOf('localhost') > -1) {
+                xhr.open('POST', 'http://localhost:8797/generic/report/LaporanOperasiSalinan.pdf');
+            } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                xhr.open('POST', 'http://103.151.226.36:2222/generic/report/LaporanOperasiSalinan.pdf');
             } else {
                 xhr.open('POST', '/jasper1/generic/report/LaporanOperasiSalinan.pdf');
-            }        
+            }      
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.setRequestHeader('Access-Control-Allow-Origin','*');
             xhr.responseType = 'blob';            

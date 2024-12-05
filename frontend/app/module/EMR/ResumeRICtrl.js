@@ -5635,34 +5635,18 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
 
                     if(datauserkelompok == "ppa") {
-                        if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                            xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisRanap.pdf');
-                        } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                            xhr.open('POST', 'http://192.168.88.56:8797/generic/report/ResumeMedisRanap.pdf');
-                        } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                            xhr.open('POST', 'http://10.10.20.167:8797/generic/report/ResumeMedisRanap.pdf');
-                        } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                            xhr.open('POST', 'http://10.5.1.2:8797/generic/report/ResumeMedisRanap.pdf');
-                        } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                            xhr.open('POST', 'http://202.51.105.98:8797/generic/report/ResumeMedisRanap.pdf');
-                        } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
-                            xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/ResumeMedisRanap.pdf');
+                        if (window.location.hostname.indexOf('localhost') > -1) {
+                            xhr.open('POST', 'http://localhost:8797/generic/report/ResumeMedisRanap.pdf');
+                        } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                            xhr.open('POST', 'http://103.151.226.36:2222/generic/report/ResumeMedisRanap.pdf');
                         } else {
                             xhr.open('POST', '/jasper1/generic/report/ResumeMedisRanap.pdf');
                         }
                     } else {
-                        if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                            xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisRanapSalinan.pdf');
-                        } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                            xhr.open('POST', 'http://192.168.88.56:8797/generic/report/ResumeMedisRanapSalinan.pdf');
-                        } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                            xhr.open('POST', 'http://10.10.20.167:8797/generic/report/ResumeMedisRanapSalinan.pdf');
-                        } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                            xhr.open('POST', 'http://10.5.1.2:8797/generic/report/ResumeMedisRanapSalinan.pdf');
-                        } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                            xhr.open('POST', 'http://202.51.105.98:8797/generic/report/ResumeMedisRanapSalinan.pdf');
-                        } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
-                            xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/ResumeMedisRanapSalinan.pdf');
+                        if (window.location.hostname.indexOf('localhost') > -1) {
+                            xhr.open('POST', 'http://localhost:8797/generic/report/ResumeMedisRanapSalinan.pdf');
+                        } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                            xhr.open('POST', 'http://103.151.226.36:2222/generic/report/ResumeMedisRanapSalinan.pdf');
                         } else {
                             xhr.open('POST', '/jasper1/generic/report/ResumeMedisRanapSalinan.pdf');
                         }
@@ -8191,9 +8175,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     'noregistrasi': $scope.cc.noregistrasi,
                     'file': file
                 }
-                medifirstService.postNonMessage('registrasi/post-file-papj', objSave).then(function(e) {
-
-                })
+                // medifirstService.postNonMessage('registrasi/post-file-papj', objSave).then(function(e) {
+// matikan dulu sementara - kholid
+                // })
             }
             function saveToFilePapj() {
                 medifirstService.get('emr/get-penunjang-resume-ranap?noregistrasifk=' + $scope.norec).then(function (dat) {

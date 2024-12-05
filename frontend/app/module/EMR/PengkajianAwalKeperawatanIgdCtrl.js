@@ -1168,16 +1168,12 @@ define(['initialize'], function (initialize) {
                     win.focus();
                 }
             }
-            if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                xhr.open('POST', 'http://192.168.1.7:8797/generic/report/PengkajianAwalKeperawatan.pdf');
-            }else if(window.location.hostname.indexOf('192.168.88.56') > -1){
-                xhr.open('POST', 'http://192.168.88.56:8797/generic/report/PengkajianAwalKeperawatan.pdf');
-            }else if(window.location.hostname.indexOf('10.5.1.2') > -1){
-                xhr.open('POST', 'http://10.5.1.2:8797/generic/report/PengkajianAwalKeperawatan.pdf');
-            }else if(window.location.hostname.indexOf('202.51.105.98') > -1){
-                xhr.open('POST', 'http://202.51.105.98:8797/generic/report/PengkajianAwalKeperawatan.pdf');
-            }else{
-                xhr.open('POST', 'http://127.0.0.1:8797/generic/report/PengkajianAwalKeperawatan.pdf');
+            if (window.location.hostname.indexOf('localhost') > -1) {
+                xhr.open('POST', 'http://localhost:8797/generic/report/PengkajianAwalKeperawatan.pdf');
+            } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                xhr.open('POST', 'http://103.151.226.36:2222/generic/report/PengkajianAwalKeperawatan.pdf');
+            } else {
+                xhr.open('POST', '/jasper1/generic/report/PengkajianAwalKeperawatan.pdf');
             }
             // set `Content-Type` header
             xhr.setRequestHeader('Content-Type', 'application/json');
