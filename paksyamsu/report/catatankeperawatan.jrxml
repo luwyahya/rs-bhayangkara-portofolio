@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketeranganmedis" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -36,10 +37,15 @@
 	<parameter name="umur" class="java.lang.String"/>
 	<parameter name="ruangan" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[select CONVERT (varchar,temp.tgljam,20) as tgljam,temp.diagnosa,temp.hasilkeperawatan, ps.tgllahir,temp.pegawai
-from tempemr_t  as temp inner join
-emrpasien_t as emr on emr.noemr = temp.emrpasienfk inner join
-pasien_m as ps on ps.nocm = emr.nocm
+		<![CDATA[SELECT 
+    CAST(temp.tgljam AS VARCHAR) AS tgljam,
+    temp.diagnosa,
+    temp.hasilkeperawatan,
+    ps.tgllahir,
+    temp.pegawai
+FROM tempemr_t AS temp
+INNER JOIN emrpasien_t AS emr ON emr.noemr = temp.emrpasienfk
+INNER JOIN pasien_m AS ps ON ps.nocm = emr.nocm
 where emrpasienfk= $P{noemr}]]>
 	</queryString>
 	<field name="tgljam" class="java.lang.String">
@@ -324,6 +330,7 @@ where emrpasienfk= $P{noemr}]]>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Top"/>
 				<textFieldExpression><![CDATA[$F{hasilkeperawatan}]]></textFieldExpression>
 			</textField>
 			<textField>
