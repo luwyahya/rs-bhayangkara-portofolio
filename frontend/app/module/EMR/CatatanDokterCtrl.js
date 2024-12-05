@@ -844,20 +844,12 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                             win.focus();
                         }
                     }
-                    if (window.location.hostname.indexOf('192.168.0.62') > -1) {
-                        xhr.open('POST', 'http://192.168.0.62:1002/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                        xhr.open('POST', 'http://192.168.88.56:1002/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
-                        xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('36.93.6.186') > -1) {
-                        xhr.open('POST', '/jasper1generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('192.168.1.74') > -1) {
-                        xhr.open('POST', 'http://192.168.0.624:1002/generic/report/catatandokter2.pdf');
-                    } else if (window.location.hostname.indexOf('simrs-rspusatpolri') > -1) {
-                        xhr.open('POST', 'http://36.92.186.59:1002/generic/report/catatandokter2.pdf');
+                    if (window.location.hostname.indexOf('localhost') > -1) {
+                        xhr.open('POST', 'http://localhost:8797/generic/report/catatandokter2.pdf');
+                    } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                        xhr.open('POST', 'http://103.151.226.36:2222/generic/report/catatandokter2.pdf');
                     } else {
-                        xhr.open('POST', 'http://127.0.0.1:8797/generic/report/catatandokter2.pdf');
+                        xhr.open('POST', '/jasper1/generic/report/catatandokter2.pdf');
                     }
                     // set `Content-Type` header
                     xhr.setRequestHeader('Content-Type', 'application/json');
