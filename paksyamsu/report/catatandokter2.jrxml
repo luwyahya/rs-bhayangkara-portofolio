@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="suratketeranganmedis" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
@@ -88,7 +88,7 @@ FROM tempemr_t  AS temp
 INNER JOIN emrpasien_t as emr ON emr.noemr = temp.emrpasienfk
 INNER JOIN pasien_m AS ps ON ps.nocm = emr.nocm
 LEFT JOIN pegawai_m AS pg ON pg.namalengkap = temp.ttd
-LEFT JOIN tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
+LEFT JOIN tandatanganppa_t AS ttp ON ttp.objectpegawaifk::INTEGER = pg.id
 LEFT JOIN pegawai_m AS pg2 ON pg2.namalengkap = temp.pegawai
 WHERE emrpasienfk= $P{noemr} AND temp.statusenabled = true
 ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
@@ -152,7 +152,7 @@ ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
 	<pageHeader>
 		<band height="116">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<image>
+			<image onErrorType="Blank">
 				<reportElement x="2" y="3" width="77" height="77" uuid="7e4f0b80-aa4a-45cd-a6b4-caffb8e23e56">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -499,21 +499,6 @@ rinci dan jelas)]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pemberiinstruksi}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="270" y="45" width="96" height="35" forecolor="#F207B0" uuid="b2b5dccb-7726-40eb-9b50-487fd8e43df8">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{ttd}]]></textFieldExpression>
-			</textField>
-			<image hAlign="Center">
-				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="280" y="54" width="86" height="16" uuid="ed82e42f-0dad-42fb-b062-3006451b83eb">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA[net.sf.jasperreports.engine.util.JRImageLoader.getInstance(new SimpleJasperReportsContext()).loadAwtImageFromBytes(javax.xml.bind.DatatypeConverter.parseBase64Binary($F{tandatangan}.replace("data:image/png;base64,","").replace("data:image/jpeg;base64,","")))]]></imageExpression>
-			</image>
 			<image>
 				<reportElement x="480" y="0" width="82" height="40" uuid="3187ebac-4f62-41de-a97d-bed6b25a73e7"/>
 				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
