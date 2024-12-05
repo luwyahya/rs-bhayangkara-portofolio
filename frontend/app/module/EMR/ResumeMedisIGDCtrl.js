@@ -135,7 +135,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         function init() {
             $scope.isRouteLoading = true;
             medifirstService.get('emr/get-resume-medis-igd/' + $scope.cc.noregistrasi).then(function(dat) {
-                // debugger
+                debugger
                 if (dat.statResponse) {
                     let result = dat.data.data
                     debugger
@@ -2088,6 +2088,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 pegawaifk: $scope.item.dpjp.id,
                 ketdiet: $scope.item.keterangandiet,
                 pemeriksaanfisik: pemeriksaanfisik,
+                keteranganlainnya: 'IGD',
                 lab: lab,
                 rad: rad,
                 obat: obat,
@@ -2115,6 +2116,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             loadDiagnosa()
             loadKonsul()
+            init()
             // loadCpptO()
         // 	if (confirm('View Resume? ')) {
         // 		var stt = 'true';
@@ -2141,6 +2143,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         // 	}
         medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + norecresume).then(function(dat) {
             //  debugger
+            
              let tampung = '';
              let tampung2 = '';
              let tampung3 = '';
@@ -2359,7 +2362,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     console.log(this.response, typeof this.response);
                     //var res = this.response
                     //var file = new Blob( [res], {type: 'application/pdf'});
-                    // debugger;
+                    //debugger;
                     var url = window.URL.createObjectURL(this.response)
                     var pdf = document.getElementById('tempatLaporan');
                     pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
@@ -2373,21 +2376,14 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             //ash 2023-11-30 untuk menentukan apa dia PPA atau bukan
             // var datauserkelompok = medifirstService.getKelompokUser();
 
-                if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                    xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisIGD.pdf');
-                } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                    xhr.open('POST', 'http://192.168.88.56:8797/generic/report/ResumeMedisIGD.pdf');
-                } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                    xhr.open('POST', 'http://10.10.20.167:8797/generic/report/ResumeMedisIGD.pdf');
-                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                    xhr.open('POST', 'http://10.5.1.2:8797/generic/report/ResumeMedisIGD.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/ResumeMedisIGD.pdf');
-                } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
-                    xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/ResumeMedisIGD.pdf');
-                } else {
-                    xhr.open('POST', '/jasper1/generic/report/ResumeMedisIGD.pdf');
-                }
+             
+            if (window.location.hostname.indexOf('localhost') > -1) {
+                xhr.open('POST', 'http://localhost:8797/generic/report/ResumeMedisIGD.pdf');
+            } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                xhr.open('POST', 'http://103.151.226.36:2222/generic/report/ResumeMedisIGD.pdf');
+            } else {
+                xhr.open('POST', '/jasper1/generic/report/ResumeMedisIGD.pdf');
+            }
             // else {
             //     if (window.location.hostname.indexOf('192.168.1.7') > -1) {
             //         xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisIGDSalinan.pdf');
