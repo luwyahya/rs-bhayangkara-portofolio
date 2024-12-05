@@ -814,7 +814,8 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 var ruangan = $scope.cc.namaruangan
                 let dpjp = $scope.cc.dpjp
                 let noregistrasi = $scope.cc.noregistrasi
-               
+                medifirstService.get('emr/get-ttd-ppa?idDpjp=' + $scope.cc.iddpjp)
+                .then(function(dat) {
                     debugger
                     let ttd = '';
                     if (dat.data[0] != undefined) {
@@ -864,7 +865,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     xhr.responseType = 'blob';
                     // send rquest with JSON payload
                     xhr.send(JSON.stringify(data));
-                
+                })
             }
                 var jsonLog = {
                     'jenislog': 'Cetak CPPT',
