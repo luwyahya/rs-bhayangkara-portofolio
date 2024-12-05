@@ -693,22 +693,12 @@ define(['initialize'], function (initialize) {
                         win.focus();
                     }
                 }
-                if (window.location.hostname.indexOf('192.168.1.7') > -1) {
-                    xhr.open('POST', 'http://192.168.1.7:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
-                    xhr.open('POST', 'http://192.168.88.56:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if (window.location.hostname.indexOf('192.168.1.116') > -1) {
-                    xhr.open('POST', 'http://192.168.1.116:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
-                    xhr.open('POST', 'http://10.10.20.167:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
-                    xhr.open('POST', 'http://202.51.105.98:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if(window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1){
-                    xhr.open('POST', 'http://simrs-rspusatpolri.com:1006/generic/report/pengkajianAwalMedisPasien.pdf');
-                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                    xhr.open('POST', 'http://10.5.1.2:1006/generic/report/pengkajianAwalMedisPasien.pdf');
+                if (window.location.hostname.indexOf('localhost') > -1) {
+                    xhr.open('POST', 'http://localhost:8797/generic/report/pengkajianAwalMedisPasien.pdf');
+                } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
+                    xhr.open('POST', 'http://103.151.226.36:2222/generic/report/pengkajianAwalMedisPasien.pdf');
                 } else {
-                    xhr.open('POST', 'http://127.0.0.1:1006/generic/report/pengkajianAwalMedisPasien.pdf');
+                    xhr.open('POST', '/jasper1/generic/report/pengkajianAwalMedisPasien.pdf');
                 }
                 xhr.setRequestHeader('Content-Type', 'application/json');
                 xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
