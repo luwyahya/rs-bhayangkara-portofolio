@@ -1100,7 +1100,7 @@ define(['initialize'], function(initialize) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRS", "alamatRS", "noemr"],
-                        "paramValue": ["RS Bhayangkara Tk. I R.Said Sukanto", "Jl. Raya Bogor No.1, RT.1/RW.5, Kramat Jati, Kec. Kramat jati, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta 13510", $scope.dataSelected.noemr],
+                        "paramValue": ["RS. Bhayangkara Cianjur", "Jl. Suroso No.21, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", $scope.dataSelected.noemr],
                         "paramType": ["", "", ""]
                     };
 
