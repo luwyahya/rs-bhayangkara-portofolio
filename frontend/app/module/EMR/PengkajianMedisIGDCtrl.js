@@ -47,6 +47,7 @@ define(['initialize'], function (initialize) {
             $scope.item.rke = 1;
             var dataObat = [];
             $scope.isCetak = false
+            $scope.logo = medifirstService.getLogo()
             LoadCacheHelper();
             LoadCombo();
 
