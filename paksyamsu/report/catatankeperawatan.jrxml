@@ -89,18 +89,18 @@ where emrpasienfk= $P{noemr}]]>
 				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="45" width="260" height="21" uuid="c2b1e438-81a2-4f14-ba1c-86ec95e52ca1"/>
-				<textElement>
+				<reportElement x="-3" y="45" width="260" height="21" uuid="c2b1e438-81a2-4f14-ba1c-86ec95e52ca1"/>
+				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="9" isBold="true" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK.I R.SAID SUKANTO]]></text>
+				<text><![CDATA[RUMAH SAKIT BHAYANGKARA CIANJUR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="62" width="260" height="21" uuid="8caf56af-d2bc-4765-b28b-966590cd6167"/>
-				<textElement>
+				<reportElement x="0" y="62" width="260" height="47" uuid="8caf56af-d2bc-4765-b28b-966590cd6167"/>
+				<textElement textAlignment="Center">
 					<font fontName="Tahoma" size="9" isBold="false" isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[Jl. Raya Bogor, Kramat Jati. Telp. 021-8093288 Jakarta Timur]]></text>
+				<text><![CDATA[Jl. Suroso No.21, Kabupaten Cianjur,Jawa Barat 43211]]></text>
 			</staticText>
 			<rectangle radius="10">
 				<reportElement x="380" y="1" width="190" height="70" uuid="8516f51d-eee9-45a5-987e-e9d8e9f4489b"/>

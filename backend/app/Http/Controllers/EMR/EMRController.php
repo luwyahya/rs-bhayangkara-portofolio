@@ -11845,7 +11845,7 @@ class EMRController  extends ApiController
             ->where('spd.qtyproduk', '>', 0)
             // ->where('spd.harganetto1', '>', 0)
             // ->where('spd.nostrukterimafk', '<>', 'INIT-001')
-            ->where('spd.objectruanganfk', '=', 481)
+            // ->where('spd.objectruanganfk', '=', 481)
             // ->whereIn('spd.objectruanganfk', [508,555])
             ->where('jp.objectdepartemenfk', '=', 14)
             // ->where('ru.id', '=', 508)
@@ -11895,7 +11895,7 @@ class EMRController  extends ApiController
                 'konversisatuan' => $satuanKonversi,
             );
         }
-        return $dataProduk;
+        // return $dataProduk;
         $result = array(
             'ruanganfarmasi' => $dataRuanganFamasi,
             'jeniskemasan' => $dataJenisKemasan,

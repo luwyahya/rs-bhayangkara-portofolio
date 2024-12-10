@@ -311,7 +311,7 @@ define(['initialize'], function (initialize) {
                 })
                 $scope.item.obj = []
                 medifirstService.get("emr/get-combo-resep-emr-2", true).then(function (dat) {
-                    // //debugger
+                    debugger
                     $scope.isRouteLoading = false;
                     $scope.listRuangan = dat.data.ruanganfarmasi;
                     // $scope.listRuangan.splice(9);                     
@@ -1994,7 +1994,7 @@ define(['initialize'], function (initialize) {
                     alert("Pilih Ruangan Tujuan terlebih dahulu!!")
                     return;
                 }
-                if ($scope.item.layananrad == undefined) {
+                if ($scope.item.layananlab == undefined) {
                     alert("Pilih Layanan terlebih dahulu!!")
                     return;
                 }
@@ -2004,6 +2004,7 @@ define(['initialize'], function (initialize) {
                 } else {
                     nomor = dataLaboratorium.length + 1
                 }
+                debugger
                 var data = {};
                 if ($scope.item.no != undefined) {
                     for (var i = dataLaboratorium.length - 1; i >= 0; i--) {
@@ -2025,6 +2026,7 @@ define(['initialize'], function (initialize) {
                         }
                     }
                 }
+                debugger
                 $scope.batalLab();
             }
             $scope.batalLab = function () {
