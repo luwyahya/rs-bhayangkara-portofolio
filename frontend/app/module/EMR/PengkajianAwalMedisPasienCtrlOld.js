@@ -326,8 +326,8 @@ define(['initialize'], function (initialize) {
                 // tglresume = moment($scope.modelGrid.tglresume).format('DD-MM-YYYY')
                 // var namadokter = $scope.modelGrid.namadokter;
                 // var noresep = $scope.modelGrid.noresep;
-                // var qrcodedokter = "http://202.51.105.98:9000/service/medifirst2000/report/cetak-dokter?reg=" + $scope.modelGrid.noregistrasi;
-                // var qrcodepasien = "http://202.51.105.98:9000/service/medifirst2000/report/cetak-pasien?reg=" + $scope.modelGrid.noregistrasi;
+                // var qrcodedokter = "http://192.168.100.254:9000/service/medifirst2000/report/cetak-dokter?reg=" + $scope.modelGrid.noregistrasi;
+                // var qrcodepasien = "http://192.168.100.254:9000/service/medifirst2000/report/cetak-pasien?reg=" + $scope.modelGrid.noregistrasi;
                 let jumlah = $scope.item.obj.length
 
                 var data = {

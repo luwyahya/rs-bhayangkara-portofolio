@@ -705,10 +705,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="grid_12" style="margin-top: 15px;"><b>ICD 10</b></div>
-                    <div class="grid_12">
-                        <textarea c-text-area type="input" filter="'string'" class="k-textbox" ng-model="item.obj[2426]"
-                            style="height: 100px;" placeholder="" />
+                    <div class="grid_12" style="margin-top: 15px;"><b>Diagnosa Awal ICD 10</b></div>
+                    <div class="grid_6">
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[2426]"
+                        k-data-text-field="'kodeNama'" k-data-value-field="'id '"
+                        k-filter="'contains '" k-auto-bind="false"
+                        k-data-source="listDiagnosa"/>
                     </div>
                 </fieldset>
             </div>
@@ -1237,6 +1239,10 @@
                                 <input type="checkbox" class="k-checkbox" ng-model="item.obj[2445]" id="item.obj[2445]">
                                 <label class="c-label k-checkbox-label" for="item.obj[2445]" required>Pindah ke RS
                                     Lain</label>
+                            </div>
+                            <div class="grid_2">
+                                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901300140]" id="item.obj[1901300140]">
+                                <label class="c-label k-checkbox-label" for="item.obj[1901300140]" required>Rujuk</label>
                             </div>
                         </div>
                     </div>

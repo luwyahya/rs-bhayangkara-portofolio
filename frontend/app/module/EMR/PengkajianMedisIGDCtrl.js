@@ -463,6 +463,13 @@ define(['initialize'], function (initialize) {
                                     $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
 
                                 }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2426") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], kodeNama: str }
+
+                                }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2448") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
