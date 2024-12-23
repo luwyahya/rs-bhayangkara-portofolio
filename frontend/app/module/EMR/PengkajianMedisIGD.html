@@ -1372,7 +1372,7 @@
                     {{item.obj2[5407]}}
                 </h3>
             </div><hr>
-            <span>Tanggal dan Jam Dilayani : {{item.obj[2404]}}</span><br><br>
+            <span>Tanggal dan Jam Dilayani: {{ formatTanggal(item.obj[2404]) }}</span><br><br>
             <td style="border: none;width: 200px"><span style="font-size: 15.0pt;">Alergi</span></td> 
                     <td style="border: none;"><span style="font-size: 12.0pt;">: {{item.obj[2405]}}  </span></td><br>
             <p align="left" style="text-align:left; margin-bottom:0;tab-stops:177.65pt 187.0pt;">
@@ -1621,7 +1621,7 @@
                             <label class="c-label k-checkbox-label" for="item.obj[2428]" required>Boleh Pulang</label>
                         </td>
                         <td style="border: none;">
-                            <span>{{ item.obj[2429] }}</span>
+                            <span>{{ formatTanggal(item.obj[2429]) }}</span>
                         </td>
                         <td style="border: none;width: 50px;"></td>
                         <td style="border: none;">
@@ -1722,7 +1722,7 @@
                 </tr><br>
                 <tr style="border: none;">
                     <td style="border: none;">
-                        <span>{{ item.obj[2446] }}</span>
+                        <span>{{ formatTanggal(item.obj[2446]) }}</span>
                     </td>
                     <td style="border: none;">
                         <span>{{ item.obj[2447].namalengkap }}</span>

@@ -1989,6 +1989,11 @@ define(['initialize'], function (initialize) {
                 // $scope.simpanOrderRadiologi();
                 $scope.batalLab();
             }
+            $scope.formatTanggal = function(tanggal) {
+                if (!tanggal) return '';
+                return moment(tanggal).format('DD-MM-YYYY HH:mm'); // Gunakan moment.js
+            };
+            
             $scope.hapusLab = function () {
                 if ($scope.item.ruangantujuan == undefined) {
                     alert("Pilih Ruangan Tujuan terlebih dahulu!!")
