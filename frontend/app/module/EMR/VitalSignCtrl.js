@@ -431,6 +431,11 @@ define(['initialize'], function (initialize) {
                         })
                     }
                     $scope.item.obj = []
+                    $scope.item.obj[116064] = { value: 1, text: "Compos Mentis" }
+                    $scope.item.obj[116067] = { value: 4, text: "4" }
+                    $scope.item.obj[116068] = { value: 6, text: "6" }
+                    $scope.item.obj[116069] = { value: 5, text: "5" }
+                    // $scope.item.obj[1901300167] = moment($scope.now).format('YYYY-MM-DD HH:mm')
                     $scope.cc.norec_emr = '-'
                     $rootScope.loadRiwayat()
 
