@@ -2120,7 +2120,7 @@ define(['initialize'], function (initialize) {
                 if (hihi.length != 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
-                            $scope.item.obj[2639] = $scope.item.obj[2639] + 'Lab : ' + dataLaboratorium[0].namaproduk + "\n";
+                            $scope.item.obj[2639] = 'Lab : ' + dataLaboratorium[0].namaproduk + "\n";
                         }
                         $scope.item.layanan2 = []
                         dataLaboratorium = []
