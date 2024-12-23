@@ -297,7 +297,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.item.kebutuhanedukasilainlain =result[0].kebutuhanedukasilainlain
                             $scope.item.pemeriksaanpenunjanglainlain =result[0].pemeriksaanpenunjanglainlain
                             $scope.item.keadaanumumafter = result[0].keadaanumumafter
-                            $scope.item.darurat = result[0].keadaandarurat == null ? "IGD RS Bhayangkara TK. II Sartika Asih Bandung No. Telp : 022 - 5229544/45/48" : result[0].keadaandarurat
+                            $scope.item.darurat = result[0].keadaandarurat == null ? "IGD RS Bhayangkara Cianjur No. Telp : 022 - 5229544/45/48" : result[0].keadaandarurat
 
 
 

@@ -351,7 +351,7 @@ define(['initialize'], function (initialize) {
                 // for (var i = 0; i <= 150 - 1; i++) {
                 //     arrPush.push({ emrdfk: i.toString(), value: "" })
                 // }
-                var isi = "Sesuai dengan Keputusan Menteri Kesehatan Nomor HK.01.07 / MENKES / 4718 / 2021 tentang Petunjuk Teknis Klaim Penggantian Biaya Pelauanan Pasien Corona Virus Disease 2019 (COVID-19) bagi Rumah Sakit Penyelenggara Pelayanan Corona Virus Disease 2019 (COVID-19), maka selama saya / keluarga saya dirawat di Rumah Sakit Bhayangkara TK.II SARTIKA ASIH untuk kasus COVID-19 dan tidak dipungut biaya pelayanan kesehatan yang telah diberikan oleh pihak rumah sakit."
+                var isi = "Sesuai dengan Keputusan Menteri Kesehatan Nomor HK.01.07 / MENKES / 4718 / 2021 tentang Petunjuk Teknis Klaim Penggantian Biaya Pelauanan Pasien Corona Virus Disease 2019 (COVID-19) bagi Rumah Sakit Penyelenggara Pelayanan Corona Virus Disease 2019 (COVID-19), maka selama saya / keluarga saya dirawat di Rumah Sakit Bhayangkara Cianjur untuk kasus COVID-19 dan tidak dipungut biaya pelayanan kesehatan yang telah diberikan oleh pihak rumah sakit."
                 for (var i = 0; i <= dataLoad.length - 1; i++) {
                     if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
                         if (dataLoad[i].emrdfk == 701) {

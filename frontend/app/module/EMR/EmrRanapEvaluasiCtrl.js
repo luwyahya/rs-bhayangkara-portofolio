@@ -673,7 +673,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "norm", "umur", "jeniskelamin", "namapasien", "test", "nomorEMR", "dataLoad", "namaruangan", "tglregistrasi", "tglsekarang"],
-                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush, $scope.cc.namaruangan, $scope.cc.tglregistrasi, $scope.now],
+                    "paramValue": ["RS. Bhayangkara Cianjur", "Jl. Suroso No.21, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.noregistrasi, $scope.cc.nocm, $scope.cc.umur, $scope.cc.jeniskelamin, $scope.cc.namapasien, base64, nomorEMR, arrPush, $scope.cc.namaruangan, $scope.cc.tglregistrasi, $scope.now],
                     "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -743,7 +743,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad"],
-                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "1980-12-25 00:00:00", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
+                    "paramValue": ["RS. Bhayangkara Cianjur", "Jl. Suroso No.21, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.nocm, base64, nomorEMR, arrPush],
                     "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
                 };
                 var xhr = new XMLHttpRequest();
@@ -2248,7 +2248,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         "gambarLogo": "logodokkes.jpg",
                         "paramKey": ["namaRS", "namaRSS", "namaRSSS", "tgllahir", "alamatRS", "printedBy", "norecapd", "umur", "jeniskelamin", "tglpelayanan", "tglhasil", "dokter", "ruangan", "linkqr", "diagnosa", "dokterPeriksa", "catatan"],
-                        "paramValue": ["PUSAT KEDOKTERAN DAN KESEHATAN POLRI", "RUMAH SAKIT BHAYANGKARA TK.II SARTIKA ASIH", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Raya Bogor, Kramat Jati, Jakarta Timur 13510, Telp. (021)8093288, Psw. 177", user.namaLengkap,
+                        "paramValue": ["PUSAT KEDOKTERAN DAN KESEHATAN POLRI", "RUMAH SAKIT BHAYANGKARA CIANJUR", "INSTALASI LABORATORIUM", "1980-12-25 00:00:00", "Jl. Raya Bogor, Kramat Jati, Jakarta Timur 13510, Telp. (021)8093288, Psw. 177", user.namaLengkap,
                             x, umurDay, $scope.item.objectjeniskelaminfk, tglpelayanan, tglhasil, dokterpengirim, ruanganasal, y, diagnosa, dokterpemeriksa, catatan
                         ],
                         "paramType": ["", "", "", "date", "", "", "", "", "", "", "", "", "", "", "", "", ""]

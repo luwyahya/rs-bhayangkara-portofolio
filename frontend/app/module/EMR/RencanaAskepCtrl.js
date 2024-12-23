@@ -1070,7 +1070,7 @@ define(['initialize'], function (initialize) {
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "alamatRS", "noemr", "namaPasien", "norm", "jeniskelamin", "umur", "ruangan", "tglLahir", "noregistrasi"],
-                    "paramValue": ["RS Bhayangkara TK. II Sartika Asih Bandung", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", $scope.modelGrid.emrpasienfk, namapasien, norm, jeniskelamin, umur, ruangan, tglLahir, noregistrasi],
+                    "paramValue": ["RS Bhayangkara Cianjur", "Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256", $scope.modelGrid.emrpasienfk, namapasien, norm, jeniskelamin, umur, ruangan, tglLahir, noregistrasi],
                     "paramType": ["", "", "", "", "", "", "", "", "", ""]
                 };
 

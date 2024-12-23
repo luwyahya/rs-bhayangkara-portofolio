@@ -1915,6 +1915,7 @@ define(['initialize'], function (initialize) {
                                     vitalsigns: vital
                                 }
                                 data_Save.push(datas);
+                                debugger
                                 var isis = {
                                     jenisintra: data_head[0].group,
                                     labelintra: $scope.item.VSigns.simbol + " " + data_head[0].judulsamping,
@@ -2043,6 +2044,7 @@ define(['initialize'], function (initialize) {
             }
             function getRmi() {
                 //  ;
+                debugger
                 medifirstService.get('emr/get-rmi?' + "norec_pd=" + $scope.cc.norec_pd + "&jenisemr=intra").then(function(dat) {
                      ;
                     if (dat.data.Data.length > 0) {
@@ -2208,7 +2210,7 @@ define(['initialize'], function (initialize) {
                     toastr.warning('Data Belum Terambil, Peringatan!')
                     return;
                 }
-
+debugger
                 var objSave = {
                     norec: norec_Emr,
                     norec_apd: norec_apd,
