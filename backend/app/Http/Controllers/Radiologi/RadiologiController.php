@@ -3654,32 +3654,61 @@ class RadiologiController extends ApiController
             ->where('objectloginuserfk',$dataLogin['userData']['id'])
             ->get();
 
-        $data = \DB::table('antrianpasiendiperiksa_t as apd')
-            ->join('pasiendaftar_t as pd','pd.norec','=','apd.noregistrasifk')
-            ->JOIN('ruangan_m as ru','ru.id','=','apd.objectruanganfk')
-            ->Join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
-            ->JOIN ('pasien_m as ps','ps.id','=','pd.nocmfk')
-            ->JOIN('jeniskelamin_m as jk','jk.id','=','ps.objectjeniskelaminfk')
-            ->leftjoin('pegawai_m as pg', 'pg.id','=','pd.objectpegawaifk')
-            ->leftJoin('kelompokpasien_m as kp','kp.id','=','pd.objectkelompokpasienlastfk')
-            ->leftJoin('rekanan_m as rk','rk.id','=','pd.objectrekananfk')
-            ->leftJoin('kelas_m as kl','kl.id','=','pd.objectkelasfk')
-            ->leftJoin('strukpelayanan_t as sp','sp.norec','=','pd.nostruklastfk')
-            ->leftJoin('alamat_m as alm','alm.nocmfk','=','ps.id') 
-            ->leftJoin('golongandarah_m as gol','gol.id','=','ps.objectgolongandarahfk')
-            ->leftJoin('ruangan_m as ru1','ru1.id','=','apd.objectruanganasalfk')
-            ->leftJoin('ruangan_m as ru2','ru2.id','=','pd.objectruanganlastfk')
-//            ->leftjoin('strukorder_t as so','so.norec','=','apd.objectstrukorderfk')
-            ->select('apd.norec as norec_apd','ru.id as ruid',
-            'apd.objectruanganasalfk as idruanganasal','ru.namaruangan','pd.noregistrasi','ps.nocm','ps.namapasien','jk.jeniskelamin', 'pg.nama',
-                'kp.kelompokpasien','rk.namarekanan','kl.namakelas','kl.id as klid',
-                'pd.tglregistrasi','pd.tglpulang','ps.tgllahir','apd.norec','pd.norec as norec_pd',
-                'sp.tglstruk','pd.nostruklastfk','alm.alamatlengkap','gol.golongandarah', 'apd.tglmasuk', 'apd.tglkeluar','ru1.namaruangan as namaruanganasal','ru2.objectdepartemenfk')
-            ->where('ru.objectdepartemenfk',$dataruangan[0]->objectdepartemenfk)
-            ->where('apd.statusenabled',True)
-//            ->where('apd.objectruanganfk',$dataruangan[0]->id)
-            ->orderBy('apd.tglregistrasi','desc');
-
+            $data = \DB::table('antrianpasiendiperiksa_t as apd')
+            ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->join('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+            ->leftJoin('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->leftJoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+            ->leftJoin('kelas_m as kl', 'kl.id', '=', 'pd.objectkelasfk')
+            ->leftJoin('strukpelayanan_t as sp', 'sp.norec', '=', 'pd.nostruklastfk')
+            ->leftJoin('alamat_m as alm', 'alm.nocmfk', '=', 'ps.id')
+            ->leftJoin('golongandarah_m as gol', 'gol.id', '=', 'ps.objectgolongandarahfk')
+            ->leftJoin('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
+            ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'pd.objectruanganlastfk')
+            ->leftJoin('detaildiagnosapasien_t as ddp', function($join) {
+                $join->on('ddp.noregistrasifk', '=', 'apd.norec')
+                     ->where('ddp.objectjenisdiagnosafk', '=', 1);
+            })
+            ->leftJoin('diagnosapasien_t as dp', 'dp.norec', '=', 'ddp.objectdiagnosapasienfk')
+            ->leftJoin('diagnosa_m as dm', 'dm.id', '=', 'ddp.objectdiagnosafk')
+            ->select(
+                'apd.norec as norec_apd', 
+                'ru.id as ruid',
+                'apd.objectruanganasalfk as idruanganasal', 
+                'ru.namaruangan', 
+                'pd.noregistrasi', 
+                'ps.nocm', 
+                'ps.namapasien', 
+                'jk.jeniskelamin', 
+                'pg.nama', 
+                'kp.kelompokpasien', 
+                'rk.namarekanan', 
+                'kl.namakelas', 
+                'kl.id as klid',
+                'pd.tglregistrasi', 
+                'pd.tglpulang', 
+                'ps.tgllahir', 
+                'apd.norec', 
+                'pd.norec as norec_pd',
+                'sp.tglstruk', 
+                'pd.nostruklastfk', 
+                'alm.alamatlengkap', 
+                'gol.golongandarah', 
+                'apd.tglmasuk', 
+                'apd.tglkeluar', 
+                'ru1.namaruangan as namaruanganasal', 
+                'ru2.objectdepartemenfk',
+                \DB::raw("CASE WHEN ddp.noregistrasifk IS NOT NULL THEN CONCAT(dm.kddiagnosa, ', ', dm.namadiagnosa) ELSE '-' END as namadiagnosa")
+            )
+            ->where('ru.objectdepartemenfk', $dataruangan[0]->objectdepartemenfk)
+            ->where('apd.statusenabled', True)
+            //->where('apd.objectruanganfk', $dataruangan[0]->id) // Uncomment jika perlu
+            ->orderBy('apd.tglregistrasi', 'desc');
+        
         if(isset($request['tglAwal']) && $request['tglAwal']!="" && $request['tglAwal']!="undefined"){
             $data = $data->where('apd.tglmasuk','>=', $request['tglAwal']);
         }

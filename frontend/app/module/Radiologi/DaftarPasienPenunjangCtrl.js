@@ -266,6 +266,11 @@ define(['initialize'], function(initialize) {
                     "width": "100px", //
                 },
                 {
+                    "field": "namadiagnosa",
+                    "title": "Nama Diagnosa Primary",
+                    "width": "125px", //
+                },
+                {
                     "field": "namakelas",
                     "title": "Nama Kelas",
                     "width": "80px",
