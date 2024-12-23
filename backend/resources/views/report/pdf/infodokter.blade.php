@@ -52,7 +52,7 @@
         <td bordercolor="#808080" height="13">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        RESUME MEDIS INI DITULISKAN DI RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO, KRAMATJATI, JAKARTA. PADA TANGGAL {{  $raw->tglresume }}.
+                        RESUME MEDIS INI DITULISKAN DI RUMAH SAKIT BHAYANGKARA CIANJUR, CIANJUR, KAB.CIANJUR. PADA TANGGAL {{  $raw->tglresume }}.
                     </span>
             </font>
         </td>

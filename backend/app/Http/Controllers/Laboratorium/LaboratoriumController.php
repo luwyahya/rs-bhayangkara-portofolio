@@ -1139,11 +1139,20 @@ class LaboratoriumController extends ApiController
         return $this->respond($result);
     }
     public function saveHasilLabManual(Request $request) {
-//        $kdProfile = $this->getDataKdProfile($request);
+
         $idProfile = 0;//(int) $kdProfile;
+        // $runningNumber = RunningNumber::where('id', '13546')->first();
+        // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
         DB::beginTransaction();
         // try{
             foreach ($request['hasil'] as $key => $value) {
+                // $runningNumber = RunningNumber::where('id', '13546')->first();
+                // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
+                $updateak = PelayananPasien::where([
+                    'norec' => $value['norecpelayanan']
+                ])->update([
+                    'objectpegawaipengirimfk' => $value['idpegawaiKirim']
+                ]);
                 $cek =  HasilLaboratorium::where([
                     // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
                     // 'norecpelayanan',$value['norecpelayanan']
@@ -1154,11 +1163,10 @@ class LaboratoriumController extends ApiController
                     // 'detailpemeriksaan' => $value['detailpemeriksaan'],
                     'norec' => $value['norec_hasil'],
                     'maphasilfk' => $value['maphasilfk'],
-                    // detailpemeriksaan
+                    // detailpemeriksaan 
                 ])->first();
                 if(!empty($cek)){
-                    $norec[] = $value['norec_hasil'];
-                   if($value['hasil'] == '')
+                   if($value['hasil'] == '' && $value['produkfk'] != 4082520)  //4082520 itu untuk kondisi "Pembacaan BMP"
                    {
                        $hapus = HasilLaboratorium::where(
                             [
@@ -1172,6 +1180,8 @@ class LaboratoriumController extends ApiController
                         )->delete();
                    }else
                    {
+                        
+
                         $update = HasilLaboratorium::where([
                             // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
                             // 'norecpelayanan',$value['norecpelayanan']
@@ -1189,12 +1199,16 @@ class LaboratoriumController extends ApiController
                                 'hasil_s' => $value['hasil_s'],
                                 'hasil_i' => $value['hasil_i'],
                                 'catatan' => $value['catatan'],
+                                // 'catatancetak' => $value['catatancetak'],
                                 'catatancetak' => $value['catatancetak'],
                                 'skor' => $value['skor'],
                                 'satuan' => $value['satuan'],
                                 'nilainormal' => $value['nilainormal'],
                             ]
                         );
+
+                       
+                        
                     }
                 }else
                 {
@@ -1230,10 +1244,12 @@ class LaboratoriumController extends ApiController
                                                          FROM            pasiendaftar_t INNER JOIN
                                                         antrianpasiendiperiksa_t ON pasiendaftar_t.norec = antrianpasiendiperiksa_t.noregistrasifk
                                                         where antrianpasiendiperiksa_t.norec ='$value[noregistrasifk]'"));     
-                $newId = LoggingUser::max('id');
-                $newId = $newId +1;
-                $logUser = new LoggingUser();
-                $logUser->id = $newId;
+                  $newId = LoggingUser::max('id');
+                  $newId = $newId +1;
+                  $logUser = new LoggingUser();
+                  $logUser->id = $newId;
+                // $logUser->id = $newId;
+                // $logUser->id = $runningNumberNew;
                 $logUser->norec = $logUser->generateNewId();
                 $logUser->kdprofile= 11;
                 $logUser->statusenabled=true;
@@ -1260,6 +1276,19 @@ class LaboratoriumController extends ApiController
                 //            try {
         
                 $logUser->save();
+                // try {
+                    // $updateRN = RunningNumber::where('id', '13546')
+                    //     ->update(
+                    //         [
+                    //             'nomer_terbaru' => $runningNumberNew
+        
+                    //         ]
+                    //     );
+                    // $transStatus = 'true';
+                // } catch (\Exception $e) {
+                //     $transStatus = 'false';
+                //     $transMessage = "update Running Number";
+                // }
 
             }
 

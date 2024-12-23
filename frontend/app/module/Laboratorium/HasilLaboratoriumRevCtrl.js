@@ -766,16 +766,20 @@ define(['initialize'], function (initialize) {
 
 
             $scope.simpan = function () {
+                
                 var r = confirm("Yakin Simpan?");
-                if (r == false) {
-                    return;
-                }
-                var catatan = "";
-                if ($scope.item.catatan != undefined) {
+                  if (r == false) {
+                    return;                
+                  }
+                  var catatan ="";
+                if( $scope.item.catatan != undefined)
+                {
                     catatan = $scope.item.catatan;
                 }
-                $scope.IsSave = false;
+                $scope.IsSave = true
                 var dataArray = [];
+              
+                let dataDokterPengirim = $scope.item.DataPegawai;
                 for (var i = $scope.resultGrids._data.length - 1; i >= 0; i--) {
                     if ($scope.resultGrids._data[i].hasil != null || $scope.resultGrids._data[i].hasil != '')
                         dataArray.push({
@@ -793,17 +797,24 @@ define(['initialize'], function (initialize) {
                             "skor": $scope.resultGrids._data[i].skor,
                             "catatancetak": catatan,
                             "nilainormal": $scope.resultGrids._data[i].nilainormalstr,
-                            "satuan": $scope.resultGrids._data[i].satuanstandar
+                            "satuan": $scope.resultGrids._data[i].satuanstandar,
+                            "idpegawaiKirim": dataDokterPengirim.id,
                         });
+                        
                 }
-
+                debugger
                 if (dataArray.length !== 0) {
                     var objSave = {
                         "hasil": dataArray
                     }
                     medifirstService.post('laboratorium/save-hasil-lab-manual', objSave).then(function (e) {
-                        $scope.result();
-                        $scope.IsSave = true;
+                        $scope.IsSave = false
+                        $scope.isRouteLoading = true;
+                        setTimeout(function() {
+                            $scope.result();
+                            $scope.IsSave = true;
+                            $scope.isRouteLoading = false
+                        }, 10000);
                     })
                 }
             }
