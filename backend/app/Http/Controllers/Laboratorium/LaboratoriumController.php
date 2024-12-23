@@ -1139,209 +1139,180 @@ class LaboratoriumController extends ApiController
         return $this->respond($result);
     }
     public function saveHasilLabManual(Request $request) {
-
-        $idProfile = 0;//(int) $kdProfile;
-        // $runningNumber = RunningNumber::where('id', '13546')->first();
-        // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
-        DB::beginTransaction();
-        // try{
-            foreach ($request['hasil'] as $key => $value) {
-                // $runningNumber = RunningNumber::where('id', '13546')->first();
-                // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
-                $updateak = PelayananPasien::where([
-                    'norec' => $value['norecpelayanan']
-                ])->update([
-                    'objectpegawaipengirimfk' => $value['idpegawaiKirim']
-                ]);
-                $cek =  HasilLaboratorium::where([
-                    // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
-                    // 'norecpelayanan',$value['norecpelayanan']
-
-                    'noregistrasifk' => $value['noregistrasifk'],
-                    'norecpelayanan' => $value['norecpelayanan'],
-                    'produkfk' => $value['produkfk'],
-                    // 'detailpemeriksaan' => $value['detailpemeriksaan'],
-                    'norec' => $value['norec_hasil'],
-                    'maphasilfk' => $value['maphasilfk'],
-                    // detailpemeriksaan 
-                ])->first();
-                if(!empty($cek)){
-                   if($value['hasil'] == '' && $value['produkfk'] != 4082520)  //4082520 itu untuk kondisi "Pembacaan BMP"
-                   {
-                       $hapus = HasilLaboratorium::where(
-                            [
-                                'noregistrasifk' => $value['noregistrasifk'],
-                                'norecpelayanan' => $value['norecpelayanan'],
-                                'produkfk' => $value['produkfk'],
-                                'detailpemeriksaan' => $value['detailpemeriksaan'],
-                                'maphasilfk' => $value['maphasilfk'],
-                                
-                            ]
-                        )->delete();
-                   }else
-                   {
-                        
-
-                        $update = HasilLaboratorium::where([
+        //        $kdProfile = $this->getDataKdProfile($request);
+                $idProfile = 0;//(int) $kdProfile;
+                DB::beginTransaction();
+                // try{
+                    foreach ($request['hasil'] as $key => $value) {
+                        $cek =  HasilLaboratorium::where([
                             // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
                             // 'norecpelayanan',$value['norecpelayanan']
+        
                             'noregistrasifk' => $value['noregistrasifk'],
                             'norecpelayanan' => $value['norecpelayanan'],
                             'produkfk' => $value['produkfk'],
-                            'detailpemeriksaan' => $value['detailpemeriksaan'],
+                            // 'detailpemeriksaan' => $value['detailpemeriksaan'],
+                            'norec' => $value['norec_hasil'],
                             'maphasilfk' => $value['maphasilfk'],
-                            
-                        ])->update(
-                            [
-                                'hasil' => $value['hasil'],
-                                'flag' => $value['flag'],
-                                'maphasilfk' => $value['maphasilfk'],
-                                'hasil_s' => $value['hasil_s'],
-                                'hasil_i' => $value['hasil_i'],
-                                'catatan' => $value['catatan'],
-                                // 'catatancetak' => $value['catatancetak'],
-                                'catatancetak' => $value['catatancetak'],
-                                'skor' => $value['skor'],
-                                'satuan' => $value['satuan'],
-                                'nilainormal' => $value['nilainormal'],
-                            ]
-                        );
-
+                            // detailpemeriksaan
+                        ])->first();
+                        if(!empty($cek)){
+                            $norec[] = $value['norec_hasil'];
+                           if($value['hasil'] == '')
+                           {
+                               $hapus = HasilLaboratorium::where(
+                                    [
+                                        'noregistrasifk' => $value['noregistrasifk'],
+                                        'norecpelayanan' => $value['norecpelayanan'],
+                                        'produkfk' => $value['produkfk'],
+                                        'detailpemeriksaan' => $value['detailpemeriksaan'],
+                                        'maphasilfk' => $value['maphasilfk'],
+                                        
+                                    ]
+                                )->delete();
+                           }else
+                           {
+                                $update = HasilLaboratorium::where([
+                                    // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
+                                    // 'norecpelayanan',$value['norecpelayanan']
+                                    'noregistrasifk' => $value['noregistrasifk'],
+                                    'norecpelayanan' => $value['norecpelayanan'],
+                                    'produkfk' => $value['produkfk'],
+                                    'detailpemeriksaan' => $value['detailpemeriksaan'],
+                                    'maphasilfk' => $value['maphasilfk'],
+                                    
+                                ])->update(
+                                    [
+                                        'hasil' => $value['hasil'],
+                                        'flag' => $value['flag'],
+                                        'maphasilfk' => $value['maphasilfk'],
+                                        'hasil_s' => $value['hasil_s'],
+                                        'hasil_i' => $value['hasil_i'],
+                                        'catatan' => $value['catatan'],
+                                        'catatancetak' => $value['catatancetak'],
+                                        'skor' => $value['skor'],
+                                        'satuan' => $value['satuan'],
+                                        'nilainormal' => $value['nilainormal'],
+                                    ]
+                                );
+                            }
+                        }else
+                        {
+                            $h = new HasilLaboratorium();
+                            $noreclah =  $h->generateNewId();
+                            $h->norec = $noreclah;
+                            $h->kdprofile = $idProfile;
+                            $h->statusenabled = true;
+                            $h->tglhasil = date('Y-m-d H:i:s');
+                            $h->pegawaifk = $this->getCurrentUserID();
+                            $h->hasil = $value['hasil'];
+                            $h->noregistrasifk = $value['noregistrasifk'];
+                            $h->produkfk = $value['produkfk'];
+                            $h->flag = $value['flag'];
+                            $h->detailpemeriksaan = $value['detailpemeriksaan'];
+                            $h->norecpelayanan = $value['norecpelayanan'];
+                            $h->maphasilfk = $value['maphasilfk'];
+                            $h->hasil_s = $value['hasil_s'];
+                            $h->hasil_i = $value['hasil_i'];
+                            $h->catatan = $value['catatan'];
+                            $h->catatancetak = $value['catatancetak'];
+                            $h->skor = $value['skor'];
+                            $h->satuan = $value['satuan'];
+                            $h->nilainormal = $value['nilainormal'];
+                            $h->save();
+                            $norec[] = $h->norec;
+                            //loging
+                           
+                        }
+        
+                        # code...
+                        $dataResistrasi = DB::select(DB::raw(" SELECT        pasiendaftar_t.noregistrasi
+                                                                 FROM            pasiendaftar_t INNER JOIN
+                                                                antrianpasiendiperiksa_t ON pasiendaftar_t.norec = antrianpasiendiperiksa_t.noregistrasifk
+                                                                where antrianpasiendiperiksa_t.norec ='$value[noregistrasifk]'"));     
+                        $newId = LoggingUser::max('id');
+                        $newId = $newId +1;
+                        $logUser = new LoggingUser();
+                        $logUser->id = $newId;
+                        $logUser->norec = $logUser->generateNewId();
+                        $logUser->kdprofile= 11;
+                        $logUser->statusenabled=true;
+                        $logUser->jenislog = 'Save Hasil Lab';
+                        $logUser->noreff = $request['norec_pd'];
+                        $logUser->referensi='Save Hasil Lab';
+                        $logUser->objectloginuserfk = $this->getCurrentUserID();
+                        $logUser->tanggal = $this->getDateTime()->format('Y-m-d H:i:s');
+                        if(!empty($dataResistrasi))
+                        {
+                            foreach($dataResistrasi as $asup)
+                            {
+                                $logUser->keterangan = 'No Registrasi'.$asup->noregistrasi .' / detailpemeriksaan : '.$value['detailpemeriksaan']   .' / Hasil : '.$value['hasil'];
+                     
+                            }
+                          
+                        }
+                        else
+                        {
+                            $logUser->keterangan = 'No Registrasi f '.$value['noregistrasifk'] .' / detailpemeriksaan : '.$value['detailpemeriksaan']   .' / Hasil : '.$value['hasil'];
+                     
+                        }
                        
-                        
-                    }
-                }else
-                {
-                    $h = new HasilLaboratorium();
-                    $noreclah =  $h->generateNewId();
-                    $h->norec = $noreclah;
-                    $h->kdprofile = $idProfile;
-                    $h->statusenabled = true;
-                    $h->tglhasil = date('Y-m-d H:i:s');
-                    $h->pegawaifk = $this->getCurrentUserID();
-                    $h->hasil = $value['hasil'];
-                    $h->noregistrasifk = $value['noregistrasifk'];
-                    $h->produkfk = $value['produkfk'];
-                    $h->flag = $value['flag'];
-                    $h->detailpemeriksaan = $value['detailpemeriksaan'];
-                    $h->norecpelayanan = $value['norecpelayanan'];
-                    $h->maphasilfk = $value['maphasilfk'];
-                    $h->hasil_s = $value['hasil_s'];
-                    $h->hasil_i = $value['hasil_i'];
-                    $h->catatan = $value['catatan'];
-                    $h->catatancetak = $value['catatancetak'];
-                    $h->skor = $value['skor'];
-                    $h->satuan = $value['satuan'];
-                    $h->nilainormal = $value['nilainormal'];
-                    $h->save();
-                    $norec[] = $h->norec;
-                    //loging
-                   
-                }
-
-                # code...
-                $dataResistrasi = DB::select(DB::raw(" SELECT        pasiendaftar_t.noregistrasi
-                                                         FROM            pasiendaftar_t INNER JOIN
-                                                        antrianpasiendiperiksa_t ON pasiendaftar_t.norec = antrianpasiendiperiksa_t.noregistrasifk
-                                                        where antrianpasiendiperiksa_t.norec ='$value[noregistrasifk]'"));     
-                  $newId = LoggingUser::max('id');
-                  $newId = $newId +1;
-                  $logUser = new LoggingUser();
-                  $logUser->id = $newId;
-                // $logUser->id = $newId;
-                // $logUser->id = $runningNumberNew;
-                $logUser->norec = $logUser->generateNewId();
-                $logUser->kdprofile= 11;
-                $logUser->statusenabled=true;
-                $logUser->jenislog = 'Save Hasil Lab';
-                $logUser->noreff = $request['norec_pd'];
-                $logUser->referensi='Save Hasil Lab';
-                $logUser->objectloginuserfk = $this->getCurrentUserID();
-                $logUser->tanggal = $this->getDateTime()->format('Y-m-d H:i:s');
-                if(!empty($dataResistrasi))
-                {
-                    foreach($dataResistrasi as $asup)
-                    {
-                        $logUser->keterangan = 'No Registrasi'.$asup->noregistrasi .' / detailpemeriksaan : '.$value['detailpemeriksaan']   .' / Hasil : '.$value['hasil'];
-             
-                    }
-                  
-                }
-                else
-                {
-                    $logUser->keterangan = 'No Registrasi f '.$value['noregistrasifk'] .' / detailpemeriksaan : '.$value['detailpemeriksaan']   .' / Hasil : '.$value['hasil'];
-             
-                }
-               
-                //            try {
+                        //            try {
+                
+                        $logUser->save();
         
-                $logUser->save();
-                // try {
-                    // $updateRN = RunningNumber::where('id', '13546')
-                    //     ->update(
-                    //         [
-                    //             'nomer_terbaru' => $runningNumberNew
+                    }
         
-                    //         ]
-                    //     );
-                    // $transStatus = 'true';
+        
+        
+                    $transStatus = 'true';
                 // } catch (\Exception $e) {
                 //     $transStatus = 'false';
-                //     $transMessage = "update Running Number";
+        
                 // }
-
+        
+                if ($transStatus == 'true') {
+                    $transMessage = "Sukses";
+                    DB::commit();
+                    $ihs = null;
+        
+                    foreach ($norec as $it) {
+                        $objetoRequest = new \Illuminate\Http\Request();
+                        $objetoRequest['norec_hasil'] = $it;
+                        $ihs = app('App\Http\Controllers\Bridging\IHSController')->ObservationLab($objetoRequest, true);
+                    }
+                    $ihs2 = null;
+        
+                    $objetoRequest2 = new \Illuminate\Http\Request();
+                    $objetoRequest2['norec_hasil'] = $it;
+                    $objetoRequest2['norec_arr'] = $norec;
+        
+                    $ihs2 = app('App\Http\Controllers\Bridging\IHSController')->DiagnosticReport($objetoRequest2, true);
+        
+        
+                    $result = array(
+                        "status" => 201,
+                        "message" => $transMessage,
+                        "Observation" => $ihs,
+                        "DiagnosticReport" => $ihs2,
+                        "norec" => $norec,
+                        "as" => 'er@epic',
+                    );
+        
+                } else {
+                    $transMessage = "Simpan  gagal!!";
+                    DB::rollBack();
+                    // dd($result);
+                    $result = array(
+                        "status" => 400,
+                        "message"  => $transMessage,
+                        "e"=>$e,
+                        "as" =>'er@epic',
+                    );
+                }
+                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
             }
-
-
-
-            $transStatus = 'true';
-        // } catch (\Exception $e) {
-        //     $transStatus = 'false';
-
-        // }
-
-        if ($transStatus == 'true') {
-            $transMessage = "Sukses";
-            DB::commit();
-            $ihs = null;
-
-            foreach ($norec as $it) {
-                $objetoRequest = new \Illuminate\Http\Request();
-                $objetoRequest['norec_hasil'] = $it;
-                $ihs = app('App\Http\Controllers\Bridging\IHSController')->ObservationLab($objetoRequest, true);
-            }
-            $ihs2 = null;
-
-            $objetoRequest2 = new \Illuminate\Http\Request();
-            $objetoRequest2['norec_hasil'] = $it;
-            $objetoRequest2['norec_arr'] = $norec;
-
-            $ihs2 = app('App\Http\Controllers\Bridging\IHSController')->DiagnosticReport($objetoRequest2, true);
-
-
-            $result = array(
-                "status" => 201,
-                "message" => $transMessage,
-                "Observation" => $ihs,
-                "DiagnosticReport" => $ihs2,
-                "norec" => $norec,
-                "as" => 'er@epic',
-            );
-
-        } else {
-            $transMessage = "Simpan  gagal!!";
-            DB::rollBack();
-            // dd($result);
-            $result = array(
-                "status" => 400,
-                "message"  => $transMessage,
-                "e"=>$e,
-                "as" =>'er@epic',
-            );
-        }
-        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-    }
-
+        
 
     public function saveTAT(Request $request) {
 
