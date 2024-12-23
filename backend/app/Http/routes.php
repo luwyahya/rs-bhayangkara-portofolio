@@ -147,6 +147,19 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-pasien-ambulance', 'Ambulance\AmbulanController@savePasienAmbulance');
             Route::post('save-suratjalan', 'Ambulance\AmbulanController@savesuratjalan');
             Route::get('get-suratjalan', 'Ambulance\AmbulanController@getsuratjalan');
+            Route::post('save-surat-kematian', 'Ambulance\AmbulanController@SaveSuratKematian');
+            Route::get('get-inputan-kematian', 'Ambulance\AmbulanController@getInputanKematian');
+            Route::post('save-surat-kematian-registrasi', 'Ambulance\AmbulanController@SaveSuratKematianOperator');
+            Route::get('get-data-for-combo-emr', 'Ambulance\AmbulanController@GetDataForComboAmbulanEmr');
+            Route::get('get-status-kependudukan', 'Ambulance\AmbulanController@GetStatusKependudukan');
+            Route::post('save-surat-kematian-resume', 'Ambulance\AmbulanController@SaveSuratKematianResume');
+            Route::get('get-status-kematian', 'Ambulance\AmbulanController@GetStatusKematian');
+            Route::get('get-umur-kematian', 'Ambulance\AmbulanController@GetUmurKematian');
+
+            //--ash 2024-01-29
+            Route::get('get-cetak-pertama-surat-kematian', 'Ambulance\AmbulanController@getcetakPertamaSuratKematian');
+            Route::get('get-nopol', 'Ambulance\AmbulanController@getNopol');
+            Route::post('batal-cetak-kematian', 'Ambulance\AmbulanController@BatalCetakKematian');
         });
         Route::group(['prefix' => 'askep'], function () {
         });

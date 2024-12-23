@@ -12308,10 +12308,10 @@ class EMRController  extends ApiController
                 $newPP->dosis = $r_PPL['dosis'];
                 $newPP->rke = $r_PPL['rke'];
                 $newPP->satuanviewfk = $r_PPL['satuanviewfk'];
-                $newPP->ispagi = $r_PPL['ispagi'];
-                $newPP->issiang = $r_PPL['issiang'];
-                $newPP->ismalam = $r_PPL['ismalam'];
-                $newPP->issore = $r_PPL['issore'];
+                $newPP->ispagi = !empty($r_PPL['ispagi']) ? $r_PPL['ispagi'] : null;
+                $newPP->issiang = !empty($r_PPL['issiang']) ? $r_PPL['issiang'] : null;
+                $newPP->ismalam = !empty($r_PPL['ismalam']) ? $r_PPL['ismalam'] : null;
+                $newPP->issore = !empty($r_PPL['issore']) ? $r_PPL['issore'] : null;                
                 $newPP->keteranganpakai = $r_PPL['keterangan'];
                 if (isset($r_PPL['routefk'])) {
                     $newPP->routefk = $r_PPL['routefk']; //5;

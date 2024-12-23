@@ -19,10 +19,13 @@ use App\Transaksi\StrukOrder;
 use App\Transaksi\suratjalanambulance;
 use App\Transaksi\StrukPelayanan;
 use App\Transaksi\StrukPelayananDetail;
+use App\Transaksi\PasienMeninggal;
 use App\Master\Pasien;
 use App\Master\Alamat;
 use DB;
 use Illuminate\Http\Request;
+// use Illuminate\Support\Facades\Redis; // SYAMSU
+
 class AmbulanController extends ApiController{
     use Valet;
     public function __construct(){
@@ -2129,4 +2132,558 @@ class AmbulanController extends ApiController{
         );
         return $this->respond($result);
     }
+    public function SaveSuratKematian(Request $request) {
+        DB::beginTransaction();
+        try{
+
+            $tglmakam = null;
+            if ($request['tgldimakamkan'] == 'Invalid date'){
+                $tglmakam= null;
+            }else{
+                $tglmakam = $request['tgldimakamkan'];
+            }
+            $tglmeninggalluar = null;
+            if ($request['tglmeninggalluar'] == 'Invalid date'){
+                $tglmeninggalluar= null;
+            }else{
+                $tglmeninggalluar = $request['tglmeninggalluar'];
+            }
+            $waktupemeriksaan = null;
+            if ($request['waktupemeriksaan'] == 'Invalid date'){
+                $waktupemeriksaan= null;
+            }else{
+                $waktupemeriksaan= $request['waktupemeriksaan'];
+            }
+            $doktermenerangkan = null;
+            if ($request['doktermenerangkan'] == null){
+                $doktermenerangkan= null;
+            }else{
+                $doktermenerangkan =$request['doktermenerangkan'];
+            }
+
+            $nosuratkematian = null;
+
+            if ( PasienMeninggal::where('norec', $request['norec'])->exists()) {
+                    $data = PasienMeninggal::where('norec', $request['norec'])->first();      
+                    $nosuratkematian = $request['nosuratkematian'];         
+                } else {
+                    $data = new PasienMeninggal();
+                    $data->norec = $data->generateNewId();                    
+                    $nosuratkematian = $this->generateCodeBySeqTableKematian(new PasienMeninggal, 'nosuratkematian', 17, 'ML/'); 
+                }
+
+                
+
+           if (!empty($request['norec'])) {
+            $updatePD= PasienMeninggal::where('norec', $request['norec'])
+                    ->update([  
+                            //tambahan surat kematian
+                            'objectstatuskependudukanfk' => $request['statuskependudukan'],
+                            'objectstatusjenazahfk' => $request['statusjenazah'],
+                            'namapemeriksajenazah' => $request['namapemeriksajenazah'],
+                            'objectkualifikasipemeriksafk' => $request['kualifikasipemeriksajenazah'],
+                            'objectdasardiagnosisfk' => $request['dasardiagnosis'],
+                            'penyebablangsunga' => $request['penyebablangsunga'],
+                            'penyebablangsungb' => $request['penyebablangsungb'],
+                            'penyebablangsungc' => $request['penyebablangsungc'],
+                            'penyebablangsungd' => $request['penyebablangsungd'],
+                            'kondisilain' => $request['kondisilain'],
+                            'penyebabutamabayi' => $request['penyebabutamabayi'],
+                            'penyebablainbayi' => $request['penyebablainbayi'],
+                            'penyebabutamaibu' => $request['penyebabutamaibu'],
+                            'penyebablainibu' => $request['penyebablainibu'],
+                            'tgldimakamkan' => $tglmakam,
+                            'tglmeninggalkematian' => $tglmeninggalluar,
+                            'waktupemeriksaan' => $waktupemeriksaan,
+                            'objectdokterfk' => $doktermenerangkan,
+                            'namajenazah' => $request['namajenazah'],
+                            'perkiraanumur' => $request['perkiraanumur'],
+                            'tempatmeninggal' => $request['tempatmeninggal'],
+                            'objectpenyebabkematianfk' => $request['penyebabkematian']
+                            
+                            // 'tglkematian' => $r_NewPD['tglkematian'],
+                        ]
+                    );
+                }else{
+                    $data->statusenabled = 1;
+                    $data->nosuratkematian = $nosuratkematian;
+
+                    $data->noregistrasi = $request['noregistrasi'];
+
+                    $data->objectstatuskependudukanfk = $request['statuskependudukan'];
+                    $data->objectdasardiagnosisfk = $request['dasardiagnosis'];
+                    $data->penyebablangsunga = $request['penyebablangsunga'];
+                    $data->penyebablangsungb = $request['penyebablangsungb'];
+                    $data->penyebablangsungc = $request['penyebablangsungc'];
+                    $data->penyebablangsungd = $request['penyebablangsungd'];
+                    $data->kondisilain = $request['kondisilain'];
+                    $data->penyebabutamabayi = $request['penyebabutamabayi'];
+                    $data->penyebablainbayi = $request['penyebablainbayi'];
+                    $data->penyebabutamaibu = $request['penyebabutamaibu'];
+                    $data->penyebablainibu = $request['penyebablainibu']; 
+                    $data->tgldimakamkan = $tglmakam;
+                    $data->tglmeninggalkematian = $tglmeninggalluar;
+                    $data->waktupemeriksaan = $waktupemeriksaan;
+                    $data->asalinputankematian = $request['asalinputankematian'];
+                    $data->namajenazah = $request['namajenazah'];
+                    $data->objectstatusjenazahfk = $request['statusjenazah'];
+                    $data->namapemeriksajenazah = $request['namapemeriksajenazah'];
+                    $data->objectkualifikasipemeriksafk = $request['kualifikasipemeriksajenazah'];
+                    $data->perkiraanumur = $request['perkiraanumur'];
+                    $data->tempatmeninggal = $request['tempatmeninggal'];
+                    $data->objectpenyebabkematianfk = $request['penyebabkematian'];
+                    $data->objectdokterfk = $doktermenerangkan;
+
+                    $data->save();
+                }
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "simpan PelPasien";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Input Kematian Sukses";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        } else {
+            $transMessage = "Input Kematian Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getInputanKematian(Request $request){
+        $data = \DB::table('pasiendaftar_t as pd')        
+        ->leftjoin('kualifikasipemeriksa_m AS kp', 'kp.id','=','pd.objectkualifikasipemeriksafk')
+        ->leftjoin('dasardiagnosis_m AS dd','dd.id','=','dd.objectdasardiagnosisfk')
+        ->leftjoin('pegawai_m as pg','pg.id','=','pd.objectdoktermenerangkanfk')
+        ->leftJoin('pasienmeninggal_t as pmt', 'pmt.noregistrasi', '=', 'pd.noregistrasi')
+        ->leftjoin('statuskependudukan_m as sk','sk.id','=','pmt.objectstatuskependudukanfk')
+        ->leftjoin('statusjenazah_m AS sj', 'sj.id','=','pmt.objectstatusjenazahfk')
+        ->select('sk.id as skid','sj.id as sjid','kp.id as kpid','dd.id as ddid','pd.noregistrasi', 'sk.statuskependudukan', 'sj.statusjenazah', 'kp.kualifikasipemeriksa', 'dd.dasardiagnosis', 'pd.tgldimakamkan', 'pmt.namapemeriksajenazah', 'pmt.penyebablangsunga', 
+        'pmt.penyebablangsungb', 'pmt.penyebablangsungc','pmt.penyebablangsungd', 'pmt.kondisilain', 'pmt.penyebabutamabayi', 'pmt.penyebablainbayi', 'pmt.penyebabutamaibu', 'pmt.penyebablainibu', 'pmt.waktupemeriksaan','pg.namalengkap','pmt.objectdokterfk', 'pmt.waktupemeriksaan', 
+        'pmt.namapemeriksajenazah', 'pmt.objectkualifikasipemeriksafk', 'pmt.waktupemeriksaan', 'pmt.tgldimakamkan', 'pmt.penerimajenazah', 'pmt.nik', 'pmt.nokk', 'pmt.hubunganjenazahpenerima', 'pmt.nosuratkematian', 'pmt.asalinputankematian',  
+        'pmt.tglmeninggalkematian as tglmeninggalluar','pmt.nopol as nopol','pmt.petugas as petugas', 'pmt.perkiraanumur', 'pmt.tempatmeninggal', 'pmt.objectpenyebabkematianfk')
+        ->where('pd.noregistrasi', $request['noregistrasi'])
+        ->first();
+
+        $data =array(
+            'data' => $data,
+            'message' => 'Inhuman'
+        );
+        return $this->respond($data);
+    }
+    public function SaveSuratKematianOperator(Request $request) {
+        DB::beginTransaction();
+        try{
+            $updatePD= PasienMeninggal::where('noregistrasi', $request['noregistrasi'])
+                    ->update([
+                            'penerimajenazah' => $request['penerimajenazah'],
+                            'nik' => $request['nik'],
+                            'hubunganjenazahpenerima' => $request['hubunganjenazahpenerima'],
+                            'nokk' => $request['nokk'],
+                            'nopol' => $request['nopol'],
+                            'petugas' => $request['petugas']
+                        ]
+                    );
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "simpan PelPasien";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Input Penerima Jenazah Sukses";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'Kang Mikir',
+            );
+        } else {
+            $transMessage = "Input Penerima Jenazah Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'Kang Mikir',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    //--ash 2024-01-29------
+    public function getcetakPertamaSuratKematian(Request $request) {
+        $iscetak=0;
+        $cekpasien=PasienMeninggal::where('noregistrasi', $request['noregistrasi'])
+                    ->select('noregistrasi','iscetak')->get();
+
+        foreach($cekpasien as $cek) {
+            if(!empty($cek->iscetak)) $iscetak=$cek->iscetak;
+        }
+
+        $updatePD=0;
+        if(!$iscetak) {
+            //DB::beginTransaction();
+            //try{
+            $updatePD= PasienMeninggal::where('noregistrasi', $request['noregistrasi'])
+                        ->update([
+                                'iscetak' => 1,
+                                'pegawaicetakfk' => $request['user']
+                            ]
+                        );
+
+            $transStatus = 'true';
+
+            $result=1;
+            //} catch (\Exception $e) {
+            //    $transStatus = 'false';
+            //}
+
+            //if ($transStatus == 'true') {
+            //    $result=1;
+            //} else {
+            //    $result=0;
+            //}
+        } else {
+            $result=0;
+        }
+
+        
+        $data =array(
+            'data' => $result,
+            'cek' => $cek->iscetak,
+            'cekiscetak' => $iscetak,
+            'updatePD' => $updatePD,
+            'message' => 'ok'
+        );
+
+        return $this->respond($data);
+    }
+
+
+    public function getNopol(Request $request) {
+        /*select pd.noregistrasi, p.nocm,ru.id as ruid, ru.namaruangan, sj.*
+        from pasien_m as p
+                    left join pasiendaftar_t as pd on pd.nocmfk = p.id
+                    left join suratjalanambulance as sj on sj.noregistrasi = pd.noregistrasi
+                                left join ruangan_m as ru on ru.id = pd.objectruanganlastfk
+        where p.nocm = 'J00000048' and ru.id = 72*/
+        $iscetak=0;
+        $ceknopol=DB::table('pasien_m as p')
+                    ->leftjoin('pasiendaftar_t as pd','pd.nocmfk','=', 'p.id')
+                    ->leftjoin('suratjalanambulance as sj','sj.noregistrasi','=','pd.noregistrasi')
+                    ->leftjoin('ruangan_m as ru','ru.id','=', 'pd.objectruanganlastfk')
+                    ->select('sj.nopol','sj.namapetugas')
+                    ->where('p.nocm', $request['nocm'])
+                    ->orderBy('sj.tanggalberangkat','DESC')
+                    ->limit(1)
+                    ->get();
+        $nopol='-';$namapetugas='-';
+        foreach($ceknopol as $cek) {
+            $nopol=$cek->nopol;
+            $namapetugas=$cek->namapetugas;
+        }
+        
+        $data =array(
+            'nopol' => $nopol,
+            'petugas' => $namapetugas,
+            'nocm' => $request['nocm'],
+            'message' => 'ok'
+        );
+
+        return $this->respond($data);
+    }
+    //-----------------------------------
+
+
+
+
+
+    public function GetDataForComboAmbulanEmr(Request $request) {
+        $cache = Redis::get('getDataCombo.dataDokterNamaDokter');
+        if (empty($cache)){
+            $dokter = \DB::table('pegawai_m as p')
+            ->select('p.id','p.namalengkap as namadokter')
+            // ->where('p.kdprofile', $idProfile)
+            ->where('p.objectjenispegawaifk', 1)
+            ->where('statusenabled','true')
+            ->get();
+            Redis::set('getDataCombo.dataDokterNamaDokter', json_encode($dokter));
+        } else {
+            $dokter = json_decode($cache);
+        }           
+
+        $statuskependudukan = \DB::table('statuskependudukan_m as sk')
+            ->select('sk.id','sk.statuskependudukan')
+            ->where('sk.statusenabled', true)            
+            ->orderBy('sk.id')
+            ->get();    
+
+        $statusjenazah = \DB::table('statusjenazah_m as sj')
+            ->select('sj.id','sj.statusjenazah')
+            ->where('sj.statusenabled', true)            
+            ->orderBy('sj.id')
+            ->get();
+
+        $dasardiagnosis = \DB::table('dasardiagnosis_m as dd')
+            ->select('dd.id','dd.dasardiagnosis')
+            ->where('dd.statusenabled', true)            
+            ->orderBy('dd.id')
+            ->get();
+            
+        $kualifikasipemeriksa = \DB::table('kualifikasipemeriksa_m as kp')
+            ->select('kp.id','kp.kualifikasipemeriksa')
+            ->where('kp.statusenabled', true)            
+            ->orderBy('kp.id')
+            ->get();    
+
+        $result = array(            
+            'dokter'=>$dokter,    
+            'statuskependudukan'=> $statuskependudukan,
+            'dasardiagnosis'=> $dasardiagnosis, 
+            'kualifikasipemeriksa'=> $kualifikasipemeriksa, 
+            'statusjenazah'=> $statusjenazah, 
+        );
+
+        return $this->respond($result);
+    }
+    public function GetStatusKependudukan(Request $request){
+        $nocm = $request['nocm'];
+        $data = \DB::table('pasien_m as ps')
+        ->leftjoin('kebangsaan_m as kb', 'kb.id', '=', 'ps.objectkebangsaanfk')
+        ->leftjoin('statuskependudukan_m as sk', 'sk.id', '=', 'kb.id')
+        ->where('nocm', $nocm)
+        ->select('ps.nocm','kb.name', 'sk.id', 'sk.statuskependudukan')
+        ->first();
+        $dataa =array(
+            'data' => $data,
+            'message' => 'Asu'
+        );
+        return $this->respond($dataa);
+    }
+    // public function SaveSuratKematianResume(Request $request) { // OLD
+    //     DB::beginTransaction();
+    //     try{
+    //         $updatePD= PasienDaftar::where('noregistrasi', $request['noregistrasi'])
+    //                 ->update([
+    //                         'objectstatuskependudukanfk' => $request['statuskependudukan'],
+    //                         'objecthubungankeluargaambilpasienfk' => $request['hubunganKeluarga'],                           
+    //                         'objectdasardiagnosisfk' => $request['dasardiagnosis'],
+    //                         'penyebablangsunga' => $request['penyebablangsunga'],
+    //                         'penyebablangsungb' => $request['penyebablangsungb'],
+    //                         'penyebablangsungc' => $request['penyebablangsungc'],
+    //                         'penyebablangsungd' => $request['penyebablangsungd'],
+    //                         'penyebablangsunge' => $request['kondisilain'],
+    //                         'penyebabutamabayi' => $request['penyebabutamabayi'],
+    //                         'penyebablainbayi' => $request['penyebablainbayi'],
+    //                         'penyebabutamaibu' => $request['penyebabutamaibu'],
+    //                         'penyebablainibu' => $request['penyebablainibu'],
+    //                         'tglmeninggal' => $request['tglmeninggal'],                            
+    //                         'objectdoktermenerangkanfk' => $request['doktermenerangkan'],
+    //                         'asalinputankematian' => $request['asalinputankematian'],
+    //                         'objectpenyebabkematianfk' => $request['penyebabkematian']
+    //                     ]
+    //                 );
+
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan PelPasien";
+    //     }
+
+    //     if ($transStatus == 'true') {
+    //         $transMessage = "Input Kematian Sukses";
+    //         DB::commit();
+    //         $result = array(
+    //             'status' => 201,
+    //             'message' => $transMessage,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     } else {
+    //         $transMessage = "Input Kematian Gagal";
+    //         DB::rollBack();
+    //         $result = array(
+    //             'status' => 400,
+    //             'message'  => $transMessage,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+    public function SaveSuratKematianResume(Request $request) {
+        DB::beginTransaction();
+        try {            
+                    
+ 
+                    if (!empty($request['norec']) && PasienMeninggal::where('norec', $request['norec'])->exists()) {
+                    $data = PasienMeninggal::where('norec', $request['norec'])->first();      
+                    $nosuratkematian = $request['nosuratkematian'];   
+                    
+                    //validasi harus sama asal inputan kematiannya, misal klo awalnya diinput dari resume maka klo mau edit harus dari resume juga
+                    $cek = \DB::table('pasienmeninggal_t as tewas')
+                        ->select('noregistrasi','asalinputankematian')
+                        ->where('noregistrasi', $request['noregistrasi'])
+                        ->get();
+                    if ($cek[0]->asalinputankematian != $request['asalinputankematian']) {
+                        $transMessage = "Pasien Ini Sudah Meninggal, Sudah diinputkan Data Kematiannya Dari  " . $cek[0]->asalinputankematian;
+                        DB::rollBack();
+                        $result = array(
+                            "status" => 400,
+                            "message"  => $transMessage,
+                            "as" => 'edontensei no jutsu',
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                    }
+
+                    } else {
+                    $data = new PasienMeninggal();
+                    $data->norec = $data->generateNewId();                    
+                    $nosuratkematian = $this->generateCodeBySeqTableKematian(new PasienMeninggal, 'nosuratkematian', 17, 'MD/'); 
+                    }
+
+                    $data->statusenabled = 1;
+                    $data->nosuratkematian = $nosuratkematian;
+                    $data->objectstatuskependudukanfk = $request['statuskependudukan'];
+                    $data->objecthubungankeluargaambilpasienfk = $request['hubunganKeluarga'];
+                    $data->objectdasardiagnosisfk = $request['dasardiagnosis'];
+                    $data->penyebablangsunga = $request['penyebablangsunga'];
+                    $data->penyebablangsungb = $request['penyebablangsungb'];
+                    $data->penyebablangsungc = $request['penyebablangsungc'];
+                    $data->penyebablangsungd = $request['penyebablangsungd'];
+                    $data->kondisilain = $request['kondisilain'];
+                    $data->penyebabutamabayi = $request['penyebabutamabayi'];
+                    $data->penyebablainbayi = $request['penyebablainbayi'];
+                    $data->penyebabutamaibu = $request['penyebabutamaibu'];
+                    $data->penyebablainibu = $request['penyebablainibu'];
+                    $data->tglmeninggalkematian = $request['tglmeninggal'];
+                    $data->objectdokterfk = $request['doktermenerangkan'];
+                    $data->asalinputankematian = $request['asalinputankematian'];
+                    $data->objectpenyebabkematianfk = $request['penyebabkematian'];
+                    $data->noregistrasi = $request['noregistrasi'];
+                    $data->namajenazah = $request['namajenazah'];
+                    
+                    $data->tempatmeninggal = $request['tempatmeninggal'];
+                    $data->objectstatusjenazahfk = $request['statusjenazah'];
+                    $data->tgldikremasi = $request['tgldikremasi'];
+                    $data->pemeriksajenazah = $request['pemeriksajenazah'];
+                    $data->objectkualifikasipemeriksafk = $request['kualifikasipemeriksa'];
+                    $data->waktupemeriksaan = $request['waktupemeriksaan'];
+                    $data->save();
+                    $norec = $data->norec;
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Input Kematian Berhasil Di Simpan";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "data" => $data,
+                "as" => 'Kang Mikir',
+            );
+        } else {
+            $transMessage = "Input Kematian Gagal Di Simpan";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                "data" => $data,
+                "as" => 'Kang Mikir',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function GetStatusKematian(Request $request){
+        $noregistrasi = $request['noregistrasi'];
+        $data = \DB::table('pasienmeninggal_t as pm')
+        ->leftjoin('hubungankeluarga_m as hk','hk.hubungankeluargakematianfk','=','pm.objecthubungankeluargaambilpasienfk')
+        ->leftjoin('statuskependudukan_m as sk','sk.id','=','pm.objectstatuskependudukanfk')
+        ->leftjoin('dasardiagnosis_m as dd','dd.id','=','pm.objectdasardiagnosisfk')
+        ->leftjoin('penyebabkematian_m as pk','pk.id','=','pm.objectpenyebabkematianfk')
+        ->leftjoin('pegawai_m as pg','pg.id','=','pm.objectdokterfk')
+        ->where('noregistrasi', $noregistrasi)
+        ->select('pm.norec', 'pm.tglmeninggalkematian', 'hk.hubungankeluargakematianfk','hk.hubungankeluargakematian', 'sk.statuskependudukan', 'sk.id as skid', 'dd.dasardiagnosis', 'dd.id as ddid', 'pk.penyebabkematian',
+        'pk.id as pkid', 'pg.namalengkap', 'pg.id as pgid', 'pm.tglmeninggalkematian', 'pm.penyebablangsunga', 'pm.penyebablangsungb', 'pm.penyebablangsungc', 'pm.penyebablangsungd', 'pm.penyebablangsungd', 'pm.penyebablangsunge', 'pm.penyebabutamabayi',
+        'pm.penyebabutamaibu', 'pm.penyebablainbayi', 'pm.penyebablainibu','pm.nosuratkematian','pm.kondisilain')
+        ->OrderBy('pm.tglmeninggalkematian', 'desc')
+        ->first();
+        $dataa =array(
+            'data' => $data,
+            'message' => 'Kang Mikir'
+        );
+        return $this->respond($dataa);
+    }
+    public function GetUmurKematian(Request $request){
+        $noregistrasi = $request['noregistrasi'];
+        // $data = \DB::table('pasienmeninggal_t as pm')
+        // ->leftjoin('pasiendaftar_t as pd','pd.noregistrasi','=','pm.noregistrasi')
+        // ->leftjoin('pasien_m as ps','ps.id','=','pd.nocmfk')
+        // ->where('pm.noregistrasi', $noregistrasi)
+        // ->select('pm.norec', 'pm.tglmeninggalkematian','ps.tgllahir')
+        // ->OrderBy('pm.tglmeninggalkematian', 'desc')
+        // ->first();
+        $data = \DB::table('pasiendaftar_t as pd')       
+        ->leftjoin('pasien_m as ps','ps.id','=','pd.nocmfk')
+        ->where('pd.noregistrasi', $noregistrasi)
+        ->select('pd.norec', 'pd.tglmeninggal as tglmeninggalkematian','ps.tgllahir')
+        ->OrderBy('pd.tglmeninggal', 'desc')
+        ->first();
+        $dataa =array(
+            'data' => $data,
+            'message' => 'Kang Mikir'
+        );
+        return $this->respond($dataa);
+    }
+    public function BatalCetakKematian(Request $request) {
+        DB::beginTransaction();
+        try{
+            $update= PasienMeninggal::where('noregistrasi', $request['noregistrasi'])
+                    ->update([
+                        'iscetak' => NULL
+                        ]
+                    );
+
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Batal Cetak Kematian Berhasil";
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Batal Cetak Kematian Berhasil";
+            DB::commit();
+            $result = array(
+                'status' => 201,
+                'message' => $transMessage,
+                'as' => 'ramdanegie',
+            );
+        } else {
+            $transMessage = "Batal Cetak Kematian Gagal";
+            DB::rollBack();
+            $result = array(
+                'status' => 400,
+                'message'  => $transMessage,
+                'as' => 'IT_SESAT',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
 }
