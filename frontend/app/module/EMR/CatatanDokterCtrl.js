@@ -4788,10 +4788,10 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 //     alert("Nomor Ruangan Tidak Boleh Kosong!!")
                 //     return
                 // }
-                if ($scope.item.caraAmbil == undefined) {
-                    alert("Cara Ambil Mohon Diisi Terlebih Dahulu!!")
-                    return
-                }
+                // if ($scope.item.caraAmbil == undefined) {
+                //     alert("Cara Ambil Mohon Diisi Terlebih Dahulu!!")
+                //     return
+                // }
 
                 var checkRP = 0;
                 if ($scope.checkResepPulang == true) {
