@@ -251,7 +251,7 @@ from pasiendaftar_t as pd left outer join
        sdm_kedudukan_m as ked on ked.id = pg.kedudukanfk left join
        tandatanganppa_t as ttp on ttp.objectpegawaifk = pg.id left join
        pangkat_m as pt on pt.id = pg.objectpangkatfk
-       where pg.id = '$r[idPegawai]'
+       where pg.id = $r[idPegawai]
        "))->first();
         if (!empty($raw)) {
             $raw->umur = $this->getAge($raw->tgllahir, date('Y-m-d'));
@@ -268,7 +268,7 @@ from pasiendaftar_t as pd left outer join
         $now =  $this->getDateTime();
 
         return view(
-            'report.pdf.ttd',
+            'report.pdf.t',
             compact('raw', 'pageWidth', 'r', 'now')
         );
     }
