@@ -65,7 +65,7 @@
                                             <br>
                                           </b> --}}
                                           <b> 
-                                            <font style="font-size: 18pt" color="#000000">RSB TK.IIII CIANJUR</font>
+                                            <font style="font-size: 18pt" color="#000000">RSB TK.IV CIANJUR</font>
                                             <br>
                                           </b>
                                           <font size="3" color="#000000" style="font-weight: bold"> Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Jawa Barat 43211<font>
