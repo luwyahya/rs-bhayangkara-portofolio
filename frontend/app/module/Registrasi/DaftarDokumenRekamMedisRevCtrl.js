@@ -24,6 +24,7 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 until3: new Date(moment($scope.now).format('YYYY-MM-DD 23:59:59')),
                 rows: 100
             }
+            let nocm = '';
             $scope.pasienBatal = false;
             $scope.tglregistrasi = true
             $scope.tglkembali = false
@@ -940,6 +941,12 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                         title: "No Antrian"
                     },
                     {
+                        field: "documents",
+                        title: "Dokumen",
+                        width: "100px",
+                        template: "<button class=\"k-button custom-button\" ng-click=\"documents(dataItem)\"  style=\"margin:0 0 5px\">Dokumen</button> "
+                    },
+                    {
                         field: "catatan",
                         title: "Catatan"
                     },
@@ -1071,6 +1078,39 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
 
                 ],
             };
+            $scope.documents = function (data) {
+                //disini
+                debugger
+                nocm = data.nocm
+                medifirstService.get("registrasi/get-ruangan-pasien?norec_pd=" + data.norecpd)
+                    .then(function (dat) {
+                        $scope.listRuangan = dat.data;
+                    });
+                medifirstService.get("registrasi/get-data-combo-dokumen?jenisdokumen=EMR")
+                    .then(function (dat) {
+                        $scope.listDokumen = dat.data;
+                    });
+                $scope.selectedDocuments = data;
+                getListDokumen(data.norecpd)
+            }
+            function getListDokumen(norec_pd) {
+                medifirstService.get("registrasi/get-data-list-dokumen?norec_pd=" + norec_pd)
+                    .then(function (dat) {
+                        $scope.sourceDataListDokumen = new kendo.data.DataSource({
+                            data: dat.data,
+                            pageSize: 10,
+                            total: dat.data.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {}
+                                }
+                            }
+                        });
+                    });
+                $scope.popupDokumen.center().open()
+            }
+
             $scope.terimadokumen = function (dataPasienSelected) {
 
                 if (dataPasienSelected.tglkeluar == "") {
@@ -1100,6 +1140,69 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 $scope.winTerima2.close();
                 panggilsemua();
 
+            }
+            $scope.upload = function () {                
+                if ($scope.item.tglDokumen == undefined || $scope.item.tglDokumen == "") {
+                    toastr.error('Tanggal Dokumen Belum diPilih')
+                    return
+                }
+                if ($scope.item.namaruangan == undefined || $scope.item.namaruangan == "") {
+                    toastr.error('Ruangan Pasien Belum diPilih')
+                    return
+                }
+                if ($scope.item.jenisdokumen == undefined || $scope.item.jenisdokumen == "") {
+                    toastr.error('Jenis Dokumen Belum diPilih')
+                    return
+                }
+    
+                let a = document.getElementById("base64textarea").value
+                let b = document.getElementById("base64textarea").name
+
+                if (a == "") {
+                    toastr.error('Dokumen Belum diPilih')
+                    return
+                }
+                
+
+                var objData = {
+                    nocmfk: $scope.selectedDocuments.nocmfk,
+                    namafile: b,
+                    base64File: a,
+                    norec_pd: $scope.selectedDocuments.norecpd,
+                    norec_apd: $scope.selectedDocuments.norecapd,
+                    tglDokumen: new moment($scope.item.tglDokumen).format('YYYY-MM-DD HH:mm:ss'),
+                    // norecpd: $scope.selectedDocuments.norecpd,
+                    objectruanganfk: $scope.item.namaruangan.id,
+                    jenisdokumenfk: $scope.item.jenisdokumen.id,
+                    // objectjenisdokumencasemix: $scope.item.namadokumen.id,
+                    // tglDokumen: $scope.item.tglDokumen
+                }
+
+                medifirstService.post('registrasi/upload-dokumen', objData).then(function (e) {
+                    getListDokumen($scope.selectedDocuments.norecpd);
+                    document.getElementById("base64textarea").value = "";
+                    document.getElementById("base64textarea").name = "";
+                    document.getElementById("filePicker").value = ""; // Reset nilai input file
+                    document.getElementById("filePicker").setAttribute("placeholder", "Choose file"); // Atur placeholder
+                    // $scope.sourceDataListDokumen = new kendo.data.DataSource({
+                    //     data: e.data.data,
+                    //     pageSize: 10,
+                    //     total: e.data.data.length,
+                    //     serverPaging: false,
+                    //     schema: {
+                    //         model: {
+                    //             fields: {}
+                    //         }
+                    //     }
+                    // });
+                })
+            }
+            $scope.ClosePopUpDokumen = function () {                
+                $scope.item.namaruangan = ''
+                $scope.item.jenisdokumen = ''
+                $scope.item.tglDokumen = ''
+                $scope.selectedDocuments.norecpd = ''
+                $scope.popupDokumen.center().close()
             }
             $scope.hapusdokumen = function (dataPasienSelected) {
                 debugger;

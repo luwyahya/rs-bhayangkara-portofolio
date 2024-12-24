@@ -796,6 +796,61 @@
         <div class="clear">
             <button class="k-button" ng-click="pilihQty(dats)" style="float:right;margin-top:4%">Cetak</button>
         </div>
+        <div kendo-window="popupDokumen" k-title="'Dokumen'" k-width="1200" k-visible="false"
+k-on-open="win2visible = true" k-on-close="win2visible = false" k-actions="{close: false}">
+<div class="panel panel-default container_12" style="padding: 0px 10px;">
+    <div class="grid_3" style="margin-top:5px">
+        <label c-label item="item " c-label-text="Ruangan " real></label>
+        <input style="width: 100%; " kendo-combo-box k-ng-model="item.namaruangan "
+            k-data-text-field=" 'namaruangan' " k-filter=" 'contains' " k-data-value-field=" 'value' "
+            k-auto-bind="false " k-data-source="listRuangan" />
+    </div>
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label item="item " c-label-text="jenis Dokumen " real></label>
+        <input style="width: 100%; " kendo-combo-box k-ng-model="item.jenisdokumen "
+            k-data-text-field=" 'jenisdokumen' " k-filter=" 'contains' " k-data-value-field=" 'value' "
+            k-auto-bind="false " k-data-source="listDokumen" />
+    </div>
+    <div class="grid_2" style="margin-top:5px">
+        <label c-label real>Tanggal Dokumen</label>
+        <input style="width: 100%" kendo-date-picker placeholer="dd-mm-yyyy" k-ng-model="item.tglDokumen"
+            k-format="'dd-MM-yyyy'" />
+    </div>
+    <div class="grid_3" style="margin-top:5px">
+        <label c-label real>Dokumen</label>
+        <input type="file" id="filePicker">
+        <textarea id="base64textarea" placeholder="Base64 will appear here" cols="50" rows="15"
+            hidden></textarea>
+    </div>
+    <div class="grid_2">
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+            <button class="k-button  k-button-icontext" ng-click="upload()"><i
+                    class="fa fa-times-circle"></i>&nbsp;Upload</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">List Dokumen Pasien</a>
+            </legend>
+            <div class="grid_12">
+
+                <kendo-grid id="kGrids" data-source="sourceDataListDokumen" options="columnListDokumen"
+                    k-pageable="'true'" k-sortable="'true'" k-resizable="'true'"
+                    k-ng-model="dataListDokumen">
+                </kendo-grid>
+
+            </div>
+            <div class="grid_12">
+                <div class="grid_6"></div>
+                <div class="grid_6">
+                    <kendo-button class="c-button cancel" ng-click="ClosePopUpDokumen()"><span class="title">Tutup PopUp
+                        </span></kendo-button>
+                    </div>
+            </div>
+        </fieldset>
+    </div>
+</div>
 <div id="tempatLaporan" ng-hide="istempatLaporan"></div>
 <div class="grid_12" style="margin-top:60px">
     <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
