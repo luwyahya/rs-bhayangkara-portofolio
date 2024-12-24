@@ -243,6 +243,14 @@ from pasiendaftar_t as pd left outer join
         if (isset($r['namaPegawai']) && $r['namaPegawai'] != null && $r['namaPegawai'] != "") {
             $where = "where pg.namalengkap = " . $r['namaPegawai'];
         }
+        $bindings = [];
+
+        // Validasi dan binding parameter
+        if (isset($r['idPegawai']) && !empty($r['idPegawai'])) {
+            $where = "WHERE pg.id = :idPegawai";
+            $bindings['idPegawai'] = strval($r['idPegawai']);
+        }
+
         $raw = collect(DB::select("
        select case when pg.nippns is null then '-' else pg.nippns end as nip,pg.ttd, COALESCE(pg.nikintern, COALESCE(pg.nik_intern, '-')) AS nik,namalengkap, jp.jenispegawai, pg.nosip, jk.jeniskelamin, pg.tgllahir, ked.name as statuspegawai,to_char( now(), 'DD-MM-YYYY HH24:MI:SS')  as tglcetak,ttp.tandatangan,case when pt.namapangkat is null then '-' else pt.namapangkat end as namapangkat 
        from pegawai_m as pg left join 
@@ -251,7 +259,7 @@ from pasiendaftar_t as pd left outer join
        sdm_kedudukan_m as ked on ked.id = pg.kedudukanfk left join
        tandatanganppa_t as ttp on ttp.objectpegawaifk = pg.id left join
        pangkat_m as pt on pt.id = pg.objectpangkatfk
-       where pg.id = $r[idPegawai]
+      $where
        "))->first();
         if (!empty($raw)) {
             $raw->umur = $this->getAge($raw->tgllahir, date('Y-m-d'));
