@@ -82,6 +82,7 @@ define(['initialize'], function(initialize) {
             $scope.IsInfeksi = true;
             var chacePeriode = cacheHelper.get('cacheRekamMedis');
             if (chacePeriode != undefined) {
+                debugger
                 //var arrPeriode = chacePeriode.split(':');
                 $scope.item.noMr = chacePeriode[0]
                 nocm_str = chacePeriode[0]

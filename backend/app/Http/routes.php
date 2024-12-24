@@ -960,6 +960,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-tanggal-konsul-rehab', 'EMR\EMRController@getDataTglKonsulRehab');
             Route::post('save-tanggal-konsul-rehab', 'EMR\EMRController@saveTglKonsulRehab');
             Route::post('ttd-pasien-konsul-rehab', 'EMR\EMRController@ttdPasienKonsulRehab');
+            Route::get('get-history-new/{norec}', 'EMR\EMRController@getHistoryEmrNew');
 
             Route::post('delete-edukasi', 'EMR\EMRController@deleteEdukasi'); //ash 03-08-2023
 
