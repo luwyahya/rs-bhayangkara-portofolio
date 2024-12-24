@@ -3105,6 +3105,10 @@
         {
             "nameDep": "AnestesiLokalCtrl",
             "urlDep": "module/EMR/AnestesiLokalCtrl"
+        },
+        {
+            "nameDep": "SuratKelahiranCtrl",
+            "urlDep": "module/EMR/SuratKelahiranCtrl"
         }
     ]
 }
