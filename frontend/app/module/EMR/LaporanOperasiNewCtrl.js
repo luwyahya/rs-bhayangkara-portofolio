@@ -439,7 +439,7 @@ define(['initialize'], function(initialize) {
             } else if ($scope.cc.idPegawai == '' || $scope.cc.idPegawai == '') {
                 toastr.warning('Tidak dapat menemukan id dokter, mohon simpan kembali!')  
             }
-
+debugger
                 var nama = $scope.cc.namapasien
                 var nocm = $scope.cc.nocm
                 var tgllahir = $scope.cc.tglLahir
@@ -447,7 +447,7 @@ define(['initialize'], function(initialize) {
                 var umur = $scope.cc.umur
                 var ruangan = $scope.cc.namaruangan
                 var norecpd = $scope.cc.norec_pd
-                var qr = "http://rsbsaonline.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.cc.idPegawai
+                var qr = "https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.cc.idPegawai
                 // var petugasedukasi = $scope.petugasedukasi
             var data = {
                 "gambarLogo": "logodokkes.jpg",
