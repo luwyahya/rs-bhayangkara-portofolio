@@ -1146,11 +1146,6 @@ class LaboratoriumController extends ApiController
             foreach ($request['hasil'] as $key => $value) {
                 // $runningNumber = RunningNumber::where('id', '13546')->first();
                 // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
-                $updateak = PelayananPasien::where([
-                    'norec' => $value['norecpelayanan']
-                ])->update([
-                    'objectpegawaipengirimfk' => $value['idpegawaiKirim']
-                ]);
                 $cek =  HasilLaboratorium::where([
                     // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
                     // 'norecpelayanan',$value['norecpelayanan']
