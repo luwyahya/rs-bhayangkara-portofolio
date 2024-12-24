@@ -50,13 +50,13 @@
                                       <tr>
                                         <td width="105">
                                           <p align="left">
-                                            <img src="{{ asset('service/img/pol.png') }}" style="width: 80px" border="0">
-                                            {{-- <img src="{{ asset('/img/logors2.png') }}" style="width: 80px" border="0"> --}}
-                                            {{-- <img src="/img/logors2.png" style="width: 80px" border="0"> --}}
+                                            <img src="{{ asset('service/img/logors2.png') }}" style="width: 80px" border="0">
+                                            {{-- <img src="{{ asset('/img/polri.png') }}" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="/img/polri.png" style="width: 80px" border="0"> --}}
 
-                                            {{-- <img src="../img/logors2.png" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="../img/polri.png" style="width: 80px" border="0"> --}}
                                             <!-- <img src="/opt/rsp_kramatjati/backend/public/img/polri.png" style="width: 80px" border="0"> -->
-                                            {{-- <img src="/opt/RS_Walandamaramis/backend/public/img/logo_walanda.png" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="/opt/bayangkarapostgre/backend/public/img/polri.png" style="width: 80px" border="0"> --}}
                                           </p>
                                         </td>
                                         <td align="center">
