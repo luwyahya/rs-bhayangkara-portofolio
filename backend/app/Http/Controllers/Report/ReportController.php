@@ -233,6 +233,46 @@ from pasiendaftar_t as pd left outer join
             compact('raw', 'pageWidth','r','now'));
 
     }
+    public function cetakTtd(Request $r)
+    {
+        //    $kdProfile = (int)$r['kdprofile'];
+        $where = '';
+        if (isset($r['idPegawai']) && $r['idPegawai'] != null && $r['idPegawai'] != "") {
+            $where = "where pg.id = " . $r['idPegawai'];
+        }
+        if (isset($r['namaPegawai']) && $r['namaPegawai'] != null && $r['namaPegawai'] != "") {
+            $where = "where pg.namalengkap = " . $r['namaPegawai'];
+        }
+        $raw = collect(DB::select("
+       select case when pg.nippns is null then '-' else pg.nippns end as nip,pg.ttd, COALESCE(pg.nikintern, COALESCE(pg.nik_intern, '-')) AS nik,namalengkap, jp.jenispegawai, pg.nosip, jk.jeniskelamin, pg.tgllahir, ked.name as statuspegawai,to_char( now(), 'DD-MM-YYYY HH24:MI:SS')  as tglcetak,ttp.tandatangan,case when pt.namapangkat is null then '-' else pt.namapangkat end as namapangkat 
+       from pegawai_m as pg left join 
+       jenispegawai_m as jp on jp.id = pg.objectjenispegawaifk left join
+       jeniskelamin_m as jk on jk.id = pg.objectjeniskelaminfk left join
+       sdm_kedudukan_m as ked on ked.id = pg.kedudukanfk left join
+       tandatanganppa_t as ttp on ttp.objectpegawaifk = pg.id left join
+       pangkat_m as pt on pt.id = pg.objectpangkatfk
+       where pg.id = '$r[idPegawai]'
+       "))->first();
+        if (!empty($raw)) {
+            $raw->umur = $this->getAge($raw->tgllahir, date('Y-m-d'));
+        } else {
+            echo 'Data Tidak ada ';
+            return;
+        }
+        //    pd.noregistrasi = '$r[reg]'
+
+
+
+
+        $pageWidth = 950;
+        $now =  $this->getDateTime();
+
+        return view(
+            'report.pdf.ttd',
+            compact('raw', 'pageWidth', 'r', 'now')
+        );
+    }
+
     public function doktermenerangkan(Request $r) {
         $kdProfile = (int)$r['kdprofile'];
         $raw = collect(DB::select("

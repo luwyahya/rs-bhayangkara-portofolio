@@ -1907,6 +1907,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-kll-visum-koreksi-instalasi', 'Report\ReportController@cetakKllVisumKoreksiInstalasi');
         Route::get('report/cetak-antrian', 'Report\ReportController@cetakAntrianKiosk');
         Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP'); 
+        Route::get('report/cetak-ttd-new', 'Report\ReportController@cetakTtd');
         Route::get('report/cetak-ttd-anestesi', 'Report\ReportController@cetakTTDAnestesi');
 
         Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
@@ -2572,6 +2573,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-datapasieneis', 'Registrasi\RegistrasiController@datapasieneis');
             Route::get('get-geteisperrs', 'Registrasi\RegistrasiController@geteisperrs');
             Route::get('geteisperrstotalinstalasi', 'Registrasi\RegistrasiController@geteisperrstotalinstalasi');
+            Route::get('get-ruangan-pasien', 'Registrasi\RegistrasiController@getRuanganPasien'); 
             
 
             
