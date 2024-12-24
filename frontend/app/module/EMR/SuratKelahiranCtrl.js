@@ -144,7 +144,7 @@ define(['initialize'], function (initialize) {
                                 $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
                             }
 
-                            if (dataLoad[i].type == "datetime" && dataLoad[i].emrdfk == "5118") {                                    
+                            if (dataLoad[i].type == "datetime" && dataLoad[i].emrdfk == "10013") {                                    
                                 var dateObj = new Date(dataLoad[i].value);
 
                                 // Mendapatkan tanggal dalam format DD-MM-YYYY
@@ -178,32 +178,32 @@ define(['initialize'], function (initialize) {
                             if (dataLoad[i].type == "textarea") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5107") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10002") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], namalengkap: str }
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5131") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10026") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], namalengkap: str }
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5109") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10004") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], jeniskelamin: str }
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5124") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10019") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], kodeNama: str }
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5125") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10020") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], kodeNama: str }
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "5129") {
+                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "10024") {
                                 var str = dataLoad[i].value
                                 var res = str.split("~");
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], urutananak: str }
@@ -214,40 +214,40 @@ define(['initialize'], function (initialize) {
                 })
             }
 
-            $scope.$watch('item.obj[5122]', function(e) {
+            $scope.$watch('item.obj[10017]', function(e) {
                 if (e == true) {
                     $scope.keterangantidaknormal = true;
-                    $scope.item.obj[5121] = undefined
+                    $scope.item.obj[10016] = undefined
                 } else {
                     $scope.keterangantidaknormal = false;
                 }
             })
-            $scope.$watch('item.obj[5122]', function(e) {
+            $scope.$watch('item.obj[10017]', function(e) {
                 if (e == true) {
-                    $scope.item.obj[5121] = false
+                    $scope.item.obj[10016] = false
                 }
             })
-            $scope.$watch('item.obj[5121]', function(e) {
+            $scope.$watch('item.obj[10016]', function(e) {
                 if (e == true) {
-                    $scope.item.obj[5122] = false
+                    $scope.item.obj[10017] = false
                 }
             })
-            $scope.$watch('item.obj[5127]', function(e) {
+            $scope.$watch('item.obj[10022]', function(e) {
                 if (e == true) {
                     $scope.kembarya = true;
-                    $scope.item.obj[5126] = undefined
+                    $scope.item.obj[10021] = undefined
                 } else {
                     $scope.kembarya = false;
                 }
             })
-            $scope.$watch('item.obj[5126]', function(e) {
+            $scope.$watch('item.obj[10021]', function(e) {
                 if (e == true) {
-                    $scope.item.obj[5127] = false
+                    $scope.item.obj[10022] = false
                 }
             })
-            $scope.$watch('item.obj[5127]', function(e) {
+            $scope.$watch('item.obj[10022]', function(e) {
                 if (e == true) {
-                    $scope.item.obj[5126] = false
+                    $scope.item.obj[10021] = false
                 }
             })
 
