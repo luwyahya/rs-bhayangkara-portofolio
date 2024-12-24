@@ -51,10 +51,10 @@
                                         <td width="105">
                                           <p align="left">
                                             <img src="{{ asset('service/img/pol.png') }}" style="width: 80px" border="0">
-                                            {{-- <img src="{{ asset('/img/logo_walanda.png') }}" style="width: 80px" border="0"> --}}
-                                            {{-- <img src="/img/logo_walanda.png" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="{{ asset('/img/logors2.png') }}" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="/img/logors2.png" style="width: 80px" border="0"> --}}
 
-                                            {{-- <img src="../img/logodokkes.png" style="width: 80px" border="0"> --}}
+                                            {{-- <img src="../img/logors2.png" style="width: 80px" border="0"> --}}
                                             <!-- <img src="/opt/rsp_kramatjati/backend/public/img/polri.png" style="width: 80px" border="0"> -->
                                             {{-- <img src="/opt/RS_Walandamaramis/backend/public/img/logo_walanda.png" style="width: 80px" border="0"> --}}
                                           </p>
@@ -65,10 +65,10 @@
                                             <br>
                                           </b> --}}
                                           <b> 
-                                            <font style="font-size: 18pt" color="#000000">RSB TK.II SARTIKA ASIH</font>
+                                            <font style="font-size: 18pt" color="#000000">RSB TK.IIII CIANJUR</font>
                                             <br>
                                           </b>
-                                          <font size="3" color="#000000" style="font-weight: bold">Jl. Moh. Toha No.369, Ciseureuh, Kec. Regol, Kota Bandung, Jawa Barat 40256<font>
+                                          <font size="3" color="#000000" style="font-weight: bold"> Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Jawa Barat 43211<font>
 
 {{--                                          <font style="font-size: 11pt" color="#000000"> : Jl. Ir. Djuanda No. 106 Km. 2--}}
 {{--                                            Rancabango Kota--}}

@@ -93,7 +93,7 @@
         <td bordercolor="#808080" height="13">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK.II SARTIKA ASIH. PADA TANGGAL {{  $raw->tglcetak }}.
+                        DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK.IIII CIANJUR. PADA TANGGAL {{  $raw->tglcetak }}.
                     </span>
             </font>
         </td>
