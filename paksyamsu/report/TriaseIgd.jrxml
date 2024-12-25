@@ -28,14 +28,15 @@
 	<queryString>
 		<![CDATA[select pd.noregistrasi,ps.nocm,ps.namapasien,ps.tgllahir,jk.jeniskelamin,
 apd.tglregistrasi,apd.tglmasuk,case when sk.satuankerjapasien is null then '-' else sk.satuankerjapasien end as satuankerjapasien,
-case when pj.pekerjaan is null then '-' else pj.pekerjaan end as pekerjaan,al.alamatlengkap, ps.notelepon,CONVERT(VARCHAR,apd.tglmasuk,8) AS jammasuk,CONVERT(VARCHAR,apd.tglregistrasi,8) AS jamregis from pasiendaftar_t pd
+case when pj.pekerjaan is null then '-' else pj.pekerjaan end as pekerjaan,al.alamatlengkap, ps.notelepon,  TO_CHAR(apd.tglmasuk, 'HH24:MI:SS') AS jammasuk,
+    TO_CHAR(apd.tglregistrasi, 'HH24:MI:SS') AS jamregis from pasiendaftar_t pd
 INNER JOIN antrianpasiendiperiksa_t apd on apd.noregistrasifk=pd.norec
 INNER JOIN pasien_m ps on ps.id=pd.nocmfk
 INNER JOIN jeniskelamin_m jk on jk.id=ps.objectjeniskelaminfk
 LEFT JOIN satuankerjapasien_m sk on ps.objectsatuankerjafk=sk.id
 LEFT JOIN pekerjaan_m pj on ps.objectpekerjaanfk=pj.id
 LEFT JOIN alamat_m al on ps.id=al.nocmfk
-where pd.noregistrasi=$P{nocm} and apd.objectruanganfk in (569,309)]]>
+where pd.noregistrasi=$P{nocm} limit 1]]>
 	</queryString>
 	<field name="namapasien" class="java.lang.String"/>
 	<field name="nocm" class="java.lang.String"/>
@@ -1625,27 +1626,27 @@ com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="3" y="623" width="54" height="43" uuid="c3cb14ae-f2dc-4f81-91ac-f194fdeb856a"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/1.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/1.png"]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="74" y="623" width="42" height="46" uuid="881db758-e9d0-441a-b24c-1b1d17171d4e"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/2.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/2.png"]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="142" y="623" width="105" height="43" uuid="0fbd4d63-2999-4ff9-a3f3-2a3e8eb1f274"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/3.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/3.png"]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="212" y="623" width="109" height="43" uuid="5aecccf7-13ec-4292-9aa9-3e1af989309e"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/4.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/4.png"]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="274" y="623" width="86" height="43" uuid="a9fcd97f-1348-4ab9-b397-8b01feab4eda"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/5.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/5.png"]]></imageExpression>
 				</image>
 				<image onErrorType="Blank">
 					<reportElement x="341" y="623" width="93" height="45" uuid="1cfaf914-fa5e-4faf-947a-204a8c307aaf"/>
-					<imageExpression><![CDATA["/opt/rsp_kramatjati/jasperreport/upload-dir/6.png"]]></imageExpression>
+					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/6.png"]]></imageExpression>
 				</image>
 				<textField>
 					<reportElement x="142" y="358" width="47" height="16" uuid="851536f7-e74a-4d1a-9977-7b7e3a9f207c">
