@@ -24718,4 +24718,16 @@ GROUP BY y.KET
         return $this->respond($data);
     }
 
+   
+    public function getRuanganPasien(Request $request)
+    {
+        $data = \DB::table('antrianpasiendiperiksa_t as apd')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->select('ru.namaruangan', 'apd.norec', 'ru.id')
+            ->where('apd.statusenabled', true)
+            ->where('apd.noregistrasifk', '=', $request['norec_pd'])
+            ->get();
+
+        return $this->respond($data);
+    }
 }

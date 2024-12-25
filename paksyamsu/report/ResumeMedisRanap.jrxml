@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResumeMedisRjNew" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3db4fe1-8f21-4e04-825c-23b133cc8214">
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -389,7 +389,7 @@ AND
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[SARTIKA ASIH]]></text>
+					<text><![CDATA[CIANJUR]]></text>
 				</staticText>
 				<line>
 					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
@@ -399,7 +399,7 @@ AND
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. II]]></text>
+					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. IV]]></text>
 				</staticText>
 				<image>
 					<reportElement x="115" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
@@ -413,12 +413,11 @@ AND
 					<text><![CDATA[Ringkasan Pasien Pulang ( Discharge Summary )]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="14" y="100" width="240" height="40" uuid="b1c30c14-eb83-4641-a21b-4355928387a9"/>
+					<reportElement x="14" y="99" width="240" height="40" uuid="b1c30c14-eb83-4641-a21b-4355928387a9"/>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="11"/>
 					</textElement>
-					<text><![CDATA[Jl. Moh. Toha No.369, Ciseureuh,
-Kec. Regol, Kota Bandung, Jawa Barat 40256]]></text>
+					<text><![CDATA[Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat 43211]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
