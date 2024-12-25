@@ -834,7 +834,7 @@ WHERE
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Justified"/>
-					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih 087889996747"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. IV CIANJUR (0263) 285299"]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="136" y="16" width="120" height="20" uuid="2efaf836-8c19-4beb-9eac-1c32d750e5ba"/>
