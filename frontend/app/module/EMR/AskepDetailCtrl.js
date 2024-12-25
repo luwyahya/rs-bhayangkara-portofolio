@@ -305,6 +305,7 @@ define(['initialize'], function (initialize) {
             // $scope.getdata();
 
             $scope.Save = function () {
+                debugger
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
                 for (var i = arrobj.length - 1; i >= 0; i--) {
@@ -327,12 +328,12 @@ define(['initialize'], function (initialize) {
                         }
                     cacheHelper.set('cacheNomorEMR', arrStr);
                     //debugger
-                    $scope.AskepCtrl();
+                    AskepCtrl();
                 });
             }
             
 			$scope.AskepCtrl = function () {
-                //debugger
+                debugger
                 $state.go('RekamMedis.AskepCtrl', {
                     noRec: $scope.cc.norec,
                     emr: 'AskepCtrl',
