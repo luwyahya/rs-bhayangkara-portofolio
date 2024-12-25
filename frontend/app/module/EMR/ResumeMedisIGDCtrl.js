@@ -744,7 +744,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             loadLab()
         }
         function loadLab() {
-            medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi + "&ruid=" + $scope.cc.objectruanganfk, true).then(function(dat) {
+            medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi, true).then(function(dat) {
                 $scope.isRouteLoading = false;
                 lab = dat.data.data
                 for (var i = 0; i < dat.data.data.length; i++) {
@@ -2337,9 +2337,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             if ($scope.item.kontrolPoli != undefined) {
                 kontrolpoli = $scope.item.kontrolPoli.namaruangan
             }
-            let tindaklanjut = "Kontrol ke Poli : Tidak" + " \n" + "Pada Tanggal : -" + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 087889996747";
+            let tindaklanjut = "Kontrol ke Poli : Tidak" + " \n" + "Pada Tanggal : -" + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299";
             if ($scope.item.yapoli == true) {
-                tindaklanjut = "Kontrol ke Poli : " + kontrolpoli + " \n" + "Pada Tanggal : " + moment($scope.item.tglKontrol).format('DD-MM-YYYY') + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih Bandung 087889996747"
+                tindaklanjut = "Kontrol ke Poli : " + kontrolpoli + " \n" + "Pada Tanggal : " + moment($scope.item.tglKontrol).format('DD-MM-YYYY') + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299"
             }
             if ($scope.item.hasilKonsul == '' || $scope.item.hasilKonsul == undefined) {
                 hasilKonsultasi = '-'
