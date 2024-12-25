@@ -152,7 +152,7 @@ ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
 	<pageHeader>
 		<band height="116">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<image onErrorType="Blank">
+			<image>
 				<reportElement x="2" y="3" width="77" height="77" uuid="7e4f0b80-aa4a-45cd-a6b4-caffb8e23e56">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
@@ -230,7 +230,7 @@ ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
 				<text><![CDATA[:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="438" y="39" width="124" height="14" uuid="1f3ffd89-56dc-4b9a-be54-d45ce6851929"/>
+				<reportElement x="438" y="39" width="124" height="32" uuid="1f3ffd89-56dc-4b9a-be54-d45ce6851929"/>
 				<textFieldExpression><![CDATA[$P{ruangan}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -239,7 +239,7 @@ ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN 
-Rumah Sakit Bhayangkara TK II SARTIKA ASIH]]></text>
+Rumah Sakit Bhayangkara TK IV CIANJUR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="79" y="53" width="303" height="30" uuid="42e1634c-11f7-4cba-9b5e-e8f29c940a92"/>
@@ -499,6 +499,21 @@ rinci dan jelas)]]></text>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pemberiinstruksi}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="270" y="45" width="96" height="35" forecolor="#F207B0" uuid="b2b5dccb-7726-40eb-9b50-487fd8e43df8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ttd}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center">
+				<reportElement positionType="Float" stretchType="ElementGroupBottom" x="280" y="54" width="86" height="16" uuid="ed82e42f-0dad-42fb-b062-3006451b83eb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[net.sf.jasperreports.engine.util.JRImageLoader.getInstance(new SimpleJasperReportsContext()).loadAwtImageFromBytes(javax.xml.bind.DatatypeConverter.parseBase64Binary($F{tandatangan}.replace("data:image/png;base64,","").replace("data:image/jpeg;base64,","")))]]></imageExpression>
+			</image>
 			<image>
 				<reportElement x="480" y="0" width="82" height="40" uuid="3187ebac-4f62-41de-a97d-bed6b25a73e7"/>
 				<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
