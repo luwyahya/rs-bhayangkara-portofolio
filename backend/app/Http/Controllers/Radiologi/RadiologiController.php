@@ -2723,7 +2723,6 @@ class RadiologiController extends ApiController
                     'nostruk' => $item->nostruk,
                     'noregistrasi' => $item->noregistrasi,
                     'ruangan' => $item->namaruangan,
-                    'namaruanganasal' => $item->namaruanganasal,
                     'objectruanganfk' => $item->objectruanganfk,
                     'departemen' => $item->namadepartemen,
                     'objectdepartemenfk' => $item->objectdepartemenfk,
