@@ -216,34 +216,35 @@
             <td>
         </tr> -->
 <tr>
-    <td>
-        <table style="margin-top:5px;">
-            <tr>
-                <td width="550"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td style="text-align: center">
-                    <!-- <font style="font-size: 11pt" face="Arial">Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}</font> -->
-                    <br>
-                    <font style="font-size: 11pt;" face="Arial">Pemeriksa</font>
-                </td>
-            </tr>
+            <td>
+                <table style="margin-top:15px;">
+                    <tr>
+                        <td width="550"></td>
+                    </tr>
+                    <tr>
+                        <td ></td>
+                        <td style="text-align: center">
+                            <!-- <font style="font-size: 11pt" face="Arial">Jakarta, {{ App\Traits\Valet::getDateIndo(date('Y-m-d'))   }}</font> -->
+                            <br>
+                            <font style="font-size: 11pt;" face="Arial">Pemeriksa</font>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td height="100">Cetakan ke:{{ $raw2->cetakanke}}</td>
-                <td>
-                <img src={{$qrCodePemeriksa2}} style="max-width:200px;height:100px;margin-top: -70px;margin-left: 50px" border="0" />
+                    <tr>
+                        <td height="250">Cetakan ke: 1</td>
+                        <td >
+                            <img src={{$qrCodePemeriksa2}} style="max-width:200px;height:100px;margin-top: -70px;margin-left: 50px" border="0" />
                             @if (file_exists(public_path('img/radiologi/'.$raw->pgid.'.jpeg')))
                             <img src="{{ asset('service/img/radiologi/'.$raw->pgid.'.jpeg') }}"
                                  style="max-width:200px;height:100px;margin-top: -40px;" border="0">
                             @endif
-                    <br>
-                    <font face="Arial" style="font-size: 9pt"><b>{{ '( '. $raw->dokterrad .' )'}} </b><br><i>SIP : {{ $raw->nosip != null? $raw->nosip:'-' }} </i></font>
-                </td>
-            </tr>
-        </table>
-    </td>
+                            
+                        <br>
+                        <font face="Arial" style="font-size: 9pt"><b>{{ '( '. $raw->dokterrad .' )'}} </b><br><i>SIP : {{ $raw->nosip != null? $raw->nosip:'-' }} </i></font>
+                        </td>
+                    </tr>
+                </table>
+            </td>
 </tr>
 
 
