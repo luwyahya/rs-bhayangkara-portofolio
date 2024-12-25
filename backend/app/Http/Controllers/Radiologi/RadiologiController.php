@@ -2560,7 +2560,6 @@ class RadiologiController extends ApiController
         ->leftJOIN('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
         ->JOIN('produk_m as pr', 'pr.id', '=', 'pp.produkfk')
         ->JOIN('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-        ->JOIN('ruangan_m as ru1', 'ru1.id', '=', 'apd.objectruanganasalfk')
         ->JOIN('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
         ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
         // ->leftjoin('pelayananpasienpetugas_t as ptu', 'ptu.pelayananpasien', '=', 'pp.norec')
@@ -2589,7 +2588,6 @@ class RadiologiController extends ApiController
             'pp.norec as norec_pp',
             'ru.objectdepartemenfk',
             'so.noorder',
-            'ru1.namaruangan as namaruanganasal',
             'lis.ono as idbridging',
             'pp.isclaim',
             'pd.norec as norec_pd',
@@ -2617,7 +2615,6 @@ class RadiologiController extends ApiController
                 'sp.nostruk',
                 'pd.noregistrasi',
                 'ru.namaruangan',
-                'ru1.namaruangan',
                 'pp.isclaim',
                 'pd.norec',
                 'dp.namadepartemen',
