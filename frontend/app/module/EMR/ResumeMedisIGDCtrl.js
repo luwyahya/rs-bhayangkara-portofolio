@@ -635,7 +635,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             //         }
             //     }
             // })
-            $scope.item.darurat = "RS Bhayangkara Cianjur"
+            $scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
             loadDiagnosa()
         }
         function loadDiagnosa() {

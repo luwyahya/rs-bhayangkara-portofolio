@@ -2331,7 +2331,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					}
 				})
 				//$scope.item.darurat = "RS Bhayangkara TK.I Pusdokkes Polri 0218093288 / 0218090559"
-				$scope.item.darurat ="";
+				$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
 				loadDiagnosa()
 			}
 			function loadTindakan() {
