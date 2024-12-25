@@ -1910,6 +1910,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         Route::get('report/cetak-sep', 'Report\ReportController@cetakSEP'); 
         Route::get('report/cetak-ttd-new', 'Report\ReportController@cetakTtd');
         Route::get('report/cetak-ttd-anestesi', 'Report\ReportController@cetakTTDAnestesi');
+        Route::get('report/cetak-ttd-fleksibel', 'Report\ReportController@cetakTtdFleksibel');
 
         Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
         Route::get('report/cetak-visum-new', 'Report\ReportController@cetakVisumNew');

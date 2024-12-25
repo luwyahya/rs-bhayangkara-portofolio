@@ -233,9 +233,11 @@
             <tr>
                 <td height="100">Cetakan ke:{{ $raw2->cetakanke}}</td>
                 <td>
-                    @if (file_exists(public_path('img/radiologi/'.$raw->pgid.'.jpeg')))
-                    <img src="{{ asset('service/img/radiologi/'.$raw->pgid.'.jpeg') }}" style="max-width:200px;height:100px;margin-top: -40px;" border="0">
-                    @endif
+                <img src={{$qrCodePemeriksa2}} style="max-width:200px;height:100px;margin-top: -70px;margin-left: 50px" border="0" />
+                            @if (file_exists(public_path('img/radiologi/'.$raw->pgid.'.jpeg')))
+                            <img src="{{ asset('service/img/radiologi/'.$raw->pgid.'.jpeg') }}"
+                                 style="max-width:200px;height:100px;margin-top: -40px;" border="0">
+                            @endif
                     <br>
                     <font face="Arial" style="font-size: 9pt"><b>{{ '( '. $raw->dokterrad .' )'}} </b><br><i>SIP : {{ $raw->nosip != null? $raw->nosip:'-' }} </i></font>
                 </td>

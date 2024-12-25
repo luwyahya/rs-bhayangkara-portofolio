@@ -8,9 +8,23 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\ApiController;
 use App\Traits\PelayananPasienTrait;
 use App\Traits\Valet;
+use App\Master\SettingDataFixed;
+use App\Transaksi\PasienDaftar;
 use Illuminate\Http\Request;
+use App\Master\KelompokTransaksi;
+use Carbon\Carbon;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\Encoding\Encoding;
+use Endroid\QrCode\ErrorCorrectionLevel;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\Label\Label;
+use Endroid\QrCode\Logo\Logo;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
+use Endroid\QrCode\Writer\ValidationException;
 
 use Illuminate\Support\Facades\DB;
+
 
 class ReportController extends ApiController
 {
@@ -66,7 +80,7 @@ class ReportController extends ApiController
             ru.namaruangan, so.tanggal as tanggalso,pp.tglpelayanan as tanggal, jk.jeniskelamin, CASE WHEN alm.alamatlengkap IS NULL 
                          THEN '-' ELSE (alm.alamatlengkap || ' ' || ds.namadesakelurahan || ' ' || kc.namakecamatan || ' ' || kk.namakotakabupaten || ' ' || pro.namapropinsi) END AS alamatlengkap, pg.namalengkap AS perujuk, 
                          pg2.namalengkap AS dokterrad, pr.namaproduk, so.keterangan, pd.noregistrasi, pg2.nosip, pg2.id AS pgid, pemakaianasuransi_t.nokepesertaan, pemakaianasuransi_t.nosep, so.tanggalcetak, pegawai_m.namalengkap, 
-                         ruangan_m.namaruangan AS ruanganasal
+                         ruangan_m.namaruangan AS ruanganasal, pg2.id as iddokterrad
             FROM ruangan_m RIGHT OUTER JOIN
              pegawai_m RIGHT OUTER JOIN
              hasilradiologi_t AS so INNER JOIN
@@ -97,7 +111,7 @@ class ReportController extends ApiController
             echo 'Data Tidak ada ';
             return;
         }
-
+// return ($raw);
         $raw2 = collect(DB::select("
             SELECT cetakanke from cetakanke
             WHERE  norec= '$r[norec]'
@@ -116,17 +130,77 @@ class ReportController extends ApiController
              $inserthistory = DB::update("update cetakanke set  cetakanke = '".$cetakanke."' where norec = '".$r['norec'] ."' ");
             // return;
         }
+        // return $raw->noregistrasi;
+        $qrCodePemeriksa = new QrCode("https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai=" . $raw->iddokterrad . "&pesan=" . "EXPERTISE RADIOLOGI" . "&noregistrasi=" . $raw->noregistrasi);
+        echo "</br>";
+        header('Contert-Type: application/' . $qrCodePemeriksa->getContentType());
+        $qrCodePemeriksa2 = $qrCodePemeriksa->writeDataUri();
 
 
 
 
         $pageWidth = 950;
         $now =  $this->getDateTime();
-
+        // return response()->json($raw);
         return view('report.rad.expertise',
-            compact('raw', 'pageWidth','r','now','raw2'));
+            compact('raw', 'pageWidth','r','now','raw2','qrCodePemeriksa2'));
 
     }
+    public function cetakTtdFleksibel(Request $r) {
+        //    $kdProfile = (int)$r['kdprofile'];
+        $message = '';
+        $where = '';
+        $where2 = '';
+        if (isset($r['idPegawai']) && $r['idPegawai'] != null && $r['idPegawai'] != "") {
+            $where = "where pg.id = ". $r['idPegawai'];
+            $where2= "and pegawaifk =". $r['idPegawai'];
+        }
+        if (isset($r['namaPegawai']) && $r['namaPegawai'] != null && $r['namaPegawai'] != "") {
+            $where = "where pg.namalengkap = " ."'".$r['namaPegawai']."'";
+        }
+        if (isset($r['pesan']) && $r['pesan'] != null && $r['pesan'] != "") {
+            $message = $r['pesan'];
+        }
+           $raw = collect(DB::select("
+           select case when kp.kategorypegawai = 'POLRI' THEN pg.nrp when kp.kategorypegawai = 'PNS' THEN pg.nippns else '-' end as nip,namalengkap, jp.jenispegawai, ms.nosip, jk.jeniskelamin, pg.tgllahir, ked.name as statuspegawai,convert(varchar, getdate(), 103) as tglcetak,ttp.tandatangan,case when pt.namapangkat is null then '-' else pt.namapangkat end as namapangkat 
+           from pegawai_m as pg left join 
+           jenispegawai_m as jp on jp.id = pg.objectjenispegawaifk left join
+           jeniskelamin_m as jk on jk.id = pg.objectjeniskelaminfk left join
+           sdm_kedudukan_m as ked on ked.id = pg.kedudukanfk left join
+           tandatanganppa_t as ttp on ttp.objectpegawaifk = pg.id left join
+           pangkat_m as pt on pt.id = pg.objectpangkatfk 
+           left join kategorypegawai_m as kp on kp.id = pg.kategorypegawai
+             LEFT JOIN (
+                 SELECT TOP 1 pegawaifk, nosip
+                 FROM masaberlakusipstr_t
+                 WHERE statusenabled = 1 $where2
+                 ORDER BY berakhirsip DESC
+             ) AS ms ON ms.pegawaifk = pg.id 
+           $where
+           "))->first();
+           if(!empty($raw)){
+               $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+           }else{
+               echo 'Data Tidak ada ';
+               return;
+           }
+           $tglpulang = '';
+           $pasien = DB::select(DB::raw("
+           select tglpulang from pasiendaftar_t where noregistrasi = '$r[noregistrasi]'
+           "));
+           $tglpulang = $pasien[0]->tglpulang;
+        //    pd.noregistrasi = '$r[reg]'
+     
+          
+     
+     
+           $pageWidth = 950;
+           $now =  $this->getDateTime();
+     
+           return view('report.pdf.ttdfleksibel',
+               compact('raw', 'pageWidth','r','now', 'message', 'tglpulang'));
+     
+       }
      public function cetakLab(Request $r) {
         $kdProfile = (int)$r['kdprofile'];
         $raw = collect(DB::select("
