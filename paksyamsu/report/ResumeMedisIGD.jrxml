@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResumeMedisRjNew" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3db4fe1-8f21-4e04-825c-23b133cc8214">
 	<parameter name="gambarLogo" class="java.awt.Image"/>
 	<parameter name="norec" class="java.lang.String"/>
@@ -181,14 +181,14 @@ WHERE
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[SARTIKA ASIH]]></text>
+					<text><![CDATA[CIANJUR]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="15" y="112" width="259" height="20" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
 					<textElement>
 						<font size="11"/>
 					</textElement>
-					<text><![CDATA[MOCH. TOHA - TELP. 087889996747 BANDUNG]]></text>
+					<text><![CDATA[Jl. Suroso No. 21 Cianjur - TELP. (0263) 285299 CIANJUR]]></text>
 				</staticText>
 				<line>
 					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
@@ -205,7 +205,7 @@ WHERE
 					<textElement>
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. II]]></text>
+					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. IV]]></text>
 				</staticText>
 				<image>
 					<reportElement x="115" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
