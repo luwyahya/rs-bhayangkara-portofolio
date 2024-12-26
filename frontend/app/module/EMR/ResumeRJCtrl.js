@@ -131,10 +131,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.listJenisDiagnosa = data.data.jenisdiagnosa;
                 });
 				medifirstService.get('emr/get-combo').then(function(dat) {
-					$scope.listDokter = e.data.dokter
-					$scope.listRuangan = e.data.ruanganrajal
-					$scope.listJenisKelamin = e.data.jeniskelamin
-					$scope.listPenjamin = e.data.rekanan
+					debugger
+					$scope.listDokter = dat.data.dokter
+					$scope.listRuangan = dat.data.ruanganrajal
+					$scope.listJenisKelamin =dat.data.jeniskelamin
+					$scope.listPenjamin = dat.data.rekanan
 				})
 				
                 $scope.listJenisRujukan = [
