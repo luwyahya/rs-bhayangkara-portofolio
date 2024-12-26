@@ -2743,6 +2743,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							if (dat.data.data[i].emrdfk == 851) {
 								$scope.item.keluhanUtama = dat.data.data[i].value
 							}
+							if (dat.data.data[i].emrdfk == 852) {
+								$scope.item.pemeriksaanFisik = dat.data.data[i].value
+							}
 						}
 					}
 				})
