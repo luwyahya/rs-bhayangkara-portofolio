@@ -4245,6 +4245,7 @@ class PelayananResepController extends ApiController
                 if ($r_PPL['routefk']) {
                     $newPP->routefk = $r_PPL['routefk'];
                 }
+             
                 $newPP->stock = $r_PPL['stock'];
                 $newPP->tglpelayanan = $r_SR['tglresep']; //$r_SR['tglresep']->format('Y-m-d H:i:s');
                 $newPP->harganetto = $r_PPL['harganetto'];
@@ -4270,6 +4271,9 @@ class PelayananResepController extends ApiController
                 }
                 if(isset($r_PPL['keterangan']) && $r_PPL['keterangan']!="" && $r_PPL['keterangan']!="undefined"){
                     $newPP->keteranganpakai = $r_PPL['keterangan'];
+                }
+                if (isset($r_PPL['isobatpulang']) && $r_PPL['isobatpulang'] != 'false') {
+                    $newPP->isobatpulang = true;
                 }
                 //            try {
                 $newPP->save();
