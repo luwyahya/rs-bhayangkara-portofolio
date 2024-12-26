@@ -1996,7 +1996,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.item.tidakpoli = true;
                         }
                         $scope.item.darurat = result[0].keadaandarurat2
-                        $scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisi }
+						$scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisimeninggalkan }
                         $scope.item.tglCetak = result[0].tglcetak
                         // $scope.item.kondisiMeninggalkanLain = 
                         $scope.item.ttdPasien = result[0].pasienkeluarga
