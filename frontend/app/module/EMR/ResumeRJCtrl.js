@@ -1501,11 +1501,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					diagnosaDokter = '-'
 				}
 				var tglKontrol = null;
-			if ($scope.item.tglKontrol != undefined) {
-				tglKontrol = moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm');
-			} else {
-				tglKontrol = '-';
-			}
+if ($scope.item.tglKontrol != undefined) {
+    tglKontrol = moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm');
+} else {
+    tglKontrol = null; // Gunakan null agar aman untuk kolom bertipe timestamp
+}
+
 
 
 				var alergi = ""
