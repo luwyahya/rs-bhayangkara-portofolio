@@ -1717,6 +1717,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             function getObat(noregistrasi) {
                 if ($scope.norec == '-') {
                     medifirstService.get('farmasi/get-transaksi-pelayanan-resume-rj?noReg=' + noregistrasi + '&isresume=true').then(function (dat) {
+                        debugger
                         obat = dat.data
                         for (let i = 0; i < dat.data.length; i++) {
                             dat.data[i].no = i + 1;
