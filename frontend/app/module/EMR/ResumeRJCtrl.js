@@ -1985,7 +1985,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         $scope.item.edukasi = result[0].edukasi,
                         $scope.item.prognosis = { prognosis: result[0].prognosis }
                         $scope.item.transportasi = { transportasi: result[0].sarantransportasi }
-                        $scope.item.carakeluar = { statuspulang: result[0].carakeluar }
+                        $scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
 						debugger
                         if (result[0].tglkontrol != null) {
                             $scope.item.yapoli = true;

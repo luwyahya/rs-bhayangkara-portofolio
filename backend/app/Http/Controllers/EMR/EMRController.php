@@ -2743,7 +2743,7 @@ class EMRController  extends ApiController
                 $RekamMedis->jenispemeriksaan = $request['jenispemeriksaan'];
                 $RekamMedis->riwayatlalu = $request['riwayatlalu'];
                 $RekamMedis->kontrol = $request['kontrolpoli'];
-                $RekamMedis->pasienkeluarga = $request['ttdPasien'];
+                $RekamMedis->pasienkeluarga = $request['ttdpasien'];
                 if (isset($request['tglKontrol']) && $request['tglKontrol'] != 'NULL') {
                     $RekamMedis->tglkontrol = $request['tglKontrol'];
                 };
@@ -2831,7 +2831,8 @@ class EMRController  extends ApiController
             'rm.pasienkeluarga',
             'rm.tglcetak',
             'rm.emrpasienfk',
-            'rm.sarantransportasi'  
+            'rm.sarantransportasi',
+            'rm.carakeluar'
         )
         ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
         ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
@@ -5868,7 +5869,10 @@ class EMRController  extends ApiController
         if (isset($dataReq['pasienkeluarga'])) {
             $RE->pasienkeluarga = $dataReq['pasienkeluarga'];
         }
-
+        if (isset($dataReq['tglKontrol']) && $dataReq['tglKontrol'] != 'NULL') {
+            $RE->tglkontrol = $dataReq['tglKontrol'];
+        }
+        $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
         $RE->pegawaifk = $dataReq['pegawaifk'];
 
         if (isset($dataReq['tekanandarah'])) {
