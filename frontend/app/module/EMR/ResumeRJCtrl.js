@@ -1720,7 +1720,7 @@ if ($scope.item.tglKontrol != undefined) {
                 // medifirstService.get('emr/get-combo-diagnosis').then(function (data) {
                 //     $scope.listJenisDiagnosa = data.data.jenisdiagnosa;
                 // });
-
+				cekYangBisaOtomatis();
 				$q.all([
 					medifirstService.get("emr/get-resume-medis/" + $scope.cc.noregistrasi)
 				]).then(function (res) {
