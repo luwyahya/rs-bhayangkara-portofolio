@@ -1466,8 +1466,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				// else transportasi="";
 				if($scope.item.kondisiMeninggalkan!=undefined) meninggalkanrs= $scope.item.kondisiMeninggalkan.kondisi
 				else meninggalkanrs="";
-				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
-				else keadaan="";
+				// if($scope.item.keadaanUmum.keadaanumum !=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
+				// else keadaan="";
 
 				var keluhanUtama = ""
 				if ($scope.item.keluhanUtama != undefined) {
@@ -1640,7 +1640,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					jeniskelaminfk : $scope.cc.objectjeniskelaminfk,
 					nocm : $scope.cc.nocm,
 					tgllahir : $scope.cc.tgllahir,
-					keadaan: keadaan,
+					// keadaan: keadaan,
 
 
 				}

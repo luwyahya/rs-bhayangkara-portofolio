@@ -5863,7 +5863,7 @@ class EMRController  extends ApiController
 
         $RE->tgllahir = $dataReq['tgllahir'];
         $RE->emrpasienfk = $noemr;
-        $RE->kondisiwaktukeluar = $dataReq['keadaan'];
+        // $RE->kondisiwaktukeluar = $dataReq['keadaan'];
         //$RE->tglresume = $dataReq['tglresume'];
         $RE->tglresume = $this->getDateTime()->format('Y-m-d H:i:s');
         if (isset($dataReq['pasienkeluarga'])) {
