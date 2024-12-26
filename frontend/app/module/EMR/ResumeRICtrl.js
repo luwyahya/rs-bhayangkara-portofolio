@@ -587,45 +587,45 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 })
                 // loadAll();
             };
-            function loadTempResume() {
-                medifirstService.get('emr/get-temp-resume-ri?norec_resume=' + $scope.norec + "&noregistrasi=" + $scope.cc.noregistrasi).then(function(dat) {
-                    debugger
-                    // obat = dat.data.obat
-                    lab = dat.data.lab
-                    rad = dat.data.rad
-                    // obatpulang = dat.data.obatpulang
-                    $scope.dataGridLaborat = {
-                        data: dat.data.lab,
-                        // pageSize: 10,
-                        selectable: true,
-                        refresh: true,
-                        total: dat.data.lab.length,
-                        serverPaging: false,
-                        aggregate: [
-                            { field: 'total', aggregate: 'sum' },
-                        ]
-                    };
-                    for(let i = 0; i < dat.data.rad.length; i++) {
-                        if (dat.data.rad[i].hr_norec != null) {
-                            dat.data.rad[i].flagrad = 'Ada';
-                        } else {
-                            dat.data.rad[i].flagrad = 'Tidak Ada';
-                        }
-                    }
-                    $scope.dataGridRadiologi = {
-                        data: dat.data.rad,
-                        // pageSize: 10,
-                        selectable: true,
-                        refresh: true,
-                        total: dat.data.rad.length,
-                        serverPaging: false,
-                        aggregate: [
-                            { field: 'total', aggregate: 'sum' },
-                        ]
-                    };
-                    loadDiagnosa($scope.cc.noregistrasi);
-                })
-            }
+            // function loadTempResume() {
+            //     medifirstService.get('emr/get-temp-resume-ri?norec_resume=' + $scope.norec + "&noregistrasi=" + $scope.cc.noregistrasi).then(function(dat) {
+            //         debugger
+            //         // obat = dat.data.obat
+            //         lab = dat.data.lab
+            //         rad = dat.data.rad
+            //         // obatpulang = dat.data.obatpulang
+            //         $scope.dataGridLaborat = {
+            //             data: dat.data.lab,
+            //             // pageSize: 10,
+            //             selectable: true,
+            //             refresh: true,
+            //             total: dat.data.lab.length,
+            //             serverPaging: false,
+            //             aggregate: [
+            //                 { field: 'total', aggregate: 'sum' },
+            //             ]
+            //         };
+            //         for(let i = 0; i < dat.data.rad.length; i++) {
+            //             if (dat.data.rad[i].hr_norec != null) {
+            //                 dat.data.rad[i].flagrad = 'Ada';
+            //             } else {
+            //                 dat.data.rad[i].flagrad = 'Tidak Ada';
+            //             }
+            //         }
+            //         $scope.dataGridRadiologi = {
+            //             data: dat.data.rad,
+            //             // pageSize: 10,
+            //             selectable: true,
+            //             refresh: true,
+            //             total: dat.data.rad.length,
+            //             serverPaging: false,
+            //             aggregate: [
+            //                 { field: 'total', aggregate: 'sum' },
+            //             ]
+            //         };
+            //         loadDiagnosa($scope.cc.noregistrasi);
+            //     })
+            // }
             function LoadCombo() {
                 medifirstService.get("emr/get-combo").then(function (e) {
                     $scope.listDokter = e.data.dokter
@@ -1669,34 +1669,34 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 }
             }
 
-            function getReaksiObat() {
-                medifirstService.get('emr/get-reaksi-obat-resume-ranap?norecresume=' + $scope.norec + "&noregistrasi=" + $scope.cc.noregistrasi).then(function (e) {
-                    dataRO = e.data.dataro
-                    $scope.dataReaksiObat = new kendo.data.DataSource({
-                        data: dataRO
-                    });
-                })
+            // function getReaksiObat() {
+            //     medifirstService.get('emr/get-reaksi-obat-resume-ranap?norecresume=' + $scope.norec + "&noregistrasi=" + $scope.cc.noregistrasi).then(function (e) {
+            //         dataRO = e.data.dataro
+            //         $scope.dataReaksiObat = new kendo.data.DataSource({
+            //             data: dataRO
+            //         });
+            //     })
 
-                $scope.columnReaksiObat = [{
-                    "field": "noro",
-                    "title": "No",
-                    "width": "30px"
-                },
-                {
-                    "field": "namaobatro",
-                    "title": "Nama Obat",
-                    "width": "100px"
-                }, {
-                    "field": "manifestasiro",
-                    "title": "Manifestasi Klinis",
-                    "width": "100px"
-                }, {
-                    "field": "keteranganro",
-                    "title": "Keterangan",
-                    "width": "300px"
-                }
-                ];
-            }
+            //     $scope.columnReaksiObat = [{
+            //         "field": "noro",
+            //         "title": "No",
+            //         "width": "30px"
+            //     },
+            //     {
+            //         "field": "namaobatro",
+            //         "title": "Nama Obat",
+            //         "width": "100px"
+            //     }, {
+            //         "field": "manifestasiro",
+            //         "title": "Manifestasi Klinis",
+            //         "width": "100px"
+            //     }, {
+            //         "field": "keteranganro",
+            //         "title": "Keterangan",
+            //         "width": "300px"
+            //     }
+            //     ];
+            // }
 
             $scope.klikReaksiObat = function (dataReaksiObatSelected) {
                 $scope.item.noro = dataReaksiObatSelected.noro
