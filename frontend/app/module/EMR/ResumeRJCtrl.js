@@ -1450,7 +1450,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				var prognosis="";
 				var carakeluar="";
 				var kontrol="";
-				var transportasi="";
+				// var transportasi="";
 				var meninggalkanrs="";
 				var keadaan="";
 
@@ -1462,8 +1462,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				else carakeluar="";
 				if($scope.item.kontrolPoli!=undefined) kontrol= $scope.item.kontrolPoli.namaruangan
 				else kontrol="";
-				if($scope.item.transportasi!=undefined) transportasi= $scope.item.transportasi.transportasi
-				else transportasi="";
+				// if($scope.item.transportasi!=undefined) transportasi= $scope.item.transportasi.transportasi
+				// else transportasi="";
 				if($scope.item.kondisiMeninggalkan!=undefined) meninggalkanrs= $scope.item.kondisiMeninggalkan.kondisi
 				else meninggalkanrs="";
 				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
@@ -1621,7 +1621,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					prognosis: prognosis,
 					carakeluar: carakeluar,
 					kontrol: kontrol,
-					transportasi: transportasi,
+					// transportasi: transportasi,
 					meninggalkanrs: meninggalkanrs,
 
 					tglKontrol: moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm'),
@@ -1739,7 +1739,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         $scope.item.keterangandiet = result[0].keterangandiet,
                         $scope.item.edukasi = result[0].edukasi,
                         $scope.item.prognosis = { prognosis: result[0].prognosis }
-                        $scope.item.transportasi = { transportasi: result[0].sarantransportasi }
+                        // $scope.item.transportasi = { transportasi: result[0].sarantransportasi }
                         $scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
 						debugger
                         if (result[0].tglkontrol != null) {
