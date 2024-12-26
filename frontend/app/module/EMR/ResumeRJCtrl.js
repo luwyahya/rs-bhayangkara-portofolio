@@ -1480,6 +1480,18 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					toastr.info('Diagnosa dokter tidak boleh kosong!')
 					return
 				}
+				if ($scope.item.tglKontrol.trim() === "" || $scope.item.tglKontrol == null || $scope.item.tglKontrol == undefined) {
+					toastr.info('Tgl Kontrol tidak boleh kosong!')
+					return
+				}
+				if ($scope.item.tglMasuk.trim() === ""  || $scope.item.tglMasuk == null || $scope.item.tglMasuk == undefined) {
+					toastr.info('Tgl Masuk tidak boleh kosong!')
+					return
+				}
+				if ($scope.item.tglPulang.trim() === "" || $scope.item.tglPulang == null || $scope.item.tglPulang == undefined) {
+					toastr.info('Tgl Pulang tidak boleh kosong!')
+					return
+				}
 
 				var diagnosaDokter = ""
 				if ($scope.item.diagnosaDokter != undefined) {
@@ -1543,6 +1555,32 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				} else {
 					suhu = '-'
 				}
+				var keadaandarurat = "IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
+				if ($scope.item.darurat != undefined) {
+					keadaandarurat = $scope.item.darurat
+				} else {
+					keadaandarurat = "IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
+				}
+				var dokterDpjp = ""
+				if ($scope.item.dpjp.namalengkap != undefined) {
+					dokterDpjp = $scope.item.dpjp.namalengkap
+				} else {
+					dokterDpjp = '-'
+				}
+				var idDokterDpjp = null
+				if ($scope.item.dpjp.namalengkap != undefined) {
+					idDokterDpjp = $scope.item.dpjp.id
+				} else {
+					idDokterDpjp = '-'
+				}
+				
+				var ttdPasien = ""
+				if ($scope.item.ttdPasien != undefined) {
+					ttdPasien = $scope.item.ttdPasien
+				} else {
+					ttdPasien = '-'
+				}
+				
 
 				var diet = ""
 				if ($scope.item.diet != undefined) {
@@ -1587,11 +1625,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					meninggalkanrs: meninggalkanrs,
 
 					tglKontrol: moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm'),
-					keadaandarurat: $scope.item.darurat,
+					keadaandarurat: keadaandarurat,
 					pemeriksaanfisik: pemeriksaanfisik,
-					ttdpasien: $scope.item.ttdPasien,
-					dpjp: $scope.item.dpjp.namalengkap,
-					pegawaifk: $scope.item.dpjp.id,
+					ttdpasien: ttdPasien,
+					dpjp: dokterDpjp,
+					pegawaifk: idDokterDpjp,
 					lab: lab,
 					rad: rad,
 					obat: obat,
@@ -1684,6 +1722,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							result[index].no = index + 1
 						}
 						norecresume = result[0].norec
+						$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
 						$scope.item.tglMasuk = $scope.cc.tglregistrasi
                         $scope.item.tglPulang = $scope.cc.tglpulang
                         $scope.item.keluhanUtama = result[0].keluhanutama
