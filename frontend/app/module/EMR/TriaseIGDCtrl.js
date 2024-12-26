@@ -642,8 +642,8 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://192.168.1.7:8797/generic/report/TriaseIgd.pdf');
                     } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
                         xhr.open('POST', 'http://192.168.88.56:8797/generic/report/TriaseIgd.pdf');
-                    } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                        xhr.open('POST', 'http://10.5.1.2:8797/generic/report/TriaseIgd.pdf');
+                    }else if(window.location.hostname.indexOf('192.168.100.254') > -1){
+                        xhr.open('POST', 'http://192.168.100.254:8797/generic/report/TriaseIgd.pdf');
                     } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
                         xhr.open('POST', '/report8797/generic/report/TriaseIgd.pdf');
                     }  else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
