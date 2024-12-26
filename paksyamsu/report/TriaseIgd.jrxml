@@ -1460,7 +1460,9 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[40]), Map.class).get("v
 				</textField>
 				<textField>
 					<reportElement x="407" y="32" width="74" height="15" uuid="8391252e-9cad-46d2-aaf5-d1c4e0cd253b"/>
-					<textElement verticalAlignment="Middle"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8"/>
+					</textElement>
 					<textFieldExpression><![CDATA[$F{tgllahir}]]></textFieldExpression>
 				</textField>
 				<staticText>
@@ -1473,7 +1475,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[40]), Map.class).get("v
 					<text><![CDATA[/]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="463" y="32" width="8" height="15" uuid="6838fafe-ad67-4b33-8090-edca0c52037d">
+					<reportElement x="466" y="32" width="8" height="15" uuid="6838fafe-ad67-4b33-8090-edca0c52037d">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Left" verticalAlignment="Top">
@@ -1487,7 +1489,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[40]), Map.class).get("v
 					<textFieldExpression><![CDATA[$F{noregistrasi}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="469" y="32" width="76" height="15" uuid="fa483243-cd54-47a9-a4e8-1b98fdba5c5a"/>
+					<reportElement x="472" y="32" width="76" height="15" uuid="fa483243-cd54-47a9-a4e8-1b98fdba5c5a"/>
 					<textElement verticalAlignment="Middle">
 						<font size="9"/>
 					</textElement>

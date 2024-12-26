@@ -1709,4 +1709,44 @@ public function cetakAntrianKiosk(Request $request)
             return $this->respond("Data not found for the given emrpasienfk.");
         }
     }
+    public function cetakLaporanTriase(Request $r) {
+        DB::connection()->setForceWritePdo();
+      //    $kdProfile = (int)$r['kdprofile'];
+      $message = '';
+      $where = '';
+      if (isset($r['idPegawai']) && $r['idPegawai'] != null && $r['idPegawai'] != "") {
+          $where = "where pg.id = ". $r['idPegawai'];
+      }
+      if (isset($r['namaPegawai']) && $r['namaPegawai'] != null && $r['namaPegawai'] != "") {
+          $where = "where pg.namalengkap = " ."'".$r['namaPegawai']."'";
+      }
+      if (isset($r['pesan']) && $r['pesan'] != null && $r['pesan'] != "") {
+          $message = $r['pesan'];
+      }
+         $raw = collect(DB::select("
+         select case when pg.nippns is null then '-' else pg.nippns end as nip,namalengkap, jp.jenispegawai, pg.nosip, jk.jeniskelamin, pg.tgllahir, ked.name as statuspegawai,convert(varchar, getdate(), 103) as tglcetak,ttp.tandatangan,case when pt.namapangkat is null then '-' else pt.namapangkat end as namapangkat 
+         from pegawai_m as pg left join 
+         jenispegawai_m as jp on jp.id = pg.objectjenispegawaifk left join
+         jeniskelamin_m as jk on jk.id = pg.objectjeniskelaminfk left join
+         sdm_kedudukan_m as ked on ked.id = pg.kedudukanfk left join
+         tandatanganppa_t as ttp on ttp.objectpegawaifk = pg.id left join
+         pangkat_m as pt on pt.id = pg.objectpangkatfk
+         $where
+         "))->first();
+         if(!empty($raw)){
+             $raw->umur = $this->getAge($raw->tgllahir ,date('Y-m-d'));
+         }else{
+             echo 'Data Tidak ada ';
+             return;
+         }
+         $tglcetak = $r['tglcetak'];  
+    
+    
+         $pageWidth = 950;
+         $now =  $this->getDateTime();
+    
+         return view('report.pdf.ttddokter',
+             compact('raw', 'pageWidth','r','now', 'message', 'tglcetak'));
+    
+     }
 }    
