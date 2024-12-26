@@ -1986,6 +1986,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         $scope.item.prognosis = { prognosis: result[0].prognosis }
                         $scope.item.transportasi = { transportasi: result[0].sarantransportasi }
                         $scope.item.carakeluar = { statuspulang: result[0].carakeluar }
+						debugger
                         if (result[0].tglkontrol != null) {
                             $scope.item.yapoli = true;
                             $scope.kontrol = true;
@@ -2672,23 +2673,23 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			})
 			}
 			function cekYangBisaOtomatis() {
-				medifirstService.get('emr/get-otomatis?noregistrasi=' + $scope.cc.noregistrasi + "&namaRuangan=" + $scope.cc.namaruangan).then(function(dat) {
-					debugger
-					if(dat.data.data[0].objectstatuspulangfk == 13) {
-						$scope.item.sembuh = true
-					} else if (dat.data.data[0].objectstatuspulangfk == 15) {
-						$scope.item.dirawat = true
-					} else if (dat.data.data[0].objectstatuspulangfk == 16) {
-						$scope.item.dirujuk = true
-					}
-					if (dat.data.data[0].id != null) {
-						$scope.item.namadokter = { id: dat.data.data[0].id, namalengkap: dat.data.data[0].namalengkap }
-					}
-					$scope.item.tglMasuk = new Date(dat.data.data[0].tglregistrasi)
-					$scope.item.tglPulang = new Date(dat.data.data[0].tglpulang)
-					$scope.item.keluhanUtama = dat.data.cppt[0].subjective
-					$scope.item.pemeriksaanFisik = dat.data.cppt[0].objective
-				})
+				// medifirstService.get('emr/get-otomatis?noregistrasi=' + $scope.cc.noregistrasi + "&namaRuangan=" + $scope.cc.namaruangan).then(function(dat) {
+				// 	debugger
+				// 	if(dat.data.data[0].objectstatuspulangfk == 13) {
+				// 		$scope.item.sembuh = true
+				// 	} else if (dat.data.data[0].objectstatuspulangfk == 15) {
+				// 		$scope.item.dirawat = true
+				// 	} else if (dat.data.data[0].objectstatuspulangfk == 16) {
+				// 		$scope.item.dirujuk = true
+				// 	}
+				// 	if (dat.data.data[0].id != null) {
+				// 		$scope.item.namadokter = { id: dat.data.data[0].id, namalengkap: dat.data.data[0].namalengkap }
+				// 	}
+				// 	$scope.item.tglMasuk = new Date(dat.data.data[0].tglregistrasi)
+				// 	$scope.item.tglPulang = new Date(dat.data.data[0].tglpulang)
+				// 	$scope.item.keluhanUtama = dat.data.cppt[0].subjective
+				// 	$scope.item.pemeriksaanFisik = dat.data.cppt[0].objective
+				// })
 				// medifirstService.get('emr/get-value-from-pengkajian-awal-3?noRegistrasi=' + $scope.cc.noregistrasi)
 				// .then(function(dat) {
 				// 	console.log(dat);
