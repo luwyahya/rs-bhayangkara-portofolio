@@ -5789,7 +5789,7 @@ class EMRController  extends ApiController
                 ->first();
             $noemr = $EMR->noemr;
         }
-  return $dataReq['tglKontrol'];
+//   return $dataReq['tglKontrol'];
         //VALIDASI JIKA NOREGISTRASI BEDA //
         if (isset($head['noregistrasi'])) {
             if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
