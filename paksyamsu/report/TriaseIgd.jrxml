@@ -375,7 +375,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[7]), Map.class).get("va
 					<textElement verticalAlignment="Middle">
 						<font fontName="Arial" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Tekanan Darah Sistole:]]></text>
+					<text><![CDATA[Tekanan Darah :]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="60" y="358" width="48" height="16" uuid="d05006aa-a16f-4aa9-b0ba-c2d55321e9b1">
@@ -387,7 +387,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[7]), Map.class).get("va
 					<text><![CDATA[mmHg]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="254" y="342" width="84" height="16" uuid="6a4bc95e-7777-4f82-8806-93ce51ad7317">
+					<reportElement x="156" y="342" width="84" height="16" uuid="6a4bc95e-7777-4f82-8806-93ce51ad7317">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -396,7 +396,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[7]), Map.class).get("va
 					<text><![CDATA[Pernapasan :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="257" y="358" width="47" height="16" uuid="1db2adfb-7c1d-48d1-adab-b38e17abfd22">
+					<reportElement x="159" y="358" width="47" height="16" uuid="1db2adfb-7c1d-48d1-adab-b38e17abfd22">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -407,7 +407,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[52]), Map.class).get("e
 new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[52]), Map.class).get("value")) : ""]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="291" y="358" width="40" height="16" uuid="b6a6d6d8-36f8-421a-83cf-ba558af33747">
+					<reportElement x="193" y="358" width="40" height="16" uuid="b6a6d6d8-36f8-421a-83cf-ba558af33747">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -416,7 +416,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[52]), Map.class).get("v
 					<text><![CDATA[x/menit]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="344" y="342" width="84" height="16" uuid="730a54a0-93f7-4156-bdbe-e1334fc1b0a7">
+					<reportElement x="243" y="342" width="84" height="16" uuid="730a54a0-93f7-4156-bdbe-e1334fc1b0a7">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -425,7 +425,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[52]), Map.class).get("v
 					<text><![CDATA[Suhu :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="347" y="358" width="47" height="16" uuid="47d59bc9-0104-4d6c-8172-5c80bd11b245">
+					<reportElement x="246" y="358" width="47" height="16" uuid="47d59bc9-0104-4d6c-8172-5c80bd11b245">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -436,7 +436,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[50]), Map.class).get("e
 new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[50]), Map.class).get("value")) : ""]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="381" y="358" width="30" height="16" uuid="e6437120-5e6a-40ea-9c4e-3e44ea60f0f7">
+					<reportElement x="389" y="358" width="30" height="16" uuid="e6437120-5e6a-40ea-9c4e-3e44ea60f0f7">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -445,7 +445,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[50]), Map.class).get("v
 					<text><![CDATA[C]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="446" y="358" width="46" height="16" uuid="9510bf88-f11d-4b4c-8ebc-b1e701805829">
+					<reportElement x="355" y="358" width="46" height="16" uuid="9510bf88-f11d-4b4c-8ebc-b1e701805829">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -454,7 +454,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[50]), Map.class).get("v
 					<text><![CDATA[x/menit]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="412" y="358" width="47" height="16" uuid="5f2fd7f9-7fe0-42c7-a9a1-87d0bea00be2">
+					<reportElement x="321" y="358" width="47" height="16" uuid="5f2fd7f9-7fe0-42c7-a9a1-87d0bea00be2">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -465,7 +465,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[51]), Map.class).get("e
 new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[51]), Map.class).get("value")) : ""]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="409" y="342" width="70" height="16" uuid="9bcd6440-9d75-486f-9b9e-be572dde8c23">
+					<reportElement x="318" y="342" width="70" height="16" uuid="9bcd6440-9d75-486f-9b9e-be572dde8c23">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -474,7 +474,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[51]), Map.class).get("v
 					<text><![CDATA[Nadi :]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="500" y="358" width="47" height="16" uuid="0b144379-ed8c-4a5d-9792-f2a644b60d3a">
+					<reportElement x="420" y="358" width="47" height="16" uuid="0b144379-ed8c-4a5d-9792-f2a644b60d3a">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -485,7 +485,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[54]), Map.class).get("e
 new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[54]), Map.class).get("value")) : ""]]></textFieldExpression>
 				</textField>
 				<staticText>
-					<reportElement x="497" y="342" width="70" height="16" uuid="e05c6adf-93ee-4942-ad0a-87f32c15c250">
+					<reportElement x="417" y="342" width="70" height="16" uuid="e05c6adf-93ee-4942-ad0a-87f32c15c250">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -494,7 +494,7 @@ new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[54]), Map.class).get("v
 					<text><![CDATA[Spo 2 :]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="534" y="358" width="46" height="16" uuid="eb0fcfa2-34c7-4577-bcf0-919b1be48162">
+					<reportElement x="454" y="358" width="46" height="16" uuid="eb0fcfa2-34c7-4577-bcf0-919b1be48162">
 						<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					</reportElement>
 					<textElement verticalAlignment="Middle">
@@ -1650,35 +1650,6 @@ com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
 					<reportElement x="341" y="623" width="93" height="45" uuid="1cfaf914-fa5e-4faf-947a-204a8c307aaf"/>
 					<imageExpression><![CDATA["/opt/bayangkarapostgre/paksyamsu/upload-dir/6.png"]]></imageExpression>
 				</image>
-				<textField>
-					<reportElement x="142" y="358" width="47" height="16" uuid="851536f7-e74a-4d1a-9977-7b7e3a9f207c">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font fontName="SansSerif" size="10"/>
-					</textElement>
-					<textFieldExpression><![CDATA[String.valueOf(new com.google.gson.Gson().fromJson(
-new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[91]), Map.class).get("emrdfk")).equals("1901300581") ? String.valueOf(new com.google.gson.Gson().fromJson(
-new com.google.gson.Gson().toJson($P{dataLoad}.toArray()[91]), Map.class).get("value")) : ""]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement x="139" y="342" width="114" height="16" uuid="a236cf02-1053-402b-9232-a9667c8e7e3d">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Tekanan Darah Distole:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="176" y="358" width="48" height="16" uuid="f41108b2-2753-4b97-ac3a-46a0d82ae8aa">
-						<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					</reportElement>
-					<textElement verticalAlignment="Middle">
-						<font fontName="Arial"/>
-					</textElement>
-					<text><![CDATA[mmHg]]></text>
-				</staticText>
 			</band>
 		</groupHeader>
 	</group>
