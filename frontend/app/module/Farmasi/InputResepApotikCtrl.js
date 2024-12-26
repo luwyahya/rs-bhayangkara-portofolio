@@ -1319,6 +1319,7 @@ define(['initialize'], function (initialize) {
                 } else {
                     nomor = data2.length + 1
                 }
+                var ketobatpulang = 'Obat';
                 var isobatpulang = 'false';
                 if ($scope.model.isObatPulang == true) {
                     isobatpulang = 'true';
@@ -1399,6 +1400,7 @@ define(['initialize'], function (initialize) {
                             data.kronis = kronis
                             data.dosisobat = $scope.item.dosisobat
                             data.waktuminum = $scope.item.waktuminum.waktuminum
+                            data.ketobatpulang = ketobatpulang
                             data.isobatpulang = isobatpulang
                             // data2[i] = data;
 
@@ -1526,6 +1528,8 @@ define(['initialize'], function (initialize) {
                         keterangan: $scope.item.waktuminum.waktuminum,
                         dosisobat: $scope.item.dosisobat,
                         waktuminum: $scope.item.waktuminum.waktuminum,
+                        isobatpulang: isobatpulang,
+                        ketobatpulang: ketobatpulang,
                     }
 
                     if (kronisall == true) {
