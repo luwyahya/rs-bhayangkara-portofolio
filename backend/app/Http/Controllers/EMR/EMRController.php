@@ -5853,6 +5853,7 @@ class EMRController  extends ApiController
         $RE->namapasien = $dataReq['namapasien'];
         $RE->objectjeniskelaminfk = $dataReq['jeniskelaminfk'];
         $RE->nocm = $dataReq['nocm'];
+        $RE->pasienkeluarga = $dataReq['ttdpasien'];
         if (isset($dataReq['beratbadan'])) {
             $RE->beratbadan = $dataReq['beratbadan'];
         }
