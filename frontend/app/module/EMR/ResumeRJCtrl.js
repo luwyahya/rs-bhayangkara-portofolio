@@ -137,7 +137,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					$scope.listJenisKelamin =dat.data.jeniskelamin
 					$scope.listPenjamin = dat.data.rekanan
 				})
-				
+				$scope.listKeadaanUmum = [
+                    { 'id': 1, 'keadaanumum': 'Baik' }, 
+                    { 'id': 2, 'keadaanumum': 'Tampak Sakit Ringan' },
+                    { 'id': 3, 'keadaanumum': 'Tampak Sakit Sedang' },
+                    { 'id': 4, 'keadaanumum': 'Tampak Sakit Berat' },
+                ]
                 $scope.listJenisRujukan = [
 					{ 'id': 1, 'name': 'Faskes 1' }, 
 					{ 'id': 2, 'name': 'Faskes 2' }
@@ -192,297 +197,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					// { field: "usiaPensiun", title: "Usia Pensiun", width: 120, attributes: { style: "text-align:right; padding-right: 15px;" } }, , { name: "edit", text: "Edit", click: editData }
 					{ command: [{ imageClass: "k-icon k-delete", text: "Hapus", click: hapus }], title: "&nbsp;", width: 150 }
 				],
-				// editable: "popup",
-				// save: function (e) {
-				// 	$scope.Save(e.model);
-				// },
-				// edit: function (e) {
-				// 	e.sender.columns.forEach(function (element, index /*, array */) {
-				// 		if (element.hideMe) {
-				// 			e.container.find(".k-edit-label:eq(" + index + "), "
-				// 				+ ".k-edit-field:eq( " + index + ")"
-				// 			).hide();
-				// 		}
-				// 	});
-				// }
-			};
-			// $scope.inputBaru = function () {	
-			// 	// debugger
-			// 	cekYangBisaOtomatis()
-			// 	loadTindakan()
-			// 	$scope.checkboxClicked = function (dat) {
-			// 		if ($scope.item.kasusbaru == true) {
-			// 			$scope.item.kasusbaru = true
-			// 			$scope.item.kasuslama = false
-			// 		} else {
-			// 			$scope.item.kasusbaru = false
-			// 			$scope.item.kasuslama = true
-			// 		}
-			// 	}
-	
-			// 	$scope.checkboxClicked2 = function (dat) {
-			// 		if ($scope.item.kasuslama == false) {
-			// 			$scope.item.kasusbaru = true
-			// 			$scope.item.kasuslama = false
-			// 		} else {
-			// 			$scope.item.kasusbaru = false
-			// 			$scope.item.kasuslama = true
-			// 		}
-			// 	}
-			// 	// if (kelompokUser[1] == 'dokter') {
-			// 	// 	$scope.item.namadokter = { id: $scope.pegawaiLogin.id, namalengkap: $scope.pegawaiLogin.namaLengkap }
-			// 	// }
-			// 	// $scope.popUp.center().open()
-			// 	// $scope.isRouteLoading = true;
-			// 	$scope.tampilanDepan = false;
-			// 	$scope.tampilanBelakang = true;
-			// 	$scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
-			// 	$scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
-			// 	$scope.item.noRm = $scope.cc.nocm
-			// 	$scope.item.namaPasien = $scope.cc.namapasien
-			// 	$scope.item.nik = $scope.cc.noidentitas
-			// 	$scope.item.tglLahir = $scope.cc.tgllahir
-			// 	$scope.item.tempatLahir = $scope.cc.tempatlahir
-			// 	$scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
-				
-			// 	$scope.item.tglMasuk = $scope.cc.tglregistrasi
-			// 	$scope.item.tglPulang = $scope.cc.tglpulang
-			// 	$scope.item.ttdPasien = $scope.cc.namapasien
-			// 	$scope.item.dpjp= {"id":$scope.cc.iddpjp,"namalengkap":$scope.cc.dpjp}
-
-			// 	medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi + "&ruid=" + $scope.cc.objectruanganfk, true).then(function(dat) {
-			// 		$scope.isRouteLoading = false;
-			// 		lab = dat.data.data
-			// 		for (var i = 0; i < dat.data.data.length; i++) {
-			// 			dat.data.data[i].no = i + 1
-			// 			dat.data.data[i].statCheckbox = false;
-			// 			if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
-			// 				dat.data.data[i].statusbridging = "✔";
-			// 				// ✅
-			// 				// ✔
-			// 			} else {
-			// 				dat.data.data[i].statusbridging = "✘";
-			// 				// ✘
-			// 				// ❎
-			// 			}
-			// 			if (dat.data.data[i].iscito == "1") {
-			// 				dat.data.data[i].statuscito = "✔";
-			// 				// ✅
-			// 				// ✔
-			// 			} else {
-			// 				dat.data.data[i].statuscito = "✘";
-			// 				// ✘
-			// 				// ❎
-			// 			}
-			// 			if (dat.data.data[i].statusperiksa == 1) {
-			// 				dat.data.data[i].statusperiksa = "✔";
-			// 			} else {
-			// 				dat.data.data[i].statusperiksa = "✘";
-			// 			}
-
-			// 		}
-			// 		if (dat.data.data.length > 0) {
-			// 			if (dat.data.data[0].objectdepartemenfk == 3)
-			// 				$scope.disableRad = true
-			// 			if (dat.data.data[0].objectdepartemenfk == 27)
-			// 				$scope.disableLab = true
-			// 		}
-			// 		$scope.isLoading = false;
-
-			// 		$scope.dataGrid = {
-			// 			data: dat.data.data,
-			// 			_data: dat.data.data,
-			// 			// pageSize: 10,
-			// 			selectable: true,
-			// 			refresh: true,
-			// 			total: dat.data.data.length,
-			// 			serverPaging: false,
-			// 			aggregate: [
-			// 				{ field: 'total', aggregate: 'sum' },
-			// 			]
-			// 		};
-
-			// 		// $scope.popUpPelayanan.center().open();
-					 
-			// 		// datalab = dat.data.data;
-			// 		// popUps(datalab)
-
-			// 	},
-			// 	function(error) {
-			// 		$scope.isLoading = false;
-			// 	});
-			// 	medifirstService.get('emr/get-rad-resume-rj?noregistrasi=' + $scope.cc.noregistrasi + "&ruid=" + $scope.cc.objectruanganfk, true).then(function(dat) {
-			// 		$scope.isRouteLoading = false;
-			// 		rad = dat.data.data
-			// 		for (var i = 0; i < dat.data.data.length; i++) {
-			// 			dat.data.data[i].no = i + 1
-			// 			dat.data.data[i].statCheckbox = false;
-			// 			if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
-			// 				dat.data.data[i].statusbridging = "✔";
-			// 				// ✅
-			// 				// ✔
-			// 			} else {
-			// 				dat.data.data[i].statusbridging = "✘";
-			// 				// ✘
-			// 				// ❎
-			// 			}
-			// 			if (dat.data.data[i].iscito == "1") {
-			// 				dat.data.data[i].statuscito = "✔";
-			// 				// ✅
-			// 				// ✔
-			// 			} else {
-			// 				dat.data.data[i].statuscito = "✘";
-			// 				// ✘
-			// 				// ❎
-			// 			}
-			// 			if (dat.data.data[i].statusperiksa == 1) {
-			// 				dat.data.data[i].statusperiksa = "✔";
-			// 			} else {
-			// 				dat.data.data[i].statusperiksa = "✘";
-			// 			}
-			// 			if (dat.data.data[i].hr_norec != null) {
-			// 				dat.data.data[i].flagrad = 'Ada';
-			// 			} else {
-			// 				dat.data.data[i].flagrad = 'Tidak Ada';
-			// 			}
-	
-			// 		}
-			// 		if (dat.data.data.length > 0) {
-			// 			if (dat.data.data[0].objectdepartemenfk == 3)
-			// 				$scope.disableRad = true
-			// 			if (dat.data.data[0].objectdepartemenfk == 27)
-			// 				$scope.disableLab = true
-			// 		}
-			// 		$scope.isLoading = false;
-			// 		$scope.dataGridRadiologi = {
-			// 			data: dat.data.data,
-			// 			_data: dat.data.data,
-			// 			// pageSize: 10,
-			// 			selectable: true,
-			// 			refresh: true,
-			// 			total: dat.data.data.length,
-			// 			serverPaging: false,
-			// 			aggregate: [
-			// 				{ field: 'total', aggregate: 'sum' },
-			// 			]
-			// 		};
-	
-			// 		// $scope.popUpPelayanan.center().open();
-					 
-			// 		// datalab = dat.data.data;
-			// 		// popUps(datalab)
-	
-			// 	},
-			// 	function(error) {
-			// 		$scope.isLoading = false;
-			// 	});
-			// 	medifirstService.get('farmasi/get-transaksi-pelayanan?noReg=' + $scope.cc.noregistrasi).then(function(dat) {
-			// 		obat = dat.data
-			// 		for (let i = 0; i < dat.data.length; i++) {
-			// 			dat.data[i].no = i + 1;
-			// 		}
-			// 		$scope.dataGridObat = {
-			// 			data: dat.data,
-			// 			// pageSize: 10,
-			// 			selectable: true,
-			// 			refresh: true,
-			// 			total: dat.data.length,
-			// 			serverPaging: false,
-			// 			aggregate: [
-			// 				{ field: 'total', aggregate: 'sum' },
-			// 			]
-			// 		};
-			// 	})
-			// 	loadDiagnosa();
-			// 	// medifirstService.get("emr/get-diagnosapasienbynoreg?"
-            //     //             + "noReg=" + $scope.noRegistrasi
-            //     //         ).then(function (data) {
-			// 	// 			 
-            //     //             // $scope.isRouteLoading = false;
-            //     //             var dataICD10 = data.data.datas;
-            //     //             $scope.dataSourceDiagnosaIcd10 = new kendo.data.DataSource({
-            //     //                 data: dataICD10,
-            //     //                 pageSize: 10
-            //     //             });
-            //     //         });
-			// 			$scope.columnDiagnosaIcd9 = [{
-			// 				"title": "No",
-			// 				"template": "{{dataSourceDiagnosaIcd9.indexOf(dataItem) + 1}}",
-			// 				"width": "30px"
-			// 			}, 
-			// 			{
-			// 				"field": "noregistrasi",
-			// 				"title": "No Registrasi",
-			// 				"width": "100px"
-			// 			}, {
-			// 				"field": "kddiagnosatindakan",
-			// 				"title": "Kode ICD 9",
-			// 				"width": "100px"
-			// 			}, {
-			// 				"field": "namadiagnosatindakan",
-			// 				"title": "Nama ICD 9",
-			// 				"width": "300px"
-			// 			}, {
-			// 				"field": "keterangantindakan",
-			// 				"title": "Keterangan",
-			// 				"width": "200px"
-			// 			}, {
-			// 				"field": "namaruangan",
-			// 				"title": "Ruangan",
-			// 				"width": "200px"
-			// 			},
-			// 			{
-			// 				"field": "namalengkap",
-			// 				"title": "Penginput",
-			// 				"width": "200px"
-			// 			},
-			// 			{
-			// 				"field": "tglinputdiagnosa",
-			// 				"title": "Tgl Input",
-			// 				"width": "200px"
-			// 			}];
-			// 			$scope.columnDiagnosaIcd10 = [{
-			// 				"title": "No",
-			// 				"template": "{{dataSourceDiagnosaIcd10.indexOf(dataItem) + 1}}",
-			// 				"width": "30px"
-			// 			}, 
-			// 			{
-			// 				"field": "noregistrasi",
-			// 				"title": "No Registrasi",
-			// 				"width": "100px"
-			// 			},{
-			// 				"field": "jenisdiagnosa",
-			// 				"title": "Jenis Diagnosis",
-			// 				"width": "150px"
-			// 			}, {
-			// 				"field": "kddiagnosa",
-			// 				"title": "Kode ICD 10",
-			// 				"width": "100px"
-			// 			}, {
-			// 				"field": "namadiagnosa",
-			// 				"title": "Nama ICD 10",
-			// 				"width": "300px"
-			// 			}, {
-			// 				"field": "keterangan",
-			// 				"title": "Keterangan",
-			// 				"width": "200px"
-			// 			}, {
-			// 				"field": "namaruangan",
-			// 				"title": "Ruangan",
-			// 				"width": "150px"
-			// 			},
-			// 			{
-			// 				"field": "namalengkap",
-			// 				"title": "Penginput",
-			// 				"width": "200px"
-			// 			},
-			// 			{
-			// 				"field": "tglinputdiagnosa",
-			// 				"title": "Tgl Input",
-			// 				"width": "200px"
-			// 			}];
 			
-			// }
+			};
 			$scope.columnGrid = {toolbar: [{
 				name: "create", text: "Input Baru",
 				template: '<button ng-click="tambahDataLab()" class="k-button k-button-icontext k-grid-upload" href="\\#"><span class="k-icon k-i-plus"></span>Tambah Data Laboratorium</button>'
@@ -1750,7 +1466,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				else transportasi="";
 				if($scope.item.kondisiMeninggalkan!=undefined) meninggalkanrs= $scope.item.kondisiMeninggalkan.kondisi
 				else meninggalkanrs="";
-				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum
+				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
 				else keadaan="";
 
 				var keluhanUtama = ""
@@ -1788,7 +1504,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
 				var keadaanumum = ""
 				if ($scope.item.keadaanUmum != undefined) {
-					keadaanumum = $scope.item.keadaanUmum
+					keadaanumum = $scope.item.keadaanUmum.keadaanumum
 				} else {
 					keadaanumum = '-'
 				}
@@ -1903,7 +1619,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			$scope.batal = function () {
 				$scope.popUp.close()
 			}
-			init();
+			// init();
 
 			function hapus(e) {
 				// debugger

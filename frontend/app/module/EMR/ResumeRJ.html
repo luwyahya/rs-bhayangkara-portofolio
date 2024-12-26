@@ -355,9 +355,9 @@
                 <label c-label item="item" required>Keadaan Umum</label>
             </div>
             <div class="grid_10">
-                <textarea required class="k-textbox"
-                    style="height: 76px; width: 100%; resize: none; margin-top: 5px"
-                ng-model="item.keadaanUmum"></textarea>
+                <input kendo-combo-box style="width:100%" k-ng-model="item.keadaanUmum"
+                        k-data-text-field="'keadaanumum'" k-data-value-field="'id'" k-filter="'contains'"
+                        k-auto-bind="false" k-data-source="listKeadaanUmum" /> 
             </div>
         </div>
         <div class="grid_12">
