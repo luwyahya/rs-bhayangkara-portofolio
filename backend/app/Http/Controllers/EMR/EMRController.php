@@ -5789,7 +5789,7 @@ class EMRController  extends ApiController
                 ->first();
             $noemr = $EMR->noemr;
         }
-  
+  return $dataReq['tglKontrol'];
         //VALIDASI JIKA NOREGISTRASI BEDA //
         if (isset($head['noregistrasi'])) {
             if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
@@ -5856,7 +5856,7 @@ class EMRController  extends ApiController
         if (isset($dataReq['beratbadan'])) {
             $RE->beratbadan = $dataReq['beratbadan'];
         }
-        $RE->kontrol = $dataReq['kontrolpoli'];
+        $RE->kontrol = $dataReq['kontrol'];
         //$RE->tglpelayanan = $dataReq['tglpelayanan'];
         $RE->tglpelayanan = $this->getDateTime()->format('Y-m-d H:i:s');
 
