@@ -5751,11 +5751,11 @@ class EMRController  extends ApiController
         // try {
             // return 'aa';
         $dataReq = $request->all();
+        $lab = isset($dataReq['lab']) && count($dataReq['lab']) > 0 ? $dataReq['lab'] : []; // Jika tidak ada data, inisialisasi array kosong
+        $rad = isset($dataReq['rad']) && count($dataReq['rad']) > 0 ? $dataReq['rad'] : []; 
+        $obat = isset($dataReq['obat']) && count($dataReq['obat']) > 0 ? $dataReq['obat'] : [];
+        $head = isset($dataReq['head']) && count($dataReq['head']) > 0 ? $dataReq['head'] : [];
         
-        $lab = $dataReq['lab'];
-        $rad = $dataReq['rad'];
-        $obat = $dataReq['obat'];
-        $head = $dataReq['head'];
         $tindakan = $dataReq['tindakan'];
         if ($head['norec_emr'] == '-') {
 
