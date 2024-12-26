@@ -5913,8 +5913,9 @@ class EMRController  extends ApiController
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->hasilpenunjang = $items->hasil;
-                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'] ?: null;
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'] ?: null;
+
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
