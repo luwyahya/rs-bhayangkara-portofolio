@@ -613,6 +613,13 @@ define(['initialize'], function (initialize) {
                                     $scope.checkResepPulang = false;
                                 }
                                 data2 = dat.data.orderpelayanan
+                                dataPulang = dat.data.orderpelayanan;
+                                for (var i = 0; i < dataPulang.length; i++) {
+                                 if (dataPulang[i].isobatpulang === "1") {
+                                 $scope.obatpulang = true;
+                                break;  // Hentikan loop jika sudah ditemukan satu yang bernilai 1
+                                     }
+                                }
                                 for (var i = data2.length - 1; i >= 0; i--) {
                                     // data.no = $scope.item.no
                                     // medifirstService.getDataTableTransaksi("logistik/get-produkdetail?"+
@@ -691,6 +698,7 @@ define(['initialize'], function (initialize) {
                                         dataOK.push(data2[i]);
                                     }
                                 }
+                             
                                 // for (let x = 0; x < dataOK.length; x++) {
                                 //     const element = dataOK[x];
                                 //     element.no = x + 1;
@@ -1311,6 +1319,11 @@ define(['initialize'], function (initialize) {
                 } else {
                     nomor = data2.length + 1
                 }
+                var isobatpulang = 'false';
+                if ($scope.model.isObatPulang == true) {
+                    isobatpulang = 'true';
+                    ketobatpulang = 'Obat Pulang';
+                }
                 var kronis = false
                 if ($scope.model.kronis == undefined) {
                     kronis = false
@@ -1386,6 +1399,7 @@ define(['initialize'], function (initialize) {
                             data.kronis = kronis
                             data.dosisobat = $scope.item.dosisobat
                             data.waktuminum = $scope.item.waktuminum.waktuminum
+                            data.isobatpulang = isobatpulang
                             // data2[i] = data;
 
 
@@ -1703,6 +1717,11 @@ define(['initialize'], function (initialize) {
                 $scope.item.dosisobat = dataSelected.dosisobat
                 $scope.item.jumlah = dataSelected.jumlah
                 $scope.currentAturanPakai = []
+                if (dataSelected.isobatpulang == 'true') {
+                    $scope.model.isObatPulang = true
+                } else {
+                    $scope.model.isObatPulang = false
+                }
                 debugger
                 $scope.item.chkp = 0
                 $scope.item.chks = 0
