@@ -2831,8 +2831,7 @@ class EMRController  extends ApiController
             'rm.pasienkeluarga',
             'rm.tglcetak',
             'rm.emrpasienfk',
-            'rm.sarantransportasi',
-            'rm.carakeluar'
+            'rm.sarantransportasi'
         )
         ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
         ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
