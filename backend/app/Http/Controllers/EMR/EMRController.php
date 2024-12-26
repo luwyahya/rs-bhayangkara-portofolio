@@ -7917,7 +7917,7 @@ class EMRController  extends ApiController
                 ORDER BY tgl DESC
                 LIMIT 1
             )
-            ORDER BY tgl
+            ORDER BY tgl DESC
         "));
         } else {
             $detailEmr = DB::select(DB::raw("
@@ -7935,7 +7935,7 @@ class EMRController  extends ApiController
                 ORDER BY tgl DESC
                 LIMIT 1
             )
-            ORDER BY tgl
+            ORDER BY tgl DESC
         "));
 
         $filteredDetailEmr = array_filter($detailEmr, function($item) {
@@ -7949,7 +7949,7 @@ class EMRController  extends ApiController
                 WHERE emrpasienfk IN ('" . implode("','", $noemrList) . "')
                 AND emrfk IN ('" . implode("','", $emrfkList) . "')
                 AND statusenabled = true
-                ORDER BY tgl
+                ORDER BY tgl DESC
             "));
         }
         }
