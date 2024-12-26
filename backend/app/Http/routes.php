@@ -3670,6 +3670,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-combo', 'SysAdmin\LoggingController@getCombo');
                 Route::get('get-aktivitas-user', 'SysAdmin\LoggingController@getAktivitasUser');
                 Route::get('save-log-bayar', 'SysAdmin\LoggingController@saveLogBayartTagihanPasien');
+                Route::post('save-log-cetak-emr', 'SysAdmin\LoggingController@saveLoggingCetakEMR');
 
                 Route::post('save-log-ubah-harga', 'SysAdmin\LoggingController@saveLoggingUbahHarga');
             });

@@ -1558,4 +1558,47 @@ class LoggingController extends ApiController
         }
         return $this->respond($result); 
     }
+    public function saveLoggingCetakEMR(Request $request)
+    {
+        DB::beginTransaction();
+
+        $transStatus = true;
+        $dataLogin = $request->all();
+        $logUser = new LoggingUserEmrNew();
+        $logUser->norec = $logUser->generateNewId();
+        $logUser->kdprofile= 11;
+        $logUser->statusenabled=true;
+        $logUser->jenislog = $request['jenislog'];
+        $logUser->noreff =$request['noreff'];
+        $logUser->referensi=$request['referensi'];
+        $logUser->jenisemr=$request['jenisemr'];
+        $logUser->keterangan=$request['keterangan'];
+        $logUser->objectloginuserfk =  $dataLogin['userData']['id'];
+        $logUser->tanggal = $this->getDateTime()->format('Y-m-d H:i:s');
+        
+        $logUser->save();
+        try {
+            $res = $logUser->jenislog ;
+            $transMsg = "Simpan Log ".$res." Sukses ";
+        } catch (\Exception $e) {
+            $transStatus = false;
+            $transMsg = "Simpan Log Gagal ";
+        }
+
+        if ($transStatus == true) {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMsg,
+                "as" => 'Inhuman'
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => $transMsg
+            );
+        }
+        return $this->respond($result);
+    }
 }

@@ -226,7 +226,11 @@ define(['Configuration'], function(config) {
                         referensi + '&noreff=' + noreff + '&keterangan=' + keterangan
                 });
             },
-
+            postLoggingEMRCetak: function(data) {                
+                return r.postNonMessage({
+                    url: baseApiBackend + "sysadmin/logging/save-log-cetak-emr?"
+                }, data);
+            },
             getMicroService: function(url) {
                 return r.getMicroService({
                     url: baseApiBackend + url
