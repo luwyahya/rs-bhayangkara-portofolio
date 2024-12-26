@@ -2123,7 +2123,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				});
 				medifirstService.get('farmasi/get-transaksi-pelayanan?noReg=' + $scope.cc.noregistrasi).then(function(dat) {
 					obat = dat.data
-					// debugger
+					debugger
 					for (let i = 0; i < dat.data.length; i++) {
 						dat.data[i].no = i + 1;
 					}

@@ -2781,34 +2781,66 @@ class EMRController  extends ApiController
     }
 
     public function getResumeMedis(Request $request, $nocm)
-    {
+    {       
         $data = \DB::table('resumemedis_t as rm')
-            ->select(
-                'rm.norec',
-                'rm.tglresume',
-                'ru.namaruangan',
-                'rm.diagnosisawal as diagnosis',
-                'rm.icd',
-                'rm.jenispemeriksaan',
-                'rm.riwayatlalu',
-                'pg.namalengkap as namadokter',
-                'rm.pegawaifk',
-                'pd.noregistrasi',
-                'pd.tglregistrasi',
-                'ps.nocm',
-                'ps.namapasien'
-            )
+        ->select(
+            'rm.norec',
+            'rm.tglresume',
+            'rm.tglmasuk',
+            'ru.namaruangan',
+            'rm.diagnosisawal as diagnosis',
+            'rm.icd',
+            'rm.jenispemeriksaan',
+            'rm.riwayatlalu',
+            'rm.namadokter',
+            'pg.namalengkap as namadokter2',
+            'rm.pegawaifk',
+            'pd.noregistrasi',
+            'pd.tglregistrasi',
+            'ps.nocm',
+            'ps.namapasien',
+            'rm.pegawaifk',
+            'rm.tglmasuk',
+            'rm.tglkeluar',
+            'rm.keluhanutama',
+            'rm.alergi',
+            'rm.kesadaran',
+            'rm.keadaanumum',
+            'rm.denyutjantung',
+            'rm.pernapasan',
+            'rm.systole',
+            'rm.diastole',
+            'rm.suhu',
+            'rm.pemeriksaandisik',
+            'rm.diet',
+            'rm.keterangandiet',
+            'rm.edukasi',
+            'rm.prognosis',
+            'rm.rencanatindaklanjut',
+            'rm.tglkontrol',
+            'rm.kontrol',
+            'rm.keadaandarurat2',
+            'rm.kondisimeninggalkan',
+            'rm.pasienkeluarga',
+            'rm.namadokter',
+            'rm.pegawaifk',
+            'rm.tglcetak',
+            'rm.emrpasienfk'
+        )
             ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
             ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
             ->Join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
             ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
             ->where('rm.statusenabled', true)
-            ->where('ps.nocm', $nocm)
-            ->where('rm.keteranganlainnya', 'RawatJalan');
+            ->where('pd.noregistrasi', (string) $nocm)
+            ->where('rm.keteranganlainnya', 'RawatJalan')
+            ->orderBy('rm.tglresume', 'desc');
+            
         //            ->whereIn('ru.objectdepartemenfk',$iddept);
 
-        $data = $data->get();
+        $data = $data ->first();
+        // return $data;
         $result = array(
             'data' => $data,
             'message' => 'Inhuman',
@@ -5886,7 +5918,7 @@ class EMRController  extends ApiController
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
-                        $temp->norecpenunjang = $labs['norec_hasillab'];
+                        // $temp->norecpenunjang = $labs['norec_hasillab'];
                         $temp->flaglab = $items->flag;
                         $temp->detailpemeriksaan = $items->detailpemeriksaan;
                         $temp->save();
@@ -6480,7 +6512,6 @@ class EMRController  extends ApiController
 
         return $this->respond($result);
     }
-
 
     public function getMenuRekamMedisAtuhNav(Request $request)
     {
@@ -26723,5 +26754,157 @@ WHERE rm.norec = '$norec_resume'
         }
 
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getHistoryEmrNew($norecAPD) {
+        $data = DB::select(DB::raw("
+        select pd.noregistrasi, kls.namakelas as kelasPasien, kl.namakelas as kelasPenjamin, apd.norec as norec_apd, apd.objectruanganfk from pasiendaftar_t as pd inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec inner join
+        kelas_m as kls on kls.id = pd.objectkelasfk left join
+        pemakaianasuransi_t as pa on pa.noregistrasifk = pd.norec left join
+        asuransipasien_m as asu on asu.id = pa.objectasuransipasienfk left join
+        kelas_m as kl on kl.id = asu.objectkelasdijaminfk
+        where ps.nocm = '$norecAPD'
+        and apd.statusenabled='1'
+        order by apd.tglmasuk asc
+        "));
+
+        foreach ($data as $item) {
+
+            $detail = [];
+            $datas = \DB::table('pasiendaftar_t as pd')
+                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('kamar_m as km', 'km.id', '=', 'apd.objectkamarfk')
+                ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
+                ->join('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                ->join('alamat_m as alm', 'alm.nocmfk', '=', 'ps.id')
+                ->leftJoin('pendidikan_m as pdd', 'pdd.id', '=', 'ps.objectpendidikanfk')
+                ->leftjoin('pekerjaan_m as pk', 'pk.id', '=', 'ps.objectpekerjaanfk')
+                ->leftjoin('golongandarah_m as gd', 'gd.id', '=', 'ps.objectgolongandarahfk')
+                ->leftjoin('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+                ->join('kelas_m as kls', 'kls.id', '=', 'apd.objectkelasfk')
+                ->leftJoin('pegawai_m as pg1', 'pg1.id', '=', 'pd.objectpegawaifk')
+                ->select(
+                    'apd.norec',
+                    'pd.noregistrasi',
+                    'pd.tglregistrasi',
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'ps.tgllahir',
+                    'km.namakamar',
+                    'ru.objectdepartemenfk',
+                    'alm.alamatlengkap',
+                    'kps.kelompokpasien',
+                    'ru.namaruangan',
+                    'pg.namalengkap',
+                    'jk.jeniskelamin',
+                    'pd.norec as norec_pd',
+                    'pdd.pendidikan',
+                    'pk.pekerjaan',
+                    'pd.tglpulang',
+                    'rk.namarekanan',
+                    'kls.namakelas',
+                    'pd.nocmfk',
+                    'pd.objectkelompokpasienlastfk',
+                    'apd.objectruanganfk',
+                    'apd.objectpegawaifk',
+                    'ps.objectjeniskelaminfk',
+                    'apd.objectkelasfk',
+                    'ps.objectgolongandarahfk',
+                    'gd.golongandarah',
+                    'ps.foto',
+                    'pg1.namalengkap as dokterdpjp',
+                    'pg1.id as iddpjp',
+                    'pd.objectrekananfk'
+                )
+                // ->where('pd.noregistrasi', $item->noregistrasi)
+                ->where('apd.norec', $item->norec_apd)
+                ->whereIn('ru.objectdepartemenfk', [16, 18, 24, 79, 28, 83])
+                // ->where('apd.statusenabled', true)
+                // ->where('pd.statusenabled', true)
+                ->orderBy('apd.tglmasuk', 'ASC')
+                ->take(1)
+                ->get(1);
+            
+            // $lab = 'Belum diisi';
+            // $rad = 'Belum diisi';
+            // $pelayananpasien = \DB::table('pasiendaftar_t as pd')
+            //     ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            //     ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+            //     ->select('apd.objectruanganfk')
+            //     ->where('pd.noregistrasi', $item->noregistrasi)
+            //     ->where('apd.objectruanganasalfk', $item->objectruanganfk)
+            //     ->where('apd.statusenabled', true)
+            //     ->where('pd.statusenabled', true)
+            //     ->whereIn('apd.objectruanganfk', [575, 576])
+            //     ->distinct()
+            //     ->get();
+            // if (count($pelayananpasien) > 0) {
+            //     foreach ($pelayananpasien as $ppitem) {
+            //         if ($ppitem->objectruanganfk == 575) {
+            //             $lab = 'Sudah diisi';
+            //             $detail[] = array(
+            //                 'path' => "RekamMedis.TransaksiPelayananLaboratoriumDokterRev",
+            //                 'name' => "Laboratorium"
+            //             );
+            //         } else if ($ppitem->objectruanganfk == 576) {
+            //             $rad = 'Sudah diisi';
+            //             $detail[] = array(
+            //                 'path' => "RekamMedis.TransaksiPelayananRadiologiDokterRev",
+            //                 'name' => "Radiologi"
+            //             );
+            //         }
+            //     }
+            // }
+            foreach ($datas as $items) {
+                $datass[] = array(
+                    // 'radiologi' => $rad,
+                    // 'laboratorium' => $lab,
+                    'details' => $detail,
+
+                    'kelaspasien' => $item->kelasPasien,
+                    'kelaspenjamin' => $item->kelasPenjamin,
+                    'norec' => $items->norec,
+                    'noregistrasi' => $items->noregistrasi,
+                    'tglregistrasi' => $items->tglregistrasi,
+                    'nocm' => $items->nocm,
+                    'namapasien' => $items->namapasien,
+                    'tgllahir' => $items->tgllahir,
+                    'namakamar' => $items->namakamar,
+                    'objectdepartemenfk' => $items->objectdepartemenfk,
+                    'alamatlengkap' => $items->alamatlengkap,
+                    'kelompokpasien' => $items->kelompokpasien,
+                    'namaruangan' => $items->namaruangan,
+                    'namalengkap' => $items->namalengkap,
+                    'jeniskelamin' => $items->jeniskelamin,
+                    'norec_pd' => $items->norec_pd,
+                    'pendidikan' => $items->pendidikan,
+                    'pekerjaan' => $items->pekerjaan,
+                    'tglpulang' => $items->tglpulang,
+                    'namarekanan' => $items->namarekanan,
+                    'namakelas' => $items->namakelas,
+                    'nocmfk' => $items->nocmfk,
+                    'objectkelompokpasienlastfk' => $items->objectkelompokpasienlastfk,
+                    'objectruanganfk' => $items->objectruanganfk,
+                    'objectpegawaifk' => $items->objectpegawaifk,
+                    'objectjeniskelaminfk' => $items->objectjeniskelaminfk,
+                    'objectkelasfk' => $items->objectkelasfk,
+                    'objectgolongandarahfk' => $items->objectgolongandarahfk,
+                    'golongandarah' => $items->golongandarah,
+                    'foto' => $items->foto,
+                    'dokterdpjp' => $items->dokterdpjp,
+                    'iddpjp' => $items->iddpjp,
+                    'objectrekananfk' => $items->objectrekananfk
+                );
+            }
+        }
+        $result = array(
+            'result' => $datass,
+            'message' => 'Inhuman',
+        );
+        return $this->respond($datass);
     }
 }
