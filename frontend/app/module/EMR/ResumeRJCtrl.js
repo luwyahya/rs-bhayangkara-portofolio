@@ -1968,7 +1968,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							result[index].no = index + 1
 						}
 						norecresume = result[0].norec
-					}s
+					}
 						// norecresume = result[0].norec
 
 						$scope.sourceResume = new kendo.data.DataSource({
