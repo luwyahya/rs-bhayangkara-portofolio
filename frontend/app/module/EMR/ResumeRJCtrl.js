@@ -174,6 +174,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					{ 'id': 7, 'kondisi': 'Meninggal > 48 Jam' },
 					{ 'id': 8, 'kondisi': 'Lain - lain' },
 				]
+				$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
 			}
 			$scope.resumeOpt = {
 				toolbar: [{
@@ -1480,10 +1481,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					toastr.info('Diagnosa dokter tidak boleh kosong!')
 					return
 				}
-				if ($scope.item.tglKontrol == "" || $scope.item.tglKontrol == null || $scope.item.tglKontrol == undefined) {
-					toastr.info('Tgl Kontrol tidak boleh kosong!')
-					return
-				}
+				// if ($scope.item.tglKontrol == "" || $scope.item.tglKontrol == null || $scope.item.tglKontrol == undefined) {
+				// 	toastr.info('Tgl Kontrol tidak boleh kosong!')
+				// 	return
+				// }
 				if ($scope.item.tglMasuk == ""  || $scope.item.tglMasuk == null || $scope.item.tglMasuk == undefined) {
 					toastr.info('Tgl Masuk tidak boleh kosong!')
 					return
@@ -1499,6 +1500,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				} else {
 					diagnosaDokter = '-'
 				}
+				var tglKontrol = null;
+			if ($scope.item.tglKontrol != undefined) {
+				tglKontrol = moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm');
+			} else {
+				tglKontrol = '-';
+			}
+
 
 				var alergi = ""
 				if ($scope.item.alergi != undefined) {
@@ -1624,7 +1632,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					// transportasi: transportasi,
 					meninggalkanrs: meninggalkanrs,
 
-					tglKontrol: moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm'),
+					tglKontrol: tglKontrol,
 					keadaandarurat: keadaandarurat,
 					pemeriksaanfisik: pemeriksaanfisik,
 					ttdpasien: ttdPasien,
@@ -2506,7 +2514,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 						}
 					}
 				})
-				//$scope.item.darurat = "RS Bhayangkara TK.I Pusdokkes Polri 0218093288 / 0218090559"
+				$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
 				
 				loadDiagnosa()
 			}
