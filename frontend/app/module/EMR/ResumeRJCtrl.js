@@ -1780,11 +1780,7 @@ if ($scope.item.tglKontrol != undefined) {
 						});
 					}
 // debugger
-				$scope.isRouteLoading = false;
-				}, (error) => {
-					$scope.isRouteLoading = false;
-					throw error;
-				})
+			
 				cekYangBisaOtomatis()
 				loadTindakan()
 				
@@ -2041,6 +2037,11 @@ if ($scope.item.tglKontrol != undefined) {
 							"title": "Tgl Input",
 							"width": "200px"
 						}];
+						$scope.isRouteLoading = false;
+					}, (error) => {
+						$scope.isRouteLoading = false;
+						throw error;
+					})
 				
 			};
 
