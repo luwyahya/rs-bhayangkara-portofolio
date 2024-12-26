@@ -14,6 +14,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			$scope.cc = {};
 			$scope.dataSelected = {};
             $scope.poneks.penyakitponekigd = null;
+			$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
 			let norec_apd = ''
 			var namalengkap = {};
             SetCacheHelper();
@@ -131,7 +132,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.listJenisDiagnosa = data.data.jenisdiagnosa;
                 });
 				medifirstService.get('emr/get-combo').then(function(dat) {
-					debugger
 					$scope.listDokter = dat.data.dokter
 					$scope.listRuangan = dat.data.ruanganrajal
 					$scope.listJenisKelamin =dat.data.jeniskelamin
@@ -1968,6 +1968,41 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							result[index].no = index + 1
 						}
 						norecresume = result[0].norec
+						$scope.item.tglMasuk = $scope.cc.tglregistrasi
+                        $scope.item.tglPulang = $scope.cc.tglpulang
+                        $scope.item.keluhanUtama = result[0].keluhanutama
+                        $scope.item.alergi = result[0].alergi,
+                        $scope.item.tingkatKesadaran = result[0].kesadaran 
+                        $scope.item.keadaanUmum = result[0].keadaanumum
+                        $scope.item.denyutJantung = result[0].denyutjantung
+                        $scope.item.pernapasan = result[0].pernapasan
+                        $scope.item.systole = result[0].systole
+                        $scope.item.diastole = result[0].diastole
+                        $scope.item.suhu = result[0].suhu
+                        $scope.item.pemeriksaanFisik = result[0].pemeriksaandisik
+                        $scope.item.diet = result[0].diet,
+                        $scope.item.keterangandiet = result[0].keterangandiet,
+                        $scope.item.edukasi = result[0].edukasi,
+                        $scope.item.prognosis = { prognosis: result[0].prognosis }
+                        $scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
+                        if (result[0].tglkontrol != null) {
+                            $scope.item.yapoli = true;
+                            $scope.kontrol = true;
+                            $scope.item.kontrolPoli = { namaruangan: result[0].kontrol }
+                            $scope.item.tglKontrol = moment(result[0].tglkontrol).format('YYYY-MM-DD HH:mm')
+                        } else {
+                            $scope.item.tidakpoli = true;
+                        }
+                        $scope.item.darurat = result[0].keadaandarurat2
+                        $scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisimeninggalkan }
+                        $scope.item.tglCetak = result[0].tglcetak
+                        // $scope.item.kondisiMeninggalkanLain = 
+                        $scope.item.ttdPasien = result[0].pasienkeluarga
+                        $scope.item.dpjp = { id: result[0].pegawaifk, namalengkap: result[0].namadokter }
+                        norec_emrr = result[0].emrpasienfk
+                        // untuk cek obat, karena ada obat yang dihapus
+                        // loadDiagnosa()
+                        // valueOtomatis()
 					}
 						// norecresume = result[0].norec
 
@@ -1977,7 +2012,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 						});
 					}
 // debugger
-					
+				$scope.isRouteLoading = false;
+				}, (error) => {
+					$scope.isRouteLoading = false;
+					throw error;
+				})
 				cekYangBisaOtomatis()
 				loadTindakan()
 				
@@ -2234,11 +2273,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							"title": "Tgl Input",
 							"width": "200px"
 						}];
-						$scope.isRouteLoading = false;
-					}, (error) => {
-						$scope.isRouteLoading = false;
-						throw error;
-					})
+				
 			};
 
 
@@ -2637,6 +2672,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			}
 			function cekYangBisaOtomatis() {
 				medifirstService.get('emr/get-otomatis?noregistrasi=' + $scope.cc.noregistrasi + "&namaRuangan=" + $scope.cc.namaruangan).then(function(dat) {
+					debugger
 					if(dat.data.data[0].objectstatuspulangfk == 13) {
 						$scope.item.sembuh = true
 					} else if (dat.data.data[0].objectstatuspulangfk == 15) {
@@ -2650,33 +2686,34 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					$scope.item.tglMasuk = new Date(dat.data.data[0].tglregistrasi)
 					$scope.item.tglPulang = new Date(dat.data.data[0].tglpulang)
 					$scope.item.keluhanUtama = dat.data.cppt[0].subjective
+					$scope.item.pemeriksaanFisik = dat.data.cppt[0].objective
 				})
-				medifirstService.get('emr/get-value-from-pengkajian-awal-3?noRegistrasi=' + $scope.cc.noregistrasi)
-				.then(function(dat) {
-					console.log(dat);
-					if (dat.data.length > 0) {
-						for(let i = 0; i < dat.data.length; i++) {
-							if (dat.data[i].emrdfk == 1168 || dat.data[i].emrdfk == 1407 || dat.data[i].emrdfk == 2471 || dat.data[i].emrdfk == 3647 ) {
-								$scope.item.tingkatKesadaran = dat.data[i].value
-							}
-							if (dat.data[i].emrdfk == 1170 || dat.data[i].emrdfk == 1409 || dat.data[i].emrdfk == 2473 || dat.data[i].emrdfk == 3649 ) {
-								$scope.item.denyutJantung = dat.data[i].value
-							}
-							if (dat.data[i].emrdfk == 1173 || dat.data[i].emrdfk == 1412 || dat.data[i].emrdfk == 2476 || dat.data[i].emrdfk == 3654 ) {
-								$scope.item.pernapasan = dat.data[i].value
-							}
-							if (dat.data[i].emrdfk == 1169 || dat.data[i].emrdfk == 1408 || dat.data[i].emrdfk == 2472 || dat.data[i].emrdfk == 3648 ) {
-								let str = dat.data[i].value
-								let res = str.split("/");
-								$scope.item.systole = res[0]
-								$scope.item.diastole = res[1]
-							}
-							if (dat.data[i].emrdfk == 1172 || dat.data[i].emrdfk == 1411 || dat.data[i].emrdfk == 2475 || dat.data[i].emrdfk == 3653 ) {
-								$scope.item.suhu = dat.data[i].value
-							}
-						}
-					}
-				})
+				// medifirstService.get('emr/get-value-from-pengkajian-awal-3?noRegistrasi=' + $scope.cc.noregistrasi)
+				// .then(function(dat) {
+				// 	console.log(dat);
+				// 	if (dat.data.length > 0) {
+				// 		for(let i = 0; i < dat.data.length; i++) {
+				// 			if (dat.data[i].emrdfk == 1168 || dat.data[i].emrdfk == 1407 || dat.data[i].emrdfk == 2471 || dat.data[i].emrdfk == 3647 ) {
+				// 				$scope.item.tingkatKesadaran = dat.data[i].value
+				// 			}
+				// 			if (dat.data[i].emrdfk == 1170 || dat.data[i].emrdfk == 1409 || dat.data[i].emrdfk == 2473 || dat.data[i].emrdfk == 3649 ) {
+				// 				$scope.item.denyutJantung = dat.data[i].value
+				// 			}
+				// 			if (dat.data[i].emrdfk == 1173 || dat.data[i].emrdfk == 1412 || dat.data[i].emrdfk == 2476 || dat.data[i].emrdfk == 3654 ) {
+				// 				$scope.item.pernapasan = dat.data[i].value
+				// 			}
+				// 			if (dat.data[i].emrdfk == 1169 || dat.data[i].emrdfk == 1408 || dat.data[i].emrdfk == 2472 || dat.data[i].emrdfk == 3648 ) {
+				// 				let str = dat.data[i].value
+				// 				let res = str.split("/");
+				// 				$scope.item.systole = res[0]
+				// 				$scope.item.diastole = res[1]
+				// 			}
+				// 			if (dat.data[i].emrdfk == 1172 || dat.data[i].emrdfk == 1411 || dat.data[i].emrdfk == 2475 || dat.data[i].emrdfk == 3653 ) {
+				// 				$scope.item.suhu = dat.data[i].value
+				// 			}
+				// 		}
+				// 	}
+				// })
 				// medifirstService.get('emr/get-value-from-cppt?noRegistrasi=' + $scope.cc.noregistrasi)
 				// .then(function(dat) {
 				// 	console.log(dat.data.data);
@@ -2709,23 +2746,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 						}
 					}
 				})
-                medifirstService.get("farmasi/get-pengkajian-pasien?nocm=" + $scope.cc.nocm, true).then(function (m) {                         
-                    $scope.item.alergi = "";
-                    if (m.data.Alergi[0] != undefined) {
-                        $scope.item.alergi = m.data.Alergi[0].statusalergi;
-                    } 
-                });
-				medifirstService.get("emr/get-edukasi-pasien?norec=" + $scope.cc.norec_pd).then(function(dat) {
-					// debugger
-					let no = 0;
-					$scope.item.edukasi = '';
-					for (let i = 0; i < dat.data.length; i++) {
-						no = no + 1;
-						$scope.item.edukasi = $scope.item.edukasi + no + ". " + dat.data[i].materiedukasi + "\n"; 
-					}
-				})
 				//$scope.item.darurat = "RS Bhayangkara TK.I Pusdokkes Polri 0218093288 / 0218090559"
-				$scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
+				
 				loadDiagnosa()
 			}
 			function loadTindakan() {
