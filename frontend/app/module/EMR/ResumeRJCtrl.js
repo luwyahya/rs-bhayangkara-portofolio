@@ -27,6 +27,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			let rad = [];
 			let obat = [];
 			let tindakan = []
+			let hasilKonsultasi = ''
+			let norecresume = '-';
 			$scope.rujuk = false;
 			$scope.carakeluarlain = false;
 			$scope.kondisiMeninggalkanLain = false
