@@ -93,7 +93,7 @@
         <td bordercolor="#808080" height="13">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        {{$message}} INI DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO, KRAMATJATI, JAKARTA. PADA TANGGAL {{  $tglcetak }}.
+                        {{$message}} INI DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR, KAB.CIANJUR, JAWA BARAT. PADA TANGGAL {{  $tglcetak }}.
                     </span>
             </font>
         </td>

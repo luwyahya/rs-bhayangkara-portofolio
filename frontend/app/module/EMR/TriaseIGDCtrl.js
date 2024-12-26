@@ -608,7 +608,7 @@ define(['initialize'], function (initialize) {
                 }
                 var doktermenerangkan = $scope.item.obj[1901300115].namalengkap
                 var ttdbarcodedok = moment($scope.item.obj[1901300075]).format('DD MMMM YYYY');
-                let qrcodedokter = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-laporan-triase?namaPegawai=" + doktermenerangkan + '&pesan=' + 'TRIASE IGD' + '&noregistrasi=' + $scope.cc.noregistrasi + '&tglcetak=' +   ttdbarcodedok
+                let qrcodedokter = "https://rsbcianjur.com/service/medifirst2000/report/cetak-laporan-triase?namaPegawai=" + doktermenerangkan + '&pesan=' + 'TRIASE IGD' + '&noregistrasi=' + $scope.cc.noregistrasi + '&tglcetak=' +   ttdbarcodedok
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
                     "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad","qrcodedokter","ruangan"],
@@ -644,7 +644,10 @@ define(['initialize'], function (initialize) {
                         xhr.open('POST', 'http://192.168.88.56:8797/generic/report/TriaseIgd.pdf');
                     }else if(window.location.hostname.indexOf('192.168.100.254') > -1){
                         xhr.open('POST', 'http://192.168.100.254:8797/generic/report/TriaseIgd.pdf');
-                    } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
+                    } else if(window.location.hostname.indexOf('192.168.100.254') > -1){
+                        xhr.open('POST', 'http://192.168.100.254:8797/generic/report/TriaseIgd.pdf');
+                    } 
+                    else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
                         xhr.open('POST', '/report8797/generic/report/TriaseIgd.pdf');
                     }  else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                         xhr.open('POST', 'http://202.51.105.98:8797/generic/report/TriaseIgd.pdf');
