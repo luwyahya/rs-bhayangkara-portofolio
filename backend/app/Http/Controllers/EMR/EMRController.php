@@ -5856,7 +5856,7 @@ class EMRController  extends ApiController
         if (isset($dataReq['beratbadan'])) {
             $RE->beratbadan = $dataReq['beratbadan'];
         }
-
+        $RE->kontrol = $dataReq['kontrolpoli'];
         //$RE->tglpelayanan = $dataReq['tglpelayanan'];
         $RE->tglpelayanan = $this->getDateTime()->format('Y-m-d H:i:s');
 
