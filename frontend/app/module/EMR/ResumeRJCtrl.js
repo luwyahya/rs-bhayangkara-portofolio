@@ -1736,7 +1736,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         $scope.item.keluhanUtama = result[0].keluhanutama
                         $scope.item.alergi = result[0].alergi,
                         $scope.item.tingkatKesadaran = result[0].kesadaran 
-                        $scope.item.keadaanUmum = result[0].keadaanumum
+                        $scope.item.keadaanUmum = { keadaanumum: result[0].keadaanumum }
                         $scope.item.denyutJantung = result[0].denyutjantung
                         $scope.item.pernapasan = result[0].pernapasan
                         $scope.item.systole = result[0].systole
