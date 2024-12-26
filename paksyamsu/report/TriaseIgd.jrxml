@@ -50,7 +50,7 @@ where pd.noregistrasi=$P{nocm} limit 1]]>
 				<staticText>
 					<reportElement x="165" y="64" width="248" height="20" uuid="77b0b149-3401-4809-b22f-f1dfc9a0a3cd"/>
 					<textElement textAlignment="Center">
-						<font fontName="SansSerif" size="12" isBold="true"/>
+						<font fontName="SansSerif" size="13" isBold="true"/>
 					</textElement>
 					<text><![CDATA[TRIASE IGD]]></text>
 				</staticText>
