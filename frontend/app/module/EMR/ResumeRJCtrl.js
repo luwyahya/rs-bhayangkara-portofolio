@@ -1952,16 +1952,16 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				$q.all([
 					medifirstService.get("emr/get-resume-medis/" + $scope.cc.noregistrasi)
 				]).then(function (res) {
-					// debugger
+					debugger
 					if (res[0].statResponse) {
 						var result = res[0].data.data
-						if (result.length > 0) {
-							debugger
-							for (let index = 0; index < result.length; index++) {
-								result[index].no = index + 1
-							}
-							norecresume = result[0].norec
+						if (result) {
+						// debugger;
+						for (let index = 0; index < result.length; index++) { 
+							result[index].no = index + 1;
 						}
+						norecresume = result.norec;
+					}
 						// norecresume = result[0].norec
 
 						$scope.sourceResume = new kendo.data.DataSource({
