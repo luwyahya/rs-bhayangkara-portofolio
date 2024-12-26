@@ -791,6 +791,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				}
 				rad = radfix
 			}
+			function loadKonsul() {
+				medifirstService.get('emr/get-order-konsul?noregistrasi=' + $scope.cc.noregistrasi).then(function(dat) {
+					if (dat.data.data.length > 0) {
+						hasilKonsultasi = dat.data.data[0].keteranganlainnya
+					}
+				})
+			}
 			function hapusObat(e) {
 				let obatfix = [];
 				e.preventDefault();
@@ -2073,8 +2080,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 //     toastr.error('Akses Dikunci, Silahkan Konfirmasi ke bagian Rekam Medis apabila mau Cetak Resume Medis pasien ini !!')
                 //     return
                 // }
-
 				loadDiagnosa()
+				loadKonsul()
+				init()
+				// loadCpptO()
 			// 	if (confirm('View Resume? ')) {
 			// 		var stt = 'true';
 			// 	} else {
@@ -2094,20 +2103,23 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			// 			if (anHttpRequest.readyState == 4 && anHttpRequest.status == 200)
 			// 				aCallback(anHttpRequest.responseText);
 			// 		}
-
+	
 			// 		anHttpRequest.open("GET", aUrl, true);
 			// 		anHttpRequest.send(null);
 			// 	}
-			medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + $scope.dataSelected.norec).then(function(dat) {
+			medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + norecresume).then(function(dat) {
 				//  debugger
+				
 				 let tampung = '';
 				 let tampung2 = '';
 				 let tampung3 = '';
 				 let tampung4 = '';
-				 let diagnosautama = '';
+				 let diagnosautama = 'Diagnosis Primer / Utama : ';
 				 let kddiagnosautama = '';
-				 let diagnosasekunder = '';
+				 let diagnosasekunder = 'Diagnosis Sekunder : ';
 				 let kddiagnosasekunder = '';
+				 let diagnosaawal = 'Diagnosis Awal : ';
+				 let kddiagnosaawal = '';
 				 let diagnosatindakan = '';
 				 let kddiagnosatindakan = ''
 				 let nouruttindakan = 1;
@@ -2118,24 +2130,39 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				 let obat = ''
 				 let tampungObat = ''
 				 let noUrutObat = 1;
+				 let obatpulang = ''
+				 let tampungObatpulang = ''
+				 let noUrutObatpulang = 1;
 				 let tindakan = ''
 				 let tampungTindakan = '';
 				 let noUrutTindakan = 1;
+				 let tampungGaNormal = '';
+				 let penunjanglab = 'Laboratorium Patologi Klinik : '
+				 let tindakanlab = 'Laboratorium Patologi Klinik : '
+				 let penunjangrad = 'Radiologi : '
+				 let tindakanrad = 'Radiologi : '
+				 let penunjangpa = 'Laboratorium Patologi Anatomik : '
+				 let tindakanpa = 'Laboratorium Patologi Anatomik : '
+				 let alldiagnosa = '';
 				for(let i = 0; i < emr.length; i++) {
 					if (emr[i].jenispenunjang == 'LAB') {
 						// debugger
 						tampung = tampung + nourut + ". " + emr[i].namaproduk + " = " + "\n"
+						tindakanlab = tindakanlab + "- " + emr[i].namaproduk + "\n"
 						for (let j = 0; j < emr[i].detail.length; j++) {
 							if (emr[i].detail[j].hasilpenunjang != null) {
-								tampung4 = emr[i].detail[j].hasilpenunjang
-								tampung2 = tampung2 + emr[i].detail[j].detailpemeriksaan + ":" + emr[i].detail[j].hasilpenunjang + "\n"
+								if(emr[i].detail[j].flaglab == 'Y') {
+									tampung4 = emr[i].detail[j].hasilpenunjang
+									tampung2 = tampung2 + emr[i].detail[j].detailpemeriksaan + ":" + emr[i].detail[j].hasilpenunjang + " / "
+								}
 							} else {
 								// tampung = ''
 							}
 						}
-						penunjang = penunjang + tampung + tampung2 + "\n"
+						penunjanglab = penunjanglab + tampung2
 					} else if (emr[i].jenispenunjang == 'RAD') {
 						tampung = tampung + nourut + ". " + emr[i].namaproduk + " = "
+						tindakanrad = tindakanrad  + "- " + emr[i].namaproduk
 						for (let j = 0; j < emr[i].detail.length; j++) {
 							if (emr[i].detail[j].hasilpenunjang != null) {
 								tampung4 = emr[i].detail[j].hasilpenunjang
@@ -2145,18 +2172,49 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 								if (temukan < 0) {
 									temukan = kalimat.indexOf("Kesan");
 								}
+								if (temukan < 0) {
+									temukan = kalimat.indexOf("KESAN");
+								}
 								let filter = kalimat.slice(temukan, panjang)
 								filter = filter.replace(/(<([^>]+)>)/gi, " ");
 								tampung2 = filter
-								penunjang = tampung2
+								penunjangrad = penunjangrad + emr[i].namaproduk + " " + tampung2 + " \n"
+								// debugger
+							}
+						}
+					} else if (emr[i].jenispenunjang == 'LABORATORIUM PATALOGI ANATOMI') {
+						tampung = tampung + nourut + ". " + emr[i].namaproduk + " = "
+						tindakanpa = tindakanpa + "- " + emr[i].namaproduk
+						for (let j = 0; j < emr[i].detail.length; j++) {
+							if (emr[i].detail[j].hasilpenunjang != null) {
+								tampung4 = emr[i].detail[j].hasilpenunjang
+								let kalimat = emr[i].detail[j].hasilpenunjang;
+								let panjang = kalimat.length;
+								let temukan = kalimat.indexOf("KESIMPULAN");
+								if (temukan < 0) {
+									temukan = kalimat.indexOf("KESIMPULAN");
+								}
+								let filter = kalimat.slice(temukan, panjang)
+								filter = filter.replace(/(<([^>]+)>)/gi, " ");
+								tampung2 = filter
+								penunjangpa = penunjangpa + tampung2
 								// debugger
 							}
 						}
 					} else if (emr[i].jenispenunjang == 'OBAT') {
-						tampungObat = tampungObat + noUrutObat + ". " + emr[i].namaproduk
-						obat = obat + tampungObat + "\n";
-						noUrutObat = noUrutObat + 1;
-						tampungObat = ''
+						if (emr[i].objectkelompokprodukbpjsfk == 13 || emr[i].objectkelompokprodukbpjsfk == 14) {
+							tampungObat = tampungObat + noUrutObat + ". " + emr[i].namaproduk
+							obat = obat + tampungObat + "\n";
+							noUrutObat = noUrutObat + 1;
+							tampungObat = ''
+						}
+					} else if (emr[i].jenispenunjang == 'OBATPULANG') {
+						if (emr[i].objectkelompokprodukbpjsfk == 13 || emr[i].objectkelompokprodukbpjsfk == 14) {
+							tampungObatpulang = tampungObatpulang + noUrutObatpulang + ". " + emr[i].namaproduk
+							obatpulang = obatpulang + tampungObatpulang + "\n";
+							noUrutObatpulang = noUrutObatpulang + 1;
+							tampungObatpulang = ''
+						}
 					} else {
 						tampungTindakan = tampungTindakan + noUrutTindakan + ". " + emr[i].namaproduk
 						tindakan = tindakan + tampungTindakan + "\n";
@@ -2175,11 +2233,16 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				tampungdiagnosa9
 				for(let i = 0; i < tampungdiagnosa.length; i++) {
 					if (tampungdiagnosa[i].jenisdiagnosa == "Primary") {
-						diagnosautama = tampungdiagnosa[i].namadiagnosa + "\n"
-						kddiagnosautama = tampungdiagnosa[i].kddiagnosa + "\n"
+						diagnosautama = diagnosautama + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa
+						kddiagnosautama = tampungdiagnosa[i].kddiagnosa
+					} else if (tampungdiagnosa[i].jenisdiagnosa == "Diagnosa Awal") {
+						diagnosaawal = diagnosaawal + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa +"\n"
+						kddiagnosaawal = tampungdiagnosa[i].kddiagnosa
 					} else {
-						diagnosasekunder = diagnosasekunder + nourutsekunder + ". " + tampungdiagnosa[i].namadiagnosa + "\n"
-						kddiagnosasekunder = kddiagnosasekunder + "Kode:	  ICD - 10 : " + tampungdiagnosa[i].kddiagnosa + "\n"
+						// diagnosasekunder = diagnosasekunder + nourutsekunder + ". " + tampungdiagnosa[i].namadiagnosa + "\n"
+						// kddiagnosasekunder = kddiagnosasekunder + "Kode:	  ICD - 10 : " + tampungdiagnosa[i].kddiagnosa + "\n"
+						diagnosasekunder = diagnosasekunder + tampungdiagnosa[i].kddiagnosa + ' - ' + tampungdiagnosa[i].namadiagnosa +"\n"
+						kddiagnosasekunder = tampungdiagnosa[i].kddiagnosa
 					}
 					nourutsekunder = nourutsekunder + 1
 				}
@@ -2187,19 +2250,75 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					diagnosatindakan = '-'
 				}
 				for(let i = 0; i < tampungdiagnosa9.length; i++) {
-					diagnosatindakan = diagnosatindakan + nouruttindakan + ". " + tampungdiagnosa9[i].namadiagnosatindakan + "\n"
+					diagnosatindakan = diagnosatindakan + nouruttindakan + ". " + tampungdiagnosa9[i].kddiagnosatindakan + ' - ' + tampungdiagnosa9[i].namadiagnosatindakan + "\n"
 					kddiagnosatindakan = kddiagnosatindakan + "Kode: ICD - 9 - CM : " + tampungdiagnosa9[i].kddiagnosatindakan + "\n"
 					nouruttindakan = nouruttindakan + 1;
 				}
-				let norecrm = ''
-				if ($scope.dataSelected.norec != undefined || $scope.dataSelected.norec != null || $scope.dataSelected.norec != '') {
-					norecrm = $scope.dataSelected.norec
+				if (penunjanglab == 'Laboratorium Patologi Klinik : ') {
+					penunjanglab = ''
 				}
+				if (penunjangrad == 'Radiologi : ') {
+					penunjangrad = ''
+				}
+				if (penunjangpa == 'Laboratorium Patologi Anatomik : ') {
+					penunjangpa = ''
+				}
+				if (tindakanlab == 'Laboratorium Patologi Klinik : ') {
+					tindakanlab = ''
+				}
+				if (tindakanrad == 'Radiologi : ') {
+					tindakanrad = ''
+				}
+				if (tindakanpa == 'Laboratorium Patologi Anatomik : ') {
+					tindakanpa = ''
+				}
+				if (obatpulang == '') {
+					obatpulang = '-'
+				}
+				if (diagnosautama != 'Diagnosis Primer / Utama : ') {
+					// diagnosautama = ''
+					alldiagnosa = alldiagnosa + diagnosautama + " \n";
+				}
+				if (diagnosasekunder != 'Diagnosis Sekunder : ') {
+					// diagnosasekunder = ''
+					alldiagnosa = alldiagnosa + diagnosasekunder + " \n";
+				}
+				if (diagnosaawal != 'Diagnosis Awal : ') {
+					// diagnosaawal = ''
+					alldiagnosa = alldiagnosa + diagnosaawal + " \n";
+				}
+				if (alldiagnosa == '') {
+					alldiagnosa = '-'
+				}
+				// if (hasilKonsultasi == '') {
+				//     hasilKonsultasi = '-'
+				// }
+				if (penunjanglab == '' && penunjangrad == '' && penunjangpa == '') {
+					penunjanglab = '-'
+				}
+				if (tindakanlab == '' && tindakanrad == '' && tindakanpa == '') {
+					tindakanlab = '-'
+				}
+				let kontrolpoli = '-'
+				if ($scope.item.kontrolPoli != undefined) {
+					kontrolpoli = $scope.item.kontrolPoli.namaruangan
+				}
+				let tindaklanjut = "Kontrol ke Poli : Tidak" + " \n" + "Pada Tanggal : -" + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299";
+				if ($scope.item.yapoli == true) {
+					tindaklanjut = "Kontrol ke Poli : " + kontrolpoli + " \n" + "Pada Tanggal : " + moment($scope.item.tglKontrol).format('DD-MM-YYYY') + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299"
+				}
+				if ($scope.item.hasilKonsul == '' || $scope.item.hasilKonsul == undefined) {
+					hasilKonsultasi = '-'
+				} else {
+					hasilKonsultasi = $scope.item.hasilKonsul
+				}
+				// let y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-fleksibel?idPegawai="+ $scope.item.dpjp.id + "&pesan=" + "RESUME MEDIS" + "&noregistrasi=" + $scope.cc.noregistrasi
+				// let z = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-pasien?noregistrasi=" + $scope.cc.noregistrasi
 				var data = {
 					"gambarLogo": "logodokkes.jpg",
-					"paramKey": ["norec_apd", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan", "norecrm"],
-					"paramValue": [norec_apd, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan, norecrm],
-					"paramType": ["", "", "", "", "", "", "", "", "", "", "", ""]
+					"paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang"],
+					"paramValue": [norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang],
+					"paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "","","","","","","","","",""]
 				};
 				var xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
