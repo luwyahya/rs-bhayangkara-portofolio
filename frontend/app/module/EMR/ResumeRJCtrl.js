@@ -1841,7 +1841,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				} else {
 					edukasi = '-'
 				}
-
+				let pemeriksaanfisik = ''
+				if ($scope.item.pemeriksaanFisik != undefined) {
+					pemeriksaanfisik = $scope.item.pemeriksaanFisik
+				}
 				let objSave = {
 					satusehat: $scope.item.noSatuSehat,
 					passpor: $scope.item.passpor,
@@ -1869,7 +1872,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
 					tglKontrol: moment($scope.item.tglKontrol).format('YYYY-MM-DD HH:mm'),
 					keadaandarurat: $scope.item.darurat,
-
+					pemeriksaanfisik: pemeriksaanfisik,
 					ttdpasien: $scope.item.ttdPasien,
 					dpjp: $scope.item.dpjp.namalengkap,
 					pegawaifk: $scope.item.dpjp.id,
@@ -1965,7 +1968,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							result[index].no = index + 1
 						}
 						norecresume = result[0].norec
-					}
+					}s
 						// norecresume = result[0].norec
 
 						$scope.sourceResume = new kendo.data.DataSource({
