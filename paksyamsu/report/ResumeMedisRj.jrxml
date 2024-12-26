@@ -184,9 +184,9 @@ WHERE
 					<text><![CDATA[CIANJUR]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="15" y="112" width="259" height="20" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
+					<reportElement x="15" y="112" width="595" height="20" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
 					<textElement>
-						<font size="11"/>
+						<font size="9"/>
 					</textElement>
 					<text><![CDATA[Jl. Suroso No. 21 Cianjur - TELP. (0263) 285299 CIANJUR]]></text>
 				</staticText>
