@@ -1037,5 +1037,37 @@ class ModulAplikasiController extends ApiController
 
         return $this->respond($dataRaw);
     }
-
+    public function updateStatusPublicUser(Request $request) {
+        DB::beginTransaction();
+        try {
+            if ($request['statuspublic'] == "1") {
+                LoginUser::where('id', $request['id'])->update([
+                    'statuspublic' => 1
+                ]);
+            } else {
+                LoginUser::where('id', $request['id'])->update([
+                    'statuspublic' => NULL
+                ]);
+            }
+            $transStatus = 'true';
+        } catch(\Exception $e) {
+            $transMessage = 'Gagal';
+            $transStatus = 'false';
+        }
+        if ($transStatus == 'true') {
+            $transMessage = 'Berhasil';
+            DB::commit();
+            $result = array (
+                'status' => 201,
+                'message' => $transMessage
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                'status' => 400,
+                'message' => $transMessage
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
 }

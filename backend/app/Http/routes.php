@@ -3619,6 +3619,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-user', 'SysAdmin\ModulAplikasiController@getDaftarUser');
                 Route::post('delete-new-user', 'SysAdmin\ModulAplikasiController@deleteNewUser');
                 Route::get('get-master-modul-aplikasi', 'SysAdmin\ModulAplikasiController@getMasterModulAplikasi');
+                Route::post('update-status-public-user', 'SysAdmin\ModulAplikasiController@updateStatusPublicUser');
 
                 Route::get('data', 'SysAdmin\HakAksesPegawaiController@getData');
                 Route::post('simpan-modul-aplikasi', 'SysAdmin\HakAksesPegawaiController@modulAplikasi');

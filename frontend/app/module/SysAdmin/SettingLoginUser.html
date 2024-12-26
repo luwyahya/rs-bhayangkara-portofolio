@@ -134,6 +134,14 @@
                                 <kendo-grid id="kNewUser" k-data-source="sourceNewUser" k-selectable="'row'" k-groupable="'true'" k-options="optionGridNewUser" k-ng-model="current" ng-click="kl(current)">
                                 </kendo-grid>
                             </div>
+							<div class="grid_12">
+								<div class="grid_2" ng-show="showUpdate">
+									<button class="btnTemplate1" ng-click="updateIpPublic()">Update IP Public</button>
+								</div>
+								<div class="grid_2" ng-show="!showUpdate">
+									<button class="btnTemplate1 cancel" ng-click="batalUpdateIpPublic()">Batal Update IP Public</button>
+								</div>
+							</div>
                         </md-content>
                     </md-tab>
                     <md-tab label="Setting User">

@@ -8,6 +8,7 @@ define(['initialize'], function(initialize) {
             $scope.now = new Date();
             $scope.item.endDateLogin = $scope.now
                 //var init = function() {}
+            $scope.showUpdate = true;     
             $scope.new.idlogin = ''
             $scope.isRouteLoading = false
             init();
@@ -692,6 +693,7 @@ define(['initialize'], function(initialize) {
                     for (let i = 0; i < e.data.data.length; i++) {
                         e.data.data[i].no = i + 1;
                     }
+                    $scope.showUpdate = true;
                     $scope.sourceNewUser = new kendo.data.DataSource({
                         data: e.data.data,
                         pageSize: 20,
@@ -773,6 +775,41 @@ define(['initialize'], function(initialize) {
                     delete $scope.new.cariPegawai
                     delete $scope.new.cariKelompokUser
                     delete $scope.new.cariUser
+                    $scope.showUpdate = true;
+                }
+                $scope.kl = function(current) {
+                    if (current.statuspublic == 1) {
+                        $scope.showUpdate = false;
+                    } else {
+                        $scope.showUpdate = true;
+                    }
+                }
+                $scope.updateIpPublic = function() {
+                    debugger
+                    let objSave = {
+                        'id': $scope.current.id,
+                        'statuspublic': "1"
+                    }
+                    medifirstService.post('sysadmin/menu/update-status-public-user', objSave).then(function(e) {
+                        medifirstService.postLogging('Update IP Public', 'IP Public', '',
+                            'Update IP Public ( ' + $scope.current.namalengkap +' '+ 'ID User' +' '+ $scope.current.id + ' )'
+                        ).then(function(res) {})
+                        loadNewUser()
+                        $scope.reset()
+                    })
+                }
+                $scope.batalUpdateIpPublic = function() {
+                    let objSave = {
+                        'id': $scope.current.id,
+                        'statuspublic': "0"
+                    }
+                    medifirstService.post('sysadmin/menu/update-status-public-user', objSave).then(function(e) {
+                        medifirstService.postLogging('Batal IP Public', 'Batal IP Public', '',
+                            'Batal IP Public ( ' + $scope.current.namalengkap +' '+ 'ID User' +' '+ $scope.current.id + ' )'
+                        ).then(function(res) {})
+                        loadNewUser()
+                        $scope.reset()
+                    })
                 }
                 // *******END
 

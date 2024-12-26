@@ -91,7 +91,7 @@ class LoginController extends ApiController {
         $LoginUser = $login->get();
         if (count($LoginUser) > 0){
             //region Cek Login Expired
-            if($request->input('aksesip')=='202.51.105.98' && $LoginUser[0]->statuspublic!=true){
+            if($request->input('aksesip')=='rsbcianjur.com' && $LoginUser[0]->statuspublic!=true){
                 $result = array(
                     'data' => [],
                     'messages' => 'Login gagal, User Tidak ada akses',
@@ -290,7 +290,7 @@ class LoginController extends ApiController {
         $LoginUser = $login->get();
         if (count($LoginUser) > 0){
             //region Cek Login Expired
-            if($request->input('aksesip')=='202.51.105.98' && $LoginUser[0]->statuspublic!=true){
+            if($request->input('aksesip')=='rsbcianjur.com' && $LoginUser[0]->statuspublic!=true){
                 $result = array(
                     'data' => [],
                     'messages' => 'Login gagal, User Tidak ada akses',
