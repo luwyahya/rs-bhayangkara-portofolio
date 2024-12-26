@@ -2742,6 +2742,15 @@ class EMRController  extends ApiController
                 $RekamMedis->icd = $request['icd'];
                 $RekamMedis->jenispemeriksaan = $request['jenispemeriksaan'];
                 $RekamMedis->riwayatlalu = $request['riwayatlalu'];
+                $RekamMedis->kontrol = $request['kontrolpoli'];
+                $RekamMedis->pasienkeluarga = $request['ttdPasien'];
+                if (isset($request['tglKontrol']) && $request['tglKontrol'] != 'NULL') {
+                    $RekamMedis->tglkontrol = $request['tglKontrol'];
+                };
+                $RekamMedis->sarantransportasi = $request['transportasi'];
+                $RekamMedis->keadaandarurat2 = $request['keadaandarurat'];
+                $RekamMedis->kondisimeninggalkan = $request['meninggalkanrs'];
+             
                 //                $RekamMedis->namadokter = $request['namadokter'];
                 $RekamMedis->pegawaifk = $request['pegawaifk'];
                 $RekamMedis->noregistrasifk = $request['noregistrasifk'];
@@ -2822,7 +2831,7 @@ class EMRController  extends ApiController
             'rm.pasienkeluarga',
             'rm.tglcetak',
             'rm.emrpasienfk',
-            'rm.sarantransportasi'
+            'rm.sarantransportasi'  
         )
         ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
         ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')

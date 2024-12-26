@@ -1984,7 +1984,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         $scope.item.keterangandiet = result[0].keterangandiet,
                         $scope.item.edukasi = result[0].edukasi,
                         $scope.item.prognosis = { prognosis: result[0].prognosis }
-                        $scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
+                        $scope.item.transportasi = { transportasi: result[0].sarantransportasi }
+                        $scope.item.carakeluar = { statuspulang: result[0].carakeluar }
                         if (result[0].tglkontrol != null) {
                             $scope.item.yapoli = true;
                             $scope.kontrol = true;
@@ -1994,7 +1995,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.item.tidakpoli = true;
                         }
                         $scope.item.darurat = result[0].keadaandarurat2
-                        $scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisimeninggalkan }
+                        $scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisi }
                         $scope.item.tglCetak = result[0].tglcetak
                         // $scope.item.kondisiMeninggalkanLain = 
                         $scope.item.ttdPasien = result[0].pasienkeluarga
