@@ -10,6 +10,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             var tampungdiagnosa = {};
             var tampungdiagnosa9 = {};
             $scope.poneks = {};
+			let norec_emrr = '-'; //noemr
 			$scope.item = {};
 			$scope.cc = {};
 			$scope.dataSelected = {};
@@ -1608,6 +1609,7 @@ if ($scope.item.tglKontrol != undefined) {
 				if ($scope.item.pemeriksaanFisik != undefined) {
 					pemeriksaanfisik = $scope.item.pemeriksaanFisik
 				}
+				$scope.cc.norec_emr = norec_emrr
 				let objSave = {
 					satusehat: $scope.item.noSatuSehat,
 					passpor: $scope.item.passpor,
