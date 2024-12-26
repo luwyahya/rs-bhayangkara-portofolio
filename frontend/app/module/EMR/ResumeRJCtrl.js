@@ -1466,7 +1466,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				else transportasi="";
 				if($scope.item.kondisiMeninggalkan!=undefined) meninggalkanrs= $scope.item.kondisiMeninggalkan.kondisi
 				else meninggalkanrs="";
-				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum
+				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
 				else keadaan="";
 
 				var keluhanUtama = ""
