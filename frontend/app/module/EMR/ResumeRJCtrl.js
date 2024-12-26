@@ -1957,6 +1957,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 								result[index].no = index + 1
 							}
 						}
+						debugger
+						norecresume = result[0].norec
 
 						$scope.sourceResume = new kendo.data.DataSource({
 							data: result,
@@ -2110,7 +2112,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			// 		anHttpRequest.open("GET", aUrl, true);
 			// 		anHttpRequest.send(null);
 			// 	}
-			medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + norecresume).then(function(dat) {
+			medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + $scope.dataSelected.norec).then(function(dat) {
 				//  debugger
 				
 				 let tampung = '';
@@ -2320,9 +2322,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				var data = {
 					"gambarLogo": "logodokkes.jpg",
 					"paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang"],
-					"paramValue": [norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang],
+					"paramValue": [ $scope.dataSelected.norec, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang],
 					"paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "","","","","","","","","",""]
 				};
+				debugger
 				var xhr = new XMLHttpRequest();
 				xhr.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {

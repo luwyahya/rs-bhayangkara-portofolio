@@ -69,7 +69,7 @@ FROM
     LEFT JOIN pasien_m as ps ON ps.nocm = ep.nocm 
     INNER JOIN jeniskelamin_m as jk ON jk.id = ps.objectjeniskelaminfk
 WHERE 
-   rm.norec = $P{norecrm} AND rm.statusenabled = true]]>
+   rm.norec = $P{norec} AND rm.statusenabled = true]]>
 	</queryString>
 	<field name="nocm" class="java.lang.String">
 		<property name="property.name" value="value"/>
