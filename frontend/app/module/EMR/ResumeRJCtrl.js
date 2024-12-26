@@ -2698,6 +2698,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				.then(function(dat) {
 					console.log(dat.data.data);
 					if (dat.data.data.length > 0) {
+						debugger
 						for(let i = 0; i < dat.data.data.length; i++) {
 							if (dat.data.data[i].emrdfk == 853) {
 								$scope.item.diagnosaDokter = dat.data.data[i].value

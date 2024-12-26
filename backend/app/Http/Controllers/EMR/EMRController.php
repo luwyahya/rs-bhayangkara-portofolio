@@ -2833,7 +2833,7 @@ class EMRController  extends ApiController
         ->where('rm.keteranganlainnya', 'RawatJalan')
         ->orderBy('rm.tglresume', 'desc')
         ->limit(1);
-        $data->get();
+        $data = $data->get();
 
         // return $data;
         $result = array(
