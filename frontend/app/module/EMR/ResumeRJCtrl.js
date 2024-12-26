@@ -1480,15 +1480,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 					toastr.info('Diagnosa dokter tidak boleh kosong!')
 					return
 				}
-				if ($scope.item.tglKontrol.trim() === "" || $scope.item.tglKontrol == null || $scope.item.tglKontrol == undefined) {
+				if ($scope.item.tglKontrol == "" || $scope.item.tglKontrol == null || $scope.item.tglKontrol == undefined) {
 					toastr.info('Tgl Kontrol tidak boleh kosong!')
 					return
 				}
-				if ($scope.item.tglMasuk.trim() === ""  || $scope.item.tglMasuk == null || $scope.item.tglMasuk == undefined) {
+				if ($scope.item.tglMasuk == ""  || $scope.item.tglMasuk == null || $scope.item.tglMasuk == undefined) {
 					toastr.info('Tgl Masuk tidak boleh kosong!')
 					return
 				}
-				if ($scope.item.tglPulang.trim() === "" || $scope.item.tglPulang == null || $scope.item.tglPulang == undefined) {
+				if ($scope.item.tglPulang == "" || $scope.item.tglPulang == null || $scope.item.tglPulang == undefined) {
 					toastr.info('Tgl Pulang tidak boleh kosong!')
 					return
 				}
