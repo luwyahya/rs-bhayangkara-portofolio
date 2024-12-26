@@ -2782,7 +2782,7 @@ class EMRController  extends ApiController
 
     public function getResumeMedis(Request $request, $nocm)
     {       
-        $data = \DB::table('resumemedis_t as rm')
+            $data = \DB::table('resumemedis_t as rm')
         ->select(
             'rm.norec',
             'rm.tglresume',
@@ -2799,8 +2799,6 @@ class EMRController  extends ApiController
             'pd.tglregistrasi',
             'ps.nocm',
             'ps.namapasien',
-            'rm.pegawaifk',
-            'rm.tglmasuk',
             'rm.tglkeluar',
             'rm.keluhanutama',
             'rm.alergi',
@@ -2822,24 +2820,21 @@ class EMRController  extends ApiController
             'rm.keadaandarurat2',
             'rm.kondisimeninggalkan',
             'rm.pasienkeluarga',
-            'rm.namadokter',
-            'rm.pegawaifk',
             'rm.tglcetak',
             'rm.emrpasienfk'
         )
-            ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
-            ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
-            ->Join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-            ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
-            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
-            ->where('rm.statusenabled', true)
-            ->where('pd.noregistrasi', (string) $nocm)
-            ->where('rm.keteranganlainnya', 'RawatJalan')
-            ->orderBy('rm.tglresume', 'desc');
-            
-        //            ->whereIn('ru.objectdepartemenfk',$iddept);
+        ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
+        ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+        ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+        ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
+        ->where('rm.statusenabled', true)
+        ->where('pd.noregistrasi', (string) $nocm)
+        ->where('rm.keteranganlainnya', 'RawatJalan')
+        ->orderBy('rm.tglresume', 'desc')
+        ->limit(1);
+        $data->get();
 
-        $data = $data ->first();
         // return $data;
         $result = array(
             'data' => $data,
