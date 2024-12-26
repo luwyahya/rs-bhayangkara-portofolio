@@ -1446,7 +1446,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 //    });
             }
 			$scope.save = function() {
-				// debugger
+				debugger
 				var prognosis="";
 				var carakeluar="";
 				var kontrol="";
@@ -1466,7 +1466,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				else transportasi="";
 				if($scope.item.kondisiMeninggalkan!=undefined) meninggalkanrs= $scope.item.kondisiMeninggalkan.kondisi
 				else meninggalkanrs="";
-				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum.keadaanumum
+				if($scope.item.keadaanUmum!=undefined) keadaan= $scope.item.keadaanUmum
 				else keadaan="";
 
 				var keluhanUtama = ""
