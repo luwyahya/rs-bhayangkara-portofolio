@@ -5619,7 +5619,7 @@ class PelayananResepController extends ApiController
             // ->where('jp.id',97)
             ->where('sr.statusenabled', null)
             ->where('pp.statusenabled', true)
-            ->where('bp.id', '=', 73)
+            // ->where('bp.id', '=', 73)
             ->whereNotNull('pp.isobat')
             ->orderBy('pp.tglpelayanan', 'pp.rke');
         if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
