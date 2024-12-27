@@ -24813,4 +24813,37 @@ GROUP BY y.KET
 
         return $this->respond($data);
     }
+    public function saveTandaTanganPpa(Request $request) {
+        $dataLogin = $request->all();
+        DB::beginTransaction();
+        try {
+            $ttd = new TandaTanganPpa();
+            $ttd->norec = $ttd->generateNewId();
+            $ttd->objectpegawaifk = $request['idPegawai'];
+            $ttd->tandatangan = $request['ttd'][0]['foto'];
+            $ttd->tglupload = $this->getDateTime()->format('Y-m-d H:i:s');
+            $ttd->penguploadfk = $dataLogin['userData']['id'];
+            $ttd->save();
+
+            $transStatus = 'true';
+        } catch(\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal !';
+        }
+        if ($transStatus == 'true') {
+            $transMessage = 'Berhasil !';
+            DB::commit();
+            $result = array (
+                'status' => 201,
+                'message' => $transMessage
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                'status' => 400,
+                'message' => $transMessage
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
 }
