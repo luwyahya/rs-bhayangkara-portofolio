@@ -93,7 +93,7 @@
         <td bordercolor="#808080" height="13">
             <font style="font-size: 11pt" face="Arial" color="#000000">
                     <span style="font-weight: 700;font-size: 11pt">
-                        LAPORAN ANESTESI INI DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO, KRAMATJATI, JAKARTA. PADA TANGGAL {{  $raw->tgl }}.
+                        LAPORAN INI DITANDA TANGANI OLEH {{  $raw->namalengkap }} DI RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR, CIANJUR, JAKARTA. PADA TANGGAL {{  $raw->tgl }}.
                     </span>
             </font>
         </td>
