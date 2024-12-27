@@ -24769,9 +24769,7 @@ GROUP BY y.KET
     public function getTandaTanganPpaAll(Request $request) {
         $data = \DB::table('tandatanganppa_t as ttp')
             ->join('pegawai_m as pg', 'pg.id', '=', 'ttp.objectpegawaifk')
-            ->join('loginuser_s as log', 'log.id', '=', 'ttp.penguploadfk')
-            ->join('pegawai_m as pg2', 'pg2.id', '=', 'log.objectpegawaifk')
-            ->select('ttp.norec', 'ttp.tglupload', 'pg.namalengkap as namapegawai', 'pg2.namalengkap as petugasupload');
+            ->select('ttp.norec', 'ttp.tglupload', 'pg.namalengkap as namapegawai');
 
             if (isset($request['idPegawai']) && $request['idPegawai'] != "" && $request['idPegawai'] != "undefined") {
                 $data = $data->where('pg.id', '=', $request['idPegawai']);
