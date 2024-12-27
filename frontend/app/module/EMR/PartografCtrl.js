@@ -10,6 +10,8 @@ define(['initialize'], function (initialize) {
             $scope.totalSkor = 0
             $scope.totalSkor2 = 0
             $scope.cc = {}
+            // $scope.isCetak = true
+            $scope.isPantograf = true
             $scope.item = {};
             $scope.item.obj = []
             var nomorEMRSS = '';
@@ -17,7 +19,7 @@ define(['initialize'], function (initialize) {
             var paramSearch = ''
             $scope.cc.emrfk = 2018
             var dataLoad = []
-
+            $scope.logo = medifirstService.getLogo()
             var seriesSuhu = []
             var sesiesJantung = []
             var seriesNadi = []
