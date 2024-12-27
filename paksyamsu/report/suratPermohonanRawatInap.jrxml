@@ -177,7 +177,7 @@
 					<text><![CDATA[:]]></text>
 				</staticText>
 				<textField>
-					<reportElement x="125" y="46" width="244" height="15" forecolor="#0A0101" uuid="d9b4de7f-340f-480d-bfa0-1f98da9e9207"/>
+					<reportElement x="130" y="50" width="244" height="15" forecolor="#0A0101" uuid="d9b4de7f-340f-480d-bfa0-1f98da9e9207"/>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font fontName="DejaVu Sans" size="10" isBold="false"/>
 					</textElement>
@@ -531,8 +531,9 @@ com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI
-RUMAH SAKIT BHAYANGKARA TK. I R. SAID SUKANTO
+				<text><![CDATA[KEPOLISIAN DAERAH JAWA BARAT
+BIDANG KEDOKTERAN DAN KESEHATAN
+RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR
 Jalan Raya Bogor Kramat Jati Jakarta Timur 13510]]></text>
 			</staticText>
 			<line>
