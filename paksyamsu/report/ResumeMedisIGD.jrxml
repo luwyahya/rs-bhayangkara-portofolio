@@ -900,6 +900,13 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{namadokter}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="470" y="32" width="49" height="59" uuid="df247b6b-a4a3-4b25-8d42-6dc4b1d72498"/>
+					<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+new com.google.zxing.qrcode.QRCodeWriter().encode(
+$P{qr},
+com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
+				</image>
 			</band>
 		</groupHeader>
 	</group>
