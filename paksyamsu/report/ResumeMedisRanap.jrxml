@@ -1316,7 +1316,7 @@ AND
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Justified"/>
-					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. IV Cianjur"]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement x="136" y="23" width="416" height="20" uuid="7e25e9cf-0e78-4479-be89-e3ffaaf4e111">
