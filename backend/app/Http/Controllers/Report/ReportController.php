@@ -1753,7 +1753,7 @@ public function cetakAntrianKiosk(Request $request)
         // DB::connection()->setForceWritePdo();
         $emrpasienfk = $r['emrpasienfk'];
 
-        $emrpasiennew_t = DB::table('emrpasiennew_t')
+        $emrpasiennew_t = DB::table('emrpasien_t')
         ->select('noemr')
         ->where('noemr', $emrpasienfk)
         ->exists();
@@ -1761,7 +1761,7 @@ public function cetakAntrianKiosk(Request $request)
         if($emrpasiennew_t){
             $data = DB::select(DB::raw("
             SELECT        noemr
-            FROM            emrpasiennew_t
+            FROM            emrpasien_t
             WHERE        (noemr = '$emrpasienfk') AND (emrfk = '934')
             "));
         } else {
@@ -1800,8 +1800,8 @@ public function cetakAntrianKiosk(Request $request)
             $raw = collect(DB::select("
             SELECT        ed.value AS namalengkap2, pg.namalengkap AS namalengkap, sp.statuspegawai, CASE WHEN pg.nip IS NULL THEN pg.nippns ELSE pg.nip END AS nip, ttp.tandatangan, jp.jenispegawai, jk.jeniskelamin, 
                             CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,FORMAT(ep.tglemr, 'dd MMMM yyyy', 'id-ID') AS tgl,ep.tglemr
-   FROM            emrpasiennew_t AS ep LEFT OUTER JOIN
-                            emrpasiendnew_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
+   FROM            emrpasien_t AS ep LEFT OUTER JOIN
+                            emrpasiend_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
                             pegawai_m AS pg ON pg.namalengkap = ed.value LEFT OUTER JOIN
                             jenispegawai_m AS jp ON jp.id = pg.objectjenispegawaifk LEFT OUTER JOIN
                             statuspegawai_m AS sp ON sp.id = pg.objectstatuspegawaifk LEFT OUTER JOIN
