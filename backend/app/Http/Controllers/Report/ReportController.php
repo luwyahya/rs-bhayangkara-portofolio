@@ -1793,7 +1793,7 @@ public function cetakAntrianKiosk(Request $request)
     public function cetakTTDAnestesiLokal2(Request $r) {
         // DB::connection()->setForceWritePdo();
         $emrpasienfk = $r['emrpasienfk'];
-        $emrpasiennew_t = DB::table('emrpasiennew_t')
+        $emrpasiennew_t = DB::table('emrpasien_t')
         ->select('noemr')
         ->where('noemr', $emrpasienfk)
         ->exists();
