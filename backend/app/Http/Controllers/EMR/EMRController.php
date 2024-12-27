@@ -526,7 +526,7 @@ class EMRController  extends ApiController
         ->join('emrpasien_t', 'emrpasiend_t.emrpasienfk', '=', 'emrpasien_t.noemr')
         ->where('emrpasien_t.noregistrasifk', $noregistrasi)
         ->where(function ($query) {
-            $query->where('emr_t.caption', 'like', '%D.%')
+            $query->where('emr_t.caption', 'ilike', '%D.%')
                 ->orWhereIn('emr_t.caption', ['ANC', 'KB', 'Kontrol Kunjungan']);
         })
         ->where('emrpasiend_t.value', '<>', '0')
@@ -6065,6 +6065,11 @@ class EMRController  extends ApiController
             ->where('namaemr', 'MasterEdukasi')
             ->get();
 
+        $pegawai = \DB::table('pegawai_m')
+            ->select('id', 'namalengkap')
+            ->where('statusenabled', true)
+            ->where('kodeexternal', '<>', 'dua')
+            ->get();
         $pegawai = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)

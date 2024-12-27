@@ -29,6 +29,12 @@ define(['initialize'], function (initialize) {
             medifirstService.get('emr/get-combo-edukasi-pasien?').then(function(dat) {
                 $scope.listPegawai = dat.data.pegawai
             })
+            medifirstService.get('emr/get-combo').then(function(dat) {
+                $scope.listDokter = dat.data.dokter
+				$scope.listRuangan = dat.data.ruanganrajal
+				$scope.listJenisKelamin = dat.data.jeniskelamin
+				$scope.listPenjamin = dat.data.rekanan
+            })
         }
         function LoadCacheHelper() {
             var chacePeriode = cacheHelper.get('cacheRMelektronik');
