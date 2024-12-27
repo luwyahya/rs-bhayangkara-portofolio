@@ -412,7 +412,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 					<textElement textAlignment="Center" verticalAlignment="Top">
 						<font size="11"/>
 					</textElement>
-					<text><![CDATA[Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat.]]></text>
+					<text><![CDATA[Jl. Suroso No. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat.]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
