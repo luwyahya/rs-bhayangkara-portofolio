@@ -194,21 +194,16 @@ WHERE
 					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
 				</line>
 				<staticText>
-					<reportElement x="5" y="59" width="370" height="30" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
-					<textElement>
+					<reportElement x="5" y="59" width="235" height="30" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
+					<textElement textAlignment="Center">
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN POLRI]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="30" y="74" width="285" height="30" uuid="e1d659a5-68f9-4adf-9ed2-518c3554b849"/>
-					<textElement>
-						<font size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. IV]]></text>
+					<text><![CDATA[KEPOLISIAN DAERAH JAWA BARAT
+BIDANG KEDOKTERAN DAN KESEHATAN
+RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</staticText>
 				<image>
-					<reportElement x="115" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
+					<reportElement x="83" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
 					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
 				</image>
 				<staticText>

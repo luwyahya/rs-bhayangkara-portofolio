@@ -2387,12 +2387,13 @@ if ($scope.item.tglKontrol != undefined) {
 				} else {
 					hasilKonsultasi = $scope.item.hasilKonsul
 				}
+				var qr = "https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.item.namadokter.id
 				// let y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-fleksibel?idPegawai="+ $scope.item.dpjp.id + "&pesan=" + "RESUME MEDIS" + "&noregistrasi=" + $scope.cc.noregistrasi
 				// let z = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-pasien?noregistrasi=" + $scope.cc.noregistrasi
 				var data = {
 					"gambarLogo": "logodokkes.jpg",
-					"paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang"],
-					"paramValue": [ norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang],
+					"paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang","qr"],
+					"paramValue": [ norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang,qr],
 					"paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "","","","","","","","","",""]
 				};
 				debugger
