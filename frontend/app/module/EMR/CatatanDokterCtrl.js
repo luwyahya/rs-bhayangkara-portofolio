@@ -244,9 +244,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 });
             }
             function getPegawai() {
-                debugger
+                // debugger
                 var user = medifirstService.getPegawaiLogin().jenisPegawai
-                if (user.jenispegawai == 'DOKTER') {
+                if (user.jenispegawai == 'DOK') {
                     jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
                     $scope.dokter = true
                 } else if (user.jenispegawai == 'Apoteker') {
