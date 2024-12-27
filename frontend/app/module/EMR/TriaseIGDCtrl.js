@@ -611,10 +611,42 @@ define(['initialize'], function (initialize) {
                 let qrcodedokter = "https://rsbcianjur.com/service/medifirst2000/report/cetak-laporan-triase?namaPegawai=" + doktermenerangkan + '&pesan=' + 'TRIASE IGD' + '&noregistrasi=' + $scope.cc.noregistrasi + '&tglcetak=' +   ttdbarcodedok
                 var data = {
                     "gambarLogo": "logodokkes.jpg",
-                    "paramKey": ["namaRS", "tgllahir", "alamatRS", "printedBy", "nocm", "test", "nomorEMR", "dataLoad","qrcodedokter","ruangan"],
-                    "paramValue": ["RS Bhayangkara Tk. IV CIANJUR", "1980-12-25 00:00:00", "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", user.namaLengkap, $scope.cc.noregistrasi, base64, nomorEMR, arrPush,qrcodedokter,ruangan],
-                    "paramType": ["", "", "", "", "", "", "", ""] // "paramType" : ["","date"] selain date, isinya kosong saja
+                    "paramKey": [
+                        "namaRS", 
+                        "tgllahir", 
+                        "alamatRS", 
+                        "printedBy", 
+                        "nocm", 
+                        "test", 
+                        "nomorEMR", 
+                        "dataLoad",
+                        "qrcodedokter", 
+                        "ruangan"
+                    ],
+                    "paramValue": [
+                        "KEPOLISIAN DAERAH JAWA BARAT\nBIDANG KEDOKTERAN DAN KESEHATAN\nRUMAH SAKIT BHAYANGKARA TK. IV CIANJUR", 
+                        "1980-12-25 00:00:00", 
+                        "Jl. Suroso, Solokpandan, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43211", 
+                        user.namaLengkap, 
+                        $scope.cc.noregistrasi, 
+                        base64, 
+                        nomorEMR, 
+                        arrPush, 
+                        qrcodedokter, 
+                        ruangan
+                    ],
+                    "paramType": [
+                        "", 
+                        "", 
+                        "", 
+                        "", 
+                        "", 
+                        "", 
+                        "", 
+                        ""  // "paramType" : ["","date"] selain date, isinya kosong saja
+                    ]
                 };
+                
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function () {
                     if (this.readyState == 4 && this.status == 200) {
