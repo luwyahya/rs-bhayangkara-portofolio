@@ -7290,7 +7290,7 @@ class EMRController  extends ApiController
         $icdIX = \DB::table('emr_t as e')
             ->select('e.id', 'e.caption as namadiagnosa')
             ->where('namaemr', 'askepnew')
-            ->where('caption', 'like', '%' . '(D.' . '%')
+            ->where('caption', 'ilike', '%' . '(D.' . '%')
             ->orderBy('e.nourut');
 
         if (
@@ -7299,10 +7299,10 @@ class EMRController  extends ApiController
             $req['filter']['filters'][0]['value'] != "undefined"
         ) {
             $icdIX = $icdIX
-                ->where('caption', 'like', '%' . $req['filter']['filters'][0]['value'] . '%');
+                ->where('caption', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
         }
 
-        // $icdIX = $icdIX->take(150);
+        $icdIX = $icdIX->take(150);
         $icdIX = $icdIX->get();
 
         return $this->respond($icdIX);
