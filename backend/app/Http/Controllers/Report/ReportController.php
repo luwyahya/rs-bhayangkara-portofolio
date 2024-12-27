@@ -1755,20 +1755,22 @@ public function cetakAntrianKiosk(Request $request)
 
         $emrpasiennew_t = DB::table('emrpasien_t')
         ->select('noemr')
-        ->where('noemr', $emrpasienfk)
+        ->where('noemr', (string)$emrpasienfk)
         ->exists();
-
+    
+    // return json_encode($emrpasiennew_t);
+    
         if($emrpasiennew_t){
             $data = DB::select(DB::raw("
             SELECT        noemr
             FROM            emrpasien_t
-            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '934')
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '869')
             "));
         } else {
             $data = DB::select(DB::raw("
             SELECT        noemr
             FROM            emrpasien_t
-            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '934')
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '869')
             "));
         }
 
@@ -1808,7 +1810,7 @@ public function cetakAntrianKiosk(Request $request)
                             jeniskelamin_m AS jk ON jk.id = pg.objectjeniskelaminfk LEFT OUTER JOIN
                             pangkat_m AS pk ON pk.id = pg.objectpangkatfk LEFT OUTER JOIN
                             tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
-   WHERE        (ed.emrdfk = '6636') AND (ed.emrfk = '934') AND (ep.noemr = '$emrpasienfk')
+   WHERE         (ed.emrfk = '869') AND (ep.noemr = '$emrpasienfk')
             "))->first();
         } else {
             $raw = collect(DB::select("
@@ -1822,7 +1824,7 @@ public function cetakAntrianKiosk(Request $request)
                             jeniskelamin_m AS jk ON jk.id = pg.objectjeniskelaminfk LEFT OUTER JOIN
                             pangkat_m AS pk ON pk.id = pg.objectpangkatfk LEFT OUTER JOIN
                             tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
-   WHERE         (ed.emrdfk = '6636') AND (ed.emrfk = '934') AND (ep.noemr = '$emrpasienfk')
+   WHERE       (ed.emrfk = '934') AND (ep.noemr = '$emrpasienfk')
             "))->first();
         }
          
