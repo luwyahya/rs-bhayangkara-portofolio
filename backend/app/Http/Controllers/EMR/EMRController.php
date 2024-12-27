@@ -6073,7 +6073,7 @@ class EMRController  extends ApiController
             $perawat = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
-            ->where('objectjenispegawaifk', 2)  // Menambahkan tanda kutip penutup pada angka 2
+            ->where('objectjenispegawaifk', 2) //kholid.s
             ->get();
 
         $result = array(
@@ -7332,9 +7332,7 @@ class EMRController  extends ApiController
 
         return $this->respond($icdIX);
     }
-
-    public function getComboAnyarHehe(Request $request)
-    {
+    public function getComboAnyarHehe(Request $request) {
         $navigasi = DB::table('emr_t as emr')
             ->select('emr.id', 'emr.caption')
             ->where('emr.namaemr', 'navigasi')
@@ -7343,13 +7341,13 @@ class EMRController  extends ApiController
 
         $ruangan = DB::table('ruangan_m as ru')
             ->select('ru.id', 'ru.namaruangan')
-            ->whereIn('ru.objectdepartemenfk', [16, 18, 27, 3, 71, 28, 79, 25, 24])
+            ->whereIn('ru.objectdepartemenfk', [16,18,27,3,71,28,79,25,24, 5, 83])
             ->where('ru.statusenabled', 1)
             ->get();
 
         $departemen = DB::table('departemen_m as dp')
             ->select('dp.id', 'dp.namadepartemen')
-            ->whereIn('dp.id', [16, 18, 27, 3, 71, 28, 79, 14, 25, 24])
+            ->whereIn('dp.id', [16,18,27,3,71,28,79,14,25,24, 5,83])
             ->where('dp.statusenabled', 1)
             ->get();
 
@@ -7357,17 +7355,17 @@ class EMRController  extends ApiController
             ->select('mara.id', 'mara.jenispegawai')
             // ->whereIn('mara.id', [1,2,14,29,28,3,27,10])
             ->where('mara.statusenabled', 1)
-            ->get();
+            ->get();    
 
         $agama = DB::table('agama_m')
-            ->select('id', 'agama')
-            ->whereNotIn('id', [0, 8])
-            ->get();
+        ->select('id', 'agama')
+        ->whereNotIn('id', [0,8])
+        ->get();
 
         $pendidikan = DB::table('pendidikan_m')
             ->select('id', 'pendidikan')
             ->where('kodeexternal', '<>', 'KOMKORDIK')
-            ->whereNotIn('id', [13, 20, 21])
+            ->whereNotIn('id', [13,20,21])
             ->get();
 
         $pekerjaan = DB::table('pekerjaan_m')
@@ -7375,14 +7373,42 @@ class EMRController  extends ApiController
             ->where('id', '<>', 0)
             ->get();
 
-        $result = array(
+        $dokter = DB::table('pegawai_m as pg')
+            ->select('id', 'namalengkap')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk', 1)
+            ->get();
+
+        $dokterbidan = DB::table('pegawai_m as pg')
+            ->select('id', 'namalengkap')
+            ->where('statusenabled', true)
+            ->whereIn('objectjenispegawaifk', [1,3])
+            ->get();
+
+        $perawat = DB::table('pegawai_m as pg')
+            ->select('id', 'namalengkap')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk', 2)
+            ->get();
+
+        $apoteker = DB::table('pegawai_m as pg')
+            ->select('id', 'namalengkap')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk', 14)
+            ->get();
+
+        $result = array (
             'navigasi' => $navigasi,
             'ruangan' => $ruangan,
             'departemen' => $departemen,
             'jenispegawai' => $jenispegawai,
             'agama' => $agama,
             'pendidikan' => $pendidikan,
-            'pekerjaan' => $pekerjaan
+            'pekerjaan' => $pekerjaan,
+            'dokter' => $dokter,
+            'dokterbidan' => $dokterbidan,
+            'perawat' => $perawat,
+            'apoteker' => $apoteker
         );
 
         return $this->respond($result);
