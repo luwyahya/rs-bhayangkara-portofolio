@@ -7302,7 +7302,7 @@ class EMRController  extends ApiController
                 ->where('caption', 'like', '%' . $req['filter']['filters'][0]['value'] . '%');
         }
 
-        $icdIX = $icdIX->take(150);
+        // $icdIX = $icdIX->take(150);
         $icdIX = $icdIX->get();
 
         return $this->respond($icdIX);
