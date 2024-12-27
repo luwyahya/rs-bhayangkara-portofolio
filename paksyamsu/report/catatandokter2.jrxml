@@ -234,12 +234,13 @@ ORDER BY temp.tgljam, temp.hasilpemeriksaan]]>
 				<textFieldExpression><![CDATA[$P{ruangan}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="79" y="22" width="302" height="30" uuid="8ecb06ec-43a8-455d-a9d7-4f36af3b6aea"/>
+				<reportElement x="79" y="10" width="302" height="54" uuid="8ecb06ec-43a8-455d-a9d7-4f36af3b6aea"/>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PUSAT KEDOKTERAN DAN KESEHATAN 
-Rumah Sakit Bhayangkara TK IV CIANJUR]]></text>
+				<text><![CDATA[KEPOLISIAN DAERAH JAWA BARAT
+BIDANG KEDOKTERAN DAN KESEHATAN
+RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="79" y="53" width="303" height="30" uuid="42e1634c-11f7-4cba-9b5e-e8f29c940a92"/>
