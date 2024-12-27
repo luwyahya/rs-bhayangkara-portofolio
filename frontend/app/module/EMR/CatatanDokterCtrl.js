@@ -233,6 +233,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 })
 
                 medifirstService.get('emr/get-pegawai-parts?id=' + medifirstService.getPegawaiLogin().id).then(function (dat) {
+                    debugger
                     namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
                 })
                 medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function (data) {
@@ -242,7 +243,36 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.listDiagnosa9 = data;
                 });
             }
-
+            function getPegawai() {
+                var user = medifirstService.getPegawaiLogin().jenisPegawai
+                if (user.jenispegawai == 'DOKTER') {
+                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
+                    $scope.dokter = true
+                } else if (user.jenispegawai == 'Apoteker') {
+                    jenisPegawaiLogin = {id : 7, jenispetugaspe: 'Apoteker'}
+                } else if (user.jenispegawai == 'Laboratorium') {
+                    jenisPegawaiLogin = {id : 10, jenispetugaspe: 'Laborat'}
+                } else if (user.jenispegawai == 'Ahli Gizi') {
+                    jenisPegawaiLogin = {id : 15, jenispetugaspe: 'Ahli Gizi'}
+                } else if (user.jenispegawai == 'PERAWAT') {
+                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Perawat'}
+                    $scope.perawat = true
+                } else if (user.jenispegawai == 'BIDAN') {
+                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Bidan'}
+                    $scope.bidan = true;
+                } else if (user.jenispegawai == 'PSIKOLOG') {
+                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Psikolog'}
+                } else if (user.jenispegawai == 'PELAKSANA') {
+                    jenisPegawaiLogin = {id : 2, jenispetugaspe: 'Petugas Pelaksana'}
+                    $scope.perawat = true
+                } else if (user.jenispegawai == 'Fisioterapis') {
+                    jenisPegawaiLogin = {id : 32, jenispetugaspe: 'Fisioterapis'}
+                    $scope.perawat = true
+                } else {
+                    jenisPegawaiLogin = {}
+                }
+                namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
+            }
             function init() {
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
@@ -2797,9 +2827,9 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                                }
                             if (window.location.hostname.indexOf('172.20.21.223') > -1) {
                                 xhr.open('POST', 'http://172.20.21.223:8797/generic/report/hasillabKlinik.pdf');
-                            } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
-                                xhr.open('POST', 'http://10.5.1.2:1003/generic/report/hasillabKlinik.pdf');
-                            } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
+                            }else if(window.location.hostname.indexOf('192.168.100.254') > -1){
+                                xhr.open('POST', 'http://192.168.100.254:8797/generic/report/hasillabKlinik.pdf');
+                            }else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
                                 xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/hasillabKlinik.pdf');
                             } else {
                                 xhr.open('POST', 'http://127.0.0.1:8797/generic/report/hasillabKlinik.pdf');
@@ -5123,7 +5153,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     xhr.open('POST', 'http://192.168.88.56:1002/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
                     xhr.open('POST', 'http://10.10.20.167:1002/generic/report/eresep.pdf');
-                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                } else if (window.location.hostname.indexOf('192.168.100.254') > -1) {
                     xhr.open('POST', 'http://10.5.1.2:1002/generic/report/eresep.pdf');
                 } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
                     xhr.open('POST', 'http://202.51.105.98:1002/generic/report/eresep.pdf');
