@@ -405,7 +405,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 					<textElement textAlignment="Center">
 						<font isBold="true"/>
 					</textElement>
-					<text><![CDATA[Ringkasan Pasien Pulang ( Discharge Summary )]]></text>
+					<text><![CDATA[Resume Medis Rawat Inap]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="14" y="100" width="240" height="40" uuid="b1c30c14-eb83-4641-a21b-4355928387a9"/>
