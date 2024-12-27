@@ -24817,17 +24817,20 @@ GROUP BY y.KET
     public function saveTandaTanganPpa(Request $request) {
         $dataLogin = $request->all();
         DB::beginTransaction();
-    // return  $ttd->generateNewId();
+        try {
             $ttd = new TandaTanganPpa();
-            // $ttd->norec = $ttd->generateNewId();
+            $ttd->norec = $ttd->generateNewId();
             $ttd->objectpegawaifk = $request['idPegawai'];
             $ttd->tandatangan = $request['ttd'][0]['foto'];
             $ttd->tglupload = $this->getDateTime()->format('Y-m-d H:i:s');
-            $ttd->penguploadfk = $dataLogin['userData']['id'];
+            // $ttd->penguploadfk = $dataLogin['userData']['id'];
             $ttd->save();
-            return "aa";
+
             $transStatus = 'true';
-     
+        } catch(\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal !';
+        }
         if ($transStatus == 'true') {
             $transMessage = 'Berhasil !';
             DB::commit();
