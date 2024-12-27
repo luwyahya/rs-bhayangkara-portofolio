@@ -66,7 +66,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
             $scope.dataSelectedVitalSign = {}
             let tampungVitalSign = ''
             var aksescetak = true;
-            getPegawai()
+            getPegawai();
             SetCacheHelper();
             // disini untuk kepentingan e-resep
             $scope.norecOrder = ''

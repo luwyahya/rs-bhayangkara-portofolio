@@ -175,6 +175,8 @@ define(['initialize'], function(initialize) {
                 
             }
             $scope.Lihat = function() {
+                debugger
+                $state.params.noRecRiwayatPap = dataSelected.norec;
                 if($scope.current.kodeexternal == "isortho"){
                     $scope.isOrtho = true 
                     $scope.isUro = false
@@ -208,6 +210,7 @@ define(['initialize'], function(initialize) {
                 }
                 cacheHelper.set('noRecPapNew', $scope.noRecRiwayatPap);
                 if ($scope.noRecRiwayatPap) {
+                    debugger
 
 
                     $scope.myVar = 2
