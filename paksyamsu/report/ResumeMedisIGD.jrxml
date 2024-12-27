@@ -18,6 +18,7 @@
 	<parameter name="diagnosaawal" class="java.lang.String"/>
 	<parameter name="obat" class="java.lang.String"/>
 	<parameter name="cpptO" class="java.lang.String"/>
+	<parameter name="qr" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT 
     ep.namaruangan,
@@ -901,7 +902,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 					<textFieldExpression><![CDATA[$F{namadokter}]]></textFieldExpression>
 				</textField>
 				<image>
-					<reportElement x="470" y="32" width="49" height="59" uuid="df247b6b-a4a3-4b25-8d42-6dc4b1d72498"/>
+					<reportElement x="462" y="32" width="49" height="59" uuid="df247b6b-a4a3-4b25-8d42-6dc4b1d72498"/>
 					<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
 new com.google.zxing.qrcode.QRCodeWriter().encode(
 $P{qr},

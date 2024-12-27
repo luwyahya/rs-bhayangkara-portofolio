@@ -18,6 +18,7 @@
 	<parameter name="diagnosaawal" class="java.lang.String"/>
 	<parameter name="obat" class="java.lang.String"/>
 	<parameter name="cpptO" class="java.lang.String"/>
+	<parameter name="qr" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT 
     ep.namaruangan,
@@ -203,7 +204,7 @@ BIDANG KEDOKTERAN DAN KESEHATAN
 RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</staticText>
 				<image>
-					<reportElement x="74" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
+					<reportElement x="113" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
 					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
 				</image>
 				<staticText>
@@ -882,7 +883,7 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 	</group>
 	<group name="Footer">
 		<groupHeader>
-			<band height="142">
+			<band height="122">
 				<staticText>
 					<reportElement x="0" y="12" width="554" height="20" uuid="ebd68ec4-491f-4dc3-b351-46df953260ff"/>
 					<textElement textAlignment="Right">
@@ -900,6 +901,13 @@ RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 					<textElement textAlignment="Center"/>
 					<textFieldExpression><![CDATA[$F{namadokter}]]></textFieldExpression>
 				</textField>
+				<image>
+					<reportElement x="470" y="32" width="49" height="59" uuid="a1419b3d-816c-40ad-966d-4ca5ce0c760d"/>
+					<imageExpression><![CDATA[com.google.zxing.client.j2se.MatrixToImageWriter.toBufferedImage(
+new com.google.zxing.qrcode.QRCodeWriter().encode(
+$P{qr},
+com.google.zxing.BarcodeFormat.QR_CODE, 300, 300))]]></imageExpression>
+				</image>
 			</band>
 		</groupHeader>
 	</group>
