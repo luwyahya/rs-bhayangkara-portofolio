@@ -297,7 +297,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             $scope.item.kebutuhanedukasilainlain =result[0].kebutuhanedukasilainlain
                             $scope.item.pemeriksaanpenunjanglainlain =result[0].pemeriksaanpenunjanglainlain
                             $scope.item.keadaanumumafter = result[0].keadaanumumafter
-                            $scope.item.darurat = result[0].keadaandarurat == null ? "IGD RS Bhayangkara Cianjur No. Telp : 022 - 5229544/45/48" : result[0].keadaandarurat
+                            $scope.item.darurat = result[0].keadaandarurat == null ? "IGD RS Bhayangkara Cianjur No. Tlp: (0263) 285299" : result[0].keadaandarurat
 
 
 
@@ -536,7 +536,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             getObatPulang($scope.cc.noregistrasi)
                             getReaksiObat()
                         } else {
-                            $scope.item.darurat = "IGD RS Bhayangkara TK. II Sartika Asih Bandung No. Telp : 022 - 5229544/45/48"
+                            $scope.item.darurat = "IGD RS Bhayangkara TK. IV Cianjur No. Tlp: (0263) 285299"
                             // loadAll();
                             getReaksiObat()
                             loadDaftarRmPp($scope.cc.noregistrasi)
@@ -5033,7 +5033,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     keadaandarurat: "RS Bhayangkara TK.I Pusdokkes Polri 0218093288 / 0218090559",
                     //transportasi: $scope.item.transportasi != undefined ? $scope.item.transportasi : null,
                     // meninggalkanrs: $scope.item.kondisiMeninggalkan.kondisi,
-                    // ttdpasien: $scope.item.ttdPasien,
+                    ttdpasien: $scope.item.ttdPasien,
                     dpjp: $scope.item.dokter.namalengkap,
                     pegawaifk: $scope.item.dokter.id,
                     riwayatPenyakit: $scope.item.riwayatPenyakit  != undefined ? $scope.item.riwayatPenyakit : null,
