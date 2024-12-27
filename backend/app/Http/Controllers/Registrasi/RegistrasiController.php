@@ -61,6 +61,7 @@ use App\Transaksi\DokumenPasienRegistrasi;
 use App\Transaksi\SendTaskAntrol;
 use App\Transaksi\DiagnosaInacbg;
 use App\Transaksi\eisall;
+use App\Transaksi\TandaTanganPpa;
 use Illuminate\Http\Request;
 use App\Traits\PelayananPasienTrait;
 use DB;
