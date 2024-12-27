@@ -195,30 +195,25 @@ class EMRController  extends ApiController
     public function getRekamMedis(Request $request)
     {
         $dataLogin = $request->all();
+        
         $data = \DB::table('rekammedis_t as rm')
-            ->select('rm.norec', 'rm.objectfk', 'rm.nilai', 'rm.satuan', 'rm.jenisobject', 'rm.noregistrasifk')
-            //            ->where('rm.noregistrasifk',$request['noregistrasifk'])
-            ->where('rm.objectfk', 'ilike', $request['objectfk'] . '%');
-        //            ->where('rm.kodeexternal','igd');
-        if (isset($request['riwayatfk']) && $request['riwayatfk'] != '') {
-            $data = $data->where('rm.riwayatpapfk', '=', trim($request['riwayatfk']));
+            ->select('rm.norec', 'rm.objectfk', 'rm.nilai', 'rm.satuan', 'rm.jenisobject', 'rm.noregistrasifk');
+    
+        // Tambahkan kondisi jika `noregistrasifk` ada di dalam request
+        if ($request->has('noregistrasifk') && $request->noregistrasifk != '') {
+            $data = $data->where('rm.noregistrasifk', '=', $request->noregistrasifk);
         }
-        if (isset($request['Nocm']) && $request['Nocm'] != '') {
-            $data = $data->where('rm.nocm', '=', $request['Nocm']);
-        }
-        if (isset($request['kodeExt']) && $request['kodeExt'] != '') {
-            $data = $data->where('rm.jenisskrining', '=', $request['kodeExt']);
-        }
-
+    
         $data = $data->get();
-        $result = array(
+    
+        $result = [
             'data' => $data,
             'message' => 'miftah',
-        );
-
+        ];
+    
         return $this->respond($result);
     }
-
+    
     public function getDiagnosaPasien(Request $request)
     {
         $noregistrasi = $request['noregistrasi'];

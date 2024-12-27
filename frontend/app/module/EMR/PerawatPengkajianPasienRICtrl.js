@@ -160,6 +160,7 @@ define(['initialize'], function(initialize) {
             }
 
             $scope.kl = function(current) {
+                debugger
                 $scope.isEdit = false
                 $scope.isSemua = true
                 if (current.idruangangrid == $scope.idRuangan) { $scope.isEdit = true }
@@ -175,8 +176,7 @@ define(['initialize'], function(initialize) {
                 
             }
             $scope.Lihat = function() {
-                debugger
-                $state.params.noRecRiwayatPap = dataSelected.norec;
+                // $state.params.noRecRiwayatPap = current.norec;
                 if($scope.current.kodeexternal == "isortho"){
                     $scope.isOrtho = true 
                     $scope.isUro = false

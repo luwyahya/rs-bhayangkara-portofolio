@@ -43,7 +43,6 @@ define(['initialize'], function(initialize) {
         init()
         
         function LoadCombo() {
-            
             medifirstService.get('emr/get-combo').then(function (dat) {
                 $scope.listPerawat = dat.data.pegawai
                 $scope.listDokter = dat.data.pegawai
@@ -1561,7 +1560,13 @@ define(['initialize'], function(initialize) {
                             var jenis = "checkbox"
                             var satuan = "-"
                            
-                        }else{
+                        }else if ($scope.item.obj[parseInt(arrobj[i])] instanceof Date) {
+                            debugger
+                            var nilai = $scope.item.obj[parseInt(arrobj[i])];
+                            var jenis = "datetime";
+                            var satuan = "-";
+                        }
+                        else{
                             var nilai = $scope.item.obj[parseInt(arrobj[i])].namaruangan;
                             if(nilai == undefined){
                                 var nilai2 = $scope.item.obj[parseInt(arrobj[i])].namalengkap;

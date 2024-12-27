@@ -339,8 +339,8 @@
                                             </div> 
                                             <div class="grid_6">
                                                 <div class="grid_12"><b>Dokter yang merawat</b>
-                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]" k-data-text-field=" 'namalengkap'"
-                                                        k-data-value-field=" 'id'" k-auto-bind="false" k-data-source="listDokter" />
+                                                    <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]" k-data-text-field="'namalengkap'"
+                                                        k-data-value-field="'id'" k-auto-bind="false" k-data-source="listDokter" />
                                                 </div>
                                             </div>
                                             
@@ -2730,10 +2730,7 @@
                                         <table style="border: none; border-bottom: 1px solid #000;width: 100%;">
                                             <tr style="height:25px;">
                                                 <td style="border: none;width: 200px">Dokter yang merawat</td>
-                                                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]"
-                                                k-data-text-field="'namalengkap'"
-                                                k-filter="'contains'"
-                                                k-data-value-field="'id'" k-auto-bind="false" k-data-source="listDokter" /> -->
+                                                <td style="border: none;">: {{item.obj[4].namalengkap}}</td>
                                             </tr>
                                         </table>
 

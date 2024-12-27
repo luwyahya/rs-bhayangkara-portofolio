@@ -95,36 +95,36 @@ define(['initialize', 'Configuration'], function(initialize, config) {
 
             $scope.showRacikanDose = false
 
-            function getPegawai() {
-                var user = medifirstService.getPegawaiLogin().jenisPegawai
-                if (user.jenispegawai == 'DOKTER') {
-                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
-                    $scope.dokter = true
-                } else if (user.jenispegawai == 'Apoteker') {
-                    jenisPegawaiLogin = {id : 7, jenispetugaspe: 'Apoteker'}
-                } else if (user.jenispegawai == 'Laboratorium') {
-                    jenisPegawaiLogin = {id : 10, jenispetugaspe: 'Laborat'}
-                } else if (user.jenispegawai == 'Ahli Gizi') {
-                    jenisPegawaiLogin = {id : 15, jenispetugaspe: 'Ahli Gizi'}
-                } else if (user.jenispegawai == 'PERAWAT') {
-                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Perawat'}
-                    $scope.perawat = true
-                } else if (user.jenispegawai == 'BIDAN') {
-                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Bidan'}
-                    $scope.perawat = true
-                } else if (user.jenispegawai == 'PSIKOLOG') {
-                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Psikolog'}
-                } else if (user.jenispegawai == 'PELAKSANA') {
-                    jenisPegawaiLogin = {id : 2, jenispetugaspe: 'Petugas Pelaksana'}
-                    $scope.perawat = true
-                } else if (user.jenispegawai == 'Fisioterapis') {
-                    jenisPegawaiLogin = {id : 32, jenispetugaspe: 'Fisioterapis'}
-                    $scope.perawat = true
-                } else {
-                    jenisPegawaiLogin = {}
-                }
-                namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
-            }
+            // function getPegawai() {
+            //     var user = medifirstService.getPegawaiLogin().jenisPegawai
+            //     if (user.jenispegawai == 'DOKTER') {
+            //         jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
+            //         $scope.dokter = true
+            //     } else if (user.jenispegawai == 'Apoteker') {
+            //         jenisPegawaiLogin = {id : 7, jenispetugaspe: 'Apoteker'}
+            //     } else if (user.jenispegawai == 'Laboratorium') {
+            //         jenisPegawaiLogin = {id : 10, jenispetugaspe: 'Laborat'}
+            //     } else if (user.jenispegawai == 'Ahli Gizi') {
+            //         jenisPegawaiLogin = {id : 15, jenispetugaspe: 'Ahli Gizi'}
+            //     } else if (user.jenispegawai == 'PERAWAT') {
+            //         jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Perawat'}
+            //         $scope.perawat = true
+            //     } else if (user.jenispegawai == 'BIDAN') {
+            //         jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Bidan'}
+            //         $scope.perawat = true
+            //     } else if (user.jenispegawai == 'PSIKOLOG') {
+            //         jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Psikolog'}
+            //     } else if (user.jenispegawai == 'PELAKSANA') {
+            //         jenisPegawaiLogin = {id : 2, jenispetugaspe: 'Petugas Pelaksana'}
+            //         $scope.perawat = true
+            //     } else if (user.jenispegawai == 'Fisioterapis') {
+            //         jenisPegawaiLogin = {id : 32, jenispetugaspe: 'Fisioterapis'}
+            //         $scope.perawat = true
+            //     } else {
+            //         jenisPegawaiLogin = {}
+            //     }
+            //     namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
+            // }
             function SetCacheHelper() {
                 medifirstService.get('emr/get-antrian-pasien-norec/' + $state.params.noRec).then(function(e) {
                     var result = e.data.result 
@@ -244,6 +244,7 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                 });
             }
             function getPegawai() {
+                debugger
                 var user = medifirstService.getPegawaiLogin().jenisPegawai
                 if (user.jenispegawai == 'DOKTER') {
                     jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
