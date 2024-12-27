@@ -36,16 +36,16 @@ define(['initialize'], function (initialize) {
             $scope.dataLogin = JSON.parse(localStorage.getItem('pegawai'))
             $scope.pegawai = ModelItem.getPegawai();
             // $scope.cekDokter();
-            // $scope.cekDokter = function (bool) {
-            //     debugger
-            //     if (bool) {
-            //         $scope.item.isDokter = true
-            //         loadData()
-            //     } else {
-            //         $scope.item.isDokter = false
-            //         loadData()
-            //     }
-            // }
+            $scope.cekDokter = function (bool) {
+                debugger
+                if (bool) {
+                    $scope.item.isDokter = true
+                    loadData()
+                } else {
+                    $scope.item.isDokter = false
+                    loadData()
+                }
+            }
             $scope.cekTelemedicine = function (bool) {
                 if (bool) {
                     $scope.item.isTelemedicine = true
@@ -114,11 +114,11 @@ define(['initialize'], function (initialize) {
                     var noRegistrasi = "&noreg=" + $scope.item.noRegistrasi
                 }
                 var dokId = ""
-                // if ($scope.item.isDokter == true) {
+                if ($scope.item.isDokter == true) {
                     if ($scope.pegawai.id != undefined) {
                         var dokId = "&dokId=" + $scope.pegawai.id
                     }
-                // }
+                }
 
                 var statusPeriksa = ""
                 if ($scope.item.Status != undefined) {
