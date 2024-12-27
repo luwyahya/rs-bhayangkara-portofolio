@@ -1801,7 +1801,7 @@ public function cetakAntrianKiosk(Request $request)
         if($emrpasiennew_t){
             $raw = collect(DB::select("
             SELECT        ed.value AS namalengkap2, pg.namalengkap AS namalengkap, sp.statuspegawai, CASE WHEN pg.nip IS NULL THEN pg.nippns ELSE pg.nip END AS nip, ttp.tandatangan, jp.jenispegawai, jk.jeniskelamin, 
-                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,TO_CHAR(ep.tglemr, 'DD \"MMMM\" YYYY') AS tgl,ep.tglemr
+                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,TO_CHAR(ep.tglemr, 'YYYY-MM-DD') AS tgl,ep.tglemr
    FROM            emrpasien_t AS ep LEFT OUTER JOIN
                             emrpasiend_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
                             pegawai_m AS pg ON pg.namalengkap = ed.value LEFT OUTER JOIN
@@ -1815,7 +1815,7 @@ public function cetakAntrianKiosk(Request $request)
         } else {
             $raw = collect(DB::select("
             SELECT        ed.value AS namalengkap2, pg.namalengkap AS namalengkap, sp.statuspegawai, CASE WHEN pg.nip IS NULL THEN pg.nippns ELSE pg.nip END AS nip, ttp.tandatangan, jp.jenispegawai, jk.jeniskelamin, 
-                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,TO_CHAR(ep.tglemr, 'DD \"MMMM\" YYYY') AS tgl, ,ep.tglemr
+                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,TO_CHAR(ep.tglemr, 'YYYY-MM-DD') AS tgl, ,ep.tglemr
    FROM            emrpasien_t AS ep LEFT OUTER JOIN
                             emrpasiend_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
                             pegawai_m AS pg ON pg.namalengkap = ed.value LEFT OUTER JOIN
