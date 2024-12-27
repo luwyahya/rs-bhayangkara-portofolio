@@ -768,8 +768,8 @@ define(['initialize'], function (initialize) {
             // medifirstService.get('emr/get-combo-diagnosa-pengkajian?').then(function(dat) {
             //     $scope.listDiagnosa = dat.data.diagnosa
             // })
-             
-            if ($scope.cc.objectruanganfk == 8 || $scope.cc.objectruanganfk == 250 || $scope.cc.objectruanganfk == 268 || $scope.cc.objectruanganfk == 130 || $scope.cc.objectruanganfk == 446 || $scope.cc.objectruanganfk == 97 || $scope.cc.objectruanganfk == 89 || $scope.cc.objectruanganfk == 459) {
+             debugger
+            if ($scope.cc.objectruanganfk == 8 || $scope.cc.objectruanganfk == 250 || $scope.cc.objectruanganfk == 268 || $scope.cc.objectruanganfk == 130 || $scope.cc.objectruanganfk == 446 || $scope.cc.objectruanganfk == 97 || $scope.cc.objectruanganfk == 89 || $scope.cc.objectruanganfk == 459) {debugger
                 medifirstService.get("emr/get-combo-diagnosa-keperawatan-new?idRuangan=" + $scope.cc.objectruanganfk).then(function(data) {
                     $scope.listDiagnosa = data.data;
                 })

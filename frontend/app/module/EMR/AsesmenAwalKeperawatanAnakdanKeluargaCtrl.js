@@ -43,6 +43,7 @@ define(['initialize'], function(initialize) {
         init()
         
         function LoadCombo() {
+            
             medifirstService.get('emr/get-combo').then(function (dat) {
                 $scope.listPerawat = dat.data.pegawai
                 $scope.listDokter = dat.data.pegawai

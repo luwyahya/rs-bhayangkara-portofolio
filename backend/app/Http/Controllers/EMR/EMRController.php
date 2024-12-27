@@ -7290,7 +7290,7 @@ class EMRController  extends ApiController
         $icdIX = \DB::table('emr_t as e')
             ->select('e.id', 'e.caption as namadiagnosa')
             ->where('namaemr', 'askepnew')
-            // ->where('caption', 'like', '%' . '(D.' . '%')
+            ->where('caption', 'like', '%' . '(D.' . '%')
             ->orderBy('e.nourut');
 
         if (

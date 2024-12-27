@@ -2569,42 +2569,50 @@
                                         
                                                         <tr>
                                                             <td class="tg-yw4l">
-                                                            1.
+                                                                1.
                                                             </td>
                                                             <td>
-                                                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[602]" ng-click="cekSkor('b',2,0,true)"  />
-                                                                <label class="textbox"></label>
+                                                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[602]"
+                                                                    k-data-text-field="'namalengkap'"
+                                                                    k-filter="'contains'"
+                                                                    k-data-value-field="'id'" k-auto-bind="false" k-data-source="listPerawat" />
+                                                            </td>
                                                             <td>
-                                                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[603]" ng-click="cekSkor('b',2,0,true)"  />
-                                                                <label class="textbox"></label>
-                                                            </td> 
+                                                                <input k-ng-model="item.obj[603]" kendo-date-time-picker placeholder="yyyy-MM-dd HH:mm"
+                                                                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" style="width: 100%;" />
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="tg-yw4l">
-                                                            2.
+                                                                2.
                                                             </td>
                                                             <td>
-                                                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[604]" ng-click="cekSkor('b',2,0,true)"  />
-                                                                <label class="textbox"></label>
-                                                            </td> 
+                                                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[604]"
+                                                                    k-data-text-field="'namalengkap'"
+                                                                    k-filter="'contains'"
+                                                                    k-data-value-field="'id'" k-auto-bind="false" k-data-source="listPerawat" />
+                                                            </td>
                                                             <td>
-                                                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[605]" ng-click="cekSkor('b',2,0,true)"  />
-                                                                <label class="textbox"></label>
-                                                            </td> 
+                                                                <input k-ng-model="item.obj[605]" kendo-date-time-picker placeholder="yyyy-MM-dd HH:mm"
+                                                                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" style="width: 100%;" />
+                                                            </td>
                                                         </tr>
                                                         <tr>
                                                             <td class="tg-yw4l">
-                                                            3.
+                                                                3.
                                                             </td>
                                                             <td>
-                                                                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[606]" ng-click="cekSkor('b',2,0,true)"  />
-                                                                <label class="textbox"></label>
-                                                            </td> 
+                                                                <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[606]"
+                                                                    k-data-text-field="'namalengkap'"
+                                                                    k-filter="'contains'"
+                                                                    k-data-value-field="'id'" k-auto-bind="false" k-data-source="listPerawat" />
+                                                            </td>
                                                             <td>
-                                                            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.obj[607]" ng-click="cekSkor('b',2,0,true)"  />
-                                                            <label class="textbox"></label>
-                                                            </td> 
+                                                                <input k-ng-model="item.obj[607]" kendo-date-time-picker placeholder="yyyy-MM-dd HH:mm"
+                                                                    k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" style="width: 100%;" />
+                                                            </td>
                                                         </tr>
+                                                        
                                                     </table>
                                                 </div>
                                             </div>
@@ -2722,7 +2730,10 @@
                                         <table style="border: none; border-bottom: 1px solid #000;width: 100%;">
                                             <tr style="height:25px;">
                                                 <td style="border: none;width: 200px">Dokter yang merawat</td>
-                                                <td style="border: none;">: {{item.obj[4].namalengkap}}</td>
+                                                <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.obj[4]"
+                                                k-data-text-field="'namalengkap'"
+                                                k-filter="'contains'"
+                                                k-data-value-field="'id'" k-auto-bind="false" k-data-source="listDokter" /> -->
                                             </tr>
                                         </table>
 
