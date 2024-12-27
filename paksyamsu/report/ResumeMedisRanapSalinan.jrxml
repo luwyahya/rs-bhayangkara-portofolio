@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.19.0.final using JasperReports Library version 6.19.0-646c68931cebf1a58bc65c4359d1f0ca223c5e94  -->
+<!-- Created with Jaspersoft Studio version 6.20.6.final using JasperReports Library version 6.20.6-5c96b6aa8a39ac1dc6b6bea4b81168e16dd39231  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ResumeMedisRjNew" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3db4fe1-8f21-4e04-825c-23b133cc8214">
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
@@ -384,25 +384,20 @@ AND
 	<group name="Judul">
 		<groupHeader>
 			<band height="155">
-				<staticText>
-					<reportElement x="87" y="84" width="120" height="30" uuid="9e5d613c-51b5-4161-b9c8-4a3636d9296a"/>
-					<textElement>
-						<font size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[SARTIKA ASIH]]></text>
-				</staticText>
 				<line>
 					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
 				</line>
 				<staticText>
-					<reportElement x="31" y="68" width="285" height="30" uuid="e1d659a5-68f9-4adf-9ed2-518c3554b849"/>
-					<textElement>
+					<reportElement x="7" y="57" width="285" height="72" uuid="e1d659a5-68f9-4adf-9ed2-518c3554b849"/>
+					<textElement textAlignment="Center">
 						<font size="11" isBold="true"/>
 					</textElement>
-					<text><![CDATA[RUMAH SAKIT BHAYANGKARA TK. II]]></text>
+					<text><![CDATA[KEPOLISIAN DAERAH JAWA BARAT
+BIDANG KEDOKTERAN DAN KESEHATAN
+RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</staticText>
 				<image>
-					<reportElement x="115" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
+					<reportElement x="105" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
 					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
 				</image>
 				<staticText>
@@ -1317,7 +1312,7 @@ Kec. Regol, Kota Bandung, Jawa Barat 40256]]></text>
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 					<textElement textAlignment="Justified"/>
-					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih"]]></textFieldExpression>
+					<textFieldExpression><![CDATA["Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. IV Cianjur"]]></textFieldExpression>
 				</textField>
 				<textField textAdjust="StretchHeight">
 					<reportElement x="136" y="23" width="416" height="20" uuid="7e25e9cf-0e78-4479-be89-e3ffaaf4e111">
