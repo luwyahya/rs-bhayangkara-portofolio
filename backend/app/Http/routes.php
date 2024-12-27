@@ -1915,6 +1915,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
 
         Route::get('report/cetak-bukti-pendaftaran', 'Report\ReportController@cetakBuktiPendaftaran');
         Route::get('report/cetak-visum-new', 'Report\ReportController@cetakVisumNew');
+        Route::get('report/cetak-ttd-anestesi-lokal', 'Report\ReportController@cetakTTDAnestesiLokal');
+        Route::get('report/cetak-ttd-anestesi-lokal-2', 'Report\ReportController@cetakTTDAnestesiLokal2');
 
         Route::group(['prefix' => 'laundry'], function () {
             //Route::get('get-combo-logistik','Laundry\LaundryController@getComboLaundry');

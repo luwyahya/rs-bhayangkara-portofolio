@@ -342,6 +342,11 @@ define(['initialize'], function (initialize) {
                         nomorEMR = nomorEMRSS
                         $scope.cc.emrfk = '869'
                         setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
+                        medifirstService.get("report/cetak-ttd-anestesi-lokal?emrpasienfk=" + nomorEMRSS).then(function (dat) {
+                            debugger
+                            var imageUrl = dat.data.imageUrl;           
+                            $("#qrcode").attr('src', imageUrl);
+                        })
                     }
                     else {
                         $scope.item.obj[2404] = moment($scope.now).format('YYYY-MM-DD HH:mm')

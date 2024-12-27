@@ -1749,4 +1749,98 @@ public function cetakAntrianKiosk(Request $request)
              compact('raw', 'pageWidth','r','now', 'message', 'tglcetak'));
     
      }
+     public function cetakTTDAnestesiLokal(Request $r) {
+        // DB::connection()->setForceWritePdo();
+        $emrpasienfk = $r['emrpasienfk'];
+
+        $emrpasiennew_t = DB::table('emrpasiennew_t')
+        ->select('noemr')
+        ->where('noemr', $emrpasienfk)
+        ->exists();
+
+        if($emrpasiennew_t){
+            $data = DB::select(DB::raw("
+            SELECT        noemr
+            FROM            emrpasiennew_t
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '934')
+            "));
+        } else {
+            $data = DB::select(DB::raw("
+            SELECT        noemr
+            FROM            emrpasien_t
+            WHERE        (noemr = '$emrpasienfk') AND (emrfk = '934')
+            "));
+        }
+
+        
+    
+        if (!empty($data)) {
+            $ambildaridata = $data[0]->noemr;
+    
+            $qrCodePemeriksa = new QrCode("https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-anestesi-lokal-2?emrpasienfk=" . $ambildaridata);
+            $qrCodePemeriksa2 = $qrCodePemeriksa->writeDataUri();
+    
+            // Ubah respons menjadi URL gambar
+            $imageUrl = 'data:image/png;base64,' . str_replace('data:image/png;base64,', '', $qrCodePemeriksa2);
+    
+            return $this->respond(['imageUrl' => $imageUrl]);
+        } else {
+            return $this->respond("Data not found for the given emrpasienfk.");
+        }
+    }
+    public function cetakTTDAnestesiLokal2(Request $r) {
+        // DB::connection()->setForceWritePdo();
+        $emrpasienfk = $r['emrpasienfk'];
+        $emrpasiennew_t = DB::table('emrpasiennew_t')
+        ->select('noemr')
+        ->where('noemr', $emrpasienfk)
+        ->exists();
+
+        if($emrpasiennew_t){
+            $raw = collect(DB::select("
+            SELECT        ed.value AS namalengkap2, pg.namalengkap AS namalengkap, sp.statuspegawai, CASE WHEN pg.nip IS NULL THEN pg.nippns ELSE pg.nip END AS nip, ttp.tandatangan, jp.jenispegawai, jk.jeniskelamin, 
+                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,FORMAT(ep.tglemr, 'dd MMMM yyyy', 'id-ID') AS tgl,ep.tglemr
+   FROM            emrpasiennew_t AS ep LEFT OUTER JOIN
+                            emrpasiendnew_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
+                            pegawai_m AS pg ON pg.namalengkap = ed.value LEFT OUTER JOIN
+                            jenispegawai_m AS jp ON jp.id = pg.objectjenispegawaifk LEFT OUTER JOIN
+                            statuspegawai_m AS sp ON sp.id = pg.objectstatuspegawaifk LEFT OUTER JOIN
+                            jeniskelamin_m AS jk ON jk.id = pg.objectjeniskelaminfk LEFT OUTER JOIN
+                            pangkat_m AS pk ON pk.id = pg.objectpangkatfk LEFT OUTER JOIN
+                            tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
+   WHERE        (ed.emrdfk = '6636') AND (ed.emrfk = '934') AND (ep.noemr = '$emrpasienfk')
+            "))->first();
+        } else {
+            $raw = collect(DB::select("
+            SELECT        ed.value AS namalengkap2, pg.namalengkap AS namalengkap, sp.statuspegawai, CASE WHEN pg.nip IS NULL THEN pg.nippns ELSE pg.nip END AS nip, ttp.tandatangan, jp.jenispegawai, jk.jeniskelamin, 
+                            CASE WHEN pk.namapangkat IS NULL THEN '-' ELSE pk.namapangkat END AS namapangkat,  pg.nosip,FORMAT(ep.tglemr, 'dd MMMM yyyy', 'id-ID') AS tgl,ep.tglemr
+   FROM            emrpasien_t AS ep LEFT OUTER JOIN
+                            emrpasiend_t AS ed ON ed.emrpasienfk = ep.noemr LEFT OUTER JOIN
+                            pegawai_m AS pg ON pg.namalengkap = ed.value LEFT OUTER JOIN
+                            jenispegawai_m AS jp ON jp.id = pg.objectjenispegawaifk LEFT OUTER JOIN
+                            statuspegawai_m AS sp ON sp.id = pg.objectstatuspegawaifk LEFT OUTER JOIN
+                            jeniskelamin_m AS jk ON jk.id = pg.objectjeniskelaminfk LEFT OUTER JOIN
+                            pangkat_m AS pk ON pk.id = pg.objectpangkatfk LEFT OUTER JOIN
+                            tandatanganppa_t AS ttp ON ttp.objectpegawaifk = pg.id
+   WHERE         (ed.emrdfk = '6636') AND (ed.emrfk = '934') AND (ep.noemr = '$emrpasienfk')
+            "))->first();
+        }
+         
+         if(!empty($raw)){
+            $raw->umur = $this->getAge($raw->tglemr ,date('Y-m-d'));
+        }else{
+            echo 'Data Tidak ada ';
+            return;
+        }
+    
+        
+    
+    
+         $pageWidth = 950;
+    
+         return view('report.pdf.ttdanestesi',
+             compact('raw', 'pageWidth'));
+    
+     }
+
 }    
