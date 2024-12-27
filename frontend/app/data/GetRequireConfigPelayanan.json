@@ -3109,6 +3109,10 @@
         {
             "nameDep": "SuratKelahiranCtrl",
             "urlDep": "module/EMR/SuratKelahiranCtrl"
+        },
+        {
+            "nameDep": "TandaTanganPpaCtrl",
+            "urlDep": "module/Registrasi/TandaTanganPpaCtrl"
         }
     ]
 }

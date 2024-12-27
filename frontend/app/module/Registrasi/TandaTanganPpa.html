@@ -1,0 +1,66 @@
+<style>
+    .hejo {
+        color: green;
+    }
+</style>
+<div class="grid_12">
+    <div style="margin-bottom: 10px" class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Tanda Tangan PPA</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <label c-label item="item" required>Nama Pegawai</label>
+            <input required style="width: 100%;" kendo-combo-box
+                k-ng-model="item.pegawaiSearch" k-data-text-field="'namalengkap'"
+                k-filter="'contains'" k-data-value-field="'id'"
+                k-data-source="listPegawai" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="search()"><i class="fa fa-search"></i>Cari</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 borderBox">
+            <div class="grid_12 headerBox">
+                <p>Tanda Tangan PPA</p>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div id="gridTtd" kendo-grid k-data-source="sourceTtd" options="gridTtd" k-ng-model="dataSelected" ng-click="klik(dataSelected)" k-selectable="'row'"></div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="tambahData()"><i class="fa fa-plus"></i>Tambah</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="hapusData()"><i class="fa fa-trash"></i>Hapus</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpTambahTandaTangan" k-title="'Tanda Tangan'" k-width="1300" k-height="450" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item" required>Nama Pegawai</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.pegawai" k-data-text-field="'namalengkap'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPegawai" />
+            </div>
+            <div class="grid_12" style="margin-top: 1.5%;">
+                <label c-label item="item" required>File Tanda Tangan</label>
+                <input type="file" class="custom-file-input" id="filePicker" accept=".png, .jpg, .jpeg, .jfif, .pjpeg, .pjp, .svg">
+            </div>
+            <div class="grid_12">
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="simpanBeneran()"><i class="fa fa-plus"></i>Simpan</button>
+                </div>
+                <div class="grid_2" style="margin-left: 3%;">
+                    <button class="btnTemplate1 cancel" ng-click="tutupPopUp()"><i class="fa fa-arrow-left"></i>Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

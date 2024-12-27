@@ -2804,6 +2804,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-catatan-visum', 'Registrasi\RegistrasiController@getCatatanVisum');
             Route::get('get-angka-titik', 'Registrasi\RegistrasiController@getAngkaTitik');
             Route::post('updatenocmlamakebaru', 'Registrasi\RegistrasiController@updatenocmlamakebaru');
+            Route::get('get-pegawai-part-2', 'Registrasi\RegistrasiController@getPegawaiPart2');
+            Route::get('get-ttd-ppa-all', 'Registrasi\RegistrasiController@getTandaTanganPpaAll');
+            Route::post('delete-ttd-ppa', 'Registrasi\RegistrasiController@deleteTtdPpa');
+            Route::get('get-ttd-ppa-1', 'Registrasi\RegistrasiController@getTtdPpa');
 
             Route::group(['prefix' => 'daftar-registrasi'], function () {
                 // 2019-12 penambahan arif awal                

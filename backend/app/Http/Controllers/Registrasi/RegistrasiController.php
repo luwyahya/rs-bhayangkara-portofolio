@@ -24730,4 +24730,87 @@ GROUP BY y.KET
 
         return $this->respond($data);
     }
+       public function getPegawaiPart2(Request $request)
+    {
+        $req = $request->all();
+        $pegawai = \DB::table('pegawai_m as pg')
+            ->select(
+                'pg.id',
+                'pg.namalengkap'
+            )
+            ->where('pg.statusenabled', true)
+            ->orderBy('pg.namalengkap');
+
+        if (
+            isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value'] != "" &&
+            $req['filter']['filters'][0]['value'] != "undefined"
+        ) {
+            $pegawai = $pegawai
+                ->where('pg.namalengkap', 'like', '%' . $req['filter']['filters'][0]['value'] . '%');
+        }
+
+
+        $pegawai = $pegawai->take(10);
+        $pegawai = $pegawai->get();
+        $data = [];
+        if (count($pegawai) > 0) {
+            foreach ($pegawai as $item) {
+                $data[] = array(
+                    'namalengkap' => $item->namalengkap,
+                    'id' => $item->id
+                );
+            }
+        }
+
+        return $this->respond($data);
+    }
+    public function getTandaTanganPpaAll(Request $request) {
+        $data = \DB::table('tandatanganppa_t as ttp')
+            ->join('pegawai_m as pg', 'pg.id', '=', 'ttp.objectpegawaifk')
+            ->join('loginuser_s as log', 'log.id', '=', 'ttp.penguploadfk')
+            ->join('pegawai_m as pg2', 'pg2.id', '=', 'log.objectpegawaifk')
+            ->select('ttp.norec', 'ttp.tglupload', 'pg.namalengkap as namapegawai', 'pg2.namalengkap as petugasupload');
+
+            if (isset($request['idPegawai']) && $request['idPegawai'] != "" && $request['idPegawai'] != "undefined") {
+                $data = $data->where('pg.id', '=', $request['idPegawai']);
+            };
+
+            $data = $data->get();
+
+            return $this->respond($data);
+    }
+    public function deleteTtdPpa(Request $request) {
+        DB::beginTransaction();
+        try {
+            $delete = TandaTanganPpa::where('norec', $request['norec'])->delete();
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal !';
+        }
+        if ($transStatus == 'true') {
+            $transMessage = 'Berhasil !';
+            DB::commit();
+            $result = array (
+                'status' => 201,
+                'message' => $transMessage
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                'status' => 400,
+                'message' => $transMessage
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function getTtdPpa(Request $request) {
+        $data = \DB::table('tandatanganppa_t')
+            ->select('tandatangan')
+            ->where('norec', $request['norec'])
+            ->get();
+
+        return $this->respond($data);
+    }
 }
