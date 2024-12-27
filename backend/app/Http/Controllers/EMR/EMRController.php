@@ -6070,10 +6070,10 @@ class EMRController  extends ApiController
             ->where('statusenabled', true)
             ->where('kodeexternal', '<>', 'dua')
             ->get();
-        $pegawai = \DB::table('pegawai_m')
+            $perawat = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
-            ->where('kodeexternal', '<>', 'dua')
+            ->where('objectjenispegawaifk', 2)  // Menambahkan tanda kutip penutup pada angka 2
             ->get();
 
         $result = array(
