@@ -134,16 +134,16 @@ define(['initialize'], function(initialize) {
                             // "template": "<span class='style-center'>#: namaruangan #</span>",
                         },                        
                         {
-                            "field": "jumlahisi",
+                            "field": "JumlahIsi",
                             "title": "Jumlah Yang Sudah Di isi",
                             "width": "50px",
-                            "template": "<span class='style-center'>#: jumlahisi #</span>",
+                            "template": "<span class='style-center'>#: JumlahIsi #</span>",
                         },
                         {
-                            "field": "jumlahkunjungan",
+                            "field": "JumlahKunjungan",
                             "title": "Jumlah Kunjungan",
                             "width": "50px",
-                            "template": "<span class='style-center'>#: jumlahkunjungan #</span>",
+                            "template": "<span class='style-center'>#: JumlahKunjungan #</span>",
                         }
                       
                     ]                   

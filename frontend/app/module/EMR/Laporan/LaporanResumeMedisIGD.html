@@ -1,0 +1,65 @@
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Sudah Isi Resume Medis IGD</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4">
+            <div class="grid_12">
+                <label c-label item="item">Periode Pulang</label>
+            </div>
+            <div class="grid_6">
+                <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+            <div class="grid_6">
+                <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm" />
+            </div>
+        </div>
+        <div class="grid_2" style="margin-top: 18px;">
+            <input kendo-combo-box k-ng-model="item.dpjp" k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="search()">Cari</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <kendo-grid k-data-source="dataSourceResumeRj" k-selectable="'row'"
+            options="columnGridResumeRj" k-pageable="'true'" k-sortable="'true'" k-groupable="true">
+        </kendo-grid>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+<div kendo-window="popUpDetailPasien" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Detail Laporan</p>
+            </div>
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid data-source="dataPasienDetailPasien" options="columnPasienDetailPasien"
+                    k-groupable="true"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpDetail" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Detail Laporan</p>
+            </div>
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid data-source="dataPasienDetail" options="columnPasienDetail"
+                    k-groupable="true"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
