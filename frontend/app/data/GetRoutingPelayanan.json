@@ -16716,7 +16716,7 @@
 },
 {
     "name": "LaporanCPPT",
-    "url": "/TGFwb3JhbkNQUFQ=",
+    "url": "/LaporanCPPT",
     "templateurl": "module/Registrasi/Laporan/LaporanCPPT.html",
     "controller": "LaporanCPPTCtrl",
     "deps": [{
