@@ -23039,7 +23039,7 @@ FROM
     }
     public function getTotalPasienCppt(Request $request)
     {
-        return $request['namaruangan'];
+        // return $request['namaruangan'];
         $data = DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
