@@ -25028,7 +25028,7 @@ GROUP BY y.KET
         ruangan_m as ru on ru.id = pd.objectruanganlastfk left join
         pemakaianasuransi_t as pa on pa.noregistrasifk = pd.norec left join
         pegawai_m as pg on pg.id = pd.objectdokterpemeriksafk inner join
-        sendtaskantrol_t as s on s.noreservasi = pd.kodebookingantrol and s.taskid = pd.istaskantrol
+        sendtaskantrol_t as s on s.noreservasi = pd.noregistrasi and s.taskid = pd.istaskantrol
         where pd.tglregistrasi between '$tglAwal' and '$tglAkhir' and pd.statusenabled = true and pd.objectkelompokpasienlastfk = 2 and pd.istaskantrol is not null $taskId $noregistrasi $nocm
         ) as x
         where x.rownum = 1

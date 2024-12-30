@@ -404,6 +404,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('mjkn/antrian/GetJadwalOprasiSatu', 'Bridging\BridgingBPJSV2Controller@GetJadwalOprasiSatu');
                 Route::post('mjkn/antrian/SavePasien', 'Bridging\BridgingBPJSV2Controller@SavePasienMjkn');
                 Route::get('mjkn/antrian/Authentication', 'Auth\LoginController@AuthenticationMjkn');
+                Route::post('mjkn/antrian/UpdateWaktuTaskId', 'Bridging\BridgingBPJSV2Controller@UpdateWaktuTaskId');
+                Route::post('mjkn/antrian/UpdateWaktuTaskIdRombongan', 'Bridging\BridgingBPJSV2Controller@UpdateWaktuTaskIdRombongan');
 
                 Route::get('mjkn/antrian/getDokterDPJPLokal', 'Bridging\BridgingBPJSV2Controller@getDokterDPJPLokal');
                 Route::get('mjkn/antrian/get-asal-rujukan-bpjs','Bridging\BridgingBPJSV2Controller@getAsalRujukanBPJS');

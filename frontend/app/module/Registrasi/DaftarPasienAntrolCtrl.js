@@ -150,6 +150,7 @@ define(['initialize'], function (initialize) {
             sendAntrol(i,yeuh,awal,lengthakhir)
         }
         $scope.kirimulang = function() {
+            debugger
             var a = 0;
             var yeuh =0;
             var awal =0;
@@ -294,6 +295,7 @@ define(['initialize'], function (initialize) {
             }
         }
         function sendAntrol(i,yeuh,awal,lengthakhir) {
+            // debugger
             $scope.isRouteLoading = false;
             if (i < lengthakhir) {
                 $scope.isRouteLoading = true;
