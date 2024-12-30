@@ -403,12 +403,12 @@ define(['initialize'], function(initialize) {
                                 "width": "50%",
                                 "template": "<span class='style-center'>#: hasilpemeriksaan #</span>",
                             },
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama Dokter",
-                                "width": "10%",
-                                "template": "<span class='style-center'>#: namalengkap #</span>",
-                            }
+                            // {
+                            //     "field": "namalengkap",
+                            //     "title": "Nama Dokter",
+                            //     "width": "10%",
+                            //     "template": "<span class='style-center'>#: namalengkap #</span>",
+                            // }
                           
                         ]                   
                     };
@@ -510,12 +510,12 @@ define(['initialize'], function(initialize) {
                                 "width": "50%",
                                 "template": "<span class='style-center'>#: hasilpemeriksaan #</span>",
                             },
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama Dokter",
-                                "width": "10%",
-                                "template": "<span class='style-center'>#: namalengkap #</span>",
-                            }
+                            // {
+                            //     "field": "namalengkap",
+                            //     "title": "Nama Dokter",
+                            //     "width": "10%",
+                            //     "template": "<span class='style-center'>#: namalengkap #</span>",
+                            // }
                           
                         ]                   
                     };
@@ -610,12 +610,12 @@ define(['initialize'], function(initialize) {
                                 "width": "10%",
                                 "template": "<span class='style-center'>#: namapasien #</span>",
                             },
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama Dokter",
-                                "width": "10%",
-                                "template": "<span class='style-center'>#: namalengkap #</span>",
-                            }
+                            // {
+                            //     "field": "namalengkap",
+                            //     "title": "Nama Dokter",
+                            //     "width": "10%",
+                            //     "template": "<span class='style-center'>#: namalengkap #</span>",
+                            // }
                           
                         ]                   
                     };
@@ -718,12 +718,12 @@ define(['initialize'], function(initialize) {
                                 "width": "10%",
                                 "template": "<span class='style-center'>#: ruanganasal #</span>",
                             },     
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama Dokter",
-                                "width": "10%",
-                                "template": "<span class='style-center'>#: namalengkap #</span>",
-                            }                     
+                            // {
+                            //     "field": "namalengkap",
+                            //     "title": "Nama Dokter",
+                            //     "width": "10%",
+                            //     "template": "<span class='style-center'>#: namalengkap #</span>",
+                            // }                     
                         ]                   
                     };
                     $scope.popUpDetailPasienKunjungan.center().open();
@@ -824,12 +824,12 @@ define(['initialize'], function(initialize) {
                                 "width": "10%",
                                 "template": "<span class='style-center'>#: ruanganasal #</span>",
                             },     
-                            {
-                                "field": "namalengkap",
-                                "title": "Nama Dokter",
-                                "width": "10%",
-                                "template": "<span class='style-center'>#: namalengkap #</span>",
-                            }                     
+                            // {
+                            //     "field": "namalengkap",
+                            //     "title": "Nama Dokter",
+                            //     "width": "10%",
+                            //     "template": "<span class='style-center'>#: namalengkap #</span>",
+                            // }                     
                         ]                   
                     };
                     $scope.popUpDetailPasienKunjungan.center().open();

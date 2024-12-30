@@ -2939,6 +2939,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');
                 Route::get('get-harga-komponen', 'Registrasi\LaporanRegistrasiController@getHargaKomponen');
                 Route::get('get-laporan-sudah-isi-cppt-emr-igd', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPTIGD');
+                Route::get('get-laporan-sudah-isi-cppt-emr', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPT');
+                Route::get('get-laporan-sudah-isi-cppt-emr-new', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPTNew');
+                Route::get('get-laporan-sudah-isi-cppt-emr-new-2', 'Registrasi\LaporanRegistrasiController@getLaporanCpptNew2');
 
                 Route::get('get-produk-mapping-rl', 'Registrasi\LaporanRekamMedisController@getProdukMapLaporanRL');
                 Route::get('get-mapping-rl', 'Registrasi\LaporanRekamMedisController@getMapLaporanRL');

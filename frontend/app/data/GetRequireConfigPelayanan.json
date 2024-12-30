@@ -3117,6 +3117,14 @@
         {
             "nameDep": "LaporanCpptIgdCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanCpptIgdCtrl"
+        },
+        {
+            "nameDep": "LaporanCPPTCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanCPPTCtrl"
+        },
+        {
+            "nameDep": "LaporanCpptRICtrl",
+            "urlDep": "module/EMR/Laporan/LaporanCpptRICtrl"
         }
     ]
 }

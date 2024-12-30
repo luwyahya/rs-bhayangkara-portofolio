@@ -16694,5 +16694,43 @@
             "define": "MedifirstService"
         }
     ]
+},
+{
+    "name": "LaporanCpptRI",
+    "url": "/LaporanCpptRI",
+    "templateurl": "module/EMR/Laporan/LaporanCpptRI.html",
+    "controller": "LaporanCpptRICtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+},
+{
+    "name": "LaporanCPPT",
+    "url": "/TGFwb3JhbkNQUFQ=",
+    "templateurl": "module/Registrasi/Laporan/LaporanCPPT.html",
+    "controller": "LaporanCPPTCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
 }
 ]

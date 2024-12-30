@@ -6336,5 +6336,314 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
 
         return $this->respond($result);
     }
+    public function getLaporanCpptNew2(Request $request) {
+        ini_set('max_execution_time', 1500); 
+        $dataPengunjung = \DB::table('pasiendaftar_t as pd')
+            ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+            ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+            ->select('pd.noregistrasi', 'pd.norec as norec_pd', 'pd.objectruanganlastfk', 'apd.norec as norec_apd', 'apd.objectruanganasalfk', 'apd.objectruanganfk', 'ru.namaruangan',
+            'ru2.namaruangan as namaruanganasal')
+            ->where('apd.statusenabled', true)
+            ->where('ep.emrfk', 518)
+            ->whereIn('ru.objectdepartemenfk', [18, 79,28,83])
+            // ->where('apd.norec', 'fc72a4a0-1a3a-11ee-a534-ffebc047')
+            ->where('pd.statusenabled', true);
 
+        if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+        }
+        if (isset($request['StatusPasien']) && $request['StatusPasien'] != '' && $request['StatusPasien'] != 'undefined') {
+            if ($request['StatusPasien'] == 'BARU') {
+                $dataPengunjung = $dataPengunjung->where('pd.statuspasien', 'Baru');
+            } else {
+                $dataPengunjung = $dataPengunjung->whereIn('pd.statuspasien', ['Lama', '']);
+            }
+        } 
+        if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+            $dataPengunjung = $dataPengunjung->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+        }
+        // $dataPengunjung = $dataPengunjung->orderBy('ru.id', 'asc');
+        $dataPengunjungCppt = $dataPengunjung->distinct()->get();
+        $dataHitung2 = $dataPengunjungCppt;
+            // return $dataPengunjung;
+
+        $dataPengunjung = \DB::table('pasiendaftar_t as pd')
+        ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+        ->select('pd.noregistrasi', 'pd.norec as norec_pd', 'pd.objectruanganlastfk', 'apd.norec as norec_apd', 'apd.objectruanganasalfk', 'apd.objectruanganfk', 'ru.namaruangan',
+        'ru2.namaruangan as namaruanganasal')
+        ->where('apd.statusenabled', true)
+        ->whereIn('ru.objectdepartemenfk', [18, 79,28,83])
+        // ->where('apd.norec', 'fc72a4a0-1a3a-11ee-a534-ffebc047')
+        ->where('pd.statusenabled', true);
+
+        if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+        }
+        if (isset($request['StatusPasien']) && $request['StatusPasien'] != '' && $request['StatusPasien'] != 'undefined') {
+            if ($request['StatusPasien'] == 'BARU') {
+                $dataPengunjung = $dataPengunjung->where('pd.statuspasien', 'Baru');
+            } else {
+                $dataPengunjung = $dataPengunjung->whereIn('pd.statuspasien', ['Lama', '']);
+            }
+        } 
+        if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+            $dataPengunjung = $dataPengunjung->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+        }
+        $dataPengunjung = $dataPengunjung->orderBy('ru.id', 'asc');
+        $dataPengunjung = $dataPengunjung->get();
+        $dataHitung1 = $dataPengunjung;
+            $datanew = [];
+            // foreach ($dataPengunjung as $item) {
+            //     $sama = 'false';
+                
+            //     foreach ($dataPengunjungCppt as $item2) {
+            //         if (($item->noregistrasi == $item2->noregistrasi) && ($item->namaruangan == $item2->namaruangan)) {
+            //             $sama = 'true';
+            //         }
+            //     }
+            //     if ($sama == 'false') {
+            //         $item->isBelumCppt = 'true';
+            //         // if (isset($request['isBelumIsi']) && $request['isBelumIsi'] != '') {
+            //         //     $datanew []= $item;
+            //         // }  
+            //     } else {
+            //         $item->isBelumCppt = 'false';
+            //     }
+            // }
+        $data10 = [];
+        $sama = false;
+        // $jmlDokter = 0;
+        // $jmlPerawat = 0;
+        $jmlPasien = 0;
+        $jmlKunj = 0;
+        $jmlBelumIsi =0;
+        foreach($dataPengunjung as $item) {
+            $sama = false;
+            $i = 0;
+            foreach ($data10 as $he) {
+                if ($item->namaruangan == $data10[$i]['namaruangan']) {
+                    $sama = true;
+                    $found = false;
+                    if ($item->objectruanganasalfk == null) {
+                        $jmlPasien = (float)$he['jmlPasien'] + 1;
+                        $jmlKunj = (float)$he['jmlKunj'] + 1;
+                        $data10[$i]['jmlPasien'] = $jmlPasien;
+                        $data10[$i]['jmlKunj'] = $jmlKunj;
+                    } else {
+                        $jmlKunj = (float)$he['jmlKunj'] + 1;
+                        $data10[$i]['jmlKunj'] = $jmlKunj;
+                    }
+                    // if ($item->isBelumCppt == 'true') {
+                    //     $jmlBelumIsi = (float)$he['jmlBelumIsi'] + 1;
+                    //     $data10[$i]['jmlBelumIsi'] = $jmlBelumIsi;
+                    // }
+                    // $cekCppt = \DB::table('emrpasien_t as ep')
+                    //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                    //     ->select('te.profesi')
+                    //     ->where('ep.norec_apd', $item->norec_apd)
+                    //     ->distinct()
+                    //     ->get();
+                    // foreach($cekCppt as $item2) {
+                    //     if ($item2->profesi == 'Dokter') {
+                    //         $jmlDokter = (float)$he['jmlDokter'] + 1;
+                    //         $data10[$i]['jmlDokter'] = $jmlDokter;
+                    //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                    //         $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                    //         $data10[$i]['jmlPerawat'] = $jmlPerawat;
+                    //     }
+                    // }
+                }
+                $i = $i + 1;
+            }
+            if ($sama == false) {
+                // $jmlDokter = 0;
+                // $jmlPerawat = 0;
+                $jmlPasien = 0;
+                $jmlKunj = 0;
+                $jmlBelumIsi = 0;
+                if ($item->objectruanganasalfk == null) {
+                    $jmlPasien = 1;
+                    $jmlKunj = 1;
+                } else {
+                    $jmlKunj = 1;
+                }
+                // // $found = false;
+                // if ($item->isBelumCppt == 'true') {
+                //     $jmlBelumIsi = 1;
+                //     // break;
+                // }
+            
+                // $cekCppt = \DB::table('emrpasien_t as ep')
+                //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                //     ->select('te.profesi')
+                //     ->where('ep.norec_apd', $item->norec_apd)
+                //     ->distinct()
+                //     ->get();
+                // foreach($cekCppt as $item2) {
+                //     if ($item2->profesi == 'Dokter') {
+                //         $jmlDokter = 1;
+                //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                //         $jmlPerawat = 1;
+                //     }
+                // }
+                $data10[] = array (
+                    'namaruangan' => $item->namaruangan,
+                    // 'jmlDokter' => $jmlDokter,
+                    // 'jmlPerawat' => $jmlPerawat,
+                    'jmlPasien' => $jmlPasien,
+                    'jmlKunj' => $jmlKunj,
+                    // 'jmlBelumIsi' => $jmlBelumIsi
+                );
+            }
+        }
+        // $detail = \DB::table('emrpasiennew_t as ep')
+        //     ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+        //     ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
+        //     ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+        //     ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        //     ->select('ru.namaruangan', 'te.profesi', 'ep.norec_apd', 'ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'te.hasilpemeriksaan')
+        //     ->where('te.statusenabled', true)
+        //     ->whereIn('ru.objectdepartemenfk', [18,79,28])
+        //     ->where('ep.emrfk', 518);
+        //     if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+        //         $detail = $detail->where('pd.tglregistrasi', '>=', $request['tglAwal']);
+        //     }
+        //     if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+        //         $detail = $detail->where('pd.tglregistrasi', '<=', $request['tglAkhir']);
+        //     }
+        //     if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+        //         $detail = $detail->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+        //     }
+            // $detail = $detail->groupBy('ru.namaruangan', 'te.profesi', 'ru.id', 'ep.norec_apd');
+            // $detail = $detail->orderBy('ru.id', 'te.profesi', 'ep.norec_apd');
+            // $detail = $detail->distinct();
+            $detail1 = \DB::table('emrpasien_t as ep')
+            ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+            ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
+            ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->select('ru.namaruangan', 'te.profesi', 'ep.norec_apd', 'ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'te.hasilpemeriksaan')
+            ->where('te.statusenabled', true)
+            ->whereIn('ru.objectdepartemenfk', [18,79,28,83])
+            ->where('ep.emrfk', 518);
+            if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+                $detail1 = $detail1->where('pd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+                $detail1 = $detail1->where('pd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+                $detail1 = $detail1->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+            }
+
+            $detail2 = \DB::table('emrpasien_t as ep')
+                        ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                        ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
+                        ->leftjoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                        ->select('ru.namaruangan', 'te.profesi', 'ep.norec_apd', 'ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'te.hasilpemeriksaan')
+                        ->where('te.statusenabled', true)
+                        ->whereIn('ru.objectdepartemenfk', [18,79,28,83])
+                        ->where('ep.emrfk', 518);
+            if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+                $detail2 = $detail2->where('pd.tglregistrasi', '>=', $request['tglAwal']);
+            }
+            if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+                $detail2 = $detail2->where('pd.tglregistrasi', '<=', $request['tglAkhir']);
+            }
+            if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+                $detail2 = $detail2->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+            }
+
+            $mergedQuery = $detail1->union($detail2)->get();
+
+            $detail = $mergedQuery;
+            $data11 = [];
+            $sama = false;
+            $jmlDokter = 0;
+            $jmlPerawat = 0;
+            // $jmlPasien = 0;
+            // $jmlKunj = 0;
+            foreach($detail as $item) {
+                $sama = false;
+                $i = 0;
+                foreach ($data11 as $he) {
+                    if ($item->namaruangan == $data11[$i]['namaruangan']) {
+                        $sama = true;
+                        if ($item->profesi == 'Dokter') {
+                            $jmlDokter = (float)$he['jmlDokter'] + 1;
+                            $data11[$i]['jmlDokter'] = $jmlDokter;
+                        } else {
+                            $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                            $data11[$i]['jmlPerawat'] = $jmlPerawat;
+                        }
+                        // $cekCppt = \DB::table('emrpasien_t as ep')
+                        //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                        //     ->select('te.profesi')
+                        //     ->where('ep.norec_apd', $item->norec_apd)
+                        //     ->distinct()
+                        //     ->get();
+                        // foreach($cekCppt as $item2) {
+                        //     if ($item2->profesi == 'Dokter') {
+                        //         $jmlDokter = (float)$he['jmlDokter'] + 1;
+                        //         $data10[$i]['jmlDokter'] = $jmlDokter;
+                        //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                        //         $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                        //         $data10[$i]['jmlPerawat'] = $jmlPerawat;
+                        //     }
+                        // }
+                    }
+                    $i = $i + 1;
+                }
+                if ($sama == false) {
+                    $jmlDokter = 0;
+                    $jmlPerawat = 0;
+                    // $jmlPasien = 0;
+                    // $jmlKunj = 0;
+                    if ($item->profesi == 'Dokter') {
+                        $jmlDokter = 1;
+                    } else {
+                        $jmlPerawat = 1;
+                    }
+                    // $cekCppt = \DB::table('emrpasien_t as ep')
+                    //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                    //     ->select('te.profesi')
+                    //     ->where('ep.norec_apd', $item->norec_apd)
+                    //     ->distinct()
+                    //     ->get();
+                    // foreach($cekCppt as $item2) {
+                    //     if ($item2->profesi == 'Dokter') {
+                    //         $jmlDokter = 1;
+                    //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                    //         $jmlPerawat = 1;
+                    //     }
+                    // }
+                    $data11[] = array (
+                        'namaruangan' => $item->namaruangan,
+                        'jmlDokter' => $jmlDokter,
+                        'jmlPerawat' => $jmlPerawat,
+                        // 'jmlPasien' => $jmlPasien,
+                        // 'jmlKunj' => $jmlKunj
+                    );
+                }
+            }
+        $result = array (
+            'data10' => $data10,
+            'data11' => $data11,
+            'dataHit1' => $dataHitung1,
+            'dataHit2' => $dataHitung2,
+            'as' => 'epic'
+        );
+        return $this->respond($result);
+    }
 }
