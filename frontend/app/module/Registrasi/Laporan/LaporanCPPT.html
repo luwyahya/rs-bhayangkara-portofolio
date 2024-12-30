@@ -1,0 +1,252 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .warnaa {
+        color: black
+    }
+
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+    .hejo {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Data PoliKlinik Sudah isi CPPT (Catatan Dokter)</div>
+    </div>
+    <div class="panel panel-default panel-white" ng-hide="isMasuk">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">
+                    <h2><span class="fa fa-plus warnaa">
+                        </span> &nbsp;Pencarian</h2>
+                </a>
+            </legend>
+            <div class="grid_12" id="contentPencarian">
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal Awal"></label>
+                            <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                            <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        
+                    </div>
+                    <div class="grid_1" style="margin-top: 3px;">
+                        <label c-label item="item" c-label-text="Status"></label>
+                        <input style="width: 100%;" kendo-combo-box k-ng-model="item.Status" k-data-text-field="'status'"
+                            k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listStatus" />
+                    </div>
+                    <div class="grid_2" style="margin-top: 3px;">
+                        <label c-label item="item" c-label-text="Dokter"></label>
+                        <input kendo-combo-box k-ng-model="item.dpjp" k-data-text-field="'namalengkap'" k-data-value-field="'id'"
+                            k-filter="'contains'" k-auto-bind="false" k-data-source="listDokter" />
+                    </div>
+                    <div class="grid_4" style="margin-top: 20px;">
+                        <div class="grid_6">
+                            <button class="c-button"  ng-click="cariFilter()">Cari</button>
+                        </div>
+                    </div>
+                    <div class="grid_6">
+                        <!-- <div class="grid_4">
+                            <label c-label item="item" c-label-text="Dokter"></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.dokter"
+                                k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listDataDokter" />
+                        </div>
+                        <div class="grid_4">
+                            <label c-label item="item" c-label-text="Kelompok Pasien"></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.kelompokPasien"
+                                k-data-text-field="'kelompokpasien'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listKelompokPasien" />
+                        </div> -->
+                        <!-- <div class="grid_4">
+                            <label c-label item="item" c-label-text="Ruangan"></label>
+                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                                k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                                k-auto-bind="false" k-data-source="listRuangan" />
+                        </div> -->
+                    </div>
+                   
+                </div>
+                <!--<div class="grid_12">
+                     <div class="grid_3" style="float:right;">
+                        <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="CetakLapBhpDetail()">
+                            <span class="title">Cetak Lap BHP Detail</span>
+                        </c-button>
+                    </div>
+                    <div class="grid_3" style="float:right;">
+                        <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="CetakLapBhpRekap()">
+                            <span class="title">Cetak Lap BHP Rekap</span>
+                        </c-button>
+                    </div>
+                    <div class="grid_3" style="float:right;">
+                        <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="CetakLapDetail()">
+                            <span class="title">Cetak Lap Obat Detail</span>
+                        </c-button>
+                    </div>
+                    <div class="grid_3" style="float:right;">
+                        <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36" position="'right'" is-validate ng-click="CetakLapRekap()">
+                            <span class="title">Cetak Lap Obat Rekap</span>
+                        </c-button>
+                    </div>
+                </div>-->
+            </div>
+        </fieldset>
+
+        <!-- Tabel Hasil Pencarian -->
+        <div class="grid_12">
+             <div class="grid_12 borderBox">
+                <div id="kGrid" 
+                kendo-grid k-data-source="dataGrid" 
+                k-selectable="'row'" 
+                options="columnGrid"                        
+                k-pageable="'true'" 
+                k-sortable="'true'" 
+                k-ng-model="dataSelected">
+                </div>
+            </div> 
+        </div>
+        <!-- <div class="grid_12" style="margin-top: 15px;">
+            <div class="grid_9"></div>
+            <div class="grid_3" style="float:right;">
+                <c-button style="width: 100%; font-size: 24px; padding:0px, margin:0px;" item="item" size="36"
+                    position="'right'" is-validate ng-click="CetakLapApotik()">
+                    <span class="title">Cetak Lap Kwitansi Apotik</span>
+                </c-button>
+            </div>
+        </div> -->
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+</div>
+
+<div kendo-window="popUpDetail" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Detail Laporan</p>
+            </div>
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid data-source="dataPasienDetail" options="columnPasienDetail"
+                    k-groupable="true"></kendo-grid>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpDetailPasien" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Detail Laporan</p>
+            </div>
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid data-source="dataPasienDetailPasien" options="columnPasienDetailPasien"
+                    k-groupable="true"></kendo-grid>
+            </div>
+            <div class="grid_1" style="margin-top:27px">
+                <div class="grid_12">
+                    <label class="c-label item"><b>Pasien Belum Diinput CPPT</b></label>
+                    <span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpDetailPasienKunjungan" k-title="'Detail Pasien'" k-width="1500" k-height="600" k-visible="false">
+    <div class="grid_12">
+        <div class="grid_12" style="margin-top:10px">
+            <div class="grid_12 headerBox">
+                <p>Detail Laporan</p>
+            </div>
+            <div class="clear"></div>
+    
+            <div class="grid_12 borderBox">
+                <kendo-grid data-source="dataPasienDetailPasienKunjungan" options="columnPasienDetailPasienKunjungan"
+                    k-groupable="true"></kendo-grid>
+            </div>
+            <div class="grid_1" style="margin-top:27px">
+                <div class="grid_12">
+                    <label class="c-label item"><b>Pasien Belum Diinput CPPT</b></label>
+                    <span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

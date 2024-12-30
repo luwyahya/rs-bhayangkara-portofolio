@@ -2534,6 +2534,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-diagnosa-fretext', 'RawatJalan\RawatJalanController@updateDiagnosaFreText');
             Route::post('save-dipanggil-suster', 'RawatJalan\RawatJalanController@saveDipanggilSusterRajal');
             Route::get('get-laporan-persediaan', 'RawatJalan\RawatJalanController@getLaporanPersediaan');
+            Route::get('get-pasien-eks-rajal', 'RawatJalan\RawatJalanController@getPasienEksekutifHalu');
         });
         Route::group(['prefix' => 'registrasi'], function () {
             // 2021-02 penambahan trisno
@@ -2937,6 +2938,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-data-combo-tindakan', 'Registrasi\LaporanRegistrasiController@getTindakan');
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');
                 Route::get('get-harga-komponen', 'Registrasi\LaporanRegistrasiController@getHargaKomponen');
+                Route::get('get-laporan-sudah-isi-cppt-emr-igd', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPTIGD');
 
                 Route::get('get-produk-mapping-rl', 'Registrasi\LaporanRekamMedisController@getProdukMapLaporanRL');
                 Route::get('get-mapping-rl', 'Registrasi\LaporanRekamMedisController@getMapLaporanRL');

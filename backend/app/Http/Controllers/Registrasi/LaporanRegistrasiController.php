@@ -5900,4 +5900,441 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
 
         return $this->setStatusCode($result['code'])->respond($result, $transMessage);
     }
+    public function getLaporanCPPTIGD(Request $request) {
+        ini_set('max_execution_time', 500);
+        $dataPengunjung = \DB::table('pasiendaftar_t as pd')
+            ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            // ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+            ->select('pd.noregistrasi', 'pd.norec as norec_pd', 'pd.objectruanganlastfk', 'pd.objectruanganasalfk',  'ru.namaruangan',
+            'ru.namaruangan as namaruanganasal'
+            )
+            // ->where('apd.statusenabled', true)
+            ->whereIn('ru.objectdepartemenfk', [24])
+            // ->where('apd.norec', 'fc72a4a0-1a3a-11ee-a534-ffebc047')
+            ->where('pd.statusenabled', true);
+
+        if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+            $dataPengunjung = $dataPengunjung->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+        }
+        if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+            $dataPengunjung = $dataPengunjung->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+        }
+        if (isset($request['StatusPasien']) && $request['StatusPasien'] != '' && $request['StatusPasien'] != 'undefined') {
+            if ($request['StatusPasien'] == 'BARU') {
+                $dataPengunjung = $dataPengunjung->where('pd.statuspasien', 'Baru');
+            } else {
+                $dataPengunjung = $dataPengunjung->whereIn('pd.statuspasien', ['Lama', '']);
+            }
+        }
+        $dataPengunjung = $dataPengunjung->orderBy('ru.id', 'asc');
+        $dataPengunjung = $dataPengunjung->get();
+
+        $dataPengunjungCppt = \DB::table('pasiendaftar_t as pd')
+        ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+        ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        // ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
+        ->select('pd.noregistrasi', 'pd.norec as norec_pd', 'pd.objectruanganlastfk', 'pd.objectruanganasalfk',  'ru.namaruangan',
+        'ru.namaruangan as namaruanganasal'
+        )
+        // ->where('apd.statusenabled', true)
+        ->where('ep.jenisemr', '=', 'catatandokter')
+        ->whereIn('ru.objectdepartemenfk', [24])
+        // ->where('apd.norec', 'fc72a4a0-1a3a-11ee-a534-ffebc047')
+        ->where('pd.statusenabled', true);
+
+        if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
+            $dataPengunjungCppt = $dataPengunjungCppt->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != '' && $request['tglAkhir'] != 'undefined') {
+            $dataPengunjungCppt = $dataPengunjungCppt->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+        }
+        if (isset($request['dokterfk']) && $request['dokterfk'] != '') {
+            $dataPengunjungCppt = $dataPengunjungCppt->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+        }
+        if (isset($request['StatusPasien']) && $request['StatusPasien'] != '' && $request['StatusPasien'] != 'undefined') {
+            if ($request['StatusPasien'] == 'BARU') {
+                $dataPengunjungCppt = $dataPengunjungCppt->where('pd.statuspasien', 'Baru');
+            } else {
+                $dataPengunjungCppt = $dataPengunjungCppt->whereIn('pd.statuspasien', ['Lama', '']);
+            }
+        }
+        $dataPengunjungCppt = $dataPengunjungCppt->orderBy('ru.id', 'asc');
+        $dataPengunjungCppt = $dataPengunjungCppt->get();
+        $data10 = [];
+        $sama = false;
+        // $jmlDokter = 0;
+        // $jmlPerawat = 0;
+        $jmlPasien = 0;
+        $jmlKunj = 0;
+        $jmlBelumIsi =0;
+        foreach($dataPengunjung as $item) {
+            $sama = false;
+            $i = 0;
+            foreach ($data10 as $he) {
+                if ($item->namaruangan == $data10[$i]['namaruangan']) {
+                    $sama = true;
+                    $found = false;
+                    if ($item->objectruanganasalfk == null) {
+                        $jmlPasien = (float)$he['jmlPasien'] + 1;
+                        $jmlKunj = (float)$he['jmlKunj'] + 1;
+                        $data10[$i]['jmlPasien'] = $jmlPasien;
+                        $data10[$i]['jmlKunj'] = $jmlKunj;
+                    } else {
+                        $jmlKunj = (float)$he['jmlKunj'] + 1;
+                        $jmlPasien = (float)$he['jmlPasien'] + 1;
+                        $data10[$i]['jmlKunj'] = $jmlKunj;
+                        $data10[$i]['jmlPasien'] = $jmlPasien;
+                    }
+                    foreach ($dataPengunjungCppt as $cppt) {
+                        if (($item->noregistrasi == $cppt->noregistrasi)  && ($item->namaruangan == $cppt->namaruangan)) {
+                      
+                            $found = true;
+                            // break;
+                        }
+                    }
+                    if ($found==false) {
+                        $jmlBelumIsi = (float)$he['jmlBelumIsi'] + 1;
+                        $data10[$i]['jmlBelumIsi'] = $jmlBelumIsi;
+                        // break;
+                    }
+                    // if ($item->profesi == 'Dokter') {
+                    //     $jmlDokter = (float)$he['jmlDokter'] + 1;
+                    //     $data10[$i]['jmlDokter'] = $jmlDokter;
+                    // } else if ($item->profesi != 'Dokter' && $item->profesi != null) {
+                    //     $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                    //     $data10[$i]['jmlPerawat'] = $jmlPerawat;
+                    // }
+                }
+                $i = $i + 1;
+            }
+            if ($sama == false) {
+                // $jmlDokter = 0;
+                // $jmlPerawat = 0;
+                $jmlPasien = 0;
+                $jmlKunj = 0;
+                $jmlBelumIsi = 0;
+                if ($item->objectruanganasalfk == null) {
+                    $jmlPasien = 1;
+                    $jmlKunj = 1;
+                } else {
+                    $jmlKunj = 1;
+                    $jmlPasien = 1;
+                }
+                $found = false;
+                foreach ($dataPengunjungCppt as $cppt) {
+                    if (($item->noregistrasi  == $cppt->noregistrasi)  && ($item->namaruangan == $cppt->namaruangan)) {
+                        $found = true;
+                        // break;
+                    }
+                }
+                if ($found==false) {
+                    $jmlBelumIsi =1;
+                    // break;
+                }
+                // if ($item->profesi == 'Dokter') {
+                //     $jmlDokter = 1;
+                // } else if ($item->profesi != 'Dokter' && $item->profesi != null) {
+                //     $jmlPerawat = 1;
+                // }
+              
+                $data10[] = array (
+                    'namaruangan' => $item->namaruangan,
+                    // 'jmlDokter' => $jmlDokter,
+                    // 'jmlPerawat' => $jmlPerawat,
+                    'jmlPasien' => $jmlPasien,
+                    'jmlKunj' => $jmlKunj,
+                    'jmlBelumIsi' => $jmlBelumIsi
+                );
+            }
+        }
+     
+        $detail = \DB::table('emrpasien_t as ep')
+        ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+        ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
+        ->leftJoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        ->select('ru.namaruangan', 'te.profesi', 'ep.norec_apd', 'ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'ep.namaruangan', 'te.hasilpemeriksaan')
+        ->where('te.statusenabled', true)
+        ->whereIn('ru.objectdepartemenfk', [24])
+        ->where('ep.emrfk', 518);
+    
+    if (!empty($request['tglAwal'])) {
+        $detail = $detail->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+    }
+    
+    if (!empty($request['tglAkhir'])) {
+        $detail = $detail->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+    }
+    
+    if (!empty($request['dokterfk'])) {
+        $detail = $detail->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+    }
+    
+    $detail2 = \DB::table('emrpasien_t as ep')
+        ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+        ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
+        ->leftJoin('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+        ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+        ->select('ru.namaruangan', 'te.profesi', 'ep.norec_apd', 'ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'ep.namaruangan', 'te.hasilpemeriksaan')
+        ->where('te.statusenabled', true)
+        ->whereIn('ru.objectdepartemenfk', [24])
+        ->where('ep.emrfk', 518);
+    
+    if (!empty($request['tglAwal'])) {
+        $detail2 = $detail2->where('apd.tglregistrasi', '>=', $request['tglAwal']);
+    }
+    
+    if (!empty($request['tglAkhir'])) {
+        $detail2 = $detail2->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
+    }
+    
+    if (!empty($request['dokterfk'])) {
+        $detail2 = $detail2->where('apd.objectpegawaifk', '=', $request['dokterfk']);
+    }
+    
+    $detail = $detail->union($detail2)->orderBy('namapasien')->get();
+    
+        // $detail = $detail->distinct();
+        // $detail = $detail->get();
+
+        $uniqueData = [];
+        // return "aa";
+        foreach ($detail as $data) {
+            // Jika data belum ada dalam $uniqueData, tambahkan langsung
+            if (!isset($uniqueData[$data->noregistrasifk])) {
+                $uniqueData[$data->noregistrasifk] = $data;
+            } else {
+                // Jika data dengan noregistrasifk yang sama sudah ada, periksa profesinya
+                // Jika profesinya adalah dokter, timpa data yang ada dengan data baru jika profesinya bukan dokter
+                if ($uniqueData[$data->noregistrasifk]->profesi != 'Dokter' && $data->profesi == 'Dokter') {
+                    $uniqueData[$data->noregistrasifk] = $data;
+                }
+            }
+        }
+        $detail = array_values($uniqueData); // Reset kembali indeks array jika diperlukan
+        
+        $detail = $uniqueData;
+        $data11 = [];
+        $sama = false;
+        $jmlDokter = 0;
+        $jmlPerawat = 0;
+        // $jmlPasien = 0;
+        // $jmlKunj = 0;
+        foreach($detail as $item) {
+            $sama = false;
+            $i = 0;
+            foreach ($data11 as $he) {
+                if ($item->namaruangan == $data11[$i]['namaruangan']) {
+                    $sama = true;
+                    if ($item->profesi == 'Dokter') {
+                        $jmlDokter = (float)$he['jmlDokter'] + 1;
+                        $data11[$i]['jmlDokter'] = $jmlDokter;
+                    } else {
+                        $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                        $data11[$i]['jmlPerawat'] = $jmlPerawat;
+                    }
+                    // $cekCppt = \DB::table('emrpasien_t as ep')
+                    //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                    //     ->select('te.profesi')
+                    //     ->where('ep.norec_apd', $item->norec_apd)
+                    //     ->distinct()
+                    //     ->get();
+                    // foreach($cekCppt as $item2) {
+                    //     if ($item2->profesi == 'Dokter') {
+                    //         $jmlDokter = (float)$he['jmlDokter'] + 1;
+                    //         $data10[$i]['jmlDokter'] = $jmlDokter;
+                    //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                    //         $jmlPerawat = (float)$he['jmlPerawat'] + 1;
+                    //         $data10[$i]['jmlPerawat'] = $jmlPerawat;
+                    //     }
+                    // }
+                }
+                $i = $i + 1;
+            }
+            if ($sama == false) {
+                $jmlDokter = 0;
+                $jmlPerawat = 0;
+                // $jmlPasien = 0;
+                // $jmlKunj = 0;
+                if ($item->profesi == 'Dokter') {
+                    $jmlDokter = 1;
+                } else {
+                    $jmlPerawat = 1;
+                }
+                // $cekCppt = \DB::table('emrpasien_t as ep')
+                //     ->leftJoin('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
+                //     ->select('te.profesi')
+                //     ->where('ep.norec_apd', $item->norec_apd)
+                //     ->distinct()
+                //     ->get();
+                // foreach($cekCppt as $item2) {
+                //     if ($item2->profesi == 'Dokter') {
+                //         $jmlDokter = 1;
+                //     } else if ($item2->profesi != 'Dokter' && $item2->profesi != null) {
+                //         $jmlPerawat = 1;
+                //     }
+                // }
+                $data11[] = array (
+                    'namaruangan' => $item->namaruangan,
+                    'jmlDokter' => $jmlDokter,
+                    'jmlPerawat' => $jmlPerawat,
+                    // 'jmlPasien' => $jmlPasien,
+                    // 'jmlKunj' => $jmlKunj
+                );
+            }
+        }
+        $result = array (
+            'data10' => $data10,
+            'data11' => $data11,
+            'as' => 'epic'
+        );
+        return $this->respond($result);
+    }
+    public function GetLaporanCPPT(Request $request)
+    {
+        //untuk filteran patur
+        $status = '';
+        if ($request['StatusPasien'] == 'BARU') {
+            $status = " AND (pd.statuspasien = 'Baru') ";
+        } else if ($request['StatusPasien'] == 'LAMA') {
+            $status = " AND (pd.statuspasien IN ('LAMA', '')) ";
+        }
+        $details = DB::select(
+            
+            // ini query lama perhitungannya tiap pasien diitung satu walaupun dia punya 2 cppt
+            // DB::raw("SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(total) AS total, SUM(totalpasien) AS totalpasien
+            // FROM            (SELECT        namaruangan, '' AS dokter, '' AS perawat, '' AS total, SUM(noregistrasi) AS totalpasien
+            //                           FROM            (SELECT        COUNT(pd.noregistrasi) AS noregistrasi, ru.namaruangan
+            //                                                     FROM            pasiendaftar_t AS pd INNER JOIN
+            //                                                                               ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
+            //                                                     WHERE        (pd.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]') AND (ru.id IN ('3', '6', '8', '9', '17', '70', '89', '130', '250', '319', '459', '564')) AND (pd.statusenabled = '1')
+            //                                                     GROUP BY pd.noregistrasi, ru.namaruangan) AS x
+            //                           GROUP BY noregistrasi, namaruangan
+            //                           UNION ALL
+            //                           SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(dokter + perawat) AS total, '' AS totalpasien
+            //                           FROM            (SELECT        ep.namaruangan, ep.namapasien, CASE WHEN jp.jenispegawai = 'Dokter' THEN 1 ELSE 0 END AS dokter, CASE WHEN jp.jenispegawai <> 'Dokter' THEN 1 ELSE 0 END AS perawat
+            //                                                     FROM            emrpasien_t AS ep INNER JOIN
+            //                                                                               pegawai_m AS pg ON pg.id = ep.pegawaifk INNER JOIN
+            //                                                                               jenispegawai_m AS jp ON jp.id = pg.objectjenispegawaifk
+            //                                                     WHERE        (ep.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]') AND (ep.jenisemr = 'catatandokter') AND (ep.namaruangan IN ('Poli Mata', 'Poli Bedah Tulang', 'Poli Bedah Anak', 
+            //                                                                               'Poli Bedah Saraf', 'Poli Bedah Plastik', 'Poli Jiwa', 'Poli Kedokteran Olahraga', 'Poli DOTS', 'Poli Gizi', 'Poli Thalasemi', 'Poli Bedah Thorax Kardio Vaskuler', 'Poli Psikologi'))
+            //                                                     GROUP BY ep.namaruangan, ep.namapasien, jp.jenispegawai) AS y
+            //                           GROUP BY namaruangan) AS z
+            // GROUP BY namaruangan")
+
+            //ini query yang baru diitungnya pertiap pasien
+            // DB::raw("SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(total) AS total, SUM(totalpasien) AS totalpasien
+            // FROM            (SELECT        namaruangan, '' AS dokter, '' AS perawat, '' AS total, SUM(noregistrasi) AS totalpasien
+            //                           FROM            (SELECT        COUNT(pd.noregistrasi) AS noregistrasi, ru.namaruangan
+            //                                                     FROM            pasiendaftar_t AS pd INNER JOIN
+            //                                                                               ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
+            //                                                     WHERE        (pd.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]') AND (ru.id IN ('3', '6', '8', '9', '17', '70', '89', '130', '250', '319', '459', '564')) AND (pd.statusenabled = '1')
+            //                                                     GROUP BY pd.noregistrasi, ru.namaruangan) AS x
+            //                           GROUP BY noregistrasi, namaruangan
+            //                           UNION ALL
+            //                           SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(dokter + perawat) AS total, '' AS totalpasien
+            //                           FROM            (SELECT        asu.namaruangan, CASE WHEN tempe.profesi = 'dokter' THEN COUNT(*) ELSE 0 END AS dokter, CASE WHEN tempe.profesi <> 'dokter' THEN COUNT(*) ELSE 0 END AS perawat
+            //                                                     FROM            emrpasien_t AS asu INNER JOIN
+            //                                                                               tempemr_t AS tempe ON tempe.emrpasienfk = asu.noemr
+            //                                                     WHERE        (asu.namaruangan IN ('Poli Mata', 'Poli Bedah Tulang', 'Poli Bedah Anak', 'Poli Bedah Saraf', 'Poli Bedah Plastik', 'Poli Jiwa', 'Poli Kedokteran Olahraga', 'Poli DOTS', 'Poli Gizi', 'Poli Thalasemi', 
+            //                                                                               'Poli Bedah Thorax Kardio Vaskuler', 'Poli Psikologi')) AND (asu.jenisemr = 'catatandokter') AND (asu.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]')
+            //                                                     GROUP BY asu.namaruangan, tempe.profesi) AS y
+            //                           GROUP BY namaruangan) AS z
+            // GROUP BY namaruangan")
+
+            //ini query yang baru diitungnya pertiap pasien menghindari yang ubah ubah atau diisi dua kali 
+//             DB::raw("SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(total) AS total, SUM(totalpasien) AS totalpasien
+//             FROM            (SELECT        namaruangan, '' AS dokter, '' AS perawat, '' AS total, SUM(noregistrasi) AS totalpasien
+//                                       FROM            (SELECT        COUNT(pd.noregistrasi) AS noregistrasi, ru.namaruangan
+//                                                                 FROM            pasiendaftar_t AS pd INNER JOIN
+//                                                                                           ruangan_m AS ru ON ru.id = pd.objectruanganlastfk
+//                                                                 WHERE        (pd.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]') AND (ru.objectdepartemenfk IN (18,79)) AND (pd.statusenabled = '1')  $status
+//                                                                 GROUP BY pd.noregistrasi, ru.namaruangan) AS x
+//                                       GROUP BY noregistrasi, namaruangan
+//                                       UNION ALL
+//                                       SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(dokter + perawat) AS total, '' AS totalpasien
+// FROM            (SELECT        asu.namaruangan, COUNT(DISTINCT (CASE WHEN tempe.profesi = 'dokter' THEN 0 END)) AS dokter, COUNT(DISTINCT (CASE WHEN tempe.profesi <> 'dokter' THEN 0 END)) AS perawat
+//                           FROM            emrpasien_t AS asu INNER JOIN
+//                                                     tempemr_t AS tempe ON tempe.emrpasienfk = asu.noemr INNER JOIN
+// 													pasiendaftar_t AS pd ON pd.noregistrasi = asu.noregistrasifk
+//                           WHERE        (asu.namaruangan IN ('Poli DOTS','Poli Endokrin','Poli Thalasemi','Poli Anak','Poli Mata','Poli Gizi','Hemodialisa','Poli Paru','Poli Andrologi',
+//                           'Poli Bedah Tulang','Poli Saraf','Poli Kulit dan Kelamin','Poli THT','Poli Gigi dan Mulut','Poli Anestesi','Poli Penyakit Dalam','Poli Psikologi',
+//                           'Poli Bedah Anak','Poli Bedah Umum','Poli Kardiologi','Poli Bedah Plastik','Poli Eksekutif','Poli Eksekutif 2','Poli Kesehatan Ibu dan Anak','Klinik Matahari',
+//                           'Poli Kosmetik','Poli Jiwa','Sentra Visum','Poli Bedah Digestive (Sore)','Poli Bedah Tumor','Poli Bedah Saraf','Rikes (Medical Check Up)','Poli Jantung',
+//                           'Hiperbarik','Poli Bedah UrologI','Poli Bedah Thorax Kardio Vaskuler','Poli Bedah Mulut','Poli Bedah Vaskuler','Rekam Medis','Poli Kebidanan',
+//                           'Poli Kedokteran Olahraga','Poli Fetomaternal','Poli Onkologi Ginekologi','Poli Gigi Endodonsi','Poli Gigi Orthodonti','Poli Gigi Pedodontis',
+//                           'Poli Gigi Penyakit Mulut','Poli Gigi Prosthodonti','Poli Bedah Digestive (Pagi)') OR (asu.namaruangan like '%swasta%')) AND 
+//                           (asu.jenisemr = 'catatandokter') AND (asu.tglemr BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]')  $status
+//                           GROUP BY asu.namaruangan, tempe.profesi, asu.norec) AS y
+// GROUP BY namaruangan) AS z
+//             GROUP BY namaruangan")           
+           
+        //ini query nambahin untuk total kunjungan dan bedanya sama yang di atas join apd-pd nya pake left outer
+        DB::raw("SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(total) AS total, SUM(totalpasien) AS totalpasien, SUM(totalkunjungan) AS totalkunjungan
+        FROM            (SELECT        namaruangan, '' AS dokter, '' AS perawat, '' AS total, SUM(noregistrasi)-SUM(objbj) AS totalpasien, SUM(norecapd) AS totalkunjungan
+                                  FROM            (SELECT        COUNT( DISTINCT (pd.noregistrasi)) AS noregistrasi, COUNT(apd.objectruanganfk) AS norecapd, ru.namaruangan, COUNT(apd.objectruanganasalfk) AS objbj
+                                                            FROM            antrianpasiendiperiksa_t AS apd left outer JOIN
+                                                                                      pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk left outer JOIN
+                                                                                      ruangan_m AS ru ON ru.id = apd.objectruanganfk left outer JOIN
+                                                                                      ruangan_m AS ru2 ON ru2.id = apd.objectruanganasalfk 
+                                                            WHERE        (pd.tglregistrasi BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]') AND (ru.objectdepartemenfk IN (18, 79)) AND (pd.statusenabled = '1') AND (apd.statusenabled = '1') $status
+                                                            GROUP BY apd.noregistrasifk, ru.namaruangan) AS x
+                                  GROUP BY noregistrasi, namaruangan
+                                  UNION ALL
+                                  SELECT        namaruangan, SUM(dokter) AS dokter, SUM(perawat) AS perawat, SUM(dokter + perawat) AS total, '' AS totalpasien, '' AS totalkunjungan
+                                  FROM            (SELECT        asu.namaruangan, COUNT(DISTINCT (CASE WHEN tempe.profesi = 'dokter' THEN 0 END)) AS dokter, COUNT(DISTINCT (CASE WHEN tempe.profesi <> 'dokter' THEN 0 END)) AS perawat
+                                                            FROM            emrpasien_t AS asu INNER JOIN
+                                                                                      tempemr_t AS tempe ON tempe.emrpasienfk = asu.noemr INNER JOIN
+                                                                                      pasiendaftar_t AS pd ON pd.noregistrasi = asu.noregistrasifk
+                                                            WHERE        (asu.namaruangan IN ('Poli DOTS', 'Poli Endokrin', 'Poli Thalasemi', 'Poli Anak', 'Poli Mata', 'Poli Gizi', 'Hemodialisa', 'Poli Paru', 'Poli Andrologi', 'Poli Bedah Tulang', 'Poli Saraf', 
+                                                                                      'Poli Kulit dan Kelamin', 'Poli THT', 'Poli Gigi dan Mulut', 'Poli Anestesi', 'Poli Penyakit Dalam', 'Poli Psikologi', 'Poli Bedah Anak', 'Poli Bedah Umum', 'Poli Kardiologi', 'Poli Bedah Plastik', 
+                                                                                      'Poli Eksekutif', 'Poli Eksekutif 2', 'Poli Kesehatan Ibu dan Anak', 'Klinik Matahari', 'Poli Kosmetik', 'Poli Jiwa', 'Sentra Visum', 'Poli Bedah Digestive (Sore)', 'Poli Bedah Tumor', 'Poli Bedah Saraf', 
+                                                                                      'Rikes (Medical Check Up)', 'Poli Jantung', 'Hiperbarik', 'Poli Bedah UrologI', 'Poli Bedah Thorax Kardio Vaskuler', 'Poli Bedah Mulut', 'Poli Bedah Vaskuler', 'Rekam Medis', 'Poli Kebidanan', 
+                                                                                      'Poli Kedokteran Olahraga', 'Poli Fetomaternal', 'Poli Onkologi Ginekologi', 'Poli Gigi Endodonsi', 'Poli Gigi Orthodonti', 'Poli Gigi Pedodontis', 'Poli Gigi Penyakit Mulut', 'Poli Gigi Prosthodonti', 
+                                                                                      'Poli Bedah Digestive (Pagi)') OR asu.namaruangan LIKE '%swasta%') AND (asu.jenisemr = 'catatandokter') AND (asu.tglemr BETWEEN '$request[tglAwal]' and  '$request[tglAkhir]')  $status
+                                                            GROUP BY asu.namaruangan, tempe.profesi, asu.norec) AS y
+                                  GROUP BY namaruangan) AS z
+        GROUP BY namaruangan")
+        );
+        $ruangan = DB::table('ruangan_m')
+            ->select('id','namaruangan', DB::raw("0 as dokter, 0 as perawat, 0 as total, 0 as totalpasien, 0 as totalkunjungan"))
+            ->where('statusenabled', true)
+            ->whereIn('objectdepartemenfk', [18,79])
+            ->get();
+
+        $data = [];
+        foreach ($details as $d) {
+            foreach ($ruangan as $r) {
+                if ($d->namaruangan == $r->namaruangan) {
+                    $r->dokter = $d->dokter;
+                    $r->perawat = $d->perawat;
+                    $r->total = $d->total;
+                    $r->totalpasien = $d->totalpasien;
+                    $r->totalkunjungan = $d->totalkunjungan;
+                }
+            } 
+        }
+        $data[] = $ruangan;
+            
+            //anti selisih selisih kleb
+            // $details = DB::select(DB::raw("
+            // select noregistrasi, namaruangan from pasiendaftar_t as pd inner join
+            // ruangan_m as ru on ru.id = pd.objectruanganlastfk
+            // where objectruanganlastfk IN ('3', '6', '8', '9', '17', '70', '89', '130', '250', '319', '459', '564') and tglregistrasi between '$request[tglAwal]' and  '$request[tglAkhir]'
+            // order by ru.namaruangan
+            // "));
+      
+        $result = array(
+            'data' => $data,           
+            'message' => 'as@epic',
+        );
+
+        return $this->respond($result);
+    }
+
 }

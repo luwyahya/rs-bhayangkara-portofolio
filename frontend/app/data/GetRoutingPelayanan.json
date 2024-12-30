@@ -16675,5 +16675,24 @@
             "define": "RekamMedisCtrl"
         }
     ]
+},
+{
+    "name": "LaporanCpptIgd",
+    "url": "/LaporanCpptIgd",
+    "templateurl": "module/Registrasi/Laporan/LaporanCpptIgd.html",
+    "controller": "LaporanCpptIgdCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
 }
 ]

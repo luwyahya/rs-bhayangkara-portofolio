@@ -3113,6 +3113,10 @@
         {
             "nameDep": "TandaTanganPpaCtrl",
             "urlDep": "module/Registrasi/TandaTanganPpaCtrl"
+        },
+        {
+            "nameDep": "LaporanCpptIgdCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanCpptIgdCtrl"
         }
     ]
 }

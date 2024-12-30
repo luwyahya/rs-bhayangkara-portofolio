@@ -4293,4 +4293,210 @@ class RawatJalanController extends ApiController
 
         return $this->respond($result);
     }
+    public function getPasienEksekutifHalu(Request $request)
+    {
+        $dataDokumen2 = [];
+        $cek = \DB::table('antrianpasiendiperiksa_t as apd')
+            ->select('norec');
+
+        if (isset($request['ruanganArr']) && $request['ruanganArr'] != "" && $request['ruanganArr'] != "undefined") {
+            $arrRuang = explode(',', $request['ruanganArr']);
+            $kodeRuang = [];
+            foreach ($arrRuang as $item) {
+                $kodeRuang[] = (int) $item;
+            }
+            if ($kodeRuang[0] == 132) {
+                $cek = $cek->where('apd.kdprofile', 99);
+            } else {
+                $cek = $cek->whereIn('apd.objectruanganfk', $kodeRuang);
+            }
+        }
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            $cek = $cek->where('tglregistrasi', '>=', $filter['tglAwal']);
+        }
+        if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+            $cek = $cek->where('tglregistrasi', '<=', $filter['tglAkhir']);
+        }
+        $cek = $cek->where('statusenabled', true);
+        $cek = $cek->where('apd.kdprofile', 99);
+        $cek = $cek->get();
+
+        if (count($cek) > 0) {
+
+            ini_set('max_execution_time', 500);
+            $filter = $request->all();
+            $dataDokumen = \DB::table('antrianpasiendiperiksa_t as apd')
+                ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+                // ->leftjoin('batalregistrasi_t as br','br.pasiendaftarfk','=','pd.norec')
+                //            ->leftjoin('strukpelayanan_t as sp','sp.norec','=','pd.nostruklastfk')
+                //            ->leftjoin('strukbuktipenerimaan_t as sbm','sbm.norec','=','pd.nosbmlastfk')
+                ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                ->leftjoin('alamat_m as alm', 'ps.id', '=', 'alm.nocmfk')
+                ->leftjoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+                ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                // ->leftJoin('departemen_m as dept','dept.id','=','ru.objectdepartemenfk')
+                ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
+                ->leftJoin('pegawai_m as pg2', 'pg2.id', '=', 'apd.residencefk')
+                ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+                ->leftjoin('rekanan_m as rek', 'rek.id', '=', 'pd.objectrekananfk')
+                ->leftjoin('antrianpasienregistrasi_t as apr', function ($join) {
+                    $join->on('apr.noreservasi', '=', 'pd.statusschedule');
+                    $join->on('apr.nocmfk', '=', 'pd.nocmfk');
+                })
+                // ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('asuransipasien_m as asu', 'pa.objectasuransipasienfk', '=', 'asu.id')
+                ->leftjoin('kelas_m as klstg', 'klstg.id', '=', 'asu.objectkelasdijaminfk')
+                ->leftjoin('kendalidokumenrekammedis_t as kdr', 'kdr.noregistrasifk', '=', 'apd.norec')
+                ->leftjoin('statuskendalidokumen_m as skd', 'skd.id', '=', 'kdr.objectstatuskendalidokumenfk')
+                ->leftjoin('statuspulang_m as sp', 'sp.id', '=', 'apd.objectstatuspulangfk')
+                ->leftJoin('diagnosapasien_t as dp', 'dp.noregistrasifk', '=', 'apd.norec')
+                ->leftJoin('detaildiagnosapasien_t as ddp', 'ddp.objectdiagnosapasienfk', '=', 'dp.norec')
+                ->leftJoin('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->leftJoin('jenisdiagnosa_m as jd', 'jd.id', '=', 'ddp.objectjenisdiagnosafk')
+                ->leftJoin('kasuspenyakit_m as ksp', 'ksp.id', '=', 'pd.objectkasuspenyakitlastfk')
+                // ->leftjoin('pelayananpasien_t as pp','pp.noregistrasifk','=','apd.norec')
+                ->select(
+                    'pd.tglregistrasi',
+                    'ps.nocm',
+                    'ps.nobpjs',
+                    'ps.id as nocmfk',
+                    'pd.noregistrasi',
+                    'ps.namapasien',
+                    'ps.noidentitas',
+                    'ps.tgllahir',
+                    'jk.jeniskelamin',
+                    'apd.objectruanganfk',
+                    'ru.namaruangan',
+                    'kls.id as idkelas',
+                    'kls.namakelas',
+                    'kp.id as objectkelompokpasienfk',
+                    'kp.kelompokpasien',
+                    'rek.namarekanan',
+                    'apd.objectpegawaifk',
+                    'pg.namalengkap as namadokter',
+                    'pg.id as iddokter',
+                    'pg.idhafis',
+                    'pd.norec as norec_pd',
+                    'apd.norec as norec_apd',
+                    'apd.objectasalrujukanfk',
+                    'pd.objectkelompokpasienlastfk',
+                    'apd.tgldipanggildokter',
+                    'apd.statuspasien as statuspanggil',
+                    'pd.statuspasien',
+                    'apd.tgldipanggildokter',
+                    'apd.tgldipanggilsuster',
+                    'apr.noreservasi',
+                    'apd.noantrian',
+                    'apr.tanggalreservasi',
+                    'alm.alamatlengkap',
+                    'klstg.namakelas as kelasdijamin',
+                    'apd.tglselesaiperiksa',
+                    'apr.tipepasien',
+                    'apr.notelepon',
+                    //                'ps.foto',
+                    'ru.ipaddress',
+                    'ps.iskompleks',
+                    'apd.residencefk',
+                    'pg2.namalengkap as residence',
+                    'pd.istelemedicine',
+                    'asu.objectkelasdijaminfk',
+                    'pd.diagnosafretext',
+                    'skd.id as idstatusberkas',
+                    'ksp.kasuspenyakit',
+                    'pa.nosep',
+                    'pd.kodebookingantrol',
+                    'pd.istaskantrol'
+                    // ,DB::raw('case when pp.noregistrasifk is null then \'false\' else \'true\' end as statuslayanan'))
+                    ,
+                    DB::raw('case when apd.ispelayananpasien is null then \'false\' else \'true\' end as statuslayanan,
+                    case when apd.kdprofile = 99 then \'Pasien Poli Eksekutif\' else skd.namaexternal end as namekendali,
+                    case when sp.namaexternal is null then \'Belum Pulang\' else sp.namaexternal end as statuspulang,
+                    case when jd.id=1 then dg.namadiagnosa else \'-\' end as diagnosa,
+                    case when pd.objectkasuspenyakitlastfk=1 then \'Non Covid\' else ksp.kasuspenyakit end as kasuspenyakit')
+                )
+                // ->whereNull('br.norec')
+                ->where('pd.statusenabled', true)
+                ->take(50)
+                // ->where('apd.statusenabled', true)
+                ->where('apd.kdprofile', 99);
+            // ->where('ps.statusenabled', true)
+            // ->where('skd.id', 9);
+            // ->whereNull('apd.ispelayananpasien');
+            // ->whereNull('apd.objectruanganasalfk');
+            //            ->whereNotIn('ru.objectdepartemenfk',[27,3]);
+            // ->groupBy('pd.tglregistrasi','ps.nocm','pd.noregistrasi','ps.namapasien','ps.tgllahir','jk.jeniskelamin','apd.objectruanganfk','ru.namaruangan','kls.id','kls.namakelas',
+            //           'kp.kelompokpasien','rek.namarekanan','apd.objectpegawaifk','pg.namalengkap','br.norec','pd.norec','apd.norec','apd.objectasalrujukanfk',
+            //           'apd.tgldipanggildokter','apd.statuspasien','pd.statuspasien','apd.tgldipanggildokter','apd.tgldipanggilsuster','apr.noreservasi',
+            //           'apr.tanggalreservasi','pp.noregistrasifk','apd.noantrian','alm.alamatlengkap');
+
+            if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('pd.tglregistrasi', '>=', $filter['tglAwal']);
+            }
+            if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('pd.tglregistrasi', '<=', $filter['tglAkhir']);
+            }
+            if (isset($filter['ruangId']) && $filter['ruangId'] != "" && $filter['ruangId'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('ru.id', '=', $filter['ruangId']);
+            }
+            if (isset($filter['dokId']) && $filter['dokId'] != "" && $filter['dokId'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('pg.id', '=', $filter['dokId']);
+            }
+            if (isset($filter['noreg']) && $filter['noreg'] != "" && $filter['noreg'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('pd.noregistrasi', '=', $filter['noreg']);
+            }
+            if (isset($filter['norm']) && $filter['norm'] != "" && $filter['norm'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('ps.nocm', 'like', '%' . $filter['norm'] . '%');
+            }
+            if (isset($filter['nama']) && $filter['nama'] != "" && $filter['nama'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('ps.namapasien', 'like', '%' . $filter['nama'] . '%');
+            }
+            if (isset($filter['norecApd']) && $filter['norecApd'] != "" && $filter['norecApd'] != "undefined") {
+                $dataDokumen = $dataDokumen->where('apd.norec',  $filter['norecApd']);
+            }
+            if (isset($request['ruanganArr']) && $request['ruanganArr'] != "" && $request['ruanganArr'] != "undefined") {
+                $arrRuang = explode(',', $request['ruanganArr']);
+                $kodeRuang = [];
+                foreach ($arrRuang as $item) {
+                    $kodeRuang[] = (int) $item;
+                }
+                if ($kodeRuang[0] == 132) {
+                    $dataDokumen = $dataDokumen->where('apd.kdprofile', 99);
+                } else {
+                    $dataDokumen = $dataDokumen->whereIn('ru.id', $kodeRuang);
+                }
+            }
+
+            if (isset($filter['istelemedicine']) && $filter['istelemedicine'] == "true") {
+                $dataDokumen = $dataDokumen->where('pd.istelemedicine', '1');
+            }
+
+            if (isset($request['statusPeriksa']) && $request['statusPeriksa'] != "" && $request['statusPeriksa'] != "undefined") {
+                if ($request['statusPeriksa'] == 1) {
+                    $dataDokumen = $dataDokumen->whereRaw(" apd.tgldipanggilsuster IS NOT NULL AND apd.tgldipanggildokter IS NULL AND apd.tglselesaiperiksa IS NULL");
+                } elseif ($request['statusPeriksa'] == 2) {
+                    $dataDokumen = $dataDokumen->whereRaw(" apd.tgldipanggildokter IS NOT NULL AND apd.tglselesaiperiksa IS NULL");
+                } elseif ($request['statusPeriksa'] == 3) {
+                    $dataDokumen = $dataDokumen->whereRaw(" apd.tglselesaiperiksa IS NOT NULL ");
+                }
+            }
+
+            if (isset($filter['jmlRow']) && $filter['jmlRow'] != "" && $filter['jmlRow'] != "undefined") {
+                $dataDokumen = $dataDokumen->take($filter['jmlRow']);
+            }
+            $dataDokumen = $dataDokumen->whereIn('ru.objectdepartemenfk', [18, 24, 28, 26, 30, 34, 79]);
+            //        $dataDokumen = $dataDokumen->orderBy('pd.tglregistrasi');
+            $dataDokumen = $dataDokumen->orderBy('apd.noantrian');
+            $dataDokumen = $dataDokumen->distinct();
+            $dataDokumen = $dataDokumen->get();
+
+            $dataDokumen2 = $dataDokumen;
+        }
+
+        $result = array(
+            'dataEksekutif' => $dataDokumen2
+        );
+        return $this->respond($result);
+    }
 }
