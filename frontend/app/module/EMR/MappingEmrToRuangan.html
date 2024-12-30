@@ -1,0 +1,238 @@
+<style>
+    .orange {
+        color: #fff;
+        background-color: #f0ad4e;
+        border-color: #eea236
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12"> 
+        <div class="panel-heading" c-translate>Mapping Emr To Ruangan</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Nama EMR</label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaEmr"
+                    k-data-text-field="'caption'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listEmr" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Instalasi</label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.departemen9"
+                k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'"
+                k-auto-bind="false" k-data-source="listDepartemen" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Ruangan</label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box k-ng-model="item.ruangan"
+                    k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listRuangan" />
+            </div>
+        </div>
+        <div class="grid_2" style="margin-top: 0.7%;">
+            <button class="btnTemplate1" ng-click="cari()">Cari</button>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="sourceMapping" options="columnMapping"
+            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataSelectedMapping"
+            ng-click="klik(dataSelectedMapping)">
+        </kendo-grid>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="tambah()">Tambah</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="cekPwForHapus()">Hapus</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="edit()">Edit</button>
+        </div>
+        <div class="grid_3">
+            <button class="btnTemplate1 orange" ng-click="gaslah()">TOMBOL INI DIGUNAKAN UNTUK MAPPING PENUNJANG</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpTambahMapping" k-title="'Tambah Mapping'" k-width="900"  k-height="300" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">EMR</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.namaEmr2"
+                    k-data-text-field="'caption'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listEmr" />
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="departemen">
+                <div class="grid_12">
+                    <label c-label item="item">Instalasi</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.departemen"
+                    k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDepartemen" />
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="ruangan">
+                <div class="grid_12">
+                    <label c-label item="item">Ruangan</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.ruangan2"
+                    k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="pegawai">
+                <div class="grid_12">
+                    <label c-label item="item">Jenis Pegawai</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.namaDokter" k-data-text-field="'jenispegawai'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisPegawai" />
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="cekDep">
+                <div class="grid_12">
+                    <div class="grid_12"></div>
+                    <div class="grid_12">
+                        <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual"
+                            id="departemen" ng-click="ceklispilihManual(model.cekpilihManual)">
+                        <label class="c-label k-checkbox-label" for="departemen" required>Tambah ke 1 Instalasi</label>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="cekRu">
+                <div class="grid_12">
+                    <div class="grid_12"></div>
+                    <div class="grid_12">
+                        <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual2"
+                            id="ruangan" ng-click="ceklispilihManual2(model.cekpilihManual2)">
+                        <label class="c-label k-checkbox-label" for="ruangan" required>Tambah ke 1 Ruangan</label>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;">
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="cekPw()">Simpan</button>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%; margin-left: 15%;">
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" ng-click="batalMapping()">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpTambahMappingPenunjang" k-title="'Tambah Mapping'" k-width="900"  k-height="350" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <div class="grid_12">
+        <div class="grid_12">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">EMR</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.namaEmr3"
+                    k-data-text-field="'caption'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listEmr" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Instalasi EMR</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.instalasiEmr"
+                    k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDepartemen" />
+                </div>
+            </div>
+            <!-- <div class="grid_12" style="margin-top: 2%;" ng-show="departemen2">
+                <div class="grid_12">
+                    <label c-label item="item">Instalasi Tujuan</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.departemen2"
+                    k-data-text-field="'namadepartemen'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listDepartemen" />
+                </div>
+            </div> -->
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Ruangan</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.ruangan3"
+                    k-data-text-field="'namaruangan'" k-data-value-field="'id'" k-filter="'contains'"
+                    k-auto-bind="false" k-data-source="listRuangan" />
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_12">
+                    <label c-label item="item">Jenis Pegawai</label>
+                </div>
+                <div class="grid_12">
+                    <input style="width: 50%;" kendo-combo-box k-ng-model="item.namaDokter2" k-data-text-field="'jenispegawai'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisPegawai" />
+                </div>
+            </div>
+            <!-- <div class="grid_12" style="margin-top: 2%;" ng-show="cekDep2">
+                <div class="grid_12">
+                    <div class="grid_12"></div>
+                    <div class="grid_12">
+                        <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual3"
+                            id="departemen2" ng-click="ceklispilihManual3(model.cekpilihManual3)">
+                        <label class="c-label k-checkbox-label" for="departemen2" required>Tambah ke 1 Instalasi</label>
+                    </div>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%;" ng-show="cekRu2">
+                <div class="grid_12">
+                    <div class="grid_12"></div>
+                    <div class="grid_12">
+                        <input type="checkbox" class="k-checkbox" ng-model="model.cekpilihManual4"
+                            id="ruangan2" ng-click="ceklispilihManual4(model.cekpilihManual4)">
+                        <label class="c-label k-checkbox-label" for="ruangan2" required>Tambah ke 1 Ruangan</label>
+                    </div>
+                </div>
+            </div> -->
+            <div class="grid_12" style="margin-top: 2%;">
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="saveMapping2()">Simpan</button>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 2%; margin-left: 15%;">
+                <div class="grid_2">
+                    <button class="btnTemplate1 cancel" ng-click="batalMapping2()">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div kendo-window="PopUpJenisAkun" k-title="'Pilih Jenis Pegawai'" k-width="400" k-height="120" k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <label c-label item="item " c-label-text="JenisPegawai "></label>
+    <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaDokter" k-data-text-field="'jenispegawai'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listJenisPegawai" />
+    <div class="clear">
+        <button class="k-button" ng-click="SaveEditJenis()" style="float:right;margin-top:4%">Simpan</button>
+    </div>
+</div>
+    
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

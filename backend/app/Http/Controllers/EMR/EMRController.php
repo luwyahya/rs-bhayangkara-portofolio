@@ -26944,4 +26944,217 @@ WHERE rm.norec = '$norec_resume'
         );
         return $this->respond($datass);
     }
+    public function getNavigasiEmr(Request $request) {
+        $data = DB::table('mapruangantonavigasiemr_t as map')
+            ->join('emr_t as emr', 'emr.id', '=', 'map.objectemrfk')
+            ->join('departemen_m as dp', 'dp.id', '=', 'map.objectdepartemenfk')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'map.objectruanganfk')
+            ->leftjoin('jenispegawai_m as jp','jp.id','=','map.objectjenispegawaifk')
+            ->select('emr.caption as navigasiemr', 'dp.namadepartemen', 'ru.namaruangan', 'map.*','jp.jenispegawai');
+
+            $paramwhere=false;
+            if (isset($request['idRuangan']) && $request['idRuangan'] != '') {
+                $data = $data->where('ru.id', $request['idRuangan']);
+                $paramwhere=true;
+            }
+            if (isset($request['idEmr']) && $request['idEmr'] != '') {
+                $data = $data->where('emr.id', $request['idEmr']);
+                $paramwhere=true;
+            }
+            if (isset($request['idDept']) && $request['idDept'] != '') {
+                $data = $data->where('ru.objectdepartemenfk', $request['idDept']);
+                $paramwhere=true;
+            }
+            if($paramwhere == false){
+                 return ('Silahkan Isi Parameter');
+            }
+            $data = $data->get();
+
+        return $this->respond($data);
+    }
+    public function saveMappingNavigasi(Request $request) {
+        DB::beginTransaction();
+        // return($request['emr']);
+        // die();
+        // try {
+            if ($request['flag'] == 'Instalasi') {                 
+                $ruangan = DB::table('ruangan_m as ru')
+                    ->select('ru.id')
+                    ->where('ru.objectdepartemenfk', $request['idFlag'])
+                    ->where('ru.statusenabled', true)
+                    ->get();
+                    
+                foreach ($ruangan as $haha) {
+                    $cek = DB::table('mapruangantonavigasiemr_t')
+                        ->select('objectemrfk', 'objectruanganfk', 'objectjenispegawaifk')
+                        ->where('objectruanganfk', $haha->id)
+                        ->where('objectemrfk', $request['emr'])
+                        ->where('objectjenispegawaifk', $request['objectjenispegawaifk'])
+                        ->get();
+                        
+                    if (count($cek) == 0) {                        
+                        $lastId = DB::table('mapruangantonavigasiemr_t')->max('id');
+                        $newId = $lastId ? $lastId + 1 : 1; 
+                        
+                        $values = array(
+                            "id" => $newId,
+                            "objectemrfk" => $request['emr'],
+                            "objectdepartemenfk" => $request['idFlag'],
+                            "objectruanganfk" => $haha->id,
+                            "statusenabled" => 1,
+                            "objectjenispegawaifk" => $request['objectjenispegawaifk']
+                        );
+                        
+                        DB::table('mapruangantonavigasiemr_t')->insert($values);
+                    }
+                }
+            }
+            
+            if ($request['flag'] == 'Ruangan') {
+                $ruangan = DB::table('ruangan_m as ru')
+                    ->select('ru.objectdepartemenfk')
+                    ->where('ru.id', $request['idFlag'])
+                    ->where('ru.statusenabled', true)
+                    ->get();
+                foreach ($ruangan as $haha) {
+                    $lastId = DB::table('mapruangantonavigasiemr_t')->max('id');
+                    $newId = $lastId ? $lastId + 1 : 1; 
+                    $values = array (
+                        "id" => $newId,
+                        "objectemrfk" => $request['emr'],
+                        "objectdepartemenfk" => $haha->objectdepartemenfk,
+                        "objectruanganfk" => $request['idFlag'],
+                        "objectjenispegawaifk" => $request['objectjenispegawaifk'],
+                        "statusenabled" => 1
+                    );
+                    DB::table('mapruangantonavigasiemr_t')->insert($values);
+                }
+            }
+            $transStatus = 'true';
+            $transMessage = 'Sukses !';
+        // } catch (\Exception $e) {
+        //     $transStatus = 'false';
+        //     $transMessage = 'Gagal';
+        // }
+        if ($transStatus == 'true') {
+            DB::commit();
+            $result = array (
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function saveMappingNavigasiPenunjang(Request $request) {
+        DB::beginTransaction();
+        try {
+                $ruangan = DB::table('ruangan_m as ru')
+                    ->select('ru.objectdepartemenfk')
+                    ->where('ru.id', $request['ruangan'])
+                    ->where('ru.statusenabled', true)
+                    ->get();
+                foreach ($ruangan as $haha) {
+                    $values = array (
+                        "objectemrfk" => $request['emr'],
+                        "objectdepartemenfk" => $request['instalasiEmr'],
+                        "objectruanganfk" => $request['ruangan'],
+                        "objectjenispegawaifk" => $request['jenispegawai'],
+                        "statusenabled" => 1
+                    );
+                    DB::table('mapruangantonavigasiemr_t')->insert($values);
+                }
+            $transStatus = 'true';
+            $transMessage = 'Sukses !';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal';
+        }
+        if ($transStatus == 'true') {
+            DB::commit();
+            $result = array (
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function deleteMappingNavigasiEmr(Request $request) {
+        DB::beginTransaction();
+        try {
+            for ($i = count($request['data']) - 1; $i >=0; $i--) {
+                $data = DB::table('mapruangantonavigasiemr_t')
+                    ->where('objectdepartemenfk', $request['data'][$i]['objectdepartemenfk'])
+                    ->where('objectemrfk', $request['data'][$i]['objectemrfk'])
+                    ->where('objectruanganfk', $request['data'][$i]['objectruanganfk'])
+                    ->delete();
+            }
+            $transStatus = 'true';
+            $transMessage = 'Sukses !';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal';
+        }
+        if ($transStatus == 'true') {
+            DB::commit();
+            $result = array (
+                "status" => 201,
+                "message" => $transMessage,
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                "status" => 400,
+                "message" => $transMessage,
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+    public function UpdateJenisPegawai(Request $request){
+        DB::beginTransaction();
+        try {
+
+            $curug = \DB::table('mapruangantonavigasiemr_t')
+            ->select('objectjenispegawaifk')
+            ->where('objectruanganfk', $request['objectruanganfk'])
+            ->where('objectemrfk', $request['objectemrfk'])
+            ->where('statusenabled', true)
+            // ->first();
+            ->update(['objectjenispegawaifk' => $request['objectjenispegawaifk']]);
+
+            $transStatus = 'true';
+        }catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+
+        if ($transStatus == 'true') {
+            $transMessage = "Daten erfolgreich speichern";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => $transMessage,
+                "as" => 'ea@epic',
+            );
+        } else {
+            $transMessage = "Daten speichern fehlgeschlagen";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                "as" => 'ea@epic',
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
 }
