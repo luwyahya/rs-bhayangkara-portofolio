@@ -7,13 +7,15 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             $scope.isNavEMR = true;
             $scope.isNonNavEMR = false;
             $scope.x = true;
-            var getPegawai = medifirstService.getPegawai();
+            // var getPegawai = medifirstService.getPegawai();
             // if(getPegawai.jenisPegawai.id == 10) {
             //     $scope.isNonNavEMR = true;
             // } else {
             //     $scope.isNavEMR = true;
             // }
             $scope.now = new Date();
+            var jenisPegawaiLogin = {};
+            getPegawai()
   
             $scope.header = {};
   
@@ -26,11 +28,13 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             $scope.getRekamMedisCheck = function(checkNoregis) {
                 $rootScope.getRekamMedisCheck(checkNoregis);
             }
-  
+            let pegawai = JSON.parse(localStorage.getItem('pegawai'))
             $scope.showNav = function() {
                 $rootScope.isShowNavEMR = !$rootScope.isShowNavEMR
             }
-  
+            
+
+
             //ash
             $scope.showNavRawat = function() {
                 $rootScope.isShowNavEMRRawat = !$rootScope.isShowNavEMRRawat
@@ -65,6 +69,31 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             //--ash--02-08-2023 
             $scope.isBodyEMR="grid_11";
             $scope.isNavigasiEMR="grid_1";
+
+            function getPegawai() {
+                var user = medifirstService.getPegawaiLogin().jenisPegawai
+                // debugger
+                if (user.jenispegawai == 'DOKTER') {
+                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Dokter'}
+                } else if (user.jenispegawai == 'Apoteker') {
+                    jenisPegawaiLogin = {id : 7, jenispetugaspe: 'Apoteker'}
+                } else if (user.jenispegawai == 'Laboratorium') {
+                    jenisPegawaiLogin = {id : 10, jenispetugaspe: 'Laborat'}
+                } else if (user.jenispegawai == 'Ahli Gizi') {
+                    jenisPegawaiLogin = {id : 15, jenispetugaspe: 'Ahli Gizi'}
+                } else if (user.jenispegawai == 'PERAWAT') {
+                    jenisPegawaiLogin = {id : 23, jenispetugaspe: 'Perawat'}
+                } else if (user.jenispegawai == 'BIDAN') {
+                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Bidan'}
+                } else if (user.jenispegawai == 'PSIKOLOG') {
+                    jenisPegawaiLogin = {id : 25, jenispetugaspe: 'Psikolog'}
+                } else {
+                    jenisPegawaiLogin = {}
+                }
+                // namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
+                jenisPegawaiLogin = medifirstService.getPegawaiLogin().jenisPegawai.id;
+                // jenisPegawaiLogin = {id : user.id, jenispegawai: user.jenispegawai}
+            }
   
             // norec Antrian Etateh
             medifirstService.get('emr/get-antrian-pasien-norec/' + $state.params.noRec).then(function(e) {
@@ -237,10 +266,35 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
             function loadTreeView() {
                 $scope.isLoadingNav = true
                 $scope.treeSourceMenu = [];
-                medifirstService.get("emr/get-menu-rekam-medis-dynamic?namaemr=navigasi").then(function(e) {
+                $scope.treeSourceKembali = [];
+                let dataKembali = [];
+                if (pegawai.jenisPegawai.id == 1) {
+                    dataKembali = [
+                    {caption: "Rawat Jalan", headfk: null, id: null, kdprofile: null, kelompok: "Rawat Jalan", kodeexternal: null, namaemr: "navigasi", namaexternal: null, nourut: null, objectdepartemenfk: 18, reportdisplay: "DaftarAntrianDokterRajal", statusenabled: true},
+                    {caption: "Rawat Inap", headfk: null, id: null, kdprofile: null, kelompok: "Rawat Inap", kodeexternal: null, namaemr: "navigasi", namaexternal: null, nourut: null, objectdepartemenfk: 18, reportdisplay: "DaftarAntrianDokterRanap", statusenabled: true}
+                ]
+                } else {
+                    dataKembali = [
+                    {caption: "Rawat Jalan", headfk: null, id: null, kdprofile: null, kelompok: "Rawat Jalan", kodeexternal: null, namaemr: "navigasi", namaexternal: null, nourut: null, objectdepartemenfk: 18, reportdisplay: "RGFmdGFyQW50cmlhblN1c3RlclJhamFs", statusenabled: true},
+                    {caption: "Rawat Inap", headfk: null, id: null, kdprofile: null, kelompok: "Rawat Inap", kodeexternal: null, namaemr: "navigasi", namaexternal: null, nourut: null, objectdepartemenfk: 18, reportdisplay: "RGFmdGFyQW50cmlhblN1c3RlclJhbmFw", statusenabled: true}
+                ]
+                }
+                // medifirstService.get("emr/get-menu-rekam-medis-dynamic-nav?namaemr=navigasi&noregistrasi=" + $scope.header.noregistrasi).then(function (e) {
+                    medifirstService.get("emr/get-menu-rekam-medis-dynamic-nav?namaemr=navigasi&noregistrasi=" + $scope.header.noregistrasi + '&jenisPegawaiLogin=' + jenisPegawaiLogin + '&norec_apd=' + $scope.header.norec).then(function (e) {
+                    // debugger
                     $scope.isLoadingNav = false
                     var inlineDefault = new kendo.data.HierarchicalDataSource({
                         data: e.data.data,
+                        schema: {
+                            model: {
+                                children: "child",
+                                expanded: true
+                            }
+                        }
+                    });
+                    $scope.treeSourceMenu = inlineDefault
+                    var inlineDefault2 = new kendo.data.HierarchicalDataSource({
+                        data: dataKembali,
                         schema: {
                             model: {
                                 children: "child",
@@ -248,53 +302,38 @@ define(['initialize', 'Configuration'], function(initialize, configuration) {
                             }
                         }
                     });
-                    $scope.treeSourceMenu = inlineDefault
+                    $scope.treeSourceKembali = inlineDefault2
                     $scope.mainTreeViewMenuOption = {
-                            dataBound: function(e) {
-                                $('span.k-in').each(function() {
-                                    if ($(this).text() == 'IGD') { $(this).addClass('navHeader') }
-                                    if ($(this).text() == 'RAWAT JALAN') { $(this).addClass('navHeader') }
-                                    if ($(this).text() == 'RAWAT INAP') { $(this).addClass('navHeader') }
-                                    if ($(this).text() == 'PENUNJANG') { $(this).addClass('navHeader') }
-                                    if ($(this).text() == 'CPPT') { $(this).addClass('hijau') }
-                                    //   if ($(this).text() == 'Vital Sign') { $(this).addClass('biru') }
-                                    // if ($(this).text() == 'Resep Elektronik') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Askep') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Rencana Askep') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Resume Medis') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Catatan Keperawatan') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Konsultasi') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'History') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Bedah') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Konsultasi') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Evaluasi Awal dan Tata Laksana Tim Integrasi Emergensi') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'EMR IGD') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Pengkajian Awal Keperawatan') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Pengkajian Awal Medis Pasien') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Pengkajian Awal Keperawatan IGD') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'EWS') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Resiko Jatuh') { $(this).addClass('biru') }
-                                    if ($(this).text() == 'Pengkajian Medis IGD') { $(this).addClass('hijau') }
-                                    if ($(this).text() == 'Resume Medis IGD') { $(this).addClass('hijau') }
-  
-                                })
-                                    // var text = "CPPT Vital Sign";
-                                    // e.sender.element.find("span.k-in:contains(" + text + ")").addClass('kuntul');
-                            },
-                            dataTextField: ["caption"],
-                            datakKeyField: ["id"],
-                            select: onSelect,
-                            dragAndDrop: false,
-                            checkboxes: false
-                        }
-                        // var treeview = $("#treeview").data("kendoTreeView");
-                        // .expandPath([2, 5])
-                    $scope.showNavigasiTree = true
-  
-                }, function(error) {
+                        dataBound: function (e) {
+                            $('span.k-in').each(function () {
+                                if ($(this).text() == 'CPPT') { $(this).addClass('gemblung') }
+                                // if ($(this).text() == 'Vital Sign') { $(this).addClass('gemblung') }
+                                // if ($(this).text() == 'Resep Elektronik') { $(this).addClass('gemblung') }
+                                if ($(this).text() == 'Askep') { $(this).addClass('gemblung') }
+                                if ($(this).text() == 'Rencana Askep') { $(this).addClass('gemblung') }
+                                if ($(this).text() == 'Resume Medis') { $(this).addClass('gemblung') }
+                                if ($(this).text() == 'Catatan Keperawatan') { $(this).addClass('gemblung') }
+                                if ($(this).text() == 'Rawat Jalan') { $(this).addClass('button') }
+                                if ($(this).text() == 'Rawat Inap') { $(this).addClass('button') }
+
+                            })
+                            // var text = "CPPT Vital Sign";
+                            // e.sender.element.find("span.k-in:contains(" + text + ")").addClass('kuntul');
+                        },
+                        dataTextField: ["caption"],
+                        datakKeyField: ["id"],
+                        select: onSelect,
+                        dragAndDrop: false,
+                        checkboxes: false
+                    }
+                    // var treeview = $("#treeview").data("kendoTreeView");
+                    // .expandPath([2, 5])
+                    $scope.showNavigasiTree =true   
+
+                }, function (error) {
                     $scope.isLoadingNav = false
                 })
-  
+
             }
             // function loadTreeView() {
             //     $scope.isLoadingNav = true

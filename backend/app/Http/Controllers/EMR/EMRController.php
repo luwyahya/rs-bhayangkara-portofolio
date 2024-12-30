@@ -6523,44 +6523,257 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
+    // public function getMenuRekamMedisAtuhNav(Request $request)
+    // {
+
+    //     $data = \DB::table('pasiendaftar_t as pd')
+    //         ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+    //         ->select('apd.objectruanganfk')
+    //         ->where('pd.noregistrasi', $request['noregistrasi'])
+    //         ->where('pd.statusenabled', true)
+    //         ->where('apd.statusenabled', true)
+    //         ->get();
+
+    //     $arr = [];
+
+    //     foreach ($data as $item) {
+    //         array_push($arr, $item->objectruanganfk);
+    //     }
+
+    //     // return($arr);
+    //     // die();
+
+    //     $dataRaw = \DB::table('emr_t as emr')
+    //         ->join('mapruangantonavigasiemr_t as mre', 'mre.objectemrfk', '=', 'emr.id')
+    //         ->whereIn('mre.objectruanganfk', $arr)
+    //         ->where('emr.namaemr', $request['namaemr'])
+    //         ->where('emr.statusenabled', true)
+    //         ->where('mre.statusenabled', true)
+    //         ->select(
+    //             'mre.objectdepartemenfk',
+    //             'emr.*',
+    //             DB::raw("CASE WHEN mre.objectdepartemenfk=16 THEN 'RAWAT INAP' WHEN  mre.objectdepartemenfk=18 THEN 'RAWAT JALAN' ELSE 'PENUNJANG' END AS kelompok ")
+    //         )
+    //         ->distinct()
+    //         ->orderBy('kelompok', 'emr.nourut');
+    //     $dataRaw = $dataRaw->get();
+    //     $ini = [];
+    //     // $datas['ranap'] = [];
+    //     // $datas['rajal'] = [];
+    //     // $datas['penunjang'] = [];
+    //     // $ranap = [];
+    //     // $rajal = [];
+    //     // $penunjang = [];
+    //     $datas['igd']['id'] = 2;
+    //     $datas['igd']['caption'] = "IGD";
+    //     $datas['ranap']['id'] = 32;
+    //     $datas['ranap']['caption'] = "RAWAT INAP";
+    //     $datas['rajal']['id'] = 4;
+    //     $datas['rajal']['caption'] = "RAWAT JALAN";
+    //     $datas['penunjang']['id'] = 5;
+    //     $datas['penunjang']['caption'] = "PENUNJANG";
+    //     foreach ($dataRaw as $dataRaw2) {
+    //         if ($dataRaw2->id == 525) {
+    //             // return($dataRaw2->kdprofile);
+    //             // die();
+    //             $datas['history']['id'] = 1;
+    //             $datas['history']['caption'] = "HISTORY";
+    //             $datas['history']['kdprofile'] = $dataRaw2->kdprofile;
+    //             $datas['history']['statusenabled'] = $dataRaw2->statusenabled;
+    //             $datas['history']['kodeexternal'] = $dataRaw2->kodeexternal;
+    //             $datas['history']['namaexternal'] = $dataRaw2->namaexternal;
+    //             $datas['history']['reportdisplay'] = $dataRaw2->reportdisplay;
+    //             $datas['history']['namaemr'] = $dataRaw2->namaemr;
+    //             $datas['history']['caption'] = $dataRaw2->caption;
+    //             $datas['history']['headfk'] = $dataRaw2->headfk;
+    //             $datas['history']['nourut'] = $dataRaw2->nourut;
+    //             $datas['history']['objectdepartemenfk'] = $dataRaw2->objectdepartemenfk;
+    //             $datas['history']['kelompok'] = $dataRaw2->kelompok;
+    //         } else if ($dataRaw2->objectdepartemenfk == 24 && $dataRaw2->id != 525) {
+    //             $igd[] = array(
+    //                 'id' => $dataRaw2->id,
+    //                 'kdprofile' => $dataRaw2->kdprofile,
+    //                 'statusenabled' => $dataRaw2->statusenabled,
+    //                 'kodeexternal' => $dataRaw2->kodeexternal,
+    //                 'namaexternal' => $dataRaw2->namaexternal,
+    //                 'reportdisplay' => $dataRaw2->reportdisplay,
+    //                 'namaemr' => $dataRaw2->namaemr,
+    //                 'caption' => $dataRaw2->caption,
+    //                 'headfk' => $dataRaw2->headfk,
+    //                 'nourut' => $dataRaw2->nourut,
+    //                 'objectdepartemenfk' => $dataRaw2->objectdepartemenfk,
+    //                 'kelompok' => $dataRaw2->kelompok
+    //             );
+    //             $datas['igd']['child'] = $igd;
+    //             // array_push($ini, $datas['ranap']);
+    //         } else if ($dataRaw2->objectdepartemenfk == 16 && $dataRaw2->id != 525) {
+    //             $ranap[] = array(
+    //                 'id' => $dataRaw2->id,
+    //                 'kdprofile' => $dataRaw2->kdprofile,
+    //                 'statusenabled' => $dataRaw2->statusenabled,
+    //                 'kodeexternal' => $dataRaw2->kodeexternal,
+    //                 'namaexternal' => $dataRaw2->namaexternal,
+    //                 'reportdisplay' => $dataRaw2->reportdisplay,
+    //                 'namaemr' => $dataRaw2->namaemr,
+    //                 'caption' => $dataRaw2->caption,
+    //                 'headfk' => $dataRaw2->headfk,
+    //                 'nourut' => $dataRaw2->nourut,
+    //                 'objectdepartemenfk' => $dataRaw2->objectdepartemenfk,
+    //                 'kelompok' => $dataRaw2->kelompok
+    //             );
+    //             $datas['ranap']['child'] = $ranap;
+    //             // array_push($ini, $datas['ranap']);
+    //         } else if ($dataRaw2->objectdepartemenfk == 18 && $dataRaw2->id != 525) {
+    //             $rajal[] = array(
+    //                 'id' => $dataRaw2->id,
+    //                 'kdprofile' => $dataRaw2->kdprofile,
+    //                 'statusenabled' => $dataRaw2->statusenabled,
+    //                 'kodeexternal' => $dataRaw2->kodeexternal,
+    //                 'namaexternal' => $dataRaw2->namaexternal,
+    //                 'reportdisplay' => $dataRaw2->reportdisplay,
+    //                 'namaemr' => $dataRaw2->namaemr,
+    //                 'caption' => $dataRaw2->caption,
+    //                 'headfk' => $dataRaw2->headfk,
+    //                 'nourut' => $dataRaw2->nourut,
+    //                 'objectdepartemenfk' => $dataRaw2->objectdepartemenfk,
+    //                 'kelompok' => $dataRaw2->kelompok
+    //             );
+    //             $datas['rajal']['child'] = $rajal;
+    //         } else if ($dataRaw2->id != 525) {
+    //             $penunjang[] = array(
+    //                 'id' => $dataRaw2->id,
+    //                 'kdprofile' => $dataRaw2->kdprofile,
+    //                 'statusenabled' => $dataRaw2->statusenabled,
+    //                 'kodeexternal' => $dataRaw2->kodeexternal,
+    //                 'namaexternal' => $dataRaw2->namaexternal,
+    //                 'reportdisplay' => $dataRaw2->reportdisplay,
+    //                 'namaemr' => $dataRaw2->namaemr,
+    //                 'caption' => $dataRaw2->caption,
+    //                 'headfk' => $dataRaw2->headfk,
+    //                 'nourut' => $dataRaw2->nourut,
+    //                 'objectdepartemenfk' => $dataRaw2->objectdepartemenfk,
+    //                 'kelompok' => $dataRaw2->kelompok
+    //             );
+    //             $datas['penunjang']['child'] = $penunjang;
+    //         }
+    //     }
+
+    //     array_push($ini, $datas['history']);
+    //     array_push($ini, $datas['igd']);
+    //     array_push($ini, $datas['ranap']);
+    //     array_push($ini, $datas['rajal']);
+    //     array_push($ini, $datas['penunjang']);
+    //     // if($datas['ranap'] != "undefined") {
+    //     //     array_push($ini, $datas['ranap']);
+    //     // }
+    //     // // return($datas['rajal']);
+    //     // // die();
+    //     // if($datas['rajal'] != "undefined") {
+    //     //     array_push($ini, $datas['rajal']);
+    //     // }
+    //     // if($datas['penunjang'] != "undefined") {
+    //     //     array_push($ini, $datas['penunjang']);
+    //     // }
+    //     // return($ini);
+    //     // die();
+    //     // foreach ($datas as $items) {
+    //     //     array_push($ini, $items);
+    //     // }
+    //     // $data = $ini;
+
+    //     $result = array(
+    //         'data' => $ini,
+    //         'message' => 'as@epic',
+    //     );
+
+    //     return $this->respond($result);
+    // }
+    //new pake mappingan
     public function getMenuRekamMedisAtuhNav(Request $request)
     {
-
+        $dataLogin = $request->all();
         $data = \DB::table('pasiendaftar_t as pd')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->select('apd.objectruanganfk')
             ->where('pd.noregistrasi', $request['noregistrasi'])
             ->where('pd.statusenabled', true)
-            ->where('apd.statusenabled', true)
-            ->get();
-
+            ->where('apd.statusenabled', true);
+            if (isset($request['norec_apd'])) {
+                $data = $data->where('apd.norec', $request['norec_apd']);
+            }
+            $data = $data->get();
+        
         $arr = [];
 
         foreach ($data as $item) {
             array_push($arr, $item->objectruanganfk);
         }
+        $cekRuangan = \DB::table('maploginusertoruangan_s')
+            ->select('*')
+            ->where('objectloginuserfk', $dataLogin['userData']['id'])
+            ->get();
+        if (count($cekRuangan) == 0) {
+            $transMessage = "User ini belum memiliki ruangan. Silahkan mapping ruangan terlebih dahulu !";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message"  => $transMessage,
+                "as" => 'as@epic',
+            );
+            return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+        }
 
         // return($arr);
         // die();
-
-        $dataRaw = \DB::table('emr_t as emr')
-            ->join('mapruangantonavigasiemr_t as mre', 'mre.objectemrfk', '=', 'emr.id')
-            ->whereIn('mre.objectruanganfk', $arr)
-            ->where('emr.namaemr', $request['namaemr'])
-            ->where('emr.statusenabled', true)
-            ->where('mre.statusenabled', true)
-            ->select(
-                'mre.objectdepartemenfk',
-                'emr.*',
-                DB::raw("CASE WHEN mre.objectdepartemenfk=16 THEN 'RAWAT INAP' WHEN  mre.objectdepartemenfk=18 THEN 'RAWAT JALAN' ELSE 'PENUNJANG' END AS kelompok ")
-            )
-            ->distinct()
-            ->orderBy('kelompok', 'emr.nourut');
-        $dataRaw = $dataRaw->get();
+        if ($dataLogin['userData']['id'] == 30015 || $dataLogin['userData']['id'] == 11 || $dataLogin['userData']['id'] == 30027 || $dataLogin['userData']['id'] == 31002 || $dataLogin['userData']['id'] == 32570 || $dataLogin['userData']['id'] == 32393) {
+            $dataRaw = \DB::table('emr_t as emr')
+                ->join('mapruangantonavigasiemr_t as mre', 'mre.objectemrfk', '=', 'emr.id')
+                // ->join('pegawai_m as pg','pg.objectjenispegawaifk', '=', 'mre.objectjenispegawaifk')
+                ->whereIn('mre.objectruanganfk', $arr)
+                ->where('emr.namaemr', $request['namaemr'])
+                ->where('emr.statusenabled', true)
+                ->where('mre.statusenabled', true)
+                ->select('mre.objectdepartemenfk', 'emr.id', 'emr.kdprofile', 'emr.statusenabled', 'emr.kodeexternal', 'emr.namaexternal',  'emr.reportdisplay', 'emr.namaemr', 'emr.caption', 'emr.headfk', 'emr.nourut',
+                    DB::raw("CASE WHEN mre.objectdepartemenfk=16 THEN 'RAWAT INAP' WHEN  mre.objectdepartemenfk=18 THEN 'RAWAT JALAN' ELSE 'PENUNJANG' END AS kelompok ")
+                )
+                ->distinct()
+                ->orderBy('kelompok', 'emr.nourut');
+            $dataRaw = $dataRaw->get();
+        } else if ($cekRuangan[0]->objectruanganfk == 698) {
+            $dataRaw = \DB::table('emr_t as emr')
+                ->join('mapruangantonavigasiemr_t as mre', 'mre.objectemrfk', '=', 'emr.id')
+                // ->join('pegawai_m as pg','pg.objectjenispegawaifk', '=', 'mre.objectjenispegawaifk')
+                ->whereIn('mre.objectruanganfk', $arr)
+                ->where('emr.namaemr', $request['namaemr'])
+                ->where('emr.statusenabled', true)
+                ->where('mre.statusenabled', true)
+                ->select('mre.objectdepartemenfk', 'emr.id', 'emr.kdprofile', 'emr.statusenabled', 'emr.kodeexternal', 'emr.namaexternal',  'emr.reportdisplay', 'emr.namaemr', 'emr.caption', 'emr.headfk', 'emr.nourut',
+                    DB::raw("CASE WHEN mre.objectdepartemenfk=16 THEN 'RAWAT INAP' WHEN  mre.objectdepartemenfk=18 THEN 'RAWAT JALAN' ELSE 'PENUNJANG' END AS kelompok ")
+                )
+                ->distinct()
+                ->orderBy('kelompok', 'emr.nourut');
+            $dataRaw = $dataRaw->get();
+        } else {
+            $dataRaw = \DB::table('emr_t as emr')
+                ->join('mapruangantonavigasiemr_t as mre', 'mre.objectemrfk', '=', 'emr.id')
+                // ->join('pegawai_m as pg','pg.objectjenispegawaifk', '=', 'mre.objectjenispegawaifk')
+                ->whereIn('mre.objectruanganfk', $arr)
+                ->where('emr.namaemr', $request['namaemr'])
+                ->where('emr.statusenabled', true)
+                ->where('mre.statusenabled', true)
+                ->where('mre.objectjenispegawaifk', $request['jenisPegawaiLogin'])
+                ->select('mre.objectdepartemenfk', 'emr.*', 'mre.objectjenispegawaifk',
+                    DB::raw("CASE WHEN mre.objectdepartemenfk=16 THEN 'RAWAT INAP' WHEN  mre.objectdepartemenfk=18 THEN 'RAWAT JALAN' ELSE 'PENUNJANG' END AS kelompok ")
+                )
+                ->distinct()
+                ->orderBy('kelompok', 'emr.nourut');
+            $dataRaw = $dataRaw->get();
+        }
         $ini = [];
-        // $datas['ranap'] = [];
-        // $datas['rajal'] = [];
-        // $datas['penunjang'] = [];
+        $datas['ranap']['child'] = [];
+        $datas['rajal']['child'] = [];
+        $datas['penunjang']['child'] = [];
+        $datas['igd']['child'] = [];
         // $ranap = [];
         // $rajal = [];
         // $penunjang = [];
@@ -6573,7 +6786,7 @@ class EMRController  extends ApiController
         $datas['penunjang']['id'] = 5;
         $datas['penunjang']['caption'] = "PENUNJANG";
         foreach ($dataRaw as $dataRaw2) {
-            if ($dataRaw2->id == 525) {
+            if($dataRaw2->id == 525) {
                 // return($dataRaw2->kdprofile);
                 // die();
                 $datas['history']['id'] = 1;
@@ -6589,7 +6802,21 @@ class EMRController  extends ApiController
                 $datas['history']['nourut'] = $dataRaw2->nourut;
                 $datas['history']['objectdepartemenfk'] = $dataRaw2->objectdepartemenfk;
                 $datas['history']['kelompok'] = $dataRaw2->kelompok;
-            } else if ($dataRaw2->objectdepartemenfk == 24 && $dataRaw2->id != 525) {
+            } else if ($dataRaw2->id == 897) {
+                $datas['dkm']['id'] = 1;
+                $datas['dkm']['caption'] = "Dokumen Rekam Medis";
+                $datas['dkm']['kdprofile'] = $dataRaw2->kdprofile;
+                $datas['dkm']['statusenabled'] = $dataRaw2->statusenabled;
+                $datas['dkm']['kodeexternal'] = $dataRaw2->kodeexternal;
+                $datas['dkm']['namaexternal'] = $dataRaw2->namaexternal;
+                $datas['dkm']['reportdisplay'] = $dataRaw2->reportdisplay;
+                $datas['dkm']['namaemr'] = $dataRaw2->namaemr;
+                $datas['dkm']['caption'] = $dataRaw2->caption;
+                $datas['dkm']['headfk'] = $dataRaw2->headfk;
+                $datas['dkm']['nourut'] = $dataRaw2->nourut;
+                $datas['dkm']['objectdepartemenfk'] = $dataRaw2->objectdepartemenfk;
+                $datas['dkm']['kelompok'] = $dataRaw2->kelompok;
+            } else if($dataRaw2->objectdepartemenfk == 24 && $dataRaw2->id != 525) {
                 $igd[] = array(
                     'id' => $dataRaw2->id,
                     'kdprofile' => $dataRaw2->kdprofile,
@@ -6606,7 +6833,7 @@ class EMRController  extends ApiController
                 );
                 $datas['igd']['child'] = $igd;
                 // array_push($ini, $datas['ranap']);
-            } else if ($dataRaw2->objectdepartemenfk == 16 && $dataRaw2->id != 525) {
+            } else if($dataRaw2->objectdepartemenfk == 16 && $dataRaw2->id != 525) {
                 $ranap[] = array(
                     'id' => $dataRaw2->id,
                     'kdprofile' => $dataRaw2->kdprofile,
@@ -6623,7 +6850,7 @@ class EMRController  extends ApiController
                 );
                 $datas['ranap']['child'] = $ranap;
                 // array_push($ini, $datas['ranap']);
-            } else if ($dataRaw2->objectdepartemenfk == 18 && $dataRaw2->id != 525) {
+            } else if($dataRaw2->objectdepartemenfk == 18 || $dataRaw2->objectdepartemenfk == 79 && $dataRaw2->id != 525) {
                 $rajal[] = array(
                     'id' => $dataRaw2->id,
                     'kdprofile' => $dataRaw2->kdprofile,
@@ -6639,7 +6866,7 @@ class EMRController  extends ApiController
                     'kelompok' => $dataRaw2->kelompok
                 );
                 $datas['rajal']['child'] = $rajal;
-            } else if ($dataRaw2->id != 525) {
+            } else if($dataRaw2->id != 525) {
                 $penunjang[] = array(
                     'id' => $dataRaw2->id,
                     'kdprofile' => $dataRaw2->kdprofile,
@@ -6657,25 +6884,24 @@ class EMRController  extends ApiController
                 $datas['penunjang']['child'] = $penunjang;
             }
         }
-
-        array_push($ini, $datas['history']);
-        array_push($ini, $datas['igd']);
-        array_push($ini, $datas['ranap']);
-        array_push($ini, $datas['rajal']);
-        array_push($ini, $datas['penunjang']);
-        // if($datas['ranap'] != "undefined") {
-        //     array_push($ini, $datas['ranap']);
-        // }
-        // // return($datas['rajal']);
-        // // die();
-        // if($datas['rajal'] != "undefined") {
-        //     array_push($ini, $datas['rajal']);
-        // }
-        // if($datas['penunjang'] != "undefined") {
-        //     array_push($ini, $datas['penunjang']);
-        // }
-        // return($ini);
-        // die();
+        array_push($ini, $datas['dkm']);
+        array_push($ini, $datas['history']); //yang histori ini dipatok ya wajib ada sisanya yang bawahnya klo kosong dia gak muncul
+        // array_push($ini, $datas['igd']); // pindah kebawah yaa jadi yang ada isinya aja yang dimunculin
+        // array_push($ini, $datas['ranap']);
+        // array_push($ini, $datas['rajal']);
+        // array_push($ini, $datas['penunjang']);
+        if($datas['igd']['child'] != null) {
+            array_push($ini, $datas['igd']);
+        }
+        if($datas['ranap']['child'] != null) {
+            array_push($ini, $datas['ranap']);
+        }
+        if($datas['rajal']['child'] != null) {
+            array_push($ini, $datas['rajal']);
+        }
+        if($datas['penunjang']['child'] != null) {
+            array_push($ini, $datas['penunjang']);
+        }
         // foreach ($datas as $items) {
         //     array_push($ini, $items);
         // }
@@ -6688,6 +6914,7 @@ class EMRController  extends ApiController
 
         return $this->respond($result);
     }
+
     public function getMenuRekamMedisAtuhv2(Request $request)
     {
 
@@ -27060,7 +27287,10 @@ WHERE rm.norec = '$norec_resume'
                     ->where('ru.statusenabled', true)
                     ->get();
                 foreach ($ruangan as $haha) {
+                    $lastId = DB::table('mapruangantonavigasiemr_t')->max('id');
+                    $newId = $lastId ? $lastId + 1 : 1; 
                     $values = array (
+                        "id" => $newId,
                         "objectemrfk" => $request['emr'],
                         "objectdepartemenfk" => $request['instalasiEmr'],
                         "objectruanganfk" => $request['ruangan'],
