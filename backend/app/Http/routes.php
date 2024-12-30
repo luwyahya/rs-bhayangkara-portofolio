@@ -1390,6 +1390,10 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-laporan-sudah-isi-pengkajian-medis-ri', 'EMR\EMRController@getLaporanPengkajianMedisRI');
                 Route::get('get-laporan-sudah-isi-resume-medis-rj', 'EMR\EMRController@getLaporanResumeRJ');
                 Route::get('get-laporan-sudah-isi-resume-medis-rj-detail', 'EMR\EMRController@getLaporanSudahIsiResumeMedisRJDetail');
+                Route::get('get-laporan-sudah-isi-resume-medis-rj', 'EMR\LaporanEMRController@getLaporanResumeRJ');
+                Route::get('get-laporan-sudah-isi-resume-medis-rj-detail', 'EMR\LaporanEMRController@getLaporanSudahIsiResumeMedisRJDetail');
+                Route::get('get-laporan-sudah-isi-resume-medis-ri', 'EMR\LaporanEMRController@getLaporanResumeRI');
+                Route::get('get-laporan-sudah-isi-resume-medis-ri-detail', 'EMR\LaporanEMRController@getLaporanSudahIsiResumeMedisRIDetail');
             });
         });
         Route::post('cp/save-cp-dinamis', 'ClinicalPathway\CPController@SaveTransaksiCP');
@@ -2934,7 +2938,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-ruangan-data', 'Registrasi\LaporanRegistrasiController@saveRuanganData');
                 Route::post('save-edit-ruangan', 'Registrasi\LaporanRegistrasiController@saveEditRuangan');
                 Route::post('save-delete-ruangan', 'Registrasi\LaporanRegistrasiController@saveDeleteRuangan');
-                Route::get('get-laporan-sudah-isi-triase-igd', 'Registrasi\LaporanRegistrasiController@GetLaporanTriaseIgd');
+               
 
                 Route::get('get-data-combo-tindakan', 'Registrasi\LaporanRegistrasiController@getTindakan');
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');
@@ -2943,6 +2947,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-laporan-sudah-isi-cppt-emr', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPT');
                 Route::get('get-laporan-sudah-isi-cppt-emr-new', 'Registrasi\LaporanRegistrasiController@GetLaporanCPPTNew');
                 Route::get('get-laporan-sudah-isi-cppt-emr-new-2', 'Registrasi\LaporanRegistrasiController@getLaporanCpptNew2');
+                Route::get('get-laporan-sudah-isi-triase-igd', 'Registrasi\LaporanRegistrasiController@GetLaporanTriaseIgd');
 
                 Route::get('get-produk-mapping-rl', 'Registrasi\LaporanRekamMedisController@getProdukMapLaporanRL');
                 Route::get('get-mapping-rl', 'Registrasi\LaporanRekamMedisController@getMapLaporanRL');
