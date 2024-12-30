@@ -2934,6 +2934,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::post('save-ruangan-data', 'Registrasi\LaporanRegistrasiController@saveRuanganData');
                 Route::post('save-edit-ruangan', 'Registrasi\LaporanRegistrasiController@saveEditRuangan');
                 Route::post('save-delete-ruangan', 'Registrasi\LaporanRegistrasiController@saveDeleteRuangan');
+                Route::get('get-laporan-sudah-isi-triase-igd', 'Registrasi\LaporanRegistrasiController@GetLaporanTriaseIgd');
 
                 Route::get('get-data-combo-tindakan', 'Registrasi\LaporanRegistrasiController@getTindakan');
                 Route::get('get-data-combo-tindakan-all', 'Registrasi\LaporanRegistrasiController@getTindakanAll');

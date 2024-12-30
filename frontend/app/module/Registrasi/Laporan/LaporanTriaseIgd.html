@@ -1,0 +1,125 @@
+<style>
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    .k-window-content .k-content {
+        overflow: none
+    }
+
+    legend {
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .effect-shadow {
+        -webkit-box-shadow: 2px 2px 5px #b6b6b6;
+        -moz-box-shadow: 2px 2px 5px #b6b6b6;
+        box-shadow: 2px 2px 5px #b6b6b6;
+    }
+
+    .warnaa {
+        color: black
+    }
+
+    hr {
+        border: 1px solid black;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display: inline-block;
+        width: 100%;
+    }
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    h1 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+
+    h2 {
+        color: black;
+        display: block;
+        font-size: 14px;
+        margin-block-start: 0px;
+        margin-block-end: 0;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+        font-weight: bold;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Laporan Data Sudah isi Triase Instalasi Gawat Darurat (IGD)</div>
+    </div>
+    <div class="panel panel-default panel-white" ng-hide="isMasuk">
+        <fieldset class="effect-shadow" style=" border-radius: 4px">
+            <legend id="filterData">
+                <a ng-click="showAndHide()">
+                    <h2><span class="fa fa-plus warnaa">
+                        </span> &nbsp;Pencarian</h2>
+                </a>
+            </legend>
+            <div class="grid_12" id="contentPencarian">
+                <div class="grid_12">
+                    <div class="grid_4">
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal Awal"></label>
+                            <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        <div class="grid_6">
+                            <label c-label item="item" c-label-text="Tanggal Akhir"></label>
+                            <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker
+                                placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+                        </div>
+                        
+                    </div>                   
+                    <div class="grid_4" style="margin-top: 20px;">
+                        <div class="grid_6">
+                            <button class="c-button"  ng-click="cariFilter()">Cari</button>
+                        </div>
+                    </div>
+                    <div class="grid_6">                       
+                    </div>
+                   
+                </div>                
+            </div>
+        </fieldset>
+
+        <!-- Tabel Hasil Pencarian -->
+        <div class="grid_12">
+             <div class="grid_12 borderBox">
+                <div id="kGrid" 
+                kendo-grid k-data-source="dataGrid" 
+                k-selectable="'row'" 
+                options="columnGrid"                        
+                k-pageable="'true'" 
+                k-sortable="'true'" 
+                k-ng-model="dataSelected">
+                </div>
+            </div> 
+        </div>        
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>
+</div>

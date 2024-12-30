@@ -3125,6 +3125,10 @@
         {
             "nameDep": "LaporanCpptRICtrl",
             "urlDep": "module/EMR/Laporan/LaporanCpptRICtrl"
+        },
+        {
+            "nameDep": "LaporanTriaseIgdCtrl",
+            "urlDep": "module/Registrasi/Laporan/LaporanTriaseIgdCtrl"
         }
     ]
 }

@@ -6646,4 +6646,71 @@ class LaporanRegistrasiController extends  App\Http\Controllers\ApiController
         );
         return $this->respond($result);
     }
+    public function GetLaporanTriaseIgd(Request $request) 
+    {
+        $data = DB::select(DB::raw("
+        select * FROM   emrpasien_t
+        WHERE        (jenisemr = 'triaseigd') AND (tglregistrasi BETWEEN '$request[tglAwal]' AND '$request[tglAkhir]') AND (namaruangan = 'Instalasi Gawat Darurat (IGD)' OR namaruangan = 'IGD UMUM')
+        "));
+        // return $data;
+        if (count($data) > 0) {
+            $details = DB::select(
+                DB::raw("SELECT SUM(JumlahIsi) AS JumlahIsi, namaruangan, SUM(JumlahKunjungan) AS JumlahKunjungan
+                FROM (
+                    SELECT COUNT(DISTINCT namapasien) AS JumlahIsi, namaruangan, NULL AS JumlahKunjungan
+                    FROM emrpasien_t
+                    WHERE (jenisemr = 'triaseigd') 
+                        AND (tglregistrasi BETWEEN '$request[tglAwal]' AND '$request[tglAkhir]') 
+                        AND (namaruangan = 'Instalasi Gawat Darurat (IGD)'OR namaruangan = 'IGD UMUM')
+                    GROUP BY namaruangan
+                    UNION ALL
+                    SELECT NULL AS JumlahIsi, ru.namaruangan, COUNT(apd.norec) AS JumlahKunjungan
+                    FROM antrianpasiendiperiksa_t AS apd 
+                    LEFT OUTER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk 
+                    LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk 
+                    LEFT OUTER JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk 
+                    LEFT OUTER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganasalfk
+                    WHERE (pd.statusenabled = '1') 
+                        AND (apd.statusenabled = '1') 
+                        AND (apd.tglregistrasi BETWEEN '$request[tglAwal]' AND '$request[tglAkhir]') 
+                        AND (ru.id = '569')
+                    GROUP BY ru.namaruangan
+                ) AS X
+                GROUP BY namaruangan")
+            );
+        } else {
+            $details = DB::select(
+                DB::raw("SELECT SUM(JumlahIsi) AS JumlahIsi, namaruangan, SUM(JumlahKunjungan) AS JumlahKunjungan
+                FROM (
+                    SELECT COUNT(DISTINCT namapasien) AS JumlahIsi, namaruangan, NULL AS JumlahKunjungan
+                    FROM emrpasien_t
+                    WHERE (jenisemr = 'triaseigd') 
+                        AND (tglregistrasi BETWEEN '$request[tglAwal]' AND '$request[tglAkhir]') 
+                        AND (namaruangan = 'Instalasi Gawat Darurat (IGD)')
+                    GROUP BY namaruangan
+                    UNION ALL
+                    SELECT NULL AS JumlahIsi, ru.namaruangan, COUNT(apd.norec) AS JumlahKunjungan
+                    FROM antrianpasiendiperiksa_t AS apd 
+                    LEFT OUTER JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk 
+                    LEFT OUTER JOIN rekanan_m AS rk ON rk.id = pd.objectrekananfk 
+                    LEFT OUTER JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk 
+                    LEFT OUTER JOIN ruangan_m AS ru2 ON ru2.id = apd.objectruanganasalfk
+                    WHERE (pd.statusenabled = '1') 
+                        AND (apd.statusenabled = '1') 
+                        AND (apd.tglregistrasi BETWEEN '$request[tglAwal]' AND '$request[tglAkhir]') 
+                        AND (ru.id = '569')
+                    GROUP BY ru.namaruangan
+                ) AS X
+                GROUP BY namaruangan")
+            );
+        }
+        
+    //   return
+        $result = array(
+            'data' => $details,           
+            'message' => 'Kholid.s',
+        );
+
+        return $this->respond($result);
+    }
 }
