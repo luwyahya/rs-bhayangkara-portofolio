@@ -23019,7 +23019,7 @@ FROM
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ep.namapasien', 'ep.nocm', 'ep.noregistrasifk as noregistrasi', 'ep.namaruangan', 'te.hasilpemeriksaan')
             ->where('te.statusenabled', true)
-            ->whereIn('ru.objectdepartemenfk', [18, 28, 79])
+            // ->whereIn('ru.objectdepartemenfk', [18, 28, 79])
             ->where('te.profesi', '<>', 'Dokter')
             ->where('ep.emrfk', 518);
         if (isset($request['tglAwal']) && $request['tglAwal'] != '' && $request['tglAwal'] != 'undefined') {
@@ -23039,6 +23039,7 @@ FROM
     }
     public function getTotalPasienCppt(Request $request)
     {
+        return $request['namaruangan'];
         $data = DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
