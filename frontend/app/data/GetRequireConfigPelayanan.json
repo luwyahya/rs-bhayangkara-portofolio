@@ -3141,6 +3141,10 @@
         {
             "nameDep": "LaporanResumeMedisIGDCtrl",
             "urlDep": "module/EMR/Laporan/LaporanResumeMedisIGDCtrl"
+        },
+        {
+            "nameDep": "MappingEmrToRuanganCtrl",
+            "urlDep": "module/EMR/MappingEmrToRuanganCtrl"
         }
     ]
 }
