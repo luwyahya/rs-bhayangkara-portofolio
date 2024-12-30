@@ -1,0 +1,72 @@
+<style>
+	#myProgress {
+	  width: 100%;
+	  background-color: #ddd;
+	}
+    #myBar {
+	  width: 0%;
+	  height: 30px;
+	  background-color: pink;
+	  text-align: center;
+	}
+</style>
+<div class="grid_12">
+    <div class="panel panel-default container_12">
+        <div class="panel-heading" c-translate>Daftar Pasien Antrol</div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_4">
+            <div class="grid_12">
+                <label c-label item="item">Periode Registrasi</label>
+            </div>
+            <div class="grid_6">
+                <input style="width: 100%" k-ng-model="item.tglAwal" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+            <div class="grid_6">
+                <input style="width: 100%" k-ng-model="item.tglAkhir" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+            </div>
+        </div>
+        <div class="grid_2" style="margin-top: 0.2%;">
+            <label c-label item="item">Task ID</label>
+            <input style="width: 100%;" kendo-combo-box k-ng-model="item.taskId" k-data-text-field="'taskid'"
+                k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listTaskId" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.2%;">
+            <label c-label item="item">Noregistrasi</label>
+            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.2%;">
+            <label c-label item="item">No CM</label>
+            <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.nocm" />
+        </div>
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <button class="btnTemplate1" ng-click="search()"><i class="fa fa-search"></i>Cari</button>
+        </div>
+    </div>
+    <div class="grid_12" style="margin-top:10px">
+        <div class="grid_12 headerBox">
+            <p>Data Laporan</p>
+        </div>
+        <div class="clear"></div>
+
+        <!-- grid table --> 
+        <div class="grid_12 borderBox">
+            <kendo-grid id="kGrid" data-source="dataPasienAntrol" options="columnPasienAntrol"
+            k-selectable="'row'" k-sortable="'true'" k-resizable="'true'" k-ng-model="dataPasienSelected"
+            ng-click="klik(dataPasienSelected)"></kendo-grid>
+        </div>
+    </div>
+    <!-- <div class="grid_12" id="myProgress">
+        <div id="myBar"></div>
+    </div> -->
+    <div class="grid_12">
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="kirimUlang()"><i class="fa fa-undo"></i>Kirim Ulang Antrol</button>
+        </div>
+    </div>
+</div>
+<div class="grid_12" style="margin-top:60px">
+    <div ng-include='"../app/template/Shared/TemplateLoading"'></div>
+</div>

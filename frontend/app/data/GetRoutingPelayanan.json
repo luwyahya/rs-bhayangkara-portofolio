@@ -16792,6 +16792,44 @@
     ]
 }, 
 {
+    "name": "RGFmdGFyUmVnaXN0cmFzaVBhc2llbk9wZXJhdG9yQW50cm9s",
+    "url": "/RGFmdGFyUmVnaXN0cmFzaVBhc2llbk9wZXJhdG9yQW50cm9s",
+    "templateurl": "module/Registrasi/DaftarRegistrasiPasienOperatorAntrol.html",
+    "controller": "DaftarRegistrasiPasienOperatorAntrolCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+},
+{
+    "name": "DaftarPasienAntrol",
+    "url": "/DaftarPasienAntrol",
+    "templateurl": "module/Registrasi/DaftarPasienAntrol.html",
+    "controller": "DaftarPasienAntrolCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+},
+{
     "name": "LaporanResumeMedisIGD",
     "url": "/LaporanResumeMedisIGD",
     "templateurl": "module/EMR/Laporan/LaporanResumeMedisIGD.html",

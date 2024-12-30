@@ -2821,6 +2821,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-ttd-ppa', 'Registrasi\RegistrasiController@deleteTtdPpa');
             Route::get('get-ttd-ppa-1', 'Registrasi\RegistrasiController@getTtdPpa');
             Route::post('save-ttd-ppa', 'Registrasi\RegistrasiController@saveTandaTanganPpa');
+            Route::get('get-pasien-antrol', 'Registrasi\RegistrasiController@getPasienAntrol');
 
             Route::group(['prefix' => 'daftar-registrasi'], function () {
                 // 2019-12 penambahan arif awal                
@@ -2863,6 +2864,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-rm-pp', 'Registrasi\RegistrasiController@getDaftarRMPp');
                 Route::get('get-daftar-bedah-pp', 'Registrasi\RegistrasiController@getDaftarBedahPp');
                 Route::get('get-daftar-tahun-pajak', 'Registrasi\RegistrasiController@getDaftarTahunPajak');
+                Route::get('get-daftar-registrasi-pasien-antrol', 'Registrasi\RegistrasiController@r');
             });
             Route::group(['prefix' => 'dokumenrm'], function () {
                 Route::get('get-pasien-by-nocm', 'Registrasi\KendaliDokumenRMController@getPasienByNoCm');

@@ -24845,4 +24845,210 @@ GROUP BY y.KET
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function getDaftarRegistrasiPasienOperatorAntrol(Request $request)
+    {
+        ini_set('max_execution_time', 50000); //6 minuts
+        $filter = $request->all();
+
+        $data = \DB::table('pasiendaftar_t as pd')
+            ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')                       
+            ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+            ->join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')           
+            ->join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+            ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')             
+            ->leftjoin('rekanan_m as rek', 'rek.id', '=', 'pd.objectrekananfk')
+            ->leftjoin('asuransipasien_m as asu', 'pa.objectasuransipasienfk', '=', 'asu.id')     
+            ->leftjoin('statuspulang_m as spp', 'spp.id', '=', 'pd.objectstatuspulangfk')          
+            ->select(
+                'pd.norec',
+                'pd.statusenabled',             
+                'pd.tglregistrasi',
+                'ps.nocm',
+                'pd.nocmfk',
+                'pd.noregistrasi',
+                'ru.namaruangan',
+                'ps.namapasien',
+                'kp.kelompokpasien',
+                'rek.namarekanan',
+                'pg.namalengkap as namadokter',
+                'pd.tglpulang',
+                'pd.statuspasien',
+                'pa.norec as norec_pa',
+                'pa.objectasuransipasienfk',
+                'pd.objectpegawaifk as pgid',
+                'pd.objectruanganlastfk',
+                'pa.nosep as nosep',               
+                'pd.nostruklastfk',               
+                'ps.tgllahir',
+                'ru.objectdepartemenfk',
+                'pd.objectkelasfk',
+                'dept.id as deptid',
+                'pa.ppkrujukan',
+                'pd.istelemedicine',                
+                'ps.noidentitas',
+                'pd.objectkelompokpasienlastfk',
+                'spp.statuspulang',
+                'pd.kodebookingantrol',
+                'pd.isfinger',
+                'ps.notelepon',               
+                'pd.statusschedule',
+                'pa.hasilbridging'
+                // DB::raw("CASE 
+                //         WHEN pa.hasilbridging = '1' THEN 'TM' 
+                //         WHEN pa.hasilbridging = '0' THEN 'VCLAIM' 
+                //         ELSE '-' 
+                //         END AS asalsep")                
+            )
+            ->where('dept.id', 18)
+            ->where('pd.statusenabled', true);
+
+
+        
+        $data = $data->where('pd.tglregistrasi', '>=', $filter['tglAwal']);
+        $data = $data->where('pd.tglregistrasi', '<=', $filter['tglAkhir']);
+        $data = $data->orderBy('pd.noregistrasi');       
+        $data = $data->get();
+
+        foreach ($data as $key => $value) {           
+                $antrol = \DB::table('sendtaskantrol_t')
+                ->where('noreservasi', $value->noregistrasi)
+                ->wherenull('taskid')
+                ->orderby('tglinsert','asc')
+                ->select('response')
+                ->first();
+                if (!empty($antrol)) {
+                    foreach ($antrol as $key2) { 
+                        $value->response = $key2;
+                    }
+                } else {
+                    $value->response = '-';
+                }
+                
+                $antrol2 = \DB::table('sendtaskantrol_t')
+                    ->where('noreservasi', $value->noregistrasi)
+                    ->whereNotNull('taskid')
+                    ->orderby('taskid','desc')
+                    ->select('response','taskid')
+                    ->take(1)
+                    ->get();
+                if (!empty($antrol2)) {
+                    foreach ($antrol2 as $itemxx) {  
+                        $value->responselast = $itemxx->taskid.' '. $itemxx->response;
+                    }
+                } else {
+                    $value->responselast = '-';
+                }            
+          
+        }
+
+        // for ($i = count($data2) - 1; $i >= 0; $i--) {
+        //     if (isset($filter['isnotdiagnosis']) && $filter['isnotdiagnosis'] != "" && $filter['isnotdiagnosis'] != "undefined" && $filter['isnotdiagnosis'] != 'false' && $data2[$i]->isdiagnosis == true) {
+        //         array_splice($data2, $i, 1);
+        //     }
+        // }
+/*
+        $data = DB::select(DB::raw("
+                    select distinct
+                    pd.norec ,
+                    pd.statusenabled ,             
+                    pd.tglregistrasi ,
+                    ps.nocm ,
+                    pd.nocmfk ,
+                    pd.noregistrasi ,
+                    ru.namaruangan ,
+                    ps.namapasien ,
+                    kp.kelompokpasien ,
+                    rek.namarekanan ,
+                    pg.namalengkap as namadokter ,
+                    pd.tglpulang ,
+                    pd.statuspasien ,
+                    pa.norec as norec_pa ,
+                    pa.objectasuransipasienfk ,
+                    pd.objectpegawaifk as pgid ,
+                    pd.objectruanganlastfk ,
+                    pa.nosep as nosep ,               
+                    pd.nostruklastfk ,               
+                    ps.tgllahir ,
+                    ru.objectdepartemenfk ,
+                    pd.objectkelasfk ,
+                    dept.id as deptid ,
+                    pa.ppkrujukan ,
+                    pd.istelemedicine ,                
+                    ps.noidentitas ,
+                    pd.objectkelompokpasienlastfk ,
+                    spp.statuspulang ,
+                    pd.kodebookingantrol ,
+                    pd.isfinger ,
+                    ps.notelepon ,               
+                    pd.statusschedule ,
+                    pa.hasilbridging,
+                    case when sta.taskid IS NULL then '-' else sta.response end as response,
+                    case when sta.taskid IS NOT NULL then CONCAT(sta.taskid,' ',sta.response) else '-'  end as responselast
+
+                from pasiendaftar_t as pd 
+                    join pasien_m as ps on ps.id= pd.nocmfk                        
+                    join ruangan_m as ru on ru.id= pd.objectruanganlastfk 
+                    left join pegawai_m as pg on pg.id= pd.objectpegawaifk 
+                    join kelompokpasien_m as kp on kp.id= pd.objectkelompokpasienlastfk            
+                    join departemen_m as dept on dept.id= ru.objectdepartemenfk 
+                    left join pemakaianasuransi_t as pa on pa.noregistrasifk= pd.norec              
+                    left join rekanan_m as rek on rek.id= pd.objectrekananfk 
+                    left join asuransipasien_m as asu on pa.objectasuransipasienfk= asu.id      
+                    left join statuspulang_m as spp on spp.id= pd.objectstatuspulangfk        
+                    left join sendtaskantrol_t as sta on sta.noreservasi= pd.noregistrasi              
+                    
+                    where dept.id = 18 and pd.statusenabled=1 
+                    and pd.tglregistrasi between '".$filter['tglAwal']."' and '".$filter['tglAkhir']."'
+                    order by pd.noregistrasi
+                "));*/
+
+        return $this->respond($data);
+    }
+    public function getPasienAntrol(Request $request) {
+        $tglAwal = $request['tglAwal'];
+        $tglAkhir = $request['tglAkhir'];
+        $taskId = "";
+        $noregistrasi = "";
+        $nocm = "";
+        if (isset($request['taskId']) && $request['taskId'] != "undefined" && $request['taskId'] != "null" && $request['taskId'] != "") {
+            $taskId = ' and pd.istaskantrol = ' . $request['taskId'];
+        }
+        if (isset($request['noregistrasi']) && $request['noregistrasi'] != "undefined" && $request['noregistrasi'] != "null" && $request['noregistrasi'] != "") {
+            $noregistrasi = ' and pd.noregistrasi = ' . $request['noregistrasi'];
+        }
+        if (isset($request['nocm']) && $request['nocm'] != "undefined" && $request['nocm'] != "null" && $request['nocm'] != "") {
+            $nocm = ' and ps.nocm = ' . $request['nocm'];
+        }
+        $data = DB::select(DB::raw("
+        select * from (select pd.norec, pd.noregistrasi, pd.kodebookingantrol, ps.nocm, ps.namapasien, ru.namaruangan, pa.nosep, pg.namalengkap, pd.istaskantrol, pd.tglregistrasi, s.tglinsert,
+        row_number() over (partition by s.noreservasi order by s.taskid asc, s.tglinsert desc) as rownum, pd.responseantrol, s.response
+        from pasiendaftar_t as pd inner join
+        pasien_m as ps on ps.id = pd.nocmfk inner join
+        ruangan_m as ru on ru.id = pd.objectruanganlastfk left join
+        pemakaianasuransi_t as pa on pa.noregistrasifk = pd.norec left join
+        pegawai_m as pg on pg.id = pd.objectdokterpemeriksafk inner join
+        sendtaskantrol_t as s on s.noreservasi = pd.kodebookingantrol and s.taskid = pd.istaskantrol
+        where pd.tglregistrasi between '$tglAwal' and '$tglAkhir' and pd.statusenabled = true and pd.objectkelompokpasienlastfk = 2 and pd.istaskantrol is not null $taskId $noregistrasi $nocm
+        ) as x
+        where x.rownum = 1
+        "));
+        foreach ($data as $item) {
+            $cekObat = DB::table('antrianpasiendiperiksa_t as apd')
+                ->join('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                ->select('pp.isobat')
+                ->where('apd.statusenabled', true)
+                ->where('pp.statusenabled', true)
+                ->whereNotNull('pp.isobat')
+                ->where('apd.noregistrasifk', $item->norec)
+                ->get();
+            if (count($cekObat) > 0) {
+                $item->isobat = true;
+            } else {
+                $item->isobat = false;
+            }
+        }
+
+        return $this->respond($data);
+    }
 }

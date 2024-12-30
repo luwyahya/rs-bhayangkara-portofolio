@@ -53,7 +53,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'apd.objectruanganasalfk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+            ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
             ->select('pd.noregistrasi', 'pd.norec as norec_pd', 'pd.objectruanganlastfk', 'apd.norec as norec_apd', 'apd.objectruanganasalfk', 'apd.objectruanganfk', 'ru.namaruangan',
             'ru2.namaruangan as namaruanganasal')
             ->where('apd.statusenabled', true)
@@ -148,7 +148,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 );
             }
         }
-        $detail = \DB::table('emrpasiennew_t as ep')
+        $detail = \DB::table('emrpasien_t as ep')
             ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -269,7 +269,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 }
                 $data = $data->get();
 
-                $emr = DB::table('emrpasiennew_t as ep')
+                $emr = DB::table('emrpasien_t as ep')
                     ->select('noregistrasifk')
                     ->where('emrfk', 518);
         
@@ -301,7 +301,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                     }
                 }
         } else if ($request['setParam'] == 2) {
-            $data1 = \DB::table('emrpasiennew_t as ep')
+            $data1 = \DB::table('emrpasien_t as ep')
             ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -360,7 +360,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
         $data = $data1->union($data2)->orderBy('ep.namapasien', 'asc')->get();
 
         } else if ($request['setParam'] == 3) {
-            $data1 = \DB::table('emrpasiennew_t as ep')
+            $data1 = \DB::table('emrpasien_t as ep')
             ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -420,7 +420,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
         $data = $data1->union($data2)->orderBy('ep.namapasien', 'asc')->get();
         
         } else if ($request['setParam'] == 4) {
-            $data = \DB::table('emrpasiennew_t as ep')
+            $data = \DB::table('emrpasien_t as ep')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->select('ep.namapasien', 'ep.nocm', 'ep.noregistrasifk as noregistrasi', 'ep.namaruangan')
@@ -535,7 +535,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $data = $data->orderBy('ps.namapasien', 'asc');
             $data = $data->get();
         } else if ($request['setParam'] == 8) {
-            $data1 = \DB::table('emrpasiennew_t as ep')
+            $data1 = \DB::table('emrpasien_t as ep')
             ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -623,7 +623,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             }
         }
         
-        $data2 = \DB::table('emrpasiennew_t as ep')
+        $data2 = \DB::table('emrpasien_t as ep')
             ->join('emr_t as e', 'e.id', '=', 'ep.emrfk')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -670,7 +670,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
         // $query1 = $query1->groupBy('ep.namapasien', 'ep.nocm', 'ep.noregistrasifk', 'ep.namaruangan', 'ru.id')
         //     ->orderBy('ru.id', 'asc');
         
-        $query2 = \DB::table('emrpasiennew_t as ep')
+        $query2 = \DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
@@ -747,7 +747,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                         }
                     } 
                     // $emr = $emr->get();
-                $emr2 = DB::table('emrpasiennew_t as ep')
+                $emr2 = DB::table('emrpasien_t as ep')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->select('ep.noregistrasifk')
@@ -830,7 +830,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                         $emr = $emr->where('ep.namaruangan', '=', $request['namaruangan']);
                     } 
                     // $emr = $emr->get();
-                $emr2 = DB::table('emrpasiennew_t as ep')
+                $emr2 = DB::table('emrpasien_t as ep')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->select('ep.noregistrasifk')
@@ -909,7 +909,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                     $emr = $emr->where('ep.namaruangan', '=', $request['namaruangan']);
                 } 
                 // $emr = $emr->get();
-            $emr2 = DB::table('emrpasiennew_t as ep')
+            $emr2 = DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ep.noregistrasifk')
@@ -947,7 +947,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $data = $dataBaru;
         
         } else if ($request['setParam'] == 14) {
-            $data = \DB::table('emrpasiennew_t as ep')
+            $data = \DB::table('emrpasien_t as ep')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->select('ep.namapasien', 'ep.nocm', 'ep.noregistrasifk as noregistrasi', 'ep.namaruangan')
@@ -1038,7 +1038,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                     $emr = $emr->where('ep.namaruangan', '=', $request['namaruangan']);
                 } 
                 // $emr = $emr->get();
-            $emr2 = DB::table('emrpasiennew_t as ep')
+            $emr2 = DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ep.noregistrasifk', 'apd.norec')
@@ -1153,7 +1153,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             }
         }
 
-        $detail = \DB::table('emrpasiennew_t as ep')
+        $detail = \DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'ep.norec_apd', '=', 'apd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ru.namaruangan', 'ep.noemr', 'ep.noregistrasifk')
@@ -1439,7 +1439,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
         $detail1 = $detail1->where('apd.tglmasuk', '<=', $request['tglAkhir']);
         }
 
-        $detail2 = \DB::table('emrpasiennew_t as ep')
+        $detail2 = \DB::table('emrpasien_t as ep')
                 ->join('tempemr_t as te', 'te.emrpasienfk', '=', 'ep.noemr')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -1551,7 +1551,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             }
         }
      
-        // $detail = \DB::table('emrpasiennew_t as ep')
+        // $detail = \DB::table('emrpasien_t as ep')
         //     ->join('emr_t as e', 'e.id', '=', 'ep.emrfk')
         //     ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
         //     ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -1580,7 +1580,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
         $detail1 = $detail1->where('apd.tglregistrasi', '<=', $request['tglAkhir']);
         }
 
-        $detail2 = \DB::table('emrpasiennew_t as ep')
+        $detail2 = \DB::table('emrpasien_t as ep')
                 ->join('emr_t as e', 'e.id', '=', 'ep.emrfk')
                 ->join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'ep.norec_apd')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
@@ -1709,7 +1709,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 );
             }
         }
-        $detail = \DB::table('emrpasiennew_t as ep')
+        $detail = \DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'ep.norec_apd', '=', 'apd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ru.namaruangan', 'ep.norec_apd')
@@ -1873,7 +1873,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+            ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
             ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
             ->where('pd.statusenabled', true) 
             ->whereNotNull('pd.tglpulang')
@@ -2020,7 +2020,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
-                ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+                ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
                 ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                 ->where('pd.statusenabled', true)
                 ->whereNotNull('pd.tglpulang')
@@ -2108,7 +2108,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'apd.objectpegawaifk')
-                ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+                ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
                 ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                 ->where('pd.statusenabled', true)
                 ->whereNotNull('pd.tglpulang')
@@ -2370,7 +2370,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
                 ->leftJoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                 // ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
-                ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+                ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
                 ->select(
                     'p.nocm',
                     'pd.noregistrasi',
@@ -2551,7 +2551,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                     ->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
                     ->leftJoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                    ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+                    ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
                     ->select(
                         'p.nocm',
                         'pd.noregistrasi',
@@ -2681,7 +2681,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                     ->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
                     ->leftJoin('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                    ->leftJoin('emrpasiennew_t as ep', 'ep.norec_apd', '=', 'apd.norec')
+                    ->leftJoin('emrpasien_t as ep', 'ep.norec_apd', '=', 'apd.norec')
                     ->select(
                         'p.nocm',
                         'pd.noregistrasi',
@@ -2842,7 +2842,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -2985,7 +2985,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                 ->whereIn('ru.objectdepartemenfk', [16])
                 ->whereNotNull('pd.tglpulang')
@@ -3083,7 +3083,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-                ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+                ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
                 ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                     ->whereIn('ru.objectdepartemenfk', [16])
                     ->whereNotNull('pd.tglpulang')
@@ -3607,7 +3607,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             }
         }
 
-        $detail = \DB::table('emrpasiennew_t as ep')
+        $detail = \DB::table('emrpasien_t as ep')
             ->join('antrianpasiendiperiksa_t as apd', 'ep.norec_apd', '=', 'apd.norec')
             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
             ->select('ru.namaruangan', 'ep.noemr', 'ep.noregistrasifk')
@@ -3758,7 +3758,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -3905,7 +3905,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -4052,7 +4052,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -4209,7 +4209,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
             ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                 ->whereNotNull('pd.tglpulang')
                 ->where('pd.statusenabled', true);
@@ -4325,7 +4325,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-                ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+                ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
                 ->select('ps.nocm', 'pd.noregistrasi', 'ps.namapasien', 'ru.namaruangan', 'pg.namalengkap')
                     ->whereNotNull('pd.tglpulang')
                     ->where('pd.statusenabled', true);
@@ -4450,7 +4450,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 ->wherein('ep.jenisemr', ['asesmen', 'pengkajianawalmata','pengkajianawaljiwa','Poli Endokrin','Poli Penyakit Dalam', 'laporananestesi', 'pengkajianawalkebidanan']) 
                 ->where('pd.statusenabled', true);
         }else{
-            $data =  \DB::table('emrpasiennew_t as ep')
+            $data =  \DB::table('emrpasien_t as ep')
             ->leftJoin('pasiendaftar_t as pd', 'pd.noregistrasi', '=', 'ep.noregistrasifk')
             ->join('ruangan_m as ru', 'ru.namaruangan', '=', 'ep.namaruangan')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
@@ -4535,7 +4535,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
                 $dataPulang = $dataPulang->get();
            
 
-                $data =  \DB::table('emrpasiennew_t as ep')
+                $data =  \DB::table('emrpasien_t as ep')
                 ->leftJoin('pasiendaftar_t as pd', 'pd.noregistrasi', '=', 'ep.noregistrasifk')
                 ->join('ruangan_m as ru', 'ru.namaruangan', '=', 'ep.namaruangan')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
@@ -4684,7 +4684,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -4835,7 +4835,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -4982,7 +4982,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -5129,7 +5129,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',
@@ -5276,7 +5276,7 @@ class LaporanEMRController extends  App\Http\Controllers\ApiController
             $detail =  \DB::table('pasiendaftar_t as pd')
             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
             ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
-            ->leftJoin('emrpasiennew_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
+            ->leftJoin('emrpasien_t as ep', 'ep.noregistrasifk', '=', 'pd.noregistrasi')
             ->select(
                 'pd.noregistrasi',
                 'pd.norec as norec_pd',

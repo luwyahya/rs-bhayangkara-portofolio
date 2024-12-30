@@ -3143,6 +3143,14 @@
             "urlDep": "module/EMR/Laporan/LaporanResumeMedisIGDCtrl"
         },
         {
+            "nameDep": "DaftarPasienAntrolCtrl",
+            "urlDep": "module/Registrasi/DaftarPasienAntrolCtrl"
+        },
+        {
+            "nameDep": "DaftarRegistrasiPasienOperatorAntrolCtrl",
+            "urlDep": "module/Registrasi/DaftarRegistrasiPasienOperatorAntrolCtrl"
+        },
+        {
             "nameDep": "MappingEmrToRuanganCtrl",
             "urlDep": "module/EMR/MappingEmrToRuanganCtrl"
         }
