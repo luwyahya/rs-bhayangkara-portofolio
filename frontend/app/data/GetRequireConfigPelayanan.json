@@ -3129,6 +3129,18 @@
         {
             "nameDep": "LaporanTriaseIgdCtrl",
             "urlDep": "module/Registrasi/Laporan/LaporanTriaseIgdCtrl"
+        },
+        {
+            "nameDep": "LaporanResumeMedisRJCtrl",
+            "urlDep": "module/EMR/Laporan/LaporanResumeMedisRJCtrl"
+        },
+        {
+            "nameDep": "LaporanResumeMedisRICtrl",
+            "urlDep": "module/EMR/Laporan/LaporanResumeMedisRICtrl"
+        },
+        {
+            "nameDep": "LaporanResumeMedisIGDCtrl",
+            "urlDep": "module/EMR/Laporan/LaporanResumeMedisIGDCtrl"
         }
     ]
 }

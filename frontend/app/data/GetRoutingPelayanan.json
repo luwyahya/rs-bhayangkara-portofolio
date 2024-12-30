@@ -16751,5 +16751,64 @@
             "define": "MedifirstService"
         }
     ]
+},
+{
+    "name": "LaporanResumeMedisRJ",
+    "url": "/LaporanResumeMedisRJ",
+    "templateurl": "module/EMR/Laporan/LaporanResumeMedisRJ.html",
+    "controller": "LaporanResumeMedisRJCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+}, 
+{
+    "name": "LaporanResumeMedisRI",
+    "url": "/LaporanResumeMedisRI",
+    "templateurl": "module/EMR/Laporan/LaporanResumeMedisRI.html",
+    "controller": "LaporanResumeMedisRICtrl",
+    "deps": [
+        {
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+}, 
+{
+    "name": "LaporanResumeMedisIGD",
+    "url": "/LaporanResumeMedisIGD",
+    "templateurl": "module/EMR/Laporan/LaporanResumeMedisIGD.html",
+    "controller": "LaporanResumeMedisIGDCtrl",
+    "deps": [
+        {
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
 }
 ]
