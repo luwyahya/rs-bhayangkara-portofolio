@@ -1375,6 +1375,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-item-for-resume', 'EMR\EMRController@updateItemForResume');
             Route::get('get-vital-sign-terakhir', 'EMR\EMRController@getLastVitalSign');
             Route::get('get-obat-pulang-ri', 'EMR\EMRController@getObatPulangRI');
+            Route::get('get-navigasi-emr', 'EMR\EMRController@getNavigasiEmr');
+            Route::post('save-mapping-navigasi', 'EMR\EMRController@saveMappingNavigasi');
+            Route::post('save-mapping-navigasi-penunjang', 'EMR\EMRController@saveMappingNavigasiPenunjang');
+            Route::post('delete-mapping-navigasi', 'EMR\EMRController@deleteMappingNavigasiEmr');
+            Route::post('update-jenis-pegawai', 'EMR\EMRController@UpdateJenisPegawai');
 
             // add by key 06-12-2023 from polri
             // laporan EMR Ranap
