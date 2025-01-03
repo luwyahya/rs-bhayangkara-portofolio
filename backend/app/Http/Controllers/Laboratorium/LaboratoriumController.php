@@ -1144,19 +1144,23 @@ class LaboratoriumController extends ApiController
         DB::beginTransaction();
         // try{
             foreach ($request['hasil'] as $key => $value) {
-                $noregistrasifk = str_pad($value['noregistrasifk'], 32, ' ', STR_PAD_RIGHT);
-                $norecpelayanan = str_pad($value['norecpelayanan'], 32, ' ', STR_PAD_RIGHT);
-                $cek =  HasilLaboratorium::where([
-                    // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
-                    // 'norecpelayanan',$value['norecpelayanan']
-                    'noregistrasifk' => $noregistrasifk,
-                    'norecpelayanan' => $norecpelayanan,
-                    'produkfk' => $value['produkfk'],
-                    // 'detailpemeriksaan' => $value['detailpemeriksaan'],
-                    'norec' => $value['norec_hasil'],
-                    'maphasilfk' => $value['maphasilfk'],
-                    // detailpemeriksaan 
-                ])->first();
+                // $runningNumber = RunningNumber::where('id', '13546')->first();
+                // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
+                $cek = HasilLaboratorium::where(function ($query) use ($value) {
+                    $query->where('produkfk', $value['produkfk'])
+                          ->where('norec', $value['norec_hasil'])
+                          ->where('maphasilfk', $value['maphasilfk']);
+                          
+                    // Trim nilai sebelum digunakan dalam query
+                    $noregistrasifk = trim($value['noregistrasifk']);
+                    $norecpelayanan = trim($value['norecpelayanan']);
+                
+                    // Tambahkan kondisi dengan ilike untuk pencarian case-insensitive
+                    $query->where('noregistrasifk', 'ilike', '%' . $noregistrasifk . '%')
+                          ->where('norecpelayanan', 'ilike', '%' . $norecpelayanan . '%');
+                })->first();
+
+                // return $cek;
                 if(!empty($cek)){
                     $norec[] = $value['norec_hasil'];
                    if($value['hasil'] == '' && $value['produkfk'] != 4082520)  //4082520 itu untuk kondisi "Pembacaan BMP"
