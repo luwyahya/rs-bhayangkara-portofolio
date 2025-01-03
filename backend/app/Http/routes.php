@@ -1429,6 +1429,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-daftar-detail-order', 'Farmasi\ResepElektronikController@getDaftarDetailOrder');
             Route::post('save-status-resepelektonik', 'Farmasi\ResepElektronikController@saveStatusResepElektronik');
             Route::get('get-daftar-pasien-farmasi-antrian-belum', 'Farmasi\FarmasiController@getDaftarPasienAntrianBelum');
+            Route::post('save-data-skrining-farmasi', 'Farmasi\ResepElektronikController@saveSkriningFarmasi');
+            Route::get('get-histori-skrining', 'Farmasi\ResepElektronikController@getDataSkriningFarmasi');
 
             Route::get('get-datacombo_dp', 'Farmasi\FarmasiController@getDataComboDaftarPasien');
             Route::get('get-daftar-pasien-farmasi', 'Farmasi\FarmasiController@getDaftarPasien');

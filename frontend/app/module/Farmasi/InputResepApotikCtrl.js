@@ -752,9 +752,9 @@ define(['initialize'], function (initialize) {
 
                                 // $scope.dataGrid.add($scope.dataSelected)
                                 debugger
-                                $scope.dataGrid = new kendo.data.DataSource({
-                                    data: data2
-                                });
+                                // $scope.dataGrid = new kendo.data.DataSource({
+                                //     data: data2
+                                // });
                                 // $scope.dataGrid = dat.data.orderpelayanan
 
                                 var subTotal = 0;
