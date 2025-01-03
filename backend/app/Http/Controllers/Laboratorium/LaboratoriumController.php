@@ -1146,18 +1146,14 @@ class LaboratoriumController extends ApiController
             foreach ($request['hasil'] as $key => $value) {
                 // $runningNumber = RunningNumber::where('id', '13546')->first();
                 // $runningNumberNew = $runningNumber->nomer_terbaru + 1;
-                $cek =  HasilLaboratorium::where([
-                    // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
-                    // 'norecpelayanan',$value['norecpelayanan']
-
-                    'noregistrasifk' => $value['noregistrasifk'],
-                    'norecpelayanan' => $value['norecpelayanan'],
-                    'produkfk' => $value['produkfk'],
-                    // 'detailpemeriksaan' => $value['detailpemeriksaan'],
-                    'norec' => $value['norec_hasil'],
-                    'maphasilfk' => $value['maphasilfk'],
-                    // detailpemeriksaan 
+                $cek = HasilLaboratorium::whereRaw("TRIM(noregistrasifk) = ? AND TRIM(norecpelayanan) = ? AND produkfk = ? AND norec = ? AND maphasilfk = ?", [
+                    $value['noregistrasifk'],
+                    $value['norecpelayanan'],
+                    $value['produkfk'],
+                    $value['norec_hasil'],
+                    $value['maphasilfk']
                 ])->first();
+                
                 if(!empty($cek)){
                     $norec[] = $value['norec_hasil'];
                    if($value['hasil'] == '' && $value['produkfk'] != 4082520)  //4082520 itu untuk kondisi "Pembacaan BMP"
