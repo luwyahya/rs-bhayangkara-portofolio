@@ -14,6 +14,10 @@ define(['initialize'], function (initialize) {
             $scope.disabledRuangan = false;
             $scope.statusConsis = false;
             $scope.item.hargaNetto = 0;
+            $scope.ordereresep = false;
+            $scope.racikandokter = false
+            $scope.resepiter = false
+            $scope.obatpulang = false
             var statusTambah = true
             var pegawaiUser = {}
             var norec_apd = '';
@@ -22,6 +26,10 @@ define(['initialize'], function (initialize) {
             var dataProdukDetail = [];
             var noTerima = '';
             var data2 = [];
+            var data3 = [];
+            var data4 = [];
+            var dataorder = [];
+            var dataPulang = [];
             var data2kronis = [];
             var data2R = [];
             var dataOK = [];
@@ -594,6 +602,7 @@ define(['initialize'], function (initialize) {
                             });
                         } else {
                             medifirstService.get("farmasi/get-detail-order?noorder=" + noOrder, true).then(function (dat) {
+                                $scope.ordereresep = true;
                                 $scope.isRouteLoading = false;
                                 $scope.disabledRuangan = false;
                                 $scope.item.ruangan = {
@@ -620,6 +629,43 @@ define(['initialize'], function (initialize) {
                                 break;  // Hentikan loop jika sudah ditemukan satu yang bernilai 1
                                      }
                                 }
+                                $scope.item.noorder = dat.data.strukorder.noorder
+                                data3 = dat.data.dataracikan
+                                for (var i = data3.length - 1; i >= 0; i--){
+                                    // data3[i].keteranganracikan = $scope.item.keteranganracikan
+                                    data3[i].no = i + 1
+                                }
+                                if (data3.length != 0){
+                                    $scope.racikandokter = true;
+                                } else {
+                                    $scope.racikandokter = false;
+                                }
+                                $scope.dataGridRacikan = new kendo.data.DataSource({
+                                    data: data3
+                                    
+                                });
+
+                               
+                                //Resep Iter
+                                data4 = dat.data.strukorder
+                                if(data4.keteranganiter != null){
+                                    $scope.resepiter = true;
+                                    $scope.item.jumlahiter = "Jumlah Resep Iter :" + " " + data4.keteranganiter                                    
+                                }else {
+                                    $scope.resepiter = false;
+                                }
+
+                                //Obat Pulang
+
+                                //## Konsep Order Obat yang baru
+                                dataorder = dat.data.orderpelayanan
+                                for (var i = dataorder.length - 1; i >= 0; i--){
+                                    dataorder[i].no = i + 1
+                                }
+                                $scope.dataGridOrder = new kendo.data.DataSource({
+                                    data: dataorder
+                                    
+                                });
                                 for (var i = data2.length - 1; i >= 0; i--) {
                                     // data.no = $scope.item.no
                                     // medifirstService.getDataTableTransaksi("logistik/get-produkdetail?"+
@@ -1900,7 +1946,44 @@ define(['initialize'], function (initialize) {
                 cacheHelper.set('cacheanuaing', chacePeriode);
                 Kosongkan()
             }
-
+            $scope.columnGridOrder = [
+                {
+                    "field": "no",  
+                    "title": "No",
+                    "width": "10px",
+                    "template": "<span class='style-center'>#: no #</span>",
+                },  
+                {
+                    "field": "namaproduk",
+                    "title": "Nama Obat",
+                    "width": "200px",
+                },               
+                {
+                    "field": "aturanpakai",
+                    "title": "Aturan Pakai",
+                    "width": "80px",
+                },               
+                {
+                    "field": "jumlah",
+                    "title": "Qty",
+                    "width": "80px",
+                },               
+                {
+                    "field": "waktuminum",
+                    "title": "Cara Penggunaan",
+                    "width": "100px",
+                },
+                {
+                    "field": "keterangan",
+                    "title": "Keterangan",
+                    "width": "80px",
+                },               
+                {
+                    "field": "obatpulang",
+                    "title": "Jenis Obat",
+                    "width": "50px",
+                }               
+            ];
             $scope.columnGrid = [{
                 "field": "no",
                 "title": "No",

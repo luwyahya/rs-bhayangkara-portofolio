@@ -209,6 +209,55 @@
             <md-content>
                 <md-tabs md-dynamic-height md-border-bottom md-selected="myVar">
                     <md-tab label="INPUT RESEP">
+                        <div class="grid_12" ng-show="racikandokter">
+                            <div class="grid_9" style="margin-top: 1%;">
+                                <div class="grid_12 headerBox">
+                                    <p>Keterangan Obat atau Racikan Dari Dokter </p>
+                                </div>
+                                <div class="clear"></div>                                       
+                                <div class="grid_12 borderBox">
+                                    <div id="kGrid" kendo-grid k-data-source="dataGridRacikan" k-selectable="'row'"
+                                        k-columns="columnGridRacikan" k-sortable="'true'" k-pageable="'true'"
+                                        k-ng-model="dataSelectedRacikan" ng-click="click(dataSelectedRacikan)">
+                                    </div>
+                                </div>
+                            </div>                                                                    
+                        </div>
+                        <div class="grid_12" ng-show="ordereresep">
+                            <div class="grid_12" style="margin-top: 1%;">
+                                <div class="grid_12 headerBox" style="background-color: #00c40d;">
+                                    <p style="font-size: 150%; background-color: #00c40d;">Detail Order</p>
+                                </div>
+                                <!-- <div class="clear"></div>                                        -->
+                                <div class="grid_12 borderBox" style="background-color: #00c40d;">
+                                    <div id="kGrid" kendo-grid k-data-source="dataGridOrder" k-selectable="'row'"
+                                        k-columns="columnGridOrder" k-sortable="'true'" k-pageable="'true'"
+                                        k-ng-model="dataSelectedOrder" ng-click="click(dataSelectedOrder)">
+                                    </div>
+                                </div>
+                            </div>                                                                    
+                        </div>
+                        <div class="grid_12" ng-show="resepiter">
+                            <!-- <div class="grid_9" style="margin-top: 1%;"> -->
+                                <div class="grid_12 headerBox">
+                                    <p style="font-size: 150%;">Catatan Order</p>
+                                </div>
+                                <div class="clear"></div>                                       
+                                <div class="grid_3 borderBox">
+                                    <h2 style="color: red;"><b>{{item.jumlahiter}}</b></h2>
+                                </div>
+                            <!-- </div>                                                                     -->
+                        </div>
+
+                        <div class="grid_12" ng-show="obatpulang">                            
+                                <div class="grid_12 headerBox">
+                                    <p style="font-size: 150%;">Catatan Order</p>
+                                </div>
+                                <div class="clear"></div>                                       
+                                <div class="grid_3 borderBox" style="background-color: yellow;">
+                                    <h2 style="color: red; background-color: yellow;"><b>Orderan Ini Adalah Obat Pulang</b></h2>
+                                </div>                           
+                        </div>
                         <md-content class="md-padding">
                             <div class="grid_12" ng-show='showInputObat'>
                                 <div class="grid_12 headerBox">
