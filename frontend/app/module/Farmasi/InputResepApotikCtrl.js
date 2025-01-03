@@ -630,32 +630,32 @@ define(['initialize'], function (initialize) {
                                      }
                                 }
                                 $scope.item.noorder = dat.data.strukorder.noorder
-                                data3 = dat.data.dataracikan
-                                for (var i = data3.length - 1; i >= 0; i--){
-                                    // data3[i].keteranganracikan = $scope.item.keteranganracikan
-                                    data3[i].no = i + 1
-                                }
-                                if (data3.length != 0){
-                                    $scope.racikandokter = true;
-                                } else {
-                                    $scope.racikandokter = false;
-                                }
-                                $scope.dataGridRacikan = new kendo.data.DataSource({
-                                    data: data3
+                                // data3 = dat.data.dataracikan
+                                // for (var i = data3.length - 1; i >= 0; i--){
+                                //     // data3[i].keteranganracikan = $scope.item.keteranganracikan
+                                //     data3[i].no = i + 1
+                                // }
+                                // if (data3.length != 0){
+                                //     $scope.racikandokter = true;
+                                // } else {
+                                //     $scope.racikandokter = false;
+                                // }
+                                // $scope.dataGridRacikan = new kendo.data.DataSource({
+                                //     data: data3
                                     
-                                });
+                                // });
 
                                
-                                //Resep Iter
-                                data4 = dat.data.strukorder
-                                if(data4.keteranganiter != null){
-                                    $scope.resepiter = true;
-                                    $scope.item.jumlahiter = "Jumlah Resep Iter :" + " " + data4.keteranganiter                                    
-                                }else {
-                                    $scope.resepiter = false;
-                                }
+                                // //Resep Iter
+                                // data4 = dat.data.strukorder
+                                // if(data4.keteranganiter != null){
+                                //     $scope.resepiter = true;
+                                //     $scope.item.jumlahiter = "Jumlah Resep Iter :" + " " + data4.keteranganiter                                    
+                                // }else {
+                                //     $scope.resepiter = false;
+                                // }
 
-                                //Obat Pulang
+                                // //Obat Pulang
 
                                 //## Konsep Order Obat yang baru
                                 dataorder = dat.data.orderpelayanan
