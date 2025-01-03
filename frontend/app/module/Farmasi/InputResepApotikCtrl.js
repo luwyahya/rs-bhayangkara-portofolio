@@ -610,7 +610,7 @@ define(['initialize'], function (initialize) {
                                     namaruangan: dat.data.strukorder.namaruangan
                                 }
                                 debugger
-                                $scope.item.no = dat.data.strukorder.noorder;
+                                // $scope.item.no = dat.data.strukorder.noorder;
 
                                 $scope.item.penulisResep = {
                                     id: dat.data.strukorder.pgid,
@@ -1516,15 +1516,15 @@ define(['initialize'], function (initialize) {
                     }
 
                 } else {
-                    // for (var i = data2.length - 1; i >= 0; i--) {
-                    //     if (data2[i].namaproduk == $scope.item.produk.namaproduk) {
-                    //         $scope.item.rke = data2[i].rke;
-                    //         $scope.item.no = data2[i].no;
-                    //         data2.splice(i, 1);
+                    for (var i = data2.length - 1; i >= 0; i--) {
+                        if (data2[i].namaproduk == $scope.item.produk.namaproduk) {
+                            $scope.item.rke = data2[i].rke;
+                            $scope.item.no = data2[i].no;
+                            data2.splice(i, 1);
 
 
-                    //     }
-                    // }
+                        }
+                    }
                     data = {
                         no: nomor,
                         noregistrasifk: norec_apd, //$scope.item.noRegistrasi,
