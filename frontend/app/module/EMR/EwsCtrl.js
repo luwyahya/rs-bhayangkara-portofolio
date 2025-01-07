@@ -42,7 +42,11 @@ define(['initialize'], function (initialize) {
                 $scope.listPetugas = e.data.bidan
             })
         }
-
+        $scope.formatJam242 = {
+            value: "00-00-0000 00:00", //set default value
+            // format: "dd-MM-yyyy HH:mm", //set date format
+            // timeFormat: "HH:mm",        //set drop down time format to 24 hours
+        }
         function LoadCacheHelper() {
             var chacePeriode = cacheHelper.get('cacheRMelektronik');
             if (chacePeriode != undefined) {
@@ -1171,9 +1175,9 @@ define(['initialize'], function (initialize) {
                             $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
                         }
 
-                        // if (dataLoad[i].type == "datetime") {
-                        //     $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).format('YYYY-MM-DD')
-                        // }
+                        if (dataLoad[i].type == "datetime") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).format('YYYY-MM-DD')
+                        }
                         // if (dataLoad[i].type == "time") {
                         //     $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
                         // }
