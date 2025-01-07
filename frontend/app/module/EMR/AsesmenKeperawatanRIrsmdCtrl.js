@@ -200,7 +200,7 @@ define(['initialize'], function(initialize) {
              $scope.listAnamnesis1 = [
                 { "id": 1, "nama": "Data Umum", "detail": 
                     [
-                        { "id": 42, "nama": "Tgl Masuk" , "type": "textarea","grid":"grid_12"}, 
+                        { "id": 42, "nama": "Keluhan" , "type": "textarea","grid":"grid_12"}, 
                         { "id": 43, "nama": "Keluhan yang menyertai" , "type": "textarea","grid":"grid_12"}, 
                         { "id": 44, "nama": "Riwayat Penyakit Sekarang" , "type": "textarea","grid":"grid_12"}, 
                         { "id": 45, "nama": "Riwayat Alergi", "type": "label","grid":"grid_1" },
@@ -700,8 +700,8 @@ define(['initialize'], function(initialize) {
                     [ 
                         { "id": 353, "nama": "Tingaal bersama", "type": "label","grid":"grid_2" },
                         { "id": 354, "nama": "Pribadi", "type": "checkbox","grid":"grid_2" },
-                        { "id": 355, "nama": "Asuransi", "type": "textbox","grid":"grid_4" },
-                        { "id": 356, "nama": "Tanggungan", "type": "textbox","grid":"grid_4" },
+                        // { "id": 355, "nama": "Asuransi", "type": "textbox","grid":"grid_4" },
+                        // { "id": 356, "nama": "Tanggungan", "type": "textbox","grid":"grid_4" },
                     ]
                 }
             ]
@@ -709,8 +709,8 @@ define(['initialize'], function(initialize) {
                 "id": 2, "nama": "Penanggung Jawab", "detail": 
                     [  
                         { "id": 357, "nama": "Pribadi", "type": "checkbox","grid":"grid_2" },
-                        { "id": 358, "nama": "Asuransi", "type": "textbox","grid":"grid_4" },
-                        { "id": 359, "nama": "Tanggungan", "type": "textbox","grid":"grid_4" },
+                        // { "id": 358, "nama": "Asuransi", "type": "textbox","grid":"grid_4" },
+                        // { "id": 359, "nama": "Tanggungan", "type": "textbox","grid":"grid_4" },
                     ]
                 }]
               $scope.listriwayat= [{ 
