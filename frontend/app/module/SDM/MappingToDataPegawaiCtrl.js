@@ -293,6 +293,11 @@ define(['initialize'], function (initialize) {
                         "field": "kedudukan",
                         "width": "30%",
                         "title": "Kedudukan Pegawai"
+                    },
+                    {
+                        "field": "statusenabled",
+                        "width": "10%",
+                        "title": "Status Enabled"
                     }
                 ]
             }

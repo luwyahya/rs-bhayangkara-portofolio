@@ -327,7 +327,7 @@ class SumberDayaManusiaController extends ApiController {
 			                        gol.name as golongan,nkj.detailkelompokjabatan,nkj.grade,ks.kelompokshiftkerja,kdd.name as kedudukan,
 			                        pg.objectpetugasdiklatfk,pet.petugasdiklat,pg.objectruangankerjafk,ru.namaruangan"))
             ->where('pg.statusenabled',true)
-            ->where('pg.kedudukanfk', 1)
+            // ->where('pg.kedudukanfk', 1)
             ->orderBy('pg.namalengkap');
 
             if (isset($request['idPegawai']) && $request['idPegawai'] != "" && $request['idPegawai'] != "undefined") {
@@ -8948,12 +8948,13 @@ class SumberDayaManusiaController extends ApiController {
         $data = \DB::table('pegawai_m as pg')
             ->join('loginuser_s as log', 'log.objectpegawaifk', '=', 'pg.id')
             ->leftjoin('sdm_kedudukan_m as ked', 'ked.id', '=', 'pg.kedudukanfk')
-            ->select('pg.namalengkap', 'log.namauser', 'ked.name as kedudukan', 'pg.id as idPegawai')
+            ->select('pg.namalengkap', 'log.namauser', 'ked.name as kedudukan', 'pg.id as idPegawai', 'pg.statusenabled')
             ->where(function($data) {
                 $data->where('pg.kedudukanfk', '<>', 1)
-                    ->orWhereNull('pg.kedudukanfk');
+                    ->orWhereNull('pg.kedudukanfk')
+                    ->orwhere('pg.statusenabled', false);
             })
-            ->where('pg.statusenabled', 1)
+            // ->where('pg.statusenabled', 1)
             ->whereNotIn('pg.id', [1,2,3,320261183]);
 
             if (isset($request['namaPegawai']) && $request['namaPegawai'] != "" && $request['namaPegawai'] != "undefined") {
