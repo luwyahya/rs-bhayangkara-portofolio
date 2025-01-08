@@ -8974,7 +8974,8 @@ class SumberDayaManusiaController extends ApiController {
         try {
             $update = Pegawai::where('id', $request['idPegawai'])
                 ->update([
-                    'statusenabled' => 1
+                    'statusenabled' => 1,
+                    'kedudukanfk' => 1
                 ]);
             $transStatus = 'true';
         } catch (\Exception $e) {
