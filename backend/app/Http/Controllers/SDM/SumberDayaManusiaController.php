@@ -327,7 +327,7 @@ class SumberDayaManusiaController extends ApiController {
 			                        gol.name as golongan,nkj.detailkelompokjabatan,nkj.grade,ks.kelompokshiftkerja,kdd.name as kedudukan,
 			                        pg.objectpetugasdiklatfk,pet.petugasdiklat,pg.objectruangankerjafk,ru.namaruangan"))
             ->where('pg.statusenabled',true)
-            // ->where('pg.kedudukanfk', 1)
+            // ->where('pg.kedudukanfk', 1)aa
             ->orderBy('pg.namalengkap');
 
             if (isset($request['idPegawai']) && $request['idPegawai'] != "" && $request['idPegawai'] != "undefined") {
@@ -8958,10 +8958,10 @@ class SumberDayaManusiaController extends ApiController {
             ->whereNotIn('pg.id', [1,2,3,320261183]);
 
             if (isset($request['namaPegawai']) && $request['namaPegawai'] != "" && $request['namaPegawai'] != "undefined") {
-                $data = $data->where('pg.namalengkap', 'like', '%'. $request['namaPegawai'] . '%');
+                $data = $data->where('pg.namalengkap', 'ilike', '%'. $request['namaPegawai'] . '%');
             }
             if (isset($request['namaUser']) && $request['namaUser'] != "" && $request['namaUser'] != "undefined") {
-                $data = $data->where('log.namauser', 'like', '%' . $request['namaUser'] . '%');
+                $data = $data->where('log.namauser', 'ilike', '%' . $request['namaUser'] . '%');
             }
             
             $data = $data->take($top);
@@ -8974,7 +8974,7 @@ class SumberDayaManusiaController extends ApiController {
         try {
             $update = Pegawai::where('id', $request['idPegawai'])
                 ->update([
-                    'kedudukanfk' => 1
+                    'statusenabled' => 1
                 ]);
             $transStatus = 'true';
         } catch (\Exception $e) {
