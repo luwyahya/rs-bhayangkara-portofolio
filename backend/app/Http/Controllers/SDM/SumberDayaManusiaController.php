@@ -327,7 +327,7 @@ class SumberDayaManusiaController extends ApiController {
 			                        gol.name as golongan,nkj.detailkelompokjabatan,nkj.grade,ks.kelompokshiftkerja,kdd.name as kedudukan,
 			                        pg.objectpetugasdiklatfk,pet.petugasdiklat,pg.objectruangankerjafk,ru.namaruangan"))
             ->where('pg.statusenabled',true)
-            // ->where('pg.kedudukanfk', 1)aa
+            ->where('pg.kedudukanfk', 1)
             ->orderBy('pg.namalengkap');
 
             if (isset($request['idPegawai']) && $request['idPegawai'] != "" && $request['idPegawai'] != "undefined") {
