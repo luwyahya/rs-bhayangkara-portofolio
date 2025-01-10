@@ -6078,7 +6078,7 @@ class EMRController  extends ApiController
 
         $result = array(
             'data' => $data,
-            'pegawai' => $pegawai
+            'pegawai' => $pegawai,
             'dokter' => $dokter
         );
 
