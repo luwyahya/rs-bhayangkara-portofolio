@@ -29,6 +29,7 @@ define(['initialize'], function (initialize) {
             medifirstService.get('emr/get-combo-edukasi-pasien?').then(function(dat) {
                 $scope.listPegawai = dat.data.pegawai
                 $scope.listPerawat = dat.data.perawat 
+                $scope.listDokter = dat.data.dokter 
             })
         }
         function LoadCacheHelper() {

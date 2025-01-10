@@ -6070,15 +6070,16 @@ class EMRController  extends ApiController
             ->where('statusenabled', true)
             // ->where('kodeexternal', '<>', 'dua')
             ->get();
-            $perawat = \DB::table('pegawai_m')
+            $dokter = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
-            ->where('objectjenispegawaifk', 2) //kholid.s
+            ->where('objectjenispegawaifk', 1) //kholid.s
             ->get();
 
         $result = array(
             'data' => $data,
             'pegawai' => $pegawai
+            'dokter' => $dokter
         );
 
         return $this->respond($result);
