@@ -6064,12 +6064,12 @@ class EMRController  extends ApiController
             ->select('id', 'caption', 'reportdisplay', 'namaemr', 'kodeexternal')
             ->where('namaemr', 'MasterEdukasi')
             ->get();
-
-        $pegawai = \DB::table('pegawai_m')
+            $pegawai = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
-            // ->where('kodeexternal', '<>', 'dua')
+            ->whereIn('objectjenispegawaifk', [2, 3]) // Menggunakan whereIn untuk memeriksa beberapa nilai
             ->get();
+        
             $dokter = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
