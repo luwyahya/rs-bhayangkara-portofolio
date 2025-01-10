@@ -6068,7 +6068,7 @@ class EMRController  extends ApiController
         $pegawai = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
             ->where('statusenabled', true)
-            ->where('kodeexternal', '<>', 'dua')
+            // ->where('kodeexternal', '<>', 'dua')
             ->get();
             $perawat = \DB::table('pegawai_m')
             ->select('id', 'namalengkap')
@@ -6704,7 +6704,7 @@ class EMRController  extends ApiController
             $data = $data->get();
         
         $arr = [];
-
+// return $data;
         foreach ($data as $item) {
             array_push($arr, $item->objectruanganfk);
         }
@@ -6712,6 +6712,7 @@ class EMRController  extends ApiController
             ->select('*')
             ->where('objectloginuserfk', $dataLogin['userData']['id'])
             ->get();
+           
         if (count($cekRuangan) == 0) {
             $transMessage = "User ini belum memiliki ruangan. Silahkan mapping ruangan terlebih dahulu !";
             DB::rollBack();
@@ -6723,7 +6724,7 @@ class EMRController  extends ApiController
             return $this->setStatusCode($result['status'])->respond($result, $transMessage);
         }
 
-        // return($arr);
+      
         // die();
         if ($dataLogin['userData']['id'] == 30015 || $dataLogin['userData']['id'] == 11 || $dataLogin['userData']['id'] == 30027 || $dataLogin['userData']['id'] == 31002 || $dataLogin['userData']['id'] == 32570 || $dataLogin['userData']['id'] == 32393) {
             $dataRaw = \DB::table('emr_t as emr')
@@ -6769,6 +6770,7 @@ class EMRController  extends ApiController
                 ->orderBy('kelompok', 'emr.nourut');
             $dataRaw = $dataRaw->get();
         }
+        // return($dataRaw);
         $ini = [];
         $datas['ranap']['child'] = [];
         $datas['rajal']['child'] = [];
