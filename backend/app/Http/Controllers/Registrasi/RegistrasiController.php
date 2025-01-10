@@ -24748,7 +24748,7 @@ GROUP BY y.KET
             $req['filter']['filters'][0]['value'] != "undefined"
         ) {
             $pegawai = $pegawai
-                ->where('pg.namalengkap', 'like', '%' . $req['filter']['filters'][0]['value'] . '%');
+                ->where('pg.namalengkap', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
         }
 
 
