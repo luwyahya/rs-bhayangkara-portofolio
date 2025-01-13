@@ -9715,20 +9715,21 @@ class BridgingBPJSV2Controller extends ApiController
             $noreservasi = $newptp->noreservasi;
             $newptp->tanggalreservasi = $request['tglReservasiFix'];
             // $newptp->tgllahir = $tglLahir;
-            $newptp->objectkelompokpasienfk = $tipepembayaran;
+            $newptp->objectkelompokpasienfk = $tipepembayaran ?? null; // Handle null or default to 0
             $newptp->objectpendidikanfk = 0;
             $newptp->namapasien =  $namaPasien;
-            $newptp->noidentitas =  $request['nik'];
+            $newptp->noidentitas = $request['nik'];
             $newptp->tglinput = date('Y-m-d H:i:s');
-            $newptp->objectasalrujukanfk = $request['asalRujukan'];
+            $newptp->objectasalrujukanfk = $request['asalRujukan'] ?? null; // Handle null or missing
             if ($tipepembayaran == 2) {
-                $newptp->nobpjs = $request['nomorkartu'];
-                $newptp->norujukan = $request['nomorreferensi'];
+                $newptp->nobpjs = $request['nomorkartu'] ?? null;
+                $newptp->norujukan = $request['nomorreferensi'] ?? null;
             } else {
-                $newptp->noasuransilain = $request['nomorreferensi'];
+                $newptp->noasuransilain = $request['nomorreferensi'] ?? null;
             }
             $newptp->notelepon = $request['noTelpon'];
-            $newptp->objectpegawaifk =  ($request['dokter'] ? $request['dokter'] : null);
+            $newptp->objectpegawaifk = $request['dokter'] ?? null;
+
             // return(isBaru );
             // die;
             if ($isBaru == true) {
@@ -9751,17 +9752,17 @@ class BridgingBPJSV2Controller extends ApiController
             $newptp->jenis = 'M';
             $newptp->statuspanggil = 1;
             if (isset($pasien) && !empty($pasien)) {
-                $newptp->objectagamafk = $pasien->objectagamafk;
+                $newptp->objectagamafk = $pasien->objectagamafk ?? null;
                 $alamat = Alamat::where('nocmfk', $pasien->id)->first();
                 if (!empty($alamat)) {
                     $newptp->alamatlengkap = $alamat->alamatlengkap;
-                    $newptp->objectdesakelurahanfk = $alamat->objectdesakelurahanfk;
-                    $newptp->negara = $alamat->objectnegarafk;
+                    $newptp->objectdesakelurahanfk = $alamat->objectdesakelurahanfk ?? null;
+                    $newptp->negara = $alamat->objectnegarafk ?? null;
                 }
                 // return( $alamat->alamatlengkap);
                 // die;
-                $newptp->objectgolongandarahfk =  $pasien->objectgolongandarahfk;
-                $newptp->kebangsaan = $pasien->objectkebangsaanfk;
+                $newptp->objectgolongandarahfk =  $pasien->objectgolongandarahfk ?? null;
+                $newptp->kebangsaan = $pasien->objectkebangsaanfk ?? null;
                 $newptp->namaayah = $pasien->namaayah;
                 $newptp->namaibu = $pasien->namaibu;
                 $newptp->namasuamiistri = $pasien->namasuamiistri;
@@ -9769,11 +9770,11 @@ class BridgingBPJSV2Controller extends ApiController
                 $newptp->noaditional = $pasien->noaditional;
                 //                $newptp->noantrian= 0;
                 $newptp->noidentitas = $pasien->noidentitas;
-                $newptp->nocmfk =  $pasien->id;
+                $newptp->nocmfk =  $pasien->id ?? null;
                 $newptp->paspor =  $pasien->paspor;
-                $newptp->objectpekerjaanfk =  $pasien->objectpekerjaanfk;
+                $newptp->objectpekerjaanfk =  $pasien->objectpekerjaanfk ?? null;
                 $newptp->objectpendidikanfk = $pasien->objectpendidikanfk != null ? $pasien->objectpendidikanfk  : 0;
-                $newptp->objectstatusperkawinanfk =  $pasien->objectstatusperkawinanfk;
+                $newptp->objectstatusperkawinanfk =  $pasien->objectstatusperkawinanfk ?? null;
                 $newptp->tempatlahir = $pasien->tempatlahir;
             }
             // $newptp->save();
