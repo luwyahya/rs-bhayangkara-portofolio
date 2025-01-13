@@ -9618,7 +9618,7 @@ class BridgingBPJSV2Controller extends ApiController
             $isBaru = true;
             $namaPasien = "";
             $tglLahir = "";
-
+            $tipepembayaran = 2;
 
             // $pasien  = Pasien::where('nocm',$request['noCm'])->first();
             $pasien  = Pasien::where('noidentitas', $request['nik'])->first();
