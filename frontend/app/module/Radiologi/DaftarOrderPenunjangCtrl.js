@@ -1071,6 +1071,11 @@ define(['initialize'], function (initialize) {
                         "width": "80px"
                     },
                     {
+                            "field": "kelompokpasien",
+                            "title": "Kelompok Pasien",
+                            "width" : "100px",
+                    },
+                    {
                         "field": "namapasien",
                         "title": "Nama Pasien",
                         "width": "150px"

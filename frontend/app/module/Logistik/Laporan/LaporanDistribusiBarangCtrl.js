@@ -345,7 +345,7 @@ define(['initialize'], function (initialize) {
                     sheet.name = "Report";
 
                     var myHeaders = [{
-                        value: " RS BHAYANGKARA TK IV CIANJUR Jl. Suroso No. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat. Telepon. 0263-285299",
+                        value: " RS BHAYANGKARA TK IV CIANJUR Jl. Raya Bogor, Kramat Jati, Jakarta Timur - 13510 Telp. 021-8465000 / 8090559",
                         // value: "Jl. Raya Bogor, Kramat Jati, Jakarta Timur - 13510 Telp. 021-8465000 / 8090559",
                         fontSize: 18,
                         textAlign: "center",
