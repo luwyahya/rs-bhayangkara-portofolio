@@ -341,11 +341,11 @@ define(['initialize'], function (initialize) {
                     "title": "Pengorder",
                     "width": "100px"
                 },
-                {
-                    "field": "kelompokpasien",
-                    "title": "Kelompok Pasien",
-                    "width" : "100px",
-                },
+                // {
+                //     "field": "kelompokpasien",
+                //     "title": "Kelompok Pasien",
+                //     "width" : "100px",
+                // },
 
                 // {
                 //     "field": "namakelas",
@@ -1069,6 +1069,11 @@ define(['initialize'], function (initialize) {
                         "field": "nocm",
                         "title": "No. Rekam Medis",
                         "width": "80px"
+                    },
+                    {
+                            "field": "kelompokpasien",
+                            "title": "Kelompok Pasien",
+                            "width" : "100px",
                     },
                     {
                         "field": "namapasien",
