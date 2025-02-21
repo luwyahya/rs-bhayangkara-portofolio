@@ -960,38 +960,44 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
 
                     function cekNIKBPJS() {
                         $scope.isLoadingNoKartu = true;
-                        medifirstService.get("bridging/bpjs2/get-nik?nik=" + $scope.item.noIdentitas + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
-                            if (e.data.metaData.code === "200") {
-                                if (e.data.response.peserta.mr.noMR != null) {
-                                    if ($scope.item.noIdentitas != e.data.response.peserta.nik) {
-                                        alert("NO BPJS/NIK SUDAH DI PAKAI OLEH NO CM " + e.data.response.peserta.mr.noMR + "!!!!!")
+                        medifirstService.get("bridging/bpjs2/get-nik?nik=" + $scope.item.noIdentitas + "&tglsep=" + moment(new Date()).format('YYYY-MM-DD'))
+                        .then(function (e) {
+                            let decodedData = JSON.parse(atob(e.data));
+                
+                            if (decodedData.metaData.code === "200") {
+                                if (decodedData.response.peserta.mr.noMR != null) {
+                                    if ($scope.item.noIdentitas != decodedData.response.peserta.nik) {
+                                        alert("NO BPJS/NIK SUDAH DI PAKAI OLEH NO CM " + decodedData.response.peserta.mr.noMR + "!!!!!");
                                         $scope.isLoadingNoKartu = false;
                                         return;
                                     }
                                 }
-                                debugger
-                                var tglLahir = new Date(e.data.response.peserta.tglLahir);
-                                $scope.item.noKepesertaan = $scope.noKartu = e.data.response.peserta.noKartu;
-                                $scope.item.namaPasien = e.data.response.peserta.nama;
+                                debugger;
+                                
+                                var tglLahir = new Date(decodedData.response.peserta.tglLahir);
+                                $scope.item.noKepesertaan = $scope.noKartu = decodedData.response.peserta.noKartu;
+                                $scope.item.namaPasien = decodedData.response.peserta.nama;
                                 $scope.item.tglLahir = tglLahir;
-                                $scope.item.noIdentitas = e.data.response.peserta.nik;
-                                $scope.item.noAsuransiLain = e.data.response.peserta.cob.noAsuransi;
-                                $scope.item.noBpjs = e.data.response.peserta.noKartu;
-                                // $scope.item.noTelepon = e.data.response.peserta.mr.noTelepon;
-                                // $scope.item.noHp = e.data.response.peserta.mr.noTelepon;
-                                $scope.item.Ktp = e.data.response.peserta.nik;
-                                $scope.item.PenanggungJawab = e.data.response.peserta.nama;
+                                $scope.item.noIdentitas = decodedData.response.peserta.nik;
+                                $scope.item.noAsuransiLain = decodedData.response.peserta.cob ? decodedData.response.peserta.cob.noAsuransi : null;
+                                $scope.item.noBpjs = decodedData.response.peserta.noKartu;
+                                // $scope.item.noTelepon = decodedData.response.peserta.mr.noTelepon;
+                                // $scope.item.noHp = decodedData.response.peserta.mr.noTelepon;
+                                $scope.item.Ktp = decodedData.response.peserta.nik;
+                                $scope.item.PenanggungJawab = decodedData.response.peserta.nama;
                                 $scope.item.Hubungan = "Diri Sendiri";
+                                
                                 for (let i = 0; i < $scope.listDataJenisKelamin.length; i++) {
                                     const element = $scope.listDataJenisKelamin[i];
-                                    if (element.jeniskelamin.toLowerCase().indexOf(e.data.response.peserta.sex.toLowerCase()) > -1) {
-                                        $scope.item.jenisKelamin = element
-                                        break
+                                    if (element.jeniskelamin.toLowerCase().indexOf(decodedData.response.peserta.sex.toLowerCase()) > -1) {
+                                        $scope.item.jenisKelamin = element;
+                                        break;
                                     }
                                 }
+                                                        
 
                             } else {
-                                window.messageContainer.error(e.data.metaData.message);
+                                window.messageContainer.error(decodedData.metaData.message);
                                 window.messageContainer.error("NIK Tidak Terdaftar di BPJS!!!");
                                 // alert("NIK Tidak Terdaftar di BPJS!!!")
                                 // return;

@@ -264,17 +264,16 @@ class BridgingBPJSV2Controller extends ApiController
     }
 
 
-    public function getNIK(Request $request)
-    {
+    public function getNIK(Request $request) {        
+        // return "0";
         $userKey = $this->getUserKeyVclaimV2();
         $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();
-
         // Computes the timestamp
         date_default_timezone_set('UTC');
-        $tStamp = strval(time() - strtotime('1970-01-01 00:00:00'));
+        $tStamp = strval(time()-strtotime('1970-01-01 00:00:00'));
         // Computes the signature by hashing the salt with the secret key as the key
-        $signature = hash_hmac('sha256', $data . "&" . $tStamp, $secretKey, true);
+        $signature = hash_hmac('sha256', $data."&".$tStamp, $secretKey, true);
 
         // base64 encode…
         $encodedSignature = base64_encode($signature);
@@ -283,8 +282,8 @@ class BridgingBPJSV2Controller extends ApiController
 
         curl_setopt_array($curl, array(
             CURLOPT_PORT => $this->getPortBrigdingBPJS(),
-            CURLOPT_URL => $this->getUrlBrigdingBPJSV2() . "Peserta/nik/" . $request['nik'] . "/tglSEP/" . $request['tglsep'],
-            //            CURLOPT_URL => "http://dvlp.bpjs-kesehatan.go.id:8080/VClaim-Rest/Peserta/nik/".$request['nik']."/tglSEP/".$request['tglsep'],
+            CURLOPT_URL=> $this->getUrlBrigdingBPJSV2()."Peserta/nik/".$request['nik']."/tglSEP/".$request['tglsep'],
+//            CURLOPT_URL => "http://dvlp.bpjs-kesehatan.go.id:8080/VClaim-Rest/Peserta/nik/".$request['nik']."/tglSEP/".$request['tglsep'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -295,12 +294,11 @@ class BridgingBPJSV2Controller extends ApiController
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
                 "Content-Type: application/json; charset=utf-8",
-                "X-cons-id: " .  (string)$data,
-                "X-signature: " . (string)$encodedSignature,
-                "X-timestamp: " . (string)$tStamp,
-                "user_key:" . $userKey
+                "X-cons-id: ".  (string)$data,
+                "X-signature: ". (string)$encodedSignature,
+                "X-timestamp: ". (string)$tStamp,
+                "user_key: ". $userKey
             ),
-            CURLOPT_SSL_CIPHER_LIST => 'DEFAULT@SECLEVEL=1'
         ));
 
         $response = curl_exec($curl);
@@ -309,14 +307,18 @@ class BridgingBPJSV2Controller extends ApiController
         curl_close($curl);
 
         if ($err) {
-            $result = "cURL Error #:" . $err;
-        } else {
-            $result = (array) json_decode($response);
-        }
+        $result = "cURL Error #:" . $err;
+    } else {
+        $result = (array) json_decode($response);
+    }
 
-        $key = $data . $secretKey . (string)$tStamp;
-        $result = $this->stringDecryptVclaim($key, $result);
-        return $this->respond($result);
+    $key = $data . $secretKey . (string)$tStamp;
+    $result = $this->stringDecryptVclaim($key, $result);
+
+    // Encode hasil ke base64
+    $encodedResult = base64_encode(json_encode($result));
+
+    return response($encodedResult)->header('Content-Type', 'application/octet-stream');
     }
 
     public function insertSEP(Request $request)

@@ -192,14 +192,15 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                                         return
                                     }
                                     medifirstService.get("bridging/bpjs/get-nik?nik=" + $scope.model.noIdentitas + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
+                                        let decodedData = JSON.parse(atob(e.data));
                                         $scope.isRouteLoading = false;
-                                        if (e.data.metaData.code == 200) {
+                                        if (decodedData.metaData.code == 200) {
                                             $scope.model.cekpilihRujukan = false
                                             $scope.model.cekpilihPascaranap = false
                                             $scope.isBpjsRJsep = true
                                             debugger
-                                            kelasDitanggungCodeInaCbg = e.data.response.peserta.hakKelas.kode
-                                            kelasDitanggungNamaInaCbg = e.data.response.peserta.hakKelas.keterangan
+                                            kelasDitanggungCodeInaCbg = decodedData.response.peserta.hakKelas.kode
+                                            kelasDitanggungNamaInaCbg = decodedData.response.peserta.hakKelas.keterangan
                                             if (kelasDitanggungCodeInaCbg == 1) {
                                                 $scope.model.kelasDitanggung = { id: "3", namakelas: 'Kelas I' }
                                                 kelasDitanggungCodeInaCbg = '3';
@@ -1103,17 +1104,18 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                 $scope.isLoadingNIK = true;
 
                 medifirstService.get("bridging/bpjs/get-nik?nik=" + $scope.model.noIdentitas + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
-                    if (e.data.metaData.code === "200") {
-                        var tglLahir = new Date(e.data.response.peserta.tglLahir);
-                        $scope.model.noKepesertaan = $scope.noKartu = e.data.response.peserta.noKartu;
-                        $scope.model.namaPeserta = e.data.response.peserta.nama;
+                    let decodedData = JSON.parse(atob(e.data));
+                    if (decodedData.metaData.code === "200") {
+                        var tglLahir = new Date(decodedData.response.peserta.tglLahir);
+                        $scope.model.noKepesertaan = $scope.noKartu = decodedData.response.peserta.noKartu;
+                        $scope.model.namaPeserta = decodedData.response.peserta.nama;
                         $scope.model.tglLahir = tglLahir;
-                        $scope.model.noIdentitas = e.data.response.peserta.nik;
+                        $scope.model.noIdentitas = decodedData.response.peserta.nik;
                         $scope.model.kelasBridg = {
-                            id: parseInt(e.data.response.peserta.hakKelas.kode),
-                            kdKelas: e.data.response.peserta.hakKelas.kode,
-                            nmKelas: e.data.response.peserta.hakKelas.keterangan,
-                            namakelas: e.data.response.peserta.hakKelas.keterangan,
+                            id: parseInt(decodedData.response.peserta.hakKelas.kode),
+                            kdKelas: decodedData.response.peserta.hakKelas.kode,
+                            nmKelas: decodedData.response.peserta.hakKelas.keterangan,
+                            namakelas: decodedData.response.peserta.hakKelas.keterangan,
                         };
 
                         if ($scope.model.kelasBridg.id == 1) {
@@ -1124,16 +1126,16 @@ define(['initialize', 'Configuration'], function (initialize, configuration) {
                             $scope.model.kelasDitanggung = { id: "1", namakelas: 'Kelas III' }
                         }
 
-                        $scope.kodeProvider = e.data.response.peserta.provUmum.kdProvider;
-                        $scope.namaProvider = e.data.response.peserta.provUmum.nmProvider;
+                        $scope.kodeProvider = decodedData.response.peserta.provUmum.kdProvider;
+                        $scope.namaProvider = decodedData.response.peserta.provUmum.nmProvider;
                         $scope.model.namaAsalRujukan = $scope.kodeProvider + " - " + $scope.namaProvider;
-                        $scope.model.jenisPeserta = e.data.response.peserta.jenisPeserta.nmJenisPeserta;
-                        toastr.info(e.data.response.peserta.statusPeserta.keterangan, 'Status Peserta');
-                        if (e.data.response.peserta.statusPeserta.kode == 6) {
+                        $scope.model.jenisPeserta = decodedData.response.peserta.jenisPeserta.nmJenisPeserta;
+                        toastr.info(decodedData.response.peserta.statusPeserta.keterangan, 'Status Peserta');
+                        if (decodedData.response.peserta.statusPeserta.kode == 6) {
                             $scope.penjagaanTidakDitanggung = true
                         }
                     } else {
-                        window.messageContainer.error(e.data.metaData.message);
+                        window.messageContainer.error(decodedData.metaData.message);
                     }
                     $scope.isLoadingNIK = false;
                 }, function (err) {

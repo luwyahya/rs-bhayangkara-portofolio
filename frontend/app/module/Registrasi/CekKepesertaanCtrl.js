@@ -53,7 +53,8 @@ define(['initialize'], function (initialize) {
             $scope.cekNik = function (nik) {
                 $scope.isRouteLoading = true;
                 medifirstService.get("bridging/bpjs2/get-nik?nik=" + nik + "&tglsep=" + new moment(new Date).format('YYYY-MM-DD')).then(function (e) {
-                    document.getElementById("json").innerHTML = JSON.stringify(e.data, undefined, 4);
+                    let decodedData = JSON.parse(atob(e.data));
+                    document.getElementById("json").innerHTML = JSON.stringify(decodedData, undefined, 4);
                 }).then(function () {
                     $scope.isRouteLoading = false;
                 });
