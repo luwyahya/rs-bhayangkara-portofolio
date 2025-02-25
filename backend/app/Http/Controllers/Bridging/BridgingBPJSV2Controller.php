@@ -265,7 +265,7 @@ class BridgingBPJSV2Controller extends ApiController
 
 
     public function getNIK(Request $request) {        
-        // return "0";
+        return "0";
         $userKey = $this->getUserKeyVclaimV2();
         $data = $this->getIdConsumerBPJSV2();
         $secretKey = $this->getPasswordConsumerBPJSV2();
