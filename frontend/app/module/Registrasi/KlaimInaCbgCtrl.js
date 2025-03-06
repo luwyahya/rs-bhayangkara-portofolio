@@ -1697,6 +1697,18 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.formGridDetail = false
                 }
             }
+            $scope.popupHapus = function () {
+                $scope.dataLogin = JSON.parse(window.localStorage.getItem('pegawai'));
+                // if($scope.dataLogin.id!=320263){
+                // 	window.messageContainer.error("Anda tidak punya akses Hapus klaim!!!");
+                //      	return;
+                // }
+                if ($scope.dataPasienSelected.norec == undefined) {
+                    toastr.error('Pilih Data Pasien dulu', 'Caution');
+                    return;
+                }
+                $scope.popupHapusKlaim.center().open();
+            }
             $scope.clickCardEklaim = function (x) {
                 debugger
                 $scope.cardViewEklaim = false;
@@ -2942,6 +2954,40 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     })
 
                 }
+            }
+            $scope.delete_claim = function () {
+                var dt1 = {}
+                var dt2 = []
+                for (var i = dataSave.length - 1; i >= 0; i--) {
+                    dt1 = {
+                        "metadata": {
+                            "method": "delete_claim"
+                        },
+                        "data": {
+                            "nomor_sep": dataSave[i].nomor_sep,
+                            "coder_nik": '123123123123',
+                            // "coder_nik": $scope.dataLogin.noIdentitas,
+                        }
+                    }
+                    dt2.push(dt1)
+                }
+
+                var objData = {
+                    "data": dt2
+                }
+                medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
+                    responData = e.data.dataresponse;
+                    var datasend = {
+                        "noregistrasifk": $scope.dataPasienSelected.norec,
+                        "status": "DELETE CLAIM"
+                    }
+                    if (responData[0].dataresponse.metadata.code == "200") {
+                        medifirstService.post('bridging/inacbg/update-status-bridging-inacbg', datasend).then(function (e) {
+                            //ini untuk proposional kan utang per tindakan
+                            loadDataNosep();
+                        })
+                    }
+                })
             }
             $scope.clickTopup = function () {
                 var cmg = "";

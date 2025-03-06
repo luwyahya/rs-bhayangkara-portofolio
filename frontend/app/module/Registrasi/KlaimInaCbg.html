@@ -972,7 +972,7 @@
                                                                 style="float:left;width:120px">Edit Claim</button>
                                                         </th>
                                                         <th style="width: 10%">
-                                                            <button class="c-button error" ng-click="clickKembali()"
+                                                            <button class="c-button error" ng-click="popupHapus()"
                                                                 style="float:left;width:120px">Hapus Claim</button>
                                                         </th>
                                                     </tr>
@@ -1609,6 +1609,12 @@
             </div>
         </fieldset>
     </div>
+</div>
+<div kendo-window="popupHapusKlaim" k-title="'Masukan Alasan Hapus Klaim'" k-width="400" k-height="200"
+    k-visible="false" k-on-open="win2visible = true" k-on-close="win2visible = false">
+    <!-- <textarea ng-model="item.catatanHapus" type="string" class="k-textbox" row="2" style="width:100%; margin-top:5px"></textarea> -->
+    <label c-label item="item " c-label-text="APAKAH ANDA YAKIN MAU MENGHAPUS KLAIM..? "></label>
+    <button class="k-button" ng-click="delete_claim()" style="float:right;margin-top:4%">Simpan Hapus Klaim</button>
 </div>
 <div kendo-window="popupEditCaraNaikKelas" k-title="'Edit Cara Naik Kelas'" k-width="400" k-height="200" k-visible="false"
     k-on-open="win2visible = true" k-on-close="win2visible = false">
