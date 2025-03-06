@@ -6251,8 +6251,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         },
                         "data": {
                             "nomor_sep": dataSave[i].nomor_sep,
-                            // "coder_nik": '123123123123'
-                            "coder_nik": $scope.dataLogin.noIdentitas,
+                            "coder_nik": '123123123123',
+                            // "coder_nik": $scope.dataLogin.noIdentitas,
                         }
                     }
                     dt2.push(dt1)
