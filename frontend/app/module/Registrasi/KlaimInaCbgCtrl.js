@@ -1698,12 +1698,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 }
             }
             $scope.popupHapus = function () {
+                debugger
                 $scope.dataLogin = JSON.parse(window.localStorage.getItem('pegawai'));
                 // if($scope.dataLogin.id!=320263){
                 // 	window.messageContainer.error("Anda tidak punya akses Hapus klaim!!!");
                 //      	return;
                 // }
-                if ($scope.dataPasienSelected.norec == undefined) {
+                if ($scope.item.data[0].noregistrasi == undefined) {
                     toastr.error('Pilih Data Pasien dulu', 'Caution');
                     return;
                 }
@@ -2958,19 +2959,19 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.delete_claim = function () {
                 var dt1 = {}
                 var dt2 = []
-                for (var i = dataSave.length - 1; i >= 0; i--) {
+                // for (var i = dataSave.length - 1; i >= 0; i--) {
                     dt1 = {
                         "metadata": {
                             "method": "delete_claim"
                         },
                         "data": {
-                            "nomor_sep": dataSave[i].nomor_sep,
+                            "nomor_sep": set.nosep,
                             "coder_nik": '123123123123',
                             // "coder_nik": $scope.dataLogin.noIdentitas,
                         }
                     }
                     dt2.push(dt1)
-                }
+                // }
 
                 var objData = {
                     "data": dt2
@@ -2978,7 +2979,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 medifirstService.post('bridging/inacbg/save-bridging-inacbg', objData).then(function (e) {
                     responData = e.data.dataresponse;
                     var datasend = {
-                        "noregistrasifk": $scope.dataPasienSelected.norec,
+                        "noregistrasifk": $scope.item.data[0].noregistrasifk,
                         "status": "DELETE CLAIM"
                     }
                     if (responData[0].dataresponse.metadata.code == "200") {
