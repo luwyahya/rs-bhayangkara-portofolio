@@ -519,6 +519,41 @@ define(['initialize'], function(initialize) {
                     noOrder: 'InputInsidenInternal'
                 });
             }
+            $scope.InputPemeriksaaanLuar = function() {
+                debugger
+                if ($scope.dataPasienSelected == undefined) {
+                    toastr.error('Pasien Belum di pilih', 'Peringatan!')
+                    return;
+                }
+                // if($scope.dataSelected.ruid==575 && $scope.dataSelected.objectdepartemenfk==16 && $scope.dataSelected.tglpulang!=null){
+                // 	toastr.error('Pasien Rawat Inap ini sudah Pulang', 'Peringatan!')
+                // 	return;
+                // }
+                var arrStr = {
+                    0: $scope.dataPasienSelected.nocm,
+                    1: $scope.dataPasienSelected.namapasien,
+                    2: $scope.dataPasienSelected.jeniskelamin,
+                    3: $scope.dataPasienSelected.noregistrasi,
+                    4: $scope.dataPasienSelected.umur,
+                    5: $scope.dataPasienSelected.klid,
+                    6: $scope.dataPasienSelected.namakelas,
+                    7: $scope.dataPasienSelected.tglregistrasi,
+                    8: $scope.dataPasienSelected.norec,
+                    9: $scope.dataPasienSelected.namaruangan,
+                    10: $scope.dataPasienSelected.ruid,
+                    11: $scope.dataPasienSelected.norec_pd,
+                    12: "", //nor
+                    13: $scope.dataPasienSelected.kelompokpasien,
+                    16: $scope.dataPasienSelected.objectdepartemenfk,
+                    18: $scope.dataPasienSelected.nostruklastfk,
+                    19: $scope.dataPasienSelected.golongandarah,
+                    20: $scope.dataPasienSelected.tglpulang,
+                    21: $scope.dataPasienSelected.idruanganasal,
+                    22: $scope.dataPasienSelected.namaruanganasal
+                }
+                cacheHelper.set('RujukanLuarLaboratorium', arrStr);
+                $state.go('RujukanLuarLaboratorium')
+            }
 
             /* END */
         }

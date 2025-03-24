@@ -1038,6 +1038,10 @@
             "urlDep": "module/RawatJalan/DaftarPemeriksaanLuarLabCtrl"
         },
         {
+            "nameDep": "DaftarRujukanLuarLabCtrl",
+            "urlDep": "module/RawatJalan/DaftarRujukanLuarLabCtrl"
+        },
+        {
             "nameDep": "DaftarPasienTelahTerdaftarCtrl",
             "urlDep": "module/IGD/DaftarPasienTelahTerdaftarCtrl"
         },
@@ -3153,6 +3157,10 @@
         {
             "nameDep": "MappingEmrToRuanganCtrl",
             "urlDep": "module/EMR/MappingEmrToRuanganCtrl"
+        },
+        {
+            "nameDep": "RujukanLuarLaboratoriumCtrl",
+            "urlDep": "module/Radiologi/RujukanLuarLaboratoriumCtrl"
         }
     ]
 }

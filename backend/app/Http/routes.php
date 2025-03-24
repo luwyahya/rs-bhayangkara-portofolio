@@ -2421,6 +2421,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-rekanan', 'Radiologi\RadiologiController@getRekananKelompok');
             Route::get('get-daftar-orderverif-rincian', 'Radiologi\RadiologiController@getDaftarOrderPenunjangverifRincian');
             Route::post('update-modality', 'Radiologi\RadiologiController@updatemodality');
+            Route::get('get-data-combo-luarlab', 'Radiologi\RadiologiController@getDataComboLuarLab');
         });
         Route::group(['prefix' => 'rawatinap'], function () {
             Route::get('get-kab-kota', 'RawatInap\RawatInapController@getKabKota');
@@ -2548,6 +2549,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('save-dipanggil-suster', 'RawatJalan\RawatJalanController@saveDipanggilSusterRajal');
             Route::get('get-laporan-persediaan', 'RawatJalan\RawatJalanController@getLaporanPersediaan');
             Route::get('get-pasien-eks-rajal', 'RawatJalan\RawatJalanController@getPasienEksekutifHalu');
+            Route::get('get-rujukan-keluar-lab', 'RawatJalan\RawatJalanController@getPemeriksaanRujukLab');
         });
         Route::group(['prefix' => 'registrasi'], function () {
             // 2021-02 penambahan trisno
@@ -4106,6 +4108,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-data-penyakit-ponek-igd-rekap', 'TataRekening\TagihanController@getDataPenyakitPonekIGDRekap');
             Route::post('save-plapon', 'TataRekening\TagihanController@simpanPlapon');
             Route::post('simpan-verifikasi-tagihan-tatarekening-penjamin-pertindakan', 'TataRekening\TagihanController@simpanVerifikasiTagihanPenjaminPertindakan');
+            Route::post('save-pemeriksaan-luar-lab', 'TataRekening\TagihanController@simpanPemeriksaanLuarLab');
           
             // @all 
             Route::get('get-data-passien-batal', 'TataRekening\TagihanController@getDataLaporanPasienBatalRegis');

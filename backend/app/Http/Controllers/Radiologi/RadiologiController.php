@@ -5663,4 +5663,18 @@ class RadiologiController extends ApiController
         
 
     }
+    public function getDataComboLuarLab(Request $request) {
+
+        $dataPelayanan = \DB::table('pelayananluar_m as dp')
+            ->select('dp.id','dp.jenispelayanan')
+            ->where('dp.statusenabled',true)
+            ->orderBy('dp.jenispelayanan')
+            ->get();
+
+        $result = array(
+            'dataPelayanan' => $dataPelayanan,
+            'message' => 'inhuman',
+        );
+        return $this->respond($result);
+    }
 }

@@ -6185,6 +6185,25 @@
     ]
 },
 {
+    "name": "DaftarRujukanLuarLab",
+    "url": "/DaftarRujukanLuarLab",
+    "templateurl": "module/RawatJalan/DaftarRujukanLuarLab.html",
+    "controller": "DaftarRujukanLuarLabCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
+},
+{
     "name": "LaporanRekapLayanan",
     "url": "/LaporanRekapLayanan",
     "templateurl": "module/Laboratorium/Laporan/LaporanRekapLayanan.html",
@@ -16870,5 +16889,24 @@
                 "define": "RekamMedisCtrl"
             }
         ]
+},
+{
+    "name": "RujukanLuarLaboratorium",
+    "url": "/RujukanLuarLaboratorium",
+    "templateurl": "module/Radiologi/RujukanLuarLaboratorium.html",
+    "controller": "RujukanLuarLaboratoriumCtrl",
+    "deps": [{
+            "module": "Services",
+            "define": "Service"
+        },
+        {
+            "module": "LoginServices",
+            "define": "LoginService"
+        },
+        {
+            "module": "MedifirstService",
+            "define": "MedifirstService"
+        }
+    ]
 }
 ]

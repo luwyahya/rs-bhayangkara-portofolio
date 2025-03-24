@@ -1,0 +1,377 @@
+<style type="text/css">
+    .red {
+        background-color: #ff3860;
+        color: #FFFFFF;
+        /*font-weight: bold;*/
+    }
+
+    .blue {
+        background-color: #1E90FF;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .koneng {
+        background-color: #FFFF00;
+        color: #191970;
+        /*font-weight: bold;*/
+    }
+
+    .hejo {
+        background-color: #98FB98;
+        color: #000000;
+        /*font-weight: bold;*/
+    }
+
+    .style-center {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+    .style-right {
+        display: inline-block;
+        text-align: right;
+        width: 100%;
+    }
+
+    .style-left {
+        display: inline-block;
+        text-align: left;
+        width: 100%;
+    }
+
+    .k-grid .k-grid-header .k-header .k-link {
+        height: auto;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        white-space: normal;
+    }
+
+    .k-grid .k-grid-header .k-header {
+        text-align: center;
+    }
+
+    table.k-editor {
+        height: 500px;
+    }
+</style>
+
+
+<div class="grid_12">
+    <div class="grid_12 headerBox">
+        <h1 style="color: white;"><b>Input Pemeriksaan Luar Laboratorium</b></h1>
+    </div>
+
+    <div class="grid_9 borderBox" style=" height:170px;margin-top: 5px">
+
+        <div class="grid_12 headerBox">
+            <p>Data Pasien</p>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">No.MR</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noMr" ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">No.Registrasi</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.noregistrasi"
+                    ng-disabled="true" />
+            </div>
+        </div>
+
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Kelas</label>
+            </div>
+            <div class="grid_12">
+                <input kendo-combo-box k-ng-model="item.kelas" k-data-text-field="'namakelas'" k-data-value-field="'id'"
+                    k-filter="'contains'" k-auto-bind="false" k-data-source="listKelas" ng-disabled='true' />
+            </div>
+        </div>
+
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label item="item">Tgl. Registrasi</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.tglRegistrasi"
+                    ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label item="item">Penjamin</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisPenjamin"
+                    ng-disabled="true" />
+            </div>
+        </div>
+
+
+        <div class="grid_4">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Nama Pasien"></label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.namaPasien"
+                    ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Jenis Kelamin"></label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.jenisKelamin"
+                    ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_3">
+            <div class="grid_12">
+                <label c-label item="item" c-label-text="Umur"></label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.umur" ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_2">
+            <div class="grid_12">
+                <label c-label item="item">Kelompok Pasien</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.kelompokPasien"
+                    ng-disabled="true" />
+            </div>
+        </div>
+        <div class="grid_1">
+            <div class="grid_12">
+                <label c-label item="item">Gol Darah</label>
+            </div>
+
+            <div class="grid_12">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.golonganDarah"
+                    ng-disabled="true" />
+            </div>
+        </div>
+    </div>
+    <div class="grid_3 borderBox" style=" height:170px;margin-top: 5px">
+        <div class="grid_12 headerBox">
+            <p>Pengkajian</p>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Berat Badan</label>
+            </div>
+
+            <div class="grid_5">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.beratBadan"
+                    ng-disabled="true" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item">Kg</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_12">
+                <label c-label item="item">Status Alergi</label>
+            </div>
+
+            <div class="grid_10">
+                <input c-text-box type="input" filter="" class="k-textbox" ng-model="item.AlergiYa"
+                    ng-disabled="true" />
+            </div>
+        </div>
+    </div>
+<div class="grid_12">
+
+    <!-- <div class="grid_12">
+        <h3 style="float: left;"><b>A. ASSESSMENT KEBUTUHAN EDUKASI</b></h3>
+    </div> -->
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <label c-label item="item" required>Tanggal Pelayanan</label>
+        </div>
+        <div class="grid_4">
+            <input style="width: 100%" k-ng-model="item.tglRegistrasi" kendo-datetimepicker
+            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" ng-disabled="true"/>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <label c-label item="item" required>Tanggal Kirim Sampel</label>
+        </div>
+        <div class="grid_4">
+            <input style="width: 100%" k-ng-model="item.tglkirimsample" kendo-datetimepicker
+            placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <label c-label item="item" required>Nama Faskes Tujuan</label>
+        </div>
+        <div class="grid_4">
+            <input required c-text-box type="input"  class="k-textbox"
+            ng-model="item.namafaskes"/>
+        </div>
+        <!-- <div class="grid_4" ng-show="namaBahasa">
+            <input required c-text-box type="input"  class="k-textbox"
+                ng-model="item.obj[2337]"/>
+        </div> -->
+    </div>
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <label c-label item="item" required>Jenis Pelayanan</label>
+        </div>
+        <div class="grid_4">
+            <input required style="width: 100%;" kendo-combo-box
+                k-ng-model="item.jenispelayanan" k-data-text-field="'jenispelayanan'"
+                k-filter="'contains'" k-data-value-field="'id'"
+                k-data-source="listJenisPelayanan" />
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_2" style="margin-top: 0.8%;">
+            <label c-label item="item" required>Tarif Pelayanan</label>
+        </div>
+        <div class="grid_4">
+            <input required c-text-box type="input"  class="k-textbox"
+            ng-model="item.tarifLuar"/>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_8"></div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="simpan()"><i class="fa fa-save"></i> Simpan</button>
+        </div>
+        <div class="grid_2">
+            <button class="btnTemplate1 cancel" ng-click="kembali()"> Kembali</button>
+        </div>
+    </div>
+</div>
+<div kendo-window="popUpTambahEdukasi" k-title="'Edukasi'" k-width="900" k-height="650" k-visible="false" k-on-open="win2visible = true"
+    k-on-close="win2visible = false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" required>Petugas</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.petugas" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPetugas" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <hr>  
+            
+            <div class="grid_10">
+                <label c-label item="item" required>Materi Edukasi</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.materiedukasi" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listMateriEdukasi" />
+            </div>
+            <div class="grid_10" ng-show="lainlain">
+                <label c-label item="item" required>Lain-lain</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.lainlain" />
+            </div>
+        </div>
+        <div class="grid_12">
+            
+            <div class="grid_4">
+                <label c-label item="item" required>Tgl Jam Edukasi</label>
+                <input style="width: 100%" k-ng-model="item.tgljamedukasi" kendo-datetimepicker
+                        placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"/>
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>Lama Edukasi (Menit)</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.lamaedukasi" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listLamaEdukasi" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" required>Metoda Edukasi</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.metodaedukasi" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listMetodaEdukasi" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>Media Edukasi</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.mediaedukasi" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listMediaEdukasi" />
+            </div>
+
+
+            <div class="grid_4" ng-show="isLeaflet">
+                <label c-label item="item" required>Kode Leaflet</label>
+                <!-- <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.leaflet" /> -->
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.leaflet" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listLeaflet" />
+            </div>
+            
+        </div>
+        <div class="grid_12">
+            <hr>
+            <div class="grid_4">
+                <label c-label item="item" required>Sasaran (Pasien / Keluarga)</label>
+                <input required c-text-box type="input" class="k-textbox"
+                    ng-model="item.pasienkeluarga" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>Edukator</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.pemberiedukasi" k-data-text-field="'namalengkap'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listPegawai" />
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_4">
+                <label c-label item="item" required>Evaluasi</label>
+                <input required style="width: 100%;" kendo-combo-box
+                    k-ng-model="item.hasilverifikasi" k-data-text-field="'caption'"
+                    k-filter="'contains'" k-data-value-field="'id'"
+                    k-data-source="listHasilVerifikasi" />
+            </div>
+            <div class="grid_4">
+                <label c-label item="item" required>Tgl Re-edukasi</label>
+                <input style="width: 100%" k-ng-model="item.tglredukasi" kendo-datetimepicker
+                    placeholer="yyyy-MM-dd HH:mm" k-format="'yyyy-MM-dd HH:mm'" parsedate="yyyy-MM-dd HH:mm"/>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_8"></div>
+            <div class="grid_2" style="margin-left: -5.5%;">
+                <button class="btnTemplate1" ng-click="simpanEdukasi()">Simpan</button>
+            </div>
+            <div class="grid_2" style="margin-left: 2.5%;">
+                <button class="btnTemplate1 cancel" ng-click="tutupEdukasi()">Tutup</button>
+            </div>
+    </div>
+</div>

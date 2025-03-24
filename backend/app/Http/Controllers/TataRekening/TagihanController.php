@@ -37,6 +37,7 @@ use App\Transaksi\TempBilling;
 use App\Transaksi\MapRuanganToAkomodasi;
 use App\Transaksi\AlasanHapus;
 use App\Transaksi\MapPetugasPelaksanaBpjs;
+use App\Transaksi\PemeriksaanLuar;
 use App\Master\JenisPetugasPelaksana;
 use App\Master\Pegawai;
 use App\Master\Ruangan;
@@ -15454,4 +15455,54 @@ class TagihanController  extends ApiController
 
         return ($mappingan);
     }
+    public function simpanPemeriksaanLuarLab(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+    
+        try {
+            // Cek apakah data sudah ada berdasarkan noregistrasifk
+            $PL = PemeriksaanLuar::where('noregistrasifk', $request['noregistrasi'])->first();
+    
+            if (!$PL) { // Jika data belum ada, insert data baru
+                $PL = new PemeriksaanLuar();
+                $PL->norec = $PL->generateNewId();
+                $PL->statusenabled = true;
+            }
+    
+            // Set nilai (baik untuk insert maupun update)
+            $PL->tglkirimsample = $request['tglkirimsample'] ?? null;
+            $PL->tarifluar = (float)($request['tarifluar'] ?? 0);
+            $PL->namafaskes = $request['namafaskes'] ?? '';
+            $PL->tglpelayanan = $request['tglpelayanan'] ?? null;
+            $PL->jenispelayanan = $request['jenispelayanan'] ?? null;
+            $PL->jenispelayananfk = $request['jenispelayananfk'] ?? null;
+            $PL->noregistrasifk = $request['noregistrasi'];
+    
+            $PL->save();
+    
+            $transMessage = "Save Pemeriksaan berhasil!";
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Save Pemeriksaan gagal: " . $e->getMessage();
+        }
+    
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = [
+                "status" => 201,
+                "message" => $transMessage,
+            ];
+        } else {
+            DB::rollBack();
+            $result = [
+                "status" => 400,
+                "message" => $transMessage,
+            ];
+        }
+    
+        return response()->json($result, $result['status']);
+    }
+    
+    
 }

@@ -190,6 +190,40 @@ define(['initialize'], function(initialize) {
                 cacheHelper.set('RincianTagihanPenunjang', arrStr);
                 $state.go('RincianTagihanPenunjang')
             }
+            $scope.InputPemeriksaaanLuar = function() {
+                if ($scope.dataSelected == undefined) {
+                    toastr.error('Pasien Belum di pilih', 'Peringatan!')
+                    return;
+                }
+                // if($scope.dataSelected.ruid==575 && $scope.dataSelected.objectdepartemenfk==16 && $scope.dataSelected.tglpulang!=null){
+                // 	toastr.error('Pasien Rawat Inap ini sudah Pulang', 'Peringatan!')
+                // 	return;
+                // }
+                var arrStr = {
+                    0: $scope.dataSelected.nocm,
+                    1: $scope.dataSelected.namapasien,
+                    2: $scope.dataSelected.jeniskelamin,
+                    3: $scope.dataSelected.noregistrasi,
+                    4: $scope.dataSelected.umur,
+                    5: $scope.dataSelected.klid,
+                    6: $scope.dataSelected.namakelas,
+                    7: $scope.dataSelected.tglregistrasi,
+                    8: $scope.dataSelected.norec,
+                    9: $scope.dataSelected.namaruangan,
+                    10: $scope.dataSelected.ruid,
+                    11: $scope.dataSelected.norec_pd,
+                    12: "", //nor
+                    13: $scope.dataSelected.kelompokpasien,
+                    16: $scope.dataSelected.objectdepartemenfk,
+                    18: $scope.dataSelected.nostruklastfk,
+                    19: $scope.dataSelected.golongandarah,
+                    20: $scope.dataSelected.tglpulang,
+                    21: $scope.dataSelected.idruanganasal,
+                    22: $scope.dataSelected.namaruanganasal
+                }
+                cacheHelper.set('RujukanLuarLaboratorium', arrStr);
+                $state.go('RujukanLuarLaboratorium')
+            }
 
             // $scope.tambah = function(){
             //  $state.go('Produk')

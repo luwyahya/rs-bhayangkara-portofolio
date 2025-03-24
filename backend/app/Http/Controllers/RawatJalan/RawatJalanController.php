@@ -4499,4 +4499,68 @@ class RawatJalanController extends ApiController
         );
         return $this->respond($result);
     }
+    public function getPemeriksaanRujukLab(Request $request)
+    {
+
+        $data = \DB::table('pemeriksaanluarlab_t as pp ')
+            ->LEFTJOIN('pasiendaftar_t as pd', 'pd.noregistrasi', '=', 'pp.noregistrasifk')
+            ->LEFTJOIN('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->LEFTJOIN('ruangan_m as ru2', 'ru2.id', '=', 'pd.objectruanganlastfk')
+            ->LEFTJOIN('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->LEFTJOIN('pelayananluar_m as prd', 'prd.id', '=', 'pp.jenispelayananfk')
+            ->select(
+                'pp.norec',
+                'pd.norec as norecpd',
+                'pd.noregistrasi',
+                'pp.tglpelayanan',
+                'ps.nocm',
+                'ps.namapasien',
+                'kps.kelompokpasien',
+                'prd.jenispelayanan',
+                'pp.tarifluar',
+                'pd.tglregistrasi',
+                'pp.tglkirimsample',
+                'ru2.namaruangan as ruanganlast'
+            );
+        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+            $data = $data->where('pp.tglpelayanan', '>=', $request['tglAwal']);
+        }
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+            $data = $data->where('pp.tglpelayanan', '<=', $request['tglAkhir']);
+        }
+        if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noregistrasi']);
+        }
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', 'ilike', '%' . $request['nocm'] . '%');
+        }
+        if (isset($request['namapasien']) && $request['namapasien'] != "" && $request['namapasien'] != "undefined") {
+            $data = $data->where('ps.namapasien', 'ilike', '%' . $request['namapasien'] . '%');
+        }
+        //        if(isset($request['noOrder']) && $request['noOrder']!="" && $request['noOrder']!="undefined"){
+        //            $data = $data->where('so.noorder','ilike','%'.$request['noOrder'].'%');
+        //        }
+        if (isset($request['kelPasienId']) && $request['kelPasienId'] != "" && $request['kelPasienId'] != "undefined") {
+            $data = $data->where('kps.id', '=', $request['kelPasienId']);
+        }
+        if (isset($request['ruangId']) && $request['ruangId'] != "" && $request['ruangId'] != "undefined") {
+            $data = $data->where('ru2.id', '=', $request['ruangId']);
+        }
+        if (isset($request['deptId']) && $request['deptId'] != "" && $request['deptId'] != "undefined") {
+            $data = $data->where('ru2.objectdepartemenfk', '=', $request['deptId']);
+        }
+        if (isset($request['jmlRows']) && $request['jmlRows'] != "" && $request['jmlRows'] != "undefined") {
+            $data = $data->take($request['jmlRows']);
+        }
+        $data = $data->orderBy('pp.tglpelayanan');
+        //        $data = $data->distinct();
+        $data = $data->get();
+
+        $result = array(
+            'data' => $data,
+            'message' => 'er@epic',
+        );
+
+        return $this->respond($result);
+    }
 }
