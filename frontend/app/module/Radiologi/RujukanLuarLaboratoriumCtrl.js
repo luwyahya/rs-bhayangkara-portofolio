@@ -46,7 +46,7 @@ define(['initialize'], function (initialize) {
 
         function LoadCacheHelper() {
             debugger
-            var chacePeriode = cacheHelper.get('RincianTagihanPenunjang');
+            var chacePeriode = cacheHelper.get('RujukanLuarLaboratorium');
             if (chacePeriode != undefined) {
                 $scope.item.noMr = chacePeriode[0]
                 $scope.item.namaPasien = chacePeriode[1]
