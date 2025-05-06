@@ -24671,9 +24671,14 @@ FROM
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->hasilpenunjang = $items->hasil;
-                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        // $temp->objectdokterpemeriksafk = $labs['dokterid'];
                         // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        $temp->objectdokterpengirimfk = !empty($labs['iddokterpengirim']) ? $labs['iddokterpengirim'] : null;
+                        if (!empty($labs['dokterid'])) {
+                            $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        }                       
+                        if (!empty($labs['iddokterpengirim'])) {
+                            $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        }
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24691,9 +24696,14 @@ FROM
                         $temp->objectruanganfk = $labs['objectruanganfk'];
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
-                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        // $temp->objectdokterpemeriksafk = $labs['dokterid'];
                         // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        $temp->objectdokterpengirimfk = !empty($labs['iddokterpengirim']) ? $labs['iddokterpengirim'] : null;
+                        if (!empty($labs['dokterid'])) {
+                            $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        }                        
+                        if (!empty($labs['iddokterpengirim'])) {
+                            $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        }
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24758,9 +24768,15 @@ FROM
                         $temp->namaruanganasal = $rads['namaruanganasal'];
                         $temp->objectprodukfk = $rads['produkfk'];
                         $temp->hasilpenunjang = $itemss->keterangan;
-                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                        // $temp->objectdokterpemeriksafk = $rads['dokterid'];
                         // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                        $temp->objectdokterpengirimfk = !empty($rads['iddokterpengirim']) ? $rads['iddokterpengirim'] : null;
+                        if (!empty($rads['dokterid'])) {
+                            $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                        }
+                        // Periksa jika iddokterpengirim tidak kosong sebelum diassign
+                        if (!empty($rads['iddokterpengirim'])) {
+                            $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                        }
                         $temp->jenispenunjang = 'RAD';
                         $temp->norecpenunjang = $rads['hr_norec'];
                         $temp->save();
@@ -24776,8 +24792,7 @@ FROM
                     $temp->namaruanganasal = $rads['namaruanganasal'];
                     $temp->objectprodukfk = $rads['produkfk'];
                     $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                    // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                    $temp->objectdokterpengirimfk = !empty($rads['iddokterpengirim']) ? $rads['iddokterpengirim'] : null;
+                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
                     $temp->jenispenunjang = 'RAD';
                     $temp->norecpenunjang = $rads['hr_norec'];
                     $temp->save();
