@@ -2346,8 +2346,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             } else {
                 hasilKonsultasi = $scope.item.hasilKonsul
             }
-            debugger
-            var qr = "https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.item.namadokter.id
+            
+            var qr = "https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.item.dpjp.id
             // let y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-fleksibel?idPegawai="+ $scope.item.dpjp.id + "&pesan=" + "RESUME MEDIS" + "&noregistrasi=" + $scope.cc.noregistrasi
             // let z = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-pasien?noregistrasi=" + $scope.cc.noregistrasi
             var data = {
