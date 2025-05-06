@@ -2420,8 +2420,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             + ' ' + 'Pada ' + $scope.item.tglcetak,
             'jenisemr': 'Resume Medis',                    
         }
-        medifirstService.postLoggingEMRCetak(jsonLog).then(function(e) {
-        })
+        // medifirstService.postLoggingEMRCetak(jsonLog).then(function(e) {
+        // })
         saveTglCetak();
         }
         function loadObatResume() {
