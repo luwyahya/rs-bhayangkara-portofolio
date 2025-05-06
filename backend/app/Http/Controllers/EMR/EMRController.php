@@ -24791,8 +24791,15 @@ FROM
                     $temp->objectruanganfk = $rads['objectruanganfk'];
                     $temp->namaruanganasal = $rads['namaruanganasal'];
                     $temp->objectprodukfk = $rads['produkfk'];
-                    $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                    // $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                    // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                    if (!empty($rads['dokterid'])) {
+                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                    }
+                    // Periksa jika iddokterpengirim tidak kosong sebelum diassign
+                    if (!empty($rads['iddokterpengirim'])) {
+                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                    }
                     $temp->jenispenunjang = 'RAD';
                     $temp->norecpenunjang = $rads['hr_norec'];
                     $temp->save();
