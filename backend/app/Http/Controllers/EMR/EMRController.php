@@ -24672,7 +24672,8 @@ FROM
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->hasilpenunjang = $items->hasil;
                         $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        $temp->objectdokterpengirimfk = !empty($labs['iddokterpengirim']) ? $labs['iddokterpengirim'] : null;
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24691,7 +24692,8 @@ FROM
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        $temp->objectdokterpengirimfk = !empty($labs['iddokterpengirim']) ? $labs['iddokterpengirim'] : null;
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24757,7 +24759,8 @@ FROM
                         $temp->objectprodukfk = $rads['produkfk'];
                         $temp->hasilpenunjang = $itemss->keterangan;
                         $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                        // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                        $temp->objectdokterpengirimfk = !empty($rads['iddokterpengirim']) ? $rads['iddokterpengirim'] : null;
                         $temp->jenispenunjang = 'RAD';
                         $temp->norecpenunjang = $rads['hr_norec'];
                         $temp->save();
@@ -24773,7 +24776,8 @@ FROM
                     $temp->namaruanganasal = $rads['namaruanganasal'];
                     $temp->objectprodukfk = $rads['produkfk'];
                     $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                    // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                    $temp->objectdokterpengirimfk = !empty($rads['iddokterpengirim']) ? $rads['iddokterpengirim'] : null;
                     $temp->jenispenunjang = 'RAD';
                     $temp->norecpenunjang = $rads['hr_norec'];
                     $temp->save();
