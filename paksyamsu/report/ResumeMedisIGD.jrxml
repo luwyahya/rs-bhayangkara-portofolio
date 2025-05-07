@@ -178,13 +178,6 @@ WHERE
 		<groupHeader>
 			<band height="155">
 				<staticText>
-					<reportElement x="77" y="90" width="120" height="30" uuid="9e5d613c-51b5-4161-b9c8-4a3636d9296a"/>
-					<textElement>
-						<font size="11" isBold="true"/>
-					</textElement>
-					<text><![CDATA[CIANJUR]]></text>
-				</staticText>
-				<staticText>
 					<reportElement x="15" y="112" width="259" height="20" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
 					<textElement>
 						<font size="11"/>
@@ -195,8 +188,8 @@ WHERE
 					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
 				</line>
 				<staticText>
-					<reportElement x="5" y="59" width="235" height="30" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
-					<textElement textAlignment="Center">
+					<reportElement x="5" y="59" width="335" height="53" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
+					<textElement textAlignment="Left">
 						<font size="11" isBold="true"/>
 					</textElement>
 					<text><![CDATA[KEPOLISIAN DAERAH JAWA BARAT
