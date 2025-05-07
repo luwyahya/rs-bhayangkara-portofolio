@@ -185,7 +185,7 @@ WHERE
 					<text><![CDATA[Jl. Suroso No. 21, Kab. Cianjur - Telp. 0263-285299]]></text>
 				</staticText>
 				<line>
-					<reportElement x="1" y="112" width="380" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50">
+					<reportElement x="1" y="112" width="270" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 				</line>
