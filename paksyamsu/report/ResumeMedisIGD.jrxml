@@ -178,14 +178,14 @@ WHERE
 		<groupHeader>
 			<band height="155">
 				<staticText>
-					<reportElement x="0" y="104" width="375" height="43" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
-					<textElement textAlignment="Center">
+					<reportElement x="1" y="98" width="375" height="24" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
+					<textElement textAlignment="Left">
 						<font size="9"/>
 					</textElement>
-					<text><![CDATA[Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat 43211. Telepon. 0263 285 299]]></text>
+					<text><![CDATA[Jl. Suroso No. 21, Kab. Cianjur - Telp. 0263-285299]]></text>
 				</staticText>
 				<line>
-					<reportElement x="1" y="128" width="380" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50">
+					<reportElement x="1" y="112" width="380" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50">
 						<property name="com.jaspersoft.studio.unit.width" value="px"/>
 					</reportElement>
 				</line>
@@ -199,7 +199,7 @@ BIDANG KEDOKTERAN DAN KESEHATAN
 RUMAH SAKIT BHAYANGKARA TK. IV CIANJUR]]></text>
 				</staticText>
 				<image>
-					<reportElement x="83" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
+					<reportElement x="103" y="5" width="60" height="50" uuid="253758c5-5a19-4df8-abd0-c2df8ec8f5c8"/>
 					<imageExpression><![CDATA[$P{gambarLogo}]]></imageExpression>
 				</image>
 				<staticText>
