@@ -178,7 +178,7 @@ WHERE
 		<groupHeader>
 			<band height="155">
 				<staticText>
-					<reportElement x="1" y="98" width="375" height="24" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
+					<reportElement x="31" y="98" width="375" height="24" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
 					<textElement textAlignment="Left">
 						<font size="9"/>
 					</textElement>
