@@ -178,17 +178,19 @@ WHERE
 		<groupHeader>
 			<band height="155">
 				<staticText>
-					<reportElement x="5" y="104" width="375" height="43" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
+					<reportElement x="0" y="104" width="375" height="43" uuid="147646de-cb2b-401e-904e-3b8a0f1fc248"/>
 					<textElement textAlignment="Center">
 						<font size="9"/>
 					</textElement>
 					<text><![CDATA[Jl. Suroso Nomor. 21, Kel. Pamoyanan, Kec. Cianjur, Kab. Cianjur, Prov. Jawa Barat 43211. Telepon. 0263 285 299]]></text>
 				</staticText>
 				<line>
-					<reportElement x="5" y="128" width="280" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50"/>
+					<reportElement x="1" y="128" width="380" height="1" uuid="22698486-ccf7-4f55-bee0-102787b14b50">
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
 				</line>
 				<staticText>
-					<reportElement x="5" y="55" width="335" height="53" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
+					<reportElement x="-15" y="55" width="285" height="53" uuid="c0f085d6-fc69-40da-b338-371de7053ab9"/>
 					<textElement textAlignment="Center">
 						<font size="11" isBold="true"/>
 					</textElement>
