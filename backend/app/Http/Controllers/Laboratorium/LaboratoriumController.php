@@ -1180,11 +1180,12 @@ class LaboratoriumController extends ApiController
                         $update = HasilLaboratorium::where([
                             // 'noregistrasifk',$request['hasil'][0]['noregistrasifk']
                             // 'norecpelayanan',$value['norecpelayanan']
-                            'noregistrasifk' => $value['noregistrasifk'],
-                            'norecpelayanan' => $value['norecpelayanan'],
-                            'produkfk' => $value['produkfk'],
-                            'detailpemeriksaan' => $value['detailpemeriksaan'],
-                            'maphasilfk' => $value['maphasilfk'],
+                            // 'noregistrasifk' => $value['noregistrasifk'],
+                            // 'norecpelayanan' => $value['norecpelayanan'],
+                            // 'produkfk' => $value['produkfk'],
+                            // 'detailpemeriksaan' => $value['detailpemeriksaan'],
+                            // 'maphasilfk' => $value['maphasilfk'],
+                            'norec' => $value['norec_hasil'],
                             
                         ])->update(
                             [
