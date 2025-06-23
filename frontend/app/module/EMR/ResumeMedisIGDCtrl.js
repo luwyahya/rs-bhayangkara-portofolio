@@ -1973,6 +1973,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 toastr.error('Keadaan Umum belum diisi');
                 return
             }
+            if ($scope.item.pengobatan == '' || $scope.item.pengobatan == undefined) {
+                toastr.error('Pengobatan / Terapi Belum Diisi Umum belum diisi');
+                return
+            }
             let keadaanUmum  = ''
             if ($scope.item.keadaanUmum != '') {
                 keadaanUmum = $scope.item.keadaanUmum
