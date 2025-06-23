@@ -8335,35 +8335,41 @@ class EMRController  extends ApiController
 
     // key
     public function getValuePengkajianMedisIGD(Request $request)
-    {
-        try {
-            $emrPasien = DB::table('emrpasien_t as ep')
-                ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
-                ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
-                ->where('ep.statusenabled', true)
-                ->where('ep.emrfk', 869)
-                ->where('ep.noregistrasifk', $request['noRegistrasi'])
-                ->orderBy('ep.tglemr', 'desc')
-                ->first();
-            $detailEmr = DB::table('emrpasiend_t')
-                ->select('value', 'emrdfk')
-                ->where('emrpasienfk', $emrPasien->noemr)
-                ->where('emrfk', $emrPasien->emrfk)
-                // ->where('tgl', $emrPasien->tglemr)
-                ->get();
-            $response = [
-                "message" => "Oke",
-                'messageCode' => 200,
-                "data" => $detailEmr
-            ];
-        } catch (\Exception $e) {
-            $response = [
-                "message" => $e->errorInfo,
-                "messageCode" => 500
-            ];
+{
+    try {
+        $emrPasien = DB::table('emrpasien_t as ep')
+            ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
+            ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
+            ->where('ep.statusenabled', true)
+            ->where('ep.emrfk', 869)
+            ->where('ep.noregistrasifk', $request['noRegistrasi'])
+            ->orderBy('ep.tglemr', 'desc')
+            ->first();
+
+        if (!$emrPasien) {
+            throw new \Exception("No EMR data found for this registration");
         }
-        return $this->respond($response);
+
+        $detailEmr = DB::table('emrpasiend_t')
+            ->select('value', 'emrdfk')
+            ->where('emrpasienfk', $emrPasien->noemr)
+            ->where('emrfk', $emrPasien->emrfk)
+            // ->where('tgl', $emrPasien->tglemr)
+            ->get();
+
+        $response = [
+            "message" => "Oke",
+            'messageCode' => 200,
+            "data" => $detailEmr
+        ];
+    } catch (\Exception $e) {
+        $response = [
+            "message" => $e->getMessage(), // Changed from errorInfo to getMessage()
+            "messageCode" => 500
+        ];
     }
+    return $this->respond($response);
+}
 
     public function getEMRTransaksiDetailaskep(Request $request)
     {
