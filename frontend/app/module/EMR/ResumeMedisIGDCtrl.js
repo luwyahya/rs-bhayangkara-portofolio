@@ -1969,7 +1969,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         }
         $scope.save = function() {
             debugger
-            if ($scope.item.keadaanUmum == '') {
+            if ($scope.item.keadaanUmum == '' || $scope.item.keadaanUmum == undefined) {
                 toastr.error('Keadaan Umum belum diisi');
                 return
             }
