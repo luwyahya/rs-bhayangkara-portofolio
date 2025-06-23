@@ -1801,6 +1801,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             valueOtomatis()
             let pegawai = JSON.parse(localStorage.getItem('pegawai'));
             $scope.item.tglMasuk = $scope.cc.tglregistrasi
+            $scope.item.tglpulang = $scope.cc.tglpulang
             $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
             $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
             $scope.item.noRm = $scope.cc.nocm
