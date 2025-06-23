@@ -2106,7 +2106,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         }
         $scope.cetak = function () {
             debugger
-            if (norecresume == undefined || norecresume == null || norecresume == '' ) {
+            if (norecresume == undefined || norecresume == null || norecresume == '' || norecresume == '-') {
                 alert("Resume Medis Belum Di Save, Harap di Simpan Terlebih Dahulu!!")
                 return
             }
