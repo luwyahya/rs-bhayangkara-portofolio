@@ -2105,6 +2105,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.belakang = false;
         }
         $scope.cetak = function () {
+            debugger
+            if (norecresume == undefined || norecresume == null || norecresume == '' ) {
+                alert("Resume Medis Belum Di Save, Harap di Simpan Terlebih Dahulu!!")
+                return
+            }
             // Penjagaan Limit Akses cetak hanya 3 user dibawah ini aja
             // 25388(Rosita), 26920(wiwit), 26687(teguh), 320263(admin)
             /*namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };                
