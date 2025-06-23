@@ -1968,7 +1968,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             }
         }
         $scope.save = function() {
-            // debugger
+            debugger
             if ($scope.item.keadaanUmum == '') {
                 toastr.error('Keadaan Umum belum diisi');
                 return
