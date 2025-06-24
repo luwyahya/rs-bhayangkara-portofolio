@@ -1983,6 +1983,42 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 toastr.error('Pengobatan / Terapi Belum Diisi Umum belum diisi');
                 return
             }
+            if ($scope.item.keluhanUtama == '' || $scope.item.keluhanUtama == undefined) {
+                toastr.error('Keluhan Utama Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.alergi == '' || $scope.item.alergi == undefined) {
+                toastr.error('Alergi Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.tingkatKesadaran == '' || $scope.item.tingkatKesadaran == undefined) {
+                toastr.error('Tingkat Kesadaran Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.denyutJantung == '' || $scope.item.denyutJantung == undefined) {
+                toastr.error('Denyut Jantung Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.pernapasan == '' || $scope.item.pernapasan == undefined) {
+                toastr.error('Pernapasan Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.systole == '' || $scope.item.systole == undefined) {
+                toastr.error('Systole Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.diastole == '' || $scope.item.diastole == undefined) {
+                toastr.error('Diastole Belum Diisi Umum belum diisi');
+                return
+            }           
+            if ($scope.item.suhu == '' || $scope.item.suhu == undefined) {
+                toastr.error('Suhu Belum Diisi Umum belum diisi');
+                return
+            }
+            if ($scope.item.pemeriksaanFisik == '' || $scope.item.pemeriksaanFisik == undefined) {
+                toastr.error('Pemeriksaan Fisik Diisi Umum belum diisi');
+                return
+            }
             let keadaanUmum  = ''
             if ($scope.item.keadaanUmum != '') {
                 keadaanUmum = $scope.item.keadaanUmum
