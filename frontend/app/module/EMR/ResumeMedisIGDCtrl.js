@@ -1980,45 +1980,49 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 return
             }
             if ($scope.item.pengobatan == '' || $scope.item.pengobatan == undefined) {
-                toastr.error('Pengobatan / Terapi Belum Diisi Umum belum diisi');
+                toastr.error('Pengobatan / Terapi Belum Diisi');
                 return
             }
             if ($scope.item.keluhanUtama == '' || $scope.item.keluhanUtama == undefined) {
-                toastr.error('Keluhan Utama Belum Diisi Umum belum diisi');
+                toastr.error('Keluhan Utama Belum Diisi');
                 return
             }
             if ($scope.item.alergi == '' || $scope.item.alergi == undefined) {
-                toastr.error('Alergi Belum Diisi Umum belum diisi');
+                toastr.error('Alergi Belum Diisi');
                 return
             }
             if ($scope.item.tingkatKesadaran == '' || $scope.item.tingkatKesadaran == undefined) {
-                toastr.error('Tingkat Kesadaran Belum Diisi Umum belum diisi');
+                toastr.error('Tingkat Kesadaran Belum Diisi');
                 return
             }
             if ($scope.item.denyutJantung == '' || $scope.item.denyutJantung == undefined) {
-                toastr.error('Denyut Jantung Belum Diisi Umum belum diisi');
+                toastr.error('Denyut Jantung Belum Diisi');
                 return
             }
             if ($scope.item.pernapasan == '' || $scope.item.pernapasan == undefined) {
-                toastr.error('Pernapasan Belum Diisi Umum belum diisi');
+                toastr.error('Pernapasan Belum Diisi');
                 return
             }
             if ($scope.item.systole == '' || $scope.item.systole == undefined) {
-                toastr.error('Systole Belum Diisi Umum belum diisi');
+                toastr.error('Tekanan Darah Systole (Kolom Kiri) Belum Diisi');
                 return
             }
             if ($scope.item.diastole == '' || $scope.item.diastole == undefined) {
-                toastr.error('Diastole Belum Diisi Umum belum diisi');
+                toastr.error('Tekanan Darah Diastole (Kolom Kanan) (Belum Diisi');
                 return
             }           
             if ($scope.item.suhu == '' || $scope.item.suhu == undefined) {
-                toastr.error('Suhu Belum Diisi Umum belum diisi');
+                toastr.error('Suhu Belum Diisi');
                 return
             }
             if ($scope.item.pemeriksaanFisik == '' || $scope.item.pemeriksaanFisik == undefined) {
-                toastr.error('Pemeriksaan Fisik Diisi Umum belum diisi');
+                toastr.error('Pemeriksaan Fisik Belum Diisi');
                 return
             }
+            if ($scope.item.edukasi == '' || $scope.item.edukasi == undefined) {
+                toastr.error('Edukasi Belum Diisi');
+                return
+            }            
             let keadaanUmum  = ''
             if ($scope.item.keadaanUmum != '') {
                 keadaanUmum = $scope.item.keadaanUmum
