@@ -2106,6 +2106,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 head: $scope.cc,
                 hasilKonsul: $scope.item.hasilKonsul
             }
+            debugger
             medifirstService.post('emr/save-resume-medis-igd', objSave).then(function(e) {
                 init()
             })
