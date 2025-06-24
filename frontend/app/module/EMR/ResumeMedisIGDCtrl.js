@@ -80,7 +80,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         32: $scope.header.noidentitas,
                         33: $scope.header.objectjeniskelaminfk,
                         34: $scope.header.tempatlahir,
-                        35: $scope.header.notelepon
+                        35: $scope.header.notelepon,
+                         6: $scope.header.tglpulang,
                     } 
                     cacheHelper.set('cacheRMelektronik', arrStr); 
                     LoadCacheHelper();
