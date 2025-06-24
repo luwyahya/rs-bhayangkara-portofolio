@@ -180,6 +180,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         loadDiagnosa()
                         valueOtomatis()
                     } else {
+                        debugger
                         $scope.item.tglMasuk = $scope.cc.tglregistrasi
                         $scope.item.tglPulang = $scope.cc.tglpulang
                         // $scope.item.keadaanUmum = 'Sakit Ringan'
@@ -429,6 +430,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if (dat.data.data[0].id != null) {
                     $scope.item.namadokter = { id: dat.data.data[0].id, namalengkap: dat.data.data[0].namalengkap }
                 }
+                debugger
                 $scope.item.tglMasuk = new Date(dat.data.data[0].tglregistrasi)
                 $scope.item.tglPulang = new Date(dat.data.data[0].tglpulang)
                 // $scope.item.keluhanUtama = dat.data.cppt[0].subjective
@@ -1800,6 +1802,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             cekYangBisaOtomatis()
             valueOtomatis()
             let pegawai = JSON.parse(localStorage.getItem('pegawai'));
+            debugger
             $scope.item.tglMasuk = $scope.cc.tglregistrasi
             $scope.item.tglpulang = $scope.cc.tglpulang
             $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
