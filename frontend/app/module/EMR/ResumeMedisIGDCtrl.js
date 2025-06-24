@@ -117,6 +117,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.cc.objectjeniskelaminfk = chacePeriode[33]
                 $scope.cc.tempatlahir = chacePeriode[34]
                 $scope.cc.notelepon = chacePeriode[35]
+                $scope.cc.tglpulang = chacePeriode[36]
                 init()
                 kematian()
             }
