@@ -7122,6 +7122,15 @@ class BridgingBPJSV2Controller extends ApiController
         $logmjkn->save();
         //-----------------------
 
+        //save log mjkn
+        $logmjkn = new MjknLog();
+        $logmjkn->norec = $logmjkn->generateNewId();
+        $logmjkn->type = 'tesantrian';
+        $logmjkn->data = 'tesdata';
+        $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
+        $logmjkn->save();
+        //-----------------------
+
         $kodePoli = $request['kodepoli'];
         $kodeDokter = $request['kodedokter'];
         $tanggal = $request['tanggalperiksa'];
@@ -7178,7 +7187,7 @@ class BridgingBPJSV2Controller extends ApiController
         $logmjkn = new MjknLog();
         $logmjkn->norec = $logmjkn->generateNewId();
         $logmjkn->type = 'getantrian';
-        $logmjkn->data = $y;
+        $logmjkn->data = $y; // cek getJadwalDokterMjkn
         $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
         $logmjkn->save();
 
