@@ -7175,6 +7175,13 @@ class BridgingBPJSV2Controller extends ApiController
         }
         $y = $Parsing['response'];
 
+        $logmjkn = new MjknLog();
+        $logmjkn->norec = $logmjkn->generateNewId();
+        $logmjkn->type = 'getantrian';
+        $logmjkn->data = $y;
+        $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
+        $logmjkn->save();
+
         $cekDokter = "false";
         $kapasitaspasien = 0;
         $namadokter = '';
