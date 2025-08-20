@@ -7184,6 +7184,7 @@ class BridgingBPJSV2Controller extends ApiController
         }
         $y = $Parsing['response'];
 
+        
         $y= json_encode($y);
         $logmjkn = new MjknLog();
         $logmjkn->norec = $logmjkn->generateNewId();
@@ -7195,10 +7196,9 @@ class BridgingBPJSV2Controller extends ApiController
         $cekDokter = "false";
         $kapasitaspasien = 0;
         $namadokter = '';
-       
         foreach ($Parsing['response'] as $x) {
-            // return$x->kodedokter;
-            if ($x->kodedokter == $kodeDokter) {
+            
+            if ($x->kodedokter == $kodeDokter) {                
                 $cekDokter = "true";
                 $kapasitaspasien = $x->kapasitaspasien;
                 $namadokter = $x->namadokter;
@@ -8285,6 +8285,12 @@ class BridgingBPJSV2Controller extends ApiController
         $encodedSignature = base64_encode($signature);
         $curl = curl_init();
         $dataJsonSend = json_encode($request['data']);
+        if($dataJsonSend == 'null'){ 
+            $dataJsonSend = array(
+                'kodebooking' => $request['kodebooking'],
+                'keterangan' =>  $request['keterangan']
+            );
+        }; 
         curl_setopt_array($curl, array(
             CURLOPT_PORT =>  $this->getPortBrigdingBPJS(),
             CURLOPT_URL => $this->getUrlBrigdingAntrol() . "antrean/batal",
@@ -8316,7 +8322,7 @@ class BridgingBPJSV2Controller extends ApiController
             $result = "cURL Error #:" . $err;
         } else {
             $result = (array) json_decode($response);
-        }
+        } 
         return $this->respond($result);
     }
     public function WaktuTaskId(Request $request)
