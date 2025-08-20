@@ -7195,7 +7195,9 @@ class BridgingBPJSV2Controller extends ApiController
         $cekDokter = "false";
         $kapasitaspasien = 0;
         $namadokter = '';
-        foreach ($y as $x) {
+       
+        foreach ($Parsing['response'] as $x) {
+            // return$x->kodedokter;
             if ($x->kodedokter == $kodeDokter) {
                 $cekDokter = "true";
                 $kapasitaspasien = $x->kapasitaspasien;
