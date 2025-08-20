@@ -8290,7 +8290,9 @@ class BridgingBPJSV2Controller extends ApiController
                 'kodebooking' => $request['kodebooking'],
                 'keterangan' =>  $request['keterangan']
             );
+            $dataJsonSend = json_encode($dataJsonSend);
         }; 
+        // return 
         curl_setopt_array($curl, array(
             CURLOPT_PORT =>  $this->getPortBrigdingBPJS(),
             CURLOPT_URL => $this->getUrlBrigdingAntrol() . "antrean/batal",
