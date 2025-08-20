@@ -7184,10 +7184,11 @@ class BridgingBPJSV2Controller extends ApiController
         }
         $y = $Parsing['response'];
 
+        $y= json_encode($y);
         $logmjkn = new MjknLog();
         $logmjkn->norec = $logmjkn->generateNewId();
         $logmjkn->type = 'getantrian';
-        $logmjkn->data = json_encode($y); // cek getJadwalDokterMjkn
+        $logmjkn->data = $y; // cek getJadwalDokterMjkn
         $logmjkn->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
         $logmjkn->save();
 
