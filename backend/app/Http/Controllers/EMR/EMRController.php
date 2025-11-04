@@ -27428,4 +27428,88 @@ WHERE rm.norec = '$norec_resume'
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+    public function getDiagnosaIcd10PartIdrg(Request $request)
+    {
+        $req = $request->all();
+        $dataProduk = [];
+        $dataProduk = \DB::table('diagnosa_m as st')
+            ->select('st.id', 'st.kddiagnosa as kdDiagnosa', 'st.namadiagnosa as namaDiagnosa','st.accpdx','st.validcode')
+            ->where('st.statusenabled', true)
+            // ->where('st.kodeexternal', 'IM')
+            ->orderBy('st.kddiagnosa');
+        if (
+            isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value'] != "" &&
+            $req['filter']['filters'][0]['value'] != "undefined"
+        ) {
+            $dataProduk = $dataProduk->where('st.kddiagnosa', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
+                ->orWhere('st.namadiagnosa', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
+        };
+        $dataProduk = $dataProduk->take(10);
+        $dataProduk = $dataProduk->get();
+
+
+        $data = [];
+        if (count($dataProduk) > 0) {
+            foreach ($dataProduk as $item) {
+                $data[] = array(
+                    'kodeNama' => $item->kdDiagnosa . ' - ' . $item->namaDiagnosa,
+                    'id' => $item->id,
+                    'kdDiagnosa' => $item->kdDiagnosa,
+                    'namaDiagnosa' => $item->namaDiagnosa,
+                    'accpdx' => $item->accpdx,
+                    'validcode' => $item->validcode,
+
+                );
+            }
+        }
+
+        return $this->respond($data);
+    }
+    public function getIcd9IDRG(Request $request)
+    {
+        $req = $request->all();
+        $icdIX = \DB::table('diagnosatindakanidrg_m as dg')
+            ->select(
+                'dg.id',
+                'dg.reportdisplay as kdDiagnosaTindakan',
+                'dg.kddiagnosatindakan',
+                'dg.namadiagnosatindakan as namaDiagnosaTindakan',
+                'dg.accpdx',
+                'dg.validcode'
+            )
+            ->where('dg.statusenabled', true)
+            ->orderBy('dg.reportdisplay');
+
+        if (
+            isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value'] != "" &&
+            $req['filter']['filters'][0]['value'] != "undefined"
+        ) {
+            $icdIX = $icdIX->where('dg.reportdisplay', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
+                ->orWhere('dg.kddiagnosatindakan', 'ilike', $req['filter']['filters'][0]['value'] . '%')
+                ->where('dg.statusenabled', true);
+        }
+
+
+        $icdIX = $icdIX->take(10);
+        $icdIX = $icdIX->get();
+        $data = [];
+        if (count($icdIX) > 0) {
+            foreach ($icdIX as $item) {
+                $data[] = array(
+                    'kodeNama' => $item->kddiagnosatindakan . ' - ' . $item->namaDiagnosaTindakan,
+                    'id' => $item->id,
+                    'kdDiagnosaTindakan' => $item->kdDiagnosaTindakan,
+                    'kddiagnosatindakan' => $item->kddiagnosatindakan,
+                    'namaDiagnosaTindakan' => $item->namaDiagnosaTindakan,
+                    'accpdx' => $item->accpdx,
+                    'validcode' => $item->validcode,
+
+                );
+            }
+        }
+
+        return $this->respond($data);
+    }
 }

@@ -631,11 +631,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-pasien-inacbg', 'Bridging\InaCbgController@getDaftarPasien');
                 Route::get('get-daftar-pasien-inacbgV2', 'Bridging\InaCbgController@getDaftarPasienV2');
                 Route::post('save-bridging-inacbg', 'Bridging\InaCbgController@saveBridgingINACBG');
+                Route::post('save-bridging-inacbg-idrg', 'Bridging\InaCbgController@saveBridgingINACBGIDRG');
                 Route::get('get-combo', 'Bridging\InaCbgController@getComboInaCbg');
 
                 Route::get('get-cari-daftar-pasien', 'Bridging\InaCbgController@getCariDaftarPasien');
                 Route::get('get-cari-history-daftar-pasien', 'Bridging\InaCbgController@getCariHistoryDaftarPasien');
+                Route::get('get-cari-history-daftar-pasien-idrg', 'Bridging\InaCbgController@getCariHistoryDaftarPasienIDRG');
                 Route::get('get-cari-set-form-inacbg', 'Bridging\InaCbgController@getCariSetFormInacbg');
+                Route::get('get-cari-set-form-inacbg-idrg', 'Bridging\InaCbgController@getCariSetFormInacbgIdrg');
                 Route::get('get-cari-daftar-pasien-sendClaim', 'Bridging\InaCbgController@getCariDaftarSendClaim');
                 Route::get('get-cari-daftar-pasien-belumClaim', 'Bridging\InaCbgController@getCariDaftarBelumClaim');
 
@@ -644,12 +647,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-pasien-statusnaikkelas', 'Bridging\InaCbgController@getStatusNaikKelas');
                 Route::post('save-informasi-tanggungan', 'Bridging\InaCbgController@saveInformasiTanggungan');
                 Route::post('update-status-bridging-inacbg', 'Bridging\InaCbgController@updateStatusBridgingINACBG');
+                Route::get('get-status-bridging-inacbg', 'Bridging\InaCbgController@getStatusBridgingINACBG');
                 Route::post('update-status-kondisi-khusus', 'Bridging\InaCbgController@updateStatusKondisiKhusus');
                 Route::post('save-pengajuan-klaim', 'Transaksi\Pelayanan\InaCbgController@savePengajuanKlaim');
                 Route::get('get-daftar-purif-mandiri', 'Bridging\InaCbgController@getDaftarPurifMandiri');
                 Route::post('save-beratbadanbayi', 'Bridging\InaCbgController@saveBeratBadan');
                 Route::post('save-tekananDarah', 'Bridging\InaCbgController@saveTekananDarah');
-
+                Route::post('save-persalinan', 'Bridging\InaCbgController@savePersalinan');
+                Route::post('save-dializer', 'Bridging\InaCbgController@saveDializer');
             });
             Route::group(['prefix' => 'farmasi'], function () {
 
@@ -1161,6 +1166,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             // Route::post('save-order-pelayanan', 'EMR\EMRController@saveOrderPelayanan');
             Route::get('get-combo-icd9', 'EMR\EMRController@getIcd9');
             Route::get('get-combo-icd10', 'EMR\EMRController@getDiagnosaIcd10Part');
+            Route::get('get-combo-icd9-idrg', 'EMR\EMRController@getIcd9IDRG');
+            Route::get('get-combo-icd10-idrg', 'EMR\EMRController@getDiagnosaIcd10PartIdrg');
             Route::get('get-icd10', 'EMR\EMRController@getDiagnosaIcd10');
             Route::get('get-combo-diagnosis', 'EMR\EMRController@getComboDiagnosis');
             Route::get('get-diagnosapasienbynoregicd9', 'EMR\EMRController@getDiagnosaPasienByNoregICD9');
@@ -2735,6 +2742,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('daftar-antrian-pasien/get-diagnosa-pasien-by-norecapd', 'Registrasi\RegistrasiController@getDiagnosaPasienByNorecAPD');
             Route::post('daftar-antrian-pasien/delete-diagnosa-pasien', 'Registrasi\RegistrasiController@deleteDiagnosaPasien');
             Route::post('daftar-antrian-pasien/delete-diagnosa-pasien-target', 'Registrasi\RegistrasiController@deleteDiagnosaPasienTarget');
+            Route::post('daftar-antrian-pasien/delete-diagnosa-pasien-target-idrg', 'Registrasi\RegistrasiController@deleteDiagnosaPasienTargetIDRG');
             Route::post('daftar-antrian-pasien/delete-diagnosa-inacbg10', 'Registrasi\RegistrasiController@deleteDiagnosaInacbg10');
             Route::post('daftar-antrian-pasien/delete-diagnosa-inacbg9', 'Registrasi\RegistrasiController@deleteDiagnosaInacbg9');
             Route::post('daftar-antrian-pasien/set-primary-diagnosa-pasien-target', 'Registrasi\RegistrasiController@setPrimaryDiagnosaPasienTarget');
@@ -2770,12 +2778,14 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('delete-diagnosa-tindakan-pasien', 'Registrasi\RegistrasiController@deleteDiagnosaTindakanPasien');
             Route::post('save-diagnosa-pasien', 'Registrasi\RegistrasiController@saveDiagnosaPasien');
             Route::post('save-diagnosa-pasien-target', 'Registrasi\RegistrasiController@saveDiagnosaPasienTarget');
+            Route::post('save-diagnosa-pasien-target-idrg', 'Registrasi\RegistrasiController@saveDiagnosaPasienTargetIDRG');
             Route::post('save-diagnosa-tindakan-pasien', 'Registrasi\RegistrasiController@saveDiagnosaTindakanPasien');
             Route::post('save-diagnosa-tindakan-pasien-target', 'Registrasi\RegistrasiController@saveDiagnosaTindakanPasienTarget');
             Route::get('get-anamnesis', 'Registrasi\RegistrasiController@getAnamnesis');
             Route::get('get-resume-medis-inap/{nocm}', 'Registrasi\RegistrasiController@getResumeMedisInap');
             Route::post('save-diagnosa-inacbg', 'Registrasi\RegistrasiController@saveDiagnosaInacbg');
             Route::post('save-diagnosa-inacbg9', 'Registrasi\RegistrasiController@saveDiagnosaInacbg9');
+            Route::post('save-diagnosa-idrg', 'Registrasi\RegistrasiController@saveDiagnosaIdrg');
 
             Route::get('get-image', 'Registrasi\RegistrasiController@getImage');
             Route::get('store-image-to-folder/{nocm}', 'Registrasi\RegistrasiController@storeImageToFolder');
