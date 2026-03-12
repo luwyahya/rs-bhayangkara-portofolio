@@ -2445,6 +2445,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-dokters-combos', 'RawatInap\RawatInapController@getDokters');
             Route::post('save-update-dokter-antrian', 'RawatInap\RawatInapController@updateDokterAntrian');
             Route::post('simpan-update-dokter', 'RawatInap\RawatInapController@simpanUpdateDokter');
+            Route::get('get-daftar-bed-ranap-dokkes', 'RawatInap\RawatInapController@getDaftarRegistrasiBedRanapDokkes');
             Route::get('get-daftar-bed', 'RawatInap\RawatInapController@getTotalBed');
             Route::get('get-daftar-bed-isi', 'RawatInap\RawatInapController@getTotalBedIsi');
             Route::get('get-daftar-bed-kosong', 'RawatInap\RawatInapController@getTotalBedKosong');

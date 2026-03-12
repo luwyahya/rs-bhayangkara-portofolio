@@ -2,8 +2,8 @@ define(['initialize'], function (initialize) {
     'use strict';
     // initialize.controller('DaftarAntrianSusterRanapCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'FindPasien', 'DateHelper', 'socket', 'ManagePasien', '$mdDialog', '$window', 'CetakHelper', 'medifirstService', 'CacheHelper', '$q',
     // function (saveToWindow, $rootScope, $scope, ModelItem, $state, findPasien, DateHelper, socket, managePasien, $mdDialog, window, cetakHelper, medifirstService, cacheHelper, $q) {
-    initialize.controller('DaftarAntrianSusterRanapCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', '$mdDialog', 'CetakHelper', 'MedifirstService', '$q',
-        function (saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, DateHelper, $mdDialog, cetakHelper, medifirstService, $q) {
+    initialize.controller('DaftarAntrianSusterRanapCtrl', ['SaveToWindow', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', '$mdDialog', 'CetakHelper', 'MedifirstService', '$q','$http',
+        function (saveToWindow, $rootScope, $scope, ModelItem, $state, cacheHelper, DateHelper, $mdDialog, cetakHelper, medifirstService, $q, $http) {
             $scope.dataVOloaded = true;
             $scope.now = new Date();
             $scope.item = {};
@@ -49,7 +49,7 @@ define(['initialize'], function (initialize) {
                         var status = es.data
                         if (status == 'true') {
                             updateKetersediaanTT()
-
+                            syncTempatTidur()
                         }
                     })
 
@@ -143,6 +143,228 @@ define(['initialize'], function (initialize) {
                 format: "#.#",
                 decimals: 0
             }
+
+            function syncTempatTidur() {
+                var authPayload = {
+                    "client_id": "BKM0002fktp3454545",
+                    "client_secret": "83898d4852dd716e52e3031c98cc83478dc8c9c9ed26e0260f98531cab1852ae"
+                };
+
+                var authUrl = 'https://bidkesmapta.com/api/v1/auth/token';
+
+                $http.post(authUrl, authPayload)
+                    .then(function (authRes) {
+                        if (authRes.data && authRes.data.success) {
+                            // INI DIA SUMBER TOKENNYA
+                            var accessToken = authRes.data.data.access_token; 
+                            // console.log("Token sukses didapatkan:", accessToken);
+
+                            // createAwalDariRanap(accessToken);
+                            syncStatusBed(accessToken); 
+                            // hapusSemuaBedBidkesmapta(accessToken);
+                        }
+                    }, function (error) {
+                        console.error("Gagal mendapatkan token dari bidkesmapta:", error);
+                    });
+            }
+
+            function createAwalDariRanap(accessToken) {
+                medifirstService.get("rawatinap/get-daftar-bed-ranap-dokkes?", true).then(function (res) {
+                    var allBeds = res.data[0].data2;
+                    console.log("Mulai proses CREATE " + allBeds.length + " tempat tidur dari modul Ranap...");
+
+                    processCreateBedRanap(allBeds, 0, accessToken);
+                });
+            }
+
+            function processCreateBedRanap(allBeds, index, accessToken) {
+                if (index >= allBeds.length) {
+                    console.log("Mantap! Selesai melakukan Create untuk semua tempat tidur dengan format nama yang benar.");
+                    return;
+                }
+
+                const element = allBeds[index];
+
+                var namaPendekKamar = element.namakamar.replace(element.namaruangan, "").trim();
+                
+                var namaBedLokal = namaPendekKamar + "-" + element.reportdisplay; 
+                // --------------------------------------------------------------
+
+                let payload = {
+                    "tempattidur": namaBedLokal, 
+                    "idkelas": element.namakelas, 
+                    "idsubinstalasi": element.idruangan, 
+                    "subinstalasi": element.namaruangan, 
+                    "aktif": "True"
+                };
+
+                var config = {
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken
+                    }
+                };
+
+                var createUrl = 'https://bidkesmapta.com/api/v1/tempat-tidur';
+
+                $http.post(createUrl, payload, config)
+                    .then(function (response) {
+                        console.log("Berhasil CREATE: " + namaBedLokal + " (" + (index + 1) + "/" + allBeds.length + ")");
+                        processCreateBedRanap(allBeds, index + 1, accessToken);
+                    }, function (error) {
+                        console.error("Gagal CREATE: " + namaBedLokal, error);
+                        processCreateBedRanap(allBeds, index + 1, accessToken);
+                    });
+            }
+
+           function syncStatusBed(accessToken) {
+                medifirstService.get("rawatinap/get-daftar-bed-ranap-dokkes?", true).then(function (res) {
+                    var localBeds = res.data[0].data2;
+                    console.log("Data bed lokal berhasil ditarik:", localBeds.length);
+
+                    var allBidkesmaptaBeds = [];
+                    fetchBidkesmaptaBedsPage(1, accessToken, allBidkesmaptaBeds, function(finalBidkesmaptaBeds) {
+                        
+                        processOccupyRelease(localBeds, finalBidkesmaptaBeds, accessToken);
+                        
+                    });
+                });
+            }
+
+            function fetchBidkesmaptaBedsPage(page, accessToken, accumulatedBeds, callback) {
+                var config = {
+                    headers: { 'Authorization': 'Bearer ' + accessToken }
+                };
+                
+                var url = 'https://bidkesmapta.com/api/v1/tempat-tidur?page=' + page + '&per_page=100';
+
+                $http.get(url, config).then(function (res) {
+                    if (res.data && res.data.success) {
+                        var items = res.data.data.items;
+                        
+                        accumulatedBeds = accumulatedBeds.concat(items);
+                        
+                        var pagination = res.data.data.pagination;
+                        console.log("Menarik data Bidkesmapta page " + page + " dari " + pagination.total_pages);
+
+                        if (pagination.has_more) {
+                            fetchBidkesmaptaBedsPage(page + 1, accessToken, accumulatedBeds, callback);
+                        } else {
+                            console.log("Selesai menarik total " + accumulatedBeds.length + " bed dari Bidkesmapta.");
+                            callback(accumulatedBeds);
+                        }
+                    }
+                }, function (error) {
+                    console.error("Gagal menarik data bed Bidkesmapta page " + page, error);
+                });
+            }
+
+            function processOccupyRelease(localBeds, bidkesmaptaBeds, accessToken) {
+                var config = {
+                    headers: { 'Authorization': 'Bearer ' + accessToken }
+                };
+
+                for (var i = 0; i < localBeds.length; i++) {
+                    var localBed = localBeds[i];
+                    
+                    var namaPendekKamar = localBed.namakamar.replace(localBed.namaruangan, "").trim();
+                    
+                    var namaBedLokal = namaPendekKamar + "-" + localBed.reportdisplay; 
+                    var matchedBed = bidkesmaptaBeds.find(function(b) {
+                        var isNameMatch = b.tempattidur.trim().toLowerCase() === namaBedLokal.trim().toLowerCase();
+                        var isRoomMatch = b.idsubinstalasi == localBed.idruangan; 
+                        
+                        return isNameMatch && isRoomMatch;
+                    });
+
+                    if (matchedBed) {
+                        var idBidkesmapta = matchedBed.id;
+
+                        if (localBed.idstatusbed == 1) { // 1 = ISI
+                                                        
+                            var noReg = localBed.nopendaftaran;
+
+                            var payloadOccupy = {
+                                "namapasien": maskNamaPasien(localBed.namapasien), 
+                                "nopendaftaran": noReg
+                            };
+                            
+                            $http.patch('https://bidkesmapta.com/api/v1/tempat-tidur/' + idBidkesmapta + '/occupy', payloadOccupy, config)
+                                .then(function(res) { /* sukses */ }, function(err) { /* abaikan 409 conflict */ });
+
+                        } else { 
+                            $http.patch('https://bidkesmapta.com/api/v1/tempat-tidur/' + idBidkesmapta + '/release', {}, config)
+                                .then(function(res) { /* sukses */ }, function(err) { /* abaikan error */ });
+                        }
+                    } else {
+                        console.warn("Bed lokal tidak ditemukan pasangannya di Bidkesmapta:", namaBedLokal);
+                    }
+                }
+
+                console.log("Proses sinkronisasi status (Occupy/Release) sedang dikirim ke server...");
+
+                setTimeout(function() {
+                    console.log("Mengecek hasil sinkronisasi...");
+                    cekSelisihData(accessToken);
+                }, 15000);
+            }
+
+            function maskNamaPasien(namaLengkap) {
+                if (!namaLengkap) return "P***** F****";
+
+                var words = namaLengkap.split(' ');
+                var maskedWords = words.map(function(word) {
+                    if (word.length <= 1) return word;
+                    return word.charAt(0) + "*".repeat(word.length - 1);
+                });
+
+                return maskedWords.join(' ');
+            }
+
+            function cekSelisihData(accessToken) {
+                medifirstService.get("rawatinap/get-daftar-bed-ranap-dokkes?", true).then(function (resLokal) {
+                    var localBeds = resLokal.data[0].data2;
+                    var localSummary = {};
+
+                    localBeds.forEach(function(bed) {
+                        var ruang = bed.namaruangan;
+                        if (!localSummary[ruang]) {
+                            localSummary[ruang] = { isi: 0, kosong: 0 };
+                        }
+                        if (bed.idstatusbed == 1) { // 1 = ISI
+                            localSummary[ruang].isi++;
+                        } else {
+                            localSummary[ruang].kosong++;
+                        }
+                    });
+
+                    var config = { headers: { 'Authorization': 'Bearer ' + accessToken } };
+                    $http.get('https://bidkesmapta.com/api/v1/tempat-tidur/summary', config).then(function(resApi) {
+                        var apiSummary = resApi.data.data.by_subinstalasi;
+
+                        console.log("=== LAPORAN SELISIH DATA BED ===");
+                        
+                        apiSummary.forEach(function(apiRoom) {
+                            var ruang = apiRoom.subinstalasi;
+                            var lokal = localSummary[ruang];
+
+                            if (lokal) {
+                                var diffIsi = lokal.isi - parseInt(apiRoom.terisi);
+                                var diffKosong = lokal.kosong - parseInt(apiRoom.tersedia);
+
+                                if (diffIsi !== 0 || diffKosong !== 0) {
+                                    console.error("❌ SELISIH DI RUANGAN: " + ruang);
+                                    console.log("   - Menurut Lokal : " + lokal.isi + " Isi, " + lokal.kosong + " Kosong");
+                                    console.log("   - Di Bidkesmapta: " + apiRoom.terisi + " Isi, " + apiRoom.tersedia + " Kosong");
+                                } else {
+                                    console.log("✅ COCOK: " + ruang);
+                                }
+                            }
+                        });
+                        console.log("=== SELESAI ===");
+                    });
+                });
+            }
+
             $scope.cetaklabel = function () {
                 $scope.dats = {
                     qty: 0

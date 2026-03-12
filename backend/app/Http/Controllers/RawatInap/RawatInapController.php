@@ -3334,4 +3334,110 @@ class RawatInapController extends ApiController
         "));
         return $this->respond($data);
     }
+
+    public function getDaftarRegistrasiBedRanapDokkes(Request $request)
+    {
+        $filter = $request->all();
+        $ruangId = '';
+        if (isset($filter['ruangId']) && $filter['ruangId'] != "" && $filter['ruangId'] != "undefined") {
+            $ruangId = ' AND ru.id = ' . $filter['ruangId'];
+        }
+
+        if ($ruangId != '' && !isset($ruangId)) {
+            $ruangan = $filter['ruangId'];
+            $datakamar = DB::select(DB::raw(
+                "select tt.* from tempattidur_m as tt
+                inner join kamar_m as km on tt.objectkamarfk = km.id
+                where km.objectruanganfk=$ruangan and tt.statusenabled=true and km.statusenabled=true and tt.objectstatusbedfk=1
+                order by id"
+            ));
+            $datapasien = DB::select(DB::raw(
+                "select ps.namapasien, pd.noregistrasi, ps.nobpjs, pg.idhafis, tt.objectstatusbedfk, apd.* from pasiendaftar_t as pd
+                inner join antrianpasiendiperiksa_t as apd on pd.norec = apd.noregistrasifk and pd.objectruanganlastfk=apd.objectruanganfk
+                inner join tempattidur_m as tt on tt.id = apd.nobed
+                inner join pegawai_m as pg on pg.id = pd.objectpegawaifk
+                inner join pasien_m as ps on ps.id = pd.nocmfk
+                where pd.objectruanganlastfk=$ruangan and pd.tglpulang is null  and apd.tglkeluar is null
+                order by pd.noregistrasi"
+            ));
+            if (!empty($datakamar) && !empty($datapasien) && count($datakamar) !== count($datapasien)) {
+                foreach ($datakamar as $item) {
+                    $statusisi = true;
+                    foreach ($datapasien as $item2) {
+                        if ($item->id == $item2->nobed) {
+                            $statusisi = false;
+                        }
+                        if ($item2->objectstatusbedfk == 2) {
+
+                            TempatTidur::where('id', $item2->nobed)->update(['objectstatusbedfk' => 1]);
+                        }
+                    }
+                    if ($statusisi == true) {
+                        TempatTidur::where('id', $item->id)->update(['objectstatusbedfk' => 2]);
+                    }
+                }
+            }
+        }
+
+        $data2 = DB::select(DB::raw("SELECT
+            ru.id AS idruangan,
+            ru.namaruangan,
+            km.id AS idkamar,
+            km.namakamar,
+            tt.id AS idtempattidur,
+            tt.reportdisplay,
+            tt.nomorbed,
+            sb.id AS idstatusbed,
+            sb.statusbed,
+            kl.id AS idkelas,
+            kl.namakelas,
+            tt.objectstatusbedfktriger,
+            sb2.id AS id_kondisibed,
+            CASE
+                WHEN tt.objectstatusbedfktriger IS NULL THEN 'Belum Siap Pakai' 
+                ELSE sb2.statusbed 
+            END AS kondisibed,
+            MAX(ps.namapasien) AS namapasien,
+            MAX(pd.noregistrasi) AS nopendaftaran 
+        FROM
+            tempattidur_m AS tt
+            LEFT JOIN kamar_m AS km ON km.id = tt.objectkamarfk
+            LEFT JOIN ruangan_m AS ru ON ru.id = km.objectruanganfk
+            LEFT JOIN statusbed_m AS sb ON sb.id = tt.objectstatusbedfk
+            LEFT JOIN kelas_m AS kl ON kl.id = km.objectkelasfk
+            LEFT JOIN statusbed_m AS sb2 ON sb2.id = tt.objectstatusbedfktriger 
+            LEFT JOIN antrianpasiendiperiksa_t AS apd ON apd.nobed = tt.id AND apd.tglkeluar IS NULL
+            LEFT JOIN pasiendaftar_t AS pd ON pd.norec = apd.noregistrasifk AND pd.tglpulang IS NULL
+            LEFT JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+        WHERE
+            ru.objectdepartemenfk IN ( 16, 35 ) 
+            AND ru.statusenabled = true 
+            AND km.statusenabled = true 
+            AND tt.statusenabled = true
+            $ruangId
+        GROUP BY 
+            ru.id, 
+            ru.namaruangan, 
+            km.id, 
+            km.namakamar, 
+            tt.id, 
+            tt.reportdisplay, 
+            tt.nomorbed, 
+            sb.id, 
+            sb.statusbed, 
+            kl.id, 
+            kl.namakelas, 
+            tt.objectstatusbedfktriger, 
+            sb2.id, 
+            CASE
+                WHEN tt.objectstatusbedfktriger IS NULL THEN 'Belum Siap Pakai' 
+                ELSE sb2.statusbed 
+            END"));
+
+        $result = array([
+            'data2' => $data2
+        ]);
+        return $this->respond($result);
+    }
+
 }
