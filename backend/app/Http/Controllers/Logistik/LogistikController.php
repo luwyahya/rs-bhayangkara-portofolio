@@ -14043,12 +14043,22 @@ class LogistikController extends ApiController
                         'produkfk' => $item['produkfk'],
                     )
                 );
-                $kirim = KartuStok::where('ruanganfk', $request['strukkirim']['objectruanganfk'])
-                    ->where('produkfk', $item['produkfk'])
-                    ->get();
-                $terima = KartuStok::where('ruanganfk', $request['strukkirim']['objectruangantujuanfk'])
-                    ->where('produkfk', $item['produkfk'])
-                    ->get();
+                // $kirim = KartuStok::where('ruanganfk', $request['strukkirim']['objectruanganfk'])
+                //     ->where('produkfk', $item['produkfk'])
+                //     ->get();
+                // $terima = KartuStok::where('ruanganfk', $request['strukkirim']['objectruangantujuanfk'])
+                //     ->where('produkfk', $item['produkfk'])
+                //     ->get();
+                $kirim = DB::table('kartustok_t')
+                          ->where('ruanganfk', $request['strukkirim']['objectruanganfk'])
+                          ->where('produkfk', $item['produkfk'])
+                          ->take(1)
+                          ->get();
+                $terima = DB::table('kartustok_t')
+                          ->where('ruanganfk', $request['strukkirim']['objectruanganfk'])
+                          ->where('produkfk', $item['produkfk'])
+                          ->take(1)
+                          ->get();
             }
 
             $transStatus = 'true';
