@@ -104,6 +104,7 @@ use App\Transaksi\DataReaksiObatResumeMedis;
 use Illuminate\Http\Request;
 //use Illuminate\Http\Response;
 use DB;
+use DateTime;
 use App\Traits\Valet;
 //use Carbon\Carbon;
 use MongoDB\Driver\ReadConcern;
@@ -27511,5 +27512,440 @@ WHERE rm.norec = '$norec_resume'
         }
 
         return $this->respond($data);
+    }
+
+    public function SaveTransaksiEMRNewVer(Request $request)
+    {
+        $kdProfile = (int) $this->getDataKdProfile($request);
+        $dataReq = $request->all();
+        $head = $dataReq['head'];
+        $data = $dataReq['data'];
+        DB::beginTransaction();
+        try {
+
+            if ($head['norec_emr'] == '-') {
+
+                $noemr = $this->generateCodeBySeqTable(new EMRPasien, 'noemr', 15, 'MR' . date('ym') . '/', $kdProfile);
+                // return $noemr;
+                if ($noemr == '') {
+                    $transMessage = "Gagal mengumpulkan data, Coba lagi.!";
+                    DB::rollBack();
+                    $result = array(
+                        "status" => 400,
+                        "message" => $transMessage,
+                        "as" => 'as@epic',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+
+                $EMR = new EMRPasien();
+                $norecHead = $EMR->generateNewId();
+                $EMR->norec = $norecHead;
+                $norecTehMenikitunyaeuy = $norecHead;
+                $EMR->norec = $norecTehMenikitunyaeuy;
+                $EMR->kdprofile = $kdProfile;
+                $EMR->statusenabled = 1;
+
+                if (isset($head['noregistrasi'])) {
+                    $EMR->noregistrasifk = $head['noregistrasi'];
+                }
+                $EMRPASIENDETAIL = [];
+                $EMRPASIENDETAILIMG = [];
+            } else {
+                $EMR = EMRPasien::where('noemr', $head['norec_emr'])
+                    ->where('noregistrasifk', $head['noregistrasi'])
+                    ->where('kdprofile', $kdProfile)
+                    ->first();
+                $noemr = $EMR->noemr;
+
+                //LOAD DATA EMR PEMBANDING
+                $EMRPASIENDETAIL = EMRPasienD::where('emrpasienfk', $noemr)
+                    ->select('emrdfk', 'value')
+                    ->where('emrfk', $head['emrfk'])
+                    ->where('kdprofile', $kdProfile)
+                    ->where('statusenabled', 1)
+                    ->orderBy('emrdfk')
+                    ->get();
+                if (isset($dataReq['dataimg'])) {
+                    $EMRPASIENDETAILIMG = EmrFoto::where('noemrpasienfk', $noemr)
+                        ->select('emrdfk', 'image')
+                        ->where('emrfk', $head['emrfk'])
+                        ->where('kdprofile', $kdProfile)
+                        ->where('statusenabled', 1)
+                        ->orderBy('emrdfk')
+                        ->get();
+                }
+            }
+
+            //VALIDASI JIKA NOREGISTRASI BEDA //
+            if ((!empty($EMR) && isset($head['noregistrasi'])) && trim($EMR->noregistrasifk) != $head['noregistrasi']) {
+                $transMessage = "Kesalahan loading data..!";
+                DB::rollBack();
+                $result = array(
+                    "status" => 400,
+                    "message" => $transMessage,
+                    "as" => 'as@epic',
+                );
+                return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+            }
+
+
+            $EMR->noemr = $noemr;
+            $EMR->emrfk = $head['emrfk'];
+            $EMR->nocm = $head['nocm'];
+            $EMR->namapasien = $head['namapasien'];
+            $EMR->jeniskelamin = $head['jeniskelamin'];
+
+            if (!empty($head['umur'])) $EMR->umur = $head['umur'];
+            if (isset($head['kelompokpasien'])) {
+                $EMR->kelompokpasien = $head['kelompokpasien'];
+            }
+            if (isset($head['tglregistrasi'])) {
+                $EMR->tglregistrasi = $head['tglregistrasi'];
+            } else {
+                $EMR->tglregistrasi = date('Y-m-d H:i:s');
+            }
+            if (isset($head['norec'])) {
+                $EMR->norec_apd = $head['norec'];
+            }
+            if (isset($head['namakelas'])) {
+                $EMR->namakelas = $head['namakelas'];
+            }
+            if (isset($head['namaruangan'])) {
+                $EMR->namaruangan = $head['namaruangan'];
+            } else {
+                $EMR->namaruangan = "Triage Gawat Darurat";
+            }
+            if (isset($head['tgllahir'])) {
+                $EMR->tgllahir = $head['tgllahir'];
+            }
+            if (isset($head['notelepon'])) {
+                $EMR->notelepon = $head['notelepon'];
+            }
+            if (isset($head['alamatlengkap'])) {
+                $EMR->alamat = $head['alamatlengkap'];
+            }
+            if (isset($head['jenisemr'])) {
+                $EMR->jenisemr = $head['jenisemr'];
+            }
+
+            if (isset($head['jenis']) && $head['jenis'] == 'pasien') {
+                $EMR->pegawaifk = null;
+            } else {
+                $EMR->pegawaifk = $this->getCurrentUserID();
+            }
+
+            $EMR->tglemr = $this->getDateTime()->format('Y-m-d H:i:s');
+            $EMR->save();
+
+            $norec_EMR = $EMR->noemr;
+            $i = 0;
+            $sama = 0;
+            $j = 0;
+            $h = 0;
+            foreach ($data as $item) {
+                $emrdfk = $item['id'];
+                if (isset($item['values'])) {
+                    if (is_array($item['values'])) {
+                        $valueemr = $item['values']['value'] . '~' . $item['values']['text'];
+                        $typeemr  = 'combobox';
+                    } else if (filter_var($item['values'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) !== null) {
+                        $valueemr = $item['values'];
+                        $typeemr  = 'checkbox';
+                    } else if (DateTime::createFromFormat('Y-m-d H:i', $item['values']) !== false) {
+                        $valueemr = $item['values'];
+                        $typeemr  = 'datetime';
+                    } else {
+                        $valueemr = $item['values'];
+                        $typeemr  = 'text';
+                    }
+                    // var_dump($typeemr);
+                } else {
+                    $valueemr = null;
+                    $typeemr  = null;
+                }
+
+                $sama = 0;
+                foreach ($EMRPASIENDETAIL as $emrupdate) {
+                    $sama = 0;
+                    if ($emrupdate->emrdfk == $emrdfk) {
+                        $sama =  1;
+                        if ($emrupdate->value != $valueemr) {
+                            $sama =  2;
+                            break;
+                        }
+                        break;
+                    }
+                }
+
+                if ($sama ==  2) {
+                    $EMRPasienDUpdatekeun = EMRPasienD::where('emrpasienfk', $norec_EMR)
+                        ->where('emrfk', $head['emrfk'])
+                        ->where('emrdfk', $emrdfk)
+                        ->where('kdprofile', $kdProfile)
+                        ->where('statusenabled', 1)
+                        ->update([
+                            'value' => $valueemr,
+                            'type'  => $typeemr,
+                        ]);
+                    $j++;
+                }
+                $EMRD = [];
+                if ($sama ==  0) {
+                    $EMRD = new EMRPasienD();
+                    $norecD = $EMRD->generateNewId();
+                    $EMRD->norec = $norecD;
+                    $EMRD->kdprofile = $kdProfile;
+                    $EMRD->statusenabled = 1;
+                    $EMRD->emrpasienfk = $norec_EMR;
+                    $EMRD->value = $valueemr;
+                    $EMRD->type = $typeemr;
+                    $EMRD->emrdfk = $emrdfk;
+                    $EMRD->emrfk = $head['emrfk'];
+                    if (isset($head['jenis']) && $head['jenis'] == 'pasien') {
+                        $EMRD->pegawaifk = null;
+                    } else {
+                        $EMRD->pegawaifk = $this->getCurrentUserID();
+                    }
+                    // dd($EMRD->pegawaifk);
+                    $EMRD->tgl = $this->getDateTime()->format('Y-m-d H:i:s');
+                    $EMRD->save();
+                    $h++;
+                }
+                $i = $i + 1;
+            }
+
+            if (isset($dataReq['image']) && $dataReq['image'] != null) {
+
+                $img = $dataReq['image'];
+                $datas = unpack("H*hex", $img);
+                $datas = '0x' . $datas['hex'];
+
+                $dataGambar = \DB::table('emrfoto_t as tt')
+                    ->where('tt.noemrpasienfk', '=', $norec_EMR)
+                    ->where('tt.emrfk', '=', $head['emrfk'])
+                    ->where('tt.kdprofile', $kdProfile)
+                    ->first();
+                if ($dataGambar == '' || $dataGambar == null) {
+                    $emrFto = new EmrFoto();
+                    $norecFto = $emrFto->generateNewId();
+                    $emrFto->norec = $norecFto;
+                    $emrFto->kdprofile = $kdProfile;
+                    $emrFto->statusenabled = 1;
+                    $emrFto->noemrpasienfk = $norec_EMR;
+                    $emrFto->emrfk = $head['emrfk'];
+                } else {
+                    $emrFto = EmrFoto::where('noemrpasienfk', $norec_EMR)
+                        ->where('kdprofile', $kdProfile)->first();
+                }
+                $emrFto->image = \DB::raw("CONVERT(VARBINARY(MAX), $datas)");
+                $emrFto->save();
+            }
+
+            if (isset($dataReq['dataimg'])) {
+                $i2 = 0;
+                $sama2 = 0;
+                $j2 = 0;
+                $h2 = 0;
+                $dataImg =  $dataReq['dataimg'];
+                foreach ($dataImg as $item2) {
+                    if ($item2['values'] != '../app/images/svg/no-image.svg') {
+
+                        $emrdfk2 = $item2['id'];
+                        $valueemr2 = $item2['values'];
+
+                        $sama2 = 0;
+                        foreach ($EMRPASIENDETAILIMG as $emrupdate) {
+                            $sama2 = 0;
+                            if ($emrupdate->emrdfk == $emrdfk2) {
+                                $sama2 =  1;
+                                if ($emrupdate->image != $valueemr2) {
+                                    $sama2 =  2;
+                                    break;
+                                }
+                                break;
+                            }
+                        }
+
+                        if ($sama2 ==  2) {
+                            $EMRPasienDUpdatekeun2 = EmrFoto::where('noemrpasienfk', $norec_EMR)
+                                ->where('emrfk', $head['emrfk'])
+                                ->where('emrdfk', $emrdfk2)
+                                ->where('kdprofile', $kdProfile)
+                                ->where('statusenabled', 1)
+                                ->update([
+                                    'image' => $valueemr2
+                                ]);
+                            $j2++;
+                        }
+                        $EMRD2 = [];
+                        if ($sama2 ==  0) {
+                            $EMRD2 = new EmrFoto();
+                            $norecD2 = $EMRD2->generateNewId();
+                            $EMRD2->norec = $norecD2;
+                            $EMRD2->kdprofile = $kdProfile;
+                            $EMRD2->statusenabled = 1;
+                            $EMRD2->noemrpasienfk = $norec_EMR;
+                            $EMRD2->image = $valueemr2;
+                            $EMRD2->emrdfk = $emrdfk2;
+                            $EMRD2->emrfk = $head['emrfk'];
+                            $EMRD2->save();
+                            $h2++;
+                        }
+
+                        $i2 = $i2 + 1;
+                    }
+                }
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+        }
+        $transMessage = 'Saving EMR Pasien ';
+
+        if ($transStatus == 'true') {
+            $transMessage = $transMessage . "Sukses";
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "data" => $EMR,
+                // "data2" => $EMRD,
+                "jumlah" => count($EMRPASIENDETAIL),
+                "update" => $j,
+                "new" => $h,
+                "as" => 'as@epic',
+            );
+            $this->saveEMRBackup($data, $head, $norec_EMR, $kdProfile);
+        } else {
+            $transMessage = $transMessage . " Gagal!!";
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "data" => $data,
+                "e" => $e->getMessage() . ' ' . $e->getLine(),
+                "as" => 'as@epic',
+            );
+        }
+
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
+
+    public function getEMRTransaksiDetailNew(Request $request)
+    {
+        //todo : detail
+        // $kdProfile = $this->getDataKdProfile($request);
+        // $data = \DB::table('emrpasiend_t as emrdp')
+        //    ->join('emrpasien_t as emrp', 'emrp.noemr', '=', 'emrdp.emrpasienfk')
+        //     ->leftjoin('emrd_t as emrd', 'emrd.id', '=', 'emrdp.emrdfk')
+        //     // ->JOIN('emrd_t as emrd',function ($join){
+        //         // $join->on('emrd.id','=','emrdp.emrdfk');
+        //         // $join->on('emrd.emrfk','=','emrdp.emrfk');
+        //     // })
+        //     ->leftjoin('pasien_m as ps', 'ps.nocm', '=', 'emrp.nocm')
+        //     ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'emrdp.pegawaifk')
+        //     //->leftjoin('emrfoto_t as ef', 'ef.noemrpasienfk', '=', 'emrp.noemr')
+        //     ->select('emrdp.*', 'emrd.caption', 'emrd.type', 'emrd.nourut', 'emrdp.emrfk', 'emrd.reportdisplay', 'emrd.kodeexternal as kodeex', 'emrd.satuan', 'pg.namalengkap')
+        //     ->where('emrdp.statusenabled', true)
+        //     ->where('emrdp.kdprofile',$kdProfile )
+        //     ->orderBy('emrd.nourut');
+
+
+        $data = \DB::table('emrpasiend_t as emrdp')
+            ->leftjoin('emrd_t as emrd', function ($leftjoin) {
+                $leftjoin->on('emrd.id', '=', 'emrdp.emrdfk');
+                $leftjoin->on('emrd.emrfk', '=', 'emrdp.emrfk');
+            })
+            ->select('emrdp.type as type', 'emrdp.*', 'emrd.caption', 'emrd.type as type2', 'emrd.nourut', 'emrdp.emrfk', 'emrd.reportdisplay', 'emrd.kodeexternal as kodeex', 'emrd.satuan', 'pg.namalengkap')
+            ->where('emrdp.statusenabled', true)
+            // ->where('emrdp.kdprofile', $kdProfile)
+            ->whereNotNull('emrdp.value')
+            ->where('emrdp.value', '!=', 'Invalid date')
+            ->leftjoin('emrpasien_t as emrp', 'emrp.noemr', '=', 'emrdp.emrpasienfk')
+            ->leftjoin('emr_t as emr', 'emr.id', '=', 'emrdp.emrfk')
+            ->leftjoin('pasiendaftar_t as pd', 'pd.noregistrasifk', '=', 'emrp.noregistrasifk')
+            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'emrdp.pegawaifk')
+            ->select('emrp.emrfk', 'emrp.norec as norecemr', 'pd.noregistrasi', 'emrp.emrfk', 'emrp.noemr', 'emr.namaemr', 'emrdp.type as type', 'emrdp.*', 'emrd.caption', 'emrd.type as type2', 'emrd.nourut', 'emrdp.emrfk', 'emrd.reportdisplay', 'emrd.kodeexternal as kodeex', 'emrd.satuan', 'pg.namalengkap')
+            ->where('emrdp.statusenabled', true)
+            // ->where('emrdp.kdprofile', $kdProfile)
+            ->whereNotNull('emrdp.value')
+            ->where('emrdp.value', '!=', 'Invalid date')
+            ->orderBy('emrd.nourut');
+        if (isset($request['noemr']) && $request['noemr'] != '') {
+            $data = $data->where('emrdp.emrpasienfk', $request['noemr']);
+        }
+        if (isset($request['emrfk']) && $request['emrfk'] != '') {
+            $data = $data->where('emrdp.emrfk', $request['emrfk']);
+        }
+
+        //        if (isset($request['norec']) && $request['norec'] != '') {
+        //            $data = $data->where('emrp.norec', $request['norec']);
+        //        }
+
+        //        if (isset($request['norec']) && $request['norec'] != '') {
+        //            $data = $data->where('emrp.norec', $request['norec']);
+        //        }
+
+        // if (isset($request['noregistrasi']) && $request['noregistrasi'] != '') {
+        //     $data = $data->where('emrp.noregistrasifk', $request['noregistrasi']);
+        // }
+        if (isset($request['objectid']) && $request['objectid'] != '') {
+            $data = $data->where('emrdp.emrdfk', $request['objectid']);
+        }
+        if (isset($request['nik']) && $request['nik'] != '') {
+            // $data = $data->where('ps.noidentitas', $request['nik']);
+        }
+
+
+        /* $data = \DB::table('emrpasiend_t as emrdp')
+            ->leftjoin('emrd_t as emrd', 'emrd.id', '=', 'emrdp.emrdfk')
+            ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'emrdp.pegawaifk')
+            ->select('emrdp.*', 'emrd.caption', 'emrd.type', 'emrd.nourut', 'emrdp.emrfk', 'emrd.reportdisplay', 'emrd.kodeexternal as kodeex', 'emrd.satuan', 'pg.namalengkap')
+            ->where('emrdp.statusenabled', true)
+            ->where('emrdp.kdprofile',$kdProfile )
+            ->whereNotNull('emrdp.value')
+            ->where('emrdp.value','!=','Invalid date')
+            ->whereraw("")
+            ->orderBy('emrd.nourut'); */
+
+        $data = $data->get();
+        $result = array(
+            'data' => $data,
+            'message' => 'as@epic',
+        );
+        return $this->respond($result);
+    }
+
+    public function updateFinalEMR(Request $request) {
+        DB::beginTransaction();
+        try {
+            if ($request['jenis'] == 'final') {
+                $update = EMRPasien::where('noemr', $request['noemr'])->update([
+                    'isfinal' => true
+                ]);
+            } else {
+                $update = EMRPasien::where('noemr', $request['noemr'])->update([
+                    'isfinal' => NULL
+                ]);
+            }
+            $transStatus = 'true';
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = 'Gagal !';
+        }
+        if ($transStatus == 'true') {
+            $transMessage = 'Berhasil !';
+            DB::commit();
+            $result = array (
+                'status' => 201,
+                'message' => $transMessage
+            );
+        } else {
+            DB::rollBack();
+            $result = array (
+                'status' => 400,
+                'message' => $transMessage
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
 }

@@ -885,6 +885,11 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('detail-get-eis-polri', 'EIS\EISController@getEisPolriDetail');
         });
         Route::group(['prefix' => 'emr'], function () {
+
+            
+            Route::post('save-emr-new', 'EMR\EMRController@SaveTransaksiEMRNewVer');
+            Route::post('update-final-emr', 'EMR\EMRController@updateFinalEMR');
+            Route::get('get-emr-transaksi-detail-new', 'EMR\EMRController@getEMRTransaksiDetailNew');
             //2023-11-01 By Toha
             Route::get('get-detail-dokter-cppt-new', 'EMR\EMRController@getDetailDokterCpptNew');
             Route::get('get-detail-perawat-cppt-new', 'EMR\EMRController@getDetailPerawatCpptNew');
