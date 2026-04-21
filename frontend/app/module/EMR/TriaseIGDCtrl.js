@@ -493,7 +493,7 @@ define(["initialize"], function (initialize) {
       loadVitalSign();
       function loadVitalSign() {
         // medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR, true).then(function (dat) {
-        medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
+        medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMR, true).then(function (dat) {
           dataLoad = dat.data.data;
           for (var i = 0; i <= dataLoad.length - 1; i++) {
             if (dataLoad[i].emrdfk == 4241) {
