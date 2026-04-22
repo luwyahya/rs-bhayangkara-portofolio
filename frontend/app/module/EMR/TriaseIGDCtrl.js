@@ -1448,11 +1448,13 @@ define(["initialize"], function (initialize) {
             arrSave[i].values = ''; // amankan juga kalau undefined/null
           }
         }
+
         $scope.cc.jenisemr = "triaseigd";
         var jsonSave = {
           head: $scope.cc,
           data: arrSave,
         };
+        
         medifirstService.post("emr/save-emr-new", jsonSave).then(function (e) {
           medifirstService
             .postLogging(
