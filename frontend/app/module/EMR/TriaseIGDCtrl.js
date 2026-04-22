@@ -204,6 +204,7 @@ define(["initialize"], function (initialize) {
             nomorEMRSS = dat.data.data[0].noemr;
             nomorEMR = nomorEMRSS;
             $scope.cc.noemr = nomorEMR;
+            $scope.cc.norec_emr = dat.data.data[0].norec; // Set norec from existing EMR data
             $scope.cc.emrfk = "697";
             setobjectToModel(nomorEMRSS, $scope.cc.emrfk);
           } else {
@@ -1470,6 +1471,13 @@ define(["initialize"], function (initialize) {
             0: e.data.data.noemr,
           };
           cacheHelper.set("cacheNomorEMR", arrStr);
+
+          if (e.data.data && e.data.data.norec) {
+            $scope.cc.norec_emr = e.data.data.norec;
+          }
+          if (e.data.data && e.data.data.noemr) {
+            $scope.cc.noemr = e.data.data.noemr;
+          }
         });
       };
 

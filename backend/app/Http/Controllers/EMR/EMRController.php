@@ -25826,6 +25826,7 @@ WHERE rm.norec = '$norec_resume'
         ];
         return $this->respond($result);
     }
+    
     public function saveResumeMedisRanap(Request $request) {
         //try {
             $dataReq = $request->all();
@@ -26429,8 +26430,6 @@ WHERE rm.norec = '$norec_resume'
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-
-    // ANYARRR DEUI IEU MENANG URNG
 
     // public function saveResumeMedisRanap(Request $request) {
     //     //try {
@@ -27047,8 +27046,6 @@ WHERE rm.norec = '$norec_resume'
     //     }
     //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     // }
-
-    // IEU AKHRIR ANU ANYAR
     
     public function getDataPenunjangCetakanResumeRanap(Request $request)
     {
@@ -28141,8 +28138,6 @@ WHERE rm.norec = '$norec_resume'
         $dataReq = $request->all();
         $head = $dataReq['head'];
         $data = $dataReq['data'];
-        $isUpdate = isset($dataReq['isUpdate']) ? $dataReq['isUpdate'] : false; // Flag dari frontend
-        
         DB::beginTransaction();
         try {
 
@@ -28175,19 +28170,23 @@ WHERE rm.norec = '$norec_resume'
                 $EMRPASIENDETAIL = [];
                 $EMRPASIENDETAILIMG = [];
             } else {
-                $EMR = EMRPasien::where('noemr', $head['norec_emr'])
+                $EMR = EMRPasien::where('norec', $head['norec_emr'])
                     ->where('noregistrasifk', $head['noregistrasi'])
                     ->where('kdprofile', $kdProfile)
                     ->first();
-                $noemr = $EMR->noemr;
-
-                // Jika isUpdate = true, hapus semua data lama di emrpasiend_t untuk emrfk ini
-                if ($isUpdate) {
-                    EMRPasienD::where('emrpasienfk', $noemr)
-                        ->where('emrfk', $head['emrfk'])
-                        ->where('kdprofile', $kdProfile)
-                        ->delete();
+                
+                if (empty($EMR)) {
+                    $transMessage = "EMR data tidak ditemukan untuk UPDATE";
+                    DB::rollBack();
+                    $result = array(
+                        "status" => 400,
+                        "message" => $transMessage,
+                        "as" => 'as@epic',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
                 }
+                
+                $noemr = $EMR->noemr;
 
                 //LOAD DATA EMR PEMBANDING
                 $EMRPASIENDETAIL = EMRPasienD::where('emrpasienfk', $noemr)
@@ -28274,8 +28273,6 @@ WHERE rm.norec = '$norec_resume'
             $sama = 0;
             $j = 0;
             $h = 0;
-            
-            // Jika isUpdate = true, semua data akan di-INSERT (karena sudah di-DELETE di atas)
             foreach ($data as $item) {
                 $emrdfk = $item['id'];
                 if (isset($item['values'])) {
@@ -28299,38 +28296,32 @@ WHERE rm.norec = '$norec_resume'
                 }
 
                 $sama = 0;
-                
-                // Jika isUpdate = true, skip pengecekan sama karena sudah delete semua
-                if (!$isUpdate) {
-                    foreach ($EMRPASIENDETAIL as $emrupdate) {
-                        $sama = 0;
-                        if ($emrupdate->emrdfk == $emrdfk) {
-                            $sama =  1;
-                            if ($emrupdate->value != $valueemr) {
-                                $sama =  2;
-                                break;
-                            }
+                foreach ($EMRPASIENDETAIL as $emrupdate) {
+                    $sama = 0;
+                    if ($emrupdate->emrdfk == $emrdfk) {
+                        $sama =  1;
+                        if ($emrupdate->value != $valueemr) {
+                            $sama =  2;
                             break;
                         }
-                    }
-
-                    if ($sama ==  2) {
-                        $EMRPasienDUpdatekeun = EMRPasienD::where('emrpasienfk', $norec_EMR)
-                            ->where('emrfk', $head['emrfk'])
-                            ->where('emrdfk', $emrdfk)
-                            ->where('kdprofile', $kdProfile)
-                            ->where('statusenabled', 1)
-                            ->update([
-                                'value' => $valueemr,
-                                'type'  => $typeemr,
-                            ]);
-                        $j++;
+                        break;
                     }
                 }
-                
+
+                if ($sama ==  2) {
+                    $EMRPasienDUpdatekeun = EMRPasienD::where('emrpasienfk', $norec_EMR)
+                        ->where('emrfk', $head['emrfk'])
+                        ->where('emrdfk', $emrdfk)
+                        ->where('kdprofile', $kdProfile)
+                        ->where('statusenabled', 1)
+                        ->update([
+                            'value' => $valueemr,
+                            'type'  => $typeemr,
+                        ]);
+                    $j++;
+                }
                 $EMRD = [];
-                // Jika isUpdate = true, semua akan INSERT karena sudah di-DELETE
-                if ($sama == 0 || $isUpdate) {
+                if ($sama ==  0) {
                     $EMRD = new EMRPasienD();
                     $norecD = $EMRD->generateNewId();
                     $EMRD->norec = $norecD;
@@ -28452,7 +28443,6 @@ WHERE rm.norec = '$norec_resume'
                 "jumlah" => count($EMRPASIENDETAIL),
                 "update" => $j,
                 "new" => $h,
-                "isUpdate" => $isUpdate,
                 "as" => 'as@epic',
             );
             $this->saveEMRBackup($data, $head, $norec_EMR, $kdProfile);
