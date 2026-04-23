@@ -1,7 +1,7 @@
 define(['initialize'], function (initialize) {
     'use strict';
-    initialize.controller('PengkajianMedisIGDCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService',
-        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService) {
+    initialize.controller('PengkajianMedisIGDCtrl', ['$q', '$rootScope', '$scope', 'ModelItem', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService', '$mdDialog',
+        function ($q, $rootScope, $scope, ModelItem, $state, cacheHelper, dateHelper, medifirstService, $mdDialog) {
 
 
             $scope.noCM = $state.params.noCM;
@@ -28,6 +28,8 @@ define(['initialize'], function (initialize) {
             var noTerima = '';
             var norec_apd = '';
             $scope.isKembali = true
+            $scope.isfinal = false
+            $scope.isbuttonfinal = true
             $scope.show = true;
             var paramSearch = ''
             $scope.norecOrder = ''
@@ -47,7 +49,9 @@ define(['initialize'], function (initialize) {
             $scope.item.rke = 1;
             var dataObat = [];
             $scope.isCetak = false
-            $scope.logo = medifirstService.getLogo()
+            var datauserkelompok = ''
+            var chekedd = false
+            $scope.isAdmin = false
             LoadCacheHelper();
             LoadCombo();
 
@@ -86,6 +90,11 @@ define(['initialize'], function (initialize) {
                         { text: "Sopor", value: 5 },
                         { text: "Semi Coma", value: 6 },
                         { text: "Coma", value: 7 }
+                    ];
+                    $scope.listKeadaanUmum = [
+                        { text: "Tampak Sakit Ringan", value: 1 },
+                        { text: "Tampak Sakit Sedang", value: 2 },
+                        { text: "Tampak Sakit Berat", value: 3 },
                     ];
                     $scope.listGcs = [
                         { text: "E", value: 1 },
@@ -152,7 +161,7 @@ define(['initialize'], function (initialize) {
                         "id": 14,
                         "nama": "TATALAKSANA/TERAPI",
                         "detail": [
-                            { "id": 2636, "nama": "Oksigen", "type": "checkbox" },
+                            // { "id": 2636, "nama": "Oksigen", "type": "checkbox" },
                             { "id": 2637, "nama": "Konsultasi Dokter :", "type": "checkbox" },
                             { "id": 2638, "nama": "", "type": "textbox" },
                             { "id": 2639, "nama": "", "type": "textbox" },
@@ -233,6 +242,15 @@ define(['initialize'], function (initialize) {
                         ]
                     },
                     {
+                        "id": 10,
+                        "nama": "Mata :",
+                        "detail": [
+                            { "id": 1901300356, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 1901300357, "nama": "Ada Kelainan", "type": "checkbox" },
+                            { "id": 1901300358, "nama": " Jelaskan :", "type": "textbox" },
+                        ]
+                    },
+                    {
                         "id": 9,
                         "nama": "Leher :",
                         "detail": [
@@ -294,12 +312,42 @@ define(['initialize'], function (initialize) {
                             { "id": 2680, "nama": "Ada Kelainan ", "type": "checkbox" },
                             { "id": 2681, "nama": "Jelaskan ", "type": "textbox" },
                         ]
-                    }
+                    },
+                    {
+                        "id": 24,
+                        "nama": "Kulit :",
+                        "detail": [
+                            { "id": 1901300359, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 1901300360, "nama": "Ada Kelainan", "type": "checkbox" },
+                            { "id": 1901300361, "nama": " Jelaskan :", "type": "textbox" },
+                        ]
+                    },
                     ]
                 }
             }
+
+            $scope.updateGabungan = function () {
+            let hasilGabung = [];
+
+            $scope.listRisikoJatuh.forEach(list => {
+                list.detail.forEach(det => {
+                if (det.type === 'textbox') {
+                    let isi = $scope.item.obj[det.id];
+                    if (isi && isi.trim() !== '') {
+                    hasilGabung.push(`${list.nama} ${isi.trim()}`);
+                    }
+                }
+                });
+            });
+
+            $scope.item.obj[2423] = hasilGabung.join('\n');
+            };
             
             function LoadCombo() {
+                datauserkelompok = medifirstService.getKelompokUser();
+                if (datauserkelompok == 'admin' || datauserkelompok == 'operator') {
+                    $scope.isAdmin = true
+                }
                 medifirstService.get('emr/get-combo').then(function (dat) {
                     // $scope.listPerawat = dat.data.perawatBidan
                     $scope.listDokter = dat.data.dokter
@@ -309,9 +357,12 @@ define(['initialize'], function (initialize) {
                     $scope.user.poto2 = dat.data[6].template
                     $scope.user.poto = dat.data[5].template
                 })
+                medifirstService.get("emr/get-indikasi-ranap").then(function (e) {
+                    $scope.listMasalahMedis = e.data.indikasiRanap;
+                });
                 $scope.item.obj = []
                 medifirstService.get("emr/get-combo-resep-emr-2", true).then(function (dat) {
-                    debugger
+                    // //debugger
                     $scope.isRouteLoading = false;
                     $scope.listRuangan = dat.data.ruanganfarmasi;
                     // $scope.listRuangan.splice(9);                     
@@ -332,23 +383,46 @@ define(['initialize'], function (initialize) {
                 medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=pengkajianmedisigd", true).then(function (dat) {
                     $scope.isRouteLoading = false
                     var nomorEMRSS = ''
+                    $scope.cc.noemr = '-'
                     cacheHelper.set('pengkajianmedisigd', undefined)
                     if (dat.data.data.length > 0) {
                         for (var i = 0; i < dat.data.data.length; i++) {
                             const element = dat.data.data[i];
                             element.no = i + 1
                         }
+                        if (dat.data.data[0].isfinal == true) {
+                            $scope.isfinal = true
+                            $scope.isbuttonfinal = false
+                        } else {
+                            $scope.isfinal = false
+                            $scope.isbuttonfinal = true
+
+                            // cek kalo udah lewat 30 hari
+                            if ($scope.header && $scope.header.tglpulang) {
+                                const tglPulang = new Date($scope.header.tglpulang);
+                                const sekarang = new Date();
+                                const selisihHari = (sekarang - tglPulang) / (1000 * 60 * 60 * 24);
+
+                                if (selisihHari >= 30) {
+                                    let objSave = {
+                                        noemr: $scope.cc.noemr,
+                                        jenis: "final",
+                                    };
+
+                                    medifirstService.postNonMessage("emr/update-final-emr", objSave).then(function (e) {
+                                        $scope.isfinal = true;
+                                        $scope.isbuttonfinal = false;
+                                    });
+                                }
+                            }
+                        }
                         nomorEMRSS = dat.data.data[0].noemr
                         nomorEMR = nomorEMRSS
+                        $scope.cc.noemr = nomorEMR
                         $scope.cc.emrfk = '869'
                         setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
-                        medifirstService.get("report/cetak-ttd-anestesi-lokal?emrpasienfk=" + nomorEMRSS).then(function (dat) {
-                            debugger
-                            var imageUrl = dat.data.imageUrl;           
-                            $("#qrcode").attr('src', imageUrl);
-                        })
-                    }
-                    else {
+                        // valueOtomatis()
+                    } else {
                         $scope.item.obj[2404] = moment($scope.now).format('YYYY-MM-DD HH:mm')
                         $scope.item.obj[2446] = moment($scope.now).format('YYYY-MM-DD HH:mm')
                         $scope.item.obj[2447] = {namalengkap: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap}
@@ -360,7 +434,22 @@ define(['initialize'], function (initialize) {
                         $scope.item.obj[2633] = true                      
                         $scope.item.obj[2676] = true                      
                         $scope.item.obj[2679] = true                      
-                        chekedd = true                 
+                        $scope.item.obj[1901300356] = true                      
+                        $scope.item.obj[1901300359] = true    
+                        $scope.item.obj[1901300287] = true
+                        $scope.item.obj[1901300290] = true
+                        $scope.item.obj[1901300293] = true
+                        $scope.item.obj[2407] = true
+                        $scope.item.obj[1901300315] = moment($scope.now).format("YYYY-MM-DD HH:mm")
+                        $scope.item.obj[1901300362] = moment($scope.cc.tglregistrasi).format("YYYY-MM-DD HH:mm")
+                        $scope.item.obj[2] = true
+                        $scope.item.obj[4] = true
+                        $scope.item.obj[6] = true
+                        $scope.item.obj[8] = true
+                        $scope.item.obj[11] = true
+                        $scope.item.obj[13] = true
+                        chekedd = true
+                        valueOtomatis()             
                         // medifirstService.get('emr/get-image-from-jenis-surat?').then(function (dat) {
                         //     //debugger
                         //     $scope.user.poto2 = dat.data[6].template
@@ -406,7 +495,11 @@ define(['initialize'], function (initialize) {
                 // }
 
                 function setobjectToModel(nomorEMRSS, emrfk) {
-                    medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
+                    let namaPegawai = '';
+                    let namaPegawai2 = '';
+                    let namaPegawai3 = '';
+                    let namaPegawai4 = '';
+                    medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
                         $scope.isLoading = false
                         var chekedd = false  
                         $scope.item.obj = []                      
@@ -417,6 +510,9 @@ define(['initialize'], function (initialize) {
                             if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
 
                                 if (dataLoad[i].type == "textbox") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "text") {
                                     $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
                                 }
                                 if (dataLoad[i].type == "checkbox") {
@@ -461,23 +557,42 @@ define(['initialize'], function (initialize) {
                                 if (dataLoad[i].emrdfk == "2422") {
                                     $scope.user.poto2 = dataLoad[i].value
                                 }
+                                if (dataLoad[i].emrdfk == "2425") {
+                                    var str = dataLoad[i].value;
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = {
+                                        id: res[0],
+                                        name: res[1] || res[0]
+                                    };
+                                }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2447") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
+                                    namaPegawai = res[0];
                                     // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
                                     $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
-                                }
-                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2426") {
-                                    var str = dataLoad[i].value
-                                    var res = str.split("~");
-                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], kodeNama: str }
 
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2448") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
+                                    namaPegawai2 = res[0];
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300363") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    namaPegawai3 = res[0];
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300364") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    namaPegawai4 = res[0];
                                     // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
                                     $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
 
@@ -498,6 +613,31 @@ define(['initialize'], function (initialize) {
                                     $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2414") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901303154") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300346") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300350") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300351") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300352") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
                                     $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
@@ -534,6 +674,42 @@ define(['initialize'], function (initialize) {
                                 }
                             }
 
+                        }
+                        if (namaPegawai) {
+                            medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai))
+                                .then(function (et) {
+                                $scope.item.qr = et.data.data;
+                                })
+                                .catch(function (error) {
+                                console.error("QR Error:", error);
+                                });
+                        }
+                        if (namaPegawai2) {
+                            medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai2))
+                                .then(function (et) {
+                                    $scope.item.qr2 = et.data.data;
+                                })
+                                .catch(function (error) {
+                                    console.error("QR Error:", error);
+                                });
+                        }
+                        if (namaPegawai3) {
+                            medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai3))
+                                .then(function (et) {
+                                    $scope.item.qr3 = et.data.data;
+                                })
+                                .catch(function (error) {
+                                    console.error("QR Error:", error);
+                                });
+                        }
+                        if (namaPegawai4) {
+                            medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai4))
+                                .then(function (et) {
+                                    $scope.item.qr4 = et.data.data;
+                                })
+                                .catch(function (error) {
+                                    console.error("QR Error:", error);
+                                });
                         }
                     })
                 }
@@ -668,7 +844,7 @@ define(['initialize'], function (initialize) {
             loadVitalSign()
             function loadVitalSign() {
                 ////debugger
-                medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMR, true).then(function (dat) {
+                medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMR, true).then(function (dat) {
                     dataLoad = dat.data.data
                     for (var i = 0; i <= dataLoad.length - 1; i++) {
                         if (dataLoad[i].emrdfk == 4241) {
@@ -1494,6 +1670,74 @@ define(['initialize'], function (initialize) {
             }
 
             $scope.Save = function () {
+                if($scope.isfinal == true) {
+                    toastr.warning('Berkas Sudah Final! Tidak Bisa Di Edit!')
+                    return
+                }
+                if ($scope.item.obj[1901300297] == '' || $scope.item.obj[1901300297] == null || $scope.item.obj[1901300297] == undefined) {
+                    toastr.warning('Keluhan Utama belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2408] == '' || $scope.item.obj[2408] == null || $scope.item.obj[2408] == undefined) {
+                    toastr.warning('Riwayat Penyakit Sekarang belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901300306] == undefined && $scope.item.obj[1901300305] == undefined) {
+                    toastr.warning('Riwayat Penyakit Dahulu belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2409] == '' || $scope.item.obj[2409] == null || $scope.item.obj[2409] == undefined) {
+                    toastr.warning('Tekanan Darah belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2410] == '' || $scope.item.obj[2410] == null || $scope.item.obj[2410] == undefined) {
+                    toastr.warning('Pernafasan belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2411] == '' || $scope.item.obj[2411] == null || $scope.item.obj[2411] == undefined) {
+                    toastr.warning('Suhu belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2412] == '' || $scope.item.obj[2412] == null || $scope.item.obj[2412] == undefined) {
+                    toastr.warning('Nadi belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2413] == '' || $scope.item.obj[2413] == null || $scope.item.obj[2413] == undefined) {
+                    toastr.warning('Spo2 belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2414] == null || $scope.item.obj[2414] == undefined) {
+                    toastr.warning('Kesadaran belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901303154] == '' || $scope.item.obj[1901303154] == null || $scope.item.obj[1901303154] == undefined) {
+                    toastr.warning('Keadaan Umum belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2425] == '' || $scope.item.obj[2425] == null || $scope.item.obj[2425] == undefined) {
+                    toastr.warning('Masalah Medis belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901300314] == '' || $scope.item.obj[1901300314] == null || $scope.item.obj[1901300314] == undefined) {
+                    toastr.warning('Masalah Keperawatan belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[2426] == '' || $scope.item.obj[2426] == null || $scope.item.obj[2426] == undefined) {
+                    toastr.warning('Diagnosa Kerja belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901300315] == '' || $scope.item.obj[1901300315] == null || $scope.item.obj[1901300315] == undefined) {
+                    toastr.warning('Tanggal dan Jam Terapi belum diisi!')
+                    return
+                }
+                if ($scope.item.obj[1901300317] == undefined && $scope.item.obj[1901300319] == undefined && $scope.item.obj[1901300321] == undefined) {
+                    toastr.warning('Pilih salah satu penerima penjelasan!')
+                    return
+                }
+                if ($scope.item.obj[1901300323] == undefined && $scope.item.obj[1901300324] == undefined && $scope.item.obj[1901300325] == undefined && $scope.item.obj[1901300326] == undefined && $scope.item.obj[1901300327] == undefined && $scope.item.obj[1901300328] == undefined && $scope.item.obj[1901300329] == undefined) {
+                    toastr.warning('Pilih salah satu keputusan pulang!')
+                    return
+                }
                 var photo = ""
                 kendo.drawing.drawDOM($(".surface"))
                     .then(function (group) {
@@ -1516,10 +1760,16 @@ define(['initialize'], function (initialize) {
                     var currentId = arrobj[i];
                     var currentObj = $scope.item.obj[parseInt(currentId)];
                 
-                    if (currentId == 2447 || currentId == 2448) {
+                    if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
                         arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
                     } else if ((currentId >= 5132 && currentId <= 5136)) {
                         arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
+                    } else if (arrobj[i] == 2425) {
+                        if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
+                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].name })
+                        } else {
+                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
+                        }
                     } else {
                         arrSave.push({ id: currentId, values: currentObj });
                     }
@@ -1532,17 +1782,26 @@ define(['initialize'], function (initialize) {
                     data: arrSave
                 }
 
-                medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
+                medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
                         + $scope.cc.noregistrasi).then(function (res) {
                         })
+                    let json = {
+                        "noregistrasi": $scope.cc.noregistrasi
+                    }
+                    medifirstService.postNonMessage('bridging/ihs/Observation', json).then(function (z) {
+                        if(z.data.resourceType == 'OperationOutcome' ){
+                            for (let x = 0; x < z.data.issue.length; x++) {
+                                const element = z.data.issue[x];
+                                toastr.error(element.diagnostics + ' - ' + element.expression[0])
+                            }
+                        }else{
+                            toastr.success(z.data.resourceType)
+                        }
 
-                    medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
-                        'Emr IGD' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
-                        + $scope.cc.noregistrasi).then(function (res) {
-                        })
+                    })
                     init()
                     var arrStr = {
                         0: e.data.data.noemr
@@ -2001,17 +2260,12 @@ define(['initialize'], function (initialize) {
                 // $scope.simpanOrderRadiologi();
                 $scope.batalLab();
             }
-            $scope.formatTanggal = function(tanggal) {
-                if (!tanggal) return '';
-                return moment(tanggal).format('DD-MM-YYYY HH:mm'); // Gunakan moment.js
-            };
-            
             $scope.hapusLab = function () {
                 if ($scope.item.ruangantujuan == undefined) {
                     alert("Pilih Ruangan Tujuan terlebih dahulu!!")
                     return;
                 }
-                if ($scope.item.layananlab == undefined) {
+                if ($scope.item.layananrad == undefined) {
                     alert("Pilih Layanan terlebih dahulu!!")
                     return;
                 }
@@ -2021,7 +2275,6 @@ define(['initialize'], function (initialize) {
                 } else {
                     nomor = dataLaboratorium.length + 1
                 }
-                debugger
                 var data = {};
                 if ($scope.item.no != undefined) {
                     for (var i = dataLaboratorium.length - 1; i >= 0; i--) {
@@ -2043,7 +2296,6 @@ define(['initialize'], function (initialize) {
                         }
                     }
                 }
-                debugger
                 $scope.batalLab();
             }
             $scope.batalLab = function () {
@@ -2132,7 +2384,7 @@ define(['initialize'], function (initialize) {
                 if (hihi.length != 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
-                            $scope.item.obj[2639] = 'Lab : ' + dataLaboratorium[0].namaproduk + "\n";
+                            $scope.item.obj[2639] = $scope.item.obj[2639] + 'Lab : ' + dataLaboratorium[0].namaproduk + "\n";
                         }
                         $scope.item.layanan2 = []
                         dataLaboratorium = []
@@ -2337,6 +2589,282 @@ define(['initialize'], function (initialize) {
                     })
                 }
             }
+
+            $scope.SaveFinal = function () {
+                if ($scope.cc.noemr == '-') {
+                    toastr.error('Pengkajian Belum Disimpan! Tidak Bisa Simpan Final!')
+                    return
+                }
+                var confirm = $mdDialog.confirm()
+							.title('Peringatan')
+							.textContent('berkas yang sudah disimpan final tidak dapat dibatal finalkan, YAKIN SIMPAN FINAL?')
+							.ariaLabel('Lucky day')
+							.cancel('Tidak')
+							.ok('Ya')
+						$mdDialog.show(confirm).then(function () {
+                            let objSave = {
+                                "noemr": $scope.cc.noemr,
+                                "jenis": 'final'
+                            }
+                            medifirstService.post('emr/update-final-emr', objSave).then(function(e) {
+                                $scope.isfinal = true
+                                $scope.isbuttonfinal = false
+                            })
+						})
+            }
+
+            $scope.SaveFinalBatal = function () {
+                toastr.info('Berkas Sudah Final!')
+
+                // if ($scope.norec == '-') {
+                //     toastr.error('Resume Belum Disimpan ! Tidak Bisa Simpan Final !')
+                //     return
+                // }
+                // let objSave = {
+                //     "norec": $scope.norec,
+                //     "jenis": 'batalfinal'
+                // }
+                // medifirstService.post('emr/update-final-resume-ri', objSave).then(function(e) {
+                //     $scope.isfinal = false
+                //     $scope.isbuttonfinal = true
+                // })
+            }
+
+            function valueOtomatis() {
+                if ($scope.cc.noregistrasi == null || $scope.cc.noregistrasi == undefined || $scope.cc.noregistrasi == '') {
+                    toastr.error("Ada kesalahan saat ambil isian Triase IGD, Mohon refresh kembali!");
+                } else {
+                    $scope.isRouteLoading = true
+                    medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=triaseigd", true).then(function (dat) {
+                        if (dat.data.data.length > 0) {
+                            medifirstService.get('emr/get-value-triase?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
+                                $scope.isRouteLoading = false
+                                if (e.data.messageCode == 200) {
+                                    var value = e.data.data;
+                                    for (let i = 0; i < value.length; i++) {
+                                        switch (value[i].emrdfk) {
+                                            case 28:
+                                                $scope.item.obj[28] = true;
+                                                $scope.item.obj[1901300286] = "ATS 1";
+                                                break;
+                                            case 32:
+                                                $scope.item.obj[32] = true;
+                                                $scope.item.obj[1901300286] = "ATS 2";
+                                                break;
+                                            case 34:
+                                                $scope.item.obj[34] = true;
+                                                $scope.item.obj[1901300286] = "ATS 3";
+                                                break;
+                                            case 35:
+                                                $scope.item.obj[35] = true;
+                                                $scope.item.obj[1901300286] = "ATS 4";
+                                                break;
+                                            case 37:
+                                                $scope.item.obj[37] = true;
+                                                $scope.item.obj[1901300286] = "ATS 5";
+                                                break;
+                                        }
+                                        if (value[i].emrdfk == 1901300255 && value[i].value == 1) { // Nyeri Berat
+                                            $scope.item.obj[1901300304] = true;
+                                        }
+                                        if (value[i].emrdfk == 1901300256 && value[i].value == 1) { // Nyeri Sedang
+                                            $scope.item.obj[1901300303] = true;
+                                        }
+                                        if (value[i].emrdfk == 1901300257 && value[i].value == 1) { // Nyeri Ringan
+                                            $scope.item.obj[1901300302] = true;
+                                        }
+                                        if (value[i].emrdfk == 1901300122) {
+                                            $scope.item.obj[2409] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300127) {
+                                            $scope.item.obj[2410] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300125) {
+                                            $scope.item.obj[2411] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300126) {
+                                            $scope.item.obj[2412] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300129) {
+                                            $scope.item.obj[2413] = value[i].value;
+                                        }
+                                    }
+                                }
+                            });
+                        } else {
+                            medifirstService.get('emr/get-value-triase-fetomaternal?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
+                                $scope.isRouteLoading = false
+                                if (e.data.messageCode == 200) {
+                                    var value = e.data.data;
+                                    for (let i = 0; i < value.length; i++) {
+                                        // switch (value[i].emrdfk) {
+                                        //     case 28:
+                                        //         $scope.item.obj[28] = true;
+                                        //         $scope.item.obj[1901300286] = "ATS 1";
+                                        //         break;
+                                        //     case 32:
+                                        //         $scope.item.obj[32] = true;
+                                        //         $scope.item.obj[1901300286] = "ATS 2";
+                                        //         break;
+                                        //     case 34:
+                                        //         $scope.item.obj[34] = true;
+                                        //         $scope.item.obj[1901300286] = "ATS 3";
+                                        //         break;
+                                        //     case 35:
+                                        //         $scope.item.obj[35] = true;
+                                        //         $scope.item.obj[1901300286] = "ATS 4";
+                                        //         break;
+                                        //     case 37:
+                                        //         $scope.item.obj[37] = true;
+                                        //         $scope.item.obj[1901300286] = "ATS 5";
+                                        //         break;
+                                        // }
+                                        // if (value[i].emrdfk == 1901300255 && value[i].value == 1) { // Nyeri Berat
+                                        //     $scope.item.obj[1901300304] = true;
+                                        // }
+                                        // if (value[i].emrdfk == 1901300256 && value[i].value == 1) { // Nyeri Sedang
+                                        //     $scope.item.obj[1901300303] = true;
+                                        // }
+                                        // if (value[i].emrdfk == 1901300257 && value[i].value == 1) { // Nyeri Ringan
+                                        //     $scope.item.obj[1901300302] = true;
+                                        // }
+                                        if (value[i].emrdfk == 1901300122) {
+                                            $scope.item.obj[2409] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300127) {
+                                            $scope.item.obj[2410] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300125) {
+                                            $scope.item.obj[2411] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300126) {
+                                            $scope.item.obj[2412] = value[i].value;
+                                        }
+                                        if (value[i].emrdfk == 1901300129) {
+                                            $scope.item.obj[2413] = value[i].value;
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                        $scope.isRouteLoading = false
+                    })
+                        medifirstService.get('emr/get-value-pengkajian-awal-keperawatan-igd?noRegistrasi=' + $scope.cc.noregistrasi).then(function (e) {
+                        $scope.isRouteLoading = false
+                        if (e.data.messageCode == 200) {
+                            const value = e.data.data;
+                            const kondisiMap = {
+                                1901300661: '- Bersihan Jalan Napas Tidak Efektif',
+                                1901300662: '- Pola Napas',
+                                1901300663: '- Gangguan Pertukaran Gas',
+                                1901300664: '- Gangguan Ventilasi Spontan',
+                                1901300665: '- Penurunan Curah Jantung',
+                                1901300666: '- Kekurangan Volume Cairan',
+                                1901300667: '- Kelebihan Volume Cairan',
+                                1901300668: '- Gangguan Perfusi Jaringan Perifer',
+                                1901300669: '- Gangguan Perfusi Jaringan Cerebral',
+                                1901300670: '- Gangguan Keseimbangan cairan dan Elektrolit',
+                                1901300671: '- Nyeri, Akut/Kronis',
+                                1901300672: '- Diare',
+                                1901300673: '- Konstipasi',
+                                1901300674: '- Gangguan Mobilitas Fisik',
+                                1901300675: '- Risiko Aspirasi',
+                                1901300676: '- Risiko Infeksi',
+                                1901300677: '- Risiko Jatuh',
+                                1901300678: '- Anxietas',
+                            };
+
+                            const getValueByEmrdfk = (kode) => {
+                                const found = value.find(v => v.emrdfk == kode);
+                                return found ? found.value : '';
+                            };
+
+                            value.forEach(v => {
+                                if (kondisiMap[v.emrdfk] && v.value == 1) {
+                                    $scope.item.obj[1901300314] = $scope.item.obj[1901300314] || '';
+                                    $scope.item.obj[1901300314] += kondisiMap[v.emrdfk] + '\n';
+                                }
+
+                                if (v.emrdfk == 1901300679 && v.value == 1) {
+                                    const isi = getValueByEmrdfk(1901300681);
+                                    if (isi) {
+                                        $scope.item.obj[1901300314] = $scope.item.obj[1901300314] || '';
+                                        $scope.item.obj[1901300314] += `- ${isi}\n`;
+                                    }
+                                }
+
+                                if (v.emrdfk == 1901300680 && v.value == 1) {
+                                    const isi = getValueByEmrdfk(1901300682);
+                                    if (isi) {
+                                        $scope.item.obj[1901300314] = $scope.item.obj[1901300314] || '';
+                                        $scope.item.obj[1901300314] += `- ${isi}\n`;
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+
+            $scope.onChangeNamaPasien = function (isChecked) {
+                if (isChecked) {
+                    $scope.item.obj[1901300317] = $scope.cc.namapasien;
+                } else {
+                    $scope.item.obj[1901300317] = null; // kosongkan kalau uncheck
+                }
+            };
+
+            $scope.onChangeMasalahMedis = function(e) {
+                var combo = e.sender;
+                var value = combo.value();
+                var dataItem = combo.dataItem();
+
+                if (!dataItem) {
+                    $scope.item.obj[2425] = value;
+                } else {
+                    $scope.item.obj[2425] = dataItem.id;
+                }
+            };
+
+            // // daftar inputan dinamis
+            // $scope.listPemberiPesan = [
+            // { id: 1901300363, value: null }
+            // ]
+
+            // $scope.tambahPemberiPesan = function () {
+            // const newId = 1901300363 + $scope.listPemberiPesan.length; // id unik sederhana
+            // $scope.listPemberiPesan.push({ id: newId, value: null });
+            // }
+
+            // $scope.hapusPemberiPesan = function (index) {
+            // $scope.listPemberiPesan.splice(index, 1);
+            // }
+
+            $scope.$watchGroup(
+                ['item.obj[1901300316]', 'item.obj[1901300317]', 'item.obj[1901300318]', 'item.obj[1901300319]'],
+                function(newVal) {
+                let hasil = "";
+
+                if ($scope.item.obj[1901300316]) {
+                    if ($scope.item.obj[1901300317]) {
+                    hasil += $scope.item.obj[1901300317] + "\n";
+                    } else {
+                    hasil += "\n";
+                    }
+                }
+
+                if ($scope.item.obj[1901300318]) {
+                    if ($scope.item.obj[1901300319]) {
+                    hasil += $scope.item.obj[1901300319] + "\n";
+                    } else {
+                    hasil += "\n";
+                    }
+                }
+
+                $scope.item.obj[1901300322] = hasil.trim();
+                }
+            );
+
         }
     ]);
 });
