@@ -5742,16 +5742,337 @@ class EMRController  extends ApiController
         return $this->respond($dataTea);
     }
 
+    // OLD RESUME MEDIS RJ
+
+//     public function saveResumeMedisRj(Request $request)
+//     {
+//         // try {
+//             // return 'aa';
+//         $dataReq = $request->all();
+//         $lab = isset($dataReq['lab']) && count($dataReq['lab']) > 0 ? $dataReq['lab'] : []; // Jika tidak ada data, inisialisasi array kosong
+//         $rad = isset($dataReq['rad']) && count($dataReq['rad']) > 0 ? $dataReq['rad'] : []; 
+//         $obat = isset($dataReq['obat']) && count($dataReq['obat']) > 0 ? $dataReq['obat'] : [];
+//         $head = isset($dataReq['head']) && count($dataReq['head']) > 0 ? $dataReq['head'] : [];
+        
+//         $tindakan = $dataReq['tindakan'];
+//         if ($head['norec_emr'] == '-') {
+
+//             $noemr = $this->generateCodeEMR(new EMRPasien, 'noemr', 15, 'MR' . date('ym') . '/');
+//             if ($noemr == '') {
+//                 $transMessage = "Gagal mengumpukan data, Coba lagi.!";
+//                 DB::rollBack();
+//                 $result = array(
+//                     "status" => 400,
+//                     "message" => $transMessage,
+//                     "as" => 'as@epic',
+//                 );
+//                 return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+//             }
+
+//             $EMR = new EMRPasien();
+//             $norecHead = $EMR->generateNewId();
+//             $EMR->norec = $norecHead;
+//             $norecTehMenikitunyaeuy = $norecHead;
+//             $EMR->norec = $norecTehMenikitunyaeuy;
+//             $EMR->kdprofile = 17;
+//             $EMR->statusenabled = 1;
+
+//             if (isset($head['noregistrasi'])) {
+//                 $EMR->noregistrasifk = $head['noregistrasi'];
+//             }
+//             $EMRPASIENDETAIL = [];
+//         } else {
+//             $EMR = EMRPasien::where('noemr', $head['norec_emr'])
+//                 ->where('noregistrasifk', $head['noregistrasi'])
+//                 ->first();
+//             $noemr = $EMR->noemr;
+//         }
+// //   return $dataReq['tglKontrol'];
+//         //VALIDASI JIKA NOREGISTRASI BEDA //
+//         if (isset($head['noregistrasi'])) {
+//             if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
+//                 $transMessage = "Kesalahan loading data..!";
+//                 DB::rollBack();
+//                 $result = array(
+//                     "status" => 400,
+//                     "message" => $transMessage,
+//                     "as" => 'as@epic',
+//                 );
+//                 return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+//             }
+//         }
+//         $EMR->noemr = $noemr;
+//         $EMR->emrfk = 698;
+//         $EMR->nocm = $head['nocm'];
+//         $EMR->namapasien = $head['namapasien'];
+//         $EMR->jeniskelamin = $head['jeniskelamin'];
+
+//         if (!empty($head['umur'])) $EMR->umur = $head['umur'];
+//         if (isset($head['kelompokpasien'])) {
+//             $EMR->kelompokpasien = $head['kelompokpasien'];
+//         }
+//         if (isset($head['tglregistrasi'])) {
+//             $EMR->tglregistrasi = $head['tglregistrasi'];
+//         } else {
+//             $EMR->tglregistrasi = $this->getDateTime()->format('Y-m-d H:i:s');
+//         }
+//         if (isset($head['norec'])) {
+//             $EMR->norec_apd = $head['norec'];
+//         }
+//         if (isset($head['namakelas'])) {
+//             $EMR->namakelas = $head['namakelas'];
+//         }
+//         if (isset($head['namaruangan'])) {
+//             $EMR->namaruangan = $head['namaruangan'];
+//         } else {
+//             $EMR->namaruangan = "Triage Gawat Darurat";
+//         }
+//         if (isset($head['tgllahir'])) {
+//             $EMR->tgllahir = $head['tgllahir'];
+//         }
+//         if (isset($head['notelepon'])) {
+//             $EMR->notelepon = $head['notelepon'];
+//         }
+//         if (isset($head['alamatlengkap'])) {
+//             $EMR->alamat = $head['alamatlengkap'];
+//         }
+//         $EMR->jenisemr = 'resumemedisrj';
+//         $EMR->pegawaifk = $this->getCurrentUserID();
+//         $EMR->tglemr = $this->getDateTime()->format('Y-m-d H:i:s');
+//         $EMR->save();
+
+//         $RE = new ResumeMedis();
+//         // $norec_resume = $RE->generateNewId();
+//         $RE->norec = $RE->generateNewId();
+//         $RE->kdprofile = 0;
+//         $RE->statusenabled = true;
+//         $RE->noregistrasifk = $head['norec'];
+//         $RE->objectruanganpoliklinikfk = $dataReq['ruanganfk'];
+//         $RE->namapasien = $dataReq['namapasien'];
+//         $RE->objectjeniskelaminfk = $dataReq['jeniskelaminfk'];
+//         $RE->nocm = $dataReq['nocm'];
+//         $RE->pasienkeluarga = $dataReq['ttdpasien'];
+//         if (isset($dataReq['beratbadan'])) {
+//             $RE->beratbadan = $dataReq['beratbadan'];
+//         }
+//         $RE->kontrol = $dataReq['kontrol'];
+//         //$RE->tglpelayanan = $dataReq['tglpelayanan'];
+//         $RE->tglpelayanan = $this->getDateTime()->format('Y-m-d H:i:s');
+
+//         $RE->tgllahir = $dataReq['tgllahir'];
+//         $RE->emrpasienfk = $noemr;
+//         // $RE->kondisiwaktukeluar = $dataReq['keadaan'];
+//         //$RE->tglresume = $dataReq['tglresume'];
+//         $RE->tglresume = $this->getDateTime()->format('Y-m-d H:i:s');
+//         if (isset($dataReq['pasienkeluarga'])) {
+//             $RE->pasienkeluarga = $dataReq['pasienkeluarga'];
+//         }
+//         if (isset($dataReq['tglKontrol']) && $dataReq['tglKontrol'] != 'NULL') {
+//             $RE->tglkontrol = $dataReq['tglKontrol'];
+//         }
+//         $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
+//         $RE->pegawaifk = $dataReq['pegawaifk'];
+
+//         if (isset($dataReq['tekanandarah'])) {
+//             $RE->pasienkeluarga = $dataReq['tekanandarah'];
+//         }
+//         $RE->keteranganlainnya = 'RawatJalan';
+//         $RE->keluhanutama = $dataReq['keluhanutama'];
+//         $RE->alergi = $dataReq['alergi'];
+//         $RE->kesadaran = $dataReq['kesadaran'];
+//         $RE->keadaanumum = $dataReq['keadaanumum'];
+//         $RE->denyutjantung = $dataReq['jantung'];
+//         $RE->pernapasan = $dataReq['pernapasan'];
+//         $RE->systole = $dataReq['systole'];
+//         $RE->diastole = $dataReq['diastole'];
+//         $RE->suhu = $dataReq['suhu'];
+//         $RE->diet = $dataReq['diet'];
+//         $RE->edukasi = $dataReq['edukasi'];
+//         $RE->prognosis = $dataReq['prognosis'];
+//         $RE->rencanatindaklanjut = $dataReq['carakeluar'];
+//         $RE->kontrol = $dataReq['kontrol'];
+//         // $RE->sarantransportasi = $dataReq['transportasi'];
+//         $RE->kondisimeninggalkan = $dataReq['meninggalkanrs'];
+//         $RE->tglkeluar = $dataReq['tglkeluar'];
+//         $RE->tglmasuk = $dataReq['tglmasuk'];
+//         $RE->namadokter = $dataReq['dpjp'];
+//         $RE->diagdok = $dataReq['diagdok'];
+//         $RE->save();
+
+//         $norec_rm = $RE->norec;
+
+//         if (count($lab) > 0) {
+//             //ambil dulu hasil labnya baru di simpan ke temp
+//             foreach ($lab as $labs) {
+//                 $hasillab = \DB::table('hasillaboratorium_t as hl')
+//                     ->select('hl.hasil', 'hl.flag', 'hl.detailpemeriksaan')
+//                     ->where('norecpelayanan', $labs['norec_pp'])
+//                     ->get();
+//                 foreach ($hasillab as $items) {
+//                     if ($items->hasil != null) {
+//                         $temp = new TempResumeMedisRj();
+//                         $temp->norec = $temp->generateNewId();
+//                         $temp->statusenabled = true;
+//                         $temp->emrpasienfk = $noemr;
+//                         $temp->resumemedisfk = $norec_rm;
+//                         $temp->tglpelayanan = $labs['tglpelayanan'];
+//                         $temp->objectruanganfk = $labs['objectruanganfk'];
+//                         $temp->namaruanganasal = $labs['namaruanganasal'];
+//                         $temp->objectprodukfk = $labs['produkfk'];
+//                         $temp->hasilpenunjang = $items->hasil;
+//                         $temp->objectdokterpemeriksafk = $labs['dokterid'] ?: null;
+//                         $temp->objectdokterpengirimfk = $labs['iddokterpengirim'] ?: null;
+
+//                         $temp->tglhasil = $labs['tglhasil'];
+//                         $temp->tglcetak = $labs['tglcetak'];
+//                         $temp->jenispenunjang = 'LAB';
+//                         // $temp->norecpenunjang = $labs['norec_hasillab'];
+//                         $temp->flaglab = $items->flag;
+//                         $temp->detailpemeriksaan = $items->detailpemeriksaan;
+//                         $temp->save();
+//                     } else {
+//                         $temp = new TempResumeMedisRj();
+//                         $temp->norec = $temp->generateNewId();
+//                         $temp->statusenabled = true;
+//                         $temp->emrpasienfk = $noemr;
+//                         $temp->resumemedisfk = $norec_rm;
+//                         $temp->tglpelayanan = $labs['tglpelayanan'];
+//                         $temp->objectruanganfk = $labs['objectruanganfk'];
+//                         $temp->namaruanganasal = $labs['namaruanganasal'];
+//                         $temp->objectprodukfk = $labs['produkfk'];
+//                         $temp->objectdokterpemeriksafk = $labs['dokterid']?: null;
+//                         $temp->objectdokterpengirimfk = $labs['iddokterpengirim']?: null;
+//                         $temp->tglhasil = $labs['tglhasil'];
+//                         $temp->tglcetak = $labs['tglcetak'];
+//                         $temp->jenispenunjang = 'LAB';
+//                         $temp->norecpenunjang = $labs['norec_hasillab'];
+//                         $temp->flaglab = 'Belum Input Lab';
+//                         $temp->save();
+//                     }
+//                 }
+//             }
+//         }
+//         if (count($rad) > 0) {
+//             foreach ($rad as $rads) {
+//                 $hasilrad = \DB::table('hasilradiologi_t as hr')
+//                     ->select('hr.keterangan')
+//                     ->where('hr.pelayananpasienfk', $rads['norec_pp'])
+//                     ->get();
+//                 if (count($hasilrad) > 0) {
+//                     foreach ($hasilrad as $itemss) {
+//                         $temp = new TempResumeMedisRj();
+//                         $temp->norec = $temp->generateNewId();
+//                         $temp->statusenabled = true;
+//                         $temp->emrpasienfk = $noemr;
+//                         $temp->resumemedisfk = $norec_rm;
+//                         $temp->tglpelayanan = $rads['tglpelayanan'];
+//                         $temp->objectruanganfk = $rads['objectruanganfk'];
+//                         $temp->namaruanganasal = $rads['namaruanganasal'];
+//                         $temp->objectprodukfk = $rads['produkfk'];
+//                         $temp->hasilpenunjang = $itemss->keterangan;
+//                         $temp->objectdokterpemeriksafk = $rads['dokterid']?: null;
+//                         $temp->objectdokterpengirimfk = $rads['iddokterpengirim']?: null;
+//                         $temp->jenispenunjang = 'RAD';
+//                         $temp->norecpenunjang = $rads['hr_norec'];
+//                         $temp->save();
+//                     }
+//                 } else {
+//                     $temp = new TempResumeMedisRj();
+//                     $temp->norec = $temp->generateNewId();
+//                     $temp->statusenabled = true;
+//                     $temp->emrpasienfk = $noemr;
+//                     $temp->resumemedisfk = $norec_rm;
+//                     $temp->tglpelayanan = $rads['tglpelayanan'];
+//                     $temp->objectruanganfk = $rads['objectruanganfk'];
+//                     $temp->namaruanganasal = $rads['namaruanganasal'];
+//                     $temp->objectprodukfk = $rads['produkfk'];
+//                     $temp->objectdokterpemeriksafk = $rads['dokterid']?: null;
+//                     $temp->objectdokterpengirimfk = $rads['iddokterpengirim']?: null;
+//                     $temp->jenispenunjang = 'RAD';
+//                     $temp->norecpenunjang = $rads['hr_norec'];
+//                     $temp->save();
+//                 }
+//             }
+//         }
+//         if (count($obat) > 0) {
+//             foreach ($obat as $obats) {
+//                 $temp = new TempResumeMedisRj();
+//                 $temp->norec = $temp->generateNewId();
+//                 $temp->statusenabled = true;
+//                 $temp->emrpasienfk = $noemr;
+//                 $temp->resumemedisfk = $norec_rm;
+//                 $temp->tglpelayanan = $obats['tglpelayanan'];
+//                 $temp->objectruanganfk = $obats['depoid'];
+//                 $temp->objectprodukfk = $obats['produkfk'];
+//                 $temp->dokterobat = $obats['dokter'];
+//                 $temp->noresep = $obats['noresep'];
+//                 $temp->qty = $obats['jumlah'];
+//                 $temp->dosis = $obats['dosisobat'];
+//                 $temp->frekuensi = $obats['aturanpakai'];
+//                 if (isset($obats['waktuminum'])) {
+//                     $temp->carapemberian = $obats['waktuminum'];
+//                 }
+//                 $temp->jenispenunjang = 'OBAT';
+//                 $temp->norecpenunjang = $obats['norecpp'];
+//                 $temp->save();
+//             }
+//         }
+//         if (count($tindakan) > 0) {
+//             foreach ($tindakan as $tindakans) {
+//                 $temp = new TempResumeMedisRj();
+//                 $temp->norec = $temp->generateNewId();
+//                 $temp->statusenabled = true;
+//                 $temp->emrpasienfk = $noemr;
+//                 $temp->resumemedisfk = $norec_rm;
+//                 $temp->objectprodukfk = $tindakans['prid'];
+//                 $temp->tglpelayanan = $tindakans['tglPelayanan'];
+//                 $temp->objectruanganfk = $tindakans['ruid'];
+//                 if (isset($tindakans['id'])) {
+//                     $temp->doktertindakan = $tindakans['id'];
+//                 }
+
+//                 $temp->jenispenunjang = 'TINDAKAN';
+//                 $temp->norecpenunjang = $tindakans['norec'];
+//                 $temp->save();
+//             }
+//         }
+
+
+
+//         $transStatus = 'true';
+//         // } catch(\Exception $e) {
+//         //     $transMessage = 'Gagal Simpan';
+//         //     $transStatus = 'false';
+//         // }
+//         if ($transStatus == 'true') {
+//             $transMessage = 'Simpan Berhasil';
+//             DB::commit();
+//             $result = array(
+//                 "status" => 201,
+//                 "message" => 'anjay sukses'
+//             );
+//         } else {
+//             DB::rollBack();
+//             $result = array(
+//                 "status" => 400,
+//                 "message" => 'yah gagal'
+//             );
+//         }
+//         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+//     }
+
+    // END RESUME MEDIS RJ OLD
+
+
     public function saveResumeMedisRj(Request $request)
     {
         // try {
-            // return 'aa';
         $dataReq = $request->all();
-        $lab = isset($dataReq['lab']) && count($dataReq['lab']) > 0 ? $dataReq['lab'] : []; // Jika tidak ada data, inisialisasi array kosong
-        $rad = isset($dataReq['rad']) && count($dataReq['rad']) > 0 ? $dataReq['rad'] : []; 
-        $obat = isset($dataReq['obat']) && count($dataReq['obat']) > 0 ? $dataReq['obat'] : [];
-        $head = isset($dataReq['head']) && count($dataReq['head']) > 0 ? $dataReq['head'] : [];
-        
+
+        $lab = $dataReq['lab'];
+        $rad = $dataReq['rad'];
+        $obat = $dataReq['obat'];
+        $head = $dataReq['head'];
         $tindakan = $dataReq['tindakan'];
         if ($head['norec_emr'] == '-') {
 
@@ -5785,7 +6106,7 @@ class EMRController  extends ApiController
                 ->first();
             $noemr = $EMR->noemr;
         }
-//   return $dataReq['tglKontrol'];
+
         //VALIDASI JIKA NOREGISTRASI BEDA //
         if (isset($head['noregistrasi'])) {
             if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
@@ -5849,26 +6170,22 @@ class EMRController  extends ApiController
         $RE->namapasien = $dataReq['namapasien'];
         $RE->objectjeniskelaminfk = $dataReq['jeniskelaminfk'];
         $RE->nocm = $dataReq['nocm'];
-        $RE->pasienkeluarga = $dataReq['ttdpasien'];
         if (isset($dataReq['beratbadan'])) {
             $RE->beratbadan = $dataReq['beratbadan'];
         }
-        $RE->kontrol = $dataReq['kontrol'];
+
         //$RE->tglpelayanan = $dataReq['tglpelayanan'];
         $RE->tglpelayanan = $this->getDateTime()->format('Y-m-d H:i:s');
 
         $RE->tgllahir = $dataReq['tgllahir'];
         $RE->emrpasienfk = $noemr;
-        // $RE->kondisiwaktukeluar = $dataReq['keadaan'];
+        $RE->kondisiwaktukeluar = $dataReq['keadaan'];
         //$RE->tglresume = $dataReq['tglresume'];
         $RE->tglresume = $this->getDateTime()->format('Y-m-d H:i:s');
         if (isset($dataReq['pasienkeluarga'])) {
             $RE->pasienkeluarga = $dataReq['pasienkeluarga'];
         }
-        if (isset($dataReq['tglKontrol']) && $dataReq['tglKontrol'] != 'NULL') {
-            $RE->tglkontrol = $dataReq['tglKontrol'];
-        }
-        $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
+
         $RE->pegawaifk = $dataReq['pegawaifk'];
 
         if (isset($dataReq['tekanandarah'])) {
@@ -5876,6 +6193,8 @@ class EMRController  extends ApiController
         }
         $RE->keteranganlainnya = 'RawatJalan';
         $RE->keluhanutama = $dataReq['keluhanutama'];
+        $RE->pemeriksaanfisik = $dataReq['pemeriksaanfisik'];
+        $RE->pengobatan = $dataReq['pengobatan'];   
         $RE->alergi = $dataReq['alergi'];
         $RE->kesadaran = $dataReq['kesadaran'];
         $RE->keadaanumum = $dataReq['keadaanumum'];
@@ -5888,13 +6207,17 @@ class EMRController  extends ApiController
         $RE->edukasi = $dataReq['edukasi'];
         $RE->prognosis = $dataReq['prognosis'];
         $RE->rencanatindaklanjut = $dataReq['carakeluar'];
+        $RE->rencanatindaklanjutlain = $dataReq['rencanatindaklanjutlain'];
         $RE->kontrol = $dataReq['kontrol'];
-        // $RE->sarantransportasi = $dataReq['transportasi'];
+        $RE->sarantransportasi = $dataReq['transportasi'];
         $RE->kondisimeninggalkan = $dataReq['meninggalkanrs'];
+        $RE->kondisimeninggalkanlain = $dataReq['kondisiMeninggalkanLain'];
         $RE->tglkeluar = $dataReq['tglkeluar'];
         $RE->tglmasuk = $dataReq['tglmasuk'];
         $RE->namadokter = $dataReq['dpjp'];
         $RE->diagdok = $dataReq['diagdok'];
+        $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
+        $RE->pasienkeluarga = $dataReq['ttdpasien'];
         $RE->save();
 
         $norec_rm = $RE->norec;
@@ -5918,13 +6241,12 @@ class EMRController  extends ApiController
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->hasilpenunjang = $items->hasil;
-                        $temp->objectdokterpemeriksafk = $labs['dokterid'] ?: null;
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'] ?: null;
-
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
-                        // $temp->norecpenunjang = $labs['norec_hasillab'];
+                        $temp->norecpenunjang = $labs['norec_hasillab'];
                         $temp->flaglab = $items->flag;
                         $temp->detailpemeriksaan = $items->detailpemeriksaan;
                         $temp->save();
@@ -5938,8 +6260,8 @@ class EMRController  extends ApiController
                         $temp->objectruanganfk = $labs['objectruanganfk'];
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
-                        $temp->objectdokterpemeriksafk = $labs['dokterid']?: null;
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim']?: null;
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -5968,8 +6290,8 @@ class EMRController  extends ApiController
                         $temp->namaruanganasal = $rads['namaruanganasal'];
                         $temp->objectprodukfk = $rads['produkfk'];
                         $temp->hasilpenunjang = $itemss->keterangan;
-                        $temp->objectdokterpemeriksafk = $rads['dokterid']?: null;
-                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim']?: null;
+                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
                         $temp->jenispenunjang = 'RAD';
                         $temp->norecpenunjang = $rads['hr_norec'];
                         $temp->save();
@@ -5984,8 +6306,8 @@ class EMRController  extends ApiController
                     $temp->objectruanganfk = $rads['objectruanganfk'];
                     $temp->namaruanganasal = $rads['namaruanganasal'];
                     $temp->objectprodukfk = $rads['produkfk'];
-                    $temp->objectdokterpemeriksafk = $rads['dokterid']?: null;
-                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim']?: null;
+                    $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
                     $temp->jenispenunjang = 'RAD';
                     $temp->norecpenunjang = $rads['hr_norec'];
                     $temp->save();
@@ -24504,6 +24826,467 @@ FROM
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+    //OLD RESUME IGD
+    // public function saveResumeMedisIgd(Request $request)
+    // {
+    //     // try {
+    //     $dataReq = $request->all();
+
+    //     $lab = $dataReq['lab'];
+    //     $rad = $dataReq['rad'];
+    //     $obat = $dataReq['obat'];
+    //     $head = $dataReq['head'];
+    //     $obatpulang = $dataReq['obatpulang'];
+    //     // $tindakan = $dataReq['tindakan'];
+    //     if ($head['norec_emr'] == '-') {
+
+    //         $noemr = $this->generateCodeEMR(new EMRPasien, 'noemr', 15, 'MR' . date('ym') . '/');
+    //         if ($noemr == '') {
+    //             $transMessage = "Gagal mengumpukan data, Coba lagi.!";
+    //             DB::rollBack();
+    //             $result = array(
+    //                 "status" => 400,
+    //                 "message" => $transMessage,
+    //                 "as" => 'as@epic',
+    //             );
+    //             return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    //         }
+
+    //         $EMR = new EMRPasien();
+    //         $norecHead = $EMR->generateNewId();
+    //         $EMR->norec = $norecHead;
+    //         $norecTehMenikitunyaeuy = $norecHead;
+    //         $EMR->norec = $norecTehMenikitunyaeuy;
+    //         $EMR->kdprofile = 17;
+    //         $EMR->statusenabled = 1;
+
+    //         if (isset($head['noregistrasi'])) {
+    //             $EMR->noregistrasifk = $head['noregistrasi'];
+    //         }
+    //         $EMRPASIENDETAIL = [];
+    //     } else {
+    //         $EMR = EMRPasien::where('noemr', $head['norec_emr'])
+    //             ->where('noregistrasifk', $head['noregistrasi'])
+    //             ->first();
+    //         $noemr = $EMR->noemr;
+    //     }
+
+    //     //VALIDASI JIKA NOREGISTRASI BEDA //
+    //     if (isset($head['noregistrasi'])) {
+    //         if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
+    //             $transMessage = "Kesalahan loading data..!";
+    //             DB::rollBack();
+    //             $result = array(
+    //                 "status" => 400,
+    //                 "message" => $transMessage,
+    //                 "as" => 'as@epic',
+    //             );
+    //             return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    //         }
+    //     }
+    //     $EMR->noemr = $noemr;
+    //     $EMR->emrfk = 912;
+    //     $EMR->nocm = $head['nocm'];
+    //     $EMR->namapasien = $head['namapasien'];
+    //     $EMR->jeniskelamin = $head['jeniskelamin'];
+
+    //     // $EMR->umur = $head['umur'];
+    //     if (isset($head['kelompokpasien'])) {
+    //         $EMR->kelompokpasien = $head['kelompokpasien'];
+    //     }
+    //     if (isset($head['tglregistrasi'])) {
+    //         $EMR->tglregistrasi = $head['tglregistrasi'];
+    //     } else {
+    //         $EMR->tglregistrasi = $this->getDateTime()->format('Y-m-d H:i:s');
+    //     }
+    //     if (isset($head['norec'])) {
+    //         $EMR->norec_apd = $head['norec'];
+    //     }
+    //     if (isset($head['namakelas'])) {
+    //         $EMR->namakelas = $head['namakelas'];
+    //     }
+    //     if (isset($head['namaruangan'])) {
+    //         $EMR->namaruangan = $head['namaruangan'];
+    //     } else {
+    //         $EMR->namaruangan = "Triage Gawat Darurat";
+    //     }
+    //     // if (isset($head['tgllahir'])) {
+    //     //     $EMR->tgllahir = $head['tgllahir'];
+    //     // }
+    //     if (isset($head['notelepon'])) {
+    //         $EMR->notelepon = $head['notelepon'];
+    //     }
+    //     if (isset($head['alamatlengkap'])) {
+    //         $EMR->alamat = $head['alamatlengkap'];
+    //     }
+    //     $EMR->jenisemr = 'resumemedisigd';
+    //     $EMR->pegawaifk = $this->getCurrentUserID();
+    //     $EMR->tglemr = $this->getDateTime()->format('Y-m-d H:i:s');
+    //     $EMR->save();
+
+    //     if ($dataReq['norecresumeigd'] == "-") {
+    //         $RE = new ResumeMedis();
+    //         $RE->norec = $RE->generateNewId();
+    //         $RE->kdprofile = 0;
+    //         $RE->statusenabled = true;
+    //     } else {
+    //         $TempReDelete = TempResumeMedisRj::where('resumemedisfk', $dataReq['norecresumeigd'])->delete();
+    //         $RE = ResumeMedis::where('norec', $dataReq['norecresumeigd'])->first();
+    //         $noemr = $RE->emrpasienfk;
+    //     }
+    //     $RE->noregistrasifk = $head['norec'];
+    //     $RE->emrpasienfk = $noemr;
+    //     if (isset($dataReq['satusehat'])) {
+    //         $RE->satusehat = $dataReq['satusehat'];
+    //     }
+    //     if (isset($dataReq['passpor'])) {
+    //         $RE->nomorpasspor = $dataReq['passpor'];
+    //     }
+    //     if (isset($dataReq['telppenjamin'])) {
+    //         $RE->notelppenjamin = $dataReq['telppenjamin'];
+    //     }
+    //     $RE->tglmasuk = $dataReq['tglmasuk'];
+    //     $RE->tglmasuk = $dataReq['tglmasuk'];
+    //     $RE->tglresume = $dataReq['tglresume'];
+    //     $RE->tglkeluar = $dataReq['tglkeluar'];
+    //     $RE->keluhanutama = $dataReq['keluhanutama'];
+    //     $RE->alergi = $dataReq['alergi'];
+    //     $RE->kesadaran = $dataReq['kesadaran'];
+    //     $RE->keadaanumum = $dataReq['keadaanumum'];
+    //     $RE->denyutjantung = $dataReq['jantung'];
+    //     $RE->pernapasan = $dataReq['pernapasan'];
+    //     $RE->systole = $dataReq['systole'];
+    //     $RE->diastole = $dataReq['diastole'];
+    //     $RE->suhu = $dataReq['suhu'];
+    //     $RE->diet = $dataReq['diet'];
+    //     $RE->edukasi = $dataReq['edukasi'];
+    //     $RE->prognosis = $dataReq['prognosis'];
+    //     $RE->rencanatindaklanjut = $dataReq['carakeluar'];
+    //     $RE->kontrol = $dataReq['kontrol'];
+    //     if (isset($dataReq['tglKontrol']) && $dataReq['tglKontrol'] != 'NULL') {
+    //         $RE->tglkontrol = $dataReq['tglKontrol'];
+    //     }
+    //     $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
+    //     $RE->sarantransportasi = $dataReq['transportasi'];
+    //     $RE->kondisimeninggalkan = $dataReq['meninggalkanrs'];
+    //     $RE->pasienkeluarga = $dataReq['ttdpasien'];
+    //     $RE->namadokter = $dataReq['dpjp'];
+    //     $RE->diagdok = $dataReq['diagdok'];
+    //     $RE->pengobatan = $dataReq['pengobatan'];
+    //     $RE->pegawaifk = $dataReq['pegawaifk'];
+    //     if (isset($dataReq['ketdiet'])) {
+    //         $RE->keterangandiet = $dataReq['ketdiet'];
+    //     }
+    //     if (isset($dataReq['pemeriksaanfisik'])) {
+    //         $RE->pemeriksaandisik = $dataReq['pemeriksaanfisik'];
+    //     }
+    //     if (isset($dataReq['hasilKonsul'])) {
+    //         $RE->hasilkonsultasi = $dataReq['hasilKonsul'];
+    //     }
+    //     $RE->keteranganlainnya = 'IGD';
+    //     $RE->save();
+
+    //     $norec_rm = $RE->norec;
+
+    //     if (count($lab) > 0) {
+    //         //ambil dulu hasil labnya baru di simpan ke temp
+    //         foreach ($lab as $labs) {
+    //             $hasillab = \DB::table('hasillaboratorium_t as hl')
+    //                 ->select('hl.hasil', 'hl.flag', 'hl.detailpemeriksaan')
+    //                 ->where('norecpelayanan', $labs['norec_pp'])
+    //                 ->get();
+    //             foreach ($hasillab as $items) {
+    //                 if ($items->hasil != null) {
+    //                     $temp = new TempResumeMedisRj();
+    //                     $temp->norec = $temp->generateNewId();
+    //                     $temp->statusenabled = true;
+    //                     $temp->emrpasienfk = $noemr;
+    //                     $temp->resumemedisfk = $norec_rm;
+    //                     $temp->tglpelayanan = $labs['tglpelayanan'];
+    //                     $temp->objectruanganfk = $labs['objectruanganfk'];
+    //                     $temp->namaruanganasal = $labs['namaruanganasal'];
+    //                     $temp->objectprodukfk = $labs['produkfk'];
+    //                     $temp->hasilpenunjang = $items->hasil;
+    //                     // $temp->objectdokterpemeriksafk = $labs['dokterid'];
+    //                     // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+    //                     if (!empty($labs['dokterid'])) {
+    //                         $temp->objectdokterpemeriksafk = $labs['dokterid'];
+    //                     }                       
+    //                     if (!empty($labs['iddokterpengirim'])) {
+    //                         $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+    //                     }
+    //                     $temp->tglhasil = $labs['tglhasil'];
+    //                     $temp->tglcetak = $labs['tglcetak'];
+    //                     $temp->jenispenunjang = 'LAB';
+    //                     $temp->norecpenunjang = $labs['norec_hasillab'];
+    //                     $temp->flaglab = $items->flag;
+    //                     $temp->detailpemeriksaan = $items->detailpemeriksaan;
+    //                     $temp->save();
+    //                 } else {
+    //                     $temp = new TempResumeMedisRj();
+    //                     $temp->norec = $temp->generateNewId();
+    //                     $temp->statusenabled = true;
+    //                     $temp->emrpasienfk = $noemr;
+    //                     $temp->resumemedisfk = $norec_rm;
+    //                     $temp->tglpelayanan = $labs['tglpelayanan'];
+    //                     $temp->objectruanganfk = $labs['objectruanganfk'];
+    //                     $temp->namaruanganasal = $labs['namaruanganasal'];
+    //                     $temp->objectprodukfk = $labs['produkfk'];
+    //                     // $temp->objectdokterpemeriksafk = $labs['dokterid'];
+    //                     // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+    //                     if (!empty($labs['dokterid'])) {
+    //                         $temp->objectdokterpemeriksafk = $labs['dokterid'];
+    //                     }                        
+    //                     if (!empty($labs['iddokterpengirim'])) {
+    //                         $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+    //                     }
+    //                     $temp->tglhasil = $labs['tglhasil'];
+    //                     $temp->tglcetak = $labs['tglcetak'];
+    //                     $temp->jenispenunjang = 'LAB';
+    //                     $temp->norecpenunjang = $labs['norec_hasillab'];
+    //                     $temp->flaglab = 'Belum Input Lab';
+    //                     $temp->save();
+    //                 }
+    //             }
+    //             if ($labs['objectruanganfk'] == '453') {
+    //                 $hasilpa = \DB::table('hasilpemeriksaanlab_t as hpl')
+    //                     ->select('hpl.expertise', 'norec')
+    //                     ->where('hpl.pelayananpasienfk', $labs['norec_pp'])
+    //                     ->get();
+    //                 if (count($hasilpa) > 0) {
+    //                     foreach ($hasilpa as $pa) {
+    //                         $temp = new TempResumeMedisRj();
+    //                         $temp->norec = $temp->generateNewId();
+    //                         $temp->statusenabled = true;
+    //                         $temp->emrpasienfk = $noemr;
+    //                         $temp->resumemedisfk = $norec_rm;
+    //                         $temp->objectprodukfk = $labs['produkfk'];
+    //                         $temp->tglpelayanan = $labs['tglpelayanan'];
+    //                         $temp->objectruanganfk = $labs['objectruanganfk'];
+    //                         $temp->doktertindakan = $labs['dokterid'];
+    //                         $temp->hasilpenunjang = $pa->expertise;
+    //                         $temp->jenispenunjang = 'LABORATORIUM PATALOGI ANATOMI';
+    //                         $temp->norecpenunjang = $pa->norec;
+    //                         $temp->save();
+    //                     }
+    //                 } else {
+    //                     $temp = new TempResumeMedisRj();
+    //                     $temp->norec = $temp->generateNewId();
+    //                     $temp->statusenabled = true;
+    //                     $temp->emrpasienfk = $noemr;
+    //                     $temp->resumemedisfk = $norec_rm;
+    //                     $temp->objectprodukfk = $labs['produkfk'];
+    //                     $temp->tglpelayanan = $labs['tglpelayanan'];
+    //                     $temp->objectruanganfk = $labs['objectruanganfk'];
+    //                     $temp->doktertindakan = $labs['dokterid'];
+    //                     $temp->jenispenunjang = 'LABORATORIUM PATALOGI ANATOMI';
+    //                     $temp->norecpenunjang = $labs['norec_pp'];
+    //                     $temp->save();
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     if (count($rad) > 0) {
+    //         foreach ($rad as $rads) {
+    //             $hasilrad = \DB::table('hasilradiologi_t as hr')
+    //                 ->select('hr.keterangan')
+    //                 ->where('hr.pelayananpasienfk', $rads['norec_pp'])
+    //                 ->get();
+    //             if (count($hasilrad) > 0) {
+    //                 foreach ($hasilrad as $itemss) {
+    //                     $temp = new TempResumeMedisRj();
+    //                     $temp->norec = $temp->generateNewId();
+    //                     $temp->statusenabled = true;
+    //                     $temp->emrpasienfk = $noemr;
+    //                     $temp->resumemedisfk = $norec_rm;
+    //                     $temp->tglpelayanan = $rads['tglpelayanan'];
+    //                     $temp->objectruanganfk = $rads['objectruanganfk'];
+    //                     $temp->namaruanganasal = $rads['namaruanganasal'];
+    //                     $temp->objectprodukfk = $rads['produkfk'];
+    //                     $temp->hasilpenunjang = $itemss->keterangan;
+    //                     // $temp->objectdokterpemeriksafk = $rads['dokterid'];
+    //                     // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+    //                     if (!empty($rads['dokterid'])) {
+    //                         $temp->objectdokterpemeriksafk = $rads['dokterid'];
+    //                     }
+    //                     // Periksa jika iddokterpengirim tidak kosong sebelum diassign
+    //                     if (!empty($rads['iddokterpengirim'])) {
+    //                         $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+    //                     }
+    //                     $temp->jenispenunjang = 'RAD';
+    //                     $temp->norecpenunjang = $rads['hr_norec'];
+    //                     $temp->save();
+    //                 }
+    //             } else {
+    //                 $temp = new TempResumeMedisRj();
+    //                 $temp->norec = $temp->generateNewId();
+    //                 $temp->statusenabled = true;
+    //                 $temp->emrpasienfk = $noemr;
+    //                 $temp->resumemedisfk = $norec_rm;
+    //                 $temp->tglpelayanan = $rads['tglpelayanan'];
+    //                 $temp->objectruanganfk = $rads['objectruanganfk'];
+    //                 $temp->namaruanganasal = $rads['namaruanganasal'];
+    //                 $temp->objectprodukfk = $rads['produkfk'];
+    //                 // $temp->objectdokterpemeriksafk = $rads['dokterid'];
+    //                 // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+    //                 if (!empty($rads['dokterid'])) {
+    //                     $temp->objectdokterpemeriksafk = $rads['dokterid'];
+    //                 }
+    //                 // Periksa jika iddokterpengirim tidak kosong sebelum diassign
+    //                 if (!empty($rads['iddokterpengirim'])) {
+    //                     $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+    //                 }
+    //                 $temp->jenispenunjang = 'RAD';
+    //                 $temp->norecpenunjang = $rads['hr_norec'];
+    //                 $temp->save();
+    //             }
+    //         }
+    //     }
+    //     if (count($obat) > 0) {
+    //         foreach ($obat as $obats) {
+    //             $temp = new TempResumeMedisRj();
+    //             $temp->norec = $temp->generateNewId();
+    //             $temp->statusenabled = true;
+    //             $temp->emrpasienfk = $noemr;
+    //             $temp->resumemedisfk = $norec_rm;
+    //             $temp->tglpelayanan = $obats['tglpelayanan'];
+    //             $temp->objectruanganfk = $obats['depoid'];
+    //             $temp->objectprodukfk = $obats['produkfk'];
+    //             $temp->dokterobat = $obats['dokter'];
+    //             $temp->noresep = $obats['noresep'];
+    //             $temp->qty = $obats['jumlah'];
+    //             $temp->dosis = $obats['dosisobat'];
+    //             $temp->frekuensi = $obats['aturanpakai'];
+    //             $temp->carapemberian = $obats['waktuminum'];
+    //             $temp->jenispenunjang = 'OBAT';
+    //             $temp->norecpenunjang = $obats['norecpp'];
+    //             $temp->save();
+    //         }
+    //     }
+    //     if (count($obatpulang) > 0) {
+    //         if ($dataReq['meninggalkanrs'] == "Meninggal < 48 Jam" || $dataReq['meninggalkanrs'] == "Meninggal > 48 Jam") {
+    //             foreach ($obatpulang as $obatpulangs) {
+    //                 $temp = new TempResumeMedisRj();
+    //                 $temp->norec = $temp->generateNewId();
+    //                 $temp->statusenabled = true;
+    //                 $temp->emrpasienfk = $noemr;
+    //                 $temp->resumemedisfk = $norec_rm;
+    //                 $temp->tglpelayanan = $obatpulangs['tglresep'];
+    //                 $temp->objectruanganfk = $obatpulangs['depoid'];
+    //                 $temp->objectprodukfk = $obatpulangs['produkfk'];
+    //                 $temp->dokterobat = $obatpulangs['namalengkap'];
+    //                 $temp->noresep = $obatpulangs['noresep'];
+    //                 $temp->qty = $obatpulangs['jumlah'];
+    //                 $temp->dosis = $obatpulangs['dosisobat'];
+    //                 $temp->frekuensi = $obatpulangs['aturanpakai'];
+    //                 $temp->carapemberian = $obatpulangs['waktuminum'];
+    //                 $temp->jenispenunjang = 'OBAT';
+    //                 $temp->norecpenunjang = $obatpulangs['norecpp'];
+    //                 $temp->save();
+    //             }
+    //         } else {
+    //             foreach ($obatpulang as $obatpulangs) {
+    //                 $temp = new TempResumeMedisRj();
+    //                 $temp->norec = $temp->generateNewId();
+    //                 $temp->statusenabled = true;
+    //                 $temp->emrpasienfk = $noemr;
+    //                 $temp->resumemedisfk = $norec_rm;
+    //                 $temp->tglpelayanan = $obatpulangs['tglresep'];
+    //                 $temp->objectruanganfk = $obatpulangs['depoid'];
+    //                 $temp->objectprodukfk = $obatpulangs['produkfk'];
+    //                 $temp->dokterobat = $obatpulangs['namalengkap'];
+    //                 $temp->noresep = $obatpulangs['noresep'];
+    //                 $temp->qty = $obatpulangs['jumlah'];
+    //                 $temp->dosis = $obatpulangs['dosisobat'];
+    //                 $temp->frekuensi = $obatpulangs['aturanpakai'];
+    //                 $temp->carapemberian = $obatpulangs['waktuminum'];
+    //                 $temp->jenispenunjang = 'OBATPULANG';
+    //                 $temp->norecpenunjang = $obatpulangs['norecpp'];
+    //                 $temp->save();
+    //             }
+    //         }
+    //     }
+    //     // if (count($tindakan) > 0) {
+    //     //     foreach($tindakan as $tindakans) {
+    //     //         if ($tindakans['ruid'] == '453') {
+    //     //             $hasilpa = \DB::table('hasilpemeriksaanlab_t as hpl')
+    //     //             ->select('hpl.expertise','norec')
+    //     //             ->where('hpl.pelayananpasienfk', $tindakans['norec'])
+    //     //             ->get();
+    //     //             if (count($hasilpa) > 0) {
+    //     //                 foreach($hasilpa as $pa) {
+    //     //                     $temp = new TempResumeMedisRj();
+    //     //                     $temp->norec = $temp->generateNewId();
+    //     //                     $temp->statusenabled = true;
+    //     //                     $temp->emrpasienfk = $noemr;
+    //     //                     $temp->resumemedisfk = $norec_rm;
+    //     //                     $temp->objectprodukfk = $tindakans['prid'];
+    //     //                     $temp->tglpelayanan = $tindakans['tglPelayanan'];
+    //     //                     $temp->objectruanganfk = $tindakans['ruid'];
+    //     //                     $temp->doktertindakan = $tindakans['id'];
+    //     //                     $temp->hasilpenunjang = $pa->expertise;
+    //     //                     $temp->jenispenunjang = 'LABORATORIUM PATALOGI ANATOMI';
+    //     //                     $temp->norecpenunjang = $pa->norec;
+    //     //                     $temp->save();
+    //     //                 }
+    //     //             } else {
+    //     //                 $temp = new TempResumeMedisRj();
+    //     //                 $temp->norec = $temp->generateNewId();
+    //     //                 $temp->statusenabled = true;
+    //     //                 $temp->emrpasienfk = $noemr;
+    //     //                 $temp->resumemedisfk = $norec_rm;
+    //     //                 $temp->objectprodukfk = $tindakans['prid'];
+    //     //                 $temp->tglpelayanan = $tindakans['tglPelayanan'];
+    //     //                 $temp->objectruanganfk = $tindakans['ruid'];
+    //     //                 $temp->doktertindakan = $tindakans['id'];
+    //     //                 $temp->jenispenunjang = 'LABORATORIUM PATALOGI ANATOMI';
+    //     //                 $temp->norecpenunjang = $tindakans['norec'];
+    //     //                 $temp->save();
+    //     //             }
+    //     //         } else {
+    //     //             $temp = new TempResumeMedisRj();
+    //     //             $temp->norec = $temp->generateNewId();
+    //     //             $temp->statusenabled = true;
+    //     //             $temp->emrpasienfk = $noemr;
+    //     //             $temp->resumemedisfk = $norec_rm;
+    //     //             $temp->objectprodukfk = $tindakans['prid'];
+    //     //             $temp->tglpelayanan = $tindakans['tglPelayanan'];
+    //     //             $temp->objectruanganfk = $tindakans['ruid'];
+    //     //             $temp->doktertindakan = $tindakans['id'];
+    //     //             $temp->jenispenunjang = 'TINDAKAN';
+    //     //             $temp->norecpenunjang = $tindakans['norec'];
+    //     //             $temp->save();
+    //     //         }
+    //     //     }
+    //     // }
+
+
+
+    //     $transStatus = 'true';
+    //     // } catch(\Exception $e) {
+    //     //     $transMessage = 'Gagal Simpan';
+    //     //     $transStatus = 'false';
+    //     // }
+    //     if ($transStatus == 'true') {
+    //         $transMessage = 'Simpan Berhasil';
+    //         DB::commit();
+    //         $result = array(
+    //             "status" => 201,
+    //             "message" => 'anjay sukses'
+    //         );
+    //     } else {
+    //         DB::rollBack();
+    //         $result = array(
+    //             "status" => 400,
+    //             "message" => 'yah gagal'
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+    // END OLD RESUME IGD
+
+
     public function saveResumeMedisIgd(Request $request)
     {
         // try {
@@ -24684,14 +25467,8 @@ FROM
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
                         $temp->hasilpenunjang = $items->hasil;
-                        // $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        if (!empty($labs['dokterid'])) {
-                            $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        }                       
-                        if (!empty($labs['iddokterpengirim'])) {
-                            $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        }
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24709,14 +25486,8 @@ FROM
                         $temp->objectruanganfk = $labs['objectruanganfk'];
                         $temp->namaruanganasal = $labs['namaruanganasal'];
                         $temp->objectprodukfk = $labs['produkfk'];
-                        // $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        // $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        if (!empty($labs['dokterid'])) {
-                            $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        }                        
-                        if (!empty($labs['iddokterpengirim'])) {
-                            $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        }
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
                         $temp->tglhasil = $labs['tglhasil'];
                         $temp->tglcetak = $labs['tglcetak'];
                         $temp->jenispenunjang = 'LAB';
@@ -24781,15 +25552,8 @@ FROM
                         $temp->namaruanganasal = $rads['namaruanganasal'];
                         $temp->objectprodukfk = $rads['produkfk'];
                         $temp->hasilpenunjang = $itemss->keterangan;
-                        // $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                        // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                        if (!empty($rads['dokterid'])) {
-                            $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                        }
-                        // Periksa jika iddokterpengirim tidak kosong sebelum diassign
-                        if (!empty($rads['iddokterpengirim'])) {
-                            $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                        }
+                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
                         $temp->jenispenunjang = 'RAD';
                         $temp->norecpenunjang = $rads['hr_norec'];
                         $temp->save();
@@ -24804,15 +25568,8 @@ FROM
                     $temp->objectruanganfk = $rads['objectruanganfk'];
                     $temp->namaruanganasal = $rads['namaruanganasal'];
                     $temp->objectprodukfk = $rads['produkfk'];
-                    // $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                    // $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                    if (!empty($rads['dokterid'])) {
-                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                    }
-                    // Periksa jika iddokterpengirim tidak kosong sebelum diassign
-                    if (!empty($rads['iddokterpengirim'])) {
-                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                    }
+                    $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                    $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
                     $temp->jenispenunjang = 'RAD';
                     $temp->norecpenunjang = $rads['hr_norec'];
                     $temp->save();
@@ -24960,6 +25717,7 @@ FROM
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
     public function getResumeMedisIGD(Request $request, $noregistrasi)
     {
         $data = \DB::table('resumemedis_t as rm')
@@ -25024,6 +25782,7 @@ FROM
         );
         return $this->respond($result);
     }
+
     public function getObatPulang(Request $request) //Obat Terakhir dari resep yang diinput
     {
         $noregistrasi = $request['noregistrasi'];
@@ -25827,609 +26586,7 @@ WHERE rm.norec = '$norec_resume'
         return $this->respond($result);
     }
     
-    public function saveResumeMedisRanap(Request $request) {
-        //try {
-            $dataReq = $request->all();
-
-            $lab = [];
-            $rad = [];
-            $obat = [];
-            $ICD10 = [];
-            $obatpulang = [];
-            $tindakan = [];
-
-            if($dataReq['lab']) $lab = $dataReq['lab'];
-            if($dataReq['rad']) $rad = $dataReq['rad'];
-            if($dataReq['obat']) $obat = $dataReq['obat'];
-            if (isset($dataReq['datareaksiobat'])) {
-                $datareaksiobat = $dataReq['datareaksiobat'];
-            }else {
-                $dataReaksiObat = null;
-            }
-            
-            $head = $dataReq['head'];
-            if($dataReq['ICD10']) $ICD10 = $dataReq['ICD10'];
-            if($dataReq['obatpulang']) $obatpulang = $dataReq['obatpulang'];
-
-            if($dataReq['tindakan']) $tindakan = $dataReq['tindakan'];
-
-            if ($dataReq['norec_emr'] == '-' || $dataReq['norec_emr'] == undefined || $dataReq['norec_emr'] == 'undefined') {
-
-                $noemr = $this->generateCodeEMR(new EMRPasien, 'noemr', 15, 'MR' . date('ym') . '/');
-                if ($noemr == '') {
-                    $transMessage = "Gagal mengumpukan data, Coba lagi.!";
-                    DB::rollBack();
-                    $result = array(
-                        "status" => 400,
-                        "message" => $transMessage,
-                        "as" => 'as@epic',
-                    );
-                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-                }
-
-                $EMR = new EMRPasien();
-                $norecHead = $EMR->generateNewId();
-                $EMR->norec = $norecHead;
-                $norecTehMenikitunyaeuy = $norecHead;
-                $EMR->norec = $norecTehMenikitunyaeuy;
-                $EMR->kdprofile = 17;
-                $EMR->statusenabled = 1;
-
-                if (isset($head['noregistrasi'])) {
-                    $EMR->noregistrasifk = $head['noregistrasi'];
-                }
-                $EMRPASIENDETAIL = [];
-            } else {
-                $EMR = EMRPasien::where('noemr', $head['norec_emr'])
-                    ->where('noregistrasifk', $head['noregistrasi'])
-                    ->first();
-                $noemr = $EMR->noemr;
-            }
-
-            //VALIDASI JIKA NOREGISTRASI BEDA //
-            if (isset($head['noregistrasi'])) {
-                if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
-                    $transMessage = "Kesalahan loading data..!";
-                    DB::rollBack();
-                    $result = array(
-                        "status" => 400,
-                        "message" => $transMessage,
-                        "as" => 'as@epic',
-                    );
-                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-                }
-            }
-            $EMR->noemr = $noemr;
-            $EMR->emrfk = 104;
-            $EMR->nocm = $head['nocm'];
-            $EMR->namapasien = $head['namapasien'];
-            $EMR->jeniskelamin = $head['jeniskelamin'];
-
-            // $EMR->umur = $head['umur'];
-            if (isset($head['kelompokpasien'])) {
-                $EMR->kelompokpasien = $head['kelompokpasien'];
-            }
-            // if (isset($head['tglregistrasi'])) {
-            //     $EMR->tglregistrasi = $head['tglregistrasi'];
-            // } else {
-            //     $EMR->tglregistrasi = $this->getDateTime()->format('Y-m-d H:i:s');
-            // }
-            $EMR->tglregistrasi = $head['tglregistrasi'];
-            if (isset($head['norec'])) {
-                $EMR->norec_apd = $head['norec'];
-            }
-            if (isset($head['namakelas'])) {
-                $EMR->namakelas = $head['namakelas'];
-            }
-            if (isset($head['namaruangan'])) {
-                $EMR->namaruangan = $head['namaruangan'];
-            } else {
-                $EMR->namaruangan = "Triage Gawat Darurat";
-            }
-            // if (isset($head['tgllahir'])) {
-                // $EMR->tgllahir = $head['tgllahir'];
-            // }
-            if (isset($head['notelepon'])) {
-                $EMR->notelepon = $head['notelepon'];
-            }
-            if (isset($head['alamatlengkap'])) {
-                $EMR->alamat = $head['alamatlengkap'];
-            }
-                $EMR->jenisemr = 'resumemedisranap';
-            $EMR->pegawaifk = $this->getCurrentUserID();
-            $EMR->tglemr = $this->getDateTime()->format('Y-m-d H:i:s');
-            $EMR->save();
-
-
-
-
-            if ($dataReq['norec'] == "-") {
-                $RE = new ResumeMedis();
-                // $norec_resume = $RE->generateNewId();
-                $RE->norec = $RE->generateNewId();
-                $RE->kdprofile = 0;
-                $RE->statusenabled = true;
-                $norecresume = $RE->norec;
-            } else {
-                $TempReDelete = TempResumeMedisRj::where('resumemedisfk', $dataReq['norec'])->delete();
-                $RE = ResumeMedis::where('norec', $dataReq['norec'])->first();
-                $noemr = $RE->emrpasienfk;
-                $norecresume = $RE->norec;
-            }
-            $RE->noregistrasifk = $head['norec'];
-            $RE->emrpasienfk = $noemr;
-            // $RE->satusehat = $dataReq['satusehat']; //ini nanti kalau sudah diisi
-            $RE->satusehat = null;
-            // $RE->nomorpasspor = $dataReq['passpor']; //ini nanti kalau sudah diisi
-            $RE->nomorpasspor = null;
-            $RE->notelppenjamin = null;
-            $RE->tglmasuk = $dataReq['tglmasuk'];
-            $RE->tglkeluar = $dataReq['tglkeluar'];
-            $RE->keluhanutama = $dataReq['keluhanutama'];
-            if (isset($dataReq['indikasirawatinap'])) {
-                $RE->indikasirawatinap = $dataReq['indikasirawatinap'];
-            }
-            if (isset($dataReq['terapipengobatanrumahsakit'])) {
-                $RE->terapipengobatanrumahsakit = $dataReq['terapipengobatanrumahsakit'];
-            }
-            $RE->alergi = $dataReq['alergi'];
-            $RE->kesadaran = $dataReq['kesadaran'];
-            $RE->keadaanumum = $dataReq['keadaanumum'];
-            if (isset($dataReq['jantung'])) {
-                $RE->denyutjantung = $dataReq['jantung'];
-            }
-            if (isset($dataReq['pernapasan'])) {
-                $RE->pernapasan = $dataReq['pernapasan'];
-            }
-            $RE->systole = $dataReq['systole'];
-            $RE->diastole = $dataReq['diastole'];
-            $RE->suhu = $dataReq['suhu'];
-            $RE->diet = $dataReq['diet'];
-            $RE->keterangandiet = $dataReq['ketdiet'];
-            $RE->hasilkonsultasi = $dataReq['hasilkonsultasi'];
-            $RE->prognosis = $dataReq['prognosis'];
-            $RE->kondisiwaktukeluar = $dataReq['kondisikeluar'];
-            $RE->rencanatindaklanjut = $dataReq['rencanatindaklanjut'];
-            $RE->diagdok = $dataReq['diagdok'];
-            if($dataReq['rencanatindaklanjut']=='Lainnya') {
-                $RE->rencanalain = $dataReq['rencanalain'];
-            } else {
-                $RE->rencanalain = null;
-                $RE->sarantransportasi = null;
-            }
-            $RE->kontrol = $dataReq['kontrolpoli'];
-            $RE->tglkontrol = $dataReq['tglkontrolpoli'];
-            // $RE->keadaandarurat = $dataReq['keadaandarurat'];
-            $RE->edukasi = $dataReq['edukasi'];
-            
-            if($dataReq['rencanatindaklanjut']=='Dirujuk Ke') $RE->sarantransportasi = null;   
-            else $RE->sarantransportasi = null;   
-            
-            if($dataReq['transportasi']=='Lain-lain') $RE->saranalain = $dataReq['transportasilain'];
-            else $RE->saranalain = null;
-        
-            $RE->pasienkeluarga = $dataReq['pasienkeluarga'];
-            $RE->namadokter = $dataReq['dpjp'];
-            $RE->pegawaifk = $dataReq['pegawaifk'];
-            $RE->alasanrawat = $dataReq['alasanrawat'];
-            $RE->ringkasanriwayatpenyakit = $dataReq['riwayatPenyakit'];
-            $RE->denyutjantungafter = $dataReq['denyutjantungafter'];
-            $RE->suhuafter = $dataReq['suhuafter'];
-            $RE->pernapasanafter = $dataReq['pernafasanafter'];
-            $RE->systoleafter = $dataReq['systoleafter'];
-            $RE->diastoleafter = $dataReq['diastoleafter'];
-            $RE->pemeriksaanfisik = $dataReq['pemeriksaanfisik'];
-            $RE->kesadaranafter = $dataReq['kesadaranafter'];
-            $RE->ku = $dataReq['ku'];
-            $RE->kesadaranpulang = $dataReq['kesadaranpulang'];
-            $RE->tekanandarah = $dataReq['tekanandarah'];
-            $RE->suhupulang = $dataReq['suhupulang'];
-            $RE->pernafasanpulang = $dataReq['pernafasanpulang'];
-            $RE->nadipulang = $dataReq['nadipulang'];
-            $RE->faskesterdekat = $dataReq['faskesterdekat'];
-            $RE->pemeriksaanpenunjanglainlain = $dataReq['pemeriksaanpenunjanglainlain'];
-            $RE->kebutuhanedukasilainlain = $dataReq['kebutuhanedukasilainlain'];
-            $RE->carapulang = $dataReq['carapulang'];
-            // $RE->keadaanumumafter = $dataReq['keadaanumumafter'];
-            $RE->keteranganlainnya = 'RawatInap';
-            $RE->iskontrolya = $dataReq['iskontrolya'];
-            $RE->iskontroltidak = $dataReq['iskontroltidak'];
-            $RE->israwatdirumahya = $dataReq['israwatdirumahya'];
-            $RE->israwatdirumahtidak = $dataReq['israwatdirumahtidak'];
-            $RE->isfaskesterdekatya = $dataReq['isfaskesterdekatya'];
-            $RE->ispengobatanlanjutanya = $dataReq['ispengobatanlanjutanya'];
-            $RE->ispengobatanlukaya = $dataReq['ispengobatanlukaya'];
-            $RE->isperawatanlanjutanya = $dataReq['isperawatanlanjutanya'];
-            $RE->ishomecareya = $dataReq['ishomecareya'];
-            $RE->islaboratoriumya = $dataReq['islaboratoriumya'];
-            $RE->isradiologiya = $dataReq['isradiologiya'];
-            $RE->ispemeriksaanpenunjanglainlainya = $dataReq['ispemeriksaanpenunjanglainlainya'];
-            $RE->iskebutuhanedukasilainlainya = $dataReq['iskebutuhanedukasilainlainya'];
-            $RE->ispenyakitya = $dataReq['ispenyakitya'];
-            $RE->isefeksampingobatya = $dataReq['isefeksampingobatya'];
-            $RE->isdietya = $dataReq['isdietya'];
-            $RE->isaktifitasistirahatya = $dataReq['isaktifitasistirahatya'];
-            $RE->ishygieneya = $dataReq['ishygieneya'];
-            $RE->isperawatanlukadirumahya = $dataReq['isperawatanlukadirumahya'];
-            $RE->isnyeriya = $dataReq['isnyeriya'];
-            $RE->isperawatanibubayiya = $dataReq['isperawatanibubayiya'];
-            $RE->ispertolonganmendesakya = $dataReq['ispertolonganmendesakya'];
-            $RE->pertolonganmendesak = $dataReq['pertolonganmendesak'];
-            $RE->isizindokterya = $dataReq['isizindokterya'];
-            $RE->ispindahrslainya = $dataReq['ispindahrslainya'];
-            $RE->ispulangsendiriya = $dataReq['ispulangsendiriya'];
-            $RE->ismelarikandiriya = $dataReq['ismelarikandiriya'];
-            $RE->ismeninggalbeforeya = $dataReq['ismeninggalbeforeya'];
-            $RE->ismeninggalafterya = $dataReq['ismeninggalafterya'];
-            $RE->ismandiriya = $dataReq['ismandiriya'];
-            $RE->isdibantusetengahya = $dataReq['isdibantusetengahya'];
-            $RE->isdibantupenuhya = $dataReq['isdibantupenuhya'];
-            $RE->iswalkerya = $dataReq['iswalkerya'];
-            $RE->isalatbantulainlainya = $dataReq['isalatbantulainlainya'];
-            $RE->istidakadaalatkesehatanya = $dataReq['istidakadaalatkesehatanya'];
-            $RE->isivcateterya = $dataReq['isivcateterya'];
-            $RE->isdobellumenya = $dataReq['isdobellumenya'];
-            $RE->isngtya = $dataReq['isngtya'];
-            $RE->isoksigenya = $dataReq['isoksigenya'];
-            $RE->iscateterurineya = $dataReq['iscateterurineya'];
-            $RE->isalatkesehatanlainlainya = $dataReq['isalatkesehatanlainlainya'];
-            $RE->terapipulang = $dataReq['terapipulang'];
-            $RE->tindakanrm = $dataReq['tindakanrm'];
-            $RE->isdraft = NULL;
-            $RE->isfinal = NULL;
-            $RE->isreaksiobatya = $dataReq['isreaksiobatya'];
-            $RE->isreaksiobattidak = $dataReq['isreaksiobattidak'];
-            $RE->pfnadi = $dataReq['pfnadi'];
-            $RE->pfspo = $dataReq['pfspo'];
-            $RE->pfbb = $dataReq['pfbb'];
-            $RE->pftb = $dataReq['pftb'];
-            $RE->pfe = $dataReq['pfe'];
-            $RE->pfm = $dataReq['pfm'];
-            $RE->pfv = $dataReq['pfv'];
-            $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
-            if (isset($dataReq['temuanpenting'])) {
-                $RE->temuanpenting = $dataReq['temuanpenting'];
-            }
-            if (isset($dataReq['penulisfk'])) {
-                $RE->penulisfk = $dataReq['penulisfk'];
-            }
-            if (isset($dataReq['penulis'])) {
-                $RE->penulis = $dataReq['penulis'];
-            }
-            $RE->save();
-
-            $norec_rm = $RE->norec;
-
-            if (isset($datareaksiobat) && is_array($datareaksiobat) && count($datareaksiobat) > 0) {
-                $deleteDataReaksiObatBefore = DataReaksiObatResumeMedis::where('norecresumefk', $norec_rm)->delete();
-                foreach ($datareaksiobat as $ros) {
-                    $RO = new DataReaksiObatResumeMedis();
-                    $RO->norec = $RO->generateNewId();
-                    $RO->norecresumefk = $norec_rm;
-                    $RO->namaobatro = $ros['namaobatro'];
-                    $RO->manifestasiro = $ros['manifestasiro'];
-                    $RO->keteranganro = $ros['keteranganro'];
-                    $RO->save();
-                }
-            }
-
-
-
-           if (count($lab) > 0) {
-            //ambil dulu hasil labnya baru di simpan ke temp
-            foreach($lab as $labs) {
-                $hasillab = \DB::table('hasillaboratorium_t as hl')
-                    ->select('hl.hasil', 'hl.flag', 'hl.detailpemeriksaan', 'hl.norec')
-                    ->where('norecpelayanan', $labs['norec_pp'])
-                    ->get();
-                foreach($hasillab as $items) {
-                    if ($items->hasil != null) {
-                        $temp = new TempResumeMedisRj();
-                        $temp->norec = $temp->generateNewId();
-                        $temp->statusenabled = true;
-                        $temp->emrpasienfk = $noemr;
-                        $temp->resumemedisfk = $norec_rm;
-                        $temp->tglpelayanan = $labs['tglpelayanan'];
-                        $temp->objectruanganfk = $labs['objectruanganfk'];
-                        $temp->namaruanganasal = $labs['namaruanganasal'];
-                        $temp->objectprodukfk = $labs['produkfk'];
-                        $temp->hasilpenunjang = $items->hasil;
-                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                        $temp->tglhasil = $labs['tglhasil'];
-                        $temp->tglcetak = $labs['tglcetak'];
-                        $temp->jenispenunjang = 'LAB';
-                        $temp->norecpenunjang = $items->norec;
-                        $temp->flaglab = $items->flag;
-                        $temp->detailpemeriksaan = $items->detailpemeriksaan;
-                        $temp->save();
-                    } else {
-                        //ash 2023-12-14
-                        //cek untuk lab PA
-                        /*$hasillabpa =  DB::select(DB::raw("select hp.expertise as hasil, 'Y' as flag, pr.namaproduk as detailpemeriksaan  from hasilpemeriksaanlab_t as hp
-                            left join pelayananpasien_t as pp on pp.norec = hp.pelayananpasienfk
-                            left join produk_m as pr on pr.id = pp.produkfk       
-                            where pp.norec ='".$labs['norec_pp']."'"));
-                            
-                        foreach($hasillabpa as $itemspa) {
-                            if ($itemspa->hasil != null) {
-                                $temp = new TempResumeMedisRj();
-                                $temp->norec = $temp->generateNewId();
-                                $temp->statusenabled = true;
-                                $temp->emrpasienfk = $noemr;
-                                $temp->resumemedisfk = $norec_rm;
-                                $temp->tglpelayanan = $labs['tglpelayanan'];
-                                $temp->objectruanganfk = $labs['objectruanganfk'];
-                                $temp->namaruanganasal = $labs['namaruanganasal'];
-                                $temp->objectprodukfk = $labs['produkfk'];
-                                $temp->hasilpenunjang = $itemspa->hasil;
-                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                                $temp->tglhasil = $labs['tglhasil'];
-                                $temp->tglcetak = $labs['tglcetak'];
-                                $temp->jenispenunjang = 'LABPA';
-                                $temp->norecpenunjang = $labs['norec_hasillab'];
-                                $temp->flaglab = $itemspa->flag;
-                                $temp->detailpemeriksaan = $itemspa->detailpemeriksaan;
-                                $temp->save();
-                            } else {*/
-                                $temp = new TempResumeMedisRj();
-                                $temp->norec = $temp->generateNewId();
-                                $temp->statusenabled = true;
-                                $temp->emrpasienfk = $noemr;
-                                $temp->resumemedisfk = $norec_rm;
-                                $temp->tglpelayanan = $labs['tglpelayanan'];
-                                $temp->objectruanganfk = $labs['objectruanganfk'];
-                                $temp->namaruanganasal = $labs['namaruanganasal'];
-                                $temp->objectprodukfk = $labs['produkfk'];
-                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                                $temp->tglhasil = $labs['tglhasil'];
-                                $temp->tglcetak = $labs['tglcetak'];
-                                $temp->jenispenunjang = 'LAB';
-                                $temp->norecpenunjang = $labs['norec_hasillab'];
-                                $temp->flaglab = 'Belum Input Lab';
-                                $temp->save();
-                            //}
-                        //}
-                    }
-                }
-            }
-            
-                    foreach($lab as $labs) {
-                        //ash 2023-12-14
-                        //cek untuk lab PA
-                        if ($labs['objectruanganfk'] == 453) {
-                            $hasillabpa =  DB::select(DB::raw("select hp.expertise as hasil, 'Y' as flag, pr.namaproduk as detailpemeriksaan  from hasilpemeriksaanlab_t as hp
-                                left join pelayananpasien_t as pp on pp.norec = hp.pelayananpasienfk
-                                left join produk_m as pr on pr.id = pp.produkfk       
-                                where pp.norec ='".$labs['norec_pp']."'"));
-                            if (count($hasillabpa) == 0) {
-                                $temp = new TempResumeMedisRj();
-                                $temp->norec = $temp->generateNewId();
-                                $temp->statusenabled = true;
-                                $temp->emrpasienfk = $noemr;
-                                $temp->resumemedisfk = $norec_rm;
-                                $temp->tglpelayanan = $labs['tglpelayanan'];
-                                $temp->objectruanganfk = $labs['objectruanganfk'];
-                                $temp->namaruanganasal = $labs['namaruanganasal'];
-                                $temp->objectprodukfk = $labs['produkfk'];
-                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                                $temp->tglhasil = $labs['tglhasil'];
-                                $temp->tglcetak = $labs['tglcetak'];
-                                $temp->jenispenunjang = 'LABPA';
-                                $temp->save();
-                            } else {
-                                foreach($hasillabpa as $itemspa) {
-                                    if ($itemspa->hasil != null) {
-                                        $temp = new TempResumeMedisRj();
-                                        $temp->norec = $temp->generateNewId();
-                                        $temp->statusenabled = true;
-                                        $temp->emrpasienfk = $noemr;
-                                        $temp->resumemedisfk = $norec_rm;
-                                        $temp->tglpelayanan = $labs['tglpelayanan'];
-                                        $temp->objectruanganfk = $labs['objectruanganfk'];
-                                        $temp->namaruanganasal = $labs['namaruanganasal'];
-                                        $temp->objectprodukfk = $labs['produkfk'];
-                                        $temp->hasilpenunjang = $itemspa->hasil;
-                                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                                        $temp->tglhasil = $labs['tglhasil'];
-                                        $temp->tglcetak = $labs['tglcetak'];
-                                        $temp->jenispenunjang = 'LABPA';
-                                        $temp->norecpenunjang = $labs['norec_hasillab'];
-                                        $temp->flaglab = $itemspa->flag;
-                                        $temp->detailpemeriksaan = $itemspa->detailpemeriksaan;
-                                        $temp->save();
-                                    } /*else {
-                                        $temp = new TempResumeMedisRj();
-                                        $temp->norec = $temp->generateNewId();
-                                        $temp->statusenabled = true;
-                                        $temp->emrpasienfk = $noemr;
-                                        $temp->resumemedisfk = $norec_rm;
-                                        $temp->tglpelayanan = $labs['tglpelayanan'];
-                                        $temp->objectruanganfk = $labs['objectruanganfk'];
-                                        $temp->namaruanganasal = $labs['namaruanganasal'];
-                                        $temp->objectprodukfk = $labs['produkfk'];
-                                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
-                                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
-                                        $temp->tglhasil = $labs['tglhasil'];
-                                        $temp->tglcetak = $labs['tglcetak'];
-                                        $temp->jenispenunjang = 'LAB';
-                                        $temp->norecpenunjang = $labs['norec_hasillab'];
-                                        $temp->flaglab = 'Belum Input Lab';
-                                        $temp->save();
-                                    }*/
-                                }
-                            }
-                        }
-                    }
-
-            
-          }
-
-          
-          if (count($rad) > 0) {
-            
-            foreach ($rad as $rads) {
-                $hasilrad = \DB::table('hasilradiologi_t as hr')
-                    ->select('hr.keterangan')
-                    ->where('hr.pelayananpasienfk', $rads['norec_pp'])
-                    ->get();
-                    if (count($hasilrad) > 0) {
-                        foreach($hasilrad as $itemss) {
-                            $temp = new TempResumeMedisRj();
-                            $temp->norec = $temp->generateNewId();
-                            $temp->statusenabled = true;
-                            $temp->emrpasienfk = $noemr;
-                            $temp->resumemedisfk = $norec_rm;
-                            $temp->tglpelayanan = $rads['tglpelayanan'];
-                            $temp->objectruanganfk = $rads['objectruanganfk'];
-                            $temp->namaruanganasal = $rads['namaruanganasal'];
-                            $temp->objectprodukfk = $rads['produkfk'];
-                            $temp->hasilpenunjang = $itemss->keterangan;
-                            $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                            $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                            $temp->jenispenunjang = 'RAD';
-                            $temp->norecpenunjang = $rads['hr_norec'];
-                            $temp->save();
-                        }
-                    } else {
-                        $temp = new TempResumeMedisRj();
-                        $temp->norec = $temp->generateNewId();
-                        $temp->statusenabled = true;
-                        $temp->emrpasienfk = $noemr;
-                        $temp->resumemedisfk = $norec_rm;
-                        $temp->tglpelayanan = $rads['tglpelayanan'];
-                        $temp->objectruanganfk = $rads['objectruanganfk'];
-                        $temp->namaruanganasal = $rads['namaruanganasal'];
-                        $temp->objectprodukfk = $rads['produkfk'];
-                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
-                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
-                        $temp->jenispenunjang = 'RAD';
-                        $temp->norecpenunjang = $rads['hr_norec'];
-                        $temp->save();
-                    }
-                }
-            }
-            
-            if (count($obat) > 0) {
-                foreach($obat as $obats) {
-                    $temp = new TempResumeMedisRj();
-                    $temp->norec = $temp->generateNewId();
-                    $temp->statusenabled = true;
-                    $temp->emrpasienfk = $noemr;
-                    $temp->resumemedisfk = $norec_rm;
-                    $temp->tglpelayanan = $obats['tglpelayanan'];
-                    $temp->objectruanganfk = $obats['depoid'];
-                    $temp->objectprodukfk = $obats['produkfk'];
-                    $temp->dokterobat = $obats['dokter'];
-                    $temp->noresep = $obats['noresep'];
-                    $temp->qty = $obats['jumlah'];
-                    $temp->dosis = $obats['dosisobat'];
-                    $temp->frekuensi = $obats['aturanpakai'];
-                    $temp->carapemberian = $obats['waktuminum'];
-                    $temp->jenispenunjang = 'OBAT';
-                    $temp->norecpenunjang = $obats['norecpp'];
-                    $temp->save();
-                }
-            }
-            if (count($tindakan) > 0) {
-                foreach($tindakan as $tindakans) {
-                    $temp = new TempResumeMedisRj();
-                    $temp->norec = $temp->generateNewId();
-                    $temp->statusenabled = true;
-                    $temp->emrpasienfk = $noemr;
-                    $temp->resumemedisfk = $norec_rm;
-                    $temp->namadiagnosa = $tindakans['namadiagnosatindakan'];
-                    $temp->kddiagnosa = $tindakans['qdiagnosatindakan'];
-                    $temp->objectruanganfk = $tindakans['objectruanganfk'];
-                    $temp->jenispenunjang = 'TINDAKAN ICD 9';
-                    $temp->norecpenunjang = $tindakans['norec'];
-                    $temp->save();
-                }
-            }
-            if (count($ICD10) > 0) {
-                $cekTempIcd10 = TempResumeMedisRj::select('emrpasienfk')->where('emrpasienfk', $noemr)->where('jenispenunjang', 'ICD10')
-                ->get();
-                if ($cekTempIcd10) {
-                $deleteBeforeSaveICD10 = TempResumeMedisRj::where('emrpasienfk', $noemr)
-                    ->where('jenispenunjang', 'ICD10')
-                    ->delete();
-                foreach($ICD10 as $kodeICD10) {
-                        $temp = new TempResumeMedisRj();
-                        $temp->norec = $temp->generateNewId();
-                        $temp->statusenabled = true;
-                        $temp->emrpasienfk = $noemr;
-                        $temp->resumemedisfk = $norec_rm;
-                        $temp->namadiagnosa = $kodeICD10['namadiagnosa'];
-                        $temp->kddiagnosa = $kodeICD10['kddiagnosa'];
-                        $temp->frekuensi = $kodeICD10['jenisdiagnosa'];
-                        // $temp->tglpelayanan = $kodeICD10['tglinputdiagnosa'];
-                        $temp->objectruanganfk = $kodeICD10['objectruanganfk'];
-                        $temp->jenispenunjang = 'ICD10';
-                        $temp->norecpenunjang = $kodeICD10['norec'];
-                        $temp->save();
-                    }
-                } else {
-                    foreach($ICD10 as $kodeICD10) {
-                        $temp = new TempResumeMedisRj();
-                        $temp->norec = $temp->generateNewId();
-                        $temp->statusenabled = true;
-                        $temp->emrpasienfk = $noemr;
-                        $temp->resumemedisfk = $norec_rm;
-                        $temp->namadiagnosa = $kodeICD10['namadiagnosa'];
-                        $temp->kddiagnosa = $kodeICD10['kddiagnosa'];
-                        $temp->frekuensi = $kodeICD10['jenisdiagnosa'];
-                        // $temp->tglpelayanan = $kodeICD10['tglinputdiagnosa'];
-                        $temp->objectruanganfk = $kodeICD10['objectruanganfk'];
-                        $temp->jenispenunjang = 'ICD10';
-                        $temp->norecpenunjang = $kodeICD10['norec'];
-                        $temp->save();
-                    }
-                }
-            }
-            if (count($obatpulang) > 0) {
-                foreach($obatpulang as $obatpulangsss) {
-                    $temp = new TempResumeMedisRj();
-                    $temp->norec = $temp->generateNewId();
-                    $temp->statusenabled = true;
-                    $temp->emrpasienfk = $noemr;
-                    $temp->resumemedisfk = $norec_rm;
-                    $temp->tglpelayanan = $obatpulangsss['tglresep'];                    
-                    $temp->objectprodukfk = $obatpulangsss['produkfk'];                    
-                    $temp->qty = $obatpulangsss['jumlah'];  
-                    $temp->frekuensi = $obatpulangsss['aturanpakai'];                  
-                    $temp->jenispenunjang = 'OBATPULANG';                    
-                    $temp->save();
-                }
-            }
-
- 
-
-            $transStatus = 'true';
-        //} catch(\Exception $e) {
-            //$transMessage = 'Gagal Simpan';
-            //$transStatus = 'false';
-        //}
-        if ($transStatus == 'true') {
-            $transMessage = 'Simpan Berhasil';
-            //DB::commit();
-            $result = array (
-                "status" => 201,
-                "message" => 'anjay sukses',
-                "norec_resume" => $norecresume
-            );
-        } else {
-            //DB::rollBack();
-            $result = array (
-                "status" => 400,
-                "message" => 'yah gagal'
-            );
-        }
-        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-    }
+    //OLD RESUME MEDIS RI
 
     // public function saveResumeMedisRanap(Request $request) {
     //     //try {
@@ -26445,7 +26602,12 @@ WHERE rm.norec = '$norec_resume'
     //         if($dataReq['lab']) $lab = $dataReq['lab'];
     //         if($dataReq['rad']) $rad = $dataReq['rad'];
     //         if($dataReq['obat']) $obat = $dataReq['obat'];
-    //         if($dataReq['datareaksiobat']) $datareaksiobat = $dataReq['datareaksiobat'];
+    //         if (isset($dataReq['datareaksiobat'])) {
+    //             $datareaksiobat = $dataReq['datareaksiobat'];
+    //         }else {
+    //             $dataReaksiObat = null;
+    //         }
+            
     //         $head = $dataReq['head'];
     //         if($dataReq['ICD10']) $ICD10 = $dataReq['ICD10'];
     //         if($dataReq['obatpulang']) $obatpulang = $dataReq['obatpulang'];
@@ -26590,7 +26752,6 @@ WHERE rm.norec = '$norec_resume'
     //         $RE->kondisiwaktukeluar = $dataReq['kondisikeluar'];
     //         $RE->rencanatindaklanjut = $dataReq['rencanatindaklanjut'];
     //         $RE->diagdok = $dataReq['diagdok'];
-    //         $RE->diagsek = $dataReq['diagsek'];
     //         if($dataReq['rencanatindaklanjut']=='Lainnya') {
     //             $RE->rencanalain = $dataReq['rencanalain'];
     //         } else {
@@ -26673,22 +26834,6 @@ WHERE rm.norec = '$norec_resume'
     //         $RE->isoksigenya = $dataReq['isoksigenya'];
     //         $RE->iscateterurineya = $dataReq['iscateterurineya'];
     //         $RE->isalatkesehatanlainlainya = $dataReq['isalatkesehatanlainlainya'];
-    //         $RE->dehidrasiresusitasi = $dataReq['dehidrasiresusitasi'];
-    //         $RE->tatalaksanaaritmia = $dataReq['tatalaksanaaritmia'];
-    //         $RE->resusiitasijantungparu = $dataReq['resusiitasijantungparu'];
-    //         $RE->transfusi = $dataReq['transfusi'];
-    //         $RE->fibrinolitik = $dataReq['fibrinolitik'];
-    //         $RE->antikoagulanantiagregrasi = $dataReq['antikoagulanantiagregrasi'];
-    //         $RE->ventilatorkurangdari96jam = $dataReq['ventilatorkurangdari96jam'];
-    //         $RE->ventilatorlebih96jam = $dataReq['ventilatorlebih96jam'];
-    //         $RE->oksigenasi = $dataReq['oksigenasi'];
-    //         $RE->nebulisasi = $dataReq['nebulisasi'];
-    //         $RE->trakeostomi = $dataReq['trakeostomi'];
-    //         $RE->koreksielektrolitmetabolic = $dataReq['koreksielektrolitmetabolic'];
-    //         $RE->bantuanpersalinan = $dataReq['bantuanpersalinan'];
-    //         $RE->monitoringttvkesadaranskalanyeri = $dataReq['monitoringttvkesadaranskalanyeri'];
-    //         $RE->pemberianinotropikvasoaktif = $dataReq['pemberianinotropikvasoaktif'];
-    //         $RE->antibiotik3kali24jam = $dataReq['antibiotik3kali24jam'];
     //         $RE->terapipulang = $dataReq['terapipulang'];
     //         $RE->tindakanrm = $dataReq['tindakanrm'];
     //         $RE->isdraft = NULL;
@@ -27046,6 +27191,624 @@ WHERE rm.norec = '$norec_resume'
     //     }
     //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     // }
+
+    // END OLD RESUME MEDIS RI
+
+    public function saveResumeMedisRanap(Request $request) {
+        //try {
+            $dataReq = $request->all();
+
+            $lab = [];
+            $rad = [];
+            $obat = [];
+            $ICD10 = [];
+            $obatpulang = [];
+            $tindakan = [];
+
+            if($dataReq['lab']) $lab = $dataReq['lab'];
+            if($dataReq['rad']) $rad = $dataReq['rad'];
+            if($dataReq['obat']) $obat = $dataReq['obat'];
+            if($dataReq['datareaksiobat']) $datareaksiobat = $dataReq['datareaksiobat'];
+            $head = $dataReq['head'];
+            if($dataReq['ICD10']) $ICD10 = $dataReq['ICD10'];
+            if($dataReq['obatpulang']) $obatpulang = $dataReq['obatpulang'];
+
+            if($dataReq['tindakan']) $tindakan = $dataReq['tindakan'];
+
+            if ($dataReq['norec_emr'] == '-' || $dataReq['norec_emr'] == undefined || $dataReq['norec_emr'] == 'undefined') {
+
+                $noemr = $this->generateCodeEMR(new EMRPasien, 'noemr', 15, 'MR' . date('ym') . '/');
+                if ($noemr == '') {
+                    $transMessage = "Gagal mengumpukan data, Coba lagi.!";
+                    DB::rollBack();
+                    $result = array(
+                        "status" => 400,
+                        "message" => $transMessage,
+                        "as" => 'as@epic',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+
+                $EMR = new EMRPasien();
+                $norecHead = $EMR->generateNewId();
+                $EMR->norec = $norecHead;
+                $norecTehMenikitunyaeuy = $norecHead;
+                $EMR->norec = $norecTehMenikitunyaeuy;
+                $EMR->kdprofile = 17;
+                $EMR->statusenabled = 1;
+
+                if (isset($head['noregistrasi'])) {
+                    $EMR->noregistrasifk = $head['noregistrasi'];
+                }
+                $EMRPASIENDETAIL = [];
+            } else {
+                $EMR = EMRPasien::where('noemr', $head['norec_emr'])
+                    ->where('noregistrasifk', $head['noregistrasi'])
+                    ->first();
+                $noemr = $EMR->noemr;
+            }
+
+            //VALIDASI JIKA NOREGISTRASI BEDA //
+            if (isset($head['noregistrasi'])) {
+                if (trim($EMR->noregistrasifk) != $head['noregistrasi']) {
+                    $transMessage = "Kesalahan loading data..!";
+                    DB::rollBack();
+                    $result = array(
+                        "status" => 400,
+                        "message" => $transMessage,
+                        "as" => 'as@epic',
+                    );
+                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                }
+            }
+            $EMR->noemr = $noemr;
+            $EMR->emrfk = 104;
+            $EMR->nocm = $head['nocm'];
+            $EMR->namapasien = $head['namapasien'];
+            $EMR->jeniskelamin = $head['jeniskelamin'];
+
+            // $EMR->umur = $head['umur'];
+            if (isset($head['kelompokpasien'])) {
+                $EMR->kelompokpasien = $head['kelompokpasien'];
+            }
+            // if (isset($head['tglregistrasi'])) {
+            //     $EMR->tglregistrasi = $head['tglregistrasi'];
+            // } else {
+            //     $EMR->tglregistrasi = $this->getDateTime()->format('Y-m-d H:i:s');
+            // }
+            $EMR->tglregistrasi = $head['tglregistrasi'];
+            if (isset($head['norec'])) {
+                $EMR->norec_apd = $head['norec'];
+            }
+            if (isset($head['namakelas'])) {
+                $EMR->namakelas = $head['namakelas'];
+            }
+            if (isset($head['namaruangan'])) {
+                $EMR->namaruangan = $head['namaruangan'];
+            } else {
+                $EMR->namaruangan = "Triage Gawat Darurat";
+            }
+            // if (isset($head['tgllahir'])) {
+                // $EMR->tgllahir = $head['tgllahir'];
+            // }
+            if (isset($head['notelepon'])) {
+                $EMR->notelepon = $head['notelepon'];
+            }
+            if (isset($head['alamatlengkap'])) {
+                $EMR->alamat = $head['alamatlengkap'];
+            }
+                $EMR->jenisemr = 'resumemedisranap';
+            $EMR->pegawaifk = $this->getCurrentUserID();
+            $EMR->tglemr = $this->getDateTime()->format('Y-m-d H:i:s');
+            $EMR->save();
+
+
+
+
+            if ($dataReq['norec'] == "-") {
+                $RE = new ResumeMedis();
+                // $norec_resume = $RE->generateNewId();
+                $RE->norec = $RE->generateNewId();
+                $RE->kdprofile = 0;
+                $RE->statusenabled = true;
+                $norecresume = $RE->norec;
+            } else {
+                $TempReDelete = TempResumeMedisRj::where('resumemedisfk', $dataReq['norec'])->delete();
+                $RE = ResumeMedis::where('norec', $dataReq['norec'])->first();
+                $noemr = $RE->emrpasienfk;
+                $norecresume = $RE->norec;
+            }
+            $RE->noregistrasifk = $head['norec'];
+            $RE->emrpasienfk = $noemr;
+            // $RE->satusehat = $dataReq['satusehat']; //ini nanti kalau sudah diisi
+            $RE->satusehat = null;
+            // $RE->nomorpasspor = $dataReq['passpor']; //ini nanti kalau sudah diisi
+            $RE->nomorpasspor = null;
+            $RE->notelppenjamin = null;
+            $RE->tglmasuk = $dataReq['tglmasuk'];
+            $RE->tglkeluar = $dataReq['tglkeluar'];
+            $RE->keluhanutama = $dataReq['keluhanutama'];
+            if (isset($dataReq['indikasirawatinap'])) {
+                $RE->indikasirawatinap = $dataReq['indikasirawatinap'];
+            }
+            if (isset($dataReq['terapipengobatanrumahsakit'])) {
+                $RE->terapipengobatanrumahsakit = $dataReq['terapipengobatanrumahsakit'];
+            }
+            $RE->alergi = $dataReq['alergi'];
+            $RE->kesadaran = $dataReq['kesadaran'];
+            $RE->keadaanumum = $dataReq['keadaanumum'];
+            if (isset($dataReq['jantung'])) {
+                $RE->denyutjantung = $dataReq['jantung'];
+            }
+            if (isset($dataReq['pernapasan'])) {
+                $RE->pernapasan = $dataReq['pernapasan'];
+            }
+            $RE->systole = $dataReq['systole'];
+            $RE->diastole = $dataReq['diastole'];
+            $RE->suhu = $dataReq['suhu'];
+            $RE->diet = $dataReq['diet'];
+            $RE->keterangandiet = $dataReq['ketdiet'];
+            $RE->hasilkonsultasi = $dataReq['hasilkonsultasi'];
+            $RE->prognosis = $dataReq['prognosis'];
+            $RE->kondisiwaktukeluar = $dataReq['kondisikeluar'];
+            $RE->rencanatindaklanjut = $dataReq['rencanatindaklanjut'];
+            $RE->diagdok = $dataReq['diagdok'];
+            $RE->diagsek = $dataReq['diagsek'];
+            if($dataReq['rencanatindaklanjut']=='Lainnya') {
+                $RE->rencanalain = $dataReq['rencanalain'];
+            } else {
+                $RE->rencanalain = null;
+                $RE->sarantransportasi = null;
+            }
+            $RE->kontrol = $dataReq['kontrolpoli'];
+            $RE->tglkontrol = $dataReq['tglkontrolpoli'];
+            // $RE->keadaandarurat = $dataReq['keadaandarurat'];
+            $RE->edukasi = $dataReq['edukasi'];
+            
+            if($dataReq['rencanatindaklanjut']=='Dirujuk Ke') $RE->sarantransportasi = null;   
+            else $RE->sarantransportasi = null;   
+            
+            if($dataReq['transportasi']=='Lain-lain') $RE->saranalain = $dataReq['transportasilain'];
+            else $RE->saranalain = null;
+        
+            $RE->pasienkeluarga = $dataReq['pasienkeluarga'];
+            $RE->namadokter = $dataReq['dpjp'];
+            $RE->pegawaifk = $dataReq['pegawaifk'];
+            $RE->alasanrawat = $dataReq['alasanrawat'];
+            $RE->ringkasanriwayatpenyakit = $dataReq['riwayatPenyakit'];
+            $RE->denyutjantungafter = $dataReq['denyutjantungafter'];
+            $RE->suhuafter = $dataReq['suhuafter'];
+            $RE->pernapasanafter = $dataReq['pernafasanafter'];
+            $RE->systoleafter = $dataReq['systoleafter'];
+            $RE->diastoleafter = $dataReq['diastoleafter'];
+            $RE->pemeriksaanfisik = $dataReq['pemeriksaanfisik'];
+            $RE->kesadaranafter = $dataReq['kesadaranafter'];
+            $RE->ku = $dataReq['ku'];
+            $RE->kesadaranpulang = $dataReq['kesadaranpulang'];
+            $RE->tekanandarah = $dataReq['tekanandarah'];
+            $RE->suhupulang = $dataReq['suhupulang'];
+            $RE->pernafasanpulang = $dataReq['pernafasanpulang'];
+            $RE->nadipulang = $dataReq['nadipulang'];
+            $RE->faskesterdekat = $dataReq['faskesterdekat'];
+            $RE->pemeriksaanpenunjanglainlain = $dataReq['pemeriksaanpenunjanglainlain'];
+            $RE->kebutuhanedukasilainlain = $dataReq['kebutuhanedukasilainlain'];
+            $RE->carapulang = $dataReq['carapulang'];
+            // $RE->keadaanumumafter = $dataReq['keadaanumumafter'];
+            $RE->keteranganlainnya = 'RawatInap';
+            $RE->iskontrolya = $dataReq['iskontrolya'];
+            $RE->iskontroltidak = $dataReq['iskontroltidak'];
+            $RE->israwatdirumahya = $dataReq['israwatdirumahya'];
+            $RE->israwatdirumahtidak = $dataReq['israwatdirumahtidak'];
+            $RE->isfaskesterdekatya = $dataReq['isfaskesterdekatya'];
+            $RE->ispengobatanlanjutanya = $dataReq['ispengobatanlanjutanya'];
+            $RE->ispengobatanlukaya = $dataReq['ispengobatanlukaya'];
+            $RE->isperawatanlanjutanya = $dataReq['isperawatanlanjutanya'];
+            $RE->ishomecareya = $dataReq['ishomecareya'];
+            $RE->islaboratoriumya = $dataReq['islaboratoriumya'];
+            $RE->isradiologiya = $dataReq['isradiologiya'];
+            $RE->ispemeriksaanpenunjanglainlainya = $dataReq['ispemeriksaanpenunjanglainlainya'];
+            $RE->iskebutuhanedukasilainlainya = $dataReq['iskebutuhanedukasilainlainya'];
+            $RE->ispenyakitya = $dataReq['ispenyakitya'];
+            $RE->isefeksampingobatya = $dataReq['isefeksampingobatya'];
+            $RE->isdietya = $dataReq['isdietya'];
+            $RE->isaktifitasistirahatya = $dataReq['isaktifitasistirahatya'];
+            $RE->ishygieneya = $dataReq['ishygieneya'];
+            $RE->isperawatanlukadirumahya = $dataReq['isperawatanlukadirumahya'];
+            $RE->isnyeriya = $dataReq['isnyeriya'];
+            $RE->isperawatanibubayiya = $dataReq['isperawatanibubayiya'];
+            $RE->ispertolonganmendesakya = $dataReq['ispertolonganmendesakya'];
+            $RE->pertolonganmendesak = $dataReq['pertolonganmendesak'];
+            $RE->isizindokterya = $dataReq['isizindokterya'];
+            $RE->ispindahrslainya = $dataReq['ispindahrslainya'];
+            $RE->ispulangsendiriya = $dataReq['ispulangsendiriya'];
+            $RE->ismelarikandiriya = $dataReq['ismelarikandiriya'];
+            $RE->ismeninggalbeforeya = $dataReq['ismeninggalbeforeya'];
+            $RE->ismeninggalafterya = $dataReq['ismeninggalafterya'];
+            $RE->ismandiriya = $dataReq['ismandiriya'];
+            $RE->isdibantusetengahya = $dataReq['isdibantusetengahya'];
+            $RE->isdibantupenuhya = $dataReq['isdibantupenuhya'];
+            $RE->iswalkerya = $dataReq['iswalkerya'];
+            $RE->isalatbantulainlainya = $dataReq['isalatbantulainlainya'];
+            $RE->istidakadaalatkesehatanya = $dataReq['istidakadaalatkesehatanya'];
+            $RE->isivcateterya = $dataReq['isivcateterya'];
+            $RE->isdobellumenya = $dataReq['isdobellumenya'];
+            $RE->isngtya = $dataReq['isngtya'];
+            $RE->isoksigenya = $dataReq['isoksigenya'];
+            $RE->iscateterurineya = $dataReq['iscateterurineya'];
+            $RE->isalatkesehatanlainlainya = $dataReq['isalatkesehatanlainlainya'];
+            $RE->dehidrasiresusitasi = $dataReq['dehidrasiresusitasi'];
+            $RE->tatalaksanaaritmia = $dataReq['tatalaksanaaritmia'];
+            $RE->resusiitasijantungparu = $dataReq['resusiitasijantungparu'];
+            $RE->transfusi = $dataReq['transfusi'];
+            $RE->fibrinolitik = $dataReq['fibrinolitik'];
+            $RE->antikoagulanantiagregrasi = $dataReq['antikoagulanantiagregrasi'];
+            $RE->ventilatorkurangdari96jam = $dataReq['ventilatorkurangdari96jam'];
+            $RE->ventilatorlebih96jam = $dataReq['ventilatorlebih96jam'];
+            $RE->oksigenasi = $dataReq['oksigenasi'];
+            $RE->nebulisasi = $dataReq['nebulisasi'];
+            $RE->trakeostomi = $dataReq['trakeostomi'];
+            $RE->koreksielektrolitmetabolic = $dataReq['koreksielektrolitmetabolic'];
+            $RE->bantuanpersalinan = $dataReq['bantuanpersalinan'];
+            $RE->monitoringttvkesadaranskalanyeri = $dataReq['monitoringttvkesadaranskalanyeri'];
+            $RE->pemberianinotropikvasoaktif = $dataReq['pemberianinotropikvasoaktif'];
+            $RE->antibiotik3kali24jam = $dataReq['antibiotik3kali24jam'];
+            $RE->terapipulang = $dataReq['terapipulang'];
+            $RE->tindakanrm = $dataReq['tindakanrm'];
+            $RE->isdraft = NULL;
+            $RE->isfinal = NULL;
+            $RE->isreaksiobatya = $dataReq['isreaksiobatya'];
+            $RE->isreaksiobattidak = $dataReq['isreaksiobattidak'];
+            $RE->pfnadi = $dataReq['pfnadi'];
+            $RE->pfspo = $dataReq['pfspo'];
+            $RE->pfbb = $dataReq['pfbb'];
+            $RE->pftb = $dataReq['pftb'];
+            $RE->pfe = $dataReq['pfe'];
+            $RE->pfm = $dataReq['pfm'];
+            $RE->pfv = $dataReq['pfv'];
+            $RE->keadaandarurat2 = $dataReq['keadaandarurat'];
+            if (isset($dataReq['temuanpenting'])) {
+                $RE->temuanpenting = $dataReq['temuanpenting'];
+            }
+            if (isset($dataReq['penulisfk'])) {
+                $RE->penulisfk = $dataReq['penulisfk'];
+            }
+            if (isset($dataReq['penulis'])) {
+                $RE->penulis = $dataReq['penulis'];
+            }
+            $RE->save();
+
+            $norec_rm = $RE->norec;
+
+            if (isset($datareaksiobat) && is_array($datareaksiobat) && count($datareaksiobat) > 0) {
+                $deleteDataReaksiObatBefore = DataReaksiObatResumeMedis::where('norecresumefk', $norec_rm)->delete();
+                foreach ($datareaksiobat as $ros) {
+                    $RO = new DataReaksiObatResumeMedis();
+                    $RO->norec = $RO->generateNewId();
+                    $RO->norecresumefk = $norec_rm;
+                    $RO->namaobatro = $ros['namaobatro'];
+                    $RO->manifestasiro = $ros['manifestasiro'];
+                    $RO->keteranganro = $ros['keteranganro'];
+                    $RO->save();
+                }
+            }
+
+
+
+           if (count($lab) > 0) {
+            //ambil dulu hasil labnya baru di simpan ke temp
+            foreach($lab as $labs) {
+                $hasillab = \DB::table('hasillaboratorium_t as hl')
+                    ->select('hl.hasil', 'hl.flag', 'hl.detailpemeriksaan', 'hl.norec')
+                    ->where('norecpelayanan', $labs['norec_pp'])
+                    ->get();
+                foreach($hasillab as $items) {
+                    if ($items->hasil != null) {
+                        $temp = new TempResumeMedisRj();
+                        $temp->norec = $temp->generateNewId();
+                        $temp->statusenabled = true;
+                        $temp->emrpasienfk = $noemr;
+                        $temp->resumemedisfk = $norec_rm;
+                        $temp->tglpelayanan = $labs['tglpelayanan'];
+                        $temp->objectruanganfk = $labs['objectruanganfk'];
+                        $temp->namaruanganasal = $labs['namaruanganasal'];
+                        $temp->objectprodukfk = $labs['produkfk'];
+                        $temp->hasilpenunjang = $items->hasil;
+                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                        $temp->tglhasil = $labs['tglhasil'];
+                        $temp->tglcetak = $labs['tglcetak'];
+                        $temp->jenispenunjang = 'LAB';
+                        $temp->norecpenunjang = $items->norec;
+                        $temp->flaglab = $items->flag;
+                        $temp->detailpemeriksaan = $items->detailpemeriksaan;
+                        $temp->save();
+                    } else {
+                        //ash 2023-12-14
+                        //cek untuk lab PA
+                        /*$hasillabpa =  DB::select(DB::raw("select hp.expertise as hasil, 'Y' as flag, pr.namaproduk as detailpemeriksaan  from hasilpemeriksaanlab_t as hp
+                            left join pelayananpasien_t as pp on pp.norec = hp.pelayananpasienfk
+                            left join produk_m as pr on pr.id = pp.produkfk       
+                            where pp.norec ='".$labs['norec_pp']."'"));
+                            
+                        foreach($hasillabpa as $itemspa) {
+                            if ($itemspa->hasil != null) {
+                                $temp = new TempResumeMedisRj();
+                                $temp->norec = $temp->generateNewId();
+                                $temp->statusenabled = true;
+                                $temp->emrpasienfk = $noemr;
+                                $temp->resumemedisfk = $norec_rm;
+                                $temp->tglpelayanan = $labs['tglpelayanan'];
+                                $temp->objectruanganfk = $labs['objectruanganfk'];
+                                $temp->namaruanganasal = $labs['namaruanganasal'];
+                                $temp->objectprodukfk = $labs['produkfk'];
+                                $temp->hasilpenunjang = $itemspa->hasil;
+                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                                $temp->tglhasil = $labs['tglhasil'];
+                                $temp->tglcetak = $labs['tglcetak'];
+                                $temp->jenispenunjang = 'LABPA';
+                                $temp->norecpenunjang = $labs['norec_hasillab'];
+                                $temp->flaglab = $itemspa->flag;
+                                $temp->detailpemeriksaan = $itemspa->detailpemeriksaan;
+                                $temp->save();
+                            } else {*/
+                                $temp = new TempResumeMedisRj();
+                                $temp->norec = $temp->generateNewId();
+                                $temp->statusenabled = true;
+                                $temp->emrpasienfk = $noemr;
+                                $temp->resumemedisfk = $norec_rm;
+                                $temp->tglpelayanan = $labs['tglpelayanan'];
+                                $temp->objectruanganfk = $labs['objectruanganfk'];
+                                $temp->namaruanganasal = $labs['namaruanganasal'];
+                                $temp->objectprodukfk = $labs['produkfk'];
+                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                                $temp->tglhasil = $labs['tglhasil'];
+                                $temp->tglcetak = $labs['tglcetak'];
+                                $temp->jenispenunjang = 'LAB';
+                                $temp->norecpenunjang = $labs['norec_hasillab'];
+                                $temp->flaglab = 'Belum Input Lab';
+                                $temp->save();
+                            //}
+                        //}
+                    }
+                }
+            }
+            
+                    foreach($lab as $labs) {
+                        //ash 2023-12-14
+                        //cek untuk lab PA
+                        if ($labs['objectruanganfk'] == 453) {
+                            $hasillabpa =  DB::select(DB::raw("select hp.expertise as hasil, 'Y' as flag, pr.namaproduk as detailpemeriksaan  from hasilpemeriksaanlab_t as hp
+                                left join pelayananpasien_t as pp on pp.norec = hp.pelayananpasienfk
+                                left join produk_m as pr on pr.id = pp.produkfk       
+                                where pp.norec ='".$labs['norec_pp']."'"));
+                            if (count($hasillabpa) == 0) {
+                                $temp = new TempResumeMedisRj();
+                                $temp->norec = $temp->generateNewId();
+                                $temp->statusenabled = true;
+                                $temp->emrpasienfk = $noemr;
+                                $temp->resumemedisfk = $norec_rm;
+                                $temp->tglpelayanan = $labs['tglpelayanan'];
+                                $temp->objectruanganfk = $labs['objectruanganfk'];
+                                $temp->namaruanganasal = $labs['namaruanganasal'];
+                                $temp->objectprodukfk = $labs['produkfk'];
+                                $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                                $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                                $temp->tglhasil = $labs['tglhasil'];
+                                $temp->tglcetak = $labs['tglcetak'];
+                                $temp->jenispenunjang = 'LABPA';
+                                $temp->save();
+                            } else {
+                                foreach($hasillabpa as $itemspa) {
+                                    if ($itemspa->hasil != null) {
+                                        $temp = new TempResumeMedisRj();
+                                        $temp->norec = $temp->generateNewId();
+                                        $temp->statusenabled = true;
+                                        $temp->emrpasienfk = $noemr;
+                                        $temp->resumemedisfk = $norec_rm;
+                                        $temp->tglpelayanan = $labs['tglpelayanan'];
+                                        $temp->objectruanganfk = $labs['objectruanganfk'];
+                                        $temp->namaruanganasal = $labs['namaruanganasal'];
+                                        $temp->objectprodukfk = $labs['produkfk'];
+                                        $temp->hasilpenunjang = $itemspa->hasil;
+                                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                                        $temp->tglhasil = $labs['tglhasil'];
+                                        $temp->tglcetak = $labs['tglcetak'];
+                                        $temp->jenispenunjang = 'LABPA';
+                                        $temp->norecpenunjang = $labs['norec_hasillab'];
+                                        $temp->flaglab = $itemspa->flag;
+                                        $temp->detailpemeriksaan = $itemspa->detailpemeriksaan;
+                                        $temp->save();
+                                    } /*else {
+                                        $temp = new TempResumeMedisRj();
+                                        $temp->norec = $temp->generateNewId();
+                                        $temp->statusenabled = true;
+                                        $temp->emrpasienfk = $noemr;
+                                        $temp->resumemedisfk = $norec_rm;
+                                        $temp->tglpelayanan = $labs['tglpelayanan'];
+                                        $temp->objectruanganfk = $labs['objectruanganfk'];
+                                        $temp->namaruanganasal = $labs['namaruanganasal'];
+                                        $temp->objectprodukfk = $labs['produkfk'];
+                                        $temp->objectdokterpemeriksafk = $labs['dokterid'];
+                                        $temp->objectdokterpengirimfk = $labs['iddokterpengirim'];
+                                        $temp->tglhasil = $labs['tglhasil'];
+                                        $temp->tglcetak = $labs['tglcetak'];
+                                        $temp->jenispenunjang = 'LAB';
+                                        $temp->norecpenunjang = $labs['norec_hasillab'];
+                                        $temp->flaglab = 'Belum Input Lab';
+                                        $temp->save();
+                                    }*/
+                                }
+                            }
+                        }
+                    }
+
+            
+          }
+
+          
+          if (count($rad) > 0) {
+            
+            foreach ($rad as $rads) {
+                $hasilrad = \DB::table('hasilradiologi_t as hr')
+                    ->select('hr.keterangan')
+                    ->where('hr.pelayananpasienfk', $rads['norec_pp'])
+                    ->get();
+                    if (count($hasilrad) > 0) {
+                        foreach($hasilrad as $itemss) {
+                            $temp = new TempResumeMedisRj();
+                            $temp->norec = $temp->generateNewId();
+                            $temp->statusenabled = true;
+                            $temp->emrpasienfk = $noemr;
+                            $temp->resumemedisfk = $norec_rm;
+                            $temp->tglpelayanan = $rads['tglpelayanan'];
+                            $temp->objectruanganfk = $rads['objectruanganfk'];
+                            $temp->namaruanganasal = $rads['namaruanganasal'];
+                            $temp->objectprodukfk = $rads['produkfk'];
+                            $temp->hasilpenunjang = $itemss->keterangan;
+                            $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                            $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                            $temp->jenispenunjang = 'RAD';
+                            $temp->norecpenunjang = $rads['hr_norec'];
+                            $temp->save();
+                        }
+                    } else {
+                        $temp = new TempResumeMedisRj();
+                        $temp->norec = $temp->generateNewId();
+                        $temp->statusenabled = true;
+                        $temp->emrpasienfk = $noemr;
+                        $temp->resumemedisfk = $norec_rm;
+                        $temp->tglpelayanan = $rads['tglpelayanan'];
+                        $temp->objectruanganfk = $rads['objectruanganfk'];
+                        $temp->namaruanganasal = $rads['namaruanganasal'];
+                        $temp->objectprodukfk = $rads['produkfk'];
+                        $temp->objectdokterpemeriksafk = $rads['dokterid'];
+                        $temp->objectdokterpengirimfk = $rads['iddokterpengirim'];
+                        $temp->jenispenunjang = 'RAD';
+                        $temp->norecpenunjang = $rads['hr_norec'];
+                        $temp->save();
+                    }
+                }
+            }
+            
+            if (count($obat) > 0) {
+                foreach($obat as $obats) {
+                    $temp = new TempResumeMedisRj();
+                    $temp->norec = $temp->generateNewId();
+                    $temp->statusenabled = true;
+                    $temp->emrpasienfk = $noemr;
+                    $temp->resumemedisfk = $norec_rm;
+                    $temp->tglpelayanan = $obats['tglpelayanan'];
+                    $temp->objectruanganfk = $obats['depoid'];
+                    $temp->objectprodukfk = $obats['produkfk'];
+                    $temp->dokterobat = $obats['dokter'];
+                    $temp->noresep = $obats['noresep'];
+                    $temp->qty = $obats['jumlah'];
+                    $temp->dosis = $obats['dosisobat'];
+                    $temp->frekuensi = $obats['aturanpakai'];
+                    $temp->carapemberian = $obats['waktuminum'];
+                    $temp->jenispenunjang = 'OBAT';
+                    $temp->norecpenunjang = $obats['norecpp'];
+                    $temp->save();
+                }
+            }
+            if (count($tindakan) > 0) {
+                foreach($tindakan as $tindakans) {
+                    $temp = new TempResumeMedisRj();
+                    $temp->norec = $temp->generateNewId();
+                    $temp->statusenabled = true;
+                    $temp->emrpasienfk = $noemr;
+                    $temp->resumemedisfk = $norec_rm;
+                    $temp->namadiagnosa = $tindakans['namadiagnosatindakan'];
+                    $temp->kddiagnosa = $tindakans['qdiagnosatindakan'];
+                    $temp->objectruanganfk = $tindakans['objectruanganfk'];
+                    $temp->jenispenunjang = 'TINDAKAN ICD 9';
+                    $temp->norecpenunjang = $tindakans['norec'];
+                    $temp->save();
+                }
+            }
+            if (count($ICD10) > 0) {
+                $cekTempIcd10 = TempResumeMedisRj::select('emrpasienfk')->where('emrpasienfk', $noemr)->where('jenispenunjang', 'ICD10')
+                ->get();
+                if ($cekTempIcd10) {
+                $deleteBeforeSaveICD10 = TempResumeMedisRj::where('emrpasienfk', $noemr)
+                    ->where('jenispenunjang', 'ICD10')
+                    ->delete();
+                foreach($ICD10 as $kodeICD10) {
+                        $temp = new TempResumeMedisRj();
+                        $temp->norec = $temp->generateNewId();
+                        $temp->statusenabled = true;
+                        $temp->emrpasienfk = $noemr;
+                        $temp->resumemedisfk = $norec_rm;
+                        $temp->namadiagnosa = $kodeICD10['namadiagnosa'];
+                        $temp->kddiagnosa = $kodeICD10['kddiagnosa'];
+                        $temp->frekuensi = $kodeICD10['jenisdiagnosa'];
+                        // $temp->tglpelayanan = $kodeICD10['tglinputdiagnosa'];
+                        $temp->objectruanganfk = $kodeICD10['objectruanganfk'];
+                        $temp->jenispenunjang = 'ICD10';
+                        $temp->norecpenunjang = $kodeICD10['norec'];
+                        $temp->save();
+                    }
+                } else {
+                    foreach($ICD10 as $kodeICD10) {
+                        $temp = new TempResumeMedisRj();
+                        $temp->norec = $temp->generateNewId();
+                        $temp->statusenabled = true;
+                        $temp->emrpasienfk = $noemr;
+                        $temp->resumemedisfk = $norec_rm;
+                        $temp->namadiagnosa = $kodeICD10['namadiagnosa'];
+                        $temp->kddiagnosa = $kodeICD10['kddiagnosa'];
+                        $temp->frekuensi = $kodeICD10['jenisdiagnosa'];
+                        // $temp->tglpelayanan = $kodeICD10['tglinputdiagnosa'];
+                        $temp->objectruanganfk = $kodeICD10['objectruanganfk'];
+                        $temp->jenispenunjang = 'ICD10';
+                        $temp->norecpenunjang = $kodeICD10['norec'];
+                        $temp->save();
+                    }
+                }
+            }
+            if (count($obatpulang) > 0) {
+                foreach($obatpulang as $obatpulangsss) {
+                    $temp = new TempResumeMedisRj();
+                    $temp->norec = $temp->generateNewId();
+                    $temp->statusenabled = true;
+                    $temp->emrpasienfk = $noemr;
+                    $temp->resumemedisfk = $norec_rm;
+                    $temp->tglpelayanan = $obatpulangsss['tglresep'];                    
+                    $temp->objectprodukfk = $obatpulangsss['produkfk'];                    
+                    $temp->qty = $obatpulangsss['jumlah'];  
+                    $temp->frekuensi = $obatpulangsss['aturanpakai'];                  
+                    $temp->jenispenunjang = 'OBATPULANG';                    
+                    $temp->save();
+                }
+            }
+
+ 
+
+            $transStatus = 'true';
+        //} catch(\Exception $e) {
+            //$transMessage = 'Gagal Simpan';
+            //$transStatus = 'false';
+        //}
+        if ($transStatus == 'true') {
+            $transMessage = 'Simpan Berhasil';
+            //DB::commit();
+            $result = array (
+                "status" => 201,
+                "message" => 'anjay sukses',
+                "norec_resume" => $norecresume
+            );
+        } else {
+            //DB::rollBack();
+            $result = array (
+                "status" => 400,
+                "message" => 'yah gagal'
+            );
+        }
+        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    }
     
     public function getDataPenunjangCetakanResumeRanap(Request $request)
     {

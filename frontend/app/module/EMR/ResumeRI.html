@@ -129,7 +129,7 @@
     <c-panel item="item" header="'RingkasanPasienPulang(DischargeSummary)   '" disabled>
     </c-panel>
     <div class="panel panel-default container_12" ng-show="isGrid">
-        <div class="panel-body">
+        <!-- <div class="panel-body">
             <div class="grid_3">
                 <label c-label c-label-text="Riwayat Penyakit" real></label>
                 <input c-text-box type="input" filter="'varchar'" class="k-textbox" ng-model="item.filterRiwayat" />
@@ -150,45 +150,34 @@
                     class="k-button k-button-icon k-primary" role="button" aria-disabled="false" tabindex="0"><span
                         class="k-sprite k-icon k-i-cancel">Refresh</span></em>
             </div>
-        </div>
+        </div> -->
         <div class="grid_12">
             <div id="gridResumeHead" kendo-grid k-data-source="sourceResumeHead" options="resumeOptHead"
                 k-ng-model="modelGrid" ng-click="klik(modelGrid)">
-                <div k-detail-template>
-                    <kendo-tabstrip>
-                        <div>
-                            <div id="kGridDetail" kendo-grid k-options="data2(dataItem)" k-sortable="'true'"
-                                k-selectable="'row'" k-ng-model="dataSelected2" ng-click="klikDetail(dataSelected2)">
-                            </div>
-                        </div>
-                    </kendo-tabstrip>
-                </div>
             </div>
         </div>
-        <div class="grid_2">
+        <div class="grid_4">
         </div>
-        <div class="grid_2">
-            <button class="btnTemplate1 cancel" ng-click="kembali()"><i class="fa fa-plus"></i>Kembali
-
+        <div class="grid_4">
+            <button class="btnTemplate1" ng-click="refresh()"><i class="fa fa-arrow-left"></i>Kembali ke Form Utama
             </button>
         </div>
-        <div class="grid_2">
+        <!-- <div class="grid_2">
             <button class="btnTemplate1" ng-click="showInput()"><i class="fa fa-plus"></i>Tambah
-
+            </button>
+        </div> -->
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="lihatResume()"><i class="fa fa-edit"></i>Lihat
             </button>
         </div>
         <div class="grid_2">
-            <button class="btnTemplate1" ng-click="editGrid()"><i class="fa fa-edit"></i>Edit
+            <button class="btnTemplate1 cancel" ng-click="hapusRiwayat()"><i class="fa fa-trash"></i>Hapus
             </button>
         </div>
-        <div class="grid_2">
-            <button class="btnTemplate1 cancel" ng-click="hapusGrid()"><i class="fa fa-trash"></i>Hapus
-            </button>
-        </div>
-        <div class="grid_2">
+        <!-- <div class="grid_2">
             <button class="btnTemplate1" ng-click="cetakresumeranap()"><i class="fa fa-print"></i>Cetak Jasper
             </button>
-        </div>
+        </div> -->
     </div>
     <md-content class="md-padding" ng-show="isEdit">
         <fieldset style="margin-top: 1%;">
@@ -757,12 +746,22 @@
             </div>
             <div class="grid_12" style="margin-top: 10px;">
                 <div class="grid_2" style="margin-top: 0.8%;">
-                    <label c-label item="item" required>Diagnosis Dokter</label>
+                    <label c-label item="item" required>Diagnosa Primer</label>
+                </div>
+                <div class="grid_10">
+                    <textarea required class="k-textbox"
+                        style="height: 30px; width: 100%; resize: none; margin-top: 5px"
+                    ng-model="item.diagnosaDokter"></textarea>
+                </div>
+            </div>
+            <div class="grid_12" style="margin-top: 10px;">
+                <div class="grid_2" style="margin-top: 0.8%;">
+                    <label c-label item="item" required>Diagnosa Sekunder</label>
                 </div>
                 <div class="grid_10">
                     <textarea required class="k-textbox"
                         style="height: 76px; width: 100%; resize: none; margin-top: 5px"
-                    ng-model="item.diagnosaDokter"></textarea>
+                    ng-model="item.diagnosaSekunder"></textarea>
                 </div>
             </div>
             <div class="grid_12" style="margin-top:10px">
@@ -774,6 +773,92 @@
                 <div class="grid_12" style="margin-top:5px">
                     <textarea class="k-textbox" style="height: 100px; width: 100%; "
                         ng-model="item.tindakanrm"></textarea>
+                </div>
+            </div>
+            <div class="grid_12">
+                <div class="grid_6">
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.dehidrasiresusitasi"
+                        ng-model="item.dehidrasiresusitasi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.dehidrasiresusitasi">Dehidrasi resusitasi cairan</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.tatalaksanaaritmia"
+                        ng-model="item.tatalaksanaaritmia" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.tatalaksanaaritmia">Tatalaksana aritmia</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.resusiitasijantungparu"
+                        ng-model="item.resusiitasijantungparu" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.resusiitasijantungparu">Resusitasi jantung paru</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.transfusi"
+                        ng-model="item.transfusi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.transfusi">transfusi</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.fibrinolitik"
+                        ng-model="item.fibrinolitik" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.fibrinolitik">fibrinolitik</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.antikoagulanantiagregrasi"
+                        ng-model="item.antikoagulanantiagregrasi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.antikoagulanantiagregrasi">antikoagulan/antiagregrasi</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.ventilatorkurangdari96jam"
+                        ng-model="item.ventilatorkurangdari96jam" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.ventilatorkurangdari96jam">ventilator &lt; 96jam</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.ventilatorlebih96jam"
+                        ng-model="item.ventilatorlebih96jam" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.ventilatorlebih96jam">ventilator &gt;= 96jam</label>
+                    </div>
+                </div>
+                <div class="grid_6">
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.oksigenasi"
+                        ng-model="item.oksigenasi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.oksigenasi">Oksigenasi</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.nebulisasi"
+                        ng-model="item.nebulisasi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.nebulisasi">Nebulisasi</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.trakeostomi"
+                        ng-model="item.trakeostomi" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.trakeostomi">Trakeostomi</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.koreksielektrolitmetabolic"
+                        ng-model="item.koreksielektrolitmetabolic" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.koreksielektrolitmetabolic">Koreksi elektrolit metabolic</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.bantuanpersalinan"
+                        ng-model="item.bantuanpersalinan" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.bantuanpersalinan">Bantuan persalinan</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.monitoringttvkesadaranskalanyeri"
+                        ng-model="item.monitoringttvkesadaranskalanyeri" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.monitoringttvkesadaranskalanyeri">Monitoring ttv, kesadaran, skala nyeri</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.pemberianinotropikvasoaktif"
+                        ng-model="item.pemberianinotropikvasoaktif" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.pemberianinotropikvasoaktif">Pemberian inotropik/vasoaktif</label>
+                    </div>
+                    <div class="grid_12" style="margin-top:10px">
+                        <input type="checkbox" class="k-checkbox" id="item.antibiotik3kali24jam"
+                        ng-model="item.antibiotik3kali24jam" ng-change="updateTindakanRm()">
+                        <label class="k-checkbox-label" for="item.antibiotik3kali24jam">Antibiotik 3x24jam</label>
+                    </div>
                 </div>
             </div>
             <div class="grid_12" style="margin-top: 1%;">
@@ -1696,28 +1781,28 @@
                             <div class="grid_12">
                                 <input style="width: 100%; " kendo-combo-box k-ng-model="item.dokter "
                                     k-data-text-field=" 'namalengkap' " k-filter=" 'contains' "
-                                    k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listDokter " />
+                                    k-data-value-field=" 'id' " k-auto-bind="false " k-data-source="listDokter " ng-disabled="!isAdmin"/>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="grid_12">
-                <div class="grid_2"></div>
+            <div class="grid_12" ng-show="isButtonResume">
+                <div class="grid_4"></div>
                 <div class="grid_2">
                     <button class="btnTemplate1" ng-click="SaveResume()"><i class="fa fa-save"></i>Simpan
                     </button>
                 </div>
                 <div class="grid_2" ng-show="isbuttonfinal">
-                    <button class="btnTemplate1" ng-click="SaveResumeFinal()"><i class="fa fa-save"></i>Simpan Final Resume
+                    <button class="btnTemplateYellow" ng-click="SaveResumeFinal()"><i class="fa fa-save"></i>Simpan Final Resume
                     </button>
                 </div>
                 <div class="grid_2" ng-show="!isbuttonfinal">
-                    <button class="btnTemplate1 cancel" ng-click="SaveResumeFinalBatal()"><i class="fa fa-save"></i>Batal Final Resume
+                    <button class="btnTemplate1 cancel" ng-click="SaveResumeFinalBatal()"><i class="fa fa-save"></i>Sudah Final Resume
                     </button>
                 </div>
                 <div class="grid_2">
-                    <button class="btnTemplate1" ng-click="Back()"><i class="fa fa-arrow-left"></i>Kembali
+                    <button class="btnTemplate1" ng-click="Riwayat()"><i class="fa fa-arrow-left"></i>Riwayat
                     </button>
                 </div>
                 <div class="grid_2">
@@ -1728,6 +1813,13 @@
                     <button class="btnTemplate1 cancel" ng-click="kembalipapj()"><i class="fa fa-arrow-left"></i>Kembali Ke PAPJ
                     </button>
                 </div> -->
+            </div>
+            <div class="grid_12" ng-show="isButtonRefresh">
+                <div class="grid_8"></div>
+                <div class="grid_4">
+                    <button class="btnTemplate1" ng-click="refresh()"><i class="fa fa-arrow-left"></i>Kembali ke Form Utama
+                    </button>
+                </div>
             </div>
     </md-content>
 

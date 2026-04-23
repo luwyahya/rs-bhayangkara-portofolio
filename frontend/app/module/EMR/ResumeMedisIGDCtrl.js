@@ -15,7 +15,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         let tampungdiagnosa9 = '';
         let tampungdiagnosa = '';
         let hasilKonsultasi = ''
-        let norecresume = '-';
+        let norecresume = "-";
         let cpptO = ''
         let lab = [];
         let rad = [];
@@ -33,6 +33,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         $scope.dirujuk = false;
         $scope.penyebab1 = false;
         $scope.penyebab2 = false;
+        $scope.isAdmin = false
         let usia = '';
         var noreckematian = '';
         var nosuratkematian = '';
@@ -80,8 +81,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         32: $scope.header.noidentitas,
                         33: $scope.header.objectjeniskelaminfk,
                         34: $scope.header.tempatlahir,
-                        35: $scope.header.notelepon,
-                        36: $scope.header.tglpulang,
+                        35: $scope.header.notelepon
                     } 
                     cacheHelper.set('cacheRMelektronik', arrStr); 
                     LoadCacheHelper();
@@ -117,7 +117,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 $scope.cc.objectjeniskelaminfk = chacePeriode[33]
                 $scope.cc.tempatlahir = chacePeriode[34]
                 $scope.cc.notelepon = chacePeriode[35]
-                $scope.cc.tglpulang = chacePeriode[36]
                 init()
                 kematian()
             }
@@ -132,12 +131,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.item.tempatLahir = $scope.cc.tempatlahir
             $scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
             $scope.item.noTelpPenjamin = $scope.cc.notelepon
-            $scope.item.dpjp = { id: $scope.cc.iddpjp, namalengkap: $scope.cc.dpjp }
+            $scope.item.dpjp = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
+            if (medifirstService.getKelompokUser() == 'admin' || medifirstService.getKelompokUser() == 'operator') {
+                $scope.isAdmin = true
+            }
         }
         function init() {
             $scope.isRouteLoading = true;
             medifirstService.get('emr/get-resume-medis-igd/' + $scope.cc.noregistrasi).then(function(dat) {
-                debugger
+                // debugger
                 if (dat.statResponse) {
                     let result = dat.data.data
                     debugger
@@ -148,20 +150,23 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         norecresume = result[0].norec
                         $scope.item.tglMasuk = $scope.cc.tglregistrasi
                         $scope.item.tglPulang = $scope.cc.tglpulang
-                        // $scope.item.keluhanUtama = result[0].keluhanutama
-                        // $scope.item.alergi = result[0].alergi,
-                        // $scope.item.tingkatKesadaran = result[0].kesadaran 
-                        // $scope.item.keadaanUmum = result[0].keadaanumum
-                        // $scope.item.denyutJantung = result[0].denyutjantung
-                        // $scope.item.pernapasan = result[0].pernapasan
-                        // $scope.item.systole = result[0].systole
-                        // $scope.item.diastole = result[0].diastole
-                        // $scope.item.suhu = result[0].suhu
-                        // $scope.item.pemeriksaanFisik = result[0].pemeriksaandisik
+                        $scope.item.keluhanUtama = result[0].keluhanutama
+                        $scope.item.alergi = result[0].alergi,
+                        $scope.item.tingkatKesadaran = result[0].kesadaran 
+                        $scope.item.keadaanUmum = result[0].keadaanumum
+                        $scope.item.denyutJantung = result[0].denyutjantung
+                        $scope.item.pernapasan = result[0].pernapasan
+                        $scope.item.systole = result[0].systole
+                        $scope.item.diastole = result[0].diastole
+                        $scope.item.suhu = result[0].suhu
+                        $scope.item.pemeriksaanFisik = result[0].pemeriksaandisik
                         $scope.item.diet = { diet:result[0].diet }
                         $scope.item.keterangandiet = result[0].keterangandiet,
                         $scope.item.edukasi = result[0].edukasi,
                         $scope.item.prognosis = { prognosis: result[0].prognosis }
+                        $scope.item.diagnosaDokter = result[0].diagdok
+                        $scope.item.pengobatan = result[0].pengobatan
+                        $scope.item.hasilKonsul = result[0].hasilkonsultasi
                         $scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
                         if (result[0].tglkontrol != null) {
                             $scope.item.yapoli = true;
@@ -180,9 +185,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         norec_emrr = result[0].emrpasienfk
                         // untuk cek obat, karena ada obat yang dihapus
                         loadDiagnosa()
-                        valueOtomatis()
+                        // cekYangBisaOtomatis()
+                        // valueOtomatis()
                     } else {
-                        debugger
                         $scope.item.tglMasuk = $scope.cc.tglregistrasi
                         $scope.item.tglPulang = $scope.cc.tglpulang
                         // $scope.item.keadaanUmum = 'Sakit Ringan'
@@ -317,6 +322,29 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                             if (value[i].emrdfk == 2638) {
                                 $scope.item.pengobatan = value[i].value
                             }
+                            if (value[i].emrdfk == 1901300289) {
+                                $scope.item.alergi = $scope.item.alergi || ''
+                                $scope.item.alergi += 'obat : ' + value[i].value + ', '
+                            }
+                            if (value[i].emrdfk == 1901300292) {
+                                $scope.item.alergi = $scope.item.alergi || ''
+                                $scope.item.alergi += 'makanan : ' + value[i].value + ', '
+                            }
+                            if (value[i].emrdfk == 1901300295) {
+                                $scope.item.alergi = $scope.item.alergi || ''
+                                $scope.item.alergi += value[i].value + ', '
+                            }
+                            if (value[i].emrdfk == 1901303154) {
+                                let rawValue = value[i].value;
+                                if (rawValue && rawValue.includes('~')) {
+                                    $scope.item.keadaanUmum = rawValue.split('~')[1].trim();
+                                } else {
+                                    $scope.item.keadaanUmum = rawValue;
+                                }
+                            }
+                            if (value[i].emrdfk == 2423) {
+                                $scope.item.pemeriksaanFisik = value[i].value
+                            }
                         }
                     }
                 })
@@ -432,7 +460,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if (dat.data.data[0].id != null) {
                     $scope.item.namadokter = { id: dat.data.data[0].id, namalengkap: dat.data.data[0].namalengkap }
                 }
-                debugger
                 $scope.item.tglMasuk = new Date(dat.data.data[0].tglregistrasi)
                 $scope.item.tglPulang = new Date(dat.data.data[0].tglpulang)
                 // $scope.item.keluhanUtama = dat.data.cppt[0].subjective
@@ -639,7 +666,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             //         }
             //     }
             // })
-            $scope.item.darurat ="IGD RS Bhayangkara TK. IV Cianjur Telp. (0263) 285299";
+            $scope.item.darurat = "RS Bhayangkara TK. II Sartika Asih Bandung"
             loadDiagnosa()
         }
         function loadDiagnosa() {
@@ -748,7 +775,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             loadLab()
         }
         function loadLab() {
-            medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi, true).then(function(dat) {
+            medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi + "&ruid=" + $scope.cc.objectruanganfk, true).then(function(dat) {
                 $scope.isRouteLoading = false;
                 lab = dat.data.data
                 for (var i = 0; i < dat.data.data.length; i++) {
@@ -1804,9 +1831,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             cekYangBisaOtomatis()
             valueOtomatis()
             let pegawai = JSON.parse(localStorage.getItem('pegawai'));
-            debugger
             $scope.item.tglMasuk = $scope.cc.tglregistrasi
-            $scope.item.tglpulang = $scope.cc.tglpulang
             $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
             $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
             $scope.item.noRm = $scope.cc.nocm
@@ -1974,55 +1999,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             }
         }
         $scope.save = function() {
-            debugger
-            if ($scope.item.keadaanUmum == '' || $scope.item.keadaanUmum == undefined) {
+            // debugger
+            // if ($scope.item.dpjp.id != $scope.cc.iddpjp) {
+            //     toastr.warning("DPJP tidak sesuai, harap disesuaikan!")
+            //     return
+            // }
+            if ($scope.item.keadaanUmum == '' || $scope.item.keadaanUmum == undefined || $scope.item.keadaanUmum == null) {
                 toastr.error('Keadaan Umum belum diisi');
                 return
             }
-            if ($scope.item.pengobatan == '' || $scope.item.pengobatan == undefined) {
-                toastr.error('Pengobatan / Terapi Belum Diisi');
-                return
-            }
-            if ($scope.item.keluhanUtama == '' || $scope.item.keluhanUtama == undefined) {
-                toastr.error('Keluhan Utama Belum Diisi');
-                return
-            }
-            if ($scope.item.alergi == '' || $scope.item.alergi == undefined) {
-                toastr.error('Alergi Belum Diisi');
-                return
-            }
-            if ($scope.item.tingkatKesadaran == '' || $scope.item.tingkatKesadaran == undefined) {
-                toastr.error('Tingkat Kesadaran Belum Diisi');
-                return
-            }
-            if ($scope.item.denyutJantung == '' || $scope.item.denyutJantung == undefined) {
-                toastr.error('Denyut Jantung Belum Diisi');
-                return
-            }
-            if ($scope.item.pernapasan == '' || $scope.item.pernapasan == undefined) {
-                toastr.error('Pernapasan Belum Diisi');
-                return
-            }
-            if ($scope.item.systole == '' || $scope.item.systole == undefined) {
-                toastr.error('Tekanan Darah Systole (Kolom Kiri) Belum Diisi');
-                return
-            }
-            if ($scope.item.diastole == '' || $scope.item.diastole == undefined) {
-                toastr.error('Tekanan Darah Diastole (Kolom Kanan) (Belum Diisi');
-                return
-            }           
-            if ($scope.item.suhu == '' || $scope.item.suhu == undefined) {
-                toastr.error('Suhu Belum Diisi');
-                return
-            }
-            if ($scope.item.pemeriksaanFisik == '' || $scope.item.pemeriksaanFisik == undefined) {
-                toastr.error('Pemeriksaan Fisik Belum Diisi');
-                return
-            }
-            if ($scope.item.edukasi == '' || $scope.item.edukasi == undefined) {
-                toastr.error('Edukasi Belum Diisi');
-                return
-            }            
             let keadaanUmum  = ''
             if ($scope.item.keadaanUmum != '') {
                 keadaanUmum = $scope.item.keadaanUmum
@@ -2104,6 +2089,18 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             if ($scope.item.pemeriksaanFisik != undefined) {
                 pemeriksaanfisik = $scope.item.pemeriksaanFisik
             }
+            let pengobatan = ''
+            if ($scope.item.pengobatan != undefined) {
+                pengobatan = $scope.item.pengobatan
+            }
+            let edukasi = ''
+            if ($scope.item.edukasi != undefined) {
+                edukasi = $scope.item.edukasi
+            }
+            let hasilKonsul = ''
+            if ($scope.item.hasilKonsul != undefined) {
+                hasilKonsul = $scope.item.hasilKonsul
+            }
             debugger
             let objSave = {
                 norecresumeigd: norecresume,
@@ -2124,8 +2121,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 suhu: suhu,
                 diet: diet,
                 diagdok: diagnosaDokter,
-                pengobatan: $scope.item.pengobatan,
-                edukasi: $scope.item.edukasi,
+                pengobatan: pengobatan,
+                edukasi: edukasi,
                 prognosis: prognosis,
                 carakeluar: carakeluar,
                 kontrol: kontrol,
@@ -2138,15 +2135,13 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 pegawaifk: $scope.item.dpjp.id,
                 ketdiet: $scope.item.keterangandiet,
                 pemeriksaanfisik: pemeriksaanfisik,
-                keteranganlainnya: 'IGD',
                 lab: lab,
                 rad: rad,
                 obat: obat,
                 obatpulang: obatpulang,
                 head: $scope.cc,
-                hasilKonsul: $scope.item.hasilKonsul
+                hasilKonsul: hasilKonsul
             }
-            debugger
             medifirstService.post('emr/save-resume-medis-igd', objSave).then(function(e) {
                 init()
             })
@@ -2156,11 +2151,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.belakang = false;
         }
         $scope.cetak = function () {
-            debugger
-            if (norecresume == undefined || norecresume == null || norecresume == '' || norecresume == '-') {
-                alert("Resume Medis Belum Di Save, Harap di Simpan Terlebih Dahulu!!")
-                return
-            }
             // Penjagaan Limit Akses cetak hanya 3 user dibawah ini aja
             // 25388(Rosita), 26920(wiwit), 26687(teguh), 320263(admin)
             /*namalengkap = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };                
@@ -2172,7 +2162,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             loadDiagnosa()
             loadKonsul()
-            init()
             // loadCpptO()
         // 	if (confirm('View Resume? ')) {
         // 		var stt = 'true';
@@ -2197,9 +2186,9 @@ define(['initialize', 'Configuration'], function (initialize, config) {
         // 		anHttpRequest.open("GET", aUrl, true);
         // 		anHttpRequest.send(null);
         // 	}
-        medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + norecresume).then(function(dat) {
+        let safeNorec = encodeURIComponent(norecresume);
+        medifirstService.get('emr/get-kepentingan-resume-rj?norec=' + safeNorec).then(function(dat) {
             //  debugger
-            
              let tampung = '';
              let tampung2 = '';
              let tampung3 = '';
@@ -2393,23 +2382,21 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             if ($scope.item.kontrolPoli != undefined) {
                 kontrolpoli = $scope.item.kontrolPoli.namaruangan
             }
-            let tindaklanjut = "Kontrol ke Poli : Tidak" + " \n" + "Pada Tanggal : -" + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299";
+            let tindaklanjut = "Kontrol ke Poli : Tidak" + " \n" + "Pada Tanggal : -" + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih Bandung 087889996747";
             if ($scope.item.yapoli == true) {
-                tindaklanjut = "Kontrol ke Poli : " + kontrolpoli + " \n" + "Pada Tanggal : " + moment($scope.item.tglKontrol).format('DD-MM-YYYY') + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara Cianjur 02263285299"
+                tindaklanjut = "Kontrol ke Poli : " + kontrolpoli + " \n" + "Pada Tanggal : " + moment($scope.item.tglKontrol).format('DD-MM-YYYY') + " \n" + "Dalam Keadaan Darurat Dapat Menghubungi : RS Bhayangkara TK. II Sartika Asih Bandung 087889996747"
             }
             if ($scope.item.hasilKonsul == '' || $scope.item.hasilKonsul == undefined) {
                 hasilKonsultasi = '-'
             } else {
                 hasilKonsultasi = $scope.item.hasilKonsul
             }
-            
-            var qr = "https://rsbcianjur.com/service/medifirst2000/report/cetak-ttd-new?idPegawai="+$scope.item.dpjp.id
             // let y = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-fleksibel?idPegawai="+ $scope.item.dpjp.id + "&pesan=" + "RESUME MEDIS" + "&noregistrasi=" + $scope.cc.noregistrasi
             // let z = "http://simrs-rspusatpolri.com:9000/service/medifirst2000/report/cetak-ttd-pasien?noregistrasi=" + $scope.cc.noregistrasi
             var data = {
                 "gambarLogo": "logodokkes.jpg",
-                "paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang","qr"],
-                "paramValue": [norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang,qr],
+                "paramKey": ["norec", "tampung", "diagnosautama", "kddiagnosautama", "diagnosasekunder", "kddiagnosasekunder", "diagnosatindakan", "kddiagnosatindakan", "penunjang", "obat", "tindakan","penunjanglab","penunjangrad","penunjangpa","tindakanlab","tindakanrad","tindakanpa","hasilkonsul","diagnosaawal","cpptO","alldiagnosa","tindaklanjut","obatpulang"],
+                "paramValue": [norecresume, tampung3, diagnosautama, kddiagnosautama, diagnosasekunder, kddiagnosasekunder, diagnosatindakan, kddiagnosatindakan, penunjang, obat, tindakan,penunjanglab,penunjangrad,penunjangpa,tindakanlab,tindakanrad,tindakanpa,hasilKonsultasi,diagnosaawal,cpptO, alldiagnosa,tindaklanjut,obatpulang],
                 "paramType": ["", "", "", "", "", "", "", "", "", "", "", "", "","","","","","","","","",""]
             };
             var xhr = new XMLHttpRequest();
@@ -2420,7 +2407,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     console.log(this.response, typeof this.response);
                     //var res = this.response
                     //var file = new Blob( [res], {type: 'application/pdf'});
-                    //debugger;
+                    // debugger;
                     var url = window.URL.createObjectURL(this.response)
                     var pdf = document.getElementById('tempatLaporan');
                     pdf.innerHTML = '<embed src="' + url + '#view=FitH&toolbar=1" type="application/pdf" width="100%" height="100%"></embed>';
@@ -2434,14 +2421,21 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             //ash 2023-11-30 untuk menentukan apa dia PPA atau bukan
             // var datauserkelompok = medifirstService.getKelompokUser();
 
-             
-            if (window.location.hostname.indexOf('localhost') > -1) {
-                xhr.open('POST', 'http://localhost:8797/generic/report/ResumeMedisIGD.pdf');
-            } else if (window.location.hostname.indexOf('36.78.27.51:8201') > -1) {
-                xhr.open('POST', 'http://103.151.226.36:2222/generic/report/ResumeMedisIGD.pdf');
-            } else {
-                xhr.open('POST', '/jasper1/generic/report/ResumeMedisIGD.pdf');
-            }
+                if (window.location.hostname.indexOf('192.168.1.7') > -1) {
+                    xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisIGD.pdf');
+                } else if (window.location.hostname.indexOf('192.168.88.56') > -1) {
+                    xhr.open('POST', 'http://192.168.88.56:8797/generic/report/ResumeMedisIGD.pdf');
+                } else if (window.location.hostname.indexOf('10.10.20.167') > -1) {
+                    xhr.open('POST', 'http://10.10.20.167:8797/generic/report/ResumeMedisIGD.pdf');
+                } else if (window.location.hostname.indexOf('10.5.1.2') > -1) {
+                    xhr.open('POST', 'http://10.5.1.2:8797/generic/report/ResumeMedisIGD.pdf');
+                } else if (window.location.hostname.indexOf('202.51.105.98') > -1) {
+                    xhr.open('POST', 'http://202.51.105.98:8797/generic/report/ResumeMedisIGD.pdf');
+                } else if (window.location.hostname.indexOf('simrs-rspusatpolri.com') > -1) {
+                    xhr.open('POST', 'http://simrs-rspusatpolri.com:8797/generic/report/ResumeMedisIGD.pdf');
+                } else {
+                    xhr.open('POST', '/jasper1/generic/report/ResumeMedisIGD.pdf');
+                }
             // else {
             //     if (window.location.hostname.indexOf('192.168.1.7') > -1) {
             //         xhr.open('POST', 'http://192.168.1.7:8797/generic/report/ResumeMedisIGDSalinan.pdf');
@@ -2477,8 +2471,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             + ' ' + 'Pada ' + $scope.item.tglcetak,
             'jenisemr': 'Resume Medis',                    
         }
-        // medifirstService.postLoggingEMRCetak(jsonLog).then(function(e) {
-        // })
+        medifirstService.postLoggingEMRCetak(jsonLog).then(function(e) {
+        })
         saveTglCetak();
         }
         function loadObatResume() {

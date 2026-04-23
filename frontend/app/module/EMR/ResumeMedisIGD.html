@@ -664,9 +664,9 @@
                     <label c-label item="item" required>Nama dan Tanda Tangan DPJP</label>
                 </div>
                 <div class="grid_4">
-                    <input kendo-combo-box k-ng-model="item.dpjp" k-data-text-field="'namalengkap'"
-                        k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
-                        k-data-source="listDokter" />
+                    <input kendo-combo-box k-ng-model="item.dpjp" k-data-text-field=" 'namalengkap' "
+                        k-data-value-field=" 'id' " k-filter="'contains'" k-auto-bind="false"
+                        k-data-source="listDokter" ng-disabled="!isAdmin"/>
                 </div>
             </div>
             <div class="grid_12">
