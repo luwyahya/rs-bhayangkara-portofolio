@@ -1868,7 +1868,7 @@ define(['initialize'], function (initialize) {
                     objectruanganfk: 569,
                     objectruangantujuanfk: 575,
                     departemenfk: 3,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.item.userlogin : null,
+                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
                     // pegawaiorderfk: null,
                     keterangan: $scope.item.keteranganlab != undefined ? $scope.item.keteranganlab : null,
                     iscito: 1,
@@ -1877,7 +1877,7 @@ define(['initialize'], function (initialize) {
 
                 $scope.isSimpan = true
                 debugger
-                if (haha.length != 0) {
+                if (data2.length > 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
                             // $rootScope.isShowLab = !$rootScope.isShowLab
@@ -1934,19 +1934,19 @@ define(['initialize'], function (initialize) {
                     objectruanganfk: 569,
                     objectruangantujuanfk: 576,
                     departemenfk: 27,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.item.userlogin : null,
+                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
                     // pegawaiorderfk: null,
-                    keterangan2: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
+                    keterangan: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
                     iscito: 1,
                     details: data2,
                 }
 
                 $scope.isSimpan = true
-                if (hihi.length != 0) {
+                if (data2.length > 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
                             // $rootScope.isShowLab = !$rootScope.isShowLab
-                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + haha).then(function (a) {
+                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + hihi).then(function (a) {
                                 let namaproduk = ""
                                 //
                                 for (let i = 0; i < a.data.length; i++) {
