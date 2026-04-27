@@ -676,6 +676,44 @@ define(['initialize'], function (initialize) {
                             }
 
                         }
+                        
+                        // RESTORE GAMBAR KE DRAWING SURFACE
+                        setTimeout(function() {
+                            var draw = kendo.drawing;
+                            var surface = draw.Surface.create($(".surface"));
+                            var surface2 = draw.Surface.create($(".surface2"));
+                            
+                            // Restore gambar 1 (poto)
+                            if ($scope.user.poto && $scope.user.poto.trim() !== '') {
+                                try {
+                                    var img = new Image();
+                                    img.onload = function() {
+                                        var imgGeometry = new kendo.geometry.Rect([0, 0], [img.width, img.height]);
+                                        var imgShape = new draw.Image(img, imgGeometry);
+                                        surface.draw(imgShape);
+                                    };
+                                    img.src = $scope.user.poto;
+                                } catch(e) {
+                                    console.log("Error restore poto:", e);
+                                }
+                            }
+                            
+                            // Restore gambar 2 (poto2)
+                            if ($scope.user.poto2 && $scope.user.poto2.trim() !== '') {
+                                try {
+                                    var img2 = new Image();
+                                    img2.onload = function() {
+                                        var imgGeometry2 = new kendo.geometry.Rect([0, 0], [img2.width, img2.height]);
+                                        var imgShape2 = new draw.Image(img2, imgGeometry2);
+                                        surface2.draw(imgShape2);
+                                    };
+                                    img2.src = $scope.user.poto2;
+                                } catch(e) {
+                                    console.log("Error restore poto2:", e);
+                                }
+                            }
+                        }, 500);
+                        
                         if (namaPegawai) {
                             medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai))
                                 .then(function (et) {
