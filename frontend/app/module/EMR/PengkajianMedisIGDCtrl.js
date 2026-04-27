@@ -676,6 +676,50 @@ define(['initialize'], function (initialize) {
                             }
 
                         }
+                        
+                        // RESTORE GAMBAR KE CANVAS - Setelah data siap
+                        $scope.$watch('user.poto', function(newVal) {
+                            if (newVal && newVal.trim() !== '') {
+                                setTimeout(function() {
+                                    try {
+                                        var canvas = $(".surface")[0];
+                                        if (canvas && canvas.width) {
+                                            var ctx = canvas.getContext('2d');
+                                            var img = new Image();
+                                            img.onload = function() {
+                                                ctx.drawImage(img, 0, 0);
+                                                console.log("Gambar poto berhasil di-restore ke canvas");
+                                            };
+                                            img.src = newVal;
+                                        }
+                                    } catch(e) {
+                                        console.log("Error restore poto:", e);
+                                    }
+                                }, 500);
+                            }
+                        });
+                        
+                        $scope.$watch('user.poto2', function(newVal) {
+                            if (newVal && newVal.trim() !== '') {
+                                setTimeout(function() {
+                                    try {
+                                        var canvas2 = $(".surface2")[0];
+                                        if (canvas2 && canvas2.width) {
+                                            var ctx2 = canvas2.getContext('2d');
+                                            var img2 = new Image();
+                                            img2.onload = function() {
+                                                ctx2.drawImage(img2, 0, 0);
+                                                console.log("Gambar poto2 berhasil di-restore ke canvas");
+                                            };
+                                            img2.src = newVal;
+                                        }
+                                    } catch(e) {
+                                        console.log("Error restore poto2:", e);
+                                    }
+                                }, 500);
+                            }
+                        });
+                        
                         if (namaPegawai) {
                             medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai))
                                 .then(function (et) {
@@ -1777,7 +1821,7 @@ define(['initialize'], function (initialize) {
                 }
                 arrSave.push({ id: "2421", values: photo })
                 arrSave.push({ id: "2422", values: photo2 })
-                
+
                 for (var i = 0; i < arrSave.length; i++) {
                   if (!('values' in arrSave[i])) {
                     arrSave[i].values = '';
