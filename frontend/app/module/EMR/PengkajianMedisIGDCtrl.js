@@ -419,7 +419,7 @@ define(['initialize'], function (initialize) {
                         nomorEMRSS = dat.data.data[0].noemr
                         nomorEMR = nomorEMRSS
                         $scope.cc.noemr = nomorEMR
-                        $scope.cc.norec_emr = dat.data.data[0].norec // Set norec from existing EMR data untuk UPDATE bukan CREATE
+                        $scope.cc.norec_emr = dat.data.data[0].norec
                         $scope.cc.emrfk = '869'
                         setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                         // valueOtomatis()
@@ -676,44 +676,6 @@ define(['initialize'], function (initialize) {
                             }
 
                         }
-                        
-                        // RESTORE GAMBAR KE DRAWING SURFACE
-                        setTimeout(function() {
-                            var draw = kendo.drawing;
-                            var surface = draw.Surface.create($(".surface"));
-                            var surface2 = draw.Surface.create($(".surface2"));
-                            
-                            // Restore gambar 1 (poto)
-                            if ($scope.user.poto && $scope.user.poto.trim() !== '') {
-                                try {
-                                    var img = new Image();
-                                    img.onload = function() {
-                                        var imgGeometry = new kendo.geometry.Rect([0, 0], [img.width, img.height]);
-                                        var imgShape = new draw.Image(img, imgGeometry);
-                                        surface.draw(imgShape);
-                                    };
-                                    img.src = $scope.user.poto;
-                                } catch(e) {
-                                    console.log("Error restore poto:", e);
-                                }
-                            }
-                            
-                            // Restore gambar 2 (poto2)
-                            if ($scope.user.poto2 && $scope.user.poto2.trim() !== '') {
-                                try {
-                                    var img2 = new Image();
-                                    img2.onload = function() {
-                                        var imgGeometry2 = new kendo.geometry.Rect([0, 0], [img2.width, img2.height]);
-                                        var imgShape2 = new draw.Image(img2, imgGeometry2);
-                                        surface2.draw(imgShape2);
-                                    };
-                                    img2.src = $scope.user.poto2;
-                                } catch(e) {
-                                    console.log("Error restore poto2:", e);
-                                }
-                            }
-                        }, 500);
-                        
                         if (namaPegawai) {
                             medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai))
                                 .then(function (et) {
@@ -1777,71 +1739,77 @@ define(['initialize'], function (initialize) {
                     toastr.warning('Pilih salah satu keputusan pulang!')
                     return
                 }
-                // Gunakan $q.all() untuk menunggu kedua gambar selesai di-export
-                var photo1Promise = kendo.drawing.drawDOM($(".surface"))
+                var photo = ""
+                kendo.drawing.drawDOM($(".surface"))
                     .then(function (group) {
+                        // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
-                    });
-                
-                var photo2Promise = kendo.drawing.drawDOM($(".surface2"))
+                    }).done(function (data) {
+                        photo = data
+                    })
+                var photo2 = ""
+                kendo.drawing.drawDOM($(".surface2"))
                     .then(function (group2) {
+                        // Render the result as a SVG document
                         return kendo.drawing.exportImage(group2);
-                    });
+                    }).done(function (data2) {
+                        photo2 = data2
+                    })
+                var arrobj = Object.keys($scope.item.obj)
+                var arrSave = []
+                for (var i = arrobj.length - 1; i >= 0; i--) {
+                    var currentId = arrobj[i];
+                    var currentObj = $scope.item.obj[parseInt(currentId)];
                 
-                // Tunggu kedua promises selesai
-                $q.all([photo1Promise, photo2Promise]).then(function (results) {
-                    var photo = results[0];
-                    var photo2 = results[1];
-                    
-                    var arrobj = Object.keys($scope.item.obj)
-                    var arrSave = []
-                    for (var i = arrobj.length - 1; i >= 0; i--) {
-                        var currentId = arrobj[i];
-                        var currentObj = $scope.item.obj[parseInt(currentId)];
-                    
-                        if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
-                            arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
-                        } else if ((currentId >= 5132 && currentId <= 5136)) {
-                            arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
-                        } else if (arrobj[i] == 2425) {
-                            if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
-                                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].name })
-                            } else {
-                                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
-                            }
+                    if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
+                        arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
+                    } else if ((currentId >= 5132 && currentId <= 5136)) {
+                        arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
+                    } else if (arrobj[i] == 2425) {
+                        if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
+                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].name })
                         } else {
-                            arrSave.push({ id: currentId, values: currentObj });
+                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
                         }
+                    } else {
+                        arrSave.push({ id: currentId, values: currentObj });
                     }
-                    arrSave.push({ id: "2421", values: photo })
-                    arrSave.push({ id: "2422", values: photo2 })
-            
-                    for (var i = 0; i < arrSave.length; i++) {
-                      if (!('values' in arrSave[i])) {
-                        arrSave[i].values = '';
-                      }
-                      if (arrSave[i].values == undefined || arrSave[i].values == null) {
-                        arrSave[i].values = '';
-                      }
-                    }
-                    
-                    $scope.cc.jenisemr = 'pengkajianmedisigd'
-                    var jsonSave = {
-                        head: $scope.cc,
-                        data: arrSave
-                    }
+                }
+                arrSave.push({ id: "2421", values: photo })
+                arrSave.push({ id: "2422", values: photo2 })
+                
+                for (var i = 0; i < arrSave.length; i++) {
+                  if (!('values' in arrSave[i])) {
+                    arrSave[i].values = '';
+                  }
+                  if (arrSave[i].values == undefined || arrSave[i].values == null) {
+                    arrSave[i].values = '';
+                  }
+                }
 
-                    medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
+                $scope.cc.jenisemr = 'pengkajianmedisigd'
+                var jsonSave = {
+                    head: $scope.cc,
+                    data: arrSave
+                }
+
+                medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
-                    // Set norec_emr dan noemr dari response untuk UPDATE berikutnya
+
                     if (e.data.data && e.data.data.norec) {
                         $scope.cc.norec_emr = e.data.data.norec;
                     }
                     if (e.data.data && e.data.data.noemr) {
                         $scope.cc.noemr = e.data.data.noemr;
                     }
+
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
+                        + $scope.cc.noregistrasi).then(function (res) {
+                        })
+
+                    medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
+                        'Emr IGD' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
                         + $scope.cc.noregistrasi).then(function (res) {
                         })
                     let json = {
@@ -1874,12 +1842,19 @@ define(['initialize'], function (initialize) {
                 for (var i = arrobj.length - 1; i >= 0; i--) {
                     //debugger
                     if ($scope.item.layanan[parseInt(arrobj[i])] == true) {
+                        // if (arrobj[i] == 4056686 || arrobj[i] == 4056687 || arrobj[i] == 4056688 || arrobj[i] == 4056772 || arrobj[i] == 4056768 || arrobj[i] == 4056769 ||
+                        //     arrobj[i] == 4056760 || arrobj[i] == 4056761 || arrobj[i] == 4056784 || arrobj[i] == 4056781 || arrobj[i] == 4056891 || arrobj[i] == 4076580 ||
+                        //     arrobj[i] == 4076908 || arrobj[i] == 4056777 || arrobj[i] == 4056778) {
+                        //     arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].nama })
+                        //debugger
                         var data = {
                             no: i + 1,
                             produkfk: arrobj[i],
+                            // namaproduk: arrobj[i],
                             qtyproduk: 1,
                             objectruanganfk: 569,
                             objectruangantujuanfk: 575,
+                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
                             iscito: 1,
                             objectkelasfk: 6,
                             nourut: null,
@@ -1899,7 +1874,7 @@ define(['initialize'], function (initialize) {
                     objectruanganfk: 569,
                     objectruangantujuanfk: 575,
                     departemenfk: 3,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
+                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.item.userlogin : null,
                     // pegawaiorderfk: null,
                     keterangan: $scope.item.keteranganlab != undefined ? $scope.item.keteranganlab : null,
                     iscito: 1,
@@ -1908,7 +1883,7 @@ define(['initialize'], function (initialize) {
 
                 $scope.isSimpan = true
                 debugger
-                if (data2.length > 0) {
+                if (haha.length != 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
                             // $rootScope.isShowLab = !$rootScope.isShowLab
@@ -1941,9 +1916,11 @@ define(['initialize'], function (initialize) {
                         var data = {
                             no: i + 1,
                             produkfk: arrobj[i],
+                            // namaproduk: arrobj[i],
                             qtyproduk: 1,
                             objectruanganfk: 569,
                             objectruangantujuanfk: 576,
+                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
                             iscito: 1,
                             objectkelasfk: 6,
                             nourut: null,
@@ -1963,19 +1940,19 @@ define(['initialize'], function (initialize) {
                     objectruanganfk: 569,
                     objectruangantujuanfk: 576,
                     departemenfk: 27,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
+                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.item.userlogin : null,
                     // pegawaiorderfk: null,
-                    keterangan: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
+                    keterangan2: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
                     iscito: 1,
                     details: data2,
                 }
 
                 $scope.isSimpan = true
-                if (data2.length > 0) {
+                if (hihi.length != 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
                             // $rootScope.isShowLab = !$rootScope.isShowLab
-                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + hihi).then(function (a) {
+                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + haha).then(function (a) {
                                 let namaproduk = ""
                                 //
                                 for (let i = 0; i < a.data.length; i++) {
@@ -1986,7 +1963,7 @@ define(['initialize'], function (initialize) {
                         }
                         $scope.item.layanan2 = []
                         // $scope.isSimpan = false
-                        medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Radiologi No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
+                        medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
                         })
                     })
                 }
@@ -2022,8 +1999,12 @@ define(['initialize'], function (initialize) {
                 // $scope.hideSimpan = false
                 if (dataObat.length != 0) {
                     medifirstService.post('emr/simpan-order-pelayananobatfarmasi', objSave).then(function (e) {
-                        for (let i = 0; i < dataObat.length; i++) {
-                            $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + dataObat[i].namaproduk + "\n"
+                        for (let i = 0; i < data2.length; i++) {
+                            // if(data2[i].jeniskemasan == "Racikan") {
+                            //     $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + data2[i].keteranganracikan + "\n"
+                            // } else {
+                            $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + data2[i].namaproduk + "\n"
+                            // }
                         }
                         $scope.item.resep == undefined
                         $scope.norecOrder = ''
@@ -2044,7 +2025,6 @@ define(['initialize'], function (initialize) {
                 }
                 // }
                 // init()
-                    }); // Tutup $q.all promise
             }
             $scope.getProduk = function(ruangan){
                 var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
