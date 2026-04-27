@@ -419,6 +419,7 @@ define(['initialize'], function (initialize) {
                         nomorEMRSS = dat.data.data[0].noemr
                         nomorEMR = nomorEMRSS
                         $scope.cc.noemr = nomorEMR
+                        $scope.cc.norec_emr = dat.data.data[0].norec // Set norec from existing EMR data untuk UPDATE bukan CREATE
                         $scope.cc.emrfk = '869'
                         setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                         // valueOtomatis()
@@ -1794,6 +1795,13 @@ define(['initialize'], function (initialize) {
 
                 medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
+                    // Set norec_emr dan noemr dari response untuk UPDATE berikutnya
+                    if (e.data.data && e.data.data.norec) {
+                        $scope.cc.norec_emr = e.data.data.norec;
+                    }
+                    if (e.data.data && e.data.data.noemr) {
+                        $scope.cc.noemr = e.data.data.noemr;
+                    }
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
                         + $scope.cc.noregistrasi).then(function (res) {
