@@ -677,48 +677,26 @@ define(['initialize'], function (initialize) {
 
                         }
                         
-                        // RESTORE GAMBAR KE CANVAS - Setelah data siap
-                        $scope.$watch('user.poto', function(newVal) {
-                            if (newVal && newVal.trim() !== '') {
-                                setTimeout(function() {
-                                    try {
-                                        var canvas = $(".surface")[0];
-                                        if (canvas && canvas.width) {
-                                            var ctx = canvas.getContext('2d');
-                                            var img = new Image();
-                                            img.onload = function() {
-                                                ctx.drawImage(img, 0, 0);
-                                                console.log("Gambar poto berhasil di-restore ke canvas");
-                                            };
-                                            img.src = newVal;
-                                        }
-                                    } catch(e) {
-                                        console.log("Error restore poto:", e);
-                                    }
-                                }, 500);
+                        // RESTORE GAMBAR SEBAGAI BACKGROUND - Satu kali saja
+                        var restoreImageOnce = function() {
+                            if ($scope.user.poto && $scope.user.poto.trim() !== '') {
+                                var container = document.getElementById('surface-container');
+                                if (container) {
+                                    container.style.backgroundImage = 'url(' + $scope.user.poto + ')';
+                                    console.log("✓ Poto background restored");
+                                }
                             }
-                        });
+                            if ($scope.user.poto2 && $scope.user.poto2.trim() !== '') {
+                                var container2 = document.getElementById('surface-container2');
+                                if (container2) {
+                                    container2.style.backgroundImage = 'url(' + $scope.user.poto2 + ')';
+                                    console.log("✓ Poto2 background restored");
+                                }
+                            }
+                        };
                         
-                        $scope.$watch('user.poto2', function(newVal) {
-                            if (newVal && newVal.trim() !== '') {
-                                setTimeout(function() {
-                                    try {
-                                        var canvas2 = $(".surface2")[0];
-                                        if (canvas2 && canvas2.width) {
-                                            var ctx2 = canvas2.getContext('2d');
-                                            var img2 = new Image();
-                                            img2.onload = function() {
-                                                ctx2.drawImage(img2, 0, 0);
-                                                console.log("Gambar poto2 berhasil di-restore ke canvas");
-                                            };
-                                            img2.src = newVal;
-                                        }
-                                    } catch(e) {
-                                        console.log("Error restore poto2:", e);
-                                    }
-                                }, 500);
-                            }
-                        });
+                        // Tunggu sedikit biar DOM siap
+                        setTimeout(restoreImageOnce, 800);
                         
                         if (namaPegawai) {
                             medifirstService.get("report/create-qr?namaPegawai=" + encodeURIComponent(namaPegawai))
