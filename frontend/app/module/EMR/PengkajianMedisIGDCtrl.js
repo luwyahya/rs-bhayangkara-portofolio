@@ -1739,61 +1739,61 @@ define(['initialize'], function (initialize) {
                     toastr.warning('Pilih salah satu keputusan pulang!')
                     return
                 }
-                var photo = ""
-                kendo.drawing.drawDOM($(".surface"))
+                // Gunakan $q.all() untuk menunggu kedua gambar selesai di-export
+                var photo1Promise = kendo.drawing.drawDOM($(".surface"))
                     .then(function (group) {
-                        // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
-                    }).done(function (data) {
-                        photo = data
-                    })
-                var photo2 = ""
-                kendo.drawing.drawDOM($(".surface2"))
+                    });
+                
+                var photo2Promise = kendo.drawing.drawDOM($(".surface2"))
                     .then(function (group2) {
-                        // Render the result as a SVG document
                         return kendo.drawing.exportImage(group2);
-                    }).done(function (data2) {
-                        photo2 = data2
-                    })
-                var arrobj = Object.keys($scope.item.obj)
-                var arrSave = []
-                for (var i = arrobj.length - 1; i >= 0; i--) {
-                    var currentId = arrobj[i];
-                    var currentObj = $scope.item.obj[parseInt(currentId)];
+                    });
                 
-                    if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
-                        arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
-                    } else if ((currentId >= 5132 && currentId <= 5136)) {
-                        arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
-                    } else if (arrobj[i] == 2425) {
-                        if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
-                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].name })
+                // Tunggu kedua promises selesai
+                $q.all([photo1Promise, photo2Promise]).then(function (results) {
+                    var photo = results[0];
+                    var photo2 = results[1];
+                    
+                    var arrobj = Object.keys($scope.item.obj)
+                    var arrSave = []
+                    for (var i = arrobj.length - 1; i >= 0; i--) {
+                        var currentId = arrobj[i];
+                        var currentObj = $scope.item.obj[parseInt(currentId)];
+                    
+                        if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
+                            arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
+                        } else if ((currentId >= 5132 && currentId <= 5136)) {
+                            arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
+                        } else if (arrobj[i] == 2425) {
+                            if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
+                                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].name })
+                            } else {
+                                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
+                            }
                         } else {
-                            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
+                            arrSave.push({ id: currentId, values: currentObj });
                         }
-                    } else {
-                        arrSave.push({ id: currentId, values: currentObj });
                     }
-                }
-                arrSave.push({ id: "2421", values: photo })
-                arrSave.push({ id: "2422", values: photo2 })
-        
-                for (var i = 0; i < arrSave.length; i++) {
-                  if (!('values' in arrSave[i])) {
-                    arrSave[i].values = '';
-                  }
-                  if (arrSave[i].values == undefined || arrSave[i].values == null) {
-                    arrSave[i].values = '';
-                  }
-                }
-                
-                $scope.cc.jenisemr = 'pengkajianmedisigd'
-                var jsonSave = {
-                    head: $scope.cc,
-                    data: arrSave
-                }
+                    arrSave.push({ id: "2421", values: photo })
+                    arrSave.push({ id: "2422", values: photo2 })
+            
+                    for (var i = 0; i < arrSave.length; i++) {
+                      if (!('values' in arrSave[i])) {
+                        arrSave[i].values = '';
+                      }
+                      if (arrSave[i].values == undefined || arrSave[i].values == null) {
+                        arrSave[i].values = '';
+                      }
+                    }
+                    
+                    $scope.cc.jenisemr = 'pengkajianmedisigd'
+                    var jsonSave = {
+                        head: $scope.cc,
+                        data: arrSave
+                    }
 
-                medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
+                    medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
                     // Set norec_emr dan noemr dari response untuk UPDATE berikutnya
                     if (e.data.data && e.data.data.norec) {
@@ -2006,6 +2006,7 @@ define(['initialize'], function (initialize) {
                 }
                 // }
                 // init()
+                    }); // Tutup $q.all promise
             }
             $scope.getProduk = function(ruangan){
                 var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
