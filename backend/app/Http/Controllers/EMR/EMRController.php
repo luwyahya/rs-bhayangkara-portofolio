@@ -13693,6 +13693,283 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
+    // public function saveOrderPelayananLabRad(Request $request)
+    // {
+    //     $detLogin = $request->all();
+    //     if ($request['pegawaiorderfk'] == "") {
+    //         $dokter2 = null;
+    //     } else {
+    //         $dokter2 = $request['pegawaiorderfk'];
+    //     }
+
+
+    //     DB::beginTransaction();
+    //     try {
+
+    //         if ($request['departemenfk'] == 25) {
+    //             $tgl = $request['tgloperasi'];
+    //             $bulanregis = date_create($tgl);
+    //             $tglAwal = date_format($bulanregis, "Y-m-d 00:00:00");
+    //             $tglAkhir = date_format($bulanregis, "Y-m-d 23:59:59");
+    //             $ceksudahKonsul = \DB::table('strukorder_t as apr')
+    //                 ->select('apr.norec')
+    //                 ->where('apr.noregistrasifk', $request['norec_pd'])
+    //                 ->where('apr.statusenabled', true)
+    //                 ->where('apr.tglpelayananawal', '>=', $tglAwal)
+    //                 ->where('apr.tglpelayananawal', '<=',  $tglAkhir)
+    //                 ->get();
+
+    //             if (count($ceksudahKonsul) > 0) {
+    //                 $result = array(
+    //                     "status" => 400,
+    //                     "message" => 'Tidak bisa Konsul di Tgl yang sama lebih dari 1x',
+    //                 );
+    //                 return $this->setStatusCode($result['status'])->respond($result, 'Tidak bisa Konsul di Tgl yang sama lebih dari 1x');
+    //             }
+    //         }
+
+    //         if ($request['departemenfk'] == 3) {
+    //             $noOrder = $this->generateCode(new StrukOrder, 'noorder', 11, 'L' . $this->getDateTime()->format('ym'));
+    //         }
+    //         if ($request['departemenfk'] == 27) {
+    //             $noOrder = $this->generateCode(new StrukOrder, 'noorder', 11, 'R' . $this->getDateTime()->format('ym'));
+    //         }
+    //         if ($request['departemenfk'] == 25) {
+    //             $noOrder = $this->generateCode(new StrukOrder, 'noorder', 11, 'OK' . $this->getDateTime()->format('ym'));
+    //         }
+    //         if ($request['departemenfk'] == 5) {
+    //             $noOrder = $this->generateCode(new StrukOrder, 'noorder', 11, 'PJ' . $this->getDateTime()->format('ym'));
+    //         }
+    //         if ($request['departemenfk'] == 31) {
+    //             $noOrder = $this->generateCode(new StrukOrder, 'noorder', 11, 'ABM' . $this->getDateTime()->format('ym'));
+    //         }
+
+    //         $dataPD = PasienDaftar::where('norec', $request['norec_pd'])->first();
+    //         if ($request['norec_so'] == "") {
+    //             $dataSO = new StrukOrder;
+    //             $dataSO->norec = $dataSO->generateNewId();
+    //             $dataSO->kdprofile = 0;
+    //             $dataSO->statusenabled = true;
+    //             $dataSO->nocmfk = $dataPD->nocmfk; //$dataPD;
+    //             //            $dataSO->cito = '0';
+    //             //            $dataSO->objectdiagnosafk = true;
+    //             $dataSO->isdelivered = 1;
+    //             $dataSO->noorder = $noOrder;
+    //             $dataSO->noorderintern = $noOrder;
+    //             $dataSO->noregistrasifk = $dataPD->norec; //$dataAPD['noregistrasifk'];
+    //             $dataSO->objectpegawaiorderfk = $dokter2; //$request['pegawaiorderfk'];
+    //             $dataSO->qtyjenisproduk = 1;
+    //             $dataSO->qtyproduk = $request['qtyproduk'];
+    //             $dataSO->objectruanganfk = $request['objectruanganfk'];
+    //             $dataSO->objectruangantujuanfk = $request['objectruangantujuanfk'];
+    //             if ($request['departemenfk'] == 3) {
+    //                 $dataSO->keteranganorder = 'Order Laboratorium';
+    //                 $dataSO->objectkelompoktransaksifk = 93;
+    //             }
+    //             if ($request['departemenfk'] == 27) {
+    //                 $dataSO->keteranganorder = 'Order Radiologi';
+    //                 $dataSO->objectkelompoktransaksifk = 94;
+    //             }
+    //             if ($request['departemenfk'] == 25) {
+    //                 $dataSO->keteranganorder = 'Pesan Jadwal Operasi';
+    //                 $dataSO->objectkelompoktransaksifk = 22;
+    //                 $dataSO->tglpelayananakhir = $request['tgloperasi'];
+    //                 $dataSO->tglpelayananawal = $request['tgloperasi'];
+    //                 $dataSO->tglorder = $request['tglorder'];
+    //             } else {
+    //                 $dataSO->tglorder = date('Y-m-d H:i:s');
+    //             }
+    //             if ($request['departemenfk'] == 5) {
+    //                 $dataSO->keteranganorder = 'Pelayanan Pemulasaraan Jenazah';
+    //                 $dataSO->objectkelompoktransaksifk = 99;
+    //             }
+    //             if ($request['departemenfk'] == 31) {
+    //                 $dataSO->keteranganorder = 'Pesan Ambulan';
+    //                 $dataSO->objectkelompoktransaksifk = 9;
+    //                 $dataSO->tglrencana = $request['tglrencana'];
+    //             }
+    //             if (isset($request['keterangan'])) {
+    //                 $dataSO->keteranganlainnya = $request['keterangan'];
+    //             }
+    //             if (isset($request['objectruanganinap'])) {
+    //                 $dataSO->objectunitpemesanfk = $request['objectruanganinap'];
+    //             }
+
+    //             $dataSO->tglorder = date('Y-m-d H:i:s');
+    //             $dataSO->totalbeamaterai = 0;
+    //             $dataSO->totalbiayakirim = 0;
+    //             $dataSO->totalbiayatambahan = 0;
+    //             $dataSO->totaldiscount = 0;
+    //             $dataSO->totalhargasatuan = 0;
+    //             $dataSO->totalharusdibayar = 0;
+    //             $dataSO->totalpph = 0;
+    //             $dataSO->totalppn = 0;
+    //             $dataSO->save();
+
+    //             $dataSOnorec = $dataSO->norec;
+
+
+    //             foreach ($request['details'] as $item) {
+    //                 if ($request['status'] == 'bridinglangsung') {
+    //                     $updatePP = PelayananPasien::where('norec', $item['norec_pp'])
+    //                         ->update(
+    //                             [
+    //                                 'strukorderfk' => $dataSOnorec
+    //                             ]
+    //                         );
+    //                 }
+
+    //                 $dataOP = new OrderPelayanan;
+    //                 $dataOP->norec = $dataOP->generateNewId();
+    //                 $dataOP->kdprofile = 0;
+    //                 $dataOP->statusenabled = true;
+    //                 if (isset($item['iscito'])) {
+    //                     $dataOP->iscito = (float)$item['iscito'];
+    //                 } else {
+    //                     $dataOP->iscito = 0;
+    //                 }
+
+    //                 if (isset($item['keterangan'])) {
+    //                     $dataOP->keteranganlainnya = $item['keterangan'];
+    //                 }
+    //                 if (isset($item['keterangan2'])) {
+    //                     $dataOP->keteranganlainnya_quo = $item['keterangan2'];
+    //                 }
+    //                 // return($item['diagnosa']);
+    //                 // die();
+    //                 if (isset($item['diagnosa'])) {
+    //                     $dataOP->diagnosa = $item['diagnosa'];
+    //                 }
+
+    //                 $dataOP->noorderfk = $dataSOnorec;
+    //                 $dataOP->objectprodukfk = $item['produkfk'];
+    //                 $dataOP->qtyproduk = $item['qtyproduk'];
+    //                 $dataOP->objectkelasfk = $item['objectkelasfk'];
+    //                 $dataOP->qtyprodukretur = 0;
+    //                 $dataOP->objectruanganfk = $request['objectruanganfk'];
+    //                 $dataOP->objectruangantujuanfk = $request['objectruangantujuanfk'];
+    //                 $dataOP->strukorderfk = $dataSOnorec;
+    //                 if (isset($item['pemeriksaanluar'])) {
+    //                     if ($item['pemeriksaanluar'] == 1) {
+    //                         $dataOP->keteranganlainnya = 'isPemeriksaanKeluar';
+    //                     }
+    //                 }
+
+    //                 if (isset($item['tglrencana'])) {
+    //                     $dataOP->tglpelayanan = $item['tglrencana'];
+    //                 } else {
+    //                     $dataOP->tglpelayanan = date('Y-m-d H:i:s');
+    //                 }
+
+    //                 $dataOP->strukorderfk = $dataSOnorec;
+    //                 if (isset($item['dokterid']) && $item['dokterid'] != "") {
+    //                     $dataOP->objectnamapenyerahbarangfk = $item['dokterid'];
+    //                 }
+    //                 $dataOP->save();
+    //             }
+    //         } else {
+
+
+    //             $dataSO = StrukOrder::where('norec', $request['norec_so'])->first();
+
+    //             if (isset($request['objectruanganinap'])) {
+    //                 $dataSO->objectunitpemesanfk = $request['objectruanganinap'];
+    //             }
+
+    //             $dataSO->save();
+
+    //             $norecsotemp = $request['norec_so'];
+    //             DB::delete("delete from orderpelayanan_t where noorderfk = '$norecsotemp'");
+    //             foreach ($request['details'] as $item) {
+    //                 $dataOP = new OrderPelayanan;
+    //                 $dataOP->norec = $dataOP->generateNewId();
+    //                 $dataOP->kdprofile = 0;
+    //                 $dataOP->statusenabled = true;
+    //                 if (isset($item['iscito'])) {
+    //                     $dataOP->iscito = (float)$item['iscito'];
+    //                 } else {
+    //                     $dataOP->iscito = 0;
+    //                 }
+
+    //                 $dataOP->noorderfk = $request['norec_so'];
+    //                 $dataOP->objectprodukfk = $item['produkfk'];
+    //                 $dataOP->qtyproduk = $item['qtyproduk'];
+    //                 $dataOP->objectkelasfk = $item['objectkelasfk'];
+    //                 $dataOP->qtyprodukretur = 0;
+    //                 $dataOP->objectruanganfk = $request['objectruanganfk'];
+    //                 $dataOP->objectruangantujuanfk = $request['objectruangantujuanfk'];
+    //                 $dataOP->strukorderfk = $request['norec_so'];
+
+    //                 if (isset($item['tglrencana'])) {
+    //                     $dataOP->tglpelayanan = $item['tglrencana'];
+    //                 } else {
+    //                     $dataOP->tglpelayanan = date('Y-m-d H:i:s');
+    //                 }
+
+    //                 if (isset($item['dokterid']) && $item['dokterid'] != "") {
+    //                     $dataOP->objectnamapenyerahbarangfk = $item['dokterid'];
+    //                 }
+    //                 if (isset($item['keterangan'])) {
+    //                     $dataOP->keteranganlainnya = $item['keterangan'];
+    //                 }
+    //                 if (isset($item['keterangan2'])) {
+    //                     $dataOP->keteranganlainnya_quo = $item['keterangan2'];
+    //                 }
+    //                 // return($item['diagnosa']);
+    //                 // die();
+    //                 if (isset($item['diagnosa'])) {
+    //                     $dataOP->diagnosa = $item['diagnosa'];
+    //                 }
+    //                 $dataOP->save();
+    //             }
+    //         }
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan OrderPelayanan";
+    //     }
+
+    //     if ($transStatus == 'true') {
+    //         if ($request['norec_so'] == "") {
+    //             $transMessage = "Simpan Order Pelayanan";
+    //             DB::commit();
+    //             $ihs = null;
+    //             if ($request['departemenfk'] != 27) {
+    //                 $objetoRequest = new \Illuminate\Http\Request();
+    //                 $objetoRequest['noorder'] = $dataSO->noorder;
+    //                 $ihs = app('App\Http\Controllers\Bridging\IHSController')->ServiceRequest($objetoRequest, true);
+    //             }
+    //             $result = array(
+    //                 "status" => 201,
+    //                 "message" => $transMessage,
+    //                 "strukorder" => $dataSO,
+    //                 "ServiceRequest" => $ihs,
+    //                 "as" => 'inhuman',
+    //             );
+    //         } else {
+    //             $transMessage = "Simpan Order Pelayanan";
+    //             DB::commit();
+    //             $result = array(
+    //                 "status" => 201,
+    //                 "message" => $transMessage,
+    //                 //                    "strukorder" => $dataSO,
+    //                 "as" => 'inhuman',
+    //             );
+    //         }
+    //     } else {
+    //         $transMessage = "Simpan Order Pelayanan gagal!!";
+    //         DB::rollBack();
+    //         $result = array(
+    //             "status" => 400,
+    //             "message" => $transMessage,
+    //             //                "nokirim" => $dataSO,//$noResep,
+    //             "as" => 'inhuman',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+
     public function saveOrderPelayananLabRad(Request $request)
     {
         $detLogin = $request->all();
@@ -13775,7 +14052,9 @@ class EMRController  extends ApiController
                     $dataSO->objectkelompoktransaksifk = 22;
                     $dataSO->tglpelayananakhir = $request['tgloperasi'];
                     $dataSO->tglpelayananawal = $request['tgloperasi'];
-                    $dataSO->tglorder = $request['tglorder'];
+                } 
+                if ($request['departemenfk'] == 3 || $request['departemenfk'] == 27 || $request['departemenfk'] == 25) {
+                    $dataSO->tglorder = $request['tanggal'];
                 } else {
                     $dataSO->tglorder = date('Y-m-d H:i:s');
                 }
@@ -13795,7 +14074,7 @@ class EMRController  extends ApiController
                     $dataSO->objectunitpemesanfk = $request['objectruanganinap'];
                 }
 
-                $dataSO->tglorder = date('Y-m-d H:i:s');
+
                 $dataSO->totalbeamaterai = 0;
                 $dataSO->totalbiayakirim = 0;
                 $dataSO->totalbiayatambahan = 0;
@@ -13933,17 +14212,10 @@ class EMRController  extends ApiController
             if ($request['norec_so'] == "") {
                 $transMessage = "Simpan Order Pelayanan";
                 DB::commit();
-                $ihs = null;
-                if ($request['departemenfk'] != 27) {
-                    $objetoRequest = new \Illuminate\Http\Request();
-                    $objetoRequest['noorder'] = $dataSO->noorder;
-                    $ihs = app('App\Http\Controllers\Bridging\IHSController')->ServiceRequest($objetoRequest, true);
-                }
                 $result = array(
                     "status" => 201,
                     "message" => $transMessage,
                     "strukorder" => $dataSO,
-                    "ServiceRequest" => $ihs,
                     "as" => 'inhuman',
                 );
             } else {
@@ -13957,7 +14229,7 @@ class EMRController  extends ApiController
                 );
             }
         } else {
-            $transMessage = "Simpan Order Pelayanan gagal!!";
+            $transMessage = "Simpan Order Pelayanan gagal! error : " . $e->getMessage();
             DB::rollBack();
             $result = array(
                 "status" => 400,
