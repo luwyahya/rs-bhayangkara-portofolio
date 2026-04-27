@@ -1820,205 +1820,162 @@ define(['initialize'], function (initialize) {
                         }
 
                     })
+                    
+                    // ===== SAVELAB - DIPINDAHKAN KE SINI =====
+                    $scope.userlogin = medifirstService.getPegawaiLogin()
+                    let haha = "";
+                    var arrobj = Object.keys($scope.item.layanan)
+                    var data2 = []
+                    for (var i = arrobj.length - 1; i >= 0; i--) {
+                        if ($scope.item.layanan[parseInt(arrobj[i])] == true) {
+                            var data = {
+                                no: i + 1,
+                                produkfk: arrobj[i],
+                                qtyproduk: 1,
+                                objectruanganfk: 569,
+                                objectruangantujuanfk: 575,
+                                iscito: 1,
+                                objectkelasfk: 6,
+                                nourut: null,
+                            }
+                            haha = haha + "," + parseInt(arrobj[i])
+                            data2.push(data)
+                        }
+                    }
+                    haha = haha.slice(1, haha.length)
+                    
+                    var objSaveLab = {
+                        tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
+                        norec_so: '',
+                        norec_apd: $scope.cc.norec,
+                        norec_pd: $scope.cc.norec_pd,
+                        qtyproduk: data2.length,
+                        objectruanganfk: 569,
+                        objectruangantujuanfk: 575,
+                        departemenfk: 3,
+                        pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
+                        keterangan: $scope.item.keteranganlab != undefined ? $scope.item.keteranganlab : null,
+                        iscito: 1,
+                        details: data2,
+                    }
+
+                    if (data2.length > 0) {
+                        medifirstService.post('emr/save-order-pelayanan', objSaveLab).then(function (e) {
+                            if (e.data.status == 201) {
+                                medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + haha).then(function (a) {
+                                    let namaproduk = ""
+                                    for (let i = 0; i < a.data.length; i++) {
+                                        namaproduk = namaproduk + " LAB : " + a.data[i].namaproduk + "\n"
+                                    }
+                                    $scope.data.names[0].p = $scope.data.names[0].p + namaproduk
+                                })
+                            }
+                            $scope.item.layanan = []
+                            medifirstService.postLogging('Order Laboratorium', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
+                            })
+                        })
+                    }
+                    
+                    // ===== SAVERAD - DIPINDAHKAN KE SINI =====
+                    $scope.userlogin = medifirstService.getPegawaiLogin()
+                    let hihi = "";
+                    var arrobj = Object.keys($scope.item.layanan2)
+                    var data2 = []
+                    for (var i = arrobj.length - 1; i >= 0; i--) {
+                        if ($scope.item.layanan2[parseInt(arrobj[i])] == true) {
+                            var data = {
+                                no: i + 1,
+                                produkfk: arrobj[i],
+                                qtyproduk: 1,
+                                objectruanganfk: 569,
+                                objectruangantujuanfk: 576,
+                                iscito: 1,
+                                objectkelasfk: 6,
+                                nourut: null,
+                            }
+                            hihi = hihi + "," + parseInt(arrobj[i])
+                            data2.push(data)
+                        }
+                    }
+                    hihi = hihi.slice(1, hihi.length)
+
+                    var objSaveRad = {
+                        tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
+                        norec_so: '',
+                        norec_apd: $scope.cc.norec,
+                        norec_pd: $scope.cc.norec_pd,
+                        qtyproduk: data2.length,
+                        objectruanganfk: 569,
+                        objectruangantujuanfk: 576,
+                        departemenfk: 27,
+                        pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
+                        keterangan: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
+                        iscito: 1,
+                        details: data2,
+                    }
+
+                    if (data2.length > 0) {
+                        medifirstService.post('emr/save-order-pelayanan', objSaveRad).then(function (e) {
+                            if (e.data.status == 201) {
+                                medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + hihi).then(function (a) {
+                                    let namaproduk = ""
+                                    for (let i = 0; i < a.data.length; i++) {
+                                        namaproduk = namaproduk + " LAB : " + a.data[i].namaproduk + "\n"
+                                    }
+                                    $scope.data.names[0].p = $scope.data.names[0].p + namaproduk
+                                })
+                            }
+                            $scope.item.layanan2 = []
+                            medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Radiologi No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
+                            })
+                        })
+                    }
+                    
+                    // ===== SAVEOBAT - TETAP DI SINI TAPI DI-CLEANUP =====
+                    $scope.userlogin = medifirstService.getPegawaiLogin()
+                    var strukorder = {
+                        norec: $scope.norecOrder,
+                        tglresep: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
+                        penulisresepfk: $scope.userlogin.id,
+                        ruanganfk: 481,
+                        noregistrasifk: $scope.cc.norec,
+                        qtyproduk: $scope.dataGrid._data.length,
+                        noruangan: null,
+                        isreseppulang: null,
+                        caraambil: null
+                    }
+                    var objSaveObat = [
+                        {
+                            strukorder: strukorder,
+                            orderfarmasi: dataObat
+                        }
+                    ]
+                    if (dataObat.length != 0) {
+                        medifirstService.post('emr/simpan-order-pelayananobatfarmasi', objSaveObat).then(function (e) {
+                            for (let i = 0; i < dataObat.length; i++) {
+                                $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + dataObat[i].namaproduk + "\n"
+                            }
+                            $scope.item.resep == undefined
+                            $scope.norecOrder = ''
+                            medifirstService.postLogging('Order Resep', 'Norec strukresep_t', e.data.noresep.norec,
+                                'Order Resep No Order - ' + e.data.noresep.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
+                                })
+                            Kosongkan();
+                            clear();
+                            cleargrid();
+                            $scope.batal();
+                            $scope.disabledRuangan = false
+                            if ($scope.item.noRuang != undefined)
+                                cacheHelper.set('noRuangInputResep', $scope.item.noRuang)
+                        })
+                    }
+                    
                     init()
                     var arrStr = {
                         0: e.data.data.noemr
                     }
                     cacheHelper.set('cacheNomorEMR', arrStr);
                 });
-                //savelab
-                //debugger
-                $scope.userlogin = medifirstService.getPegawaiLogin()
-                let haha = "";
-                var arrobj = Object.keys($scope.item.layanan)
-                //debugger
-                var data2 = []
-                for (var i = arrobj.length - 1; i >= 0; i--) {
-                    //debugger
-                    if ($scope.item.layanan[parseInt(arrobj[i])] == true) {
-                        // if (arrobj[i] == 4056686 || arrobj[i] == 4056687 || arrobj[i] == 4056688 || arrobj[i] == 4056772 || arrobj[i] == 4056768 || arrobj[i] == 4056769 ||
-                        //     arrobj[i] == 4056760 || arrobj[i] == 4056761 || arrobj[i] == 4056784 || arrobj[i] == 4056781 || arrobj[i] == 4056891 || arrobj[i] == 4076580 ||
-                        //     arrobj[i] == 4076908 || arrobj[i] == 4056777 || arrobj[i] == 4056778) {
-                        //     arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].nama })
-                        //debugger
-                        var data = {
-                            no: i + 1,
-                            produkfk: arrobj[i],
-                            // namaproduk: arrobj[i],
-                            qtyproduk: 1,
-                            objectruanganfk: 569,
-                            objectruangantujuanfk: 575,
-                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
-                            iscito: 1,
-                            objectkelasfk: 6,
-                            nourut: null,
-                        }
-                        haha = haha + "," + parseInt(arrobj[i])
-                        data2.push(data)
-                    }
-                }
-                haha = haha.slice(1, haha.length)
-                //debugger
-                var objSave = {
-                    tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
-                    norec_so: '',
-                    norec_apd: $scope.cc.norec,
-                    norec_pd: $scope.cc.norec_pd,
-                    qtyproduk: data2.length,//
-                    objectruanganfk: 569,
-                    objectruangantujuanfk: 575,
-                    departemenfk: 3,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
-                    // pegawaiorderfk: null,
-                    keterangan: $scope.item.keteranganlab != undefined ? $scope.item.keteranganlab : null,
-                    iscito: 1,
-                    details: data2,
-                }
-
-                $scope.isSimpan = true
-                debugger
-                if (data2.length > 0) {
-                    medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
-                        if (e.data.status == 201) {
-                            // $rootScope.isShowLab = !$rootScope.isShowLab
-                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + haha).then(function (a) {
-                                let namaproduk = ""
-                                //
-                                for (let i = 0; i < a.data.length; i++) {
-                                    namaproduk = namaproduk + " LAB : " + a.data[i].namaproduk + "\n"
-                                }
-                                $scope.data.names[0].p = $scope.data.names[0].p + namaproduk
-                            })
-                        }
-                        $scope.item.layanan = []
-                        // $scope.isSimpan = false
-                        medifirstService.postLogging('Order Laboratorium', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
-                        })
-                    })
-                }
-                //saverad
-                //debugger
-                $scope.userlogin = medifirstService.getPegawaiLogin()
-                let hihi = "";
-                var arrobj = Object.keys($scope.item.layanan2)
-                //debugger
-                var data2 = []
-                for (var i = arrobj.length - 1; i >= 0; i--) {
-                    //debugger
-                    if ($scope.item.layanan2[parseInt(arrobj[i])] == true) {
-                        //debugger
-                        var data = {
-                            no: i + 1,
-                            produkfk: arrobj[i],
-                            // namaproduk: arrobj[i],
-                            qtyproduk: 1,
-                            objectruanganfk: 569,
-                            objectruangantujuanfk: 576,
-                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
-                            iscito: 1,
-                            objectkelasfk: 6,
-                            nourut: null,
-                        }
-                        hihi = hihi + "," + parseInt(arrobj[i])
-                        data2.push(data)
-                    }
-                }
-                hihi = hihi.slice(1, hihi.length)
-
-                var objSave = {
-                    tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
-                    norec_so: '',
-                    norec_apd: $scope.cc.norec,
-                    norec_pd: $scope.cc.norec_pd,
-                    qtyproduk: data2.length,//
-                    objectruanganfk: 569,
-                    objectruangantujuanfk: 576,
-                    departemenfk: 27,
-                    pegawaiorderfk: $scope.userlogin.id != undefined ? $scope.userlogin.id : null,
-                    // pegawaiorderfk: null,
-                    keterangan: $scope.item.keteranganrad != undefined ? $scope.item.keteranganrad : null,
-                    iscito: 1,
-                    details: data2,
-                }
-
-                $scope.isSimpan = true
-                if (data2.length > 0) {
-                    medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
-                        if (e.data.status == 201) {
-                            // $rootScope.isShowLab = !$rootScope.isShowLab
-                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + hihi).then(function (a) {
-                                let namaproduk = ""
-                                //
-                                for (let i = 0; i < a.data.length; i++) {
-                                    namaproduk = namaproduk + " LAB : " + a.data[i].namaproduk + "\n"
-                                }
-                                $scope.data.names[0].p = $scope.data.names[0].p + namaproduk
-                            })
-                        }
-                        $scope.item.layanan2 = []
-                        // $scope.isSimpan = false
-                        medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
-                        })
-                    })
-                }
-
-                //SaveObat
-                //debugger
-                // $scope.simpan = function () {    
-                // if (dataObat.length == 0) {
-                //     alert("Pilih Produk terlebih dahulu!!")
-                //     return
-                // }
-                $scope.userlogin = medifirstService.getPegawaiLogin()
-                //debugger
-                var strukorder = {
-                    norec: $scope.norecOrder,
-                    tglresep: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
-                    penulisresepfk: $scope.userlogin.id,
-                    ruanganfk: 481,
-                    noregistrasifk: $scope.cc.norec,
-                    qtyproduk: $scope.dataGrid._data.length,
-                    noruangan: null,
-                    isreseppulang: null,
-                    caraambil: null
-                }
-                //debugger
-                var objSave = [
-                    {
-                        strukorder: strukorder,
-                        orderfarmasi: dataObat
-                    }
-                ]
-                ////debugger
-                // $scope.hideSimpan = false
-                if (dataObat.length != 0) {
-                    medifirstService.post('emr/simpan-order-pelayananobatfarmasi', objSave).then(function (e) {
-                        for (let i = 0; i < data2.length; i++) {
-                            // if(data2[i].jeniskemasan == "Racikan") {
-                            //     $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + data2[i].keteranganracikan + "\n"
-                            // } else {
-                            $scope.data.names[0].p = $scope.data.names[0].p + " E-Resep : " + data2[i].namaproduk + "\n"
-                            // }
-                        }
-                        $scope.item.resep == undefined
-                        $scope.norecOrder = ''
-                        medifirstService.postLogging('Order Resep', 'Norec strukresep_t', e.data.noresep.norec,
-                            'Order Resep No Order - ' + e.data.noresep.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
-                            })
-                        // $scope.item.resep = e.data.noresep.noorder
-                        // $scope.hideSimpan = false
-                        Kosongkan();
-                        clear();
-                        cleargrid();
-                        // init();
-                        $scope.batal();
-                        $scope.disabledRuangan = false
-                        if ($scope.item.noRuang != undefined)
-                            cacheHelper.set('noRuangInputResep', $scope.item.noRuang)
-                    })
-                }
-                // }
-                // init()
             }
             $scope.getProduk = function(ruangan){
                 var RuangRanap = "&Ruangan=" + $scope.item.namaRuangan;
