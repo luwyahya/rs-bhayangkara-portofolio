@@ -1776,6 +1776,16 @@ define(['initialize'], function (initialize) {
                 }
                 arrSave.push({ id: "2421", values: photo })
                 arrSave.push({ id: "2422", values: photo2 })
+        
+                for (var i = 0; i < arrSave.length; i++) {
+                  if (!('values' in arrSave[i])) {
+                    arrSave[i].values = '';
+                  }
+                  if (arrSave[i].values == undefined || arrSave[i].values == null) {
+                    arrSave[i].values = '';
+                  }
+                }
+                
                 $scope.cc.jenisemr = 'pengkajianmedisigd'
                 var jsonSave = {
                     head: $scope.cc,

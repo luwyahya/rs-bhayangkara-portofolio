@@ -29341,4 +29341,17 @@ WHERE rm.norec = '$norec_resume'
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+    public function getComboIndikasiRanap (Request $request) {
+        $indikasiRanap = \DB::table('indikasiranap_m as ir')
+            ->select('ir.id', 'ir.name')
+            ->where('ir.statusenabled', true)
+            ->get();
+
+        $result = array(
+            'indikasiRanap' => $indikasiRanap,
+        );
+
+        return $this->respond($result);
+    }
 }
