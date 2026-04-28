@@ -1858,35 +1858,46 @@ define(['initialize'], function (initialize) {
                 //debugger
                 $scope.userlogin = medifirstService.getPegawaiLogin()
                 let haha = "";
-                var arrobj = Object.keys($scope.item.layanan)
-                //debugger
                 var data2 = []
-                for (var i = arrobj.length - 1; i >= 0; i--) {
-                    //debugger
-                    if ($scope.item.layanan[parseInt(arrobj[i])] == true) {
-                        // if (arrobj[i] == 4056686 || arrobj[i] == 4056687 || arrobj[i] == 4056688 || arrobj[i] == 4056772 || arrobj[i] == 4056768 || arrobj[i] == 4056769 ||
-                        //     arrobj[i] == 4056760 || arrobj[i] == 4056761 || arrobj[i] == 4056784 || arrobj[i] == 4056781 || arrobj[i] == 4056891 || arrobj[i] == 4076580 ||
-                        //     arrobj[i] == 4076908 || arrobj[i] == 4056777 || arrobj[i] == 4056778) {
-                        //     arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].nama })
-                        //debugger
+                // Gunakan dataLaboratorium yang sudah dikumpulkan
+                if (dataLaboratorium.length > 0) {
+                    for (var i = 0; i < dataLaboratorium.length; i++) {
                         var data = {
                             no: i + 1,
-                            produkfk: arrobj[i],
-                            // namaproduk: arrobj[i],
-                            qtyproduk: 1,
+                            produkfk: dataLaboratorium[i].produkfk,
+                            qtyproduk: dataLaboratorium[i].qty || 1,
                             objectruanganfk: 569,
                             objectruangantujuanfk: 575,
-                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
                             iscito: 1,
                             objectkelasfk: 6,
                             nourut: null,
                         }
-                        haha = haha + "," + parseInt(arrobj[i])
+                        haha = haha + "," + dataLaboratorium[i].produkfk
                         data2.push(data)
                     }
+                } else {
+                    // Fallback: gunakan layanan jika masih ada data
+                    var arrobj = Object.keys($scope.item.layanan)
+                    for (var i = arrobj.length - 1; i >= 0; i--) {
+                        if ($scope.item.layanan[parseInt(arrobj[i])] == true) {
+                            var data = {
+                                no: i + 1,
+                                produkfk: parseInt(arrobj[i]),
+                                qtyproduk: 1,
+                                objectruanganfk: 569,
+                                objectruangantujuanfk: 575,
+                                iscito: 1,
+                                objectkelasfk: 6,
+                                nourut: null,
+                            }
+                            haha = haha + "," + parseInt(arrobj[i])
+                            data2.push(data)
+                        }
+                    }
                 }
-                haha = haha.slice(1, haha.length)
-                //debugger
+                if (haha.length > 0) {
+                    haha = haha.slice(1, haha.length)
+                }
                 var objSave = {
                     tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
                     norec_so: '',
@@ -1904,7 +1915,6 @@ define(['initialize'], function (initialize) {
                 }
 
                 $scope.isSimpan = true
-                debugger
                 if (haha.length != 0) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
@@ -1928,30 +1938,46 @@ define(['initialize'], function (initialize) {
                 //debugger
                 $scope.userlogin = medifirstService.getPegawaiLogin()
                 let hihi = "";
-                var arrobj = Object.keys($scope.item.layanan2)
-                //debugger
                 var data2 = []
-                for (var i = arrobj.length - 1; i >= 0; i--) {
-                    //debugger
-                    if ($scope.item.layanan2[parseInt(arrobj[i])] == true) {
-                        //debugger
+                // Gunakan dataRadiologi yang sudah dikumpulkan
+                if (dataRadiologi.length > 0) {
+                    for (var i = 0; i < dataRadiologi.length; i++) {
                         var data = {
                             no: i + 1,
-                            produkfk: arrobj[i],
-                            // namaproduk: arrobj[i],
-                            qtyproduk: 1,
+                            produkfk: dataRadiologi[i].produkfk,
+                            qtyproduk: dataRadiologi[i].qty || 1,
                             objectruanganfk: 569,
                             objectruangantujuanfk: 576,
-                            // pemeriksaanluar: $scope.item.pemeriksaanKeluar === true ? 1 : 0,
                             iscito: 1,
                             objectkelasfk: 6,
                             nourut: null,
                         }
-                        hihi = hihi + "," + parseInt(arrobj[i])
+                        hihi = hihi + "," + dataRadiologi[i].produkfk
                         data2.push(data)
                     }
+                } else {
+                    // Fallback: gunakan layanan2 jika masih ada data
+                    var arrobj = Object.keys($scope.item.layanan2)
+                    for (var i = arrobj.length - 1; i >= 0; i--) {
+                        if ($scope.item.layanan2[parseInt(arrobj[i])] == true) {
+                            var data = {
+                                no: i + 1,
+                                produkfk: parseInt(arrobj[i]),
+                                qtyproduk: 1,
+                                objectruanganfk: 569,
+                                objectruangantujuanfk: 576,
+                                iscito: 1,
+                                objectkelasfk: 6,
+                                nourut: null,
+                            }
+                            hihi = hihi + "," + parseInt(arrobj[i])
+                            data2.push(data)
+                        }
+                    }
                 }
-                hihi = hihi.slice(1, hihi.length)
+                if (hihi.length > 0) {
+                    hihi = hihi.slice(1, hihi.length)
+                }
 
                 var objSave = {
                     tanggal: moment($scope.item.tglPelayanan).format('YYYY-MM-DD HH:mm:ss'),
@@ -1974,18 +2000,18 @@ define(['initialize'], function (initialize) {
                     medifirstService.post('emr/save-order-pelayanan', objSave).then(function (e) {
                         if (e.data.status == 201) {
                             // $rootScope.isShowLab = !$rootScope.isShowLab
-                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + haha).then(function (a) {
+                            medifirstService.get('emr/get-tindakan-for-cppt?idProduk=' + hihi).then(function (a) {
                                 let namaproduk = ""
                                 //
                                 for (let i = 0; i < a.data.length; i++) {
-                                    namaproduk = namaproduk + " LAB : " + a.data[i].namaproduk + "\n"
+                                    namaproduk = namaproduk + " Radiologi : " + a.data[i].namaproduk + "\n"
                                 }
                                 $scope.data.names[0].p = $scope.data.names[0].p + namaproduk
                             })
                         }
                         $scope.item.layanan2 = []
                         // $scope.isSimpan = false
-                        medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Laboratorium No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
+                        medifirstService.postLogging('Order Radiologi', 'Norec strukorder_t', e.data.strukorder.norec, 'Order Radiologi No Order - ' + e.data.strukorder.noorder + ' dengan No Registrasi ' + $scope.item.noregistrasi).then(function (res) {
                         })
                     })
                 }
