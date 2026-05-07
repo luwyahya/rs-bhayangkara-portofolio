@@ -47,6 +47,7 @@ use App\Transaksi\DetailDiagnosaPasien;
 use App\Transaksi\StrukResep;
 use App\Transaksi\HasilLaboratorium;
 use App\Transaksi\HasilRadiologi;
+use App\Transaksi\PAPJ;
 
 //use App\Transaksi\StrukPelayananDetailK;
 use App\Transaksi\HistoriCetakDokumen;
