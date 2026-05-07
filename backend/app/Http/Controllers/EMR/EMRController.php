@@ -99,6 +99,7 @@ use App\Transaksi\KepatuhanAPD;
 use App\Transaksi\SeqNumberEMR;
 use App\Transaksi\TempCairanInfus;
 use App\Transaksi\DataReaksiObatResumeMedis;
+use App\Transaksi\PAPJ;
 
 
 use Illuminate\Http\Request;
