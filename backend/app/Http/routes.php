@@ -3993,6 +3993,12 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-combo-baru', 'TataRekening\TagihanController@getComboBaru');
             Route::post('update-petugas-pelaksana', 'TataRekening\TagihanController@updatePetugasPelaksana');
             Route::post('save-petugas-pelaksana', 'TataRekening\TagihanController@savePetugasPelaksana');
+            
+            // sartika 2026/05/07
+            Route::get('daftar-pasien-pulang-papj', 'TataRekening\TagihanController@daftarPasienPulangPapj'); //done
+            Route::get('daftar-pasien-pulang-papj-kirim', 'TataRekening\TagihanController@daftarPasienPulangPapjKirim'); //done
+            Route::get('daftar-pasien-pulang-papj-verif', 'TataRekening\TagihanController@daftarPasienPulangPapjVerif'); //done
+            Route::get('daftar-pasien-pulang-papj-klaim', 'TataRekening\TagihanController@daftarPasienPulangPapjKlaim'); //done
 
             Route::post('save-akomodasi-tea', 'TataRekening\TagihanController@saveAkomodasiOtomatis');
             Route::get('get-rekap-dokpol2', 'TataRekening\TagihanController@getRekapKedokteranForensik');
