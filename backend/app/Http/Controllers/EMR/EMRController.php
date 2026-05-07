@@ -11791,6 +11791,100 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
+    //OLD
+    // public function saveDiagnosaTindakanPasien(Request $request)
+    // {
+    //     $dataLogin = $request->all();
+    //     DB::beginTransaction();
+    //     $dataPegawaiUser = DB::select(
+    //         DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+    //             INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+    //             where lu.id=:idLoginUser"),
+    //         array(
+    //             'idLoginUser' => $dataLogin['userData']['id'],
+    //         )
+    //     );
+
+    //     //        try{
+    //     if ($request['detaildiagnosatindakanpasien']['norec_dp'] == '') {
+    //         $dataDiagnosa = new DiagnosaTindakanPasien();
+    //         $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+    //         $dataDiagnosa->kdprofile = 0;
+    //         $dataDiagnosa->statusenabled = true;
+    //     } else {
+    //         $dataDiagnosa = DiagnosaTindakanPasien::where('norec', $request['detaildiagnosatindakanpasien']['norec_dp'])->first();
+    //     }
+    //     $dataDiagnosa->objectpasienfk = $request['detaildiagnosatindakanpasien']['objectpasienfk'];
+    //     $dataDiagnosa->tglpendaftaran = $request['detaildiagnosatindakanpasien']['tglpendaftaran'];
+
+
+    //     try {
+    //         $dataDiagnosa->save();
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan Diagnosa Baru";
+    //     }
+
+
+    //     if ($request['detaildiagnosatindakanpasien']['norec_dp'] == '') {
+    //         $dataDetailDiagnosa = new DetailDiagnosaTindakanPasien();
+    //         $dataDetailDiagnosa->norec = $dataDetailDiagnosa->generateNewId();
+    //         $dataDetailDiagnosa->kdprofile = 0;
+    //         $dataDetailDiagnosa->statusenabled = true;
+    //         $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID();
+    //     } else {
+    //         $dataDetailDiagnosa = DetailDiagnosaTindakanPasien::where('objectdiagnosatindakanpasienfk', $request['detaildiagnosatindakanpasien']['norec_dp'])->first();
+    //     }
+
+    //     $dataDetailDiagnosa->objectdiagnosatindakanfk = $request['detaildiagnosatindakanpasien']['objectdiagnosatindakanfk'];
+    //     $dataDetailDiagnosa->objectdiagnosatindakanpasienfk = $dataDiagnosa->norec;
+    //     $dataDetailDiagnosa->jumlah = null;
+    //     $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID()
+    //     if (isset($request['detaildiagnosatindakanpasien']['keterangantindakan'])) {
+    //         $dataDetailDiagnosa->keterangantindakan = $request['detaildiagnosatindakanpasien']['keterangantindakan'];
+    //     }
+
+    //     $dataDetailDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s');
+
+    //     try {
+    //         $dataDetailDiagnosa->save();
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan Pasien Baru";
+    //     }
+
+    //     if ($transStatus == 'true') {
+    //         $transMessage = "Data Tersimpan";
+    //         DB::commit();
+    //         $ihs = null;
+    //         if (isset($request['detaildiagnosatindakanpasien']['noregistrasi'])) {
+    //           $objetoRequest = new \Illuminate\Http\Request();
+    //           $objetoRequest['noregistrasi'] = $request['detaildiagnosatindakanpasien']['noregistrasi'];
+    //           $ihs = app('App\Http\Controllers\Bridging\IHSController')->Procedure($objetoRequest, true);
+    //         }
+    //         $result = array(
+    //             'status' => 201,
+    //             'message' => $transMessage,
+    //             'data' => $dataDiagnosa,
+    //             'Procedure' => $ihs,
+    //             'as' => 'egie@ramdan',
+    //         );
+    //     } else {
+    //         $transMessage = "Data Gagal Disimpan";
+    //         DB::rollBack();
+    //         $result = array(
+    //             'status' => 400,
+    //             'message' => $transMessage,
+    //             'data' => $dataDiagnosa,
+    //             'as' => 'egie@ramdan',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+    //NEW SATU SEHAT
     public function saveDiagnosaTindakanPasien(Request $request)
     {
         $dataLogin = $request->all();
@@ -11857,18 +11951,15 @@ class EMRController  extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Data Tersimpan";
             DB::commit();
-            $ihs = null;
-            if (isset($request['detaildiagnosatindakanpasien']['noregistrasi'])) {
-              $objetoRequest = new \Illuminate\Http\Request();
-              $objetoRequest['noregistrasi'] = $request['detaildiagnosatindakanpasien']['noregistrasi'];
-              $ihs = app('App\Http\Controllers\Bridging\IHSController')->Procedure($objetoRequest, true);
-            }
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['apd_norec'] = $request['detaildiagnosatindakanpasien']['objectpasienfk'];
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->Procedure($objetoRequest, true);
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
                 'data' => $dataDiagnosa,
-                'Procedure' => $ihs,
                 'as' => 'egie@ramdan',
+                'ihs_response' => $ihs,
             );
         } else {
             $transMessage = "Data Gagal Disimpan";
@@ -12001,6 +12092,136 @@ class EMRController  extends ApiController
     }
 
 
+    //OLD DIAGNOSA
+    // public function saveDiagnosaPasien(Request $request)
+    // {
+    //     $dataLogin = $request->all();
+    //     DB::beginTransaction();
+    //     // return($request['detaildiagnosapasien']);
+    //     // die();
+    //     //        try{
+    //     $dataPegawaiUser = DB::select(
+    //         DB::raw("select pg.id,pg.namalengkap from loginuser_s as lu
+    //             INNER JOIN pegawai_m as pg on lu.objectpegawaifk=pg.id
+    //             where lu.id=:idLoginUser"),
+    //         array(
+    //             'idLoginUser' => $dataLogin['userData']['id'],
+    //         )
+    //     );
+    //     $q = DB::select(
+    //         DB::raw("select pd.noregistrasi from pasiendaftar_t as pd
+    //         join antrianpasiendiperiksa_t as apd on apd.noregistrasifk=pd.norec
+    //         where apd.norec=:norecapd"),
+    //         array(
+    //             'norecapd' => $request['detaildiagnosapasien']['noregistrasifk'],
+    //         )
+    //     );
+
+    //     if ($request['detaildiagnosapasien']['norec_dp'] == '') {
+    //         $dataDiagnosa = new DiagnosaPasien();
+    //         $dataDiagnosa->norec = $dataDiagnosa->generateNewId();
+    //         $dataDiagnosa->kdprofile = 0;
+    //         $dataDiagnosa->statusenabled = true;
+    //     } else {
+    //         $dataDiagnosa = DiagnosaPasien::where('norec', $request['detaildiagnosapasien']['norec_dp'])->first();
+    //     }
+
+    //     $dataDiagnosa->noregistrasifk = $request['detaildiagnosapasien']['noregistrasifk'];
+    //     $dataDiagnosa->ketdiagnosis = 'Diagnosa Pasien';
+    //     $dataDiagnosa->tglregistrasi = null;
+    //     $dataDiagnosa->tglpendaftaran = $request['detaildiagnosapasien']['tglregistrasi'];
+    //     if (isset($request['detaildiagnosapasien']['kasusbaru'])) {
+    //         $dataDiagnosa->iskasusbaru = $request['detaildiagnosapasien']['kasusbaru'];
+    //     }
+    //     if (isset($request['detaildiagnosapasien']['kasuslama'])) {
+    //         $dataDiagnosa->iskasuslama = $request['detaildiagnosapasien']['kasuslama'];
+    //     }
+    //     try {
+
+    //         $dataDiagnosa->save();
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan Diagnosa Baru";
+    //     }
+
+
+    //     if ($request['detaildiagnosapasien']['norec_dp'] == '' || $request['detaildiagnosapasien']['keterangan'] == '') {
+    //         $dataDetailDiagnosa = new DetailDiagnosaPasien();
+    //         $dataDetailDiagnosa->norec = $dataDetailDiagnosa->generateNewId();
+    //         $dataDetailDiagnosa->kdprofile = 0;
+    //         $dataDetailDiagnosa->statusenabled = true;
+    //         //               $dataDetailDiagnosa->keterangan = '-';
+    //         $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID();
+
+    //     } else {
+    //         $dataDetailDiagnosa = DetailDiagnosaPasien::where('objectdiagnosapasienfk', $request['detaildiagnosapasien']['norec_dp'])->first();
+    //     }
+
+    //     $dataDetailDiagnosa->noregistrasifk = $request['detaildiagnosapasien']['noregistrasifk'];
+    //     $dataDetailDiagnosa->tglregistrasi = $request['detaildiagnosapasien']['tglregistrasi'];
+    //     $dataDetailDiagnosa->norec = $dataDetailDiagnosa->generateNewId();
+    //     $dataDetailDiagnosa->objectdiagnosafk = $request['detaildiagnosapasien']['objectdiagnosafk'];
+    //     $dataDetailDiagnosa->objectdiagnosapasienfk = $dataDiagnosa->norec;
+    //     $dataDetailDiagnosa->objectjenisdiagnosafk = $request['detaildiagnosapasien']['objectjenisdiagnosafk'];
+    //     $dataDetailDiagnosa->tglinputdiagnosa = date('Y-m-d H:i:s'); //$request['detaildiagnosapasien']['tglinputdiagnosa'];
+    //     $dataDetailDiagnosa->keterangan = $request['detaildiagnosapasien']['keterangan'];
+    //     if (isset($request['detaildiagnosapasien']['penyakitponekigd']) && $request['detaildiagnosapasien']['penyakitponekigd'] != "" && $request['detaildiagnosapasien']['penyakitponekigd'] != "undefined") {
+    //         $dataDetailDiagnosa->penyakitponekigd = $request['detaildiagnosapasien']['penyakitponekigd'];
+    //     };
+    //     $dataDetailDiagnosa->objectpegawaifk = $dataPegawaiUser[0]->id; // $this->getCurrentLoginID();
+    //     $pd = AntrianPasienDiperiksa::where('norec', $request['detaildiagnosapasien']['noregistrasifk'])->first();
+    //     if ($pd->pasien_daftar->ihs_in_progress == null) {
+    //         PasienDaftar::where('norec', $pd->pasien_daftar->norec)->update([
+    //             'ihs_in_progress' => date('Y-m-d H:i:s'),
+    //         ]);
+    //     }
+    //     if ($pd->pasien_daftar->ihs_finished == null) {
+    //         PasienDaftar::where('norec', $pd->pasien_daftar->norec)->update([
+    //             'ihs_finished' => date('Y-m-d H:i:s', strtotime('+1 minutes')),
+    //         ]);
+    //     }
+
+    //     try {
+    //         $dataDetailDiagnosa->save();
+    //         $transStatus = 'true';
+    //     } catch (\Exception $e) {
+    //         $transStatus = 'false';
+    //         $transMessage = "simpan Pasien Baru";
+    //     }
+
+    //     if ($transStatus == 'true') {
+    //         $transMessage = "Data Tersimpan";
+    //         DB::commit();
+    //         //#satusehat
+    //         $objetoRequest = new \Illuminate\Http\Request();
+    //         $objetoRequest['noregistrasi'] = $pd->pasien_daftar->noregistrasi;//$request['detaildiagnosapasien']['noregistrasi'];
+    //         $ihs = app('App\Http\Controllers\Bridging\IHSController')->Condition($objetoRequest, true);
+    //         $result = array(
+    //             'status' => 201,
+    //             'message' => $transMessage,
+    //             'data' => $dataDiagnosa,
+    //             'norec_dp' => $dataDiagnosa->norec,
+    //             'ihs' => isset($ihs) ? $ihs : null,
+    //             'as' => 'egie@ramdan',
+    //         );
+    //     } else {
+    //         $transMessage = "Data Gagal Disimpan";
+    //         DB::rollBack();
+    //         $objetoRequest = new \Illuminate\Http\Request();
+    //         $objetoRequest['noregistrasi'] = $q[0]->noregistrasi;
+    //         $ihs = app('App\Http\Controllers\Bridging\PHSController')->Condition($objetoRequest, true);
+    //         $result = array(
+    //             'status' => 400,
+    //             'message' => $transMessage,
+    //             'data' => $dataDiagnosa,
+    //             'as' => 'egie@ramdan',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+    //NEW JANG HIJI SEHAT
     public function saveDiagnosaPasien(Request $request)
     {
         $dataLogin = $request->all();
@@ -12044,6 +12265,39 @@ class EMRController  extends ApiController
         if (isset($request['detaildiagnosapasien']['kasuslama'])) {
             $dataDiagnosa->iskasuslama = $request['detaildiagnosapasien']['kasuslama'];
         }
+
+        // Tambahkan sebelum $dataDiagnosa->save()
+        $diagnosa = DB::table('diagnosa_m')
+            ->where('id', $request['detaildiagnosapasien']['objectdiagnosafk'])
+            ->first();
+
+        if (!$diagnosa) {
+            DB::rollBack();
+            return response()->json([
+                'status' => 400,
+                'message' => 'Kode Diagnosa tidak ditemukan',
+            ], 400);
+        }
+
+        // Jika jenis diagnosis adalah Primer (1)
+        if ((int) $request['detaildiagnosapasien']['objectjenisdiagnosafk'] === 1) {
+            if ($diagnosa->validcode == 0) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Diagnosa ini tidak valid untuk dipilih.',
+                ], 400);
+            }
+
+            if (strtoupper($diagnosa->accpdx) != 'Y') {
+                DB::rollBack();
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'Diagnosa ini tidak dapat dijadikan Primer.',
+                ], 400);
+            }
+        }
+
         try {
 
             $dataDiagnosa->save();

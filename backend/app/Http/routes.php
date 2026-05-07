@@ -758,6 +758,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
               Route::post('MedicationDispense', 'Bridging\IHSController@MedicationDispense');
               Route::post('MedicationDispenseObatBebas', 'Bridging\IHSController@MedicationDispenseObatBebas');
               Route::post('Observation', 'Bridging\IHSController@Observation');
+              Route::post('ObservationRajal', 'Bridging\IHSController@ObservationRajal');
               Route::post('Procedure', 'Bridging\IHSController@Procedure');
               Route::post('Immunization', 'Bridging\IHSController@Immunization');
               Route::post('Composition', 'Bridging\IHSController@Composition');
@@ -3954,6 +3955,17 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
                 Route::get('get-daftar-transaksi2', 'Gizi\GiziController@gettransaksigizi2');
 
                 Route::get('get-detailbahan', 'SysAdmin\Master\MasterController@getbahan');
+
+                //SATU SEHAT
+                Route::get('get-daftar-master-pegawai', 'SysAdmin\Master\MasterController@getDataMasterPegawai');
+                Route::get('get-daftar-master-departemen', 'SysAdmin\Master\MasterController@getDataMasterDepartemen');
+                Route::get('get-daftar-master-ruangan', 'SysAdmin\Master\MasterController@getDataMasterRuangan');
+                Route::get('get-data-produkapotik', 'SysAdmin\Master\MasterController@getListProdukApotik');
+                Route::get('get-data-combo-master-rev', 'SysAdmin\Master\MasterController@getDataComboMasterRev');
+
+                Route::post('save-data-produk-apotik', 'SysAdmin\Master\MasterController@saveDataProdukApotik');
+                Route::post('save-data-master-departemen', 'SysAdmin\Master\MasterController@saveDataMasterDepartemen');
+                Route::post('delete-data-master-departemen', 'SysAdmin\Master\MasterController@deleteDataDepartemen');
                 // GET //
 
                 // POST //

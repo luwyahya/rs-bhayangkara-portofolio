@@ -82,6 +82,15 @@ define(['initialize'], function (initialize) {
                     init()
                     loadLaboratorium()
                     loadRadiologi()
+                    
+                    // Inisialisasi grid order radiologi dan laboratorium
+                    $scope.dataGridOrder = new kendo.data.DataSource({
+                        data: dataRadiologi
+                    });
+                    $scope.dataGridOrderLab = new kendo.data.DataSource({
+                        data: dataLaboratorium
+                    });
+                    
                     $scope.listKesadaran = [
                         { text: "Compos Mentis", value: 1 },
                         { text: "Apatis", value: 2 },
@@ -2212,26 +2221,35 @@ define(['initialize'], function (initialize) {
                         $scope.item.objectjeniskelaminfk = dat.data.data[0].objectjeniskelaminfk
                     }
                     $scope.statusSelesaiPeriksa = dat.data.data[0].isclaim
+                    
+                    // Format data untuk grid order radiologi
                     for (var i = 0; i < dat.data.data.length; i++) {
                         dat.data.data[i].no = i + 1
                         dat.data.data[i].statCheckbox = false;
+                        
+                        // Tambahkan ke array dataRadiologi untuk grid order
+                        var orderData = {
+                            no: dat.data.data[i].no,
+                            produkfk: dat.data.data[i].produkfk,
+                            namaproduk: dat.data.data[i].namaproduk,
+                            keteranganrad: dat.data.data[i].noorder || '-',
+                            qtyproduk: dat.data.data[i].jumlah || 1,
+                            objectruanganfk: 569,
+                            objectruangantujuanfk: dat.data.data[i].objectruanganfk || 576,
+                            objectkelasfk: 6
+                        };
+                        dataRadiologi.push(orderData);
+                        dataRadiologiPush.push(orderData);
+                        
                         if (dat.data.data[i].statusbridging == "Sudah Dikirim") {
                             dat.data.data[i].statusbridging = "✔";
-                            // ✅
-                            // ✔
                         } else {
                             dat.data.data[i].statusbridging = "✘";
-                            // ✘
-                            // ❎
                         }
                         if (dat.data.data[i].iscito == "1") {
                             dat.data.data[i].statuscito = "✔";
-                            // ✅
-                            // ✔
                         } else {
                             dat.data.data[i].statuscito = "✘";
-                            // ✘
-                            // ❎
                         }
                         if( dat.data.data[i].statusperiksa == 1)
                         {
@@ -2240,8 +2258,8 @@ define(['initialize'], function (initialize) {
                         {
                             dat.data.data[i].statusperiksa = "✘";
                         }
-                        
                     }
+                    
                     if (dat.data.data.length > 0) {
                         if (dat.data.data[0].objectdepartemenfk == 3)
                             $scope.disableRad = true
@@ -2250,6 +2268,11 @@ define(['initialize'], function (initialize) {
                     }
                     $scope.isLoading = false;
 
+                    // Update grid order radiologi dengan data yang sudah di-load
+                    $scope.dataGridOrder = new kendo.data.DataSource({
+                        data: dataRadiologi
+                    });
+                    
                     // debugger
                     $scope.dataGridRadio = {
                     	data: dat.data.data,
@@ -2911,6 +2934,102 @@ define(['initialize'], function (initialize) {
             // $scope.hapusPemberiPesan = function (index) {
             // $scope.listPemberiPesan.splice(index, 1);
             // }
+
+            // Initialize history data sources
+            $scope.dataGridObatHistory = new kendo.data.DataSource({ data: [] });
+            $scope.dataGridLabHistory = new kendo.data.DataSource({ data: [] });
+            $scope.dataGridRadHistory = new kendo.data.DataSource({ data: [] });
+
+            // Watcher untuk mendapatkan riwayat obat saat obat dipilih
+            $scope.$watch('item.produk', function(newVal, oldVal) {
+                if (newVal && newVal.id && newVal !== oldVal) {
+                    var apiUrl = "emr/get-riwayat?idProduk=" + newVal.id + "&noregistrasi=" + $scope.cc.noregistrasi;
+                    console.log("Loading obat history with URL:", apiUrl);
+                    
+                    medifirstService.get(apiUrl, true).then(function(dat) {
+                        console.log("Obat history response:", dat);
+                        var historyData = [];
+                        
+                        // Try different response structures
+                        if (dat && dat.data) {
+                            if (Array.isArray(dat.data)) {
+                                historyData = dat.data;
+                            } else if (dat.data.data && Array.isArray(dat.data.data)) {
+                                historyData = dat.data.data;
+                            }
+                        }
+                        
+                        if (historyData.length > 0) {
+                            console.log("Obat history found:", historyData.length, "items");
+                            $scope.dataGridObatHistory = new kendo.data.DataSource({
+                                data: historyData
+                            });
+                        }
+                    }).catch(function(err) {
+                        console.log("Error loading obat history:", err);
+                    });
+                }
+            });
+
+            // Watcher untuk mendapatkan riwayat lab saat layanan lab dipilih
+            $scope.$watch('item.layananlab', function(newVal, oldVal) {
+                if (newVal && newVal.id && newVal !== oldVal) {
+                    var apiUrl = "emr/get-riwayat-order-penunjang?idProduk=" + newVal.id + "&noregistrasi=" + $scope.cc.noregistrasi;
+                    console.log("Loading lab history with URL:", apiUrl);
+                    
+                    medifirstService.get(apiUrl, true).then(function(dat) {
+                        console.log("Lab history response:", dat);
+                        var historyData = [];
+                        
+                        if (dat && dat.data) {
+                            if (Array.isArray(dat.data)) {
+                                historyData = dat.data;
+                            } else if (dat.data.data && Array.isArray(dat.data.data)) {
+                                historyData = dat.data.data;
+                            }
+                        }
+                        
+                        if (historyData.length > 0) {
+                            console.log("Lab history found:", historyData.length, "items");
+                            $scope.dataGridLabHistory = new kendo.data.DataSource({
+                                data: historyData
+                            });
+                        }
+                    }).catch(function(err) {
+                        console.log("Error loading lab history:", err);
+                    });
+                }
+            });
+
+            // Watcher untuk mendapatkan riwayat radiologi saat layanan radiologi dipilih
+            $scope.$watch('item.layananrad', function(newVal, oldVal) {
+                if (newVal && newVal.id && newVal !== oldVal) {
+                    var apiUrl = "emr/get-riwayat-order-radiologi?idProduk=" + newVal.id + "&noregistrasi=" + $scope.cc.noregistrasi;
+                    console.log("Loading radiologi history with URL:", apiUrl);
+                    
+                    medifirstService.get(apiUrl, true).then(function(dat) {
+                        console.log("Radiologi history response:", dat);
+                        var historyData = [];
+                        
+                        if (dat && dat.data) {
+                            if (Array.isArray(dat.data)) {
+                                historyData = dat.data;
+                            } else if (dat.data.data && Array.isArray(dat.data.data)) {
+                                historyData = dat.data.data;
+                            }
+                        }
+                        
+                        if (historyData.length > 0) {
+                            console.log("Radiologi history found:", historyData.length, "items");
+                            $scope.dataGridRadHistory = new kendo.data.DataSource({
+                                data: historyData
+                            });
+                        }
+                    }).catch(function(err) {
+                        console.log("Error loading radiologi history:", err);
+                    });
+                }
+            });
 
             $scope.$watchGroup(
                 ['item.obj[1901300316]', 'item.obj[1901300317]', 'item.obj[1901300318]', 'item.obj[1901300319]'],

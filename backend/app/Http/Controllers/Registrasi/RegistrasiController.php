@@ -2384,8 +2384,907 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         return $this->respond($data);
     }
+
+    //OLD BY AING
+    // public function saveRegistrasiPasien(Request $request)
+    // {
+    //     $noAntrian = 0;
+     
+     
+    //     $r_NewPD = $request['pasiendaftar'];
+    //     $r_NewAPD = $request['antrianpasiendiperiksa'];
+        
+        
+        
+    //     //        $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk',$r_NewPD['objectruanganfk'])
+    //     //            ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'].' 00:00')
+    //     //            ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'].' 23:59')
+    //     //            ->count('norec');
+    //     //        $noAntrian = $countNoAntrian + 1;
+
+    //     // Penjagaan Tidak Bisa Edit Beda Departemen
+    //     if ($r_NewPD['norec_pd'] != '' && $r_NewAPD['norec_apd'] != '') {
+
+    //         $apdDepar = \DB::table('antrianpasiendiperiksa_t as apd')
+    //             ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+    //             // ->leftjoin('diagnosapasien_t as dg','dg.noregistrasifk','=','apd.norec')
+    //             ->select('ru.objectdepartemenfk', 'apd.norec', 'apd.objectruanganfk')
+    //             ->where('apd.norec', $r_NewAPD['norec_apd'])
+    //             //                ->where('apd.objectruanganfk', $request['data']['objectruanganlastfk'])
+    //             //                ->wherenull('apd.tglkeluar')
+    //             ->where('apd.statusenabled', true)
+    //             ->get();
+
+    //         // return($apdDepar[0]->objectdepartemenfk);
+    //         // die();
+    //         if ($apdDepar[0]->objectdepartemenfk != $r_NewAPD['objectdepartemenfk']) {
+    //             $transMessage = 'Patienten können nicht mit verschiedenen Abteilungen bearbeitet werden.';
+    //             return $this->setStatusCode(400)->respond([], $transMessage);
+    //         }
+    //     }
+
+
+    //     $catatan = $r_NewPD['catatan'];
+    //     if ($r_NewPD['israwatinap'] == 'true') {
+    //         $isRawatInap = 'true';
+    //     } else {
+    //         $isRawatInap = 'false';
+    //     }
+
+        
+    //     DB::beginTransaction();
+    //       if(isset($r_NewPD['isPenanggungJawab'])){
+    //         if ($r_NewPD['isPenanggungJawab'] == 'true') {
+    //             $data = Pasien::where('id', $r_NewPD['nocmfk'])
+    //                 ->update([
+    //                     'penanggungjawab' => $r_NewPD['penanggungjawab'],
+    //                     'hubungankeluargapj' => $r_NewPD['hubungankeluargapj'],
+    //                     'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
+    //                 ]);
+    //         } 
+    //     } 
+
+    //     if ($r_NewPD['objectruanganfk'] == 251) {
+    //         $cekUdahDaftar = 0;
+    //         $cekUdahDaftarRuangan = 0;
+    //     } else {
+    //         $cekUdahDaftar = PasienDaftar::where('nocmfk', $r_NewPD['nocmfk'])
+    //             ->wherenull('tglpulang')
+    //             ->count();
+    //         $cekKelompok = PasienDaftar::where('noregistrasi', $r_NewPD['noregistrasi'])
+    //             ->select('objectkelompokpasienlastfk')
+    //             ->get();
+    //         $cekUdahDaftarRuangan = PasienDaftar::where('nocmfk', $r_NewPD['nocmfk'])
+    //             ->where('objectruanganlastfk', $r_NewPD['objectruanganfk'])
+    //             ->where('tglregistrasi', $r_NewPD['tglregistrasi'])
+    //             ->where('statusenabled', true)
+    //             ->count();
+    //     }
+    //     if ($cekUdahDaftar > 0 && $r_NewPD['norec_pd'] == '') {
+    //         $transStatus = 'belumdipulangkan';
+    //         // return($cekUdahDaftar);
+    //         // return($r_NewPD);
+    //         // return($r_NewPD['objectruanganfk']);
+    //         // die();
+    //     } else if ($cekUdahDaftarRuangan > 0 && $r_NewPD['norec_pd'] == '') {
+    //         $transStatus = 'UdahDaftar';
+    //         // return($cekUdahDaftar);
+    //         // return($r_NewPD);
+    //         // return($r_NewPD['objectruanganfk']);
+    //         // die();
+    //     } else {
+    //         // try{
+    //         //region Save PasienDaftar
+    //         $DianNgimpi = \DB::table('pasiendaftar_t as pd')
+    //             ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+    //             ->select('ru.namaruangan')
+    //             ->where('pd.nocmfk', $r_NewPD['nocmfk'])
+    //             ->where('ru.objectdepartemenfk', 18)
+    //             ->where('pd.statusenabled', 1)
+    //             ->get();
+    //         if (count($DianNgimpi) == 0) {
+    //             $DianNgimpi = \DB::table('pasiendaftar_t as pd')
+    //                 ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+    //                 ->select('ru.namaruangan')
+    //                 ->where('pd.nocmfk', $r_NewPD['nocmfk'])
+    //                 ->where('ru.objectdepartemenfk', '<>', 18)
+    //                 ->orderBy('pd.noregistrasi', 'desc')
+    //                 ->where('pd.statusenabled', 1)
+    //                 ->take(1)
+    //                 ->get();
+    //             if (count($DianNgimpi) > 0) {
+    //                 foreach ($DianNgimpi as $itemDian) {
+    //                     $catatan = $catatan . ' Pasien ini belum pernah daftar ke Poli, baru ke ' . $itemDian->namaruangan;
+    //                 }
+    //             } else {
+    //                 $catatan = $catatan . ' Pasien ini belum pernah daftar di aplikasi TM';
+    //             }
+    //         }
+            
+    //         if ($r_NewPD['norec_pd'] == '') {
+    //              $noRegistrasiSeq = $this->generateCodeBySeqTable(new PasienDaftar, 'noregistrasi', 10, date('ym'));
+    //             if ($noRegistrasiSeq == '') {
+    //                 $transMessage = "Gagal mengumpukan data, Coba lagi.!";
+    //                 DB::rollBack();
+    //                 $result = array(
+    //                     "status" => 400,
+    //                     "message"  => $transMessage,
+    //                     "as" => 'as@epic',
+    //                 );
+    //                 return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    //             }
+
+    //             $dataPD = new PasienDaftar();
+    //             $dataPD->norec = $dataPD->generateNewId();
+    //             $dataPD->kdprofile = 1;
+    //             $dataPD->statusenabled = true;
+    //             $noRegistrasi = $noRegistrasiSeq; //$this->generateNoReg(new PasienDaftar, 'noregistrasi', 10, date('ym'));//$this->getMaxNoregistrasi();
+    //             $dataPD->objectruanganasalfk = $r_NewPD['objectruanganasalfk'];
+    //             $dataPD->nocmfk = $r_NewPD['nocmfk'];
+    //             $dataPD->statuskirimdokumen = NULL;
+    //             // $dataPD->statusschedule = $noRegistrasi;
+
+    //             if($r_NewPD['tglregistrasidate'] > date('Y-m-d')){
+    //                 $newptp = new AntrianPasienRegistrasi();
+    //                 $nontrianAPR=AntrianPasienRegistrasi::where('jenis', 'M')
+    //                         ->where('tanggalreservasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tanggalreservasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->max('noantrian')+ 1;
+    //                 $newptp->norec = $newptp->generateNewId();
+    //                 $newptp->kdprofile = 0;
+    //                 $newptp->statusenabled = true;
+    //                 $newptp->ismobilejkn = false;
+    //                 $newptp->isasalreservasi = 1;
+    //                 $newptp->objectruanganfk =$r_NewPD['objectruanganfk'];
+    //                 $newptp->noantrian = $nontrianAPR;
+    //                 $newptp->noreservasi = $noRegistrasi;
+    //                 $newptp->tanggalreservasi = $r_NewPD['tglregistrasi'];
+    //                 $newptp->objectkelompokpasienfk= $r_NewPD['objectkelompokpasienlastfk'];
+    //                 $newptp->objectpendidikanfk = 0;
+    //                 $newptp->tglinput = date('Y-m-d H:i:s');
+    //                 $newptp->tipepasien = "LAMA";
+    //                 $newptp->type = "LAMA";
+    //                 $newptp->jenis = 'M';
+    //                 $newptp->statuspanggil = 1;
+    //                 $newptp->nocmfk = $r_NewPD['nocmfk'];
+    //                 $newptp->objectpegawaifk=  ($r_NewPD['objectpegawaifk']?$r_NewPD['objectpegawaifk']:null);
+    //                 $newptp->save();
+    //             }
+    //         } else {
+    //             $apd = \DB::table('antrianpasiendiperiksa_t as apd')
+    //                 ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+    //                 // ->leftjoin('diagnosapasien_t as dg','dg.noregistrasifk','=','apd.norec')
+    //                 ->select('ru.objectdepartemenfk', 'apd.norec', 'apd.objectruanganfk')
+    //                 ->where('apd.noregistrasifk', $r_NewPD['norec_pd'])
+    //                 //                ->where('apd.objectruanganfk', $request['data']['objectruanganlastfk'])
+    //                 //                ->wherenull('apd.tglkeluar')
+    //                 ->where('ru.objectdepartemenfk', 16)
+    //                 ->get();
+
+    //             if ($cekKelompok[0]->objectkelompokpasienlastfk == $r_NewPD['objectkelompokpasienlastfk']) {
+    //                 if (count($apd) > 2) {
+    //                     $transMessage = 'Tidak Bisa Edit Registrasi , pasien sudah mendapatkan lebih dari 1 ruangan Rawat !';
+    //                     return $this->setStatusCode(400)->respond([], $transMessage);
+    //                 }
+    //             }
+    //             $dataPD =  PasienDaftar::where('norec', $r_NewPD['norec_pd'])->first();
+    //             if ($r_NewPD['nocmfk'] != $dataPD->nocmfk) {
+    //                 $transStatus = 'false';
+    //             }
+    //             $noRegistrasi = $dataPD->noregistrasi;
+    //             //          $delAntrian = AntrianPasienDiperiksa::where('noregistrasifk', $r_NewPD['norec_pd'])
+    //             //                ->delete();
+    //             if ($dataPD->objectruanganlastfk != $r_NewPD['objectruanganfk']) {
+    //                 $deltracer = Tracer::where('noregistrasi', $noRegistrasi)
+    //                     ->delete();
+    //                 $delkendali = KendaliDokumenRekamMedis::where('noregistrasifk', $r_NewAPD['norec_apd'])
+    //                     ->delete();
+
+    //                 $ru =  Ruangan::where('id', $dataPD->objectruanganlastfk)->first();
+    //                 $catatan = 'Poli Sebelummnya ' . $ru->namaruangan;
+    //                 $dataPD->statuskirimdokumen = NULL;
+    //             }
+
+    //             if ($isRawatInap == 'true') {
+    //                 $delRegistrasiPelPasien = RegistrasiPelayananPasien::where('noregistrasifk', $r_NewPD['norec_pd'])
+    //                     ->where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                     ->delete();
+    //             }
+    //         }
+    //         if ($r_NewPD['istelemedicine'] == 'true') {
+    //             $dataPD->istelemedicine = 1;
+    //         }
+    //         $dataPD->objectruanganlastfk = $r_NewPD['objectruanganfk'];
+    //         $dataPD->objectdokterpemeriksafk =  $r_NewPD['objectpegawaifk'];
+    //         $dataPD->objectpegawaifk = $r_NewPD['objectpegawaifk'];
+    //         $dataPD->iskajianawal = false;
+    //         $dataPD->isonsiteservice = 0;
+    //         $dataPD->isregistrasilengkap = 0;
+    //         $dataPD->jenispelayanan = $r_NewPD['tipelayanan'];
+    //         if (isset($r_NewPD['jenispasien']) && $r_NewPD['jenispasien'] != "" && $r_NewPD['jenispasien'] != "undefined") {
+    //             $dataPD->objectjenispasienfk =  $r_NewPD['jenispasien'];
+    //         }
+    //         // $dataPD->objectkasuspenyakitlastfk = 1;
+    //         $dataPD->objectkasuspenyakitlastfk = null; //$r_NewPD['objectkasuspenyakitlastfk'];
+    //         if ($isRawatInap == 'true') {
+    //             $dataPD->objectkelasfk = $r_NewPD['objectkelasfk'];
+    //             $dataPD->tglpulang = null;
+    //         } else {
+    //             $dataPD->objectkelasfk = (int)$this->settingDataFixed('kdKelasNonKelasRegistrasi');
+    //             $dataPD->tglpulang =  $r_NewPD['tglregistrasi'];
+    //         }
+    //         $dataPD->objectkelompokpasienlastfk = $r_NewPD['objectkelompokpasienlastfk'];
+
+    //         // if($r_NewPD['objectrekananfk'] == null || $r_NewPD['objectrekananfk'] =="")
+    //         // {
+    //         //     $dataPD->objectrekananfk = 0;
+    //         // }
+    //         // else{
+    //         $dataPD->objectrekananfk = $r_NewPD['objectrekananfk'];
+    //         // }
+    //         $dataPD->objectrekananfk = $r_NewPD['objectrekananfk'];
+    //         $dataPD->statuskasuspenyakit = false;
+    //         //                $cekStatusPasien=PasienDaftar::where('nocmfk', $r_NewPD['nocmfk'])
+    //         //                    ->count('nocmfk');
+    //         //                if ($cekStatusPasien  > 0){
+    //         //                    $statusPasien='LAMA';
+    //         //                }else{
+    //         //                    $statusPasien='BARU';
+    //         //                }
+    //         if (isset($r_NewPD['statuspasien'])) {
+    //             $dataPD->statuspasien = $r_NewPD['statuspasien']; //$statusPasien;
+    //         } else {
+    //             $dataPD->statuspasien = 'BARU';
+    //         }
+
+    //         if (isset($r_NewPD['statusschedule'])) {
+    //             $dataPD->statusschedule = $r_NewPD['statusschedule'];
+    //         }
+    //         $dataPD->tglregistrasi =  $r_NewPD['tglregistrasi'];
+    //          if (isset($r_NewPD['jaminankhusus']) && $r_NewPD['jaminankhusus'] != "" && $r_NewPD['jaminankhusus'] != "undefined") {
+    //             $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
+    //         }else{
+    //             $dataPD->objectjaminankhusus = null;
+    //         }// $dataPD->tglcsr = $r_NewPD['tglcsr'];
+    //         if (isset($r_NewPD['tglcsr']) && $r_NewPD['tglcsr'] != "" && $r_NewPD['tglcsr'] != "undefined") {
+    //             $dataPD->tglcsr =  $r_NewPD['tglcsr'];
+    //         }
+    //         $dataPD->sensus =  $r_NewPD['sensus'];
+    //         $dataPD->catatan =  $catatan;
+
+    //         $dataPD->noregistrasi = $noRegistrasi;
+    //         $dataPD->save();
+    //         $dataPDnorec = $dataPD->norec;
+    //         $dataStatusPasien = $dataPD->statuspasien;
+    //         //endregion
+    //         //region Save AntrianPasienDiperiksa
+
+    //         $rua =  Ruangan::where('id', $dataPD->objectruanganlastfk)->first();
+    //         if ($r_NewAPD['norec_apd'] == '') {
+    //             if ($isRawatInap == 'true') {
+    //                 $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                     ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                     ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                     ->where('statusenabled', true)
+    //                     ->max('noantrian');
+    //             }else{
+    //                  $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                     ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                     ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                     ->where('statusenabled', true)
+    //                     ->where('namahafis',$r_NewPD['nmhafis'])
+    //                     ->max('noantrian');
+    //             }
+               
+    //             $noAntrian = $countNoAntrian + 1;
+    //             //                    return $noAntrian;
+    //             $dataAPD = new AntrianPasienDiperiksa;
+    //             $dataAPD->norec = $dataAPD->generateNewId();
+    //             $dataAPD->kdprofile = 1;
+    //             $dataAPD->statusenabled = true;
+    //             $dataAPD->noantrian = $noAntrian;
+    //             //                    $dataAPD->objectruanganfk = $r_NewAPD['objectruanganfk'];
+    //         } else {
+                
+    //             $dataAPD =  AntrianPasienDiperiksa::where('norec', $r_NewAPD['norec_apd'])->first();
+    //             if ($isRawatInap == 'true') {
+                    
+    //                 if ($r_NewPD['objectruanganfk'] != $dataAPD->objectruanganfk) {
+    //                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->where('statusenabled', true)
+    //                         ->max('noantrian');
+    //                     $noAntrian = $countNoAntrian + 1;
+    //                     $dataAPD->noantrian = $noAntrian;
+    //                 } else if ($r_NewAPD['tglregistrasi'] != $dataAPD->tglregistrasi) {
+    //                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->where('statusenabled', true)
+    //                         ->max('noantrian');
+    //                     $noAntrian = $countNoAntrian + 1;
+    //                     $dataAPD->noantrian = $noAntrian;
+    //                 }
+    //             }else{
+                      
+    //                 if ($r_NewPD['objectruanganfk'] != $dataAPD->objectruanganfk) {
+                        
+    //                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->where('statusenabled', true)
+    //                         ->where('namahafis',$r_NewPD['nmhafis'])
+    //                         ->max('noantrian');
+    //                     $noAntrian = $countNoAntrian + 1;
+    //                     $dataAPD->noantrian = $noAntrian;
+                     
+    //                 } else if ($r_NewAPD['tglregistrasi'] != $dataAPD->tglregistrasi) {
+    //                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->where('statusenabled', true)
+    //                         ->where('namahafis',$r_NewPD['nmhafis'])
+    //                         ->max('noantrian');
+    //                     $noAntrian = $countNoAntrian + 1;
+    //                     $dataAPD->noantrian = $noAntrian;
+    //                 }else if ($r_NewPD['nmhafis'] != $dataAPD->namahafis) {
+    //                     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                         ->where('statusenabled', true)
+    //                         ->where('namahafis',$r_NewPD['nmhafis'])
+    //                         ->max('noantrian');
+    //                     $noAntrian = $countNoAntrian + 1;
+    //                     $dataAPD->noantrian = $noAntrian;
+    //                 }
+    //                 //  else {
+    //                 //     $countNoAntrian = AntrianPasienDiperiksa::where('objectruanganfk', $r_NewPD['objectruanganfk'])
+    //                 //         ->where('tglregistrasi', '>=', $r_NewPD['tglregistrasidate'] . ' 00:00')
+    //                 //         ->where('tglregistrasi', '<=', $r_NewPD['tglregistrasidate'] . ' 23:59')
+    //                 //         ->where('statusenabled', true)
+    //                 //         ->where('namahafis',$r_NewPD['nmhafis'])
+    //                 //         ->max('noantrian');
+    //                 //     $noAntrian = $countNoAntrian + 1;
+    //                 //     $dataAPD->noantrian = $noAntrian;
+    //                 // }
+    //             }
+                
+    //             AntrianPasienDiperiksa::where('noregistrasifk', $dataPD->norec)
+    //                 ->where('norec', '<>', $r_NewAPD['norec_apd'])
+    //                 ->whereNotNull('objectruanganasalfk')
+    //                 ->update(['objectruanganasalfk' => $r_NewPD['objectruanganfk']]);
+    //             //kosongkan
+    //             if ($isRawatInap == 'true') {
+    //                 TempatTidur::where('id', $dataAPD->nobed)->update(['objectstatusbedfk' => 2]);
+    //             }
+    //         }
+    //         //count tgl pasien perruanga
+    //         $dataAPD->objectasalrujukanfk =  $r_NewAPD['objectasalrujukanfk'];
+    //         $dataAPD->objectkamarfk = $r_NewAPD['objectkamarfk'];
+    //         $dataAPD->objectkasuspenyakitfk = null;
+    //         $dataAPD->objectruanganfk = $r_NewPD['objectruanganfk'];
+    //         if ($isRawatInap == 'true') {
+    //             $dataAPD->objectkelasfk = $r_NewAPD['objectkelasfk'];
+    //             $dataAPD->tglkeluar = null;
+    //             $ru =  Ruangan::where('id', $r_NewPD['objectruanganfk'])->first();
+    //             if ($ru->objectruanganfk == '19') {
+    //                 $dataAPD->objectkasuspenyakitfk = '19';
+    //             }
+    //         } else {
+    //             $dataAPD->objectkelasfk = (int)$this->settingDataFixed('kdKelasNonKelasRegistrasi');
+    //             $dataAPD->tglkeluar = $r_NewPD['tglregistrasi'];
+    //         }
+    //         $dataAPD->nobed = $r_NewAPD['nobed'];
+    //         $dataAPD->noregistrasifk = $dataPDnorec;
+    //         $dataAPD->objectpegawaifk = $r_NewAPD['objectpegawaifk'];
+    //         $dataAPD->statusantrian = 0;
+    //         $dataAPD->statuskunjungan = $dataStatusPasien;
+    //         $dataAPD->statuspasien = 1;
+    //         $dataAPD->tglregistrasi =  $r_NewAPD['tglregistrasi'];
+    //         $dataAPD->tglmasuk = $r_NewAPD['tglregistrasi'];
+    //         $dataAPD->israwatgabung = $r_NewAPD['israwatgabung'];
+    //          if (isset($r_NewPD['israwattitipan'])) {
+    //             $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
+    //          }
+    //         if (isset($r_NewPD['nmhafis'])) {
+    //             $dataAPD->namahafis = $r_NewPD['nmhafis'];
+    //         } else {
+    //             // $dataPD->statuspasien = 'BARU';
+    //         }
+           
+    //         $dataAPD->save();
+    //         //update statusbed jadi Isi
+    //         if ($isRawatInap == 'true') {
+    //             TempatTidur::where('id', $r_NewAPD['nobed'])->update(['objectstatusbedfk' => 1]);
+    //         }
+    //         //endregion
+    //         //region Save RegistrasiPelayananPasien
+    //         $updateWaktuTask = "";
+    //         $kirimMjk = "";
+    //         if ($isRawatInap == 'true') {
+    //             $dataRPP = new RegistrasiPelayananPasien();
+    //             $dataRPP->norec = $dataRPP->generateNewId();;
+    //             $dataRPP->kdprofile = 1;
+    //             $dataRPP->statusenabled = true;
+    //             $dataRPP->objectasalrujukanfk = $r_NewAPD['objectasalrujukanfk'];
+    //             $dataRPP->israwatgabung = $r_NewAPD['israwatgabung'];;
+    //             $dataRPP->objectkamarfk = $r_NewAPD['objectkamarfk'];
+    //             $dataRPP->objectkelasfk = $r_NewAPD['objectkelasfk'];
+    //             $dataRPP->objectkelaskamarfk = $r_NewAPD['objectkelasfk'];
+    //             $dataRPP->kdpenjaminpasien = 0;
+    //             $dataRPP->objectkelompokpasienfk = $r_NewPD['objectkelompokpasienlastfk'];
+    //             $dataRPP->noantrianbydokter = 0;
+    //             $dataRPP->nocmfk = $r_NewPD['nocmfk'];
+    //             $dataRPP->noregistrasifk = $dataPDnorec;
+    //             $dataRPP->objectruanganfk = $r_NewAPD['objectruanganfk'];
+    //             $dataRPP->objectstatuskeluarfk = null;
+    //             $dataRPP->objecttempattidurfk = $r_NewAPD['nobed'];
+    //             $dataRPP->tglmasuk = $r_NewAPD['tglregistrasi'];
+               
+    //             $dataRPP->save();
+    //         }else{
+    //             $updateWaktuTask = "";
+    //             $kirimMjk = "";
+    //             // ales
+                
+                
+    //             if($r_NewPD['jadwal']!=''){
+                    
+    //                 if($dataStatusPasien=="BARU" && $r_NewPD['norec_pd']==''){
+    //                     // if($r_NewPD['isjenispasienantrol']=='JKN'){
+    //                     //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
+    //                     //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
+    //                     //     $noantrianLoket=$r_NewPD['noantrianLoket'];
+    //                     //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
+    //                     //                         where jenis='B' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
+    //                     //                         and '$tglAkhir' "));
+    //                     //     if(!empty($dataKiosk)){
+    //                     //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
+    //                     //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
+    //                     //     }
+                            
+    //                     // }else if($r_NewPD['isjenispasienantrol']=='NON JKN'){
+    //                     //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
+    //                     //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
+    //                     //     $noantrianLoket=$r_NewPD['noantrianLoket'];
+    //                     //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
+    //                     //                         where jenis='A' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
+    //                     //                         and '$tglAkhir' "));
+    //                     //     if(!empty($dataKiosk)){
+    //                     //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
+    //                     //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
+    //                     //     }
+    //                     // }
+    //                     $tglTaskSatu = Carbon::now()->subMinute(10)->format('Y-m-d H:i:s');
+    //                     $tglTaskDua = Carbon::now()->subMinute(5)->format('Y-m-d H:i:s');
+    //                     $timewaktuTask1=strtotime($tglTaskSatu) * 1000;
+    //                     $timewaktuTask2=strtotime($tglTaskDua) * 1000;
+    //                     // if(!empty($dataKiosk)){
+    //                         // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                         //         ->update([
+    //                         //             'statusschedule'=> $noRegistrasi
+    //                         //         ]);
+    //                         // $x=date('Y-m-d', strtotime($r_NewPD['tglregistrasi']));
+    //                         // $timewaktu = strtotime($x) * 1000;
+
+    //                         $jampraktek=$r_NewPD['jadwal'];
+    //                         $jamawal = substr($jampraktek,0,2);
+    //                         $menitawal = substr($jampraktek,3,2);
+    //                         $tanggal = $r_NewPD['tglregistrasidate'];
+
+    //                         if((int)$noAntrian==1){
+    //                             $menitawal = $menitawal;
+    //                         }else if((int)$noAntrian==2){
+    //                             $menitawal = $menitawal+'10';
+    //                         }else if((int)$noAntrian==3){
+    //                             $menitawal = $menitawal+'20';
+    //                         }else if((int)$noAntrian==4){
+    //                             $menitawal = $menitawal+'30' ;                               
+    //                         }else if((int)$noAntrian==5){
+    //                             $menitawal = $menitawal+'40';
+    //                         }else if((int)$noAntrian==6){
+    //                             $menitawal = $menitawal+'50';
+    //                         }else if((int)$noAntrian==7){
+    //                             $menitawal = $menitawal+'61';
+    //                         }else if((int)$noAntrian==8){
+    //                             $menitawal = $menitawal+'70' ;                               
+    //                         }else if((int)$noAntrian==9){
+    //                             $menitawal = $menitawal+'80';
+    //                         }else if((int)$noAntrian==10){
+    //                             $menitawal = $menitawal+'90';
+    //                         }else if((int)$noAntrian==11){
+    //                             $menitawal = $menitawal+'100';
+    //                         }else if((int)$noAntrian==12){
+    //                             $menitawal = $menitawal+'110';
+    //                         }else if((int)$noAntrian==13){
+    //                             $menitawal = $menitawal+'121';
+    //                         }else if((int)$noAntrian==14){
+    //                             $menitawal = $menitawal+'130';
+    //                         }else if((int)$noAntrian==15){
+    //                             $menitawal = $menitawal+'140';
+    //                         }else if((int)$noAntrian==16){
+    //                             $menitawal = $menitawal+'150';
+    //                         }else if((int)$noAntrian==17){
+    //                             $menitawal = $menitawal+'160';
+    //                         }else if((int)$noAntrian==18){
+    //                             $menitawal = $menitawal+'170';
+    //                         }else if((int)$noAntrian==19){
+    //                             $menitawal = $menitawal+'181';
+    //                         }else if((int)$noAntrian==20){
+    //                             $menitawal = $menitawal+'190';
+    //                         }else if((int)$noAntrian==21){
+    //                             $menitawal = $menitawal+'200';
+    //                         }else if((int)$noAntrian==22){
+    //                             $menitawal = $menitawal+'210';
+    //                         }else if((int)$noAntrian==23){
+    //                             $menitawal = $menitawal+'220';
+    //                         }else if((int)$noAntrian==23){
+    //                             $menitawal = $menitawal+'230';
+    //                         }else if((int)$noAntrian==24){
+    //                             $menitawal = $menitawal+'241';
+    //                         }else if((int)$noAntrian==25){
+    //                             $menitawal = $menitawal+'250';
+    //                         }else if((int)$noAntrian==26){
+    //                             $menitawal = $menitawal+'260';
+    //                         }else if((int)$noAntrian==27){
+    //                             $menitawal = $menitawal+'270';
+    //                         }else if((int)$noAntrian==28){
+    //                             $menitawal = $menitawal+'280';
+    //                         }else if((int)$noAntrian==29){
+    //                             $menitawal = $menitawal+'290';
+    //                         }else if((int)$noAntrian==30){
+    //                             $menitawal = $menitawal+'301';
+    //                         }else{
+    //                             $menitawal = $menitawal+'310';
+    //                         }
+
+    //                         if($menitawal>60){
+    //                             if($menitawal>120){
+    //                                 if($menitawal>180){
+    //                                     if($menitawal>240){
+    //                                         if($menitawal>300){
+    //                                             $menitawal = $menitawal-300;
+    //                                             $jamawal = $jamawal+5;
+    //                                         }else{
+    //                                             $menitawal = $menitawal-240;
+    //                                             $jamawal = $jamawal+4;
+    //                                         }
+    //                                     }else{
+    //                                        $menitawal = $menitawal-180;
+    //                                         $jamawal = $jamawal+3;
+    //                                     }
+    //                                 }else{
+    //                                     $menitawal = $menitawal-120;
+    //                                     $jamawal = $jamawal+2;
+    //                                 }   
+    //                             }else{
+    //                                 $menitawal = $menitawal-60;
+    //                                 $jamawal = $jamawal+1;
+    //                             }
+    //                         }
+    //                         if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
+    //                         // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+    //                             $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                             ->update([
+    //                                                 'statusschedule'=> $r_NewPD['statusschedule']
+    //                                             ]);
+                                    
+    //                         }else{
+    //                             $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                             ->update([
+    //                                                 'statusschedule'=> $noRegistrasi
+    //                                             ]);
+    //                         }
+                            
+    //                         date_default_timezone_set("Asia/Jakarta");
+    //                         $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+
+    //                         $kirim = array(
+    //                             "data" => array(
+    //                                 "kodebooking"=> $noRegistrasi,
+    //                                 "jenispasien"=> $r_NewPD['isjenispasienantrol'],
+    //                                 "nomorkartu"=> $r_NewPD['nomorkartu'],
+    //                                 "nik"=> $r_NewPD['nik'],
+    //                                 "nohp"=> $r_NewPD['nohp'],
+    //                                 "kodepoli"=> $r_NewPD['kodesubspesialisHafis'],
+    //                                 "namapoli"=> $r_NewPD['namapoli'],
+    //                                 "pasienbaru"=> 1,
+    //                                 "norm"=> $r_NewPD['normantrol'],
+    //                                 "tanggalperiksa"=> $tanggal,
+    //                                 "kodedokter"=> $r_NewPD['kodedokter'],
+    //                                 "namadokter"=> $r_NewPD['namadokter'],
+    //                                 "jampraktek"=> $r_NewPD['jadwal'],
+    //                                 "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
+    //                                 "nomorreferensi"=> $r_NewPD['nomorreferensi'],
+    //                                 "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
+    //                                 "angkaantrean"=> $noAntrian,
+    //                                 "estimasidilayani"=> $timewaktu,
+    //                                 "sisakuotajkn"=> 100,
+    //                                 "kuotajkn"=> 100,
+    //                                 "sisakuotanonjkn"=> 100,
+    //                                 "kuotanonjkn"=> 100,
+    //                                 "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
+    //                             )
+    //                         );
+    //                         $kirimMjk = $this->addAntrianMJKN($kirim);
+    //                         date_default_timezone_set("Asia/Jakarta");
+    //                         $update1 = array(
+    //                             "data" => array(
+    //                                 "kodebooking"=> $noRegistrasi,
+    //                                 "taskid"=> 1,
+    //                                 "waktu"=> $timewaktuTask1
+    //                             )
+    //                         );
+    //                         $updateWaktuTask1 = $this->updateWaktuTask($update1);
+    //                         date_default_timezone_set("Asia/Jakarta");
+    //                         $update2 = array(
+    //                             "data" => array(
+    //                                 "kodebooking"=> $noRegistrasi,
+    //                                 "taskid"=> 2,
+    //                                 "waktu"=> $timewaktuTask2
+    //                             )
+    //                         );
+    //                         $updateWaktuTask2 = $this->updateWaktuTask($update2);
+    //                         date_default_timezone_set("Asia/Jakarta");
+    //                         $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+    //                         $update3 = array(
+    //                             "data" => array(
+    //                                 "kodebooking"=> $noRegistrasi,
+    //                                 "taskid"=> 3,
+    //                                 "waktu"=> $updateWaktuTask3
+    //                             )
+    //                         );
+    //                         $updateWaktuTask = $this->updateWaktuTask($update3);
+                            
+    //                     // }
+                        
+    //                 }else if($dataStatusPasien!="BARU" && $r_NewPD['norec_pd']==''){
+    //                     // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                     //             ->update([
+    //                     //                 'statusschedule'=> $noRegistrasi
+    //                     //             ]);
+    //                     $jampraktek=$r_NewPD['jadwal'];
+    //                     $jamawal = substr($jampraktek,0,2);
+    //                     $menitawal = substr($jampraktek,3,2);
+    //                     $tanggal = $r_NewPD['tglregistrasidate'];
+
+    //                     if((int)$noAntrian==1){
+    //                         $menitawal = $menitawal;
+    //                     }else if((int)$noAntrian==2){
+    //                         $menitawal = $menitawal+'10';
+    //                     }else if((int)$noAntrian==3){
+    //                         $menitawal = $menitawal+'20';
+    //                     }else if((int)$noAntrian==4){
+    //                         $menitawal = $menitawal+'30' ;                               
+    //                     }else if((int)$noAntrian==5){
+    //                         $menitawal = $menitawal+'40';
+    //                     }else if((int)$noAntrian==6){
+    //                         $menitawal = $menitawal+'50';
+    //                     }else if((int)$noAntrian==7){
+    //                         $menitawal = $menitawal+'61';
+    //                     }else if((int)$noAntrian==8){
+    //                         $menitawal = $menitawal+'70' ;                               
+    //                     }else if((int)$noAntrian==9){
+    //                         $menitawal = $menitawal+'80';
+    //                     }else if((int)$noAntrian==10){
+    //                         $menitawal = $menitawal+'90';
+    //                     }else if((int)$noAntrian==11){
+    //                         $menitawal = $menitawal+'100';
+    //                     }else if((int)$noAntrian==12){
+    //                         $menitawal = $menitawal+'110';
+    //                     }else if((int)$noAntrian==13){
+    //                         $menitawal = $menitawal+'121';
+    //                     }else if((int)$noAntrian==14){
+    //                         $menitawal = $menitawal+'130';
+    //                     }else if((int)$noAntrian==15){
+    //                         $menitawal = $menitawal+'140';
+    //                     }else if((int)$noAntrian==16){
+    //                         $menitawal = $menitawal+'150';
+    //                     }else if((int)$noAntrian==17){
+    //                         $menitawal = $menitawal+'160';
+    //                     }else if((int)$noAntrian==18){
+    //                         $menitawal = $menitawal+'170';
+    //                     }else if((int)$noAntrian==19){
+    //                         $menitawal = $menitawal+'181';
+    //                     }else if((int)$noAntrian==20){
+    //                         $menitawal = $menitawal+'190';
+    //                     }else if((int)$noAntrian==21){
+    //                         $menitawal = $menitawal+'200';
+    //                     }else if((int)$noAntrian==22){
+    //                         $menitawal = $menitawal+'210';
+    //                     }else if((int)$noAntrian==23){
+    //                         $menitawal = $menitawal+'220';
+    //                     }else if((int)$noAntrian==23){
+    //                         $menitawal = $menitawal+'230';
+    //                     }else if((int)$noAntrian==24){
+    //                         $menitawal = $menitawal+'241';
+    //                     }else if((int)$noAntrian==25){
+    //                         $menitawal = $menitawal+'250';
+    //                     }else if((int)$noAntrian==26){
+    //                         $menitawal = $menitawal+'260';
+    //                     }else if((int)$noAntrian==27){
+    //                         $menitawal = $menitawal+'270';
+    //                     }else if((int)$noAntrian==28){
+    //                         $menitawal = $menitawal+'280';
+    //                     }else if((int)$noAntrian==29){
+    //                         $menitawal = $menitawal+'290';
+    //                     }else if((int)$noAntrian==30){
+    //                         $menitawal = $menitawal+'301';
+    //                     }else{
+    //                         $menitawal = $menitawal+'310';
+    //                     }
+
+    //                     if($menitawal>60){
+    //                         if($menitawal>120){
+    //                             if($menitawal>180){
+    //                                 $menitawal = $menitawal-180;
+    //                                 $jamawal = $jamawal+3;
+    //                             }else{
+    //                                 $menitawal = $menitawal-120;
+    //                                 $jamawal = $jamawal+2;
+    //                             }   
+    //                         }else{
+    //                             $menitawal = $menitawal-60;
+    //                             $jamawal = $jamawal+1;
+    //                         }
+    //                     }
+
+    //                     if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
+    //                         // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+    //                         $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                         ->update([
+    //                                             'statusschedule'=> $r_NewPD['statusschedule']
+    //                                         ]);
+                                
+    //                     }else{
+    //                         $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                         ->update([
+    //                                             'statusschedule'=> $noRegistrasi
+    //                                         ]);
+    //                     }
+                        
+    //                     date_default_timezone_set("Asia/Jakarta");
+    //                     $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+    //                     $kirim = array(
+    //                         "data" => array(
+    //                             "kodebooking"=> $noRegistrasi,
+    //                             "jenispasien"=> $r_NewPD['isjenispasienantrol'],
+    //                             "nomorkartu"=> $r_NewPD['nomorkartu'],
+    //                             "nik"=> $r_NewPD['nik'],
+    //                             "nohp"=> $r_NewPD['nohp'],
+    //                             "kodepoli"=> $r_NewPD['kodesubspesialisHafis'],
+    //                             "namapoli"=> $r_NewPD['namapoli'],
+    //                             "pasienbaru"=> 0,
+    //                             "norm"=> $r_NewPD['normantrol'],
+    //                             "tanggalperiksa"=> $tanggal,
+    //                             "kodedokter"=> $r_NewPD['kodedokter'],
+    //                             "namadokter"=> $r_NewPD['namadokter'],
+    //                             "jampraktek"=> $r_NewPD['jadwal'],
+    //                             "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
+    //                             "nomorreferensi"=> $r_NewPD['nomorreferensi'],
+    //                             "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
+    //                             "angkaantrean"=> $noAntrian,
+    //                             "estimasidilayani"=> $timewaktu,
+    //                             "sisakuotajkn"=> 100,
+    //                             "kuotajkn"=> 100,
+    //                             "sisakuotanonjkn"=> 100,
+    //                             "kuotanonjkn"=> 100,
+    //                             "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
+    //                         )
+    //                     );
+    //                     $kirimMjk = $this->addAntrianMJKN($kirim);
+    //                     if($r_NewPD['tglregistrasidate'] == date('Y-m-d')){
+    //                         date_default_timezone_set("Asia/Jakarta");
+    //                         $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+    //                         $update = array(
+    //                             "data" => array(
+    //                                 "kodebooking"=> $noRegistrasi,
+    //                                 "taskid"=> 3,
+    //                                 "waktu"=> $updateWaktuTask3
+    //                             )
+    //                         );
+    //                         $updateWaktuTask = $this->updateWaktuTask($update);
+    //                     }
+                        
+                    
+    //                 }
+    //             }
+    //             if($r_NewPD['tglregistrasidate'] > date('Y-m-d')){
+    //                 if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
+    //                 // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+    //                     $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                     ->update([
+    //                                         'statusschedule'=> $r_NewPD['statusschedule']
+    //                                     ]);
+                            
+    //                 }else{
+    //                     $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+    //                                     ->update([
+    //                                         'statusschedule'=> $noRegistrasi
+    //                                     ]);
+    //                 }
+    //             }
+    //         }
+    //         //endregion
+    //         $transStatus = 'true';
+    //         // } catch (\Exception $e) {
+    //         //     $transStatus = 'false';
+    //         // }
+    //     }
+
+    //     if ($transStatus == 'belumdipulangkan') {
+    //         $transMessage = 'Pasien Belum Dipulangkan';
+    //         $result = array(
+    //             'status' => 400,
+    //             'message'  => $transMessage,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     } else if ($transStatus == 'UdahDaftar') {
+    //         $transMessage = 'Pasien Sudah Terdaftar Diruangan Yang Sama Ditanggal Tersebut';
+    //         $result = array(
+    //             'status' => 400,
+    //             'message'  => $transMessage,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     } else if ($transStatus == 'true') {
+    //         $transMessage = 'SUKSES';
+    //         DB::commit();
+    //     //    if($rua->objectdepartemenfk!=3){
+    //             if($dataPD->objectruanganlastfk !='251' && $dataPD->objectruanganlastfk != '453' && $dataPD->objectruanganlastfk != '20'
+    //             && $dataPD->objectruanganlastfk != '322' && $dataPD->objectruanganlastfk != '12'){
+    //                 $objetoRequest = new \Illuminate\Http\Request();
+    //                 $objetoRequest ['noregistrasi']= $dataPD->noregistrasi;
+    //                 $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
+    //             }
+    //             $objetoRequest = new \Illuminate\Http\Request();
+    //             $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
+    //         // }
+            
+    //         //#satusehat
+    //         $objetoRequest = new \Illuminate\Http\Request();
+    //         $objetoRequest['noregistrasi'] = $dataPD->noregistrasi;
+    //         $ihs = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
+
+    //         $result = array(
+    //             'status' => 201,
+    //             'message' => $transMessage,
+    //             'dataPD' => $dataPD,
+    //             'dataAPD' => $dataAPD,
+    //             'updateWaktuTask'=>$updateWaktuTask,
+    //             // 'updateWaktuTask1'=>$updateWaktuTask1,
+    //             // 'updateWaktuTask2'=>$updateWaktuTask2,
+    //             'kirimMjk' =>$kirimMjk,
+    //             //                "double" => count($cek),
+    //             'ihs'=> isset($ihs)? $ihs :null,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     } else {
+    //         $transMessage = 'Simpan Registrasi Gagal';
+    //         DB::rollBack();
+    //         $result = array(
+    //             'status' => 400,
+    //             'message' => $transMessage,
+    //             'dataPD' => $dataPD,
+    //             'as' => 'ramdanegie',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+    //NEW PASIEN REGIS
     public function saveRegistrasiPasien(Request $request)
     {
+        // return('x');
+        //   $objetoRequest = new \Illuminate\Http\Request();
+        //         $objetoRequest['noregistrasi'] = '2311000004';
+        //         $ihs = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
+            
+        //     $result = array(
+        //         'status' => 200,
+        //         'message' => $ihs, 
+        //     ); 
+        // return $this->setStatusCode($result['status'])->respond($result,'s');
         $noAntrian = 0;
      
      
@@ -2431,7 +3330,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
 
         
         DB::beginTransaction();
-          if(isset($r_NewPD['isPenanggungJawab'])){
+        if(isset($r_NewPD['isPenanggungJawab'])){
             if ($r_NewPD['isPenanggungJawab'] == 'true') {
                 $data = Pasien::where('id', $r_NewPD['nocmfk'])
                     ->update([
@@ -2440,7 +3339,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         'teleponpenanggungjawab' => $r_NewPD['teleponpenanggungjawab'],
                     ]);
             } 
-        } 
+        }
+       
 
         if ($r_NewPD['objectruanganfk'] == 251) {
             $cekUdahDaftar = 0;
@@ -2492,13 +3392,13 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     ->get();
                 if (count($DianNgimpi) > 0) {
                     foreach ($DianNgimpi as $itemDian) {
-                        $catatan = $catatan . ' Pasien ini belum pernah daftar ke Poli, baru ke ' . $itemDian->namaruangan;
+                        $catatan = $catatan; //. ' Pasien ini belum pernah daftar ke Poli, baru ke ' . $itemDian->namaruangan;
                     }
                 } else {
-                    $catatan = $catatan . ' Pasien ini belum pernah daftar di aplikasi TM';
+                    $catatan = $catatan ;//. ' Pasien ini belum pernah daftar di aplikasi TM';
                 }
             }
-            
+             $istaskid ='';
             if ($r_NewPD['norec_pd'] == '') {
                  $noRegistrasiSeq = $this->generateCodeBySeqTable(new PasienDaftar, 'noregistrasi', 10, date('ym'));
                 if ($noRegistrasiSeq == '') {
@@ -2519,7 +3419,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $noRegistrasi = $noRegistrasiSeq; //$this->generateNoReg(new PasienDaftar, 'noregistrasi', 10, date('ym'));//$this->getMaxNoregistrasi();
                 $dataPD->objectruanganasalfk = $r_NewPD['objectruanganasalfk'];
                 $dataPD->nocmfk = $r_NewPD['nocmfk'];
-                $dataPD->statuskirimdokumen = NULL;
+                $dataPD->statuskirimdokumen = NULL; 
+                $dataPD->istaskantrol = 3;
                 // $dataPD->statusschedule = $noRegistrasi;
 
                 if($r_NewPD['tglregistrasidate'] > date('Y-m-d')){
@@ -2544,8 +3445,10 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     $newptp->type = "LAMA";
                     $newptp->jenis = 'M';
                     $newptp->statuspanggil = 1;
+                    $newptp->isreservasix = 2;
                     $newptp->nocmfk = $r_NewPD['nocmfk'];
                     $newptp->objectpegawaifk=  ($r_NewPD['objectpegawaifk']?$r_NewPD['objectpegawaifk']:null);
+                       $dataPD->istaskantrol = 3;
                     $newptp->save();
                 }
             } else {
@@ -2558,6 +3461,22 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                     //                ->wherenull('apd.tglkeluar')
                     ->where('ru.objectdepartemenfk', 16)
                     ->get();
+
+                $tindakan = \DB::table('antrianpasiendiperiksa_t as apd')
+                    ->join('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+                    ->join('pelayananpasien_t as pp','pp.noregistrasifk','=','apd.norec')
+                    // ->leftjoin('diagnosapasien_t as dg','dg.noregistrasifk','=','apd.norec')
+                    ->select('ru.objectdepartemenfk', 'apd.norec', 'apd.objectruanganfk')
+                    ->where('apd.noregistrasifk', $r_NewPD['norec_pd'])
+                    //                ->where('apd.objectruanganfk', $request['data']['objectruanganlastfk'])
+                    //                ->wherenull('apd.tglkeluar')
+                    ->where('ru.objectdepartemenfk', 16)
+                    ->get();
+
+                if (count($tindakan) > 0) {
+                    $transMessage = 'Tidak Bisa Edit Registrasi , pasien sudah mendapatkan tindakan!';
+                    return $this->setStatusCode(400)->respond([], $transMessage);
+                }
 
                 if ($cekKelompok[0]->objectkelompokpasienlastfk == $r_NewPD['objectkelompokpasienlastfk']) {
                     if (count($apd) > 2) {
@@ -2588,6 +3507,10 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         ->where('objectruanganfk', $r_NewPD['objectruanganfk'])
                         ->delete();
                 }
+                
+                $istaskid = $dataPD->istaskantrol;
+              
+               
             }
             if ($r_NewPD['istelemedicine'] == 'true') {
                 $dataPD->istelemedicine = 1;
@@ -2630,7 +3553,12 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             //                    $statusPasien='BARU';
             //                }
             if (isset($r_NewPD['statuspasien'])) {
-                $dataPD->statuspasien = $r_NewPD['statuspasien']; //$statusPasien;
+                if($r_NewPD['statuspasien']==''){
+                    $dataPD->statuspasien = 'BARU';
+                }else{
+                    $dataPD->statuspasien = $r_NewPD['statuspasien'];
+                }
+                //$statusPasien;
             } else {
                 $dataPD->statuspasien = 'BARU';
             }
@@ -2643,14 +3571,19 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 $dataPD->objectjaminankhusus =  $r_NewPD['jaminankhusus'];
             }else{
                 $dataPD->objectjaminankhusus = null;
-            }// $dataPD->tglcsr = $r_NewPD['tglcsr'];
+            }
+          
+            // $dataPD->tglcsr = $r_NewPD['tglcsr'];
             if (isset($r_NewPD['tglcsr']) && $r_NewPD['tglcsr'] != "" && $r_NewPD['tglcsr'] != "undefined") {
                 $dataPD->tglcsr =  $r_NewPD['tglcsr'];
             }
             $dataPD->sensus =  $r_NewPD['sensus'];
+            if (isset($catatan)) {
+               $dataPD->statuscatatan = true;
+            }
             $dataPD->catatan =  $catatan;
 
-            $dataPD->noregistrasi = $noRegistrasi;
+            $dataPD->noregistrasi = $noRegistrasi; 
             $dataPD->save();
             $dataPDnorec = $dataPD->norec;
             $dataStatusPasien = $dataPD->statuspasien;
@@ -2751,14 +3684,25 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 AntrianPasienDiperiksa::where('noregistrasifk', $dataPD->norec)
                     ->where('norec', '<>', $r_NewAPD['norec_apd'])
                     ->whereNotNull('objectruanganasalfk')
-                    ->update(['objectruanganasalfk' => $r_NewPD['objectruanganfk']]);
+                    ->update([
+                        'objectruanganasalfk' => $r_NewPD['objectruanganfk']
+                    ]);
                 //kosongkan
                 if ($isRawatInap == 'true') {
                     TempatTidur::where('id', $dataAPD->nobed)->update(['objectstatusbedfk' => 2]);
                 }
             }
             //count tgl pasien perruanga
-            $dataAPD->objectasalrujukanfk =  $r_NewAPD['objectasalrujukanfk'];
+            if($dataStatusPasien ==''){
+               $dataStatusPasien =='BARU';
+            } 
+           
+           
+             if (isset($r_NewPD['objectasalrujukanfk'])) {
+                $dataAPD->objectasalrujukanfk =  $r_NewAPD['objectasalrujukanfk'];
+             }else{
+                 $dataAPD->objectasalrujukanfk =  1;
+             }
             $dataAPD->objectkamarfk = $r_NewAPD['objectkamarfk'];
             $dataAPD->objectkasuspenyakitfk = null;
             $dataAPD->objectruanganfk = $r_NewPD['objectruanganfk'];
@@ -2785,6 +3729,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
              if (isset($r_NewPD['israwattitipan'])) {
                 $dataAPD->israwattitipan = $r_NewAPD['israwattitipan'];
              }
+          
             if (isset($r_NewPD['nmhafis'])) {
                 $dataAPD->namahafis = $r_NewPD['nmhafis'];
             } else {
@@ -2828,220 +3773,24 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 
                 
                 if($r_NewPD['jadwal']!=''){
-                    
+                     
+                    //diganti norec_pd dimatiin karena registrasi online jadi ga masuk karena sudah ada norecpd nya
                     if($dataStatusPasien=="BARU" && $r_NewPD['norec_pd']==''){
-                        // if($r_NewPD['isjenispasienantrol']=='JKN'){
-                        //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
-                        //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
-                        //     $noantrianLoket=$r_NewPD['noantrianLoket'];
-                        //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
-                        //                         where jenis='B' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
-                        //                         and '$tglAkhir' "));
-                        //     if(!empty($dataKiosk)){
-                        //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
-                        //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
-                        //     }
-                            
-                        // }else if($r_NewPD['isjenispasienantrol']=='NON JKN'){
-                        //     $tglAwal=$r_NewPD['tglregistrasidate'] . ' 00:00';
-                        //     $tglAkhir=$r_NewPD['tglregistrasidate'] . ' 23:59';
-                        //     $noantrianLoket=$r_NewPD['noantrianLoket'];
-                        //     $dataKiosk = DB::select(DB::raw("select tanggalreservasi,tglinput from antrianpasienregistrasi_t
-                        //                         where jenis='A' and noantrian= '$noantrianLoket' and tanggalreservasi BETWEEN '$tglAwal' 
-                        //                         and '$tglAkhir' "));
-                        //     if(!empty($dataKiosk)){
-                        //         $timewaktuTask1=strtotime($dataKiosk[0]->tanggalreservasi) * 1000;
-                        //         $timewaktuTask2=strtotime($dataKiosk[0]->tglinput) * 1000;
-                        //     }
-                        // }
-                        $tglTaskSatu = Carbon::now()->subMinute(10)->format('Y-m-d H:i:s');
-                        $tglTaskDua = Carbon::now()->subMinute(5)->format('Y-m-d H:i:s');
-                        $timewaktuTask1=strtotime($tglTaskSatu) * 1000;
-                        $timewaktuTask2=strtotime($tglTaskDua) * 1000;
-                        // if(!empty($dataKiosk)){
-                            // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
-                            //         ->update([
-                            //             'statusschedule'=> $noRegistrasi
-                            //         ]);
-                            // $x=date('Y-m-d', strtotime($r_NewPD['tglregistrasi']));
-                            // $timewaktu = strtotime($x) * 1000;
+                    // if($dataStatusPasien=="BARU" && $r_NewPD['norec_pd']==''){ 
+                        $tglTaskSatu = Carbon::now()->subMinutes(rand(9, 14))->subSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskDua = Carbon::now()->subMinutes(rand(2, 8))->subSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+                        $tglTaskEmpat = Carbon::now()->addMinutes(rand(5, 10))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskLima = Carbon::now()->addMinutes(rand(11, 15))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskEnam = Carbon::now()->addMinutes(rand(16, 20))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskTujuh = Carbon::now()->addMinutes(rand(30, 40))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $timewaktuTask1 = strtotime($tglTaskSatu) * 1000;
+                        $timewaktuTask2 = strtotime($tglTaskDua) * 1000;
+                        $timewaktuTask4 = strtotime($tglTaskEmpat) * 1000;
+                        $timewaktuTask5 = strtotime($tglTaskLima) * 1000;
+                        $timewaktuTask6 = strtotime($tglTaskEnam) * 1000;
+                        $timewaktuTask7 = strtotime($tglTaskTujuh) * 1000;
 
-                            $jampraktek=$r_NewPD['jadwal'];
-                            $jamawal = substr($jampraktek,0,2);
-                            $menitawal = substr($jampraktek,3,2);
-                            $tanggal = $r_NewPD['tglregistrasidate'];
-
-                            if((int)$noAntrian==1){
-                                $menitawal = $menitawal;
-                            }else if((int)$noAntrian==2){
-                                $menitawal = $menitawal+'10';
-                            }else if((int)$noAntrian==3){
-                                $menitawal = $menitawal+'20';
-                            }else if((int)$noAntrian==4){
-                                $menitawal = $menitawal+'30' ;                               
-                            }else if((int)$noAntrian==5){
-                                $menitawal = $menitawal+'40';
-                            }else if((int)$noAntrian==6){
-                                $menitawal = $menitawal+'50';
-                            }else if((int)$noAntrian==7){
-                                $menitawal = $menitawal+'61';
-                            }else if((int)$noAntrian==8){
-                                $menitawal = $menitawal+'70' ;                               
-                            }else if((int)$noAntrian==9){
-                                $menitawal = $menitawal+'80';
-                            }else if((int)$noAntrian==10){
-                                $menitawal = $menitawal+'90';
-                            }else if((int)$noAntrian==11){
-                                $menitawal = $menitawal+'100';
-                            }else if((int)$noAntrian==12){
-                                $menitawal = $menitawal+'110';
-                            }else if((int)$noAntrian==13){
-                                $menitawal = $menitawal+'121';
-                            }else if((int)$noAntrian==14){
-                                $menitawal = $menitawal+'130';
-                            }else if((int)$noAntrian==15){
-                                $menitawal = $menitawal+'140';
-                            }else if((int)$noAntrian==16){
-                                $menitawal = $menitawal+'150';
-                            }else if((int)$noAntrian==17){
-                                $menitawal = $menitawal+'160';
-                            }else if((int)$noAntrian==18){
-                                $menitawal = $menitawal+'170';
-                            }else if((int)$noAntrian==19){
-                                $menitawal = $menitawal+'181';
-                            }else if((int)$noAntrian==20){
-                                $menitawal = $menitawal+'190';
-                            }else if((int)$noAntrian==21){
-                                $menitawal = $menitawal+'200';
-                            }else if((int)$noAntrian==22){
-                                $menitawal = $menitawal+'210';
-                            }else if((int)$noAntrian==23){
-                                $menitawal = $menitawal+'220';
-                            }else if((int)$noAntrian==23){
-                                $menitawal = $menitawal+'230';
-                            }else if((int)$noAntrian==24){
-                                $menitawal = $menitawal+'241';
-                            }else if((int)$noAntrian==25){
-                                $menitawal = $menitawal+'250';
-                            }else if((int)$noAntrian==26){
-                                $menitawal = $menitawal+'260';
-                            }else if((int)$noAntrian==27){
-                                $menitawal = $menitawal+'270';
-                            }else if((int)$noAntrian==28){
-                                $menitawal = $menitawal+'280';
-                            }else if((int)$noAntrian==29){
-                                $menitawal = $menitawal+'290';
-                            }else if((int)$noAntrian==30){
-                                $menitawal = $menitawal+'301';
-                            }else{
-                                $menitawal = $menitawal+'310';
-                            }
-
-                            if($menitawal>60){
-                                if($menitawal>120){
-                                    if($menitawal>180){
-                                        if($menitawal>240){
-                                            if($menitawal>300){
-                                                $menitawal = $menitawal-300;
-                                                $jamawal = $jamawal+5;
-                                            }else{
-                                                $menitawal = $menitawal-240;
-                                                $jamawal = $jamawal+4;
-                                            }
-                                        }else{
-                                           $menitawal = $menitawal-180;
-                                            $jamawal = $jamawal+3;
-                                        }
-                                    }else{
-                                        $menitawal = $menitawal-120;
-                                        $jamawal = $jamawal+2;
-                                    }   
-                                }else{
-                                    $menitawal = $menitawal-60;
-                                    $jamawal = $jamawal+1;
-                                }
-                            }
-                            if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
-                            // $dataPD->statusschedule = $r_NewPD['statusschedule'];
-                                $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
-                                                ->update([
-                                                    'statusschedule'=> $r_NewPD['statusschedule']
-                                                ]);
-                                    
-                            }else{
-                                $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
-                                                ->update([
-                                                    'statusschedule'=> $noRegistrasi
-                                                ]);
-                            }
-                            
-                            date_default_timezone_set("Asia/Jakarta");
-                            $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
-
-                            $kirim = array(
-                                "data" => array(
-                                    "kodebooking"=> $noRegistrasi,
-                                    "jenispasien"=> $r_NewPD['isjenispasienantrol'],
-                                    "nomorkartu"=> $r_NewPD['nomorkartu'],
-                                    "nik"=> $r_NewPD['nik'],
-                                    "nohp"=> $r_NewPD['nohp'],
-                                    "kodepoli"=> $r_NewPD['kodesubspesialisHafis'],
-                                    "namapoli"=> $r_NewPD['namapoli'],
-                                    "pasienbaru"=> 1,
-                                    "norm"=> $r_NewPD['normantrol'],
-                                    "tanggalperiksa"=> $tanggal,
-                                    "kodedokter"=> $r_NewPD['kodedokter'],
-                                    "namadokter"=> $r_NewPD['namadokter'],
-                                    "jampraktek"=> $r_NewPD['jadwal'],
-                                    "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
-                                    "nomorreferensi"=> $r_NewPD['nomorreferensi'],
-                                    "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
-                                    "angkaantrean"=> $noAntrian,
-                                    "estimasidilayani"=> $timewaktu,
-                                    "sisakuotajkn"=> 100,
-                                    "kuotajkn"=> 100,
-                                    "sisakuotanonjkn"=> 100,
-                                    "kuotanonjkn"=> 100,
-                                    "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
-                                )
-                            );
-                            $kirimMjk = $this->addAntrianMJKN($kirim);
-                            date_default_timezone_set("Asia/Jakarta");
-                            $update1 = array(
-                                "data" => array(
-                                    "kodebooking"=> $noRegistrasi,
-                                    "taskid"=> 1,
-                                    "waktu"=> $timewaktuTask1
-                                )
-                            );
-                            $updateWaktuTask1 = $this->updateWaktuTask($update1);
-                            date_default_timezone_set("Asia/Jakarta");
-                            $update2 = array(
-                                "data" => array(
-                                    "kodebooking"=> $noRegistrasi,
-                                    "taskid"=> 2,
-                                    "waktu"=> $timewaktuTask2
-                                )
-                            );
-                            $updateWaktuTask2 = $this->updateWaktuTask($update2);
-                            date_default_timezone_set("Asia/Jakarta");
-                            $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
-                            $update3 = array(
-                                "data" => array(
-                                    "kodebooking"=> $noRegistrasi,
-                                    "taskid"=> 3,
-                                    "waktu"=> $updateWaktuTask3
-                                )
-                            );
-                            $updateWaktuTask = $this->updateWaktuTask($update3);
-                            
-                        // }
-                        
-                    }else if($dataStatusPasien!="BARU" && $r_NewPD['norec_pd']==''){
-                        // $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
-                        //             ->update([
-                        //                 'statusschedule'=> $noRegistrasi
-                        //             ]);
                         $jampraktek=$r_NewPD['jadwal'];
                         $jamawal = substr($jampraktek,0,2);
                         $menitawal = substr($jampraktek,3,2);
@@ -3116,6 +3865,239 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         if($menitawal>60){
                             if($menitawal>120){
                                 if($menitawal>180){
+                                    if($menitawal>240){
+                                        if($menitawal>300){
+                                            $menitawal = $menitawal-300;
+                                            $jamawal = $jamawal+5;
+                                        }else{
+                                            $menitawal = $menitawal-240;
+                                            $jamawal = $jamawal+4;
+                                        }
+                                    }else{
+                                        $menitawal = $menitawal-180;
+                                        $jamawal = $jamawal+3;
+                                    }
+                                }else{
+                                    $menitawal = $menitawal-120;
+                                    $jamawal = $jamawal+2;
+                                }   
+                            }else{
+                                $menitawal = $menitawal-60;
+                                $jamawal = $jamawal+1;
+                            }
+                        }
+                        if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="" && $r_NewPD['statusschedule']!="Kios-K") {
+                        // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+                            $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+                                            ->update([
+                                                'statusschedule'=> $r_NewPD['statusschedule'],
+                                                'istaskantrol'=>3
+                                            ]);
+                             $noRegistrasi=$r_NewPD['statusschedule'];
+                                
+                        }else{
+                            $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+                                            ->update([
+                                                'statusschedule'=> $noRegistrasi
+                                            ]);
+                        }
+                        
+                        date_default_timezone_set("Asia/Jakarta");
+                        $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+                        if ($timewaktu === 0) {
+                            $timewaktu = round(microtime(true) * 1000);
+                        }
+
+                        $kirim = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "jenispasien"=> $r_NewPD['isjenispasienantrol'],
+                                "nomorkartu"=> $r_NewPD['nomorkartu'],
+                                "nik"=> $r_NewPD['nik'],
+                                "nohp"=> $r_NewPD['nohp'],
+                                "kodepoli"=> $r_NewPD['kodesubspesialisHafis'],
+                                "namapoli"=> $r_NewPD['namapoli'],
+                                "pasienbaru"=> 1,
+                                "norm"=> $r_NewPD['normantrol'],
+                                "tanggalperiksa"=> $tanggal,
+                                "kodedokter"=> $r_NewPD['kodedokter'],
+                                "namadokter"=> $r_NewPD['namadokter'],
+                                "jampraktek"=> $r_NewPD['jadwal'],
+                                "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
+                                "nomorreferensi"=> $r_NewPD['nomorreferensi'],
+                                "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
+                                "angkaantrean"=> $noAntrian,
+                                "estimasidilayani"=> $timewaktu,
+                                "sisakuotajkn"=> 100,
+                                "kuotajkn"=> 100,
+                                "sisakuotanonjkn"=> 100,
+                                "kuotanonjkn"=> 100,
+                                "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
+                            )
+                        );
+                        $kirimMjk = $this->addAntrianMJKN($kirim);
+                        // $isKirimMjkSukses = false;
+                        // if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->code)) {
+                        //     $isKirimMjkSukses = ((string)$kirimMjk['metadata']->code === '200');
+                        // }
+                        // if (!$isKirimMjkSukses) {
+                        //     $transMessage = 'Gagal kirim antrian MJKN';
+                        //     if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->message)) {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk['metadata']->message;
+                        //     } else if (is_string($kirimMjk) && $kirimMjk != '') {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk;
+                        //     }
+                        //     DB::rollBack();
+                        //     $result = array(
+                        //         'status' => 400,
+                        //         'message' => $transMessage,
+                        //         'kirimMjk' => $kirimMjk,
+                        //         'as' => 'key',
+                        //     );
+                        //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                        // }
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update1 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 1,
+                                "waktu"=> $timewaktuTask1
+                            )
+                        );
+                        $updateWaktuTask1 = $this->updateWaktuTask($update1);
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update2 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 2,
+                                "waktu"=> $timewaktuTask2
+                            )
+                        );
+                        $updateWaktuTask2 = $this->updateWaktuTask($update2);
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update3 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 3,
+                                "waktu"=> $updateWaktuTask3
+                            )
+                        );
+                        $updateWaktuTask = $this->updateWaktuTask($update3);
+
+                        // update taskId 4-7
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update4 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 4,
+                                "waktu"=> $timewaktuTask4
+                            )
+                        );
+                        $updateWaktuTask4 = $this->updateWaktuTask($update4);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update5 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 5,
+                                "waktu"=> $timewaktuTask5
+                            )
+                        );
+                        $updateWaktuTask5 = $this->updateWaktuTask($update5);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update6 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 6,
+                                "waktu"=> $timewaktuTask6
+                            )
+                        );
+                        $updateWaktuTask6 = $this->updateWaktuTask($update6);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update7 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 7,
+                                "waktu"=> $timewaktuTask7
+                            )
+                        );
+                        $updateWaktuTask7 = $this->updateWaktuTask($update7);
+
+                    }else if($dataStatusPasien!="BARU" && $r_NewPD['norec_pd']==''){ 
+                        $jampraktek=$r_NewPD['jadwal'];
+                        $jamawal = substr($jampraktek,0,2);
+                        $menitawal = substr($jampraktek,3,2);
+                        $tanggal = $r_NewPD['tglregistrasidate']; 
+                        if((int)$noAntrian==1){
+                            $menitawal = $menitawal;
+                        }else if((int)$noAntrian==2){
+                            $menitawal = $menitawal+'10';
+                        }else if((int)$noAntrian==3){
+                            $menitawal = $menitawal+'20';
+                        }else if((int)$noAntrian==4){
+                            $menitawal = $menitawal+'30' ;                               
+                        }else if((int)$noAntrian==5){
+                            $menitawal = $menitawal+'40';
+                        }else if((int)$noAntrian==6){
+                            $menitawal = $menitawal+'50';
+                        }else if((int)$noAntrian==7){
+                            $menitawal = $menitawal+'61';
+                        }else if((int)$noAntrian==8){
+                            $menitawal = $menitawal+'70' ;                               
+                        }else if((int)$noAntrian==9){
+                            $menitawal = $menitawal+'80';
+                        }else if((int)$noAntrian==10){
+                            $menitawal = $menitawal+'90';
+                        }else if((int)$noAntrian==11){
+                            $menitawal = $menitawal+'100';
+                        }else if((int)$noAntrian==12){
+                            $menitawal = $menitawal+'110';
+                        }else if((int)$noAntrian==13){
+                            $menitawal = $menitawal+'121';
+                        }else if((int)$noAntrian==14){
+                            $menitawal = $menitawal+'130';
+                        }else if((int)$noAntrian==15){
+                            $menitawal = $menitawal+'140';
+                        }else if((int)$noAntrian==16){
+                            $menitawal = $menitawal+'150';
+                        }else if((int)$noAntrian==17){
+                            $menitawal = $menitawal+'160';
+                        }else if((int)$noAntrian==18){
+                            $menitawal = $menitawal+'170';
+                        }else if((int)$noAntrian==19){
+                            $menitawal = $menitawal+'181';
+                        }else if((int)$noAntrian==20){
+                            $menitawal = $menitawal+'190';
+                        }else if((int)$noAntrian==21){
+                            $menitawal = $menitawal+'200';
+                        }else if((int)$noAntrian==22){
+                            $menitawal = $menitawal+'210';
+                        }else if((int)$noAntrian==23){
+                            $menitawal = $menitawal+'220';
+                        }else if((int)$noAntrian==23){
+                            $menitawal = $menitawal+'230';
+                        }else if((int)$noAntrian==24){
+                            $menitawal = $menitawal+'241';
+                        }else if((int)$noAntrian==25){
+                            $menitawal = $menitawal+'250';
+                        }else if((int)$noAntrian==26){
+                            $menitawal = $menitawal+'260';
+                        }else if((int)$noAntrian==27){
+                            $menitawal = $menitawal+'270';
+                        }else if((int)$noAntrian==28){
+                            $menitawal = $menitawal+'280';
+                        }else if((int)$noAntrian==29){
+                            $menitawal = $menitawal+'290';
+                        }else if((int)$noAntrian==30){
+                            $menitawal = $menitawal+'301';
+                        }else{
+                            $menitawal = $menitawal+'310';
+                        } 
+                        if($menitawal>60){
+                            if($menitawal>120){
+                                if($menitawal>180){
                                     $menitawal = $menitawal-180;
                                     $jamawal = $jamawal+3;
                                 }else{
@@ -3128,12 +4110,12 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                             }
                         }
 
-                        if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
-                            // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+                        if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="" && $r_NewPD['statusschedule']!="Kios-K") { 
                             $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
                                             ->update([
                                                 'statusschedule'=> $r_NewPD['statusschedule']
                                             ]);
+                            $noRegistrasi=$r_NewPD['statusschedule'];
                                 
                         }else{
                             $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
@@ -3144,6 +4126,9 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         
                         date_default_timezone_set("Asia/Jakarta");
                         $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+                        if ($timewaktu === 0) {
+                            $timewaktu = round(microtime(true) * 1000);
+                        }
                         $kirim = array(
                             "data" => array(
                                 "kodebooking"=> $noRegistrasi,
@@ -3172,6 +4157,26 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                             )
                         );
                         $kirimMjk = $this->addAntrianMJKN($kirim);
+                        // $isKirimMjkSukses = false;
+                        // if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->code)) {
+                        //     $isKirimMjkSukses = ((string)$kirimMjk['metadata']->code === '200');
+                        // }
+                        // if (!$isKirimMjkSukses) {
+                        //     $transMessage = 'Gagal kirim antrian MJKN';
+                        //     if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->message)) {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk['metadata']->message;
+                        //     } else if (is_string($kirimMjk) && $kirimMjk != '') {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk;
+                        //     }
+                        //     DB::rollBack();
+                        //     $result = array(
+                        //         'status' => 400,
+                        //         'message' => $transMessage,
+                        //         'kirimMjk' => $kirimMjk,
+                        //         'as' => 'key',
+                        //     );
+                        //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                        // }
                         if($r_NewPD['tglregistrasidate'] == date('Y-m-d')){
                             date_default_timezone_set("Asia/Jakarta");
                             $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
@@ -3187,6 +4192,260 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                         
                     
                     }
+                    // awal tanda krusial
+                    // &&  ($istaskid ==3|| $istaskid== null)
+                    else if ( $r_NewPD['noregistrasi'] != $r_NewPD['statusschedule']){
+               
+                        $tglTaskSatu = Carbon::now()->subMinutes(rand(9, 14))->subSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskDua = Carbon::now()->subMinutes(rand(2, 8))->subSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+                        $tglTaskEmpat = Carbon::now()->addMinutes(rand(5, 10))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskLima = Carbon::now()->addMinutes(rand(11, 15))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskEnam = Carbon::now()->addMinutes(rand(16, 20))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $tglTaskTujuh = Carbon::now()->addMinutes(rand(30, 40))->addSeconds(rand(0, 59))->format('Y-m-d H:i:s');
+                        $timewaktuTask1 = strtotime($tglTaskSatu) * 1000;
+                        $timewaktuTask2 = strtotime($tglTaskDua) * 1000;
+                        $timewaktuTask4 = strtotime($tglTaskEmpat) * 1000;
+                        $timewaktuTask5 = strtotime($tglTaskLima) * 1000;
+                        $timewaktuTask6 = strtotime($tglTaskEnam) * 1000;
+                        $timewaktuTask7 = strtotime($tglTaskTujuh) * 1000;
+ 
+                        $jampraktek=$r_NewPD['jadwal'];
+                        $jamawal = substr($jampraktek,0,2);
+                        $menitawal = substr($jampraktek,3,2);
+                        $tanggal = $r_NewPD['tglregistrasidate'];
+
+                        if((int)$noAntrian==1){
+                            $menitawal = $menitawal;
+                        }else if((int)$noAntrian==2){
+                            $menitawal = $menitawal+'10';
+                        }else if((int)$noAntrian==3){
+                            $menitawal = $menitawal+'20';
+                        }else if((int)$noAntrian==4){
+                            $menitawal = $menitawal+'30' ;                               
+                        }else if((int)$noAntrian==5){
+                            $menitawal = $menitawal+'40';
+                        }else if((int)$noAntrian==6){
+                            $menitawal = $menitawal+'50';
+                        }else if((int)$noAntrian==7){
+                            $menitawal = $menitawal+'61';
+                        }else if((int)$noAntrian==8){
+                            $menitawal = $menitawal+'70' ;                               
+                        }else if((int)$noAntrian==9){
+                            $menitawal = $menitawal+'80';
+                        }else if((int)$noAntrian==10){
+                            $menitawal = $menitawal+'90';
+                        }else if((int)$noAntrian==11){
+                            $menitawal = $menitawal+'100';
+                        }else if((int)$noAntrian==12){
+                            $menitawal = $menitawal+'110';
+                        }else if((int)$noAntrian==13){
+                            $menitawal = $menitawal+'121';
+                        }else if((int)$noAntrian==14){
+                            $menitawal = $menitawal+'130';
+                        }else if((int)$noAntrian==15){
+                            $menitawal = $menitawal+'140';
+                        }else if((int)$noAntrian==16){
+                            $menitawal = $menitawal+'150';
+                        }else if((int)$noAntrian==17){
+                            $menitawal = $menitawal+'160';
+                        }else if((int)$noAntrian==18){
+                            $menitawal = $menitawal+'170';
+                        }else if((int)$noAntrian==19){
+                            $menitawal = $menitawal+'181';
+                        }else if((int)$noAntrian==20){
+                            $menitawal = $menitawal+'190';
+                        }else if((int)$noAntrian==21){
+                            $menitawal = $menitawal+'200';
+                        }else if((int)$noAntrian==22){
+                            $menitawal = $menitawal+'210';
+                        }else if((int)$noAntrian==23){
+                            $menitawal = $menitawal+'220';
+                        }else if((int)$noAntrian==23){
+                            $menitawal = $menitawal+'230';
+                        }else if((int)$noAntrian==24){
+                            $menitawal = $menitawal+'241';
+                        }else if((int)$noAntrian==25){
+                            $menitawal = $menitawal+'250';
+                        }else if((int)$noAntrian==26){
+                            $menitawal = $menitawal+'260';
+                        }else if((int)$noAntrian==27){
+                            $menitawal = $menitawal+'270';
+                        }else if((int)$noAntrian==28){
+                            $menitawal = $menitawal+'280';
+                        }else if((int)$noAntrian==29){
+                            $menitawal = $menitawal+'290';
+                        }else if((int)$noAntrian==30){
+                            $menitawal = $menitawal+'301';
+                        }else{
+                            $menitawal = $menitawal+'310';
+                        }
+
+                        if($menitawal>60){
+                            if($menitawal>120){
+                                if($menitawal>180){
+                                    if($menitawal>240){
+                                        if($menitawal>300){
+                                            $menitawal = $menitawal-300;
+                                            $jamawal = $jamawal+5;
+                                        }else{
+                                            $menitawal = $menitawal-240;
+                                            $jamawal = $jamawal+4;
+                                        }
+                                    }else{
+                                        $menitawal = $menitawal-180;
+                                        $jamawal = $jamawal+3;
+                                    }
+                                }else{
+                                    $menitawal = $menitawal-120;
+                                    $jamawal = $jamawal+2;
+                                }   
+                            }else{
+                                $menitawal = $menitawal-60;
+                                $jamawal = $jamawal+1;
+                            }
+                        }
+                        if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="" && $r_NewPD['statusschedule']!="Kios-K") {
+                        // $dataPD->statusschedule = $r_NewPD['statusschedule'];
+                            $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+                                            ->update([
+                                                'statusschedule'=> $r_NewPD['statusschedule'],
+                                                'istaskantrol'=>3
+                                            ]);
+                              $noRegistrasi=$r_NewPD['statusschedule'];
+                                
+                        }else{
+                            $updateStatusschedule = PasienDaftar::where('norec',$dataPDnorec)
+                                            ->update([
+                                                'statusschedule'=> $noRegistrasi
+                                            ]);
+                        }
+                        
+                        date_default_timezone_set("Asia/Jakarta");
+                        $timewaktu=strtotime(date($tanggal.' '.$jamawal.':'.$menitawal)) * 1000;
+                        if ($timewaktu === 0) {
+                            $timewaktu = round(microtime(true) * 1000);
+                        }
+ 
+                        $kirim = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "jenispasien"=> $r_NewPD['isjenispasienantrol'],
+                                "nomorkartu"=> $r_NewPD['nomorkartu'],
+                                "nik"=> $r_NewPD['nik'],
+                                "nohp"=> $r_NewPD['nohp'],
+                                "kodepoli"=> $r_NewPD['kodesubspesialisHafis'],
+                                "namapoli"=> $r_NewPD['namapoli'],
+                                "pasienbaru"=> 0,
+                                "norm"=> $r_NewPD['normantrol'],
+                                "tanggalperiksa"=> $tanggal,
+                                "kodedokter"=> $r_NewPD['kodedokter'],
+                                "namadokter"=> $r_NewPD['namadokter'],
+                                "jampraktek"=> $r_NewPD['jadwal'],
+                                "jeniskunjungan"=> $r_NewPD['jeniskunjungan'],
+                                "nomorreferensi"=> $r_NewPD['nomorreferensi'],
+                                "nomorantrean"=> $r_NewPD['nmhafis'].'-'. $noAntrian,
+                                "angkaantrean"=> $noAntrian,
+                                "estimasidilayani"=> $timewaktu,
+                                "sisakuotajkn"=> 100,
+                                "kuotajkn"=> 100,
+                                "sisakuotanonjkn"=> 100,
+                                "kuotanonjkn"=> 100,
+                                "keterangan"=> "Peserta harap 30 menit lebih awal guna pencatatan administrasi."
+                            )
+                        );
+                        $kirimMjk = $this->addAntrianMJKN($kirim);
+                        // $isKirimMjkSukses = false;
+                        // if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->code)) {
+                        //     $isKirimMjkSukses = ((string)$kirimMjk['metadata']->code === '200');
+                        // }
+                        // if (!$isKirimMjkSukses) {
+                        //     $transMessage = 'Gagal kirim antrian MJKN';
+                        //     if (is_array($kirimMjk) && isset($kirimMjk['metadata']) && isset($kirimMjk['metadata']->message)) {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk['metadata']->message;
+                        //     } else if (is_string($kirimMjk) && $kirimMjk != '') {
+                        //         $transMessage = $transMessage . ': ' . $kirimMjk;
+                        //     }
+                        //     DB::rollBack();
+                        //     $result = array(
+                        //         'status' => 400,
+                        //         'message' => $transMessage,
+                        //         'kirimMjk' => $kirimMjk,
+                        //         'as' => 'key',
+                        //     );
+                        //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                        // }
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update1 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 1,
+                                "waktu"=> $timewaktuTask1
+                            )
+                        );
+                        $updateWaktuTask1 = $this->updateWaktuTask($update1);
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update2 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 2,
+                                "waktu"=> $timewaktuTask2
+                            )
+                        );
+                        $updateWaktuTask2 = $this->updateWaktuTask($update2);
+                        date_default_timezone_set("Asia/Jakarta");
+                        // $updateWaktuTask3=strtotime(date('Y-m-d H:i:s')) * 1000;
+                        $update3 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 3,
+                                "waktu"=> $updateWaktuTask3
+                            )
+                        );
+                        $updateWaktuTask = $this->updateWaktuTask($update3);  
+
+                        // update taskId 4-7
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update4 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 4,
+                                "waktu"=> $timewaktuTask4
+                            )
+                        );
+                        $updateWaktuTask4 = $this->updateWaktuTask($update4);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update5 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 5,
+                                "waktu"=> $timewaktuTask5
+                            )
+                        );
+                        $updateWaktuTask5 = $this->updateWaktuTask($update5);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update6 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 6,
+                                "waktu"=> $timewaktuTask6
+                            )
+                        );
+                        $updateWaktuTask6 = $this->updateWaktuTask($update6);
+
+                        date_default_timezone_set("Asia/Jakarta");
+                        $update7 = array(
+                            "data" => array(
+                                "kodebooking"=> $noRegistrasi,
+                                "taskid"=> 7,
+                                "waktu"=> $timewaktuTask7
+                            )
+                        );
+                        $updateWaktuTask7 = $this->updateWaktuTask($update7);
+                    }
+                    //end krusial
                 }
                 if($r_NewPD['tglregistrasidate'] > date('Y-m-d')){
                     if (isset($r_NewPD['statusschedule']) && $r_NewPD['statusschedule']!="") {
@@ -3229,21 +4488,20 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
             $transMessage = 'SUKSES';
             DB::commit();
         //    if($rua->objectdepartemenfk!=3){
-                if($dataPD->objectruanganlastfk !='251' && $dataPD->objectruanganlastfk != '453' && $dataPD->objectruanganlastfk != '20'
-                && $dataPD->objectruanganlastfk != '322' && $dataPD->objectruanganlastfk != '12'){
-                    $objetoRequest = new \Illuminate\Http\Request();
-                    $objetoRequest ['noregistrasi']= $dataPD->noregistrasi;
-                    $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
-                }
-                $objetoRequest = new \Illuminate\Http\Request();
-                $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
+                // if($dataPD->objectruanganlastfk !='251' && $dataPD->objectruanganlastfk != '453' && $dataPD->objectruanganlastfk != '20'
+                // && $dataPD->objectruanganlastfk != '322' && $dataPD->objectruanganlastfk != '12'){
+                //     $objetoRequest = new \Illuminate\Http\Request();
+                //     $objetoRequest ['noregistrasi']= $dataPD->noregistrasi;
+                //     $ihs = app('App\Http\Controllers\Bridging\PHSController')->Encounter($objetoRequest,true);
+                // }
+                // $objetoRequest = new \Illuminate\Http\Request();
+                // $aplicares = app('App\Http\Controllers\Bridging\BridgingBPJSV2Controller')->getKetersediaanTTNewPush($objetoRequest,true);
             // }
-            
+                
             //#satusehat
-            $objetoRequest = new \Illuminate\Http\Request();
-            $objetoRequest['noregistrasi'] = $dataPD->noregistrasi;
-            $ihs = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
-
+                $objetoRequest = new \Illuminate\Http\Request();
+                $objetoRequest['noregistrasi'] = $dataPD->noregistrasi;
+                $ihs = app('App\Http\Controllers\Bridging\IHSController')->Encounter($objetoRequest, true);
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
@@ -3254,7 +4512,8 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
                 // 'updateWaktuTask2'=>$updateWaktuTask2,
                 'kirimMjk' =>$kirimMjk,
                 //                "double" => count($cek),
-                'ihs'=> isset($ihs)? $ihs :null,
+                // 'ihs'=> $ihs ,
+
                 'as' => 'ramdanegie',
             );
         } else {
@@ -3269,6 +4528,7 @@ FROM            ruangan_m AS ru RIGHT OUTER JOIN
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
     public function saveRencanaKontrol(Request $request)
     {
         DB::beginTransaction();

@@ -652,6 +652,21 @@ define(['initialize'], function (initialize) {
                     })
                     // });
 
+                    let json = {
+                        "noregistrasi": $scope.cc.noregistrasi
+                    }
+                    medifirstService.postNonMessage('bridging/ihs/ObservationRajal', json).then(function (z) {
+                        if(z.data.resourceType == 'OperationOutcome' ){
+                            for (let x = 0; x < z.data.issue.length; x++) {
+                                const element = z.data.issue[x];
+                                toastr.error(element.diagnostics + ' - ' + element.expression[0])
+                            }
+                        }else{
+                            toastr.success(z.data.resourceType)
+                        }
+
+                    })
+
                     var arrStr = {
                         0: e.data.data.noemr
                     }
