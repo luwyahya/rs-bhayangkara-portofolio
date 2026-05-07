@@ -3999,6 +3999,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('daftar-pasien-pulang-papj-kirim', 'TataRekening\TagihanController@daftarPasienPulangPapjKirim'); //done
             Route::get('daftar-pasien-pulang-papj-verif', 'TataRekening\TagihanController@daftarPasienPulangPapjVerif'); //done
             Route::get('daftar-pasien-pulang-papj-klaim', 'TataRekening\TagihanController@daftarPasienPulangPapjKlaim'); //done
+            Route::get('daftar-pasien-pulang-papj-tidak-layak', 'TataRekening\TagihanController@daftarPasienPulangPapjTidakLayak'); //key
+            Route::get('daftar-pasien-pulang-papj-dirajalkan', 'TataRekening\TagihanController@daftarPasienPulangPapjDirajalkan'); //key
+            Route::get('daftar-pasien-pulang-papj-pending', 'TataRekening\TagihanController@daftarPasienPulangPapjPending'); //key
 
             Route::post('save-akomodasi-tea', 'TataRekening\TagihanController@saveAkomodasiOtomatis');
             Route::get('get-rekap-dokpol2', 'TataRekening\TagihanController@getRekapKedokteranForensik');

@@ -16796,4 +16796,811 @@ class TagihanController  extends ApiController
         }
         return $this->respond($result);
     }
+    public function daftarPasienPulangPapjTidakLayak(Request $request)
+    {
+        ini_set('max_execution_time', 500); //6 minuts
+        $data = \DB::table('pasiendaftar_t as pd')
+            ->join('pasien_m as p', 'p.id', '=', 'pd.nocmfk')
+            ->leftjoin('papjstatus_t as pj', 'pj.norec_pd', '=', 'pd.norec')
+            ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+            ->leftJoin('statuspulang_m as sp', 'sp.id', '=', 'pd.objectstatuspulangfk')
+            ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->Join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+            ->Join('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+            ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+            //->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
+            ->leftJoin('pegawai_m as pga', 'pga.id', '=', 'pj.pegawaifk_klaim')
+            ->select(
+                'pd.norec',
+                'pd.tglregistrasi',
+                'p.nocm',
+                'pd.noregistrasi',
+                'pd.objectrekananfk',
+                'ru.namaruangan',
+                'p.namapasien',
+                'kp.kelompokpasien',
+                'rk.namarekanan',
+                'pd.tglpulang',
+                'pd.statuspasien',
+                'pd.nostruklastfk',
+                'pd.nosbmlastfk',
+                'sp.statuspulang',
+                'pa.nosep',
+                'pg.namalengkap as dpjp',
+                // 'spp.noverifikasi',
+                'dept.id as deptid',
+                'pd.tglclosing',
+                //'sv.statusvaksin',
+                'p.tgllahir',
+                'ru.id',
+                'pd.nocmfk',
+                'pj.statuspapj',
+                'hg.status',
+                // 'hg.totalbiayars',
+                'hg.totalpiutangpenjamin',
+                'hg.biayanaikkelas',
+                'hg.cbgcode',
+                'hg.cbgdescription',
+                'pj.tglklaim as tanggalkirim',
+                'pj.keterangan as alasan',
+                'pga.namalengkap as pegawaikirim'
+            )
+            //            ->whereNull('pd.nostruklastfk')
+            //            ->whereNull('pd.nosbmlastfk')
+            ->where('pj.statuspapj', 7)
+            ->where('pd.statusenabled', true)
+            // ->where('log.jenislog','Pendaftaran Pasien')
+            ->whereNotNull('pd.tglpulang')
+            ->orderBy('pd.noregistrasi');
+
+        $filter = $request->all();
+
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+                $data = $data->whereBetween('pd.tglpulang', [$filter['tglAwal'], $filter['tglAkhir']]);
+            }
+        }
+
+        // if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+        //     $data = $data->where('pj.type', '=', $filter['instalasiId']);
+        // }
+
+        if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+            if ($filter['instalasiId'] == 1) {
+                $data = $data->where('dept.id', '=', 16);
+                if (isset($filter['ruangRI']) && $filter['ruangRI'] != "" && $filter['ruangRI'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRI']);
+                }
+            } else if ($filter['instalasiId'] == 2) {
+                $data = $data->where('dept.id', '=', 18);
+                if (isset($filter['ruangRJ']) && $filter['ruangRJ'] != "" && $filter['ruangRJ'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRJ']);
+                }
+            } else if ($filter['instalasiId'] == 3) {
+                $data = $data->where('dept.id', '=', 24);
+                if (isset($filter['ruangRIg']) && $filter['ruangRIg'] != "" && $filter['ruangRIg'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRIg']);
+                }
+            } else if ($filter['instalasiId'] == 4) {
+                $data = $data->where('dept.id', '=', 28);
+                if (isset($filter['ruangRM']) && $filter['ruangRM'] != "" && $filter['ruangRM'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRM']);
+                }
+            }
+        }
+
+        if (isset($filter['noSep']) && $filter['noSep'] != "" && $filter['noSep'] != "undefined") {
+            $data = $data->where('pa.nosep', 'like', '%' . $filter['noSep'] . '%');
+        }
+
+        if (isset($filter['ruanganId']) && $filter['ruanganId'] != "" && $filter['ruanganId'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['ruanganId']);
+        }
+        if (isset($filter['rekananPasienId']) && $filter['rekananPasienId'] != "" && $filter['rekananPasienId'] != "undefined") {
+            $data = $data->where('pd.objectrekananfk', '=', $filter['rekananPasienId']);
+        }
+
+        if (isset($filter['namaPasien']) && $filter['namaPasien'] != "" && $filter['namaPasien'] != "undefined") {
+            $data = $data->where('p.namapasien', 'like', '%' . $filter['namaPasien'] . '%');
+        }
+
+        if (isset($filter['noReg']) && $filter['noReg'] != "" && $filter['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'like', '%' . $filter['noReg'] . '%');
+        }
+
+        if (isset($filter['noRm']) && $filter['noRm'] != "" && $filter['noRm'] != "undefined") {
+            $data = $data->where('p.nocm', 'like', '%' . $filter['noRm'] . '%');
+        }
+        if (isset($filter['kelompokPasienId']) && $filter['kelompokPasienId'] != "" && $filter['kelompokPasienId'] != "undefined") {
+            $data = $data->where('kp.id', '=', $filter['kelompokPasienId']);
+        }
+
+        if (isset($filter['status']) && $filter['status'] != "" && $filter['status'] != "undefined") {
+            if ($filter['status'] == 'Belum Verifikasi') {
+                $data = $data->whereNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Verifikasi') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Lunas') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNotNull('pd.nosbmlastfk');;
+            }
+        }
+        if (isset($filter['jmlRows']) && $filter['jmlRows'] != "" && $filter['jmlRows'] != "undefined") {
+            $data = $data->take($filter['jmlRows']);
+        }
+
+        $data = $data->get();
+
+        $result = array();
+        foreach ($data as $pasienD) {
+            $pasienD->totalbiayars = $this->getTotalBiaya($pasienD->noregistrasi);
+            /*$resumemedis = DB::table('antrianpasiendiperiksa_t as apd')
+                ->join('resumemedis_t as rm', 'rm.noregistrasifk', '=', 'apd.norec')
+                ->select('rm.tglresume')
+                ->where('apd.statusenabled', true)
+                ->where('apd.noregistrasifk', '=', $pasienD->norec)
+                ->get();
+
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+                ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+                ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->where('ddp.objectjenisdiagnosafk', 1)
+                ->where('apd.noregistrasifk', $pasienD->norec)
+                ->select('dg.namadiagnosa')
+                ->first();
+
+            $diagnosa2 = \DB::table('antrianpasiendiperiksa_t AS apd')
+            ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+            ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+            ->where('ddp.objectjenisdiagnosafk', 1)
+            ->where('apd.noregistrasifk', $pasienD->norec)
+            ->select('dg.kddiagnosa')
+            ->first();
+
+            if (count($resumemedis) > 0) {
+                foreach ($resumemedis as $rm) {
+                    $tglresume = $rm->tglresume;
+                }
+            } else {
+                $tglresume = null;
+            }
+
+            if (!empty($diagnosa)&& !empty($diagnosa2)) {
+                foreach ($diagnosa as $key2) {
+                    // return($key2);
+                    $pasienD->namadiagnosa = $key2;
+                   
+                    
+
+                }
+                foreach ($diagnosa2 as $key2) {
+                    // return($key2);
+                    
+                    $pasienD->kddiagnosa = $key2;
+                    
+
+                }
+            } else {
+                $pasienD->namadiagnosa = false;
+                $pasienD->kddiagnosa = false;
+            }
+            $status = "-";
+
+            if ($pasienD->nostruklastfk == null && $pasienD->nosbmlastfk == null) {
+                $status = "Belum Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk == null) {
+                $status = "Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk != null) {
+                $status = '-'; //"Lunas";
+            }*/
+
+            $dataRuangan = \DB::table('pasiendaftar_t as pd')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+                ->leftjoin('antrianpasiendiperiksa_t as apd', function ($leftjoin) {
+                    $leftjoin->on('apd.noregistrasifk', '=', 'pd.norec');
+                    $leftjoin->on('apd.objectruanganfk', '=', 'pd.objectruanganlastfk');
+                })
+                ->leftjoin('kamar_m as km', 'km.id', '=', 'apd.objectkamarfk')
+                ->leftjoin('tempattidur_m as tt', 'apd.nobed', '=', 'tt.id')
+                ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('asuransipasien_m as asu', 'asu.id', '=', 'pa.objectasuransipasienfk')
+                ->leftjoin('kelas_m as kl', 'kl.id', '=', 'asu.objectkelasdijaminfk')
+                ->select(
+                    'ru.namaruangan as namaruanganRI',
+                    'km.namakamar',
+                    'kl.namakelas',
+                    'tt.reportdisplay as bed'
+                )
+                ->where('pd.noregistrasi', $pasienD->noregistrasi)
+                ->orderBy('apd.tglmasuk', 'desc')
+                ->groupBy(
+                    'pd.norec',
+                    'ru.namaruangan',
+                    'km.namakamar',
+                    'kl.namakelas',
+                    'tt.reportdisplay',
+                    'apd.tglmasuk'
+                )
+                ->first();
+
+            $namakamar     = $dataRuangan->namakamar ?? '-';
+            $namakelas     = $dataRuangan->namakelas ?? '-';
+            $bed           = $dataRuangan->bed ?? '-';
+
+            $pasienD->namadiagnosa = false;
+            $pasienD->kddiagnosa = false;
+            $status = "-";
+            $tglresume = null;
+
+
+            $result[] = array(
+                'tanggalMasuk'  => $pasienD->tglregistrasi,
+                'noCm'  => $pasienD->nocm,
+                'noRegistrasi'  => $pasienD->noregistrasi,
+                'namaRuangan'  => $pasienD->namaruangan,
+                'namaPasien'  => $pasienD->namapasien,
+                'nosep'  => $pasienD->nosep,
+                'jenisAsuransi'  => $pasienD->kelompokpasien,
+                'namarekanan'  => $pasienD->namarekanan,
+                'statuspulang'  => $pasienD->statuspulang,
+                'tglresume'  => $tglresume,
+                // 'namauser' =>$pasienD->namauser,
+                'tanggalPulang' => $pasienD->tglpulang,
+                //                'isVerified' => $pd->IsVerified,
+                'status'    =>  $status,
+                // 'noverif'    =>  $pasienD->noverifikasi,
+                'deptid' => $pasienD->deptid,
+                'tglclosing' => $pasienD->tglclosing,
+                'dpjp' => $pasienD->dpjp,
+                //'statusvaksin' => $pasienD->statusvaksin,
+                'tgllahir' => $pasienD->tgllahir,
+                'namadiagnosa' => $pasienD->namadiagnosa,
+                'kodediagnosa' => $pasienD->kddiagnosa,
+                'ruid' => $pasienD->id,
+                'nocmfk' => $pasienD->nocmfk,
+                'norec' => $pasienD->norec,
+                'statuspapj' => $pasienD->statuspapj,
+                'status' => $pasienD->status,
+                'totalbiayars' => $pasienD->totalbiayars,
+                'totalpiutangpenjamin' => $pasienD->totalpiutangpenjamin,
+                'biayanaikkelas' => $pasienD->biayanaikkelas,
+                'cbgcode' => $pasienD->cbgcode,
+                'cbgdescription' => $pasienD->cbgdescription,
+                'tanggalkirim' => $pasienD->tanggalkirim,
+                'pegawaikirim' => $pasienD->pegawaikirim,
+                'alasan' => $pasienD->alasan,
+                'kamar'     => $namakamar,
+                'kelas'     => $namakelas,
+                'bed'       => $bed
+            );
+        }
+        return $this->respond($result);
+    }
+    public function daftarPasienPulangPapjDirajalkan(Request $request)
+    {
+        ini_set('max_execution_time', 500); //6 minuts
+        $data = \DB::table('pasiendaftar_t as pd')
+            ->join('pasien_m as p', 'p.id', '=', 'pd.nocmfk')
+            ->leftjoin('papjstatus_t as pj', 'pj.norec_pd', '=', 'pd.norec')
+            ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+            ->leftJoin('statuspulang_m as sp', 'sp.id', '=', 'pd.objectstatuspulangfk')
+            ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->Join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+            ->Join('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+            ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+            //->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
+            ->leftJoin('pegawai_m as pga', 'pga.id', '=', 'pj.pegawaifk_klaim')
+            ->select(
+                'pd.norec',
+                'pd.tglregistrasi',
+                'p.nocm',
+                'pd.noregistrasi',
+                'pd.objectrekananfk',
+                'ru.namaruangan',
+                'p.namapasien',
+                'kp.kelompokpasien',
+                'rk.namarekanan',
+                'pd.tglpulang',
+                'pd.statuspasien',
+                'pd.nostruklastfk',
+                'pd.nosbmlastfk',
+                'sp.statuspulang',
+                'pa.nosep',
+                'p.nobpjs',
+                'pg.namalengkap as dpjp',
+                // 'spp.noverifikasi',
+                'dept.id as deptid',
+                'pd.tglclosing',
+                //'sv.statusvaksin',
+                'p.tgllahir',
+                'ru.id',
+                'pd.nocmfk',
+                'pj.statuspapj',
+                'hg.status',
+                'hg.totalbiayars',
+                'hg.totalpiutangpenjamin',
+                'hg.biayanaikkelas',
+                'hg.cbgcode',
+                'hg.cbgdescription',
+                'pj.tglklaim as tanggalkirim',
+                'pj.keterangan as alasan',
+                'pga.namalengkap as pegawaikirim'
+            )
+            //            ->whereNull('pd.nostruklastfk')
+            //            ->whereNull('pd.nosbmlastfk')
+            ->where('pj.statuspapj', 8)
+            ->where('pd.statusenabled', true)
+            // ->where('log.jenislog','Pendaftaran Pasien')
+            ->whereNotNull('pd.tglpulang')
+            ->orderBy('pd.noregistrasi');
+
+        $filter = $request->all();
+
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+                $data = $data->whereBetween('pd.tglpulang', [$filter['tglAwal'], $filter['tglAkhir']]);
+            }
+        }
+
+        // if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+        //     $data = $data->where('pj.type', '=', $filter['instalasiId']);
+        // }
+
+        if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+            if ($filter['instalasiId'] == 1) {
+                $data = $data->where('dept.id', '=', 16);
+                if (isset($filter['ruangRI']) && $filter['ruangRI'] != "" && $filter['ruangRI'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRI']);
+                }
+            } else if ($filter['instalasiId'] == 2) {
+                $data = $data->where('dept.id', '=', 18);
+                if (isset($filter['ruangRJ']) && $filter['ruangRJ'] != "" && $filter['ruangRJ'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRJ']);
+                }
+            } else if ($filter['instalasiId'] == 3) {
+                $data = $data->where('dept.id', '=', 24);
+                if (isset($filter['ruangRIg']) && $filter['ruangRIg'] != "" && $filter['ruangRIg'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRIg']);
+                }
+            } else if ($filter['instalasiId'] == 4) {
+                $data = $data->where('dept.id', '=', 28);
+                if (isset($filter['ruangRM']) && $filter['ruangRM'] != "" && $filter['ruangRM'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRM']);
+                }
+            }
+        }
+
+        if (isset($filter['noSep']) && $filter['noSep'] != "" && $filter['noSep'] != "undefined") {
+            $data = $data->where('pa.nosep', 'like', '%' . $filter['noSep'] . '%');
+        }
+
+        if (isset($filter['ruanganId']) && $filter['ruanganId'] != "" && $filter['ruanganId'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['ruanganId']);
+        }
+        if (isset($filter['rekananPasienId']) && $filter['rekananPasienId'] != "" && $filter['rekananPasienId'] != "undefined") {
+            $data = $data->where('pd.objectrekananfk', '=', $filter['rekananPasienId']);
+        }
+
+        if (isset($filter['namaPasien']) && $filter['namaPasien'] != "" && $filter['namaPasien'] != "undefined") {
+            $data = $data->where('p.namapasien', 'like', '%' . $filter['namaPasien'] . '%');
+        }
+
+        if (isset($filter['noReg']) && $filter['noReg'] != "" && $filter['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'like', '%' . $filter['noReg'] . '%');
+        }
+
+        if (isset($filter['noRm']) && $filter['noRm'] != "" && $filter['noRm'] != "undefined") {
+            $data = $data->where('p.nocm', 'like', '%' . $filter['noRm'] . '%');
+        }
+        if (isset($filter['kelompokPasienId']) && $filter['kelompokPasienId'] != "" && $filter['kelompokPasienId'] != "undefined") {
+            $data = $data->where('kp.id', '=', $filter['kelompokPasienId']);
+        }
+
+        if (isset($filter['status']) && $filter['status'] != "" && $filter['status'] != "undefined") {
+            if ($filter['status'] == 'Belum Verifikasi') {
+                $data = $data->whereNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Verifikasi') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Lunas') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNotNull('pd.nosbmlastfk');;
+            }
+        }
+        if (isset($filter['jmlRows']) && $filter['jmlRows'] != "" && $filter['jmlRows'] != "undefined") {
+            $data = $data->take($filter['jmlRows']);
+        }
+
+        $data = $data->get();
+
+        $result = array();
+        foreach ($data as $pasienD) {
+            /*$resumemedis = DB::table('antrianpasiendiperiksa_t as apd')
+                ->join('resumemedis_t as rm', 'rm.noregistrasifk', '=', 'apd.norec')
+                ->select('rm.tglresume')
+                ->where('apd.statusenabled', true)
+                ->where('apd.noregistrasifk', '=', $pasienD->norec)
+                ->get();
+
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+                ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+                ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->where('ddp.objectjenisdiagnosafk', 1)
+                ->where('apd.noregistrasifk', $pasienD->norec)
+                ->select('dg.namadiagnosa')
+                ->first();
+
+            $diagnosa2 = \DB::table('antrianpasiendiperiksa_t AS apd')
+            ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+            ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+            ->where('ddp.objectjenisdiagnosafk', 1)
+            ->where('apd.noregistrasifk', $pasienD->norec)
+            ->select('dg.kddiagnosa')
+            ->first();
+
+            if (count($resumemedis) > 0) {
+                foreach ($resumemedis as $rm) {
+                    $tglresume = $rm->tglresume;
+                }
+            } else {
+                $tglresume = null;
+            }
+
+            if (!empty($diagnosa)&& !empty($diagnosa2)) {
+                foreach ($diagnosa as $key2) {
+                    // return($key2);
+                    $pasienD->namadiagnosa = $key2;
+                   
+                    
+
+                }
+                foreach ($diagnosa2 as $key2) {
+                    // return($key2);
+                    
+                    $pasienD->kddiagnosa = $key2;
+                    
+
+                }
+            } else {
+                $pasienD->namadiagnosa = false;
+                $pasienD->kddiagnosa = false;
+            }
+            $status = "-";
+
+            if ($pasienD->nostruklastfk == null && $pasienD->nosbmlastfk == null) {
+                $status = "Belum Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk == null) {
+                $status = "Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk != null) {
+                $status = '-'; //"Lunas";
+            }*/
+
+            $dataRuangan = \DB::table('pasiendaftar_t as pd')
+                ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+                ->leftjoin('antrianpasiendiperiksa_t as apd', function ($leftjoin) {
+                    $leftjoin->on('apd.noregistrasifk', '=', 'pd.norec');
+                    $leftjoin->on('apd.objectruanganfk', '=', 'pd.objectruanganlastfk');
+                })
+                ->leftjoin('kamar_m as km', 'km.id', '=', 'apd.objectkamarfk')
+                ->leftjoin('tempattidur_m as tt', 'apd.nobed', '=', 'tt.id')
+                ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                ->leftjoin('asuransipasien_m as asu', 'asu.id', '=', 'pa.objectasuransipasienfk')
+                ->leftjoin('kelas_m as kl', 'kl.id', '=', 'asu.objectkelasdijaminfk')
+                ->select(
+                    'ru.namaruangan as namaruanganRI',
+                    'km.namakamar',
+                    'kl.namakelas',
+                    'tt.reportdisplay as bed'
+                )
+                ->where('pd.noregistrasi', $pasienD->noregistrasi)
+                ->orderBy('apd.tglmasuk', 'desc')
+                ->groupBy(
+                    'pd.norec',
+                    'ru.namaruangan',
+                    'km.namakamar',
+                    'kl.namakelas',
+                    'tt.reportdisplay',
+                    'apd.tglmasuk'
+                )
+                ->first();
+
+            $namakamar     = $dataRuangan->namakamar ?? '-';
+            $namakelas     = $dataRuangan->namakelas ?? '-';
+            $bed           = $dataRuangan->bed ?? '-';
+
+            $pasienD->namadiagnosa = false;
+            $pasienD->kddiagnosa = false;
+            $status = "-";
+            $tglresume = null;
+
+
+            $result[] = array(
+                'tanggalMasuk'  => $pasienD->tglregistrasi,
+                'noCm'  => $pasienD->nocm,
+                'noRegistrasi'  => $pasienD->noregistrasi,
+                'namaRuangan'  => $pasienD->namaruangan,
+                'namaPasien'  => $pasienD->namapasien,
+                'nosep'  => $pasienD->nosep,
+                'nokepesertaan'  => $pasienD->nobpjs,
+                'jenisAsuransi'  => $pasienD->kelompokpasien,
+                'namarekanan'  => $pasienD->namarekanan,
+                'statuspulang'  => $pasienD->statuspulang,
+                'tglresume'  => $tglresume,
+                // 'namauser' =>$pasienD->namauser,
+                'tanggalPulang' => $pasienD->tglpulang,
+                //                'isVerified' => $pd->IsVerified,
+                'status'    =>  $status,
+                // 'noverif'    =>  $pasienD->noverifikasi,
+                'deptid' => $pasienD->deptid,
+                'tglclosing' => $pasienD->tglclosing,
+                'dpjp' => $pasienD->dpjp,
+                //'statusvaksin' => $pasienD->statusvaksin,
+                'tgllahir' => $pasienD->tgllahir,
+                'namadiagnosa' => $pasienD->namadiagnosa,
+                'kodediagnosa' => $pasienD->kddiagnosa,
+                'ruid' => $pasienD->id,
+                'nocmfk' => $pasienD->nocmfk,
+                'norec' => $pasienD->norec,
+                'statuspapj' => $pasienD->statuspapj,
+                'status' => $pasienD->status,
+                'totalbiayars' => $pasienD->totalbiayars,
+                'totalpiutangpenjamin' => $pasienD->totalpiutangpenjamin,
+                'biayanaikkelas' => $pasienD->biayanaikkelas,
+                'cbgcode' => $pasienD->cbgcode,
+                'cbgdescription' => $pasienD->cbgdescription,
+                'tanggalkirim' => $pasienD->tanggalkirim,
+                'pegawaikirim' => $pasienD->pegawaikirim,
+                'alasan' => $pasienD->alasan,
+                'kamar'     => $namakamar,
+                'kelas'     => $namakelas,
+                'bed'       => $bed
+            );
+        }
+        return $this->respond($result);
+    }
+    public function daftarPasienPulangPapjPending(Request $request)
+    {
+        ini_set('max_execution_time', 500); //6 minuts
+        $data = \DB::table('pasiendaftar_t as pd')
+            ->join('pasien_m as p', 'p.id', '=', 'pd.nocmfk')
+            ->leftjoin('papjstatus_t as pj', 'pj.norec_pd', '=', 'pd.norec')
+            ->leftjoin('hasilgrouping_t as hg', 'hg.noregistrasifk', '=', 'pd.norec')
+            ->join('ruangan_m as ru', 'ru.id', '=', 'pd.objectruanganlastfk')
+            ->leftJoin('statuspulang_m as sp', 'sp.id', '=', 'pd.objectstatuspulangfk')
+            ->Join('kelompokpasien_m as kp', 'kp.id', '=', 'pd.objectkelompokpasienlastfk')
+            ->Join('departemen_m as dept', 'dept.id', '=', 'ru.objectdepartemenfk')
+            ->Join('rekanan_m as rk', 'rk.id', '=', 'pd.objectrekananfk')
+            ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'pd.objectpegawaifk')
+            //->leftjoin('statusvaksin_m as sv', 'sv.id', '=', 'pd.objectstatusvaksinfk')
+            ->leftJoin('pegawai_m as pga', 'pga.id', '=', 'pj.pegawaifk_klaim')
+            ->select(
+                'pd.norec',
+                'pd.tglregistrasi',
+                'p.nocm',
+                'pd.noregistrasi',
+                'pd.objectrekananfk',
+                'ru.namaruangan',
+                'p.namapasien',
+                'kp.kelompokpasien',
+                'rk.namarekanan',
+                'pd.tglpulang',
+                'pd.statuspasien',
+                'pd.nostruklastfk',
+                'pd.nosbmlastfk',
+                'sp.statuspulang',
+                'pa.nosep',
+                'pg.namalengkap as dpjp',
+                // 'spp.noverifikasi',
+                'dept.id as deptid',
+                'pd.tglclosing',
+                //'sv.statusvaksin',
+                'p.tgllahir',
+                'ru.id',
+                'pd.nocmfk',
+                'pj.statuspapj',
+                'hg.status',
+                'hg.totalbiayars',
+                'hg.totalpiutangpenjamin',
+                'hg.biayanaikkelas',
+                'hg.cbgcode',
+                'hg.cbgdescription',
+                'pj.tglklaim as tanggalkirim',
+                'pj.keterangan as alasan',
+                'pga.namalengkap as pegawaikirim'
+            )
+            //            ->whereNull('pd.nostruklastfk')
+            //            ->whereNull('pd.nosbmlastfk')
+            ->where('pj.statuspapj', 9)
+            ->where('pd.statusenabled', true)
+            // ->where('log.jenislog','Pendaftaran Pasien')
+            ->whereNotNull('pd.tglpulang')
+            ->orderBy('pd.noregistrasi');
+
+        $filter = $request->all();
+
+        if (isset($filter['tglAwal']) && $filter['tglAwal'] != "" && $filter['tglAwal'] != "undefined") {
+            if (isset($filter['tglAkhir']) && $filter['tglAkhir'] != "" && $filter['tglAkhir'] != "undefined") {
+                $data = $data->whereBetween('pd.tglpulang', [$filter['tglAwal'], $filter['tglAkhir']]);
+            }
+        }
+
+        // if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+        //     $data = $data->where('pj.type', '=', $filter['instalasiId']);
+        // }
+
+        if (isset($filter['instalasiId']) && $filter['instalasiId'] != "" && $filter['instalasiId'] != "undefined") {
+            if ($filter['instalasiId'] == 1) {
+                $data = $data->where('dept.id', '=', 16);
+                if (isset($filter['ruangRI']) && $filter['ruangRI'] != "" && $filter['ruangRI'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRI']);
+                }
+            } else if ($filter['instalasiId'] == 2) {
+                $data = $data->where('dept.id', '=', 18);
+                if (isset($filter['ruangRJ']) && $filter['ruangRJ'] != "" && $filter['ruangRJ'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRJ']);
+                }
+            } else if ($filter['instalasiId'] == 3) {
+                $data = $data->where('dept.id', '=', 24);
+                if (isset($filter['ruangRIg']) && $filter['ruangRIg'] != "" && $filter['ruangRIg'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRIg']);
+                }
+            } else if ($filter['instalasiId'] == 4) {
+                $data = $data->where('dept.id', '=', 28);
+                if (isset($filter['ruangRM']) && $filter['ruangRM'] != "" && $filter['ruangRM'] != "undefined") {
+                    $data = $data->where('pj.ruanganfk', '=', $filter['ruangRM']);
+                }
+            }
+        }
+
+        if (isset($filter['noSep']) && $filter['noSep'] != "" && $filter['noSep'] != "undefined") {
+            $data = $data->where('pa.nosep', 'like', '%' . $filter['noSep'] . '%');
+        }
+
+        if (isset($filter['ruanganId']) && $filter['ruanganId'] != "" && $filter['ruanganId'] != "undefined") {
+            $data = $data->where('ru.id', '=', $filter['ruanganId']);
+        }
+        if (isset($filter['rekananPasienId']) && $filter['rekananPasienId'] != "" && $filter['rekananPasienId'] != "undefined") {
+            $data = $data->where('pd.objectrekananfk', '=', $filter['rekananPasienId']);
+        }
+
+        if (isset($filter['namaPasien']) && $filter['namaPasien'] != "" && $filter['namaPasien'] != "undefined") {
+            $data = $data->where('p.namapasien', 'like', '%' . $filter['namaPasien'] . '%');
+        }
+
+        if (isset($filter['noReg']) && $filter['noReg'] != "" && $filter['noReg'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'like', '%' . $filter['noReg'] . '%');
+        }
+
+        if (isset($filter['noRm']) && $filter['noRm'] != "" && $filter['noRm'] != "undefined") {
+            $data = $data->where('p.nocm', 'like', '%' . $filter['noRm'] . '%');
+        }
+        if (isset($filter['kelompokPasienId']) && $filter['kelompokPasienId'] != "" && $filter['kelompokPasienId'] != "undefined") {
+            $data = $data->where('kp.id', '=', $filter['kelompokPasienId']);
+        }
+
+        if (isset($filter['status']) && $filter['status'] != "" && $filter['status'] != "undefined") {
+            if ($filter['status'] == 'Belum Verifikasi') {
+                $data = $data->whereNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Verifikasi') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNull('pd.nosbmlastfk');
+            } elseif ($filter['status'] == 'Lunas') {
+                $data = $data->whereNotNull('pd.nostruklastfk')->whereNotNull('pd.nosbmlastfk');;
+            }
+        }
+        if (isset($filter['jmlRows']) && $filter['jmlRows'] != "" && $filter['jmlRows'] != "undefined") {
+            $data = $data->take($filter['jmlRows']);
+        }
+
+        $data = $data->get();
+
+        $result = array();
+        foreach ($data as $pasienD) {
+            /*$resumemedis = DB::table('antrianpasiendiperiksa_t as apd')
+                ->join('resumemedis_t as rm', 'rm.noregistrasifk', '=', 'apd.norec')
+                ->select('rm.tglresume')
+                ->where('apd.statusenabled', true)
+                ->where('apd.noregistrasifk', '=', $pasienD->norec)
+                ->get();
+
+            $diagnosa = \DB::table('antrianpasiendiperiksa_t AS apd')
+                ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+                ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+                ->where('ddp.objectjenisdiagnosafk', 1)
+                ->where('apd.noregistrasifk', $pasienD->norec)
+                ->select('dg.namadiagnosa')
+                ->first();
+
+            $diagnosa2 = \DB::table('antrianpasiendiperiksa_t AS apd')
+            ->join('detaildiagnosapasien_t AS ddp', 'ddp.noregistrasifk', '=', 'apd.norec')
+            ->join('diagnosa_m as dg', 'dg.id', '=', 'ddp.objectdiagnosafk')
+            ->where('ddp.objectjenisdiagnosafk', 1)
+            ->where('apd.noregistrasifk', $pasienD->norec)
+            ->select('dg.kddiagnosa')
+            ->first();
+
+            if (count($resumemedis) > 0) {
+                foreach ($resumemedis as $rm) {
+                    $tglresume = $rm->tglresume;
+                }
+            } else {
+                $tglresume = null;
+            }
+
+            if (!empty($diagnosa)&& !empty($diagnosa2)) {
+                foreach ($diagnosa as $key2) {
+                    // return($key2);
+                    $pasienD->namadiagnosa = $key2;
+                   
+                    
+
+                }
+                foreach ($diagnosa2 as $key2) {
+                    // return($key2);
+                    
+                    $pasienD->kddiagnosa = $key2;
+                    
+
+                }
+            } else {
+                $pasienD->namadiagnosa = false;
+                $pasienD->kddiagnosa = false;
+            }
+            $status = "-";
+
+            if ($pasienD->nostruklastfk == null && $pasienD->nosbmlastfk == null) {
+                $status = "Belum Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk == null) {
+                $status = "Verifikasi";
+            } elseif ($pasienD->nostruklastfk != null && $pasienD->nosbmlastfk != null) {
+                $status = '-'; //"Lunas";
+            }*/
+
+            $pasienD->namadiagnosa = false;
+            $pasienD->kddiagnosa = false;
+            $status = "-";
+            $tglresume = null;
+
+
+            $result[] = array(
+                'tanggalMasuk'  => $pasienD->tglregistrasi,
+                'noCm'  => $pasienD->nocm,
+                'noRegistrasi'  => $pasienD->noregistrasi,
+                'namaRuangan'  => $pasienD->namaruangan,
+                'namaPasien'  => $pasienD->namapasien,
+                'nosep'  => $pasienD->nosep,
+                'jenisAsuransi'  => $pasienD->kelompokpasien,
+                'namarekanan'  => $pasienD->namarekanan,
+                'statuspulang'  => $pasienD->statuspulang,
+                'tglresume'  => $tglresume,
+                // 'namauser' =>$pasienD->namauser,
+                'tanggalPulang' => $pasienD->tglpulang,
+                //                'isVerified' => $pd->IsVerified,
+                'status'    =>  $status,
+                // 'noverif'    =>  $pasienD->noverifikasi,
+                'deptid' => $pasienD->deptid,
+                'tglclosing' => $pasienD->tglclosing,
+                'dpjp' => $pasienD->dpjp,
+                //'statusvaksin' => $pasienD->statusvaksin,
+                'tgllahir' => $pasienD->tgllahir,
+                'namadiagnosa' => $pasienD->namadiagnosa,
+                'kodediagnosa' => $pasienD->kddiagnosa,
+                'ruid' => $pasienD->id,
+                'nocmfk' => $pasienD->nocmfk,
+                'norec' => $pasienD->norec,
+                'statuspapj' => $pasienD->statuspapj,
+                'status' => $pasienD->status,
+                'totalbiayars' => $pasienD->totalbiayars,
+                'totalpiutangpenjamin' => $pasienD->totalpiutangpenjamin,
+                'biayanaikkelas' => $pasienD->biayanaikkelas,
+                'cbgcode' => $pasienD->cbgcode,
+                'cbgdescription' => $pasienD->cbgdescription,
+                'tanggalkirim' => $pasienD->tanggalkirim,
+                'pegawaikirim' => $pasienD->pegawaikirim,
+                'alasan' => $pasienD->alasan
+            );
+        }
+        return $this->respond($result);
+    }
 }
