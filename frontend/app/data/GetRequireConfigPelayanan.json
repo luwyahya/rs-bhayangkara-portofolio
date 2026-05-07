@@ -127,6 +127,10 @@
             "urlDep": "module/Registrasi/KlaimInaCbgV2Ctrl"
         },
         {
+            "nameDep": "KlaimInaCbgV2IDRGCtrl",
+            "urlDep": "module/Registrasi/KlaimInaCbgV2IDRGCtrl"
+        },
+        {
             "nameDep": "KlaimIDRGCtrl",
             "urlDep": "module/Registrasi/KlaimIDRGCtrl"
         },
