@@ -12280,23 +12280,23 @@ class EMRController  extends ApiController
         }
 
         // Jika jenis diagnosis adalah Primer (1)
-        if ((int) $request['detaildiagnosapasien']['objectjenisdiagnosafk'] === 1) {
-            if ($diagnosa->validcode == 0) {
-                DB::rollBack();
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Diagnosa ini tidak valid untuk dipilih.',
-                ], 400);
-            }
+        // if ((int) $request['detaildiagnosapasien']['objectjenisdiagnosafk'] === 1) {
+        //     if ($diagnosa->validcode == 0) {
+        //         DB::rollBack();
+        //         return response()->json([
+        //             'status' => 400,
+        //             'message' => 'Diagnosa ini tidak valid untuk dipilih.',
+        //         ], 400);
+        //     }
 
-            if (strtoupper($diagnosa->accpdx) != 'Y') {
-                DB::rollBack();
-                return response()->json([
-                    'status' => 400,
-                    'message' => 'Diagnosa ini tidak dapat dijadikan Primer.',
-                ], 400);
-            }
-        }
+        //     if (strtoupper($diagnosa->accpdx) != 'Y') {
+        //         DB::rollBack();
+        //         return response()->json([
+        //             'status' => 400,
+        //             'message' => 'Diagnosa ini tidak dapat dijadikan Primer.',
+        //         ], 400);
+        //     }
+        // }
 
         try {
 
