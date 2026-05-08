@@ -56,13 +56,15 @@ define(['initialize'], function (initialize) {
             function hapus(e) {
                 e.preventDefault();
                 var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
-
+                debugger
                 if (!dataItem) {
                     toastr.error("Data Tidak Ditemukan");
                     return
                 }
                 var itemDelete = {
-                    "norec": dataItem.norec
+                    "norec": dataItem.norec,
+                    "norec_pd": dataItem.norec_pd,
+
                 }
 
                 medifirstService.post( 'emr/disabled-konsultasi',itemDelete).then(function (e) {
@@ -94,7 +96,9 @@ define(['initialize'], function (initialize) {
              
                 var objSave = {
                     norec_so: $scope.item.norec,
-                    jawaban : $scope.item.jawaban
+                    jawaban : $scope.item.jawaban,
+                    norec_pd: $scope.item.norec_pd,
+
                 }
                 medifirstService.post( 'emr/update-jawaban-konsultasi',objSave).then(function (e) {
                     clear()
@@ -181,6 +185,8 @@ define(['initialize'], function (initialize) {
                     objectruanganasalfk: $scope.item.ruanganAsal.id,
                     objectruangantujuanfk: $scope.item.ruanganTujuan.id,
                     keterangan: $scope.item.keterangan != undefined ? $scope.item.keterangan : '',
+                    status: 11,
+
                 }
                 medifirstService.post( 'emr/post-konsultasi',objSave).then(function (e) {
                     clear()

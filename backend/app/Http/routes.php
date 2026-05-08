@@ -4006,6 +4006,20 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-petugas-pelaksana', 'TataRekening\TagihanController@updatePetugasPelaksana');
             Route::post('save-petugas-pelaksana', 'TataRekening\TagihanController@savePetugasPelaksana');
             
+            //Send PAPJ sartika
+            //2026/05/07
+            Route::post('save-papj-kirim', 'TataRekening\TagihanController@savePapjKirim');
+            Route::post('save-papj-verif', 'TataRekening\TagihanController@savePapjVerif');
+            Route::post('save-papj-klaim', 'TataRekening\TagihanController@savePapjKlaim');
+            Route::post('save-papj-tidak-layak', 'TataRekening\TagihanController@savePapjTidakLayak');
+            Route::post('save-papj-dirajalkan', 'TataRekening\TagihanController@savePapjDirajalkan');
+            Route::post('save-papj-pending', 'TataRekening\TagihanController@savePapjPending');
+            Route::post('save-papj-dikembalikan', 'TataRekening\TagihanController@savePapjDikembalikan');
+            Route::post('save-papj-batalverif', 'TataRekening\TagihanController@savePapjBatalVerif');
+            Route::post('save-papj-batalsiapklaim', 'TataRekening\TagihanController@savePapjBatalSiapKlaim');
+            Route::post('save-papj-kirim-ulang', 'TataRekening\TagihanController@savePapjKirimUlang');
+            Route::post('save-papj-kadaluarsa', 'TataRekening\TagihanController@savePapjKadaluarsa');
+
             // sartika 2026/05/07
             Route::get('daftar-pasien-pulang-papj', 'TataRekening\TagihanController@daftarPasienPulangPapj'); //done
             Route::get('daftar-pasien-pulang-papj-kirim', 'TataRekening\TagihanController@daftarPasienPulangPapjKirim'); //done
