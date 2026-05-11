@@ -598,7 +598,10 @@ class IHSController extends ApiController
                     );
 
                 $diagnosis = $request['diagnosis'];
-                unset($diagnosis['use']);
+                // unset($diagnosis['use']);
+                foreach ($diagnosis as $key => $diag) {
+                    $diagnosis[$key]['use'] = $use;
+                }
 
                 // $diagnosis[0]['use']=  $use;
                 // dd($diagnosis);
@@ -4016,12 +4019,12 @@ class IHSController extends ApiController
                     pg.ihs_id as ihs_practitioner
                 FROM
                     pasiendaftar_t AS pd
-                    INNER JOIN pasien_m AS ps ON ps.id = pd.nocmfk
-                    INNER JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
-                    INNER JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk
-                    INNER JOIN diagnosatindakanpasien_t AS dtp ON dtp.objectpasienfk = apd.norec
-                    INNER JOIN detaildiagnosatindakanpasien_t AS ddt ON ddt.objectdiagnosatindakanpasienfk = dtp.norec
-                    INNER JOIN diagnosatindakanidrg_m AS dt ON dt.id = ddt.objectdiagnosatindakanfk
+                    LEFT JOIN pasien_m AS ps ON ps.id = pd.nocmfk
+                    LEFT JOIN antrianpasiendiperiksa_t AS apd ON apd.noregistrasifk = pd.norec
+                    LEFT JOIN ruangan_m AS ru ON ru.id = apd.objectruanganfk
+                    LEFT JOIN diagnosatindakanpasien_t AS dtp ON dtp.objectpasienfk = apd.norec
+                    LEFT JOIN detaildiagnosatindakanpasien_t AS ddt ON ddt.objectdiagnosatindakanpasienfk = dtp.norec
+                    LEFT JOIN diagnosatindakanidrg_m AS dt ON dt.id = ddt.objectdiagnosatindakanfk
                     LEFT JOIN pegawai_m AS pg ON pg.id = ddt.objectpegawaifk 
                 WHERE
                     apd.norec ='$request[apd_norec]'    
