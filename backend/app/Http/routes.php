@@ -759,6 +759,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
               Route::post('MedicationDispenseObatBebas', 'Bridging\IHSController@MedicationDispenseObatBebas');
               Route::post('Observation', 'Bridging\IHSController@Observation');
               Route::post('ObservationRajal', 'Bridging\IHSController@ObservationRajal');
+              Route::post('ObservationRanap', 'Bridging\IHSController@ObservationRanap');
               Route::post('Procedure', 'Bridging\IHSController@Procedure');
               Route::post('Immunization', 'Bridging\IHSController@Immunization');
               Route::post('Composition', 'Bridging\IHSController@Composition');
@@ -892,6 +893,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::post('update-final-emr', 'EMR\EMRController@updateFinalEMR');
             Route::get('get-emr-transaksi-detail-new', 'EMR\EMRController@getEMRTransaksiDetailNew');
             Route::get('get-indikasi-ranap', 'EMR\EMRController@getComboIndikasiRanap');
+            Route::get('get-riwayat-order-penunjang-lab-rad', 'EMR\EMRController@getRiwayatOrderPenunjangLabRad');
             
             //2023-11-01 By Toha
             Route::get('get-detail-dokter-cppt-new', 'EMR\EMRController@getDetailDokterCpptNew');

@@ -2637,10 +2637,14 @@ class EMRController  extends ApiController
                 PengkajianAwalBaru::where('norec', $request['norec'])->update(
                     ['statusenabled' => false]
                 );
+                EMRPasien::where('objectnoregistrasifk', $request['objectnoregistrasifk'])
+                    ->where('emrfk', $request['emrfk']) // <-- Tambahan where kedua
+                    ->update(['statusenabled' => false]);
 
-                EMRPasien::where('norec', $request['norec'])->update(
-                    ['statusenabled' => false]
-                );
+                // Query Kedua
+                EMRPasienD::where('emrfk', $request['emrfk'])
+                    ->where('objectnoregistrasifk', $request['objectnoregistrasifk']) // <-- Tambahan where kedua
+                    ->update(['statusenabled' => false]);
             }
         } catch (\Exception $e) {
             $transStatus = 'false';
@@ -6600,7 +6604,8 @@ class EMRController  extends ApiController
                 'et.reportdisplay as url',
                 'et.caption',
                 'et.id as idemr',
-                'et.kodeexternal'
+                'et.kodeexternal',
+                'cp.emrfk'
             )
             ->leftjoin('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'cp.objectnoregistrasifk')
             ->leftJoin('pasien_m as ps', 'cp.objectpasienfk', '=', 'ps.id')
@@ -30302,6 +30307,99 @@ WHERE rm.norec = '$norec_resume'
 
         $result = array(
             'indikasiRanap' => $indikasiRanap,
+        );
+
+        return $this->respond($result);
+    }
+
+    public function getRiwayatOrderPenunjangLabRad(Request $request)
+    {
+        $results = [];
+        // $ruanganLab = explode(',', $this->settingDataFixed('kdRuanganLabNew'));
+        // $kdRuangLab = [];
+        // foreach ($ruanganLab as $item) {
+        //     $kdRuangLab[] = (int)$item;
+        // }
+
+        $data = \DB::table('strukorder_t as so')
+            ->LEFTJOIN('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+            ->JOIN('pasien_m as pas', 'pas.id', '=', 'pd.nocmfk')
+            ->LEFTJOIN('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+            ->LEFTJOIN('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+            ->LEFTJOIN('pegawai_m as p', 'p.id', '=', 'so.objectpegawaiorderfk')
+            //            ->LEFTJOIN('reshd as pp','pp.ono','=','so.noorder')
+            ->select(
+                'so.norec',
+                'pd.norec as norecpd',
+                'pd.noregistrasi',
+                'so.tglorder',
+                'so.noorder',
+                'ru.namaruangan as ruanganasal',
+                'ru2.namaruangan as ruangantujuan',
+                'p.namalengkap',
+                'so.noorder',
+                'pd.noregistrasi',
+                'so.keteranganlainnya'
+                //                ,
+                //                DB::raw('case when pp.ono is null then \'PENDING\' else \'SELESAI DIPERIKSA\' end as statusorder')
+            );
+        if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', '=', $request['noregistrasi']);
+        }
+        if (isset($request['NoCM']) && $request['NoCM'] != "" && $request['NoCM'] != "undefined") {
+            $data = $data->where('pas.nocm', 'ilike', '%' . $request['NoCM'] . '%');
+        }
+        $data = $data->whereIn('so.objectruangantujuanfk', [575,576]);
+        $data = $data->where('so.statusenabled', true);
+        //        $data = $data->where('apd.objectruanganfk',276);
+        $data = $data->orderBy('so.tglorder');
+        //        $data = $data->distinct();
+        $data = $data->get();
+
+        //$results =array();
+        foreach ($data as $item) {
+            $noorder = $item->noorder;
+            $hasil = DB::select(DB::raw("select * from order_lab where no_lab='$noorder'"));
+            if (count($hasil) > 0) {
+                $item->statusorder = 'SELESAI DIPERIKSA';
+            } else {
+                $item->statusorder = 'PENDING';
+            }
+            $details = DB::select(
+                DB::raw("
+                            select so.tglorder,so.noorder,
+                            pr.id,pr.namaproduk,op.qtyproduk
+                            from strukorder_t as so
+                            left join orderpelayanan_t as op on op.noorderfk = so.norec
+                            left join pasiendaftar_t as pd on pd.norec=so.noregistrasifk
+                            left join produk_m as pr on pr.id=op.objectprodukfk
+                            left join ruangan_m as ru on ru.id=so.objectruanganfk
+                            left join ruangan_m as ru2 on ru2.id=so.objectruangantujuanfk
+                            left join pegawai_m as p on p.id=so.objectpegawaiorderfk
+                            where so.noorder=:noorder"),
+                array(
+                    'noorder' => $item->noorder,
+                )
+            );
+            $results[] = array(
+                'noregistrasi' => $item->noregistrasi,
+                'tglorder' => $item->tglorder,
+                'noorder' => $item->noorder,
+                'norec' => $item->norec,
+                'norecpd' => $item->norecpd,
+                //                'norecapd' => $item->norecapd,
+                'namaruanganasal' => $item->ruanganasal,
+                'namaruangantujuan' => $item->ruangantujuan,
+                'dokter' => $item->namalengkap,
+                'statusorder' => $item->statusorder,
+                'keteranganlainnya' => $item->keteranganlainnya,
+                'details' => $details,
+            );
+        }
+
+        $result = array(
+            'daftar' => $results,
+            'message' => 'mn@epic',
         );
 
         return $this->respond($result);

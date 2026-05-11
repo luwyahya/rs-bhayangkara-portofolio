@@ -413,8 +413,12 @@ define(['initialize'], function(initialize) {
                     return;
                 }
                 var itemDelete = {
-                    "norec": dataItem.norec
+                    "norec": dataItem.norec,
+                    "objectnoregistrasifk": dataItem.objectnoregistrasifk,
+                    "emrfk": dataItem.emrfk
                 }
+
+                console.log("Data yang akan dikirim:", itemDelete);
 
                 medifirstService.post('emr/hapus-pengkajianpasien', itemDelete).then(function(e) {
                     if (e.status === 201) {

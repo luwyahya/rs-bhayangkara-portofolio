@@ -3169,6 +3169,10 @@
         {
             "nameDep": "RujukanLuarLaboratoriumCtrl",
             "urlDep": "module/Radiologi/RujukanLuarLaboratoriumCtrl"
+        },
+        {
+            "nameDep": "PengkajianMedisPasienRiCtrl",
+            "urlDep": "module/EMR/PengkajianMedisPasienRiCtrl"
         }
     ]
 }
