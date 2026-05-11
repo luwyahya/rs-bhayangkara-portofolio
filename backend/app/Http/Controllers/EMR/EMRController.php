@@ -3985,6 +3985,29 @@ class EMRController  extends ApiController
 
             $dataSOnorec = $dataSO->norec;
 
+            $data = PAPJ::where('norec_pd', $request['norec_pd'])->first();
+
+            if ($data) {
+                $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                    ->update([
+                        'statuspapj' => $request['status'],
+                        'pegawaifk_kirim' => $request['pegawaifk'],
+                        'ruanganfk' => $request['objectruanganasalfk'],
+                        'tglkirim' => date('Y-m-d H:i:s')
+                    ]);
+                $transMessage = "Update Kirim PAPJ Berhasil";
+            } else {
+                $spapj = new PAPJ();
+                $spapj->norec = $spapj->generateNewId();
+                $spapj->norec_pd = $request['norec_pd'];
+                $spapj->pegawaifk_kirim = $request['pegawaifk'];
+                $spapj->ruanganfk = $request['objectruanganasalfk'];
+                $spapj->tglkirim = date('Y-m-d H:i:s');
+                $spapj->statuspapj = $request['status'];
+                $spapj->save();
+
+                $transMessage = "Simpan KONSUL PAPJ Berhasil";
+            }
             //            foreach ($request['details'] as $item) {
             //                $dataOP = new OrderPelayanan();
             //                $dataOP->norec = $dataOP->generateNewId();
@@ -4089,6 +4112,11 @@ class EMRController  extends ApiController
             $dataSO = StrukOrder::where('norec', $request['norec'])->update(
                 ['statusenabled' => false]
             );
+            $statuspapj = DB::table('papjstatus_t')
+                ->where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => null
+                ]);
             $transStatus = 'true';
         } catch (\Exception $e) {
             //            $transStatus = 'false';
@@ -17659,8 +17687,11 @@ class EMRController  extends ApiController
             $dataSO = StrukOrder::where('norec', $request['norec_so'])->update([
                 'keteranganlainnya' =>  $request['jawaban']
             ]);
-
-
+            $statuspapj = DB::table('papjstatus_t')
+                ->where('norec_pd', $request['norec_pd'])
+                ->update([
+                    'statuspapj' => null
+                ]);
 
             $transStatus = 'true';
         } catch (\Exception $e) {
