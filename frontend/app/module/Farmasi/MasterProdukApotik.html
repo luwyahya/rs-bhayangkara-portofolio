@@ -128,7 +128,7 @@
                 <label c-label class="label-aja" item="item" c-label-text="Nama Produk"></label>
             </div>
             <div class="grid_12">
-                <input class="k-textbox" ng-model="item.namaBarang" type="text">
+                <input class="k-textbox" ng-model="item.namaBarang" type="text" ng-keypress="($event.which == 13)? cariFilter():item.namaBarang">
                 <!-- <input style="width: 100%;" kendo-combo-box k-ng-model="item.namaBarang"
                     k-data-text-field="'namaproduk'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
                     k-data-source="listNamaBarang" /> -->
@@ -198,7 +198,7 @@
     </div>
 </div>
 
-<div kendo-window="popUps" k-title="'Form Data Produk'" k-width="970" k-visible="false" k-on-close="customClicked()">
+<div kendo-window="popUps" k-title="'Form Data Produk'" k-width="1100" k-visible="false" k-on-close="customClicked()">
     <div class="panel panel-default container_12" style="padding: 0px 10px;">
         <fieldset class="effect-shadow" style=" border-radius: 4px;margin-top:10px">
             <legend id="filterData">
@@ -239,7 +239,7 @@
             </div>
             <div class="grid_12" style="margin-top: 10px;">
                 <div class="grid_12">
-                    <label c-label item="item" c-label-text="satuanStandar"></label>
+                    <label c-label item="item" c-label-text="bentukSediaan"></label>
                 </div>
                 <div class="grid_12">
                     <input style="width: 100%;" kendo-combo-box k-ng-model="item.satuanStandar"
@@ -288,8 +288,11 @@
                                                 k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
                                                 k-data-source="listgenerikpaten" />
                                         </div>
+                                        <!-- <div class="grid_12">
+                                            <input style="width: 100%;" kendo-combo-box k-ng-model="item.bentukProduk" k-data-text-field="'namabentukproduk'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listbentukProduk" />
+                                        </div> -->
                                     </div>
-                                    <div class="grid_4" style="margin-top: 10px;">
+                                    <!-- <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
                                             <label c-label item="item" c-label-text="General Name"></label>
                                         </div>
@@ -298,7 +301,7 @@
                                                 k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
                                                 k-data-source="listgenerik" />
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </md-content>
                             </md-tab>
                             <md-tab label="Spesifikasi">
@@ -314,7 +317,7 @@
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item" c-label-text="satuan kekuatan"></label>
+                                            <label c-label item="item" c-label-text="satuan standar"></label>
                                         </div>
                                         <div class="grid_12">
                                             <input kendo-combo-box k-ng-model="item.satuanKekuatan"
@@ -325,20 +328,18 @@
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item" c-label-text="merkProduk"></label>
+                                            <label c-label item="item" c-label-text="tradeName"></label>
                                         </div>
                                         <div class="grid_12">
-                                            <input kendo-combo-box k-ng-model="item.merkProduk"
-                                                k-data-text-field="'merkproduk'" k-data-value-field="'id'"
-                                                k-filter="'contains'" k-auto-bind="false"
-                                                k-data-source="listmerkProduk" />
+                                            <input c-text-box type="input" filter="" class="k-textbox"
+                                                ng-model="item.tradename" />
                                         </div>
                                     </div>
                                 </md-content>
                             </md-tab>
                             <md-tab label="Farmasi">
                                 <md-content class="md-padding">
-                                    <div class="grid_4" style="margin-top: 10px;">
+                                    <!-- <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
                                             <label c-label item="item">Status Produk</label>
                                         </div>
@@ -348,52 +349,52 @@
                                                 k-filter="'contains'" k-auto-bind="false"
                                                 k-data-source="liststatusProduk" />
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <div class="grid_2" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item">Is ARV Donasi</label>
+                                            <label c-label item="item">Satuan Produk</label>
                                         </div>
                                         <div class="grid_12">
-                                            <input kendo-combo-box k-ng-model="item.IsARVDonasi"
-                                                k-data-text-field="'namaExternal'" k-data-value-field="'id'"
+                                            <input kendo-combo-box k-ng-model="item.IsFornas"
+                                                k-data-text-field="'name'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false"
-                                                k-data-source="listverifikasiAnggaran" />
+                                                k-data-source="listFormularium" />
                                         </div>
                                     </div>
                                     <div class="grid_2" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item">Is Narkotika</label>
+                                            <label c-label item="item">Obat Program</label>
                                         </div>
                                         <div class="grid_12">
-                                            <input kendo-combo-box k-ng-model="item.IsNarkotika"
-                                                k-data-text-field="'namaExternal'" k-data-value-field="'id'"
+                                            <input kendo-combo-box k-ng-model="item.IsProgram"
+                                                k-data-text-field="'name'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false"
-                                                k-data-source="listverifikasiAnggaran" />
+                                                k-data-source="listObatProgram" />
                                         </div>
                                     </div>
                                     <div class="grid_2" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item">Is Psikotropika</label>
+                                            <label c-label item="item">Penggolongan</label>
                                         </div>
                                         <div class="grid_12">
-                                            <input kendo-combo-box k-ng-model="item.IsPsikotropika"
-                                                k-data-text-field="'namaExternal'" k-data-value-field="'id'"
+                                            <input kendo-combo-box k-ng-model="item.IsPenggolongan"
+                                                k-data-text-field="'name'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false"
-                                                k-data-source="listverifikasiAnggaran" />
+                                                k-data-source="listPenggolongan" />
                                         </div>
                                     </div>
                                     <div class="grid_2" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item">Is Onkologi</label>
+                                            <label c-label item="item">Antibiotik</label>
                                         </div>
                                         <div class="grid_12">
-                                            <input kendo-combo-box k-ng-model="item.IsOnkologi"
-                                                k-data-text-field="'namaExternal'" k-data-value-field="'id'"
+                                            <input kendo-combo-box k-ng-model="item.IsAntibiotik"
+                                                k-data-text-field="'name'" k-data-value-field="'id'"
                                                 k-filter="'contains'" k-auto-bind="false"
-                                                k-data-source="listverifikasiAnggaran" />
+                                                k-data-source="listAntibiotik" />
                                         </div>
                                     </div>
-                                    <div class="grid_2" style="margin-top: 10px;">
+                                    <!-- <div class="grid_2" style="margin-top: 10px;">
                                         <div class="grid_12">
                                             <label c-label item="item">Is Oot</label>
                                         </div>
@@ -425,7 +426,53 @@
                                                 k-filter="'contains'" k-auto-bind="false"
                                                 k-data-source="listverifikasiAnggaran" />
                                         </div>
+                                    </div> -->
+                                    <!-- <div class="grid_2" style="margin-top:10px">
+                                        <input type="checkbox" class="k-checkbox" ng-model="item.antiBiotik"
+                                            id="item.antiBiotik">
+                                        <label class="c-label k-checkbox-label" for="item.antiBiotik" required>Antibiotik</label>
+                                    </div> -->
+
+                                   
+                                   
+                                    <div class="grid_2" style="margin-top:10px">
+                                        <div class="grid_12">
+                                            <div class="grid_6"  style="margin-top:13px">
+                                                <input type="checkbox" class="k-checkbox" ng-model="item.lasa"
+                                                id="item.lasa">
+                                                <label class="c-label k-checkbox-label" for="item.lasa" required>Lasa</label>
+                                            </div>
+                                            <div class="grid_6"  style="margin-top:13px">
+                                                <input type="checkbox" class="k-checkbox" ng-model="item.highAlert"
+                                                id="item.highAlert">
+                                            <label class="c-label k-checkbox-label" for="item.highAlert" required>High Alert</label>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
+                                    <div class="grid_2" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Satuan Bentuk</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <div class="grid_6" style="margin-top:0px">
+                                                <input type="checkbox" class="k-checkbox" ng-model="item.fornas2"
+                                                    id="item.fornas2">
+                                                <label class="c-label k-checkbox-label" for="item.fornas2" required>Fornas</label>
+                                            </div>
+                                            <div class="grid_6" style="margin-top:0px">
+                                                <input type="checkbox" class="k-checkbox" ng-model="item.nonfornas2"
+                                                    id="item.nonfornas2">
+                                                <label class="c-label k-checkbox-label" for="item.nonfornas2" required>Non Fornas</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="grid_2" style="margin-top:10px">
+                                        <input type="checkbox" class="k-checkbox" ng-model="item.highAlert"
+                                            id="item.highAlert">
+                                        <label class="c-label k-checkbox-label" for="item.highAlert" required>High Alert</label>
+                                    </div> -->
                                 </md-content>
                             </md-tab>
                             <!-- <md-tab label="Rekanan">
@@ -478,13 +525,20 @@
                             <!-- <md-tab label="Ingredients">
                                 <md-content class="md-padding">
 
-                                    
+                                    <div class="grid_12">
+                                        <div class="grid_12 ">
+                                            <div kendo-grid k-data-source="listGridObat" k-selectable="'row'"
+                                                k-options="gridObat" k-pageable="'true'" k-sortable="'true'"
+                                                k-ng-model="klikGrid2" ng-click="klikGrid2(dataSelected)">
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </md-content>
                             </md-tab> -->
                             <md-tab label="kamus farmasi & alat kesehatan">
                                 <md-content class="md-padding">
-                                    <div class="grid_4" style="margin-top: 10px;">
+                                    <div class="grid_4" style="margin-top: 10px;"ng-show="!isKODE">
                                         <div class="grid_12">
                                             <label c-label item="item">KFA</label>
                                         </div>
@@ -502,22 +556,78 @@
                                               k-auto-bind="false"
                                               k-on-change="setKFTemplate()"
                                               />
-                                              <button ng-disabled="disload" class="k-button k-button-icontext k-primary" ng-click="getKFTemplate()">
+                                              <!-- <button ng-disabled="disload" class="k-button k-button-icontext k-primary" ng-click="getKFTemplate()">
                                                 Cari
-                                              </button>
+                                              </button> -->
+                                        </div>
+                                    </div>
+                                    <div class="grid_4" style="margin-top: 10px;" ng-show="isKODE">
+                                        <div class="grid_12">
+                                            <label c-label item="item">KFA KODE</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input
+                                              id="findKFa"
+                                              kendo-combo-box
+                                              style="width: 100%;margin-top: 3px"
+                                              k-data-source="listKFTemplateBridging"
+                                              k-ng-model="item.ihs_kfa"
+                                              k-data-text-field="'kfa_code'"
+                                              k-data-value-field="'kfa_code'"
+                                              k-placeholder="'Cari KFA Code *(2421..) ...'"
+                                              k-filter="'contains'" 
+                                              k-auto-bind="false"
+                                              k-on-change="setKFTemplate()"
+                                              />
+                                              <!-- <button ng-disabled="disload" class="k-button k-button-icontext k-primary" ng-click="getKFTemplate()">
+                                                Cari
+                                              </button> -->
                                         </div>
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
-                                            <label c-label item="item">Kode KFA (PA)</label>
+                                            <label c-label item="item">KFA Display</label>
                                         </div>
                                         <div class="grid_12">
-                                            <input class="k-textbox" type="text" ng-model="item.ihs_kfa_code" />
+                                            <input class="k-textbox" type="text" ng-model="item.ihs_kfa_display" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_4" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">KFA Zat Aktif</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input class="k-textbox" type="text" ng-model="item.ihs_zat_aktif" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_4" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">KFA Kekuatan Zat Aktif</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input class="k-textbox" type="text" ng-model="item.ihs_kekuatan_zat_aktif" />
+                                        </div>
+                                    </div>
+                                    <div class="grid_4" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item">Net Weight Uom Name</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input class="k-textbox" type="text" ng-model="item.net_weight_uom_name" />
                                         </div>
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
                                       <div class="grid_12">
-                                          <label c-label item="item">Product Template/Kode KFA (PV)</label>
+                                            <label c-label item="item">Bahan zat aktif(BZA)/KFA code(PV)(91)</label>
+                                        </div>
+                                        <div class="grid_12">
+                                            <input class="k-textbox" type="text" ng-model="item.ihs_kfa_code_kemasan" />
+                                        </div>
+                                      </div>
+                                      
+                                      <div class="grid_4" style="margin-top: 10px;">
+                                        <div class="grid_12">
+                                            <label c-label item="item"> Produk obat virtual (POV)/KFA code(PV)(92)</label>
                                       </div>
                                       <div class="grid_12">
                                           <input class="k-textbox" type="text" ng-model="item.ihs_kfa_code_brand" />
@@ -525,10 +635,10 @@
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
                                       <div class="grid_12">
-                                          <label c-label item="item">Bahan Baku Aktif/Zat Aktif/Kode KFA (PA)</label>
+                                            <label c-label item="item"> Produk obat aktual(POAK)/KFA code(PV)(93)</label>
                                       </div>
                                       <div class="grid_12">
-                                          <input class="k-textbox" type="text" ng-model="item.ihs_kfa_code_kemasan" />
+                                            <input class="k-textbox" type="text" ng-model="item.ihs_kfa_code" />
                                       </div>
                                     </div>
                                     <div class="grid_4" style="margin-top: 10px;">
@@ -539,13 +649,25 @@
                                           <input class="k-textbox" type="text" ng-model="item.ihs_sediaan" />
                                       </div>
                                     </div>
+                                    <div class="grid_4" style="margin-top: 10px;">
                                     <div class="grid_12">
-                                        <div class="grid_12 ">
-                                            <div kendo-grid k-data-source="listGridObat" k-selectable="'row'"
-                                                k-options="gridObat" k-pageable="'true'" k-sortable="'true'"
-                                                k-ng-model="klikGrid2" ng-click="klikGrid2(dataSelected)">
+                                            <label c-label item="item">Produk Obat aktual dalam kemasan(POAK)(94)</label>
                                             </div>
+                                        <div class="grid_12">
+                                            <input c-text-box type="input" filter="" class="k-textbox"
+                                                ng-model="item.poak" />
                                         </div>
+                                    </div>
+                                    
+                                    <div class="grid_1" style="margin-top: 20px;">
+                                        <input type="checkbox" class="k-checkbox" id="isKODE" ng-model="item.isKODE" value="true"
+                                            ng-click="cekKFA(item.isKODE)">
+                                        <label class="k-checkbox-label" for="isKODE"><b>kode</b></label>
+                                    </div>
+                                    <div class="grid_1" style="margin-top: 20px;">
+                                     <button ng-disabled="disload" class="k-button k-button-icontext k-primary" ng-click="getKFTemplate()">
+                                                Cari
+                                              </button>
                                     </div>
                                     <!-- <div class="grid_4" style="margin-top: 10px;">
                                         <div class="grid_12">
@@ -580,6 +702,14 @@
                                                 k-data-source="listBPOMSediaan" />
                                         </div>
                                     </div> -->
+                                    <div class="grid_12" style="margin-top: 15px">
+                                        <div class="grid_12 ">
+                                            <div kendo-grid k-data-source="listGridObat" k-selectable="'row'"
+                                                k-options="gridObat" k-pageable="'true'" k-sortable="'true'"
+                                                k-ng-model="klikGrid2" ng-click="klikGrid2(dataSelected)">
+                                            </div>
+                                        </div>
+                                    </div>
                                 </md-content>
                             </md-tab>
                         <md-tab label="tes"></md-tab>
@@ -629,7 +759,7 @@
             <hr />
             <div class="grid_12">
                 <div class="grid_3" style="margin-top: 10px;">
-                    <label class="c-label">Numerator</label>
+                    <label class="c-label">Dosis Obat</label>
                 </div>
                 <div class="grid_3">
                     <input class="k-textbox" type="number" placeholder="Qty" ng-model="obat.numeratorvalue">
@@ -641,7 +771,7 @@
             </div>
             <div class="grid_12">
                 <div class="grid_3" style="margin-top: 10px;">
-                    <label class="c-label">Denominator</label>
+                    <label class="c-label">Banyak Obat</label>
                 </div>
                 <div class="grid_3">
                     <input class="k-textbox" type="number" placeholder="Qty" ng-model="obat.denominatorvalue">
@@ -658,6 +788,7 @@
                     <button class="k-button btnSimpan k-button-icontext" ng-click="saveObat()"><span
                             class="k-icon k-update"></span>Simpan</button>
                 </div>
+                
                 <div class="grid_6">
                     <button class="k-button btnHapus k-button-icontext" ng-click="tutupObat()"><span
                             class="k-icon k-cancel"></span>Tutup</button>

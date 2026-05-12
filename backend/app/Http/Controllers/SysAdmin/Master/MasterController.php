@@ -5026,6 +5026,118 @@ class MasterController extends ApiController{
         );
         return $this->respond($data);
     }
+
+    //OLD
+    // public function saveDataProdukApotik(Request $request)
+    // {
+    //     $kdProfile = (int) $this->getDataKdProfile($request);
+    //     $data = $request->all();
+    //     DB::beginTransaction();
+    //     // try {
+    //         $prod =  Produk::where('id', $data['id'])->first();
+    //         if ($data['id'] == null) {
+    //             $newId = Produk::max('id') + 1;
+    //             $prod = new Produk();
+    //             $prod->id = $newId;
+    //             $prod->kdprofile = $kdProfile;
+    //             $prod->norec = $prod->generateNewId();
+    //             $kdProdukSeq = null;
+
+    //             switch ($data['objectdetailjenisprodukfk']) {
+    //                 case '474':
+    //                     // generate kdproduk jenis obat 474
+    //                     $kdProdukSeq = $this->generateCodeBySeqTable(new Produk, 'kdproduk', 8, '01', $kdProfile);
+    //                     break;
+    //                 case '1346':
+    //                     // generte kdproduk jenis alkes 1346
+    //                     $kdProdukSeq = $this->generateCodeBySeqTable(new Produk, 'kdproduk', 9, '02', $kdProfile);
+    //                     break;
+    //                 case '1593':
+    //                     // generte kdproduk jenis alkes 1593
+    //                     $kdProdukSeq = $this->generateCodeBySeqTable(new Produk, 'kdproduk', 9, '02', $kdProfile);
+    //                     break;
+    //             }
+    //             $prod->kdproduk = $kdProdukSeq;
+    //         }
+    //         $prod->statusenabled = $data['statusenabled'];
+    //         $prod->namaexternal = $data['namaproduk'];
+    //         $prod->reportdisplay = $data['namaproduk'];
+    //         $prod->namaproduk = $data['namaproduk'];
+    //         $prod->deskripsiproduk = $data['deskripsiproduk'];
+    //         $prod->isprodukintern = $data['keterangan'];
+    //         $prod->objectsatuanstandarfk = $data['objectsatuanstandarfk'];
+    //         $prod->objectdetailjenisprodukfk = $data['objectdetailjenisprodukfk'];
+    //         $prod->isgeneric = $data['isgeneric'];
+    //         $prod->objectgenerikfk = $data['objectgenerikfk'];
+    //         $prod->kekuatan = $data['kekuatan'];
+    //         $prod->objectsediaanfk = $data['objectsediaanfk'];
+    //         $prod->objectmerkprodukfk = $data['objectmerkprodukfk'];
+    //         $prod->objectstatusprodukfk = $data['objectstatusprodukfk'];
+    //         $prod->isprodukintern = $data['isarvdonasi'];
+    //         $prod->isprodukintern = $data['isnarkotika'];
+    //         $prod->isprodukintern = $data['ispsikotropika'];
+    //         $prod->isprodukintern = $data['isonkologi'];
+    //         $prod->isprodukintern = $data['isoot'];
+    //         $prod->isprodukintern = $data['isprekusor'];
+    //         $prod->isprodukintern = $data['isvaksindonasi'];
+    //         $prod->objectprodusenprodukfk = $data['objectprodusenprodukfk'];
+    //         $prod->objectrekananfk = $data['objectrekananfk'];
+    //         $prod->kdproduk = $data['kdproduk'];
+
+    //         $prod->ihs_kfa_code = isset($data['ihs_kfa_code']) ? $data['ihs_kfa_code'] : null;
+    //         $prod->ihs_kfa_display = isset($data['ihs_kfa_display']) ? $data['ihs_kfa_display'] : null;
+    //         $prod->ihs_kfa_code_brand = isset($data['ihs_kfa_code_brand']) ? $data['ihs_kfa_code_brand'] : null;
+    //         $prod->ihs_kfa_code_kemasan = isset($data['ihs_kfa_code_kemasan']) ? $data['ihs_kfa_code_kemasan'] : null;
+    //         $prod->ihs_sediaan = isset($data['ihs_kfa_code']) ? $data['ihs_sediaan'] : null;
+    //         $prod->ihs_sediaan = isset($data['ihs_kfa_code']) ? $data['ihs_sediaan'] : null;
+    //         $prod->ihs_loinc_id = isset($data['ihs_loinc_id']) ? $data['ihs_loinc_id'] : null;
+    //         $prod->ihs_loinc_common_name = isset($data['ihs_loinc_common_name']) ? $data['ihs_loinc_common_name'] : null;
+        
+    //         $prod->save();
+    //         if (isset($data['ingredients'])) {
+    //             IHS_MapBahanZat::where('produkfk', $prod->id)->delete();
+    //             foreach ($data['ingredients'] as $item) {
+    //                 $prod2 = new IHS_MapBahanZat();
+    //                 $prod2->id = IHS_MapBahanZat::max('id') + 1;
+    //                 $prod2->norec = $prod2->generateNewId();
+    //                 $prod2->produkfk = $prod->id;
+    //                 $prod2->ihs_bahanzat = $item['komposisizatfk'];
+    //                 $prod2->qtynum = $item['numeratorvalue'];
+    //                 $prod2->qtydenom = $item['denominatorvalue'];
+    //                 $prod2->denomsatuanfk = $item['denominatorfk'];
+    //                 $prod2->numerartorsatuanfk = $item['numeratorfk'];
+    //                 $prod2->save();
+    //             }
+    //         }
+
+
+    //         $transStatus = true;
+    //         $transMessage = "Simpan Berhasil";
+    //     // } catch (\Exception $e) {
+    //     //     $transStatus = false;
+    //     //     $transMessage = "Simpan Gagal";
+    //     // }
+
+    //     if ($transStatus) {
+    //         DB::commit();
+    //         $result = array(
+    //             "status" => 201,
+    //             "message" => $transMessage,
+    //             "as" => 'ea@epic',
+    //         );
+    //     } else {
+    //         DB::rollBack();
+    //         $result = array(
+    //             "status" => 400,
+    //             "message"  => $transMessage,
+    //             "e"  => $e->getMessage(),
+    //             "as" => 'ea@epic',
+    //         );
+    //     }
+    //     return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+    // }
+
+    //NEW
     public function saveDataProdukApotik(Request $request)
     {
         $kdProfile = (int) $this->getDataKdProfile($request);
@@ -5066,11 +5178,13 @@ class MasterController extends ApiController{
             $prod->objectsatuanstandarfk = $data['objectsatuanstandarfk'];
             $prod->objectdetailjenisprodukfk = $data['objectdetailjenisprodukfk'];
             $prod->isgeneric = $data['isgeneric'];
+            $prod->isgeneric2 = $data['isgeneric2'];
             $prod->objectgenerikfk = $data['objectgenerikfk'];
             $prod->kekuatan = $data['kekuatan'];
             $prod->objectsediaanfk = $data['objectsediaanfk'];
             $prod->objectmerkprodukfk = $data['objectmerkprodukfk'];
             $prod->objectstatusprodukfk = $data['objectstatusprodukfk'];
+            $prod->objectbentukprodukfk = $data['objectbentukprodukfk'];
             $prod->isprodukintern = $data['isarvdonasi'];
             $prod->isprodukintern = $data['isnarkotika'];
             $prod->isprodukintern = $data['ispsikotropika'];
@@ -5081,6 +5195,16 @@ class MasterController extends ApiController{
             $prod->objectprodusenprodukfk = $data['objectprodusenprodukfk'];
             $prod->objectrekananfk = $data['objectrekananfk'];
             $prod->kdproduk = $data['kdproduk'];
+            $prod->tradename = isset($data['tradename']) ? $data['tradename'] : null;
+            $prod->isantibiotik = isset($data['isantibiotik']) ? $data['isantibiotik'] : null;
+            $prod->islasa = isset($data['islasa']) ? $data['islasa'] : null;
+            $prod->penggolongan = isset($data['penggolongan']) ? $data['penggolongan'] : null;
+            $prod->obatprogram = isset($data['obatprogram']) ? $data['obatprogram'] : null;
+            $prod->isfornas = isset($data['isfornas']) ? $data['isfornas'] : null;
+            $prod->fornas2 = isset($data['fornas2']) ? $data['fornas2'] : null;
+            $prod->nonfornas2 = isset($data['nonfornas2']) ? $data['nonfornas2'] : null;
+            $prod->isalert = isset($data['isalert']) ? $data['isalert'] : null;
+            $prod->poak = isset($data['poak']) ? $data['poak'] : null;
 
             $prod->ihs_kfa_code = isset($data['ihs_kfa_code']) ? $data['ihs_kfa_code'] : null;
             $prod->ihs_kfa_display = isset($data['ihs_kfa_display']) ? $data['ihs_kfa_display'] : null;
@@ -5090,7 +5214,11 @@ class MasterController extends ApiController{
             $prod->ihs_sediaan = isset($data['ihs_kfa_code']) ? $data['ihs_sediaan'] : null;
             $prod->ihs_loinc_id = isset($data['ihs_loinc_id']) ? $data['ihs_loinc_id'] : null;
             $prod->ihs_loinc_common_name = isset($data['ihs_loinc_common_name']) ? $data['ihs_loinc_common_name'] : null;
-        
+
+            $prod->ihs_zat_aktif = isset($data['ihs_zat_aktif']) ? $data['ihs_zat_aktif'] : null;
+            $prod->kekuatan_zat_aktif = isset($data['ihs_kekuatan_zat_aktif']) ? $data['ihs_kekuatan_zat_aktif'] : null;
+            $prod->net_weight_uom_name = isset($data['net_weight_uom_name']) ? $data['net_weight_uom_name'] : null;
+            
             $prod->save();
             if (isset($data['ingredients'])) {
                 IHS_MapBahanZat::where('produkfk', $prod->id)->delete();
@@ -5133,7 +5261,8 @@ class MasterController extends ApiController{
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-    }
+    }   
+
     public function saveDataMasterDepartemen(Request $request)
     {
         $kdProfile = (int) $this->getDataKdProfile($request);

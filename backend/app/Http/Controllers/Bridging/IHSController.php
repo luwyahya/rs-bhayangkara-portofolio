@@ -1333,13 +1333,263 @@ class IHSController extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
+
+    //OLD
+    // public function Medication(Request $request, $lokal = null)
+    // {
+    //     try {
+    //         $kdProfile = $this->kdProfile;
+    //         $data =  collect(DB::select(" 
+    //             SELECT
+    //             kd.*
+    //             ,kd.id as idprodukna
+    //             ,pr.ihs_id AS ihs_profile
+    //             ,pr.namalengkap as namaprofile
+    //             ,mbh.ihs_bahanzat 
+    //             ,mbh.*
+    //             ,bh.nama as bahanzat 
+    //             ,kd.ihs_sediaan
+    //             ,sed.nama as ihs_sediaan_display
+    //             ,kff.namaproduk as kfa_display						       
+    //             FROM
+    //             produk_m AS kd
+    //             LEFT JOIN profile_m AS pr ON pr.ID = kd.kdprofile 
+    //             LEFT JOIN ihs_map_bahanzat AS mbh ON mbh.produkfk = kd.id 
+    //             LEFT JOIN ihs_bahanzat AS bh ON bh.ID = mbh.ihs_bahanzat 
+    //             LEFT JOIN ihs_sediaan AS sed ON sed.ID = kd.ihs_sediaan 
+    //             LEFT JOIN ihs_kode_kf_a AS kff ON kff.ID = kd.ihs_kfa_code 
+    //             WHERE  kd.statusenabled = true
+    //             AND kd.ID = $request[id]
+    //       "));
+    //         if (count($data) == 0) {
+    //             return response()->json(null);
+    //         }
+
+    //         $ingredients = [];
+    //         foreach ($data as $item) {
+    //             $ingredients[] =  array(
+    //                 'itemCodeableConcept' =>
+    //                 array(
+    //                     'coding' =>
+    //                     array(
+    //                         0 =>
+    //                         array(
+    //                             'system' => 'http://sys-ids.kemkes.go.id/kfa',
+    //                             'code' => $item->ihs_kfa_code,
+    //                             'display' =>  $item->ihs_zat_aktif,
+    //                         ),
+    //                     ),
+    //                 ),
+    //                 'isActive' => true,
+    //                 'strength' =>
+    //                 array(
+    //                     'numerator' =>
+    //                     array(
+    //                         'value' => (float)$item->kekuatan_zat_aktif,
+    //                         'system' => 'http://unitsofmeasure.org',
+    //                         'code' => $item->net_weight_uom_name,
+    //                     ),
+    //                     'denominator' =>
+    //                     array(
+    //                         'value' => 1, // (float)$item->qtydenom,
+    //                         'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+    //                         'code' => 'TAB', // $item->denomsatuanfk,
+    //                     ),
+    //                 ),
+    //             );
+    //         }
+    //         $q = $data[0];
+    //         // $SPD =  StokProdukDetail::where('objectprodukfk', $q->idprodukna)
+    //         //     ->where('qtyproduk', '>', 0)
+    //         //     ->orderBy('tglkadaluarsa', 'desc')
+    //         //     ->get();
+
+    //         $tglkadaluarsa = '';
+    //         $nobatch = '-';
+
+    //         // foreach ($SPD as $d) {
+    //         //     if ($d->nobatch != null) {
+    //         //         $nobatch = $d->nobatch;
+    //         //     }
+    //         //     if ($d->tglkadaluarsa != null) {
+    //         //         $tglkadaluarsa = date('Y-m-d', strtotime($d->tglkadaluarsa));
+    //         //     }
+    //         // }
+    //         // if ($tglkadaluarsa == '') {
+    //         //     $tglkadaluarsa = date('Y-m-d');
+    //         // }
+    //         $data = array(
+    //             'id' =>  $q->ihs_id,
+    //             'resourceType' => 'Medication',
+    //             'meta' =>
+    //             array(
+    //                 'profile' =>
+    //                 array(
+    //                     0 => 'https://fhir.kemkes.go.id/r4/StructureDefinition/Medication',
+    //                 ),
+    //             ),
+    //             'identifier' =>
+    //             array(
+    //                 0 =>
+    //                 array(
+    //                     'system' => 'http://sys-ids.kemkes.go.id/medication/' . $q->ihs_profile,
+    //                     'use' => 'official',
+    //                     'value' => (string) $q->idprodukna,
+    //                 ),
+    //             ),
+    //             'code' =>
+    //             array(
+    //                 'coding' =>
+    //                 array(
+    //                     0 =>
+    //                     array(
+    //                         'system' => 'http://sys-ids.kemkes.go.id/kfa',
+    //                         'code' => trim($q->ihs_kfa_code),
+    //                         'display' => trim($q->ihs_kfa_display),
+    //                     ),
+    //                 ),
+    //             ),
+    //             'status' => 'active',
+    //             'manufacturer' =>
+    //             array(
+    //                 'reference' => 'Organization/' . $q->ihs_profile, //PT KIMIA FARMA, Tbk
+    //             ),
+    //             'form' =>
+    //             array(
+    //                 'coding' =>
+    //                 array(
+    //                     0 =>
+    //                     array(
+    //                         'system' => 'http://terminology.kemkes.go.id/CodeSystem/medication-form',
+    //                         'code' => $q->ihs_sediaan,
+    //                         'display' => $q->ihs_sediaan_display,
+    //                     ),
+    //                 ),
+    //             ),
+    //             'ingredient' =>
+    //             $ingredients,
+
+    //             'extension' =>
+    //             array(
+    //                 0 =>
+    //                 array(
+    //                     'url' => 'https://fhir.kemkes.go.id/r4/StructureDefinition/MedicationType',
+    //                     'valueCodeableConcept' =>
+    //                     array(
+    //                         'coding' =>
+    //                         array(
+    //                             0 =>
+    //                             array(
+    //                                 'system' => 'http://terminology.kemkes.go.id/CodeSystem/medication-type',
+    //                                 'code' => 'NC',
+    //                                 'display' => 'Non-compound',
+    //                             ),
+    //                         ),
+    //                     ),
+    //                 ),
+    //             ),
+
+    //             // 'batch' =>
+    //             // array(
+    //             //     'lotNumber' => $nobatch,
+    //             //     'expirationDate' => $tglkadaluarsa,
+    //             // ),
+    //         );
+
+    //         if ($q->ihs_id == null) {
+    //             unset($data['id']);
+    //         }
+
+
+
+    //         $method =   $q->ihs_id == null ? 'POST' : 'PUT';
+
+    //         $objetoRequest = new \Illuminate\Http\Request();
+    //         $objetoRequest['url'] = $q->ihs_id == null ? $data['resourceType'] : $data['resourceType'] . '/' . $q->ihs_id;
+    //         $objetoRequest['method'] = $method;
+    //         $objetoRequest['data'] = $data;
+
+    //         $response =  $this->ihsTools($objetoRequest, true);
+
+    //         $noterror = true;
+    //         if ($response->resourceType == 'OperationOutcome') {
+    //             $noterror = false;
+    //         }
+    //         // if (isset($response->resourceType) && $response->resourceType == 'OperationOutcome') {
+    //         //     $noterror = false;
+    //         //     if (isset($response->issue) && isset($response->issue[0]->code)  && $response->issue[0]->code == 'not-found') {
+
+    //         //         $objetoRequest = new \Illuminate\Http\Request();
+    //         //         $objetoRequest['url'] =  $data['resourceType'];
+    //         //         $objetoRequest['method'] = $method;
+    //         //         $objetoRequest['data'] = $data;
+    //         //         $response =  $this->ihsTools($objetoRequest, true);
+    //         //         $noterror = true;
+    //         //         if ($response->resourceType == 'OperationOutcome') {
+    //         //             $noterror = false;
+    //         //         }
+    //         //     }
+    //         // }
+
+    //         // $response =  $this->ihsTools($objetoRequest, true);
+
+    //         // $noterror = true;
+    //         // if ($response->resourceType == 'OperationOutcome') {
+    //         //     $noterror = false;
+    //         // }
+
+    //         if ($q->ihs_id == null) {
+    //             $mod = new IHS_Transaction();
+    //             $mod->norec = $mod->generateNewId();
+    //             $mod->statusenabled = $noterror;
+    //             $mod->kdprofile = $this->kdProfile;
+    //         } else {
+    //             $mod = IHS_Transaction::where('id', $q->ihs_id)->first();
+    //             if (empty($mod)) {
+    //                 $mod = new IHS_Transaction();
+    //                 $mod->norec = $mod->generateNewId();
+    //                 $mod->statusenabled = $noterror;
+    //                 $mod->kdprofile = $this->kdProfile;
+    //             }
+    //         }
+    //         $mod->resourcetype = $data['resourceType'];
+    //         $mod->url =  $this->endPoint() . $data['resourceType'];
+    //         $mod->method =  $q->ihs_id == null ? 'POST' : 'PUT';
+    //         $mod->id = isset($response->id) ? $response->id : null;
+    //         $mod->body = json_encode($data);
+    //         $mod->response =  json_encode($response);
+    //         $mod->date = date('Y-m-d H:i:s');
+    //         $mod->save();
+    //         if (isset($response->id)) {
+    //             Produk::where('id', $q->idprodukna)->update([
+    //                 'ihs_id' => $response->id
+    //             ]);
+    //         }
+    //     } catch (\Exception $e) {
+    //         $response = array(
+    //             "issue" => $e->getMessage() . ' ' . $e->getLine(),
+    //             "resourceType" => "OperationOutcome"
+    //         );
+    //     }
+    //     if ($lokal == true) {
+    //         return $response;
+    //     }
+    //     return response()->json($response);
+    // }
+
     public function Medication(Request $request, $lokal = null)
     {
         try {
             $kdProfile = $this->kdProfile;
             $data =  collect(DB::select(" 
                 SELECT
-                kd.*
+                kd.*,
+                kd.ihs_kfa_code_kemasan,
+                kd.ihs_zat_aktif,
+                kd.net_weight_uom_name,
+                kd.kekuatan_zat_aktif,
+                regexp_replace(kd.kekuatan_zat_aktif, '[^0-9]', '', 'g')::numeric AS kekuatan_angka,
+                ss.reportdisplay as satuanstandar
                 ,kd.id as idprodukna
                 ,pr.ihs_id AS ihs_profile
                 ,pr.namalengkap as namaprofile
@@ -1351,6 +1601,7 @@ class IHSController extends ApiController
                 ,kff.namaproduk as kfa_display						       
                 FROM
                 produk_m AS kd
+                LEFT JOIN satuanstandar_m as ss on ss.id = kd.objectsatuanstandarfk 
                 LEFT JOIN profile_m AS pr ON pr.ID = kd.kdprofile 
                 LEFT JOIN ihs_map_bahanzat AS mbh ON mbh.produkfk = kd.id 
                 LEFT JOIN ihs_bahanzat AS bh ON bh.ID = mbh.ihs_bahanzat 
@@ -1365,6 +1616,38 @@ class IHSController extends ApiController
 
             $ingredients = [];
             foreach ($data as $item) {
+
+                $satuanLokal = strtolower(trim($item->satuanstandar));
+                
+                $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                // $denomCode = $item->satuanstandar; 
+                $denomCode = 'TAB';
+
+                if (str_contains($satuanLokal, 'ml') || str_contains($satuanLokal, 'botol') || str_contains($satuanLokal, 'drops') || str_contains($satuanLokal, 'syr') || str_contains($satuanLokal, 'tetes')) {
+                    $denomSystem = 'http://unitsofmeasure.org'; // Pakai kamus Metrik (UCUM)
+                    $denomCode = 'mL';
+                } 
+                elseif (str_contains($satuanLokal, 'tab') || str_contains($satuanLokal, 'strip')) {
+                    $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $denomCode = 'TAB';
+                }
+                elseif (str_contains($satuanLokal, 'cap') || str_contains($satuanLokal, 'kapsul')) {
+                    $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $denomCode = 'CAP';
+                }
+                elseif (str_contains($satuanLokal, 'tube') || str_contains($satuanLokal, 'salep') || str_contains($satuanLokal, 'cream')) {
+                    $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $denomCode = 'TUBE';
+                }
+                elseif (str_contains($satuanLokal, 'amp') || str_contains($satuanLokal, 'ampul')) {
+                    $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $denomCode = 'AMP';
+                }
+                elseif (str_contains($satuanLokal, 'vial')) {
+                    $denomSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $denomCode = 'VIAL';
+                }
+
                 $ingredients[] =  array(
                     'itemCodeableConcept' =>
                     array(
@@ -1373,7 +1656,9 @@ class IHSController extends ApiController
                             0 =>
                             array(
                                 'system' => 'http://sys-ids.kemkes.go.id/kfa',
-                                'code' => $item->ihs_kfa_code,
+                                // 'code' => $item->ihs_bahanzat,
+                                'code' => $item->ihs_kfa_code_kemasan,
+                                // 'display' =>  $item->bahanzat,
                                 'display' =>  $item->ihs_zat_aktif,
                             ),
                         ),
@@ -1383,56 +1668,63 @@ class IHSController extends ApiController
                     array(
                         'numerator' =>
                         array(
-                            'value' => (float)$item->kekuatan_zat_aktif,
+                            // 'value' => (float)$item->qtynum,
+                            'value' => (float)$item->kekuatan_angka,
                             'system' => 'http://unitsofmeasure.org',
+                            // 'code' => $item->numerartorsatuanfk,
                             'code' => $item->net_weight_uom_name,
                         ),
                         'denominator' =>
                         array(
-                            'value' => 1, // (float)$item->qtydenom,
-                            'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
-                            'code' => 'TAB', // $item->denomsatuanfk,
+                            // 'value' => (float)$item->qtydenom,
+                            'value' => 1,
+                            // 'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+                            'system' => $denomSystem,
+                            // 'code' => $item->denomsatuanfk,
+                            // 'code' => $item->satuanstandar,
+                            'code' => $denomCode,
                         ),
                     ),
                 );
             }
             $q = $data[0];
-            // $SPD =  StokProdukDetail::where('objectprodukfk', $q->idprodukna)
-            //     ->where('qtyproduk', '>', 0)
-            //     ->orderBy('tglkadaluarsa', 'desc')
-            //     ->get();
+            $SPD =  StokProdukDetail::where('objectprodukfk', $q->idprodukna)
+                ->where('qtyproduk', '>', 0)
+                ->orderBy('tglkadaluarsa', 'desc')
+                ->get();
 
             $tglkadaluarsa = '';
             $nobatch = '-';
 
-            // foreach ($SPD as $d) {
-            //     if ($d->nobatch != null) {
-            //         $nobatch = $d->nobatch;
-            //     }
-            //     if ($d->tglkadaluarsa != null) {
-            //         $tglkadaluarsa = date('Y-m-d', strtotime($d->tglkadaluarsa));
-            //     }
-            // }
-            // if ($tglkadaluarsa == '') {
-            //     $tglkadaluarsa = date('Y-m-d');
-            // }
+            foreach ($SPD as $d) {
+                if ($d->nobatch != null) {
+                    $nobatch = $d->nobatch;
+                }
+                if ($d->tglkadaluarsa != null) {
+                    $tglkadaluarsa = date('Y-m-d', strtotime($d->tglkadaluarsa));
+                }
+            }
+            if ( $tglkadaluarsa == ''){
+                $tglkadaluarsa = date('Y-m-d');
+            }
             $data = array(
                 'id' =>  $q->ihs_id,
                 'resourceType' => 'Medication',
                 'meta' =>
                 array(
                     'profile' =>
-                    array(
-                        0 => 'https://fhir.kemkes.go.id/r4/StructureDefinition/Medication',
+                    array( 
+                      "https://fhir.kemkes.go.id/r4/StructureDefinition/Medication" 
                     ),
                 ),
+                
                 'identifier' =>
                 array(
                     0 =>
                     array(
                         'system' => 'http://sys-ids.kemkes.go.id/medication/' . $q->ihs_profile,
                         'use' => 'official',
-                        'value' => (string) $q->idprodukna,
+                        'value' => (string)$q->idprodukna,
                     ),
                 ),
                 'code' =>
@@ -1442,15 +1734,18 @@ class IHSController extends ApiController
                         0 =>
                         array(
                             'system' => 'http://sys-ids.kemkes.go.id/kfa',
-                            'code' => trim($q->ihs_kfa_code),
-                            'display' => trim($q->ihs_kfa_display),
+                            // 'code' => trim($q->ihs_kfa_code),
+                            'code' => trim($q->ihs_kfa_code_kemasan),
+                            // 'display' => trim($q->kfa_display),
+                            'display' => trim($q->ihs_zat_aktif),
                         ),
                     ),
                 ),
                 'status' => 'active',
                 'manufacturer' =>
                 array(
-                    'reference' => 'Organization/' . $q->ihs_profile, //PT KIMIA FARMA, Tbk
+                    'reference' => 'Organization/'
+                    . $q->ihs_profile, //PT KIMIA FARMA, Tbk
                 ),
                 'form' =>
                 array(
@@ -1499,35 +1794,32 @@ class IHSController extends ApiController
             }
 
 
-
+           
             $method =   $q->ihs_id == null ? 'POST' : 'PUT';
-
+      
             $objetoRequest = new \Illuminate\Http\Request();
             $objetoRequest['url'] = $q->ihs_id == null ? $data['resourceType'] : $data['resourceType'] . '/' . $q->ihs_id;
             $objetoRequest['method'] = $method;
             $objetoRequest['data'] = $data;
 
             $response =  $this->ihsTools($objetoRequest, true);
-
+ 
             $noterror = true;
-            if ($response->resourceType == 'OperationOutcome') {
+            if (isset($response->resourceType ) && $response->resourceType == 'OperationOutcome') {
                 $noterror = false;
+                if(isset($response->issue) && isset($response->issue[0]->code)  && $response->issue[0]->code == 'not-found'){
+            
+                    $objetoRequest = new \Illuminate\Http\Request();
+                    $objetoRequest['url'] =  $data['resourceType'] ;
+                    $objetoRequest['method'] = $method;
+                    $objetoRequest['data'] = $data;
+                    $response =  $this->ihsTools($objetoRequest, true);
+                    $noterror = true;
+                    if ($response->resourceType == 'OperationOutcome') {
+                        $noterror = false;
+                    }
+                }
             }
-            // if (isset($response->resourceType) && $response->resourceType == 'OperationOutcome') {
-            //     $noterror = false;
-            //     if (isset($response->issue) && isset($response->issue[0]->code)  && $response->issue[0]->code == 'not-found') {
-
-            //         $objetoRequest = new \Illuminate\Http\Request();
-            //         $objetoRequest['url'] =  $data['resourceType'];
-            //         $objetoRequest['method'] = $method;
-            //         $objetoRequest['data'] = $data;
-            //         $response =  $this->ihsTools($objetoRequest, true);
-            //         $noterror = true;
-            //         if ($response->resourceType == 'OperationOutcome') {
-            //             $noterror = false;
-            //         }
-            //     }
-            // }
 
             // $response =  $this->ihsTools($objetoRequest, true);
 
@@ -1571,9 +1863,10 @@ class IHSController extends ApiController
         }
         if ($lokal == true) {
             return $response;
-        }
+        } 
         return response()->json($response);
     }
+
     public function MedicationRequest(Request $request, $lokal = null)
     {
         try {
