@@ -117,7 +117,7 @@ define(['initialize'], function (initialize) {
 
             function LoadCombo() {
                 $scope.isLoadingDiagnosis = true;
-                medifirstService.getPart("emr/get-combo-icd9", true, true, 10).then(function (data) {
+                medifirstService.getPart("emr/get-combo-icd9-idrg", true, true, 10).then(function (data) {
                     $scope.listDiagnosaTindakan = data;
                 });
                 medifirstService.getPart("emr/get-combo-icd10", true, true, 10).then(function (data) {
@@ -543,7 +543,7 @@ define(['initialize'], function (initialize) {
                     var data = {
                         norec_dp: norec_diagnosapasien,
                         objectpasienfk: norec_apd,
-                        tglpendaftaran: $scope.item.tglMasuk,
+                        tglpendaftaran: moment($scope.item.tglMasuk).format('YYYY-MM-DD hh:mm:ss'),
                         objectdiagnosatindakanfk: $scope.item.diagnosaTindakan.id,
                         keterangantindakan: ketTindakans
                     }
