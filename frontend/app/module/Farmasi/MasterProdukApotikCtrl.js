@@ -1,7 +1,7 @@
 define(['initialize'], function (initialize) {
     'use strict';
-    initialize.controller('MasterProdukApotikCtrl', ['$scope', '$state', 'CacheHelper', 'DateHelper', 'MedifirstService', '$mdDialog',
-        function ($scope, $state, cacheHelper, dateHelper, medifirstService, $mdDialog) {
+    initialize.controller('MasterProdukApotikCtrl', ['$scope', '$state', '$timeout', 'CacheHelper', 'DateHelper', 'MedifirstService', '$mdDialog',
+        function ($scope, $state, $timeout, cacheHelper, dateHelper, medifirstService, $mdDialog) {
             $scope.item = {};
             $scope.dataVOloaded = true;
             $scope.disload = false
@@ -303,7 +303,9 @@ define(['initialize'], function (initialize) {
 
             $scope.TambahMasterApotik = function () {
                 kosongkan()
-                $scope.popUps.center().open();
+                $timeout(function() {
+                    $scope.popUps.center().open();
+                }, 100);
             }
 
             $scope.UbahMasterApotik = async function () {
@@ -365,18 +367,20 @@ define(['initialize'], function (initialize) {
                     $scope.item.ihs_kfa_code_kemasan = data[0].ihs_kfa_code_kemasan
                     $scope.item.ihs_sediaan = data[0].ihs_sediaan
                     
-                    for (var i = data[0].ingredients.length - 1; i >= 0; i--) {
-                      let dataObat = {
-                        komposisizatfk: data[0].ingredients[i]?.ihs_bahanzat,
-                        komposisizat: data[0].ingredients[i]?.nama_ihs_bahanzat,
-                        numeratorvalue: data[0].ingredients[i]?.qtynum,
-                        numeratorfk: data[0].ingredients[i]?.numerartorsatuanfk,
-                        denominatorvalue: data[0].ingredients[i]?.qtydenom,
-                        denominatorfk: data[0].ingredients[i]?.denomsatuanfk,
-                        numerator: data[0].ingredients[i]?.nama_numerator_satuan,
-                        denominator: data[0].ingredients[i]?.nama_denom_satuan,
+                    if (data[0].ingredients && data[0].ingredients.length > 0) {
+                      for (var i = data[0].ingredients.length - 1; i >= 0; i--) {
+                        let dataObat = {
+                          komposisizatfk: data[0].ingredients[i]?.ihs_bahanzat,
+                          komposisizat: data[0].ingredients[i]?.nama_ihs_bahanzat,
+                          numeratorvalue: data[0].ingredients[i]?.qtynum,
+                          numeratorfk: data[0].ingredients[i]?.numerartorsatuanfk,
+                          denominatorvalue: data[0].ingredients[i]?.qtydenom,
+                          denominatorfk: data[0].ingredients[i]?.denomsatuanfk,
+                          numerator: data[0].ingredients[i]?.nama_numerator_satuan,
+                          denominator: data[0].ingredients[i]?.nama_denom_satuan,
+                        }
+                        dataobatgen.push(dataObat)
                       }
-                      dataobatgen.push(dataObat)
                     }
 
                     $scope.item.ihs_loinc_id = data[0].ihs_loinc_id
@@ -384,8 +388,14 @@ define(['initialize'], function (initialize) {
                     $scope.listGridObat = new kendo.data.DataSource({
                         data: dataobatgen
                     });
-                    $scope.popUps.center().open();
-                })
+                    $timeout(function() {
+                        $scope.popUps.center().open();
+                    }, 100);
+                }).catch(function (error) {
+                    $scope.isRouteLoading = false;
+                    console.error('Error loading product data:', error);
+                    toastr.error('Gagal memuat data produk!');
+                });
             }
 
             $scope.save = function () {
@@ -453,6 +463,10 @@ define(['initialize'], function (initialize) {
 
             $scope.tutup = function () {
                 $scope.popUps.close();
+            }
+
+            $scope.customClicked = function () {
+                kosongkan();
             }
 
             function kosongkan() {
