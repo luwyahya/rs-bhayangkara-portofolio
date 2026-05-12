@@ -544,12 +544,11 @@ define(['initialize'], function (initialize) {
                     "title": "Ingredients",
                     "width": "100px"
                 },
-
-                {
-                    "field": "batch.expirationDate",
-                    "title": "Expire Date",
-                    "width": "80px"
-                },
+                // {
+                //     "field": "batch.expirationDate",
+                //     "title": "Expire Date",
+                //     "width": "80px"
+                // },
 
                 {
                     "command": [

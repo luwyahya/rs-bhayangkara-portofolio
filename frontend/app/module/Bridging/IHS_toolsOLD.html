@@ -1,0 +1,848 @@
+<style type="text/css">
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+
+    .k-autocomplete {
+        border: 1px solid #228be6;
+        border-radius: 5%;
+    }
+
+    .k-toolbar .k-split-button,
+    span.k-colorpicker,
+    span.k-combobox,
+    span.k-datepicker,
+    span.k-datetimepicker,
+    span.k-dropdown,
+    span.k-numerictextbox,
+    span.k-timepicker {
+        background-image: none;
+        margin-top: -5px !important;
+    }
+
+    .json-viewer {
+        margin-top: 26px;
+        padding: 2em 0 2em 5em;
+        background: lightgrey;
+    }
+
+    button:disabled {
+        background: #B5B2B1;
+    }
+
+    .custom-button {
+        margin: 0 0 10px;
+        background: none;
+        color: black;
+        border-radius: 0.8em;
+        border: 1px solid;
+        background-color: white;
+    }
+
+    .k-edit,
+    .k-i-download {
+        background-position: -313px -221px;
+    }
+
+    a.k-button.k-button-icontext {
+        min-width: 84px;
+        background-color: #e0360b;
+        border: none;
+        margin: .1em;
+    }
+
+    .duplicateDate {
+        background-color: red;
+        border: 2px solid red !important;
+    }
+
+    span.errorCuti {
+        text-align: center;
+        width: 100%;
+        padding: 10px 20px;
+        color: red;
+        font: italic 14px/30px arial, sans-serif;
+    }
+
+    .btnSimpan {
+        margin-right: 10px;
+        padding: 5px 10px;
+        border: none;
+        color: white;
+        font-size: 12px;
+        background-color: #41abf2;
+        border-radius: 3px;
+        cursor: pointer;
+        min-width: 50px;
+    }
+</style>
+<div class="grid_12">
+    <div class="panel panel-default panel-white">
+        <div class="panel-body">
+            <div class="grid_12">
+                <div class="grid_12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading" style="font-size: 18px;"><span c-translate>SATU SEHAT</span>
+
+                        </div>
+                        <div class="panel-body">
+                            <div class="grid_12 animated no-padding">
+                                <div ng-cloak>
+                                    <md-content>
+                                        <md-tabs md-dynamic-height md-border-bottom>
+                                            <md-tab label="Encounter">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 15px">
+                                                            <button class="k-button k-primary k-button-icon "
+                                                                ng-click="search() ">
+                                                                <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                            </button>
+
+                                                            <em ng-click='clear()' id="iconButton " data-role="button "
+                                                                class="k-button k-button-icon " role="button "
+                                                                aria-disabled="false " tabindex="0 ">
+                                                                <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <kendo-grid id="kGridEncounter" data-source="dataSource"
+                                                            options="columnGrid" k-selectable="'row'"
+                                                            k-sortable="'true'" k-resizable="'true'"
+                                                            k-ng-model="dataSelected" ng-click="klikGrid(dataSelected)"
+                                                            ng-dblclick="toolsIHSNakes(dataSelected)">
+                                                        </kendo-grid>
+
+                                                    </div>
+
+
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Condition">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 15px">
+                                                            <button class="k-button k-primary k-button-icon "
+                                                                ng-click="search2() ">
+                                                                <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                            </button>
+
+                                                            <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                class="k-button k-button-icon " role="button "
+                                                                aria-disabled="false " tabindex="0 ">
+                                                                <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <kendo-grid id="kGridCondition" data-source="dataSource2"
+                                                            options="columnGrid2" k-selectable="'row'"
+                                                            k-sortable="'true'" k-resizable="'true'"
+                                                            k-ng-model="dataSelected2"
+                                                            ng-click="klikGrid(dataSelected2)"
+                                                            ng-dblclick="toolsIHSCon(dataSelected2)">
+                                                        </kendo-grid>
+
+                                                    </div>
+
+
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Observation">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 15px">
+                                                            <button class="k-button k-primary k-button-icon "
+                                                                ng-click="searchObservation() ">
+                                                                <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                            </button>
+
+                                                            <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                class="k-button k-button-icon " role="button "
+                                                                aria-disabled="false " tabindex="0 ">
+                                                                <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <kendo-grid id="kGridObservation"
+                                                            data-source="dataSourceObservation"
+                                                            options="columnGridObservation" k-selectable="'row'"
+                                                            k-sortable="'true'" k-resizable="'true'"
+                                                            k-ng-model="dataSelectedObservation"
+                                                            ng-click="klikGridObservation(dataSelectedObservation)">
+                                                        </kendo-grid>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Procedure">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 15px">
+                                                            <button class="k-button k-primary k-button-icon "
+                                                                ng-click="searchProcedure() ">
+                                                                <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                            </button>
+
+                                                            <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                class="k-button k-button-icon " role="button "
+                                                                aria-disabled="false " tabindex="0 ">
+                                                                <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <kendo-grid id="kGridProcedure"
+                                                            data-source="dataSourceProcedure"
+                                                            options="columnGridProcedure" k-selectable="'row'"
+                                                            k-sortable="'true'" k-resizable="'true'"
+                                                            k-ng-model="dataSelectedProcedure"
+                                                            ng-click="klikGridProcedure(dataSelectedProcedure)">
+                                                        </kendo-grid>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Pemberian Obat">
+                                                <md-content>
+                                                    <md-tabs md-dynamic-height md-border-bottom>
+                                                        <md-tab label="Medication">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchMedication() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridMedication"
+                                                                        data-source="dataSourceMedication"
+                                                                        options="columnGridMedication" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedMedication"
+                                                                        ng-click="klikGridMedication(dataSelectedMedication)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Medication Request">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchMedicationRequest() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridMedicationRequest"
+                                                                        data-source="dataSourceMedicationRequest"
+                                                                        options="columnGridMedicationRequest" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedMedicationRequest"
+                                                                        ng-click="klikGridMedicationRequest(dataSelectedMedicationRequest)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Medication Dispense">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchMedicationDispense() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridMedicationDispense"
+                                                                        data-source="dataSourceMedicationDispense"
+                                                                        options="columnGridMedicationDispense" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedMedicationDispense"
+                                                                        ng-click="klikGridMedicationDispense(dataSelectedMedicationDispense)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Medication Dispense Obat Bebas">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchMedicationDispenseBebas() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridMedicationDispenseBebas"
+                                                                        data-source="dataSourceMedicationDispenseBebas"
+                                                                        options="columnGridMedicationDispenseBebas"
+                                                                        k-selectable="'row'" k-sortable="'true'"
+                                                                        k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedMedicationDispenseBebas"
+                                                                        ng-click="klikGridMedicationDispenseBebas(dataSelectedMedicationDispenseBebas)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                    </md-tabs>
+                                                </md-content>
+                                           
+                                            </md-tab>
+                                   
+                                            <md-tab label="Laboratorium">
+                                                <md-content>
+                                                    <md-tabs md-dynamic-height md-border-bottom>
+                                                        <md-tab label="ServiceRequest">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchServiceRequest() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridServiceRequest"
+                                                                        data-source="dataSourceServiceRequest"
+                                                                        options="columnGridServiceRequest" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedServiceRequest"
+                                                                        ng-click="klikGridServiceRequest(dataSelectedServiceRequest)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Specimen">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchSpecimen() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridSpecimen"
+                                                                        data-source="dataSourceSpecimen"
+                                                                        options="columnGridSpecimen" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedSpecimen"
+                                                                        ng-click="klikGridSpecimen(dataSelectedSpecimen)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Observation Lab">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchObservationLab() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridObservationLab"
+                                                                        data-source="dataSourceObservationLab"
+                                                                        options="columnGridObservationLab" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedObservationLab"
+                                                                        ng-click="klikGridObservationLab(dataSelectedObservationLab)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                        <md-tab label="Diagnostic Report">
+                                                            <md-content class="md-padding ">
+                                                                <div class="grid_12 ">
+                                                                    <div class="grid_4 ">
+                                                                        <div class="grid_12">
+                                                                            <label c-label>Period </label>
+                                                                        </div>
+                                                                        <div class="grid_12">
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAwal"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                            <div class="grid_6">
+                                                                                <input style="width: 100% " kendo-date-picker
+                                                                                    k-ng-model="item.periodeAkhir"
+                                                                                    k-format="'yyyy-MM-dd'" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="grid_1" style="margin-top: 15px">
+                                                                        <button class="k-button k-primary k-button-icon "
+                                                                            ng-click="searchDiagnosticReport() ">
+                                                                            <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                                        </button>
+            
+                                                                        <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                            class="k-button k-button-icon " role="button "
+                                                                            aria-disabled="false " tabindex="0 ">
+                                                                            <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                                        </em>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="grid_12">
+                                                                    <kendo-grid id="kGridDiagnosticReport"
+                                                                        data-source="dataSourceDiagnosticReport"
+                                                                        options="columnGridDiagnosticReport" k-selectable="'row'"
+                                                                        k-sortable="'true'" k-resizable="'true'"
+                                                                        k-ng-model="dataSelectedDiagnosticReport"
+                                                                        ng-click="klikGridDiagnosticReport(dataSelectedDiagnosticReport)">
+                                                                    </kendo-grid>
+            
+                                                                </div>
+            
+            
+                                                            </md-content>
+                                                        </md-tab>
+                                                    </md-tabs>
+                                                </md-content>
+                                           
+                                            </md-tab>
+                                   
+                                            <md-tab label="Composition">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 15px">
+                                                            <button class="k-button k-primary k-button-icon "
+                                                                ng-click="searchComposition() ">
+                                                                <span class="k-sprite k-icon k-i-search ">Find</span>
+                                                            </button>
+
+                                                            <em ng-click='clear2()' id="iconButton " data-role="button "
+                                                                class="k-button k-button-icon " role="button "
+                                                                aria-disabled="false " tabindex="0 ">
+                                                                <span class="k-sprite k-icon k-i-cancel ">Clear</span>
+                                                            </em>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                                        <kendo-grid id="kGridComposition"
+                                                            data-source="dataSourceComposition"
+                                                            options="columnGridComposition" k-selectable="'row'"
+                                                            k-sortable="'true'" k-resizable="'true'"
+                                                            k-ng-model="dataSelectedComposition"
+                                                            ng-click="klikGridComposition(dataSelectedComposition)">
+                                                        </kendo-grid>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="NAKES">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12">
+                                                        <div class="grid_4">
+                                                            <div class="grid_12">
+                                                                <label c-label>Masukkan NIK / ID:</label>
+                                                                <input c-text-box type="input" filter="'char'"
+                                                                    class="k-textbox" ng-model="item.data" />
+                                                            </div>
+                                                            <div class="grid_12">
+
+                                                                <div class="grid_6" ng-repeat="tipe in dataCheckbox">
+                                                                    <input type="radio" name="{{tipe.name}}"
+                                                                        id="{{tipe.id}}" class="k-radio"
+                                                                        ng-model="item.tipe" ng-value="tipe">
+                                                                    <label class="k-radio-label" for="{{tipe.id}}"
+                                                                        style="margin:5px">{{tipe.name}}</label>
+                                                                </div>
+
+                                                                <div class="grid_1">
+                                                                    <button class="k-button k-primary k-button-icon"
+                                                                        ng-click="findDataNakes()"><span
+                                                                            class="k-sprite k-icon k-i-search">Find</span></button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="grid_8">
+                                                            <div class="grid_12">
+                                                                <label c-label>Results :</label>
+                                                            </div>
+                                                            <pre id="json" class="json-viewer"></pre>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Patient">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12">
+                                                        <div class="grid_4">
+                                                            <div class="grid_12">
+                                                                <label c-label>Masukkan NIK / ID:</label>
+                                                                <input c-text-box type="input" filter="'char'"
+                                                                    class="k-textbox" ng-model="item.data" />
+                                                            </div>
+                                                            <div class="grid_12">
+
+                                                                <div class="grid_6" ng-repeat="tipe in dataCheckbox">
+                                                                    <input type="radio" name="{{tipe.name}}"
+                                                                        id="{{tipe.id}}" class="k-radio"
+                                                                        ng-model="item.tipe" ng-value="tipe">
+                                                                    <label class="k-radio-label" for="{{tipe.id}}"
+                                                                        style="margin:5px">{{tipe.name}}</label>
+                                                                </div>
+
+                                                                <div class="grid_1">
+                                                                    <button class="k-button k-primary k-button-icon"
+                                                                        ng-click="findDataPasien()"><span
+                                                                            class="k-sprite k-icon k-i-search">Find</span></button>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="grid_8">
+                                                            <div class="grid_12">
+                                                                <label c-label>Results :</label>
+                                                            </div>
+                                                            <pre id="json2" class="json-viewer"></pre>
+                                                        </div>
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                            <md-tab label="Sync Data">
+                                                <md-content class="md-padding ">
+                                                    <div class="grid_12 ">
+                                                        <div class="grid_4 ">
+                                                            <div class="grid_12">
+                                                                <label c-label>Period </label>
+                                                            </div>
+                                                            <div class="grid_12">
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAwal"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                                <div class="grid_6">
+                                                                    <input style="width: 100% " kendo-date-picker
+                                                                        k-ng-model="item.periodeAkhir"
+                                                                        k-format="'yyyy-MM-dd'" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="grid_1" style="margin-top: 10px">
+                                                            <button class="btnTemplate1 green "  style="margin-left: 0;"  ng-click="post('Encounter')"><i class="fa fa-plane"></i> Encounter</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="grid_12">
+                                    
+                                                        <div class="grid_12">
+                                                            <label c-label>Results :</label>
+                                                        </div>
+                                                        <pre id="json_post" class="json-viewer"></pre>
+                                                   
+                                                    </div>
+                                                </md-content>
+                                            </md-tab>
+                                        </md-tabs>
+                                    </md-content>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div ng-include=' "../app/template/Shared/TemplateLoading" '></div>
+
+<div kendo-window="popUpJson" k-title="'IHS'" k-width="600" k-visible="false">
+    <div class="panel panel-default container_12" style="padding: 0px 10px;">
+        <div class="grid_12">
+            <pre id="jsonIHS" class="json-viewer "></pre>
+        </div>
+        <div class="k-edit-buttons  k-state-default pull-right" style="margin-top:10px">
+            <button class="k-button  btnHapus k-button-icontext" ng-click="tutupJson()"><span
+                    class="k-icon k-cancel"></span>Tutup</button>
+        </div>
+    </div>
+</div>
