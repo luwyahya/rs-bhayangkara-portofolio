@@ -5199,7 +5199,7 @@ class MasterController extends ApiController{
             $prod->isantibiotik = isset($data['isantibiotik']) ? $data['isantibiotik'] : null;
             $prod->islasa = isset($data['islasa']) ? $data['islasa'] : null;
             $prod->penggolongan = isset($data['penggolongan']) ? $data['penggolongan'] : null;
-            $prod->obatprogram = isset($data['obatprogram']) ? $data['obatprogram'] : null;
+            $prod->obatprogram = (isset($data['obatprogram']) && $data['obatprogram'] !== '') ? $data['obatprogram'] : null;
             $prod->isfornas = isset($data['isfornas']) ? $data['isfornas'] : null;
             $prod->fornas2 = isset($data['fornas2']) ? $data['fornas2'] : null;
             $prod->nonfornas2 = isset($data['nonfornas2']) ? $data['nonfornas2'] : null;
