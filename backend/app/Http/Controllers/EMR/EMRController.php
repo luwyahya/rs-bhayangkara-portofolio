@@ -11824,7 +11824,7 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
-    //OLD
+    //OLD SAVE DIAGNOSA TINDAKAN
     // public function saveDiagnosaTindakanPasien(Request $request)
     // {
     //     $dataLogin = $request->all();
@@ -13077,7 +13077,6 @@ class EMRController  extends ApiController
         return $this->respond($result);
     }
 
-
     public function SimpanOrderPelayananObat(Request $request)
     {
         
@@ -13248,15 +13247,17 @@ class EMRController  extends ApiController
         if ($transStatus == 'true') {
             $transMessage = "Simpan Order Pelayanan Apotik Berhasil";
             DB::commit();
-            // $objetoRequest = new \Illuminate\Http\Request();
-            // $objetoRequest['noorder'] = $newSO->noorder;
-            // $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationRequest($objetoRequest, true);
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noorder'] = $newSO->noorder;
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationRequest($objetoRequest, true);
+
             $result = array(
                 "status" => 201,
                 "message" => $transMessage,
-                // 'MedicationRequest' => isset($ihs) ? $ihs : null,
                 "noresep" => $newSO, //$noResep,,//$noResep,
                 "as" => 'as@epic',
+                'ihs' => isset($ihs) ? $ihs : null,
+
             );
         } else {
             $transMessage = "Simpan Order Pelayanan Apotik Gagal!!";
@@ -13270,7 +13271,6 @@ class EMRController  extends ApiController
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
     }
-
 
     public function simpanResepMaster(Request $request)
     {
