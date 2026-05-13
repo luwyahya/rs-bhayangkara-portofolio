@@ -2409,6 +2409,37 @@ class IHSController extends ApiController
                         }
                     }
                 }
+
+                $satuanLokalReq = strtolower(trim($DoseQtyunitUnit));
+                
+                $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                $reqCode = 'TAB'; // Default aman
+                
+                if (strpos($satuanLokalReq, 'ml') !== false || strpos($satuanLokalReq, 'botol') !== false || strpos($satuanLokalReq, 'btl') !== false || strpos($satuanLokalReq, 'drops') !== false || strpos($satuanLokalReq, 'syr') !== false || strpos($satuanLokalReq, 'tetes') !== false) {
+                    $reqSystem = 'http://unitsofmeasure.org';
+                    $reqCode = 'mL';
+                } 
+                elseif (strpos($satuanLokalReq, 'tab') !== false || strpos($satuanLokalReq, 'strip') !== false) {
+                    $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $reqCode = 'TAB';
+                }
+                elseif (strpos($satuanLokalReq, 'cap') !== false || strpos($satuanLokalReq, 'kapsul') !== false) {
+                    $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $reqCode = 'CAP';
+                }
+                elseif (strpos($satuanLokalReq, 'tube') !== false || strpos($satuanLokalReq, 'salep') !== false || strpos($satuanLokalReq, 'cream') !== false || strpos($satuanLokalReq, 'krim') !== false) {
+                    $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $reqCode = 'TUBE';
+                }
+                elseif (strpos($satuanLokalReq, 'amp') !== false || strpos($satuanLokalReq, 'ampul') !== false) {
+                    $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $reqCode = 'AMP';
+                }
+                elseif (strpos($satuanLokalReq, 'vial') !== false) {
+                    $reqSystem = 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm';
+                    $reqCode = 'VIAL';
+                }
+
                 $data = array(
                     'id' => $item->ihs_medicationdispense,
                     'resourceType' => 'MedicationDispense',
@@ -2479,8 +2510,10 @@ class IHSController extends ApiController
                     ),
                     'quantity' =>
                     array(
-                        'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
-                        'code' => $DoseQtyunitCode,
+                        // 'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+                        'system' => $reqSystem,
+                        // 'code' => $DoseQtyunitCode,
+                        'code' => $reqCode,
                         'value' => (float)$item->jumlah,
                     ),
                     'daysSupply' =>
@@ -2527,8 +2560,10 @@ class IHSController extends ApiController
                                     array(
                                         'value' => (float) $item->jumlah,
                                         'unit' => $DoseQtyunitUnit,
-                                        'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
-                                        'code' =>  $DoseQtyunitCode,
+                                        // 'system' => 'http://terminology.hl7.org/CodeSystem/v3-orderableDrugForm',
+                                        'system' => $reqSystem,
+                                        // 'code' =>  $DoseQtyunitCode,
+                                        'code' =>  $reqCode,
                                     ),
                                 ),
                             ),

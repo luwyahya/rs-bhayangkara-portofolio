@@ -4629,9 +4629,9 @@ class PelayananResepController extends ApiController
             //                        'noresep' => $noResep]
             //                );
             //            }
-           // $objetoRequest = new \Illuminate\Http\Request();
-            // $objetoRequest['noresep'] = $newSR->noresep;
-            // $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationDispense($objetoRequest, true);
+            $objetoRequest = new \Illuminate\Http\Request();
+            $objetoRequest['noresep'] = $newSR->noresep;
+            $ihs = app('App\Http\Controllers\Bridging\IHSController')->MedicationDispense($objetoRequest, true);
 
             $result = array(
                 "status" => 201,
@@ -4640,7 +4640,7 @@ class PelayananResepController extends ApiController
                 "dataPP" => $dataPP,
                 "dataKS" => $dataKS,
                 "R_PPL" => $r_PPL,
-                // "MedicationDispense" =>  isset($ihs) ? $ihs : null,
+                'ihs' => isset($ihs) ? $ihs : null,
                 //                "double" => count($cekSR),
                 "as" => 'as@epic',
             );
