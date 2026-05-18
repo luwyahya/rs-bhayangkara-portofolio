@@ -2467,7 +2467,8 @@ class PelayananResepController extends ApiController
                 'op.issore',
                 'op.keteranganpakai',
                 'so.isreseppulang',
-                'pr.isobatkronis'
+                'pr.isobatkronis',
+                'ru.id as id'
             );
 
         if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {

@@ -7,6 +7,14 @@ define(['initialize'], function (initialize) {
             $scope.now = new Date()
             $scope.item.periodeAwal = new Date(moment($scope.now).format('YYYY-MM-DD 00:00'));
             $scope.item.periodeAkhir = new Date(moment($scope.now).format('YYYY-MM-DD 23:59'));
+
+
+            //-------------------
+            $scope.item.dat_encounter_sukses = '100';
+            $scope.item.dat_encounter_gagal = '1203';
+            //-------------------
+
+
             $scope.search = function () {
                 $scope.isRouteLoading = true
                 medifirstService.get('bridging/ihs/get-list?dari=' +
@@ -540,14 +548,14 @@ define(['initialize'], function (initialize) {
                     "width": "150px"
                 },
                 {
-                    "field": "ingredient_text",
+                    "field": "ingredient[0].itemCodeableConcept.coding[0].code",
                     "title": "Ingredients",
                     "width": "100px"
                 },
 
                 {
-                    "field": "batch.expirationDate",
-                    "title": "Expire Date",
+                    "field": "meta.lastUpdated",
+                    "title": "Last Update",
                     "width": "80px"
                 },
 
@@ -2208,6 +2216,7 @@ define(['initialize'], function (initialize) {
 
                   //Specimen
                   $scope.searchObservationLab = function () {
+                    debugger
                     $scope.isRouteLoading = true
                     medifirstService.get('bridging/ihs/get-list?dari=' +
                         moment($scope.item.periodeAwal).format('YYYY-MM-DD')
@@ -2217,6 +2226,7 @@ define(['initialize'], function (initialize) {
                         $scope.isRouteLoading = false
                         var dataxx = []
                         for (let x = 0; x < z.data.length; x++) {
+                            debugger
                             const element = z.data[x];
                             element.no = x + 1
                             element.value = element.valueQuantity.value + ' ' +element.valueQuantity.unit
@@ -2238,6 +2248,7 @@ define(['initialize'], function (initialize) {
                             }
     
                         });
+                        debugger
                     })
     
     
@@ -2520,8 +2531,13 @@ define(['initialize'], function (initialize) {
                         "title": "Issued",
                         "width": "100px"
                     },
+                    // {
+                    //     "field": "conclusionCode[0].coding[0].display",
+                    //     "title": "Conclusion ",
+                    //     "width": "150px"
+                    // },
                     {
-                        "field": "conclusionCode[0].coding[0].display",
+                        "field": "conclusion",
                         "title": "Conclusion ",
                         "width": "150px"
                     },
