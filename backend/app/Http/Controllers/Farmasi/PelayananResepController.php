@@ -2490,7 +2490,7 @@ class PelayananResepController extends ApiController
                     spd.objectruanganfk
                     order By sk.tglstruk"),
             array(
-                'ruanganid' => $dataStruk['id']
+                'ruanganid' => $dataStruk->id
             )
         );
 
