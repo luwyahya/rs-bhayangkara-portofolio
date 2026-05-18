@@ -2467,8 +2467,8 @@ class PelayananResepController extends ApiController
                 'op.issore',
                 'op.keteranganpakai',
                 'so.isreseppulang',
-                'pr.isobatkronis',
-                'ru.id as id'
+                'pr.isobatkronis'
+                // 'ru.id as id'
             );
 
         if (isset($request['noorder']) && $request['noorder'] != "" && $request['noorder'] != "undefined") {
@@ -2490,7 +2490,7 @@ class PelayananResepController extends ApiController
                     spd.objectruanganfk
                     order By sk.tglstruk"),
             array(
-                'ruanganid' => $dataStruk->id
+                'ruanganid' => $dataStruk['id']
             )
         );
 
