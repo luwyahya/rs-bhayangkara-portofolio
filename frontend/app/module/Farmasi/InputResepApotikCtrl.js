@@ -23,6 +23,7 @@ define(['initialize'], function (initialize) {
             var noTerima = '';
             var data2 = [];
             var data2kronis = [];
+            var dataPulang = [];
             var data2R = [];
             var dataOK = [];
             var hrg1 = 0
