@@ -214,7 +214,7 @@ define(['initialize'], function (initialize) {
 
             function loadData() {
                 $scope.isRouteLoading = true;
-                var isLoinc = false
+                var isLoinc = ""
                 if ($scope.item.isLoinc != undefined && $scope.item.isLoinc == true) {
                     isLoinc = "&isLoinc=" + $scope.item.isLoinc
                     delete $scope.item.jenisProduk
