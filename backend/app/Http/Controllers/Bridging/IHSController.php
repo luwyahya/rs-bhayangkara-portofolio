@@ -4975,7 +4975,7 @@ class IHSController extends ApiController
                 INNER JOIN pasien_m AS ps ON ps.ID = pd.nocmfk
                 INNER JOIN pegawai_m AS pg ON pg.ID = so.objectpegawaiorderfk
                 INNER JOIN ruangan_m AS ru ON ru.ID = so.objectruanganfk
-                LEFT JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = 576
+                LEFT JOIN antrianpasiendiperiksa_t as apd on apd.noregistrasifk = pd.norec and apd.objectruanganfk = 575
                 LEFT JOIN pelayananpasienpetugas_t as ppt on ppt.nomasukfk = apd.norec
                 LEFT JOIN pegawai_m pg2 ON pg2.id = ppt.objectpegawaifk
                 LEFT JOIN pelayananpasien_t as pp on pp.noregistrasifk = apd.norec
@@ -4984,6 +4984,10 @@ class IHSController extends ApiController
             WHERE so.noorder = '$request[noorder]';
                 
            "));
+
+        //    dd($q);
+
+        // return $q;
 
 
 
@@ -4997,7 +5001,7 @@ class IHSController extends ApiController
                 }
                 return response()->json($response);
             }
-            $profile = Profile::where('id', $kdProfile)->first();
+            $profile = Profile::where('statusenabled', true)->first();
 
             foreach ($q as $k =>  $item) {
                 $assen = [];
@@ -5014,7 +5018,8 @@ class IHSController extends ApiController
                                 )
                             )
                         ),
-                        "system" => "http://sys-ids.kemkes.go.id/acsn/" . $profile->ihs_id,
+                        // "system" => "http://sys-ids.kemkes.go.id/acsn/" . $profile->ihs_id,
+                        "system" => "http://sys-ids.kemkes.go.id/acsn/" . $profile['ihs_id'],
                         "value" => $acsn
                     );
                 }
@@ -5027,7 +5032,8 @@ class IHSController extends ApiController
                     array(
                         0 =>
                         array(
-                            'system' => 'http://sys-ids.kemkes.go.id/servicerequest/' . $profile->ihs_id,
+                            // 'system' => 'http://sys-ids.kemkes.go.id/servicerequest/' . $profile->ihs_id,
+                            'system' => 'http://sys-ids.kemkes.go.id/servicerequest/' . $profile['ihs_id'],
                             'value' => $acsn,
                         ),
                         $assen
@@ -5205,7 +5211,7 @@ class IHSController extends ApiController
                 }
                 return response()->json($response);
             }
-            $profile = Profile::where('id', $kdProfile)->first();
+            $profile = Profile::where('statusenabled', true)->first();
             foreach ($q as $k =>  $item) {
 
                 $data  = array(

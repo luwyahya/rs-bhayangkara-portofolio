@@ -1974,99 +1974,207 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     })
                 })
             }
+            // $scope.hasilLab = function () {
+            //     var user = medifirstService.getPegawaiLogin();
+            //     var daftarCetak = [];
+            //     var daftarSimpan = [];
+            //     var produkfk = [];
+            //     if ($scope.dataSelected == undefined) {
+            //         alert('Klik Grid Yang Dipilih');
+            //         return;
+            //     }
+            //     debugger
+            //     for (var i = 0; i < $scope.dataGrid._data.length; i++) {
+            //         if ($scope.dataGrid._data[i].statCheckbox) {
+            //             // daftarCetak.push($scope.dataGrid._data[i].norec_pp)
+            //             daftarCetak.push({
+            //                 "norec_pp": $scope.dataGrid._data[i].norec_pp,
+            //                 "tglPelayanan": $scope.dataGrid._data[i].tglpelayanan,
+            //                 "produkfk": $scope.dataGrid._data[i].produkfk,
+            //             })
+            //         }
+            //     }
+            //     for (var i = 0; i < $scope.dataGrid._data.length; i++) {
+            //         if ($scope.dataGrid._data[i].statCheckbox) {
+            //             // daftarCetak.push($scope.dataGrid._data[i].norec_pp)
+            //             daftarSimpan.push({
+            //                 "norec_pp": $scope.dataGrid._data[i].norec_pp,
+            //             })
+            //         }
+            //     }
+            //     var dataCetakFix = '';
+            //     var result = ''
+            //     for (let i = 0; i < daftarCetak.length; i++) {
+            //         const element = daftarCetak[i];
+            //         if (daftarCetak.length == 1) {
+            //             dataCetakFix = "'" + element.norec_pp + "'"
+            //         } else if (daftarCetak.length == i + 1) {
+            //             dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ""
+            //         } else {
+            //             dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ","
+            //         }
+
+            //     }
+
+            //     if (daftarCetak.length == 0) {
+            //         toastr.error('Ceklis data yang mau di cetak')
+            //         return
+            //     }
+
+            //     if (norec_apd != null) {
+            //         var dokterP = "";
+            //         var idDokterP = "";
+            //         if ($scope.dataSelected != undefined) {
+            //             dokterP = $scope.dataSelected.dokter;
+            //             idDokterP = $scope.dataSelected.dokterid;
+
+            //         }
+            //         var arrStr = {
+            //             0: $scope.item.noMr,
+            //             1: $scope.item.namaPasien,
+            //             2: $scope.item.jenisKelamin,
+            //             3: $scope.item.noregistrasi,
+            //             4: $scope.item.umur,
+            //             5: $scope.item.kelompokPasien,
+            //             6: $scope.item.tglRegistrasi,
+            //             7: norec_apd,
+            //             8: norec_pd,
+            //             9: $scope.item.kelas.id,
+            //             10: $scope.item.kelas.namakelas,
+            //             11: namaRuanganFk,
+            //             12: namaRuangan,
+            //             13: $scope.item.tgllahir,
+            //             14: $scope.item.objectjeniskelaminfk,
+            //             15: dataCetakFix,
+            //             // 16: $scope.dataGrid._data[i].tglpelayanan ,
+            //             17: dokterP,
+            //             16: idDokterP,
+            //             18: daftarSimpan,
+            //             19: daftarCetak,
+            //             20: $scope.dataSelected.NamaAnalisLab
+
+            //         }
+            //         cacheHelper.set('chaceHasilLab2', arrStr);
+
+            //         debugger
+            //         $state.go('HasilLaboratoriumRev', {
+            //             norecPd: norec_pd,
+            //             norecApd: norec_apd,
+            //             norecPP: dataCetakFix,
+            //             pforukfk: daftarCetak
+
+            //         })
+            //     }
+
+            // }
             $scope.hasilLab = function () {
                 var user = medifirstService.getPegawaiLogin();
                 var daftarCetak = [];
                 var daftarSimpan = [];
-                var produkfk = [];
+
                 if ($scope.dataSelected == undefined) {
                     alert('Klik Grid Yang Dipilih');
                     return;
                 }
-                debugger
-                for (var i = 0; i < $scope.dataGrid._data.length; i++) {
-                    if ($scope.dataGrid._data[i].statCheckbox) {
-                        // daftarCetak.push($scope.dataGrid._data[i].norec_pp)
-                        daftarCetak.push({
-                            "norec_pp": $scope.dataGrid._data[i].norec_pp,
-                            "tglPelayanan": $scope.dataGrid._data[i].tglpelayanan,
-                            "produkfk": $scope.dataGrid._data[i].produkfk,
-                        })
-                    }
-                }
-                for (var i = 0; i < $scope.dataGrid._data.length; i++) {
-                    if ($scope.dataGrid._data[i].statCheckbox) {
-                        // daftarCetak.push($scope.dataGrid._data[i].norec_pp)
-                        daftarSimpan.push({
-                            "norec_pp": $scope.dataGrid._data[i].norec_pp,
-                        })
-                    }
-                }
-                var dataCetakFix = '';
-                var result = ''
-                for (let i = 0; i < daftarCetak.length; i++) {
-                    const element = daftarCetak[i];
-                    if (daftarCetak.length == 1) {
-                        dataCetakFix = "'" + element.norec_pp + "'"
-                    } else if (daftarCetak.length == i + 1) {
-                        dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ""
-                    } else {
-                        dataCetakFix = dataCetakFix + "" + "'" + element.norec_pp + "'" + ","
-                    }
 
+                if (daftarCetak.length == 0) {
+                    for (var i = 0; i < $scope.dataGrid._data.length; i++) {
+                        if ($scope.dataGrid._data[i].statCheckbox) {
+                            daftarCetak.push({
+                                "norec_pp": $scope.dataGrid._data[i].norec_pp,
+                                "tglPelayanan": $scope.dataGrid._data[i].tglpelayanan,
+                                "produkfk": $scope.dataGrid._data[i].produkfk,
+                            });
+                            daftarSimpan.push({
+                                "norec_pp": $scope.dataGrid._data[i].norec_pp,
+                            });
+                        }
+                    }
                 }
 
                 if (daftarCetak.length == 0) {
-                    toastr.error('Ceklis data yang mau di cetak')
-                    return
+                    toastr.error('Ceklis data yang mau di cetak');
+                    return;
                 }
 
-                if (norec_apd != null) {
-                    var dokterP = "";
-                    var idDokterP = "";
-                    if ($scope.dataSelected != undefined) {
-                        dokterP = $scope.dataSelected.dokter;
-                        idDokterP = $scope.dataSelected.dokterid;
+                var prosesBridging = function () {
+                    let noorder = $scope.dataSelected.noorder;
+                    let ihsRequest = { noorder: noorder };
 
+                    return medifirstService.post('bridging/ihs/ServiceRequest', ihsRequest).then(function (e) {
+                        const res = e.data.response || e.data;
+
+                        if (res && (res.id || res.authoredOn)) {
+                            toastr.success('ServiceRequest Berhasil Terkirim');
+
+                            let jsonSpecimen = { "noorder": noorder };
+                            return medifirstService.postNonMessage('bridging/ihs/Specimen', jsonSpecimen).then(function (z) {
+                                if (z.data.resourceType == 'OperationOutcome') {
+                                    for (let x = 0; x < z.data.issue.length; x++) {
+                                        const element = z.data.issue[x];
+                                        toastr.error('Specimen Gagal: ' + element.diagnostics);
+                                    }
+                                } else {
+                                    toastr.success('Specimen Berhasil: ' + z.data.resourceType);
+                                }
+                            });
+                        } else {
+                            let msg = (res && res.issue) ? (res.issue[0].details?.text || res.issue[0].diagnostics) : 'Format tidak dikenal';
+                            toastr.warning('ServiceRequest Gagal: ' + msg + '. Melewati proses Specimen.');
+                            return Promise.resolve();
+                        }
+                    }).catch(function (err) {
+                        toastr.error('Kesalahan koneksi ke server Bridging.');
+                        return Promise.resolve();
+                    });
+                };
+
+                prosesBridging().then(function () {
+                    var dataCetakFix = "";
+                    for (let i = 0; i < daftarCetak.length; i++) {
+                        const element = daftarCetak[i];
+                        dataCetakFix += "'" + element.norec_pp + "'" + (i === daftarCetak.length - 1 ? "" : ",");
                     }
-                    var arrStr = {
-                        0: $scope.item.noMr,
-                        1: $scope.item.namaPasien,
-                        2: $scope.item.jenisKelamin,
-                        3: $scope.item.noregistrasi,
-                        4: $scope.item.umur,
-                        5: $scope.item.kelompokPasien,
-                        6: $scope.item.tglRegistrasi,
-                        7: norec_apd,
-                        8: norec_pd,
-                        9: $scope.item.kelas.id,
-                        10: $scope.item.kelas.namakelas,
-                        11: namaRuanganFk,
-                        12: namaRuangan,
-                        13: $scope.item.tgllahir,
-                        14: $scope.item.objectjeniskelaminfk,
-                        15: dataCetakFix,
-                        // 16: $scope.dataGrid._data[i].tglpelayanan ,
-                        17: dokterP,
-                        16: idDokterP,
-                        18: daftarSimpan,
-                        19: daftarCetak,
-                        20: $scope.dataSelected.NamaAnalisLab
 
+                    if (norec_apd != null) {
+                        var dokterP = $scope.dataSelected ? $scope.dataSelected.dokter : "";
+                        var idDokterP = $scope.dataSelected ? $scope.dataSelected.dokterid : "";
+
+                        var arrStr = {
+                            0: $scope.item.noMr,
+                            1: $scope.item.namaPasien,
+                            2: $scope.item.jenisKelamin,
+                            3: $scope.item.noregistrasi,
+                            4: $scope.item.umur,
+                            5: $scope.item.kelompokPasien,
+                            6: $scope.item.tglRegistrasi,
+                            7: norec_apd,
+                            8: norec_pd,
+                            9: $scope.item.kelas.id,
+                            10: $scope.item.kelas.namakelas,
+                            11: namaRuanganFk,
+                            12: namaRuangan,
+                            13: $scope.item.tgllahir,
+                            14: $scope.item.objectjeniskelaminfk,
+                            15: dataCetakFix,
+                            17: dokterP,
+                            16: idDokterP,
+                            18: daftarSimpan,
+                            19: daftarCetak,
+                            20: $scope.dataSelected.NamaAnalisLab
+                        };
+
+                        cacheHelper.set('chaceHasilLab2', arrStr);
+
+                        $state.go('HasilLaboratoriumRev', {
+                            norecPd: norec_pd,
+                            norecApd: norec_apd,
+                            norecPP: dataCetakFix,
+                            pforukfk: daftarCetak
+                        });
                     }
-                    cacheHelper.set('chaceHasilLab2', arrStr);
-
-                    debugger
-                    $state.go('HasilLaboratoriumRev', {
-                        norecPd: norec_pd,
-                        norecApd: norec_apd,
-                        norecPP: dataCetakFix,
-                        pforukfk: daftarCetak
-
-                    })
-                }
-
-            }
+                });
+            };
             $scope.closePopUp = function () {
                 $scope.popUpRiwayatHasil.close();
             }
