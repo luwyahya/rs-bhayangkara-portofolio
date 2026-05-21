@@ -7,12 +7,13 @@ define(["initialize", "Configuration"], function (initialize, config) {
     "$state",
     "$q",
     "$scope",
+    "$rootScope",
     "$timeout",
     "ModelItem",
     "CacheHelper",
     "DateHelper",
     "MedifirstService",
-    function ($mdDialog, $state, $q, $scope, $timeout, ModelItem, cacheHelper, DateHelper, medifirstService) {
+    function ($mdDialog, $state, $q, $scope, $rootScope, $timeout, ModelItem, cacheHelper, DateHelper, medifirstService) {
       $scope.dataVOloaded = true;
       $scope.now = new Date();
       $scope.item = {};
@@ -23,6 +24,78 @@ define(["initialize", "Configuration"], function (initialize, config) {
       $scope.formGridDetail = false;
       $scope.formGridHistory = false;
       $scope.formGridDetailKembali = false;
+      
+      // Initialize empty DataSource to ensure grid widget loads properly
+      $scope.dataGrid = new kendo.data.DataSource({
+        data: [],
+        pageSize: 100,
+        serverPaging: false,
+        schema: {
+          model: {
+            id: "norec",
+            fields: {
+              cbgcode: { type: "string" },
+              jaminan: { type: "string" },
+              nokepesertaan: { type: "string" },
+              noregistrasi: { type: "string" },
+              nosep: { type: "string" },
+              statusgrouping: { type: "string" },
+              tglmasuk: { type: "string" },
+              tglpulang: { type: "string" },
+              tipe: { type: "string" },
+              cpt: { type: "string" },
+              cppt: { type: "string" },
+              emrigd: { type: "string" },
+              namaruangan: { type: "string" },
+              namakamar: { type: "string" },
+              norec: { type: "string" },
+              nocm: { type: "string" },
+              diagnosa: { type: "string" }
+            }
+          }
+        }
+      });
+
+      // Helper function untuk refresh kendo grid dengan multiple approaches
+      function refreshKendoGrid(gridId) {
+        $timeout(function() {
+          try {
+            var gridElement = $("#" + gridId);
+            if (gridElement.length === 0) {
+              console.log("Grid element " + gridId + " not found in DOM");
+              return;
+            }
+            
+            var kendoGrid = gridElement.data("kendoGrid");
+            if (kendoGrid) {
+              // Approach 1: Direct refresh
+              kendoGrid.refresh();
+              console.log("Grid " + gridId + " refreshed - method 1");
+              
+              // Approach 2: Trigger scope apply
+              if (!$scope.$$phase) {
+                $scope.$apply();
+              }
+              
+              // Approach 3: Rebind data
+              setTimeout(function() {
+                if (kendoGrid.dataSource && kendoGrid.dataSource.data()) {
+                  kendoGrid.setDataSource(kendoGrid.dataSource);
+                  console.log("Grid " + gridId + " data source re-bound");
+                }
+              }, 50);
+            } else {
+              console.log("Kendo Grid " + gridId + " widget not initialized yet, retrying...");
+              // Retry after delay
+              $timeout(function() {
+                refreshKendoGrid(gridId);
+              }, 200);
+            }
+          } catch(e) {
+            console.error("Error refreshing grid " + gridId + ":", e);
+          }
+        }, 100);
+      }
       $scope.tabelTopup = false;
       $scope.specialDrug = false;
       $scope.specialProsthesis = false;
@@ -978,18 +1051,68 @@ define(["initialize", "Configuration"], function (initialize, config) {
         $scope.judulPasien = x.nama + "-" + x.norm;
         $scope.isRouteLoading = true;
         medifirstService.get("bridging/inacbg/get-cari-history-daftar-pasien?nosep=" + value).then(function (e) {
+          console.log("Response data full:", e);
+          console.log("Response data:", e.data);
+          console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
+          
+          // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
+          if (!Array.isArray(data2)) {
+            console.warn("Response bukan array, struktur:", data2);
+            data2 = data2.data || data2.result || [];
+          }
+          console.log("Data setelah proses:", data2, "Length:", data2.length);
+          if (data2.length > 0) {
+            console.log("Sample data item:", data2[0]);
+          }
+          
           $scope.dataGrid = new kendo.data.DataSource({
             data: data2,
-            // group: $scope.group,
             pageSize: 100,
-            total: data2.length,
             serverPaging: false,
             schema: {
-              model: {},
+              model: {
+                id: "norec",
+                fields: {
+                  cbgcode: { type: "string" },
+                  jaminan: { type: "string" },
+                  nokepesertaan: { type: "string" },
+                  noregistrasi: { type: "string" },
+                  nosep: { type: "string" },
+                  statusgrouping: { type: "string" },
+                  tglmasuk: { type: "string" },
+                  tglpulang: { type: "string" },
+                  tipe: { type: "string" },
+                  cpt: { type: "string" },
+                  cppt: { type: "string" },
+                  emrigd: { type: "string" },
+                  namaruangan: { type: "string" },
+                  namakamar: { type: "string" },
+                  norec: { type: "string" },
+                  nocm: { type: "string" },
+                  diagnosa: { type: "string" }
+                }
+              }
             },
           });
+          // Force read data
+          $scope.dataGrid.read();
+          console.log("DataGrid created, total items:", $scope.dataGrid.total());
+          
+          // Force Angular digest
+          if (!$scope.$$phase && !$rootScope.$$phase) {
+            $scope.$apply();
+          }
+          
+          // Delay refresh for grid to initialize
+          $timeout(function() {
+            console.log("Refreshing grid after $apply (clickCard)...");
+            refreshKendoGrid("kGrid");
+          }, 200);
+        }, function(error) {
+          console.error("Error fetching data:", error);
+          $scope.isRouteLoading = false;
         });
         medifirstService.get("bridging/inacbg/get-cari-history-daftar-pasien?nosep=" + x.norm).then(function (e) {
           $scope.isRouteLoading = false;
@@ -1001,9 +1124,44 @@ define(["initialize", "Configuration"], function (initialize, config) {
             total: data2.length,
             serverPaging: false,
             schema: {
-              model: {},
+              model: {
+                id: "norec",
+                fields: {
+                  cbgcode: { type: "string" },
+                  jaminan: { type: "string" },
+                  nokepesertaan: { type: "string" },
+                  noregistrasi: { type: "string" },
+                  nosep: { type: "string" },
+                  statusgrouping: { type: "string" },
+                  tglmasuk: { type: "string" },
+                  tglpulang: { type: "string" },
+                  tipe: { type: "string" },
+                  cpt: { type: "string" },
+                  cppt: { type: "string" },
+                  emrigd: { type: "string" },
+                  namaruangan: { type: "string" },
+                  namakamar: { type: "string" },
+                  norec: { type: "string" },
+                  nocm: { type: "string" },
+                  diagnosa: { type: "string" }
+                }
+              }
             },
           });
+          // Force read data
+          $scope.dataGrid2.read();
+          console.log("DataGrid2 created, total items:", $scope.dataGrid2.total());
+          
+          // Force Angular digest
+          if (!$scope.$$phase && !$rootScope.$$phase) {
+            $scope.$apply();
+          }
+          
+          // Delay refresh for grid to initialize
+          $timeout(function() {
+            console.log("Refreshing grid after $apply (DataGrid2)...");
+            refreshKendoGrid("kGrid2");
+          }, 200);
         });
       };
 
@@ -1033,32 +1191,118 @@ define(["initialize", "Configuration"], function (initialize, config) {
         $scope.judulPasien = set.namaPasien + "-" + set.noCm;
         $scope.isRouteLoading = true;
         medifirstService.get("bridging/inacbg/get-cari-history-daftar-pasien?nosep=" + set.nosep).then(function (e) {
+          console.log("Response data SET.NOSEP full:", e);
+          console.log("Response data:", e.data);
+          console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
+          
+          // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
+          if (!Array.isArray(data2)) {
+            console.warn("Response bukan array, struktur:", data2);
+            data2 = data2.data || data2.result || [];
+          }
+          console.log("Data setelah proses:", data2, "Length:", data2.length);
+          if (data2.length > 0) {
+            console.log("Sample data item:", data2[0]);
+          }
+          
           $scope.dataGrid = new kendo.data.DataSource({
             data: data2,
-            // group: $scope.group,
             pageSize: 100,
-            total: data2.length,
             serverPaging: false,
             schema: {
-              model: {},
+              model: {
+                id: "norec",
+                fields: {
+                  cbgcode: { type: "string" },
+                  jaminan: { type: "string" },
+                  nokepesertaan: { type: "string" },
+                  noregistrasi: { type: "string" },
+                  nosep: { type: "string" },
+                  statusgrouping: { type: "string" },
+                  tglmasuk: { type: "string" },
+                  tglpulang: { type: "string" },
+                  tipe: { type: "string" },
+                  cpt: { type: "string" },
+                  cppt: { type: "string" },
+                  emrigd: { type: "string" },
+                  namaruangan: { type: "string" },
+                  namakamar: { type: "string" },
+                  norec: { type: "string" },
+                  nocm: { type: "string" },
+                  diagnosa: { type: "string" }
+                }
+              }
             },
           });
+          // Force read data
+          $scope.dataGrid.read();
+          console.log("DataGrid created, total items:", $scope.dataGrid.total());
+          
+          // Force Angular digest
+          if (!$scope.$$phase && !$rootScope.$$phase) {
+            $scope.$apply();
+          }
+          
+          // Delay refresh for grid to initialize
+          $timeout(function() {
+            console.log("Refreshing grid after $apply (SET.NOSEP)...");
+            refreshKendoGrid("kGrid");
+          }, 200);
+        }, function(error) {
+          console.error("Error fetching data (SET.NOSEP):", error);
+          $scope.isRouteLoading = false;
         });
         medifirstService.get("bridging/inacbg/get-cari-history-daftar-pasien?nosep=" + set.noCm).then(function (e) {
+          console.log("Response data SET.NOCM full:", e);
+          console.log("Response data:", e.data);
+          console.log("Data type:", typeof e.data, "Is Array:", Array.isArray(e.data));
           $scope.isRouteLoading = false;
+          
+          // Handle response - cek apakah data di-wrap dalam property lain
           var data2 = e.data;
+          if (!Array.isArray(data2)) {
+            console.warn("Response bukan array, struktur:", data2);
+            data2 = data2.data || data2.result || [];
+          }
           $scope.dataGrid2 = new kendo.data.DataSource({
             data: data2,
-            // group: $scope.group,
             pageSize: 100,
-            total: data2.length,
             serverPaging: false,
             schema: {
-              model: {},
+              model: {
+                id: "norec",
+                fields: {
+                  cbgcode: { type: "string" },
+                  jaminan: { type: "string" },
+                  nokepesertaan: { type: "string" },
+                  noregistrasi: { type: "string" },
+                  nosep: { type: "string" },
+                  statusgrouping: { type: "string" },
+                  tglmasuk: { type: "string" },
+                  tglpulang: { type: "string" },
+                  tipe: { type: "string" },
+                  cpt: { type: "string" },
+                  cppt: { type: "string" },
+                  emrigd: { type: "string" },
+                  namaruangan: { type: "string" },
+                  namakamar: { type: "string" },
+                  norec: { type: "string" },
+                  nocm: { type: "string" },
+                  diagnosa: { type: "string" }
+                }
+              }
             },
           });
+          // Force read data
+          $scope.dataGrid2.read();
+          console.log("DataGrid2 created, total items:", $scope.dataGrid2.total());
+          // Refresh grid after datasource is set
+          refreshKendoGrid("kGrid");
+        }, function(error) {
+          console.error("Error fetching data (SET.NOCM):", error);
+          $scope.isRouteLoading = false;
         });
       };
 
@@ -1101,7 +1345,7 @@ define(["initialize", "Configuration"], function (initialize, config) {
           {
             title: "Diagnosa",
             width: "90px",
-            template: '<button class="k-button custom-button" ng-click="setDiagnosa(dataItem)"  style="margin:0 0 5px">#:  diagnosa #</button> ',
+            template: '<button class="k-button custom-button" ng-click="setDiagnosa(dataItem)"  style="margin:0 0 5px">#: (diagnosa || \'Diagnosa\') #</button> ',
           },
           {
             field: "cbgcode",
