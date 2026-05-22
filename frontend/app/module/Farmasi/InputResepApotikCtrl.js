@@ -1839,9 +1839,10 @@ define(['initialize'], function (initialize) {
             }
 
             function Kosongkan() {
-                // $scope.item.produk = ''
-                $scope.item.asal = ''
-                $scope.item.satuan = ''
+                $scope.item.produk = undefined
+                $scope.item.jenisKemasan = undefined
+                $scope.item.asal = undefined
+                $scope.item.satuan = undefined
                 $scope.item.nilaiKonversi = 0
                 $scope.item.stok = 0
                 $scope.item.jumlah = 0
@@ -1854,10 +1855,20 @@ define(['initialize'], function (initialize) {
                 $scope.item.hargaSatuan = 0
                 $scope.item.hargaNetto = 0
                 $scope.item.aturanPakai = undefined;
+                $scope.item.keterangan = undefined
+                $scope.item.keteranganracikan = undefined
+                $scope.item.route = undefined
+                $scope.item.sediaanobat = undefined
+                $scope.item.kekuatan = undefined
                 $scope.dataSelected = undefined
                 $scope.item.KeteranganPakai = undefined
                 $scope.item.dosisobat = ''
                 $scope.item.waktuminum = undefined
+                $scope.item.chkp = 0
+                $scope.item.chks = 0
+                $scope.item.chksr = 0
+                $scope.item.chkm = 0
+                $scope.currentAturanPakai = []
                 $scope.listDataSigna = [{
                     "id": 1,
                     "nama": "Aturan Pakai",
