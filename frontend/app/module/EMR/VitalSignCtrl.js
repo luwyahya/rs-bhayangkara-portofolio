@@ -88,6 +88,12 @@ define(['initialize'], function (initialize) {
                         { text: "Semi Coma", value: 6 },
                         { text: "Coma", value: 7 }
                     ];
+
+                    $scope.listKeadaanUmum = [
+                        { text: "Tampak Sakit Ringan", value: 1 },
+                        { text: "Tampak Sakit Sedang", value: 2 },
+                        { text: "Tampak Sakit Berat", value: 3 },
+                    ];
                         $scope.listGcs = [
                             { text: "E", value: 1},
                             { text: "M", value: 2},
