@@ -169,17 +169,7 @@ define(["initialize"], function (initialize) {
         }
       });
 
-      $scope.onChangeKesadaran = function(e) {
-          var combo = e.sender;
-          var value = combo.value();
-          var dataItem = combo.dataItem();
-
-          if (!dataItem) {
-              $scope.item.obj[1168] = value;
-          } else {
-              $scope.item.obj[1168] = dataItem.id;
-          }
-      };
+      // onChangeKesadaran - removed to let Angular binding handle combobox object properly
 
       $scope.listNyeriAnak = [
         {
@@ -862,17 +852,17 @@ define(["initialize"], function (initialize) {
                   var str = dataLoad[i].value;
                   var res = str.split("~");
                   // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str };
+                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] || res[0] };
                 } else if (dataLoad[i].emrdfk == "2242") {
                   var str = dataLoad[i].value;
                   var res = str.split("~");
                   // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str };
+                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] || res[0] };
                 } else if (dataLoad[i].emrdfk == "2243") {
                   var str = dataLoad[i].value;
                   var res = str.split("~");
                   // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str };
+                  $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] || res[0] };
                 } else if (dataLoad[i].emrdfk == "3124") {
                   var str = dataLoad[i].value;
                   var res = str.split("~");
@@ -898,13 +888,11 @@ define(["initialize"], function (initialize) {
                 var str = dataLoad[i].value;
                 var res = str.split("~");
                 console.log("res", res);
-                if (res.length >= 2) {
-                  namaPegawai = res[1];
-                  $scope.item.obj[dataLoad[i].emrdfk] = {
-                    value: res[0],
-                    text: res[1]
-                  };
-                }
+                namaPegawai = res[0];
+                $scope.item.obj[dataLoad[i].emrdfk] = {
+                  value: res[0],
+                  text: res[1] || res[0]
+                };
               }
 
               let beratbadan = $scope.item.obj[1175];
@@ -1148,15 +1136,11 @@ define(["initialize"], function (initialize) {
         debugger;
         for (var i = arrobj.length - 1; i >= 0; i--) {
           if (arrobj[i] == 3124 || arrobj[i] == 1257 || arrobj[i] == 1582) {
-            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].value + "~" + $scope.item.obj[parseInt(arrobj[i])].text });
+            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] });
           } else if (arrobj[i] == 2241 || arrobj[i] == 2242 || arrobj[i] == 2243) {
-            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text });
+            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] });
           } else if (arrobj[i] == 1168) {
-            if (typeof $scope.item.obj[parseInt(arrobj[i])] === 'object') {
-                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
-            } else {
-                arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
-            }
+            arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
           } else {
             arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] });
           }

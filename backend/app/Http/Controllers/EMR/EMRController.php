@@ -30020,7 +30020,7 @@ WHERE rm.norec = '$norec_resume'
                     $sama = 0;
                     if ($emrupdate->emrdfk == $emrdfk) {
                         $sama =  1;
-                        if ($emrupdate->value != $valueemr) {
+                        if ($emrupdate->value != $valueemr || $emrupdate->type != $typeemr) {
                             $sama =  2;
                             break;
                         }
@@ -30403,5 +30403,50 @@ WHERE rm.norec = '$norec_resume'
         );
 
         return $this->respond($result);
+    }
+
+    public function getValuePengkajianAwalMedisRI(Request $request)
+    {
+        try {
+            $emrPasien = DB::table('emrpasien_t as ep')
+                ->join('pegawai_m as pg', 'ep.pegawaifk', '=', 'pg.id')
+                ->select('ep.noemr', 'ep.emrfk', 'ep.tglemr')
+                ->where('ep.statusenabled', true)
+                ->where('ep.emrfk', 2029)
+                ->where('ep.noregistrasifk', $request['noRegistrasi'])
+                ->orderBy('ep.tglemr', 'desc')
+                ->first();
+            // $detailEmr = DB::table('emrpasiend_t')
+            //     ->select('value', 'emrdfk')
+            //     ->where('emrpasienfk', $emrPasien->noemr)
+            //     ->where('emrfk', $emrPasien->emrfk)
+            //     // ->where('tgl', $emrPasien->tglemr)
+            //     ->get();
+
+            $detailEmr = DB::table(DB::raw("
+                    (
+                        SELECT ed.value, ed.emrdfk, ed.tgl,
+                            ROW_NUMBER() OVER (PARTITION BY ed.emrdfk ORDER BY ed.tgl DESC) as rn
+                        FROM emrpasiend_t ed
+                        WHERE ed.emrpasienfk = '".$emrPasien->noemr."'
+                        AND ed.emrfk = ".$emrPasien->emrfk."
+                    ) as sub
+                "))
+                ->where('rn', 1)
+                ->select('value', 'emrdfk', 'tgl')
+                ->get();
+
+            $response = [
+                "message" => "Oke",
+                'messageCode' => 200,
+                "data" => $detailEmr
+            ];
+        } catch (\Exception $e) {
+            $response = [
+                "message" => $e->errorInfo,
+                "messageCode" => 500
+            ];
+        }
+        return $this->respond($response);
     }
 }

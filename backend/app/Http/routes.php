@@ -888,7 +888,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
         });
         Route::group(['prefix' => 'emr'], function () {
 
-            
+            Route::get('get-value-pengkajian-awal-medis-ri', 'EMR\EMRController@getValuePengkajianAwalMedisRI');
             Route::post('save-emr-new', 'EMR\EMRController@SaveTransaksiEMRNewVer');
             Route::post('update-final-emr', 'EMR\EMRController@updateFinalEMR');
             Route::get('get-emr-transaksi-detail-new', 'EMR\EMRController@getEMRTransaksiDetailNew');
