@@ -5,7 +5,7 @@ define(['initialize'], function (initialize) {
             $scope.dataVOloaded = true;
             $scope.now = new Date();
             $scope.item = {};
-            $scope.item.isDokter = false
+            $scope.item.isDokter = true
             $scope.item.isTelemedicine = false;
             // $scope.dataPasienSelected = {};
             // $scope.item.periodeAwal =  new Date();
