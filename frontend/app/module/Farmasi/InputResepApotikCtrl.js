@@ -564,7 +564,15 @@ define(['initialize'], function (initialize) {
 
                                 data2 = data_ih.data.pelayananPasien
                                 dataOK = data_ih.data.pelayananPasienkronis
-                                $scope.item.rke = data2.length + 1;
+                                // Hitung rke maksimal dari data yang sudah ada
+                                var maxRke = 0;
+                                for (var j = 0; j < data2.length; j++) {
+                                    var rkeValue = parseInt(data2[j].rke);
+                                    if (rkeValue > maxRke) {
+                                        maxRke = rkeValue;
+                                    }
+                                }
+                                $scope.item.rke = maxRke + 1;
                                 for (var i = data2.length - 1; i >= 0; i--) {
                                     data2[i].noregistrasifk = norec_apd //$scope.item.noRegistrasi
                                     data2[i].tglregistrasi = $scope.item.tglregistrasi
@@ -602,7 +610,8 @@ define(['initialize'], function (initialize) {
                                     namaruangan: dat.data.strukorder.namaruangan
                                 }
                                 debugger
-                                $scope.item.no = dat.data.strukorder.noorder;
+                                // $scope.item.no = dat.data.strukorder.noorder;
+                                $scope.item.no = undefined;
 
                                 $scope.item.penulisResep = {
                                     id: dat.data.strukorder.pgid,
@@ -707,6 +716,16 @@ define(['initialize'], function (initialize) {
 
                                 // $scope.dataGrid.add($scope.dataSelected)
                                 debugger
+                                // Hitung rke maksimal dari data yang sudah ada
+                                var maxRke = 0;
+                                for (var j = 0; j < data2.length; j++) {
+                                    var rkeValue = parseInt(data2[j].rke);
+                                    if (rkeValue > maxRke) {
+                                        maxRke = rkeValue;
+                                    }
+                                }
+                                $scope.item.rke = maxRke + 1;
+                                
                                 $scope.dataGrid = new kendo.data.DataSource({
                                     data: data2
                                 });
