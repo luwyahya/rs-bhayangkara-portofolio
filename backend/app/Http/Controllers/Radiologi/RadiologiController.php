@@ -4187,68 +4187,562 @@ class RadiologiController extends ApiController
         return $this->respond($result);
     }
 
-    public function getDaftarOrderPenunjang(Request $request) {
+    //OLD
+
+//     public function getDaftarOrderPenunjang(Request $request) {
+//         $dataLogin = $request->all();
+//         $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
+//             ->leftjoin('ruangan_m as ru','ru.id','=','mlu.objectruanganfk')
+//             ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
+//             ->select('ru.id','ru.namaruangan','ru.objectdepartemenfk')
+//             ->where('objectloginuserfk',$dataLogin['userData']['id'])
+//             ->get();
+//         $departemenfk = [];
+//         if(count($dataruangan) > 0 ){
+//             foreach ($dataruangan as $item){
+//                 $departemenfk []  =$item->objectdepartemenfk ;
+//             }
+//         }
+//         $result = [];
+//         if (in_array($this->settingDataFixed('KdDepartemenInstalasiLaboratorium'), $departemenfk)) {
+//             $data = \DB::table('strukorder_t as so')
+//                 ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+//                 // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+//                 ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+//                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+//                 ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+//                 ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+//                 ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+//                 ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+//                 ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+//                 ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+//                 ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+//                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+// //                ->leftJoin('lisorder as pp', 'pp.ono', '=', 'so.noorder')
+//                 ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                     'klm.jeniskelamin', 'ps.tgllahir',
+//                     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas','kls.id as klsid', 'so.objectruangantujuanfk',
+//                     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder',
+// //                    'pp.norec as norec_pp',
+//                     'ru.namaruangan','ru.id as ruid', 'ru2.namaruangan as ruangantujuan','so.tglorder','sps.nostruk',
+//                     // 'apd.norec as norec_apd',
+//                     'so.keteranganlainnya',
+// //                    (DB::raw("case when pp.ono is null then 'MASUK' else
+// //                                    'SELESAI' end as status")))
+//                     (DB::raw("case when so.statusorder is null then 'MASUK' else
+//                                     'SELESAI' end as status")))
+//                 ->where('ru2.objectdepartemenfk',$this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
+//                 ->where('so.statusenabled',true) ;
+//             if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+//                 if ($request['isNotVerif'] == true) {
+//                     $data = $data->whereNull('so.statusorder');
+//                 }
+//             }
+// //            if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+// //                if ($request['isNotVerif'] == true) {
+// //                    $data = $data->whereNull('pp.ono');
+// //                }
+// //            }
+//         }
+
+//         if (in_array($this->settingDataFixed('KdDepartemenInstalasiRadiologi'), $departemenfk)) {
+//             if(isset($request['ruanganTujuanId']) && $request['ruanganTujuanId']!=''){
+//                 $data = \DB::table('strukorder_t as so')
+//                     ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+// //                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+//                     // ->join('antrianpasiendiperiksa_t as apd',function($join)
+//                     // {
+//                     //     $join->on('apd.noregistrasifk','=','pd.norec')
+//                     //         ->where('apd.objectruanganfk','=', 576);
+//                     //     //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+//                     // })
+//                     ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+//                     ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+//                     ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+//                     ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+//                     ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+//                     ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+//                     ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+//                     ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+//                     ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+//                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+// //                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+//                     ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                         'klm.jeniskelamin', 'ps.tgllahir',
+//                         'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
+//                         'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                         'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk',
+//                         'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',     'so.keteranganlainnya',
+//                         // 'apd.norec as norec_apd',
+//                         'ru.id as ruid',
+//                         (DB::raw("case when so.statusorder is null then 'MASUK' else
+//                                     'SELESAI' end as status")))
+//                     ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiRadiologi'))
+//                     ->where('so.statusenabled', true)
+//                     ->where('so.objectruangantujuanfk',$request['ruanganTujuanId']);
+//                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+//                     if ($request['isNotVerif'] == true) {
+//                         $data = $data->whereNull('so.statusorder');
+//                     }
+//                 }
+//             }else{
+//                 $data = \DB::table('strukorder_t as so')
+//                     ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+// //                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+//                     // ->join('antrianpasiendiperiksa_t as apd',function($join)
+//                     // {
+//                     //     $join->on('apd.noregistrasifk','=','pd.norec')
+//                     //         ->where('apd.objectruanganfk','=', 576);
+//                     //     //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+//                     // })
+//                     ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+//                     ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+//                     ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+//                     ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+//                     ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+//                     ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+//                     ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+//                     ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+//                     ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+//                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+//                     ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+//                     ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                         'klm.jeniskelamin', 'ps.tgllahir',
+//                         'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
+//                         'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                         'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk',
+//                         // 'apd.norec as norec_apd',
+//                         'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',
+//                              'so.keteranganlainnya',
+//                         (DB::raw("case when pp.order_no is null then 'MASUK' else
+//                                     'SELESAI' end as status")))
+//                     ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiRadiologi'))
+//                     ->where('so.statusenabled', true)
+//                     ->whereNotIn('so.objectruangantujuanfk',[$this->settingDataFixed('kdRuanganElektromedik')]);
+//                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+//                     if ($request['isNotVerif'] == true) {
+//                         $data = $data->whereNull('pp.order_no');
+//                     }
+//                 }
+//             }
+
+
+
+//         }
+//         if (in_array($this->settingDataFixed('kdDepartemenElektromedik'), $departemenfk)) {
+//             // $ruangani = Ruangan::where('objectdepartemenfk',$this->settingDataFixed('kdDepartemenElektromedik'))->get();
+//             // $ruanganiAr=[];
+//             // foreach ($ruangani as $key => $value) {
+//             //     $ruanganiAr[]=$value->id;
+//             //     # code...
+//             // }
+//             // return $ruanganiAr;
+//             $data = \DB::table('strukorder_t as so')
+//                 ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+// //                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+//  //                 ->leftjoin('antrianpasiendiperiksa_t as apd',function($join)
+//  //                 {
+//  //                     $join->on('apd.noregistrasifk','=','pd.norec')
+//  //                         ->where('apd.objectruanganfk','=', 571);
+//  // //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+//  //                 })
+//                 ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+//                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+//                 ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+//                 ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+//                 ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+//                 ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+//                 ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+//                 ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+//                 ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+//                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+// //                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+//                 ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                     'klm.jeniskelamin', 'ps.tgllahir',
+//                     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
+//                     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk', 
+//                     // 'apd.norec as norec_apd',
+//                     // 'apd.norec as norec_apd',
+//                     'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',
+//                          'so.keteranganlainnya',
+//                     (DB::raw("case when so.statusorder is null then 'MASUK' else
+//                                     'SELESAI' end as status")))
+//                 ->where('ru2.objectdepartemenfk', $this->settingDataFixed('kdDepartemenElektromedik'))
+//                 ->where('so.statusenabled', true)
+//                 ->where('so.objectkelompoktransaksifk', '!=', '108');
+// //                ->where('so.objectruangantujuanfk', $request['ruanganTujuanId']);
+//             if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+//                 if ($request['isNotVerif'] == true) {
+//                     $data = $data->whereNull('so.statusorder');
+//                 }
+//             }
+//         }
+
+//         if (in_array($this->settingDataFixed('KdInstalasiBedahSentral'), $departemenfk)) {
+//             $data = \DB::table('strukorder_t as so')
+//                 ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+//                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+//                 ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+//                 ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+//                 ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+//                 ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+//                 ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+//                 ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+//                 ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+//                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+//                 ->leftJoin('pegawai_m as pg2', 'pg2.id', '=', 'pd.objectpegawaifk')
+//                 ->leftJoin('pelayananpasien_t as pp', 'pp.strukorderfk', '=', 'so.norec')
+//                 ->leftJoin('jadwaloperasijkn_t as jdopn', 'jdopn.noregistrasi2', '=', 'pd.noregistrasi')
+//                 ->leftJoin('pegawai_m as pg3', 'jdopn.dokteroperatorfk', '=', 'pg3.id')
+//                 ->leftJoin('pegawai_m as pg4', 'jdopn.dokteranestesi', '=', 'pg4.id')
+//                             // ->select('so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                 //     'klm.jeniskelamin', 'ps.tgllahir',
+//                 //     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
+//                 //     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                 //     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
+//                 //     'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp',
+//                 //     (DB::raw("case when pp.strukorderfk is null then 'MASUK' else
+//                 //                     'Sudah Verifikasi' end as status,case when jdopn.terlaksana = 0 and 
+//                 // pp.strukorderfk is not null then 'ANTREAN' when jdopn.terlaksana is null and  pp.strukorderfk is null then 'MENUNGGU' else 'Selesai' end as statusantrianjkn")))
+//                 ->select(
+//                 'pg3.namalengkap as dokter',
+//                 'pg4.namalengkap as anastesi','so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+//                     'klm.jeniskelamin', 'ps.tgllahir',
+//                     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
+//                     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
+//                     'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
+//                     'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp','jdopn.jenistindakan',
+//                 (DB::raw("CASE WHEN so.status IS NULL 
+//                          THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
+// 						 CASE WHEN so.status IS NULL 
+//                          THEN 'MENUNGGU'
+//                          WHEN jdopn.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
+//                          END AS statusantrianjkn")))
+//                 ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdInstalasiBedahSentral'))
+//                 ->where('so.statusenabled',true);
+
+//             if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+//                 if ($request['isNotVerif'] == true) {
+//                     // $data = $data->whereNull('pp.strukorderfk');
+//                     $data = $data->whereNull('so.status');
+                   
+//                 }
+//             }
+//         }
+// //        if($dataruangan[0]->objectdepartemenfk != 27 && $dataruangan[0]->objectdepartemenfk != 3 && $dataruangan[0]->objectdepartemenfk != 25){
+// //            $tgltgltgl= date('Y-m-d H:i:s');
+// //            $data = $data->where('so.tglpelayananakhir','>=', $tgltgltgl);
+// //        }
+
+//         if(isset($request['tglAwal']) && $request['tglAwal']!="" && $request['tglAwal']!="undefined"){
+//             $data = $data->where('so.tglorder','>=', $request['tglAwal']);
+//         }
+//         if(isset($request['tglAkhir']) && $request['tglAkhir']!="" && $request['tglAkhir']!="undefined"){
+          
+//             $tgl= $request['tglAkhir'];
+//             $data = $data->where('so.tglorder','<=', $tgl);
+//         }
+//         if(isset($request['tglAwalOperasi']) && $request['tglAwalOperasi']!="" && $request['tglAwalOperasi']!="undefined"){
+//             $data = $data->where('so.tglpelayananakhir','>=', $request['tglAwalOperasi']);
+//         }
+//         if(isset($request['tglAkhirOperasi']) && $request['tglAkhirOperasi']!="" && $request['tglAkhirOperasi']!="undefined"){
+//             $tgl= $request['tglAkhirOperasi'];
+//             $data = $data->where('so.tglpelayananakhir','<=', $tgl);
+//         }
+//         if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
+//             $data = $data->where('ru.objectdepartemenfk','=', $request['deptId']);
+//         }
+
+//         if(isset($request['pegId']) && $request['pegId']!="" && $request['pegId']!="undefined"){
+//             $data = $data->where('so.objectpegawaiorderfk','=', $request['pegId']);
+//         }
+//         if(isset($request['ruangId']) && $request['ruangId']!="" && $request['ruangId']!="undefined"){
+//             $data = $data->where('so.objectruanganfk','=', $request['ruangId']);
+//         }
+//         if(isset($request['kelId']) && $request['kelId']!="" && $request['kelId']!="undefined"){
+//             $data = $data->where('pd.objectkelompokpasienlastfk','=', $request['kelId']);
+//         }
+//         if(isset($request['noregistrasi']) && $request['noregistrasi']!="" && $request['noregistrasi']!="undefined"){
+//             $data = $data->where('pd.noregistrasi','ilike','%'. $request['noregistrasi'].'%');
+//         }
+//         if(isset($request['nocm']) && $request['nocm']!="" && $request['nocm']!="undefined"){
+//             $data = $data->where('ps.nocm','ilike','%'. $request['nocm'].'%');
+//         }
+//         if(isset($request['namapasien']) && $request['namapasien']!="" && $request['namapasien']!="undefined"){
+//             $data = $data->where('ps.namapasien','ilike','%'. $request['namapasien'].'%');
+//         }
+//         if(isset($request['noOrders']) && $request['noOrders']!="" && $request['noOrders']!="undefined"){
+//             $data = $data->where('so.noorder','ilike','%'. $request['noOrders'].'%');
+//         }
+//         if(isset($request['jmlRow']) && $request['jmlRow']!="" && $request['jmlRow']!="undefined"){
+//             $data = $data->take($request['jmlRow']);
+//         }
+//         $data = $data->orderBy('so.noorder','desc');
+// //        $data = $data->take(100);
+//         $data = $data->distinct();
+//         $data = $data->get();
+//         if (in_array($this->settingDataFixed('KdInstalasiBedahSentral'), $departemenfk)) {
+
+//             foreach ($data as $item) {
+//                 $detail = [];
+//                 $lab = 'Belum diisi';
+//                 $rad = 'Belum diisi';
+//                 $pelayananpasien = \DB::table('pasiendaftar_t as pd')
+//                 ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+//                 ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+//                 ->select('apd.objectruanganfk', 'apd.norec')
+//                 ->where('pd.noregistrasi', $item->noregistrasi)
+//                     ->whereIn('apd.objectruanganfk', [575, 576])
+//                     ->distinct()
+//                     ->get();
+//                 if (count($pelayananpasien) > 0) {
+//                     foreach ($pelayananpasien as $ppitem) {
+//                         if ($ppitem->objectruanganfk == 575) {
+//                             $lab = 'Sudah diisi';
+//                             $detail[] = array(
+//                                 'path' => "RekamMedis.TransaksiPelayananLaboratoriumDokterRev",
+//                                 'name' => "Laboratorium",
+//                                 'norec' => $ppitem->norec
+//                             );
+//                         } else if ($ppitem->objectruanganfk == 576) {
+//                             $rad = 'Sudah diisi';
+//                             $detail[] = array(
+//                                 'path' => "RekamMedis.TransaksiPelayananRadiologiDokterRev",
+//                                 'name' => "Radiologi",
+//                                 'norec' => $ppitem->norec
+//                             );
+//                         }
+//                     }
+//                 }
+//                 $item->detail = $detail;
+                
+//                 $tindakan = \DB::table('orderpelayanan_t as op')
+//                 ->where('op.strukorderfk', $item->norec_so)
+//                 ->distinct()
+//                 ->get();
+//                 if (count($tindakan) > 0) {
+//                     $namatindakan ='';
+//                     $keterangantindakan='';
+//                     $diagnosa='';
+//                     foreach ($tindakan as $itemx) {
+//                         if($namatindakan == ''){
+//                             $namatindakan = $itemx->keteranganlainnya;
+//                         }else{
+//                             $namatindakan = $namatindakan .','. $itemx->keteranganlainnya;
+//                         }
+//                         if($keterangantindakan == ''){
+//                             $keterangantindakan = $itemx->keteranganlainnya_quo;
+//                         }else{
+//                             $keterangantindakan = $keterangantindakan .','. $itemx->keteranganlainnya_quo;
+//                         }
+//                          if($diagnosa == ''){
+//                             $diagnosa = $itemx->diagnosa;
+//                         }else{
+//                             $diagnosa = $diagnosa .','. $itemx->diagnosa;
+//                         }
+//                     }
+//                 }
+//                 $item->namatindakan= $namatindakan;
+//                 $item->keterangantindakan= $keterangantindakan;
+//                 $item->kddiagnosa= $diagnosa;
+//             }
+//         }
+
+//         $dataResult=array(
+//             'message' =>  'inhuman',
+//             'data' =>  $data,
+//             'dataruangan' => $dataruangan
+//         );
+//         return $this->respond($dataResult);
+//     }
+
+
+public function getDaftarOrderPenunjang(Request $request)
+    {
         $dataLogin = $request->all();
         $dataruangan = \DB::table('maploginusertoruangan_s as mlu')
-            ->leftjoin('ruangan_m as ru','ru.id','=','mlu.objectruanganfk')
-            ->leftjoin('departemen_m as dp','dp.id','=','ru.objectdepartemenfk')
-            ->select('ru.id','ru.namaruangan','ru.objectdepartemenfk')
-            ->where('objectloginuserfk',$dataLogin['userData']['id'])
+            ->leftjoin('ruangan_m as ru', 'ru.id', '=', 'mlu.objectruanganfk')
+            ->leftjoin('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+            ->select('ru.id', 'ru.namaruangan', 'ru.objectdepartemenfk')
+            ->where('objectloginuserfk', $dataLogin['userData']['id'])
             ->get();
         $departemenfk = [];
-        if(count($dataruangan) > 0 ){
-            foreach ($dataruangan as $item){
-                $departemenfk []  =$item->objectdepartemenfk ;
+        if (count($dataruangan) > 0) {
+            foreach ($dataruangan as $item) {
+                $departemenfk[]  = $item->objectdepartemenfk;
             }
         }
         $result = [];
         if (in_array($this->settingDataFixed('KdDepartemenInstalasiLaboratorium'), $departemenfk)) {
-            $data = \DB::table('strukorder_t as so')
-                ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
-                // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
-                ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
-                ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
-                ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
-                ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
-                ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
-                ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
-                ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
-                ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
-                ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
-//                ->leftJoin('lisorder as pp', 'pp.ono', '=', 'so.noorder')
-                ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                    'klm.jeniskelamin', 'ps.tgllahir',
-                    'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas','kls.id as klsid', 'so.objectruangantujuanfk',
-                    'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
-                    'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder',
-//                    'pp.norec as norec_pp',
-                    'ru.namaruangan','ru.id as ruid', 'ru2.namaruangan as ruangantujuan','so.tglorder','sps.nostruk',
-                    // 'apd.norec as norec_apd',
-                    'so.keteranganlainnya',
-//                    (DB::raw("case when pp.ono is null then 'MASUK' else
-//                                    'SELESAI' end as status")))
-                    (DB::raw("case when so.statusorder is null then 'MASUK' else
-                                    'SELESAI' end as status")))
-                ->where('ru2.objectdepartemenfk',$this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
-                ->where('so.statusenabled',true) ;
-            if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
-                if ($request['isNotVerif'] == true) {
-                    $data = $data->whereNull('so.statusorder');
+            if (isset($request['ruanganTujuanId']) && $request['ruanganTujuanId'] != '') {
+                $data = \DB::table('strukorder_t as so')
+                    ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('orderpelayanan_t as op', 'op.strukorderfk', '=', 'so.norec')
+                    // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+                    ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+                    ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+                    ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+                    ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+                    ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                    ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+                    ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+                    //                ->leftJoin('lisorder as pp', 'pp.ono', '=', 'so.noorder')
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'kls.id as klsid',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
+                        //                    'pp.norec as norec_pp',
+                        'ru.namaruangan',
+                        'ru.id as ruid',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        // 'apd.norec as norec_apd',
+                        'so.keteranganlainnya',
+                        'so.diagnosa',
+                        'so.statusorder as statusorder_dat',
+                        //                    (DB::raw("case when pp.ono is null then 'MASUK' else
+                        //                                    'SELESAI' end as status")))
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder is null then 'MASUK' else
+                                        'SELESAI' end as status"))
+                    )
+                    ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
+                    ->where('so.objectruangantujuanfk', $request['ruanganTujuanId'])
+                    ->where('so.statusenabled', true);
+                if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+                    if ($request['isNotVerif'] == true) {
+                        $data = $data->whereNull('so.statusorder');
+                        if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
+                        }
+                        if (isset($request['tglAkhirCek']) && $request['tglAkhirCek'] != "" && $request['tglAkhirCek'] != "undefined") {
+
+                            $tgl = $request['tglAkhirCek'];
+                            $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
+                    }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
+                }
+            } else {
+                $data = \DB::table('strukorder_t as so')
+                    ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('orderpelayanan_t as op', 'op.strukorderfk', '=', 'so.norec')
+                    // ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+                    ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+                    ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+                    ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+                    ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+                    ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                    ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+                    ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+                    //                ->leftJoin('lisorder as pp', 'pp.ono', '=', 'so.noorder')
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'kls.id as klsid',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
+                        //                    'pp.norec as norec_pp',
+                        'ru.namaruangan',
+                        'ru.id as ruid',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        // 'apd.norec as norec_apd',
+                        'so.keteranganlainnya',
+                        'op.diagnosa',
+                        'so.statusorder as statusorder_dat',
+                        //                    (DB::raw("case when pp.ono is null then 'MASUK' else
+                        //                                    'SELESAI' end as status")))
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder is null then 'MASUK' else
+                                        'SELESAI' end as status"))
+                    )
+                    ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiLaboratorium'))
+                    ->where('so.statusenabled', true);
+                if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+                    if ($request['isNotVerif'] == true) {
+                        $data = $data->whereNull('so.statusorder');
+                        if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
+                        }
+                        if (isset($request['tglAkhirCek']) && $request['tglAkhirCek'] != "" && $request['tglAkhirCek'] != "undefined") {
+
+                            $tgl = $request['tglAkhirCek'];
+                            $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
+                    }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
                 }
             }
-//            if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
-//                if ($request['isNotVerif'] == true) {
-//                    $data = $data->whereNull('pp.ono');
-//                }
-//            }
+            //            if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+            //                if ($request['isNotVerif'] == true) {
+            //                    $data = $data->whereNull('pp.ono');
+            //                }
+            //            }
         }
 
         if (in_array($this->settingDataFixed('KdDepartemenInstalasiRadiologi'), $departemenfk)) {
-            if(isset($request['ruanganTujuanId']) && $request['ruanganTujuanId']!=''){
+            if (isset($request['ruanganTujuanId']) && $request['ruanganTujuanId'] != '') {
                 $data = \DB::table('strukorder_t as so')
                     ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
-//                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    //->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                     // ->join('antrianpasiendiperiksa_t as apd',function($join)
                     // {
                     //     $join->on('apd.noregistrasifk','=','pd.norec')
@@ -4265,29 +4759,67 @@ class RadiologiController extends ApiController
                     ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
                     ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
-//                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
-                    ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                        'klm.jeniskelamin', 'ps.tgllahir',
-                        'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
-                        'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
-                        'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk',
-                        'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',     'so.keteranganlainnya',
+                    //                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        'ru.namaruangan',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.keteranganlainnya',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
                         // 'apd.norec as norec_apd',
                         'ru.id as ruid',
-                        (DB::raw("case when so.statusorder is null then 'MASUK' else
-                                    'SELESAI' end as status")))
+                        'so.statusorder as statusorder_dat',
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder = 1 then 'SELESAI' else
+                                    'MASUK' end as status"))
+                    )
                     ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiRadiologi'))
                     ->where('so.statusenabled', true)
-                    ->where('so.objectruangantujuanfk',$request['ruanganTujuanId']);
+                    ->where('so.objectruangantujuanfk', $request['ruanganTujuanId']);
                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
                     if ($request['isNotVerif'] == true) {
                         $data = $data->whereNull('so.statusorder');
+                        if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
+                        }
+                        if (isset($request['tglAkhirCek']) && $request['tglAkhirCek'] != "" && $request['tglAkhirCek'] != "undefined") {
+
+                            $tgl = $request['tglAkhirCek'];
+                            $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
                     }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
                 }
-            }else{
+            } else {
                 $data = \DB::table('strukorder_t as so')
                     ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
-//                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    //                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                     // ->join('antrianpasiendiperiksa_t as apd',function($join)
                     // {
                     //     $join->on('apd.noregistrasifk','=','pd.norec')
@@ -4305,29 +4837,215 @@ class RadiologiController extends ApiController
                     ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
                     ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
                     ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
-                    ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                        'klm.jeniskelamin', 'ps.tgllahir',
-                        'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
-                        'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
-                        'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk',
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
                         // 'apd.norec as norec_apd',
-                        'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',
-                             'so.keteranganlainnya',
-                        (DB::raw("case when pp.order_no is null then 'MASUK' else
-                                    'SELESAI' end as status")))
+                        'ru.namaruangan',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.keteranganlainnya',
+                        'so.statusorder as statusorder_dat',
+                        /*(DB::raw("case when pp.order_no is null then 'MASUK' else
+                                    'SELESAI' end as status"))) */
+
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder is null then 'MASUK' else
+                        'SELESAI' end as status"))
+                    )
                     ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenInstalasiRadiologi'))
                     ->where('so.statusenabled', true)
-                    ->whereNotIn('so.objectruangantujuanfk',[$this->settingDataFixed('kdRuanganElektromedik')]);
+                    ->whereNotIn('so.objectruangantujuanfk', [$this->settingDataFixed('kdRuanganElektromedik')]);
                 if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
                     if ($request['isNotVerif'] == true) {
-                        $data = $data->whereNull('pp.order_no');
+                        //$data = $data->whereNull('pp.order_no');
+                        $data = $data->whereNull('so.statusorder'); //ash
+                        if (isset($request['tglAwalCek']) && $request['tglAwalCek'] != "" && $request['tglAwalCek'] != "undefined") {
+                            $data = $data->where('so.tglorder', '>=', $request['tglAwalCek']);
+                        }
+                        if (isset($request['tglAkhirCek']) && $request['tglAkhirCek'] != "" && $request['tglAkhirCek'] != "undefined") {
+
+                            $tgl = $request['tglAkhirCek'];
+                            $data = $data->where('so.tglorder', '<=', $tgl);
+                        }
                     }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
                 }
             }
-
-
-
         }
+
+        //--ash 18-05-2023
+        if (in_array($this->settingDataFixed('KdDepartemenBankDarah'), $departemenfk)) {
+            if (isset($request['ruanganTujuanId']) && $request['ruanganTujuanId'] != '') {
+                $data = \DB::table('strukorder_t as so')
+                    ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    //                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    // ->join('antrianpasiendiperiksa_t as apd',function($join)
+                    // {
+                    //     $join->on('apd.noregistrasifk','=','pd.norec')
+                    //         ->where('apd.objectruanganfk','=', 576);
+                    //     //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+                    // })
+                    ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+                    ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+                    ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+                    ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+                    ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+                    ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                    ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+                    ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+                    //                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
+                        'ru.namaruangan',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.keteranganlainnya',
+                        // 'apd.norec as norec_apd',
+                        'ru.id as ruid',
+                        'so.statusorder as statusorder_dat',
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder is null then 'MASUK' else
+                                    'SELESAI' end as status"))
+                    )
+                    ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenBankDarah'))
+                    ->where('so.statusenabled', true)
+                    ->where('so.objectruangantujuanfk', $request['ruanganTujuanId']);
+                if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+                    if ($request['isNotVerif'] == true) {
+                        $data = $data->whereNull('so.statusorder');
+                    }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
+                }
+            } else {
+                $data = \DB::table('strukorder_t as so')
+                    ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+                    ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                    //                    ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    // ->join('antrianpasiendiperiksa_t as apd',function($join)
+                    // {
+                    //     $join->on('apd.noregistrasifk','=','pd.norec')
+                    //         ->where('apd.objectruanganfk','=', 576);
+                    //     //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+                    // })
+                    ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
+                    ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+                    ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
+                    ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+                    ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
+                    ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
+                    ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
+                    ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
+                    ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
+                    ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
+                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+                    ->select(
+                        'so.norec as norec_so',
+                        'pd.norec as norec_pd',
+                        'so.noorder',
+                        'pd.noregistrasi',
+                        'pd.tglregistrasi',
+                        'pd.tglpulang',
+                        'ps.nocm',
+                        'ps.namapasien',
+                        'klm.jeniskelamin',
+                        'ps.tgllahir',
+                        'kps.kelompokpasien',
+                        'dp.namadepartemen',
+                        'pd.objectkelasfk',
+                        'kls.namakelas',
+                        'so.objectruangantujuanfk',
+                        'so.objectruanganfk',
+                        'pd.objectkelompokpasienlastfk',
+                        'ru.objectdepartemenfk',
+                        'ru2.objectdepartemenfk as iddeptujuan',
+                        'so.objectpegawaiorderfk',
+                        'pg.namalengkap as pegawaiorder',
+                        'so.tglorder',
+                        'sps.nostruk',
+                        'pd.isclosing',
+                        'pd.tgltutupfaktur',
+                        'pa.nosep',
+                        // 'apd.norec as norec_apd',
+                        'ru.namaruangan',
+                        'ru2.namaruangan as ruangantujuan',
+                        'so.keteranganlainnya',
+                        'so.statusorder as statusorder_dat',
+                        /*(DB::raw("case when pp.order_no is null then 'MASUK' else
+                                    'SELESAI' end as status")))*/
+                        DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                        (DB::raw("case when so.statusorder is null then 'MASUK' else
+                        'SELESAI' end as status"))
+                    )
+                    ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdDepartemenBankDarah'))
+                    ->where('so.statusenabled', true)
+                    ->whereNotIn('so.objectruangantujuanfk', [$this->settingDataFixed('kdRuanganElektromedik')]);
+                if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
+                    if ($request['isNotVerif'] == true) {
+                        //$data = $data->whereNull('pp.order_no');
+                        $data = $data->whereNull('so.statusorder'); //ash
+                    }
+                } else { //ash
+                    $data = $data->where('so.statusorder', '>', '0');
+                }
+            }
+        }
+        //--ash 18-05-2023
+
+
+
         if (in_array($this->settingDataFixed('kdDepartemenElektromedik'), $departemenfk)) {
             // $ruangani = Ruangan::where('objectdepartemenfk',$this->settingDataFixed('kdDepartemenElektromedik'))->get();
             // $ruanganiAr=[];
@@ -4338,13 +5056,14 @@ class RadiologiController extends ApiController
             // return $ruanganiAr;
             $data = \DB::table('strukorder_t as so')
                 ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
-//                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
- //                 ->leftjoin('antrianpasiendiperiksa_t as apd',function($join)
- //                 {
- //                     $join->on('apd.noregistrasifk','=','pd.norec')
- //                         ->where('apd.objectruanganfk','=', 571);
- // //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
- //                 })
+                ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
+                //                ->join('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                //                 ->leftjoin('antrianpasiendiperiksa_t as apd',function($join)
+                //                 {
+                //                     $join->on('apd.noregistrasifk','=','pd.norec')
+                //                         ->where('apd.objectruanganfk','=', 571);
+                // //                $join->on('spp.keteranganlainnya','=','Setoran Kasir');
+                //                 })
                 ->leftjoin('strukpelayanan_t as sps', 'sps.norec', '=', 'pd.nostruklastfk')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
                 ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
@@ -4355,35 +5074,65 @@ class RadiologiController extends ApiController
                 ->leftJoin('kelompokpasien_m as kps', 'kps.id', '=', 'pd.objectkelompokpasienlastfk')
                 ->join('kelas_m as kls', 'kls.id', '=', 'pd.objectkelasfk')
                 ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'so.objectpegawaiorderfk')
-//                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
-                ->select('so.norec as norec_so', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                    'klm.jeniskelamin', 'ps.tgllahir',
-                    'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
-                    'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
-                    'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder', 'so.tglorder', 'sps.nostruk', 
+                //                    ->leftJoin('ris_order as pp', 'pp.order_no', '=', 'so.noorder')
+                ->select(
+                    'so.norec as norec_so',
+                    'pd.norec as norec_pd',
+                    'so.noorder',
+                    'pd.noregistrasi',
+                    'pd.tglregistrasi',
+                    'pd.tglpulang',
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'klm.jeniskelamin',
+                    'ps.tgllahir',
+                    'kps.kelompokpasien',
+                    'dp.namadepartemen',
+                    'pd.objectkelasfk',
+                    'kls.namakelas',
+                    'so.objectruangantujuanfk',
+                    'so.objectruanganfk',
+                    'pd.objectkelompokpasienlastfk',
+                    'ru.objectdepartemenfk',
+                    'ru2.objectdepartemenfk as iddeptujuan',
+                    'so.objectpegawaiorderfk',
+                    'pg.namalengkap as pegawaiorder',
+                    'so.tglorder',
+                    'sps.nostruk',
+                    'pd.isclosing',
+                    'pd.tgltutupfaktur',
+                    'pa.nosep',
                     // 'apd.norec as norec_apd',
                     // 'apd.norec as norec_apd',
-                    'ru.namaruangan', 'ru2.namaruangan as ruangantujuan',
-                         'so.keteranganlainnya',
+                    'ru.namaruangan',
+                    'ru2.namaruangan as ruangantujuan',
+                    'so.keteranganlainnya',
+                    'so.statusorder as statusorder_dat',
+                    DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
                     (DB::raw("case when so.statusorder is null then 'MASUK' else
-                                    'SELESAI' end as status")))
+                                    'SELESAI' end as status"))
+                )
                 ->where('ru2.objectdepartemenfk', $this->settingDataFixed('kdDepartemenElektromedik'))
                 ->where('so.statusenabled', true)
                 ->where('so.objectkelompoktransaksifk', '!=', '108');
-//                ->where('so.objectruangantujuanfk', $request['ruanganTujuanId']);
+            //                ->where('so.objectruangantujuanfk', $request['ruanganTujuanId']);
             if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
                 if ($request['isNotVerif'] == true) {
                     $data = $data->whereNull('so.statusorder');
                 }
+            } else { //ash
+                $data = $data->where('so.statusorder', '>', '0');
             }
         }
 
         if (in_array($this->settingDataFixed('KdInstalasiBedahSentral'), $departemenfk)) {
             $data = \DB::table('strukorder_t as so')
                 ->join('pasiendaftar_t as pd', 'pd.norec', '=', 'so.noregistrasifk')
+                ->leftjoin('pemakaianasuransi_t as pa', 'pa.noregistrasifk', '=', 'pd.norec')
                 ->join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
                 ->leftJoin('jeniskelamin_m as klm', 'klm.id', '=', 'ps.objectjeniskelaminfk')
                 ->join('ruangan_m as ru', 'ru.id', '=', 'so.objectruanganfk')
+                ->leftJoin('polibpjs_m as pb', 'pb.kdpoli', '=', 'ru.kdinternal')
                 ->join('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruangantujuanfk')
                 ->join('departemen_m as dp', 'dp.id', '=', 'ru.objectdepartemenfk')
                 ->join('departemen_m as dp2', 'dp2.id', '=', 'ru2.objectdepartemenfk')
@@ -4395,7 +5144,7 @@ class RadiologiController extends ApiController
                 ->leftJoin('jadwaloperasijkn_t as jdopn', 'jdopn.noregistrasi2', '=', 'pd.noregistrasi')
                 ->leftJoin('pegawai_m as pg3', 'jdopn.dokteroperatorfk', '=', 'pg3.id')
                 ->leftJoin('pegawai_m as pg4', 'jdopn.dokteranestesi', '=', 'pg4.id')
-                            // ->select('so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
+                // ->select('so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
                 //     'klm.jeniskelamin', 'ps.tgllahir',
                 //     'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
                 //     'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
@@ -4405,81 +5154,150 @@ class RadiologiController extends ApiController
                 //                     'Sudah Verifikasi' end as status,case when jdopn.terlaksana = 0 and 
                 // pp.strukorderfk is not null then 'ANTREAN' when jdopn.terlaksana is null and  pp.strukorderfk is null then 'MENUNGGU' else 'Selesai' end as statusantrianjkn")))
                 ->select(
-                'pg3.namalengkap as dokter',
-                'pg4.namalengkap as anastesi','so.norec as norec_so','jdopn.norec as norec_jadwal', 'pd.norec as norec_pd', 'so.noorder', 'pd.noregistrasi', 'pd.tglregistrasi', 'pd.tglpulang', 'ps.nocm', 'ps.namapasien',
-                    'klm.jeniskelamin', 'ps.tgllahir',
-                    'kps.kelompokpasien', 'dp.namadepartemen', 'pd.objectkelasfk', 'kls.namakelas', 'so.objectruangantujuanfk',
-                    'so.objectruanganfk', 'pd.objectkelompokpasienlastfk', 'ru.objectdepartemenfk', 'ru2.objectdepartemenfk as iddeptujuan',
-                    'so.objectpegawaiorderfk', 'pg.namalengkap as pegawaiorder','so.tglorder',
-                    'ru.namaruangan', 'ru2.namaruangan as ruangantujuan','so.tglpelayananakhir','pg2.namalengkap as dpjp','jdopn.jenistindakan',
-                (DB::raw("CASE WHEN so.status IS NULL 
+                    'pg3.namalengkap as dokter',
+                    'pg4.namalengkap as anastesi',
+                    'so.norec as norec_so',
+                    'jdopn.norec as norec_jadwal',
+                    'pd.norec as norec_pd',
+                    'so.noorder',
+                    'pd.noregistrasi',
+                    'pd.tglregistrasi',
+                    'pd.tglpulang',
+                    'ps.nocm',
+                    'ps.namapasien',
+                    'klm.jeniskelamin',
+                    'ps.tgllahir',
+                    'kps.kelompokpasien',
+                    'dp.namadepartemen',
+                    'pd.objectkelasfk',
+                    'kls.namakelas',
+                    'so.objectruangantujuanfk',
+                    'so.objectruanganfk',
+                    'pd.objectkelompokpasienlastfk',
+                    'ru.objectdepartemenfk',
+                    'ru2.objectdepartemenfk as iddeptujuan',
+                    'so.objectpegawaiorderfk',
+                    'pg.namalengkap as pegawaiorder',
+                    'pg.id as idpegawaiorder',
+                    'so.tglorder',
+                    'pd.isclosing',
+                    'pd.tgltutupfaktur',
+                    'pa.nosep',
+                    'ru.namaruangan',
+                    'pb.kdpoli',
+                    'pb.nmpoli',
+                    'ru2.namaruangan as ruangantujuan',
+                    'so.tglpelayananakhir',
+                    'pg2.namalengkap as dpjp',
+                    'jdopn.jenistindakan',
+                    'so.statusorder as statusorder_dat',
+                    DB::raw("CASE WHEN pa.nosep IS NULL THEN '-' WHEN pa.nosep = '' THEN '-' ELSE pa.nosep END AS nosep"),
+                    (DB::raw("CASE WHEN so.status IS NULL 
                          THEN 'MASUK' ELSE 'Sudah Verifikasi' END AS status,                       
-						 CASE WHEN so.status IS NULL 
+						 CASE WHEN so.status IS NULL  
                          THEN 'MENUNGGU'
                          WHEN jdopn.terlaksana = false THEN 'ANTREAN' ELSE 'Selesai'
-                         END AS statusantrianjkn")))
+                         END AS statusantrianjkn"))
+                )
                 ->where('ru2.objectdepartemenfk', $this->settingDataFixed('KdInstalasiBedahSentral'))
-                ->where('so.statusenabled',true);
+                ->where('so.statusenabled', true);
 
             if (isset($request['isNotVerif']) && $request['isNotVerif'] != "" && $request['isNotVerif'] != "undefined") {
                 if ($request['isNotVerif'] == true) {
                     // $data = $data->whereNull('pp.strukorderfk');
-                    $data = $data->whereNull('so.status');
-                   
+                    //$data = $data->whereNull('so.status'); 
+                    $data = $data->whereNull('so.statusorder'); //ash
+                } else {
+                    $data = $data->where('so.statusorder', '>', '0');
                 }
+            } else { //ash
+                $data = $data->where('so.statusorder', '>', '0');
             }
         }
-//        if($dataruangan[0]->objectdepartemenfk != 27 && $dataruangan[0]->objectdepartemenfk != 3 && $dataruangan[0]->objectdepartemenfk != 25){
-//            $tgltgltgl= date('Y-m-d H:i:s');
-//            $data = $data->where('so.tglpelayananakhir','>=', $tgltgltgl);
-//        }
+        //        if($dataruangan[0]->objectdepartemenfk != 27 && $dataruangan[0]->objectdepartemenfk != 3 && $dataruangan[0]->objectdepartemenfk != 25){
+        //            $tgltgltgl= date('Y-m-d H:i:s');
+        //            $data = $data->where('so.tglpelayananakhir','>=', $tgltgltgl);
+        //        }
 
-        if(isset($request['tglAwal']) && $request['tglAwal']!="" && $request['tglAwal']!="undefined"){
-            $data = $data->where('so.tglorder','>=', $request['tglAwal']);
+        if (isset($request['tglAwal']) && $request['tglAwal'] != "" && $request['tglAwal'] != "undefined") {
+            $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwal']);
         }
-        if(isset($request['tglAkhir']) && $request['tglAkhir']!="" && $request['tglAkhir']!="undefined"){
-          
-            $tgl= $request['tglAkhir'];
-            $data = $data->where('so.tglorder','<=', $tgl);
+        if (isset($request['tglAkhir']) && $request['tglAkhir'] != "" && $request['tglAkhir'] != "undefined") {
+
+            $tgl = $request['tglAkhir'];
+            $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
         }
-        if(isset($request['tglAwalOperasi']) && $request['tglAwalOperasi']!="" && $request['tglAwalOperasi']!="undefined"){
-            $data = $data->where('so.tglpelayananakhir','>=', $request['tglAwalOperasi']);
+        if (isset($request['tglAwalOperasi']) && $request['tglAwalOperasi'] != "" && $request['tglAwalOperasi'] != "undefined") {
+            $data = $data->where('so.tglpelayananakhir', '>=', $request['tglAwalOperasi']);
         }
-        if(isset($request['tglAkhirOperasi']) && $request['tglAkhirOperasi']!="" && $request['tglAkhirOperasi']!="undefined"){
-            $tgl= $request['tglAkhirOperasi'];
-            $data = $data->where('so.tglpelayananakhir','<=', $tgl);
+        if (isset($request['tglAkhirOperasi']) && $request['tglAkhirOperasi'] != "" && $request['tglAkhirOperasi'] != "undefined") {
+            $tgl = $request['tglAkhirOperasi'];
+            $data = $data->where('so.tglpelayananakhir', '<=', $tgl);
         }
-        if(isset($request['deptId']) && $request['deptId']!="" && $request['deptId']!="undefined"){
-            $data = $data->where('ru.objectdepartemenfk','=', $request['deptId']);
+        if (isset($request['deptId']) && $request['deptId'] != "" && $request['deptId'] != "undefined") {
+            $data = $data->where('ru.objectdepartemenfk', '=', $request['deptId']);
         }
 
-        if(isset($request['pegId']) && $request['pegId']!="" && $request['pegId']!="undefined"){
-            $data = $data->where('so.objectpegawaiorderfk','=', $request['pegId']);
+        if (isset($request['pegId']) && $request['pegId'] != "" && $request['pegId'] != "undefined") {
+            $data = $data->where('so.objectpegawaiorderfk', '=', $request['pegId']);
         }
-        if(isset($request['ruangId']) && $request['ruangId']!="" && $request['ruangId']!="undefined"){
-            $data = $data->where('so.objectruanganfk','=', $request['ruangId']);
+        if (isset($request['ruangId']) && $request['ruangId'] != "" && $request['ruangId'] != "undefined") {
+            $data = $data->where('so.objectruanganfk', '=', $request['ruangId']);
         }
-        if(isset($request['kelId']) && $request['kelId']!="" && $request['kelId']!="undefined"){
-            $data = $data->where('pd.objectkelompokpasienlastfk','=', $request['kelId']);
+        if (isset($request['kelId']) && $request['kelId'] != "" && $request['kelId'] != "undefined") {
+            $data = $data->where('pd.objectkelompokpasienlastfk', '=', $request['kelId']);
         }
-        if(isset($request['noregistrasi']) && $request['noregistrasi']!="" && $request['noregistrasi']!="undefined"){
-            $data = $data->where('pd.noregistrasi','ilike','%'. $request['noregistrasi'].'%');
+        if (isset($request['noregistrasi']) && $request['noregistrasi'] != "" && $request['noregistrasi'] != "undefined") {
+            $data = $data->where('pd.noregistrasi', 'ilike', '%' . $request['noregistrasi'] . '%');
         }
-        if(isset($request['nocm']) && $request['nocm']!="" && $request['nocm']!="undefined"){
-            $data = $data->where('ps.nocm','ilike','%'. $request['nocm'].'%');
+        if (isset($request['nocm']) && $request['nocm'] != "" && $request['nocm'] != "undefined") {
+            $data = $data->where('ps.nocm', 'ilike', '%' . $request['nocm'] . '%');
         }
-        if(isset($request['namapasien']) && $request['namapasien']!="" && $request['namapasien']!="undefined"){
-            $data = $data->where('ps.namapasien','ilike','%'. $request['namapasien'].'%');
+        if (isset($request['namapasien']) && $request['namapasien'] != "" && $request['namapasien'] != "undefined") {
+            $data = $data->where('ps.namapasien', 'ilike', '%' . $request['namapasien'] . '%');
         }
-        if(isset($request['noOrders']) && $request['noOrders']!="" && $request['noOrders']!="undefined"){
-            $data = $data->where('so.noorder','ilike','%'. $request['noOrders'].'%');
+        if (isset($request['noOrders']) && $request['noOrders'] != "" && $request['noOrders'] != "undefined") {
+            $data = $data->where('so.noorder', 'ilike', '%' . $request['noOrders'] . '%');
         }
-        if(isset($request['jmlRow']) && $request['jmlRow']!="" && $request['jmlRow']!="undefined"){
+        if (isset($request['jmlRow']) && $request['jmlRow'] != "" && $request['jmlRow'] != "undefined") {
             $data = $data->take($request['jmlRow']);
         }
-        $data = $data->orderBy('so.noorder','desc');
-//        $data = $data->take(100);
+        $data = $data->orderBy('so.tglorder', 'desc');
+        //        $data = $data->take(100);
         $data = $data->distinct();
+        // $data = $data->groupBy('so.norec',
+        // 'pd.norec',
+        // 'so.noorder',
+        // 'pd.noregistrasi',
+        // 'pd.tglregistrasi',
+        // 'pd.tglpulang',
+        // 'ps.nocm',
+        // 'ps.namapasien',
+        // 'klm.jeniskelamin',
+        // 'ps.tgllahir',
+        // 'kps.kelompokpasien',
+        // 'dp.namadepartemen',
+        // 'pd.objectkelasfk',
+        // 'kls.namakelas',
+        // 'kls.id',
+        // 'so.objectruangantujuanfk',
+        // 'so.objectruanganfk',
+        // 'pd.objectkelompokpasienlastfk',
+        // 'ru.objectdepartemenfk',
+        // 'ru2.objectdepartemenfk',
+        // 'so.objectpegawaiorderfk',
+        // 'pg.namalengkap',
+        // 'pd.isclosing',
+        // 'pd.tgltutupfaktur',
+        // 'ru.namaruangan',
+        // 'ru.id',
+        // 'ru2.namaruangan',
+        // 'so.tglorder',
+        // 'sps.nostruk',
+        // 'so.keteranganlainnya',
+        // 'so.statusorder',
+        // 'pa.nosep',
+        // 'so.statusorder');
         $data = $data->get();
         if (in_array($this->settingDataFixed('KdInstalasiBedahSentral'), $departemenfk)) {
 
@@ -4488,10 +5306,10 @@ class RadiologiController extends ApiController
                 $lab = 'Belum diisi';
                 $rad = 'Belum diisi';
                 $pelayananpasien = \DB::table('pasiendaftar_t as pd')
-                ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
-                ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
-                ->select('apd.objectruanganfk', 'apd.norec')
-                ->where('pd.noregistrasi', $item->noregistrasi)
+                    ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
+                    ->JOIN('pelayananpasien_t as pp', 'pp.noregistrasifk', '=', 'apd.norec')
+                    ->select('apd.objectruanganfk', 'apd.norec')
+                    ->where('pd.noregistrasi', $item->noregistrasi)
                     ->whereIn('apd.objectruanganfk', [575, 576])
                     ->distinct()
                     ->get();
@@ -4515,46 +5333,47 @@ class RadiologiController extends ApiController
                     }
                 }
                 $item->detail = $detail;
-                
+
                 $tindakan = \DB::table('orderpelayanan_t as op')
-                ->where('op.strukorderfk', $item->norec_so)
-                ->distinct()
-                ->get();
+                    ->where('op.strukorderfk', $item->norec_so)
+                    ->distinct()
+                    ->get();
                 if (count($tindakan) > 0) {
-                    $namatindakan ='';
-                    $keterangantindakan='';
-                    $diagnosa='';
+                    $namatindakan = '';
+                    $keterangantindakan = '';
+                    $diagnosa = '';
                     foreach ($tindakan as $itemx) {
-                        if($namatindakan == ''){
+                        if ($namatindakan == '') {
                             $namatindakan = $itemx->keteranganlainnya;
-                        }else{
-                            $namatindakan = $namatindakan .','. $itemx->keteranganlainnya;
+                        } else {
+                            $namatindakan = $namatindakan . ',' . $itemx->keteranganlainnya;
                         }
-                        if($keterangantindakan == ''){
+                        if ($keterangantindakan == '') {
                             $keterangantindakan = $itemx->keteranganlainnya_quo;
-                        }else{
-                            $keterangantindakan = $keterangantindakan .','. $itemx->keteranganlainnya_quo;
+                        } else {
+                            $keterangantindakan = $keterangantindakan . ',' . $itemx->keteranganlainnya_quo;
                         }
-                         if($diagnosa == ''){
+                        if ($diagnosa == '') {
                             $diagnosa = $itemx->diagnosa;
-                        }else{
-                            $diagnosa = $diagnosa .','. $itemx->diagnosa;
+                        } else {
+                            $diagnosa = $diagnosa . ',' . $itemx->diagnosa;
                         }
                     }
                 }
-                $item->namatindakan= $namatindakan;
-                $item->keterangantindakan= $keterangantindakan;
-                $item->kddiagnosa= $diagnosa;
+                $item->namatindakan = $namatindakan;
+                $item->keterangantindakan = $keterangantindakan;
+                $item->kddiagnosa = $diagnosa;
             }
         }
 
-        $dataResult=array(
+        $dataResult = array(
             'message' =>  'inhuman',
             'data' =>  $data,
             'dataruangan' => $dataruangan
         );
         return $this->respond($dataResult);
     }
+
     public function getDaftarOrderPenunjangverifRincian(Request $request)
     {
         $dataLogin = $request->all();
@@ -4750,6 +5569,7 @@ class RadiologiController extends ApiController
         );
         return $this->respond($dataResult);
     }
+
     public function getDaftarOrderPenunjangverif(Request $request)
     {
         $dataLogin = $request->all();
