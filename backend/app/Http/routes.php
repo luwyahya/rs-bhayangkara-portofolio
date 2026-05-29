@@ -894,7 +894,8 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-emr-transaksi-detail-new', 'EMR\EMRController@getEMRTransaksiDetailNew');
             Route::get('get-indikasi-ranap', 'EMR\EMRController@getComboIndikasiRanap');
             Route::get('get-riwayat-order-penunjang-lab-rad', 'EMR\EMRController@getRiwayatOrderPenunjangLabRad');
-            
+            Route::get('get-combo-dokter-new', 'EMR\EMRController@getComboDokter');
+
             //2023-11-01 By Toha
             Route::get('get-detail-dokter-cppt-new', 'EMR\EMRController@getDetailDokterCpptNew');
             Route::get('get-detail-perawat-cppt-new', 'EMR\EMRController@getDetailPerawatCpptNew');
@@ -1176,6 +1177,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             // Route::post('save-order-pelayanan', 'EMR\EMRController@saveOrderPelayanan');
             Route::get('get-combo-icd9', 'EMR\EMRController@getIcd9');
             Route::get('get-combo-icd10', 'EMR\EMRController@getDiagnosaIcd10Part');
+            Route::get('get-combo-icd10-new', 'EMR\EMRController@getDiagnosaIcd10PartNew');
             Route::get('get-combo-icd9-idrg', 'EMR\EMRController@getIcd9IDRG');
             Route::get('get-combo-icd10-idrg', 'EMR\EMRController@getDiagnosaIcd10PartIdrg');
             Route::get('get-icd10', 'EMR\EMRController@getDiagnosaIcd10');

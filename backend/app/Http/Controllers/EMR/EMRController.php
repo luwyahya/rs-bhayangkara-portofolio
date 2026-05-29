@@ -11518,6 +11518,42 @@ class EMRController  extends ApiController
         return $this->respond($data);
     }
 
+    public function getDiagnosaIcd10PartNew(Request $request)
+    {
+        $req = $request->all();
+        $dataProduk = [];
+        $dataProduk = \DB::table('diagnosa_m as st')
+            ->select('st.id', 'st.kddiagnosa as kdDiagnosa', 'st.namadiagnosa as namaDiagnosa')
+            ->where('st.statusenabled', true)
+            ->orderBy('st.kddiagnosa');
+        if (
+            isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value'] != "" &&
+            $req['filter']['filters'][0]['value'] != "undefined"
+        ) {
+            $dataProduk = $dataProduk->where('st.kddiagnosa', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%')
+                ->orWhere('st.namadiagnosa', 'ilike', '%' . $req['filter']['filters'][0]['value'] . '%');
+        };
+        $dataProduk = $dataProduk->take(10);
+        $dataProduk = $dataProduk->get();
+
+
+        $data = [];
+        if (count($dataProduk) > 0) {
+            foreach ($dataProduk as $item) {
+                $data[] = array(
+                    'text' => $item->kdDiagnosa . ' - ' . $item->namaDiagnosa,
+                    'value' => $item->id,
+                    'kdDiagnosa' => $item->kdDiagnosa,
+                    'namaDiagnosa' => $item->namaDiagnosa,
+
+                );
+            }
+        }
+
+        return $this->respond($data);
+    }
+
     public function getComboDiagnosis(Request $request)
     {
         $dataLogin = $request->all();
@@ -30448,5 +30484,35 @@ WHERE rm.norec = '$norec_resume'
             ];
         }
         return $this->respond($response);
+    }
+
+    public function getComboDokter(Request $request){
+        $kdJenisPegawaiDokter = $this->settingDataFixed('kdJenisPegawaiDokter');
+        $req = $request->all();
+        $data = \DB::table('pegawai_m')
+            ->select('id as value','namalengkap as text')
+            ->where('statusenabled', true)
+            ->where('objectjenispegawaifk',$kdJenisPegawaiDokter)
+            ->orderBy('namalengkap');
+
+        if(isset($req['namalengkap']) &&
+            $req['namalengkap']!="" &&
+            $req['namalengkap']!="undefined"){
+            $data = $data->where('namalengkap','like','%'. $req['namalengkap'] .'%' );
+        };
+        if(isset($req['idpegawai']) &&
+            $req['idpegawai']!="" &&
+            $req['idpegawai']!="undefined"){
+            $data = $data->where('id', $req['idpegawai'] );
+        };
+        if(isset($req['filter']['filters'][0]['value']) &&
+            $req['filter']['filters'][0]['value']!="" &&
+            $req['filter']['filters'][0]['value']!="undefined"){
+            $data = $data
+                ->where('namalengkap','like','%'.$req['filter']['filters'][0]['value'].'%' );
+        }
+
+        $data = $data->get();
+        return $this->respond($data);
     }
 }
