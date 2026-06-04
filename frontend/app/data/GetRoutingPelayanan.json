@@ -16959,5 +16959,25 @@
         "define": "ModulTindakanCtrl"
       }
     ]
+  },
+  {
+    "name": "DaftarBerkasRevisiCasemix",
+    "url": "/RGFmdGFyIEJlcmthcyBSZXZpc2kgQ2FzZW1peA==",
+    "templateurl": "module/TataRekening/DaftarBerkasRevisiCasemix.html",
+    "controller": "DaftarBerkasRevisiCasemixCtrl",
+    "deps": [
+      {
+        "module": "Services",
+        "define": "Service"
+      },
+      {
+        "module": "LoginServices",
+        "define": "LoginService"
+      },
+      {
+        "module": "MedifirstService",
+        "define": "MedifirstService"
+      }
+    ]
   }
 ]
