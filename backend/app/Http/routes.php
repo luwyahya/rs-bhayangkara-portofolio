@@ -4005,6 +4005,9 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             });
         });
         Route::group(['prefix' => 'tatarekening'], function () {
+
+            Route::get('daftar-pasien-pulang-papj-new', 'TataRekening\TagihanController@daftarPasienPulangPapjNew');
+
             // trisno 2324
             Route::get('get-combo-baru', 'TataRekening\TagihanController@getComboBaru');
             Route::post('update-petugas-pelaksana', 'TataRekening\TagihanController@updatePetugasPelaksana');
