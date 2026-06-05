@@ -59,6 +59,97 @@ define(['initialize'], function (initialize) {
                     { text: "3", value: 3},
                     { text: "4", value: 4}
                 ];
+                $scope.listRisikoJatuh = [{
+                        "id": 8,
+                        "nama": "Kepala :",
+                        "detail": [
+                            { "id": 2618, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2619, "nama": "Ada Kelainan", "type": "checkbox" },
+                            { "id": 2620, "nama": " Jelaskan :", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 10,
+                        "nama": "Mata :",
+                        "detail": [
+                            { "id": 1901300356, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 1901300357, "nama": "Ada Kelainan", "type": "checkbox" },
+                            { "id": 1901300358, "nama": " Jelaskan :", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 9,
+                        "nama": "Leher :",
+                        "detail": [
+                            { "id": 2621, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2622, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2623, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 10,
+                        "nama": "Thorax :",
+                        "detail": [
+                            { "id": 2624, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2625, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2626, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 11,
+                        "nama": "Abdomen :",
+                        "detail": [
+                            { "id": 2627, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2628, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2629, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 20,
+                        "nama": "Extremitas :",
+                        "detail": [
+                            { "id": 2630, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2631, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2632, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 21,
+                        "nama": "Genitalia :",
+                        "detail": [
+                            { "id": 2633, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2634, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2635, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 22,
+                        "nama": "Anus :",
+                        "detail": [
+                            { "id": 2676, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2677, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2678, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 23,
+                        "nama": "Pemeriksaan Neurologis :",
+                        "detail": [
+                            { "id": 2679, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2680, "nama": "Ada Kelainan ", "type": "checkbox" },
+                            { "id": 2681, "nama": "Jelaskan ", "type": "textbox" },
+                        ]
+                    },
+                    {
+                        "id": 24,
+                        "nama": "Kulit :",
+                        "detail": [
+                            { "id": 1901300359, "nama": "Tidak Ada Kelainan ", "type": "checkbox" },
+                            { "id": 1901300360, "nama": "Ada Kelainan", "type": "checkbox" },
+                            { "id": 1901300361, "nama": " Jelaskan :", "type": "textbox" },
+                        ]
+                    },
+                ]
                 $scope.listGcsM = [
                     { text: "1", value: 1},
                     { text: "2", value: 2},
@@ -108,6 +199,56 @@ define(['initialize'], function (initialize) {
                     toastr.info('Gambar belum di pilih')
                     return
                 }
+            }
+
+
+            $scope.ambilRiwayat = function() {
+                medifirstService.get('emr/get-value-from-pengkajian-awal-last?nocm=' + $scope.cc.nocm).then(function(dat) {
+                    var resultDb = dat.data;
+                    
+                    for (let i = 0; i < resultDb.length; i++) {
+                        let idForm = resultDb[i].emrdfk;
+                        let nilaiForm = resultDb[i].value;
+
+                        // 1. MAPPING GCS DARI VERSI LAMA KE ID BARU (Sesuai dengan logika awal Anda)
+                        if (idForm == 1259) {
+                            $scope.item.obj[2241] = { text: nilaiForm };
+                        } 
+                        else if (idForm == 1502) {
+                            $scope.item.obj[2242] = { text: nilaiForm };
+                        } 
+                        else if (idForm == 1503) {
+                            $scope.item.obj[2243] = { text: nilaiForm };
+                        } 
+                        
+                        // 2. MAPPING KENDO COMBOBOX (Membutuhkan format Object {text: ...})
+                        // Termasuk: Kesadaran (1168), Keadaan Umum (3124), Dokter (1257), GCS (2241, 2242, 2243)
+                        else if (idForm == 1168 || idForm == 3124 || idForm == 1257 || idForm == 2241 || idForm == 2242 || idForm == 2243) {
+                            // Jika data disimpan dengan format "Value~Text" (contoh: "1~Baik")
+                            if (typeof nilaiForm === 'string' && nilaiForm.indexOf('~') > -1) {
+                                let res = nilaiForm.split('~');
+                                $scope.item.obj[idForm] = { value: res[0], text: res[1] || res[0] };
+                            } else {
+                                $scope.item.obj[idForm] = { value: nilaiForm, text: nilaiForm };
+                            }
+                        } 
+                        
+                        // 3. MAPPING OTOMATIS UNTUK SEMUA TEXTBOX, TEXTAREA, & CHECKBOX
+                        else {
+                            // Konversi format string dari database menjadi format Boolean asli agar Checkbox UI tercentang
+                            if (nilaiForm === "true" || nilaiForm === "1" || nilaiForm === true) {
+                                $scope.item.obj[idForm] = true;
+                            } else if (nilaiForm === "false" || nilaiForm === "0" || nilaiForm === false) {
+                                $scope.item.obj[idForm] = false;
+                            } else {
+                                // Masuk ke Input Text dan Textarea biasa (Keluhan Utama, Alergi, TTV, dll)
+                                $scope.item.obj[idForm] = nilaiForm;
+                            }
+                        }
+                    }
+                    
+                    toastr.success('Riwayat pengkajian awal terakhir berhasil dimuat');
+                });
             }
 
             $scope.TutupPopUp = function () {
@@ -299,6 +440,21 @@ define(['initialize'], function (initialize) {
                 
                 $scope.isRouteLoading = true
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
+                var dataLogin = medifirstService.getPegawaiLogin();
+                var namaLengkapLogin = dataLogin.namaLengkap;
+                var user = dataLogin.jenisPegawai;
+                if (user.jenispegawai == 'DOKTER') {
+                    // if (namaLengkapLogin != 'dr. ATE SURYAMAN BUNDJALI') {
+                    //     $scope.hideBtnAmbilRiwayat = true; 
+                    // }
+
+                }
+
+                medifirstService.get('emr/get-image-from-jenis-surat?').then(function(dat) {
+                    $scope.user.poto = dat.data[5].template;
+                    $scope.user.poto2 = dat.data[6].template;
+                })
+
                 medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=asesmen", true).then(function(dat) {
                     $scope.isRouteLoading = false
                     debugger
@@ -380,6 +536,8 @@ define(['initialize'], function (initialize) {
                         }
                     })
                 })
+
+                
                 
                 
                 // loadData()
@@ -395,6 +553,12 @@ define(['initialize'], function (initialize) {
                     // $scope.item.obj[68] = $scope.now
                     dataLoad = dat.data.data
                     for (var i = 0; i <= dataLoad.length - 1; i++) {
+                        if (dataLoad[i].emrdfk == "2421") {
+                            $scope.user.poto = dataLoad[i].value;
+                        }
+                        if (dataLoad[i].emrdfk == "2422") {
+                            $scope.user.poto2 = dataLoad[i].value;
+                        }
                         if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
     
                             if (dataLoad[i].type == "textbox") {
@@ -417,8 +581,8 @@ define(['initialize'], function (initialize) {
                                     var datass = { id: dataLoad[i].emrdfk, descNilai: dataLoad[i].reportdisplay }
                                     $scope.getSkorNutrisi(datass)
                                 }
-    
-    
+
+
                             }
     
                             if (dataLoad[i].type == "datetime") {
@@ -534,9 +698,26 @@ define(['initialize'], function (initialize) {
                         }
     
                     }
+
+                    var restoreImageOnce = function() {
+                            if ($scope.user.poto && $scope.user.poto.trim() !== '') {
+                            var container = document.getElementById('surface-container');
+                            if (container) {
+                                container.style.backgroundImage = 'url(' + $scope.user.poto + ')';
+                            }
+                        }
+                        if ($scope.user.poto2 && $scope.user.poto2.trim() !== '') {
+                            var container2 = document.getElementById('surface-container2');
+                            if (container2) {
+                                container2.style.backgroundImage = 'url(' + $scope.user.poto2 + ')';
+                            }
+                        }
+                    };
+                    setTimeout(restoreImageOnce, 800);
                 })
                 // cekVitalSign()
             }
+            
 
             function setData (dataLoad) {
                 for (var i = 0; i <= dataLoad.length - 1; i++) {
@@ -599,16 +780,22 @@ define(['initialize'], function (initialize) {
             }
 
             $scope.Save = function () {
-                var photo = ""
+                var photo = "";
                 kendo.drawing.drawDOM($(".surface"))
                     .then(function (group) {
-                        debugger;
-                        // Render the result as a SVG document
                         return kendo.drawing.exportImage(group);
                     }).done(function (data) {
-                        photo = data
-                        debugger;
-                    })
+                        photo = data;
+                    });
+
+                // Ekspor Canvas 2 (Belakang)
+                var photo2 = "";
+                kendo.drawing.drawDOM($(".surface2"))
+                    .then(function (group) {
+                        return kendo.drawing.exportImage(group);
+                    }).done(function (data2) {
+                        photo2 = data2;
+                    });
 
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
@@ -622,7 +809,9 @@ define(['initialize'], function (initialize) {
                         arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
                     }
                 }
-                arrSave.push({ id: "2320", values: photo })
+                arrSave.push({ id: "2421", values: photo });
+                arrSave.push({ id: "2422", values: photo2 });
+                // arrSave.push({ id: "2320", values: photo })
                 $scope.cc.jenisemr = 'asesmen'
                 var jsonSave = {
                     head: $scope.cc,
