@@ -1002,6 +1002,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-dpjp-for-spri', 'EMR\EMRController@getDpjpForSpri');
             Route::get('get-value-from-pengkajian-awal', 'EMR\EMRController@getValueFromPengkajianAwal');
             Route::get('get-value-from-pengkajian-awal-2', 'EMR\EMRController@getValueFromPengkajianAwal2');
+            Route::get('get-value-from-pengkajian-awal-last', 'EMR\EMRController@getValueFromPengkajianAwalLast');
             Route::get('get-value-from-pengkajian-awal-3', 'EMR\EMRController@getValueFromPengkajianAwal3');
             Route::get('get-pengkajian-awal-medis-ranap', 'EMR\EMRController@getPengkajianAwalMedisRawatInap');
             Route::get('get-value-from-cppt', 'EMR\EMRController@getValueCppt');

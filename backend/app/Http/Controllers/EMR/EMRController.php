@@ -30515,4 +30515,26 @@ WHERE rm.norec = '$norec_resume'
         $data = $data->get();
         return $this->respond($data);
     }
+
+    public function getValueFromPengkajianAwalLast(Request $request)
+    {
+        $data = DB::table('emrpasien_t as ep')
+            ->join('emrpasiend_t as epd', 'epd.emrpasienfk', '=', 'ep.noemr')
+            ->select('epd.value', 'epd.emrdfk')
+            ->whereIn('epd.emrdfk', [
+                1168, 1169, 1170, 1172, 1173, 1174, 1175, 1238, 1239, 1240, 
+                1241, 1242, 1243, 1244, 1245, 1247, 1248, 1250, 1251, 1252, 
+                1253, 1254, 1255, 1256, 1257, 2217, 2241, 2242, 2243, 2586, 
+                3124, 1901306174, 1901306175, 1901306176, 1901306177, 
+                1901311467, 1901311468, 1901311469, 1901311472, 1901311473, 
+                1901311474, 1901311476, 1901311477, 1901311478, 1901311479, 
+                1901311480, 1901311481, 1901311482, 1901311483, 1901311484
+            ])
+            ->where('epd.emrfk', 675)
+            ->where('ep.nocm', $request['nocm'])
+            ->orderBy('ep.tglemr', 'desc')
+            ->get();
+
+        return $this->respond($data);
+    }
 }
