@@ -6136,6 +6136,7 @@ public function getDaftarOrderPenunjang(Request $request)
                 $PelPasien->jumlah =  $item['qtyproduk'];
                 $PelPasien->kelasfk =  $request['objectkelasfk'];
                 $PelPasien->kdkelompoktransaksi =  1;
+                $PelPasien->objectpegawaipengirimfk = $request['objectpegawaiorderfk'];
                 $PelPasien->piutangpenjamin =  0;
                 $PelPasien->piutangrumahsakit = 0;
                 $PelPasien->produkfk =  $item['produkid'];
