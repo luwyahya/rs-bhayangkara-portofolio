@@ -247,6 +247,12 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				$scope.item.ttdPasien = $scope.cc.namapasien
 				$scope.item.dpjp= {"id":$scope.cc.iddpjp,"namalengkap":$scope.cc.dpjp}
 
+				// Default otomatis
+				$scope.item.prognosis        = { "id": "1", "prognosis": "Baik" }
+				$scope.item.carakeluar       = { "id": "1", "statuspulang": "Pulang Atas Persetujuan Dokter" }
+				$scope.item.darurat          = "RS Bhayangkara Cianjur (0263) 285299"
+				$scope.item.kondisiMeninggalkan = { "id": 1, "kondisi": "Stabil" }
+
 				medifirstService.get('emr/get-lab-resume-rj?noregistrasi=' + $scope.cc.noregistrasi + "&ruid=" + $scope.cc.objectruanganfk, true).then(function(dat) {
 					$scope.isRouteLoading = false;
 					lab = dat.data.data
