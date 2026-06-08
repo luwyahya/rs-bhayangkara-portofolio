@@ -5865,9 +5865,185 @@ public function getDaftarOrderPenunjang(Request $request)
         );
         return $this->respond($result);
     }
-    public function savePelayananPasien(Request $request) {
+
+    //OLD FUNCTION SAVE PELAYANAN PASIEN
+//     public function savePelayananPasien(Request $request) {
+//         DB::beginTransaction();
+//         try{
+
+//             StrukOrder::where('norec', $request['norec_so'])->update(
+//                 [
+//                     'statusorder' => 1
+//                 ]
+//             );
+
+// //            if($request['norec_pp']=='') {
+//                 $pd = PasienDaftar::where('norec',$request['norec_pd'])->first();
+//                 $apd = AntrianPasienDiperiksa::where('noregistrasifk',$pd->norec)
+//                     ->where('objectruanganfk',$request['objectruangantujuanfk'])
+//                     ->where('statusenabled',true)
+//                     ->first();
+//                 if(empty($apd)){
+//                     $dataAPD = new AntrianPasienDiperiksa;
+//                     $dataAPD->norec = $dataAPD->generateNewId();
+//                     $dataAPD->kdprofile = 0;
+//                     $dataAPD->objectasalrujukanfk = 1;
+//                     $dataAPD->statusenabled = true;
+//                     $dataAPD->objectkelasfk = 6;// $request['objectkelasfk'];
+//                     $dataAPD->noantrian = 1;
+//                     $dataAPD->noregistrasifk = $request['norec_pd'];
+//                     $dataAPD->objectpegawaifk = $request['objectpegawaiorderfk'];
+//                     $dataAPD->objectruanganfk = $request['objectruangantujuanfk'];
+//                     $dataAPD->statusantrian = 0;
+//                     $dataAPD->statuspasien = 1;
+//                     $dataAPD->objectstrukorderfk = $request['norec_so'];
+//                     $dataAPD->tglregistrasi = $pd->tglregistrasi;// date('Y-m-d H:i:s');
+//                     $dataAPD->tglmasuk = date('Y-m-d H:i:s');
+//                     $dataAPD->tglkeluar = date('Y-m-d H:i:s');
+//                     $dataAPD->save();
+
+//                     $dataAPDnorec = $dataAPD->norec;
+//                     $dataAPDtglPel = $dataAPD->tglregistrasi;
+//                 }else{
+//                     $dataAPDnorec  = $apd->norec;
+//                     $dataAPDtglPel = $apd->tglregistrasi;
+//                 }
+// //            else{
+// //                $dataAPD =  PelayananPasien::where('norec',$request['norec_pp'])->first();
+// //                $dataAPDnorec = $dataAPD->noregistrasifk;
+// //                $dataAPDtglPel = $dataAPD->tglregistrasi;
+// //
+// //                $HapusPP = PelayananPasien::where('strukorderfk', $request['norec_so'])->get();
+// //                foreach ($HapusPP as $pp){
+// //                    $HapusPPD = PelayananPasienDetail::where('pelayananpasien', $pp['norec'])->delete();
+// //                    $HapusPPP = PelayananPasienPetugas::where('pelayananpasien', $pp['norec'])->delete();
+// //                }
+// //                $Edit = PelayananPasien::where('strukorderfk', $request['norec_so'])->delete();
+// //            }
+
+//             $antrian = AntrianPasienDiperiksa::where('norec',$dataAPDnorec)
+//                 ->update([
+//                     'ispelayananpasien' => true
+//                 ]);
+
+//             foreach ($request['bridging'] as $item){
+//                 $PelPasien = new PelayananPasien();
+//                 $PelPasien->norec = $PelPasien->generateNewId();
+//                 $PelPasien->kdprofile = 0;
+//                 $PelPasien->statusenabled = true;
+//                 $PelPasien->noregistrasifk =  $dataAPDnorec;
+//                 $PelPasien->tglregistrasi = $dataAPDtglPel;
+//                 $PelPasien->hargadiscount = 0;
+//                 $PelPasien->hargajual =  $item['hargasatuan'];
+//                 $PelPasien->hargasatuan =  $item['hargasatuan'];
+//                 $PelPasien->jumlah =  $item['qtyproduk'];
+//                 $PelPasien->kelasfk =  $request['objectkelasfk'];
+//                 $PelPasien->kdkelompoktransaksi =  1;
+//                 $PelPasien->piutangpenjamin =  0;
+//                 $PelPasien->piutangrumahsakit = 0;
+//                 $PelPasien->produkfk =  $item['produkid'];
+//                 $PelPasien->stock =  1;
+//                 $PelPasien->strukorderfk =  $request['norec_so'];
+//                 $PelPasien->tglpelayanan = date('Y-m-d H:i:s');
+//                 $PelPasien->harganetto =  $item['hargasatuan'];
+
+//                 $PelPasien->save();
+//                 $PPnorec = $PelPasien->norec;
+
+
+//                 $PelPasienPetugas = new PelayananPasienPetugas();
+//                 $PelPasienPetugas->norec = $PelPasienPetugas->generateNewId();
+//                 $PelPasienPetugas->kdprofile = 0;
+//                 $PelPasienPetugas->statusenabled = true;
+//                 $PelPasienPetugas->nomasukfk = $dataAPDnorec;
+//                 $PelPasienPetugas->objectpegawaifk = $request['iddokterverif'];//$request['objectpegawaiorderfk'];
+
+//                 $PelPasienPetugas->objectjenispetugaspefk = 4;//$jenisPetugasPe->objectjenispetugaspefk;
+//                 $PelPasienPetugas->pelayananpasien = $PPnorec;
+//                 $PelPasienPetugas->save();
+//                 $PPPnorec = $PelPasienPetugas->norec;
+
+
+//                 foreach ($item['komponenharga'] as $itemKomponen) {
+
+//                     $PelPasienDetail = new PelayananPasienDetail();
+//                     $PelPasienDetail->norec = $PelPasienDetail->generateNewId();
+//                     $PelPasienDetail->kdprofile = 0;
+//                     $PelPasienDetail->statusenabled = true;
+//                     $PelPasienDetail->noregistrasifk = $dataAPDnorec;
+//                     $PelPasienDetail->aturanpakai = '-';
+//                     $PelPasienDetail->hargadiscount = 0;
+//                     $PelPasienDetail->hargajual = $itemKomponen['hargasatuan'];
+//                     $PelPasienDetail->hargasatuan = $itemKomponen['hargasatuan'];
+//                     $PelPasienDetail->jumlah = 1;
+//                     $PelPasienDetail->keteranganlain = '-';
+//                     $PelPasienDetail->keteranganpakai2 = '-';
+//                     $PelPasienDetail->komponenhargafk = $itemKomponen['objectkomponenhargafk'];
+//                     $PelPasienDetail->pelayananpasien = $PPnorec;
+//                     $PelPasienDetail->piutangpenjamin = 0;
+//                     $PelPasienDetail->piutangrumahsakit = 0;
+//                     $PelPasienDetail->produkfk =  $item['produkid'];
+//                     $PelPasienDetail->stock = 1;
+//                     $PelPasienDetail->strukorderfk =  $request['norec_so'];
+//                     $PelPasienDetail->tglpelayanan =$dataAPDtglPel;
+//                     $PelPasienDetail->harganetto = $itemKomponen['hargasatuan'];
+//                     $PelPasienDetail->save();
+//                     $PPDnorec = $PelPasienDetail->norec;
+//                     $transStatus = 'true';
+//                 }
+//             }
+
+//             $transStatus = 'true';
+//         } catch (\Exception $e) {
+//             $transStatus = 'false';
+//         }
+
+//         if ($transStatus == 'true') {
+//             $transMessage = "Simpan PelayananPasien Sukses";
+//             DB::commit();
+            
+//             // $ihs = null;
+//             // if ($request['objectruangantujuanfk'] != 576) {
+//             //     $objetoRequest = new \Illuminate\Http\Request();
+//             //     $objetoRequest['noorder'] = $request['noorder'];
+//             //     $ihs = app('App\Http\Controllers\Bridging\IHSController')->Specimen($objetoRequest, true);
+//             // }
+//             $result = array(
+//                 'status' => 201,
+//                 'message' => $transMessage,
+//                 'dataPP' => $PelPasien,
+// //                'dataPPP' => $PelPasienPetugas,
+//                 'dataPPD' => $PelPasienDetail,
+//                 // 'Specimen' => $ihs,
+//                 'as' => 'ramdanegie',
+//             );
+//         } else {
+//             $transMessage = "Simpan PelayananPasien Gagal";
+//             DB::rollBack();
+//             $result = array(
+//                 'status' => 400,
+//                 'message'  => $transMessage,
+//                 'dataPP' => $PelPasien,
+// //                'dataPPP' => $PelPasienPetugas,
+// //                'dataPPD' => $PelPasienDetail,
+//                 'as' => 'ramdanegie',
+//             );
+//         }
+//         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+// //        return $this->respond();
+//     }
+
+
+    //NEW FUNCTION SAVE PELAYANAN PASIEN
+    public function savePelayananPasien(Request $request)
+    {
+
+        $PelPasien = null;
+        $PelPasienDetail = null;
+        $errorMessage = '';
+
         DB::beginTransaction();
-        try{
+        try {
 
             StrukOrder::where('norec', $request['norec_so'])->update(
                 [
@@ -5875,56 +6051,79 @@ public function getDaftarOrderPenunjang(Request $request)
                 ]
             );
 
-//            if($request['norec_pp']=='') {
-                $pd = PasienDaftar::where('norec',$request['norec_pd'])->first();
-                $apd = AntrianPasienDiperiksa::where('noregistrasifk',$pd->norec)
-                    ->where('objectruanganfk',$request['objectruangantujuanfk'])
-                    ->where('statusenabled',true)
-                    ->first();
-                if(empty($apd)){
-                    $dataAPD = new AntrianPasienDiperiksa;
-                    $dataAPD->norec = $dataAPD->generateNewId();
-                    $dataAPD->kdprofile = 0;
-                    $dataAPD->objectasalrujukanfk = 1;
-                    $dataAPD->statusenabled = true;
-                    $dataAPD->objectkelasfk = 6;// $request['objectkelasfk'];
-                    $dataAPD->noantrian = 1;
-                    $dataAPD->noregistrasifk = $request['norec_pd'];
-                    $dataAPD->objectpegawaifk = $request['objectpegawaiorderfk'];
-                    $dataAPD->objectruanganfk = $request['objectruangantujuanfk'];
-                    $dataAPD->statusantrian = 0;
-                    $dataAPD->statuspasien = 1;
-                    $dataAPD->objectstrukorderfk = $request['norec_so'];
-                    $dataAPD->tglregistrasi = $pd->tglregistrasi;// date('Y-m-d H:i:s');
-                    $dataAPD->tglmasuk = date('Y-m-d H:i:s');
-                    $dataAPD->tglkeluar = date('Y-m-d H:i:s');
-                    $dataAPD->save();
+            //            if($request['norec_pp']=='') {
+            $pd = PasienDaftar::select(
+                'pasiendaftar_t.*',
+                'ru.id as ruanganlast_id',
+                'ru.namaruangan as ruanganlast_nama',
+                'ru.objectdepartemenfk',
+                'ps.namapasien',
+                'ps.nocm',
+                'ps.noidentitas',
+                'ps.tgllahir',
+                'jk.jeniskelamin',
+                'al.alamatlengkap',
+                'ru2.namaruangan as ruanganasal',
+                'ru2.id as ruanganasal_id'
+            )
+                ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'pasiendaftar_t.objectruanganlastfk')
+                ->leftJoin('pasien_m as ps', 'ps.id', '=', 'pasiendaftar_t.nocmfk')
+                ->leftJoin('jeniskelamin_m as jk', 'jk.id', '=', 'ps.objectjeniskelaminfk')
+                ->leftJoin('alamat_m as al', 'al.nocmfk', '=', 'ps.id')
+                ->leftJoin('strukorder_t as so', 'so.noregistrasifk', '=', 'pasiendaftar_t.norec')
+                ->leftJoin('ruangan_m as ru2', 'ru2.id', '=', 'so.objectruanganfk')
+                ->where('pasiendaftar_t.norec', $request['norec_pd'])
+                ->first();
+            $apd = AntrianPasienDiperiksa::where('noregistrasifk', $pd->norec)
+                ->where('objectruanganfk', $request['objectruangantujuanfk'])
+                ->where('statusenabled', true)
+                ->first();
 
-                    $dataAPDnorec = $dataAPD->norec;
-                    $dataAPDtglPel = $dataAPD->tglregistrasi;
-                }else{
-                    $dataAPDnorec  = $apd->norec;
-                    $dataAPDtglPel = $apd->tglregistrasi;
-                }
-//            else{
-//                $dataAPD =  PelayananPasien::where('norec',$request['norec_pp'])->first();
-//                $dataAPDnorec = $dataAPD->noregistrasifk;
-//                $dataAPDtglPel = $dataAPD->tglregistrasi;
-//
-//                $HapusPP = PelayananPasien::where('strukorderfk', $request['norec_so'])->get();
-//                foreach ($HapusPP as $pp){
-//                    $HapusPPD = PelayananPasienDetail::where('pelayananpasien', $pp['norec'])->delete();
-//                    $HapusPPP = PelayananPasienPetugas::where('pelayananpasien', $pp['norec'])->delete();
-//                }
-//                $Edit = PelayananPasien::where('strukorderfk', $request['norec_so'])->delete();
-//            }
+            if (empty($apd)) {
+                $dataAPD = new AntrianPasienDiperiksa;
+                $dataAPD->norec = $dataAPD->generateNewId();
+                $dataAPD->kdprofile = 0;
+                $dataAPD->objectasalrujukanfk = 1;
+                $dataAPD->statusenabled = true;
+                $dataAPD->objectkelasfk = 6; // $request['objectkelasfk'];
+                $dataAPD->noantrian = 1;
+                $dataAPD->noregistrasifk = $request['norec_pd'];
+                $dataAPD->objectruanganasalfk = $request['objectruanganasalfk'];
+                $dataAPD->objectpegawaifk = $request['objectpegawaiorderfk'];
+                $dataAPD->objectruanganfk = $request['objectruangantujuanfk'];
+                $dataAPD->statusantrian = 0;
+                $dataAPD->statuspasien = 1;
+                $dataAPD->objectstrukorderfk = $request['norec_so'];
+                $dataAPD->tglregistrasi = $pd->tglregistrasi; // date('Y-m-d H:i:s');
+                $dataAPD->tglmasuk = date('Y-m-d H:i:s');
+                $dataAPD->tglkeluar = date('Y-m-d H:i:s');
+                $dataAPD->save();
 
-            $antrian = AntrianPasienDiperiksa::where('norec',$dataAPDnorec)
+                $dataAPDnorec = $dataAPD->norec;
+                $dataAPDtglPel = $dataAPD->tglregistrasi;
+            } else {
+                $dataAPDnorec  = $apd->norec;
+                $dataAPDtglPel = $apd->tglregistrasi;
+            }
+            //            else{
+            //                $dataAPD =  PelayananPasien::where('norec',$request['norec_pp'])->first();
+            //                $dataAPDnorec = $dataAPD->noregistrasifk;
+            //                $dataAPDtglPel = $dataAPD->tglregistrasi;
+            //
+            //                $HapusPP = PelayananPasien::where('strukorderfk', $request['norec_so'])->get();
+            //                foreach ($HapusPP as $pp){
+            //                    $HapusPPD = PelayananPasienDetail::where('pelayananpasien', $pp['norec'])->delete();
+            //                    $HapusPPP = PelayananPasienPetugas::where('pelayananpasien', $pp['norec'])->delete();
+            //                }
+            //                $Edit = PelayananPasien::where('strukorderfk', $request['norec_so'])->delete();
+            //            }
+
+            $antrian = AntrianPasienDiperiksa::where('norec', $dataAPDnorec)
                 ->update([
                     'ispelayananpasien' => true
                 ]);
 
-            foreach ($request['bridging'] as $item){
+            foreach ($request['bridging'] as $item) {
                 $PelPasien = new PelayananPasien();
                 $PelPasien->norec = $PelPasien->generateNewId();
                 $PelPasien->kdprofile = 0;
@@ -5944,6 +6143,12 @@ public function getDaftarOrderPenunjang(Request $request)
                 $PelPasien->strukorderfk =  $request['norec_so'];
                 $PelPasien->tglpelayanan = date('Y-m-d H:i:s');
                 $PelPasien->harganetto =  $item['hargasatuan'];
+                if (isset($item['diagnosa'])) {
+                    $PelPasien->diagnosa = $item['diagnosa'];
+                }
+                if (isset($item['keterangan'])) {
+                    $PelPasien->keteranganlain = $item['keterangan'];
+                }
 
                 $PelPasien->save();
                 $PPnorec = $PelPasien->norec;
@@ -5954,9 +6159,9 @@ public function getDaftarOrderPenunjang(Request $request)
                 $PelPasienPetugas->kdprofile = 0;
                 $PelPasienPetugas->statusenabled = true;
                 $PelPasienPetugas->nomasukfk = $dataAPDnorec;
-                $PelPasienPetugas->objectpegawaifk = $request['iddokterverif'];//$request['objectpegawaiorderfk'];
+                $PelPasienPetugas->objectpegawaifk = $request['iddokterverif']; //$request['objectpegawaiorderfk'];
 
-                $PelPasienPetugas->objectjenispetugaspefk = 4;//$jenisPetugasPe->objectjenispetugaspefk;
+                $PelPasienPetugas->objectjenispetugaspefk = 4; //$jenisPetugasPe->objectjenispetugaspefk;
                 $PelPasienPetugas->pelayananpasien = $PPnorec;
                 $PelPasienPetugas->save();
                 $PPPnorec = $PelPasienPetugas->norec;
@@ -5983,7 +6188,7 @@ public function getDaftarOrderPenunjang(Request $request)
                     $PelPasienDetail->produkfk =  $item['produkid'];
                     $PelPasienDetail->stock = 1;
                     $PelPasienDetail->strukorderfk =  $request['norec_so'];
-                    $PelPasienDetail->tglpelayanan =$dataAPDtglPel;
+                    $PelPasienDetail->tglpelayanan = $dataAPDtglPel;
                     $PelPasienDetail->harganetto = $itemKomponen['hargasatuan'];
                     $PelPasienDetail->save();
                     $PPDnorec = $PelPasienDetail->norec;
@@ -5992,44 +6197,58 @@ public function getDaftarOrderPenunjang(Request $request)
             }
 
             $transStatus = 'true';
+            $dataBridging = [];
+                foreach ($request['bridging'] as $bridgingItem) {
+                    $preparedRows = $this->prepareDataBridging($request, $pd, $bridgingItem);
+                    
+                    foreach ($preparedRows as $row) {
+                        $dataBridging[] = $row;
+                    }
+                }
         } catch (\Exception $e) {
             $transStatus = 'false';
+            $errorMessage = $e->getMessage() . ' di file ' . $e->getFile() . ' baris ' . $e->getLine();
         }
 
         if ($transStatus == 'true') {
             $transMessage = "Simpan PelayananPasien Sukses";
             DB::commit();
-            
-            // $ihs = null;
-            // if ($request['objectruangantujuanfk'] != 576) {
-            //     $objetoRequest = new \Illuminate\Http\Request();
-            //     $objetoRequest['noorder'] = $request['noorder'];
-            //     $ihs = app('App\Http\Controllers\Bridging\IHSController')->Specimen($objetoRequest, true);
-            // }
+            $bridgingResponses = [];
+            try {
+                if ($request['objectruangantujuanfk'] == 575) { 
+                    foreach ($dataBridging as $bridgingItem) {
+                    $bridgingResponses[] = $this->kirimDataLab($bridgingItem);
+                    }
+                }
+            } catch (\Exception $e) {
+                // jangan gagalkan transaksi utama
+                \Log::error('Bridging gagal: ' . $e->getMessage());
+            }
             $result = array(
                 'status' => 201,
                 'message' => $transMessage,
                 'dataPP' => $PelPasien,
-//                'dataPPP' => $PelPasienPetugas,
+                //                'dataPPP' => $PelPasienPetugas,
                 'dataPPD' => $PelPasienDetail,
-                // 'Specimen' => $ihs,
+                'bridging_logs' => $bridgingResponses,
                 'as' => 'ramdanegie',
             );
         } else {
-            $transMessage = "Simpan PelayananPasien Gagal";
+            $transMessage = "Simpan PelayananPasien Gagal" . $errorMessage;
             DB::rollBack();
             $result = array(
                 'status' => 400,
                 'message'  => $transMessage,
                 'dataPP' => $PelPasien,
-//                'dataPPP' => $PelPasienPetugas,
-//                'dataPPD' => $PelPasienDetail,
+                            //    'dataPPP' => $PelPasienPetugas,
+                            //    'dataPPD' => $PelPasienDetail,
                 'as' => 'ramdanegie',
             );
         }
         return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-//        return $this->respond();
+        //        return $this->respond();
     }
+
     public function deleteOrderPelayanan(Request $request) {
 
         DB::beginTransaction();
@@ -6496,5 +6715,76 @@ public function getDaftarOrderPenunjang(Request $request)
             'message' => 'inhuman',
         );
         return $this->respond($result);
+    }
+
+    public function prepareDataBridging($request, $pd, $bridgingItem = [])
+    {
+        $results = [];
+
+        $baseData = [
+            'noorder' => $request['noorder'] ?? $request['norec_so'],
+            'noregistrasi' => $pd->noregistrasi ?? '-',
+            'tgl_order' => date('Y-m-d'),
+            'jam_order' => date('H:i:s'),
+            'jenis_rawat' => $pd->objectdepartemenfk == 16 ? 'RWI' : 'RWJ',
+            'no_kamar' => null,
+            'catatan_klinis' => $bridgingItem['diagnosa'] ?? $request['diagnosa'] ?? '-',
+            'id_dokter' => $request['iddokterorder'],
+            'nama_dokter' => $request['namadokterorder'] ?? '-',
+            'nocm' => $pd->nocm ?? '-',
+            'id_ruangan' => $pd->ruanganasal_id ?? '-',
+            'nama_ruangan' => $pd->ruanganasal ?? '-',
+            'kelompok_pasien' => '-',
+            'tarif' => $bridgingItem['hargasatuan'] ?? 0,
+            'nama_pasien' => $pd->namapasien ?? '-',
+            'nik' => $pd->noidentitas ?? '-',
+            'jenis_kelamin' => isset($pd->jeniskelamin) ? (strtoupper(trim($pd->jeniskelamin)) === 'LAKI-LAKI' ? 'L' : 'P') : '-',
+            'tgl_lahir' => $pd->tgllahir ?? '-',
+            'alamat' => $pd->alamatlengkap ?? '-',
+            'id_produk' => $bridgingItem['produkid'] ?? '-',
+            'nama_produk' => $bridgingItem['namaproduk'] ?? '-',
+        ];
+
+       if (empty($bridgingItem['detailpemeriksaan'])) {
+            $dbDetails = \DB::table('maphasillab_m')
+                ->where('produkfk', $bridgingItem['produkid'])
+                ->select('id', 'detailpemeriksaan')
+                ->get(); 
+                
+            if (!empty($dbDetails)) {
+                $bridgingItem['detailpemeriksaan'] = $dbDetails;
+            }
+        }
+
+        if (!empty($bridgingItem['detailpemeriksaan'])) {
+        
+            $detailUnik = []; 
+
+            foreach ($bridgingItem['detailpemeriksaan'] as $detail) {
+                
+                $detailArr = (array) $detail; 
+                
+                $namaDetail = $detailArr['detailpemeriksaan'] ?? '-';
+                
+                $keyPencocokan = strtolower(trim($namaDetail));
+
+                if (!in_array($keyPencocokan, $detailUnik)) {
+                    
+                    $detailUnik[] = $keyPencocokan;
+
+                    $rowData = $baseData;
+                    $rowData['id_detail_pemeriksaan'] = $detailArr['id'] ?? '-';
+                    $rowData['nama_detail_pemeriksaan'] = trim($namaDetail);
+                    
+                    $results[] = $rowData;
+                }
+            }
+        } else {
+            $baseData['id_detail_pemeriksaan'] = '-';
+            $baseData['nama_detail_pemeriksaan'] = '-';
+            $results[] = $baseData;
+        }
+
+        return $results;
     }
 }
