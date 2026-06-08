@@ -1935,7 +1935,6 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			$scope.batal = function () {
 				$scope.popUp.close()
 			}
-			init();
 
 			function hapus(e) {
 				// debugger
@@ -2071,6 +2070,11 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							data: result,
 							pageSize: 20,
 						});
+
+						// Jika belum ada resume, langsung buka form input tanpa klik tombol dulu
+						if (result.length === 0) {
+							$scope.inputBaru();
+						}
 					}
 
 					$scope.isRouteLoading = false;
