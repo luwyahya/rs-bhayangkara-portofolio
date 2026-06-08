@@ -192,6 +192,19 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.item.dokterpenulis = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap }
                     $scope.item.dokter = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap }
                     $scope.item.noregistrasi = $scope.cc.noregistrasi
+
+                    // Auto load semua data tanpa perlu klik tombol apapun
+                    noregistrasi = $scope.cc.noregistrasi
+                    nocm = $scope.cc.nocm
+                    norecpd = $scope.cc.norec_pd
+                    data2 = []
+                    loadDaftarRmPp(noregistrasi)
+                    loadDiagnosa(noregistrasi)
+                    loadTindakanMedis(noregistrasi)
+                    loadRadiologi(noregistrasi)
+                    getVitalSignTerakhir(noregistrasi)
+                    getKonsultasi(nocm)
+                    kematian()
                 }
                 if (medifirstService.getKelompokUser() == 'admin' || medifirstService.getKelompokUser() == 'operator') {
                     $scope.isAdmin = true

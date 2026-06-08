@@ -193,9 +193,10 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                         // $scope.item.keadaanUmum = 'Sakit Ringan'
                         $scope.item.diet = { id: 18, diet:'-' }
                         $scope.item.keterangandiet = '-'
-                        $scope.item.prognosis = { id: 2, prognosis:'Dubia Et Bonam / Cenderung Baik' }
+                        $scope.item.prognosis = { id: 1, prognosis:'Baik' }
                         $scope.item.carakeluar = { id: 1, statuspulang:'Pulang Atas Persetujuan Dokter' }
                         $scope.item.kondisiMeninggalkan = { id: 1, kondisi:'Stabil' }
+                        $scope.item.darurat = "RS Bhayangkara Cianjur (0263) 285299"
                         //Pulang Atas Persetujuan Dokter
                         cekYangBisaOtomatis()
                         valueOtomatis()
