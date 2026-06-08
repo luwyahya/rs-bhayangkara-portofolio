@@ -224,6 +224,46 @@ define(['initialize', 'Configuration'], function(initialize, config) {
                     $scope.listDokter = dat.data.pegawaiAll
                     $scope.listPerawat = dat.data.pegawai
                     $scope.listTandaTangan = dat.data.pegawaiAll
+
+                    // Setelah list loaded, cari jenisPetugas yang cocok dengan jenis pegawai login
+                    // berdasarkan nama (case-insensitive contains)
+                    var userJenisPegawai = medifirstService.getPegawaiLogin().jenisPegawai
+                    if (userJenisPegawai && dat.data.jenispetugas && dat.data.jenispetugas.length > 0) {
+                        var namaJenis = (userJenisPegawai.jenispegawai || '').toUpperCase()
+                        var matched = null
+
+                        for (var i = 0; i < dat.data.jenispetugas.length; i++) {
+                            var jp = dat.data.jenispetugas[i]
+                            var namaJp = (jp.jenispetugaspe || '').toUpperCase()
+                            // Cari yang mengandung kata kunci jenis pegawai
+                            if (
+                                namaJp.indexOf('DOKTER') >= 0 && namaJenis.indexOf('DOK') >= 0 ||
+                                namaJp.indexOf('PERAWAT') >= 0 && namaJenis.indexOf('PERAWAT') >= 0 ||
+                                namaJp.indexOf('BIDAN') >= 0 && namaJenis.indexOf('BIDAN') >= 0 ||
+                                namaJp.indexOf('APOTEKER') >= 0 && namaJenis.indexOf('APOTEKER') >= 0 ||
+                                namaJp.indexOf('GIZI') >= 0 && namaJenis.indexOf('GIZI') >= 0 ||
+                                namaJp.indexOf('FISIOTERAPI') >= 0 && namaJenis.indexOf('FISIOTERAPI') >= 0 ||
+                                namaJp.indexOf('PSIKOLOG') >= 0 && namaJenis.indexOf('PSIKOLOG') >= 0 ||
+                                namaJp.indexOf('LABORAT') >= 0 && namaJenis.indexOf('LAB') >= 0
+                            ) {
+                                matched = jp
+                                break
+                            }
+                        }
+
+                        if (matched) {
+                            jenisPegawaiLogin = matched
+                            // Update row yang sudah ada di $scope.data
+                            if ($scope.data && $scope.data.names) {
+                                for (var j = 0; j < $scope.data.names.length; j++) {
+                                    // Hanya update yang belum diisi (masih kosong atau masih default)
+                                    if (!$scope.data.names[j].jp || !$scope.data.names[j].jp.id) {
+                                        $scope.data.names[j].jp = matched
+                                    }
+                                }
+                            }
+                        }
+                    }
                 })
                 medifirstService.get('emr/get-combo-cppt-p').then(function(dat) {
                     $scope.listJenisDiagnosa = dat.data.jenisdiagnosa
