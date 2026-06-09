@@ -3181,6 +3181,10 @@
         {
             "nameDep": "PemberianInformasiEdukasiCtrl",
             "urlDep": "module/EMR/PemberianInformasiEdukasiCtrl"
+        },
+        {
+            "nameDep": "PengkajianAwalKeperAnakRJCtrl",
+            "urlDep": "module/EMR/PengkajianAwalKeperAnakRJCtrl"
         }
     ]
 }

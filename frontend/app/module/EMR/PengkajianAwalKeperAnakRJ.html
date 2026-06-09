@@ -1,0 +1,944 @@
+<style>
+  .btnHijau {
+      background-color: #6bdb1a;
+      color: white;
+  }
+  .btnHijau:hover {
+      background-color: #53ab13;
+      color: white;
+  }
+
+   table,
+    th,
+    td {
+        border: 1px solid #929191;
+        border-collapse: collapse;
+        padding: 5px;
+    }
+
+    th,
+    td {
+        padding: 5px;
+        text-align: left;
+    }
+</style>
+<div class="grid_12">
+  <div class="panel panel-default container_12">
+      <div class="panel-heading" c-translate="">Pengkajian Awal Keperawatan Anak Rawat Jalan</div>
+  </div>
+  <div class="grid_12">
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label="" item="item" required="">Tanggal</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.obj[1901305147]" kendo-datepicker="" k-format="'yyyy-MM-dd'">
+            </div>
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label="" item="item" required="">Jam Asesmen</label>
+            </div>
+            <div class="grid_4">
+                <input style="width: 100%" k-ng-model="item.obj[1901305148]" kendo-timepicker="" k-format="'HH:mm'">
+            </div>
+        </div>
+        
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top:10px">
+                <label c-label="" item="item" required="">Sumber Data :</label>
+            </div>
+            <div class="grid_10" style="margin-top:10px">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305149]" id="item.obj[1901305149]">
+                <label class="c-label k-checkbox-label" for="item.obj[1901305149]">Pasien</label> &nbsp;&nbsp;
+
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305150]" id="item.obj[1901305150]">
+                <label class="c-label k-checkbox-label" for="item.obj[1901305150]">Keluarga</label> &nbsp;&nbsp;
+
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305151]" id="item.obj[1901305151]">
+                <label class="c-label k-checkbox-label" for="item.obj[1901305151]">Lainnya:</label>
+                <input c-text-box="" type="input" class="k-textbox" ng-model="item.obj[1901305152]" style="width: 250px; margin-left: 10px;" ng-disabled="!item.obj[1901305151]">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">1. ANAMNESIS</h3>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;">
+                <label c-label="" item="item">Keluhan Utama :</label>
+            </div>
+            <div class="grid_10">
+                <textarea class="k-textbox" style="height: 60px; width: 100%; resize: none;" ng-model="item.obj[1901305153]"></textarea>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;">
+                <label c-label="" item="item">Riwayat Penyakit :</label>
+            </div>
+            <div class="grid_10">
+                <textarea class="k-textbox" style="height: 60px; width: 100%; resize: none;" ng-model="item.obj[1901305241]"></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">2. STATUS ALERGI</h3>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;">
+                <label c-label="" item="item">Status Alergi :</label>
+            </div>
+            <div class="grid_10" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305154]" id="item.obj[1901305154]">
+                <label class="c-label k-checkbox-label" for="item.obj[1901305154]">Tidak ada</label> &nbsp;&nbsp;
+
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305155]" id="item.obj[1901305155]">
+                <label class="c-label k-checkbox-label" for="item.obj[1901305155]">Ada, Jelaskan:</label>
+                <input c-text-box="" type="input" class="k-textbox" ng-model="item.obj[1901305156]" style="width: 300px; margin-left: 10px;" ng-disabled="!item.obj[1901305155]">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">3. STATUS PSIKO-SOSIO-EKONOMI-SPIRITUAL-KULTURAL</h3>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;"><label c-label="">Status Sosial</label></div>
+            <div class="grid_10" style="margin-top: 10px;">Tinggal Bersama: <input class="k-textbox" ng-model="item.obj[1901305157]" style="width: 250px;"></div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;"><label c-label="">Status Ekonomi</label></div>
+            <div class="grid_5" style="margin-top: 10px;">Pekerjaan: <input class="k-textbox" ng-model="item.obj[1901305158]" style="width: 180px;"></div>
+            <div class="grid_5" style="margin-top: 10px;">Pendidikan: <input class="k-textbox" ng-model="item.obj[1901305159]" style="width: 180px;"></div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;"><label c-label="">Status Psikologis</label></div>
+            <div class="grid_2" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305160]" id="item.obj[1901305160]"><label class="k-checkbox-label" for="item.obj[1901305160]">Tenang</label>
+            </div>
+            <div class="grid_2" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305161]" id="item.obj[1901305161]"><label class="k-checkbox-label" for="item.obj[1901305161]">Gelisah</label>
+            </div>
+            <div class="grid_1" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305242]" id="item.obj[1901305242]"><label class="k-checkbox-label" for="item.obj[1901305242]"></label>
+            </div>
+            <div class="grid_2">
+               <input class="k-textbox" ng-model="item.obj[1901305243]" style="width: 250px;">
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_3" style="margin-top: 10px;"><label c-label="">Hub. Pasien &amp; Keluarga</label></div>
+            <div class="grid_9" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305162]" id="item.obj[1901305162]"><label class="k-checkbox-label" for="item.obj[1901305162]">Baik</label> &nbsp;&nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305163]" id="item.obj[1901305163]"><label class="k-checkbox-label" for="item.obj[1901305163]">Tidak Baik</label>
+            </div>
+        </div>
+        <div class="grid_12">
+            <div class="grid_2" style="margin-top: 10px;"><label c-label="">Kultural</label></div>
+            <div class="grid_5" style="margin-top: 10px;">Tradisi: <input class="k-textbox" ng-model="item.obj[1901305164]" style="width: 180px;"></div>
+            <div class="grid_5" style="margin-top: 10px;">Pantangan: <input class="k-textbox" ng-model="item.obj[1901305165]" style="width: 180px;"></div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">4. KELAINAN DARAH</h3>
+        <div class="grid_12" style="margin-top: 10px;">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305166]" id="item.obj[1901305166]">
+            <label class="c-label k-checkbox-label" for="item.obj[1901305166]">Tidak ada</label> &nbsp;&nbsp;
+            
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305167]" id="item.obj[1901305167]">
+            <label class="c-label k-checkbox-label" for="item.obj[1901305167]">Ada, Jelaskan:</label>
+            <input c-text-box="" type="input" class="k-textbox" ng-model="item.obj[1901305168]" style="width: 300px; margin-left: 10px;" ng-disabled="!item.obj[1901305167]">
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">5. IMUNISASI</h3>
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305169]" id="item.obj[1901305169]"><label class="k-checkbox-label" for="item.obj[1901305169]">BCG</label></div>
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305170]" id="item.obj[1901305170]"><label class="k-checkbox-label" for="item.obj[1901305170]">Polio</label></div>
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305171]" id="item.obj[1901305171]"><label class="k-checkbox-label" for="item.obj[1901305171]">Campak</label></div>
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305172]" id="item.obj[1901305172]"><label class="k-checkbox-label" for="item.obj[1901305172]">DPT</label></div>
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305173]" id="item.obj[1901305173]"><label class="k-checkbox-label" for="item.obj[1901305173]">Hep B</label></div>
+            <div class="grid_2"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305174]" id="item.obj[1901305174]"><label class="k-checkbox-label" for="item.obj[1901305174]">MMR</label></div>
+            
+            <div class="grid_2" style="margin-top: 10px;"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305175]" id="item.obj[1901305175]"><label class="k-checkbox-label" for="item.obj[1901305175]">HiB</label></div>
+            <div class="grid_2" style="margin-top: 10px;"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305176]" id="item.obj[1901305176]"><label class="k-checkbox-label" for="item.obj[1901305176]">Hep A</label></div>
+            <div class="grid_2" style="margin-top: 10px;"><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305177]" id="item.obj[1901305177]"><label class="k-checkbox-label" for="item.obj[1901305177]">Cacar Air</label></div>
+             <div class="grid_1" style="margin-top: 10px;">
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305244]" id="item.obj[1901305244]"><label class="k-checkbox-label" for="item.obj[1901305244]"></label>
+            </div>
+            <div class="grid_2" style="margin-left: -50px;">
+               <input class="k-textbox" ng-model="item.obj[1901305245]" style="width: 250px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">6. TANDA-TANDA VITAL</h3>
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_3">Tekanan Darah: <input class="k-textbox" ng-model="item.obj[1901305178]" style="width: 60px;"> mmHg</div>
+            <div class="grid_3">Nadi: <input class="k-textbox" ng-model="item.obj[1901305179]" style="width: 60px;"> x/menit</div>
+            <div class="grid_3">Suhu: <input class="k-textbox" ng-model="item.obj[1901305180]" style="width: 60px;"> °C</div>
+            <div class="grid_3">Pernapasan: <input class="k-textbox" ng-model="item.obj[1901305181]" style="width: 60px;"> x/menit</div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">7. ASESMEN RISIKO JATUH (Get up and go)</h3>
+        <table class="tg" style="width: 100%;">
+            <tbody><tr>
+                <th style="width: 5%">No</th>
+                <th style="width: 75%">Penilaian / Skrining</th>
+                <th style="width: 10%">Ya</th>
+                <th style="width: 10%">Tidak</th>
+            </tr>
+            <tr>
+                <td>a.</td>
+                <td>Cara berjalan (salah satu atau lebih)<br>1. Pasien tampak tidak seimbang (sempoyongan)<br>2. Menggunakan alat bantu kruk/tongkat/kursi roda/orang lain</td>
+                <td><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305182]" id="item.obj[1901305182]"><label class="k-checkbox-label" for="item.obj[1901305182]"></label></td>
+                <td><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305183]" id="item.obj[1901305183]"><label class="k-checkbox-label" for="item.obj[1901305183]"></label></td>
+            </tr>
+            <tr>
+                <td>b.</td>
+                <td>Pasien memegang pinggiran kursi atau meja sebagai penopang saat akan duduk.</td>
+                <td><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305184]" id="item.obj[1901305184]"><label class="k-checkbox-label" for="item.obj[1901305184]"></label></td>
+                <td><input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305185]" id="item.obj[1901305185]"><label class="k-checkbox-label" for="item.obj[1901305185]"></label></td>
+            </tr>
+        </tbody></table>
+        <div class="grid_12" style="margin-top: 10px;">
+            <label>Hasil :</label><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305186]" id="item.obj[1901305186]"><label class="k-checkbox-label" for="item.obj[1901305186]">Tidak berisiko (tidak ditemukan a dan b)</label><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305187]" id="item.obj[1901305187]"><label class="k-checkbox-label" for="item.obj[1901305187]">Risiko sedang (ditemukan a atau b). Intervensi: Edukasi</label><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305188]" id="item.obj[1901305188]"><label class="k-checkbox-label" for="item.obj[1901305188]">Risiko tinggi (ditemukan a dan b). Intervensi: Edukasi dan pasang stiker risiko jatuh</label>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">8. ASESMEN NYERI</h3>
+        <div class="grid_12" style="margin-top: 10px;">
+            Nyeri : 
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305189]" id="item.obj[1901305189]"><label class="k-checkbox-label" for="item.obj[1901305189]">Tidak ada</label> &nbsp;&nbsp;
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305190]" id="item.obj[1901305190]"><label class="k-checkbox-label" for="item.obj[1901305190]">Ada, Deskripsi nyeri (PQRST)</label>
+        </div>
+        
+        <div class="grid_12" style="margin-left: 20px; border-left: 2px solid #ddd; padding-left: 10px;">
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Provokes:</b> 
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305191]" id="item.obj[1901305191]"><label class="k-checkbox-label" for="item.obj[1901305191]">Benturan</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305192]" id="item.obj[1901305192]"><label class="k-checkbox-label" for="item.obj[1901305192]">Tindakan</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305193]" id="item.obj[1901305193]"><label class="k-checkbox-label" for="item.obj[1901305193]">Proses Penyakit</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305194]" id="item.obj[1901305194]"><label class="k-checkbox-label" for="item.obj[1901305194]">Lain-lain</label>
+                <input class="k-textbox" ng-model="item.obj[1901305247]" style="width: 250px;">
+            </div>
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Quality:</b> 
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305195]" id="item.obj[1901305195]"><label class="k-checkbox-label" for="item.obj[1901305195]">Seperti tertusuk benda tajam/tumpul</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305196]" id="item.obj[1901305196]"><label class="k-checkbox-label" for="item.obj[1901305196]">Berdenyut</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305197]" id="item.obj[1901305197]"><label class="k-checkbox-label" for="item.obj[1901305197]">Terbakar</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305198]" id="item.obj[1901305198]"><label class="k-checkbox-label" for="item.obj[1901305198]">Teriris</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305199]" id="item.obj[1901305199]"><label class="k-checkbox-label" for="item.obj[1901305199]">Tertindih benda berat</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305200]" id="item.obj[1901305200]"><label class="k-checkbox-label" for="item.obj[1901305200]">Diremas</label>
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305200]" id="item.obj[1901305200]"><label class="k-checkbox-label" for="item.obj[1901305246]">Terpelintir</label>
+            </div>
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Region:</b> Lokasi <input class="k-textbox" ng-model="item.obj[1901305201]" style="width: 250px;"> &nbsp;&nbsp;
+                <b>Menyebar:</b> 
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305202]" id="item.obj[1901305202]"><label class="k-checkbox-label" for="item.obj[1901305202]">Tidak</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305203]" id="item.obj[1901305203]"><label class="k-checkbox-label" for="item.obj[1901305203]">Ya</label>
+            </div>
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Severity Skor:</b> 
+                FLACCS: <input class="k-textbox" ng-model="item.obj[1901305204]" style="width: 50px;"> &nbsp;
+                Wong Baker: <input class="k-textbox" ng-model="item.obj[1901305205]" style="width: 50px;"> &nbsp;
+                VAS/NRS: <input class="k-textbox" ng-model="item.obj[1901305206]" style="width: 50px;"> &nbsp;
+                CRIES: <input class="k-textbox" ng-model="item.obj[1901305207]" style="width: 50px;">
+            </div>
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Time:</b> Durasi <input class="k-textbox" ng-model="item.obj[1901305208]" style="width: 150px;">
+            </div>
+            <div class="grid_12" style="margin-top: 5px;">
+                <b>Nyeri Hilang Jika:</b> 
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305209]" id="item.obj[1901305209]"><label class="k-checkbox-label" for="item.obj[1901305209]">Minum Obat</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305210]" id="item.obj[1901305210]"><label class="k-checkbox-label" for="item.obj[1901305210]">Dengar Musik</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305211]" id="item.obj[1901305211]"><label class="k-checkbox-label" for="item.obj[1901305211]">Ubah Posisi</label> &nbsp;
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305212]" id="item.obj[1901305212]"><label class="k-checkbox-label" for="item.obj[1901305212]">Lainnya:</label>
+                <input class="k-textbox" ng-model="item.obj[1901305213]" style="width: 150px;" ng-disabled="!item.obj[1901305039]">
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align: left;">9. SKRINING RISIKO NUTRISIONAL (Berdasarkan Strong Kids)</h3>
+        <table class="tg" style="width: 100%;">
+            <tbody>
+                    <tr>
+                        <th style="width: 5%">No</th>
+                        <th style="width: 75%">Aspek Yang Dinilai</th>
+                        <th style="width: 10%">Tidak</th>
+                        <th style="width: 10%">Ya</th>
+                    </tr>
+                    <tr>
+                        <td>1.</td>
+                        <td>Apakah pasien tampak kurus?</td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305214]" ng-model="item.obj[1901305214]" ng-change="item.obj[1901305215]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305214]">(0)</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305215]" ng-model="item.obj[1901305215]" ng-change="item.obj[1901305214]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305215]">(1)</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2.</td>
+                        <td>Penurunan BB selama 1 bulan terakhir? (objektif/subjektif ortu, atau bayi &lt; 1th BB tidak naik 3 bulan)</td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305216]" ng-model="item.obj[1901305216]" ng-change="item.obj[1901305217]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305216]">(0)</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305217]" ng-model="item.obj[1901305217]" ng-change="item.obj[1901305216]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305217]">(1)</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3.</td>
+                        <td>Terdapat kondisi diare &gt; 5 kali/hari, muntah &gt; 3 kali/hari, dan asupan berkurang 1 minggu terakhir?</td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305218]" ng-model="item.obj[1901305218]" ng-change="item.obj[1901305219]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305218]">(0)</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305219]" ng-model="item.obj[1901305219]" ng-change="item.obj[1901305218]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305219]">(1)</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4.</td>
+                        <td>Adakah penyakit/keadaan yang mengakibatkan pasien berisiko mengalami malnutrisi?</td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305220]" ng-model="item.obj[1901305220]" ng-change="item.obj[1901305221]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305220]">(0)</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" class="k-checkbox" id="item.obj[1901305221]" ng-model="item.obj[1901305221]" ng-change="item.obj[1901305220]=false; kalkulasiStrongKids()">
+                            <label class="k-checkbox-label" for="item.obj[1901305221]">(2)</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        
+        <div class="grid_12" style="margin-top: 10px;">
+            <div class="grid_12" style="font-weight: bold; font-size: 14px; margin-bottom: 10px;">
+                Skor Total : {{item.totalSkorNutrisi}}
+            </div>
+            <div class="grid_12">
+                Kesimpulan : <br>
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305222]" id="item.obj[1901305222]"><label class="k-checkbox-label" for="item.obj[1901305222]">Risiko Nutrisi Rendah (0)</label><br>
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305223]" id="item.obj[1901305223]"><label class="k-checkbox-label" for="item.obj[1901305223]">Risiko Sedang (1-4)</label><br>
+                <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305224]" id="item.obj[1901305224]"><label class="k-checkbox-label" for="item.obj[1901305224]">Risiko Tinggi (5)</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">10. STATUS FUNGSIONAL</h3>
+        <div class="grid_12">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305225]" id="item.obj[1901305225]"><label class="k-checkbox-label" for="item.obj[1901305225]">Mandiri</label><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305226]" id="item.obj[1901305226]"><label class="k-checkbox-label" for="item.obj[1901305226]">Perlu Bantuan, Sebutkan:</label>
+            <input class="k-textbox" ng-model="item.obj[1901305227]" style="width: 250px; margin-bottom: 5px;"><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305228]" id="item.obj[1901305228]"><label class="k-checkbox-label" for="item.obj[1901305228]">Ketergantungan Total</label>
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">11. MASALAH KEPERAWATAN</h3>
+        <div class="grid_12">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305229]" id="item.obj[1901305229]"><label class="k-checkbox-label" for="item.obj[1901305229]">Bersihan jalan nafas tdk efektif</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305230]" id="item.obj[1901305230]"><label class="k-checkbox-label" for="item.obj[1901305230]">Nyeri Akut</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305231]" id="item.obj[1901305231]"><label class="k-checkbox-label" for="item.obj[1901305231]">Hipertensi</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305232]" id="item.obj[1901305232]"><label class="k-checkbox-label" for="item.obj[1901305232]">Kerusakan Integritas Kulit/Jaringan</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305233]" id="item.obj[1901305233]"><label class="k-checkbox-label" for="item.obj[1901305233]">Risiko Cedera</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305234]" id="item.obj[1901305234]"><label class="k-checkbox-label" for="item.obj[1901305234]">Diare</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305235]" id="item.obj[1901305235]"><label class="k-checkbox-label" for="item.obj[1901305235]">Mual</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305248]" id="item.obj[1901305248]"><label class="k-checkbox-label" for="item.obj[1901305248]"></label>
+            <input class="k-textbox" ng-model="item.obj[1901305249]" style="width: 250px; margin-bottom: 5px;">
+        </div>
+    </div>
+
+    <div class="grid_12" style="margin-bottom: 20px;">
+        <h3 style="font-weight: bold; border-bottom: 1px solid #ccc; padding-bottom: 5px;text-align:left;">12. RENCANA KEPERAWATAN</h3>
+        <div class="grid_12">
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305236]" id="item.obj[1901305236]"><label class="k-checkbox-label" for="item.obj[1901305236]">Posisikan pasien</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305237]" id="item.obj[1901305237]"><label class="k-checkbox-label" for="item.obj[1901305237]">Teknik Relaksasi</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305238]" id="item.obj[1901305238]"><label class="k-checkbox-label" for="item.obj[1901305238]">Cara Kompres</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305239]" id="item.obj[1901305239]"><label class="k-checkbox-label" for="item.obj[1901305239]">Minum sesuai kebutuhan</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305240]" id="item.obj[1901305240]"><label class="k-checkbox-label" for="item.obj[1901305240]">Rawat Inap</label><br><br>
+            <input type="checkbox" class="k-checkbox" ng-model="item.obj[1901305250]" id="item.obj[1901305250]"><label class="k-checkbox-label" for="item.obj[1901305250]"></label>
+            <input class="k-textbox" ng-model="item.obj[1901305251]" style="width: 250px; margin-bottom: 5px;">
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6">
+                <div class="grid_12">
+                    <label c-label="" item="item" required="">Catatan :</label>
+                </div>
+                <div class="grid_12">
+                    <label c-label="" item="item" required="">- Beri tanda ( ✓ ) untuk kotak yang diisinya</label>
+                </div>
+                <div class="grid_12">
+                    <label c-label="" item="item" required="">
+                        - Asesmen awal rajal dilakukan untuk setiap
+                        pasien baru dan pasien dengan diagnosis
+                        sama yang datang &gt; 30 hari
+                    </label>
+                </div>
+        </div>
+        <div class="grid_6">
+            <div class="grid_12">
+                <div class="grid_2" style="margin-top:10px">
+                    <label c-label="" item="item" required="">Bandung</label>
+                </div>
+                <div class="grid_4">
+                    <input style="width: 100%" k-ng-model="item.obj[1901305252]" kendo-datepicker="" k-format="'yyyy-MM-dd '">
+                </div>
+                <div class="grid_2" style="margin-top:10px">
+                  <label c-label="" item="item" required="">Jam</label>
+              </div>
+              <div class="grid_4">
+                  <input style="width: 100%" k-ng-model="item.obj[1901305254]" kendo-timepicker="" placeholer="HH:mm" k-format="'HH:mm'" parsedate="HH:mm">
+              </div>
+            </div>
+            <div class="grid_12" style="margin-top: 15px;">
+                <label c-label="" item="item"><b>Perawat</b></label>
+            </div>
+            <div class="grid_12">
+                <input style="width: 100%;" kendo-combo-box="" k-ng-model="item.obj[1901305253]" k-data-text-field="'namalengkap'" k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false" k-data-source="listPerawatBidan">
+            </div>
+        </div>
+    </div>
+    <div class="grid_12">
+        <div class="grid_6"></div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="Save()">Simpan</button>
+        </div>
+        <div class="grid_2">
+                <button class="btnTemplate1 btnHijau" onclick="printDiv()"><i class="fa fa-print"></i> Cetak</button>
+            </div>
+        <div class="grid_2">
+            <button class="btnTemplate1" ng-click="tutup()"><i class="fa fa-arrow-left"></i>Tutup</button>
+        </div>
+    </div>
+</div>
+</div>
+<div id="tempatLaporan" ng-hide="istempatLaporan"></div>
+<div kendo-window="popUpCetak" k-title="'Preview Cetakan'" k-width="1000" k-height="700" k-visible="false" k-on-close="customClicked()">
+  <div class="panel panel-default container_12" style="padding: 10px 10px;">
+    <div class="panel-body">
+        <div class="grid_12">
+            <div class="k-edit-buttons k-state-default pull-right" style="margin-top:10px">
+                <button class="k-button btnHapus k-button-icontext" ng-click="tutupSurat()"><span class="k-icon k-cancel"></span>Tutup</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="panel-body">
+        <div class="grid_12 animated containerBorderBox">
+            <div class="grid_12" style="margin-top: 10px">
+                <div style="width: 100%" id="cetakRm"> 
+                    
+                    <div class="cetak-container">
+                        <table class="main-frame">
+                            
+                            <tr>
+                                <td colspan="2" style="padding: 0; border-bottom: 1px solid black;">
+                                    <table style="width: 100%; border-collapse: collapse;">
+                                        <tr>
+                                            <td style="width: 12%; text-align: center; vertical-align: middle; padding: 5px;">
+                                                <div style="width: 50px; height: 50px; border: 1px solid #ccc; border-radius: 50%; display: inline-block; line-height: 50px; font-size: 10px;">
+                                                    <img src="{{ logo }}" width="100%">
+                                                </div>
+                                            </td>
+                                            <td style="width: 48%; vertical-align: middle;">
+                                                <div style="font-size: 13px; font-weight: bold; line-height: 1.2;">
+                                                    POLRI DAERAH JAWA BARAT<br>
+                                                    BIDANG KEDOKTERAN DAN KESEHATAN<br>
+                                                    RUMAH SAKIT BHAYANGKARA TK II SARTIKA ASIH
+                                                </div>
+                                            </td>
+                                            <td style="width: 40%; vertical-align: top; border-left: 2px solid black; padding: 2px;">
+                                                <table class="tabel-identitas">
+                                                    <tr>
+                                                        <td style="width: 25%;"><b>NO.RM</b></td>
+                                                        <td style="width: 75%;">: {{header.nocm}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>NAMA</b></td>
+                                                        <td>: {{header.namapasien}} 
+                                                            <span style="float: right;">
+                                                                <span class="box-check"><span ng-if="header.jeniskelamin == 'Laki-laki'">&radic;</span></span> L &nbsp;
+                                                                <span class="box-check"><span ng-if="header.jeniskelamin == 'Perempuan'">&radic;</span></span> P
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>TGL LAHIR</b></td>
+                                                        <td>: {{header.tgllahir}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><b>NIK</b></td>
+                                                        <td>: {{header.nik}}</td>
+                                                    </tr>
+                                                </table>
+                                                <div style="font-size: 8px; font-style: italic; text-align: center; margin-top: 1px;">*Mohon diisi atau tempelkan stiker identitas pasien jika ada.</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="cetak-judul">
+                                    ASESMEN AWAL KEPERAWATAN RAWAT JALAN
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" style="border-bottom: 2px solid black; padding: 2px 5px;">
+                                    Tanggal : <span class="garis-bawah">{{item.obj[1147] | date:'dd/MM/yyyy'}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    Jam Asesmen : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1148]}}</span><br>
+                                    Sumber data : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="box-check"><span ng-if="item.obj[1901304855]">&radic;</span></span> Pasien &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="box-check"><span ng-if="item.obj[1901304856]">&radic;</span></span> Keluarga &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="box-check"><span ng-if="item.obj[1901304857]">&radic;</span></span> Lainnya : <span class="garis-bawah">{{item.obj[1901304858]}}</span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width: 18%; border-right: 2px solid black; vertical-align: top; padding: 5px 2px;">
+                                    <div style="text-align: center; margin-top: 20px; margin-bottom: 10px;">Poliklinik</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304865]">&radic;</span></span> Umum</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304866]">&radic;</span></span> Eksekutif</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304867]">&radic;</span></span> IPD</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304878]">&radic;</span></span> Bedah Umum</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304879]">&radic;</span></span> Bedah Ortopedi</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304897]">&radic;</span></span> Bedah Plastik</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304898]">&radic;</span></span> Bedah Syaraf</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304899]">&radic;</span></span> Jantung</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304907]">&radic;</span></span> Paru</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304908]">&radic;</span></span> Syaraf</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304914]">&radic;</span></span> Psikiatri</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304915]">&radic;</span></span> Mata</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304916]">&radic;</span></span> THT</div>
+                                    <div class="poli-item"><span class="box-check"><span ng-if="item.obj[1901304917]">&radic;</span></span> Kulit &amp; Kelamin</div>
+                                </td>
+
+                                <td style="width: 82%; vertical-align: top; padding: 0;">
+                                    
+                                    <div class="sect-box">
+                                        1. ANAMNESIS &nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;&nbsp; 
+                                        <span class="garis-bawah" style="width: 65%;">{{item.obj[1901304859]}}</span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span class="garis-bawah" style="width: 65%;"></span><br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Riwayat Alergi &nbsp;: &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304860]">&radic;</span></span> Tidak Ada &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304861]">&radic;</span></span> Obat &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304862]">&radic;</span></span> Makanan &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304863]">&radic;</span></span> Lain-Lain, <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304864]}}</span>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        2. PEMERIKSAAN FISIK<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Kesadaran &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304868]=='Compos Mentis' || item.obj[1901304868].text=='Compos Mentis'">&radic;</span></span> Compos Mentis &nbsp;&nbsp;&nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304868]=='Somnolen' || item.obj[1901304868].text=='Somnolen'">&radic;</span></span> Somnolen &nbsp;&nbsp;&nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304868]=='Sopor' || item.obj[1901304868].text=='Sopor'">&radic;</span></span> Sopor &nbsp;&nbsp;&nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304868]=='Coma' || item.obj[1901304868].text=='Coma'">&radic;</span></span> Coma<br>
+                                        
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Glasgow Coma Scale &nbsp;&nbsp;: ............. ( E: <span class="garis-bawah" style="min-width:20px">{{item.obj[1901304869].text || item.obj[1901304869]}}</span> 
+                                        M: <span class="garis-bawah" style="min-width:20px">{{item.obj[1901304870].text || item.obj[1901304870]}}</span> 
+                                        V: <span class="garis-bawah" style="min-width:20px">{{item.obj[1901304871].text || item.obj[1901304871]}}</span> )<br>
+                                        
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Berat Badan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304872]}}</span> kg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Tinggi Badan : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304873]}}</span> cm<br>
+                                        
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Tekanan Darah &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304874]}}</span> mmHg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Nadi : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304875]}}</span> x/menit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        RR : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304876]}}</span> x/menit &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        Suhu : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1901304877]}}</span> &deg;C
+                                    </div>
+
+                                    <div class="sect-box">
+                                        3. STATUS PSIKO-SOSIO-EKONOMI-SPIRITUAL-KULTURAL<br>
+                                        <table style="width: 100%; border: none; margin-left: 5px;">
+                                            <tr>
+                                                <td style="width: 40%; padding: 1px;">Status Sosial &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : Tinggal Bersama <span class="garis-bawah" style="width: 40%;">{{item.obj[1901304880]}}</span></td>
+                                                <td style="width: 60%; padding: 1px;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 1px;">Status Ekonomi &nbsp;&nbsp; : Pekerjaan: <span class="garis-bawah" style="width: 40%;">{{item.obj[1901304881]}}</span></td>
+                                                <td style="padding: 1px;">Pendidikan: <span class="garis-bawah" style="width: 40%;">{{item.obj[1901304882]}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding: 1px;">Status Psikologis &nbsp;: 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304883]">&radic;</span></span> Tenang &nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304884]">&radic;</span></span> Gelisah &nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304885]">&radic;</span></span> <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304886]}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding: 1px;">Hubungan Pasien Dengan Anggota Keluarga : &nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304887]">&radic;</span></span> Baik &nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304888]">&radic;</span></span> Tidak Baik
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding: 1px;">Kebiasaan Hidup &nbsp;: 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304889]">&radic;</span></span> Merokok &nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304890]">&radic;</span></span> Alkohol &nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304891]">&radic;</span></span> Lain-lain : <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304892]}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="padding: 1px;">Kultural &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304893]">&radic;</span></span> Tradisi : <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304894]}}</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304895]">&radic;</span></span> Pantangan : <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304896]}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        4. RISIKO JATUH (Get up and go)
+                                        <table class="tabel-border" style="margin-top: 3px;">
+                                            <tr>
+                                                <th style="width: 5%; text-align: center;">No</th>
+                                                <th style="width: 83%; text-align: center;">Penilaian/ Skrining</th>
+                                                <th style="width: 6%; text-align: center;">Ya</th>
+                                                <th style="width: 6%; text-align: center;">Tidak</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center; vertical-align: top;">a.</td>
+                                                <td>
+                                                    Cara berjalan (salah satu atau lebih)<br>
+                                                    1. Pasien tampak tidak seimbang (sempoyongan)<br>
+                                                    2. Menggunakan alat bantu, kruk/tongkat/kursi roda/dibantu orang lain
+                                                </td>
+                                                <td style="text-align: center; vertical-align: middle;"><span ng-if="item.obj[1901304900]">&radic;</span></td>
+                                                <td style="text-align: center; vertical-align: middle;"><span ng-if="item.obj[1901304901]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center;">b.</td>
+                                                <td>Pasien memegang pinggiran kursi atau meja atau benda lain sebagai penopang saat akan duduk</td>
+                                                <td style="text-align: center; vertical-align: middle;"><span ng-if="item.obj[1901304902]">&radic;</span></td>
+                                                <td style="text-align: center; vertical-align: middle;"><span ng-if="item.obj[1901304903]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="padding-top: 3px; padding-bottom: 3px; border-bottom: none;">
+                                                    Hasil : &nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304904]">&radic;</span></span> Tidak Berisiko (tidak ditemukan a dan b)<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304905]">&radic;</span></span> Risiko Sedang (ditemukan a atau b) Intervensi : Edukasi<br>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304906]">&radic;</span></span> Risiko Tinggi (ditemukan a dan b), Intervensi : Edukasi pasang stiker risiko jatuh
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        5. STATUS FUNGSIONAL<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Aktivitas dan Mobilitas &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304909]">&radic;</span></span> Mandiri &nbsp; 
+                                        <span class="box-check"><span ng-if="item.obj[1901304910]">&radic;</span></span> Perlu bantuan, sebutkan <span class="garis-bawah" style="width: 25%;">{{item.obj[1901304911]}}</span> &nbsp;
+                                        <span class="box-check"><span ng-if="item.obj[1901304912]">&radic;</span></span> Ketergantungan Total<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Alat Bantuan Jalan, sebutkan <span class="garis-bawah" style="width: 60%;">{{item.obj[1901304913]}}</span>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        6. SKRINING NUTRISI<br>
+                                        &nbsp;&nbsp;&nbsp;&nbsp; Dewasa (berdasarkan Nutritional Risk Screening/ NRS - 2002)
+                                        <table class="tabel-border" style="margin-top: 3px;">
+                                            <tr>
+                                                <th rowspan="2" style="width: 3%; text-align: center; vertical-align: middle;">No</th>
+                                                <th rowspan="2" style="width: 60%; text-align: center; vertical-align: middle;">Kriteria</th>
+                                                <th colspan="2" style="text-align: center;">Penilaian</th>
+                                                <th colspan="4" style="text-align: center;">Skor</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="text-align: center; width: 5%;">Ya</th>
+                                                <th style="text-align: center; width: 5%;">Tidak</th>
+                                                <th style="text-align: center; width: 4%;">0</th>
+                                                <th style="text-align: center; width: 4%;">1</th>
+                                                <th style="text-align: center; width: 4%;">2</th>
+                                                <th style="text-align: center; width: 4%;">3</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center;">1.</td>
+                                                <td>Penurunan Berat Badan sebesar &gt; 5%, jika ya dalam kurun waktu:<br>3 bulan terakhir (skor 1), 2 bulan (skor 2), 1 bulan (skor 3).</td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304918]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304919]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304920]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304921]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304922]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304923]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center;">2.</td>
+                                                <td>Atau ada penurunan asupan makan dari kebutuhan dalam seminggu tera-<br>khir, jika ya sebesar: penurunan 25% (skor 1), 50% (skor 2), 75% (skor 3)<br>Bila ada indikasi keduanya pilih skor tertinggi</td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304924]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304925]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304926]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304927]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304928]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304929]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center;">3.</td>
+                                                <td>Ada penyakit penyerta/ kebutuhan khusus</td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304930]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304931]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304932]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304933]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304934]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304935]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: center;">4.</td>
+                                                <td>Usia pasien &lt; 70 tahun (skor 0) &ge; 70 tahun (skor 1)</td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304936]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304937]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304938]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304939]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304940]">&radic;</span></td>
+                                                <td style="text-align: center;"><span ng-if="item.obj[1901304941]">&radic;</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="8" style="border-bottom: none;">
+                                                    Risiko nutrisi : &nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304942]">&radic;</span></span> Tidak (skor 1-3) &nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304943]">&radic;</span></span> Ya (skor > 3), lanjutkan konsul Ahli Gizi
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        7. ASESMEN NYERI
+                                        <table style="width: 100%; border: 1px solid black; margin-top: 3px; border-collapse: collapse;">
+                                            <tr>
+                                                <td style="width: 45%; border-right: 1px solid black; text-align: center; vertical-align: middle; padding: 5px;">
+                                                    <table style="width: 100%; text-align: center; font-size: 8px;">
+                                                        <tr>
+                                                            <td><div class="circle-face">(^_^)</div></td>
+                                                            <td><div class="circle-face">(^.^)</div></td>
+                                                            <td><div class="circle-face">(&bull;_&bull;)</div></td>
+                                                            <td><div class="circle-face">(._.)</div></td>
+                                                            <td><div class="circle-face">(&gt;_&lt;)</div></td>
+                                                            <td><div class="circle-face">(&#8854;_&#8854;)</div></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>0</td><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="6"><hr style="border: 0; border-top: 1px solid black; margin: 2px 0;"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2">Tidak Nyeri</td>
+                                                            <td colspan="2">Nyeri Sedang</td>
+                                                            <td colspan="2">Sangat Nyeri</td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td style="width: 55%; padding: 5px; vertical-align: top;">
+                                                    Nyeri &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : &nbsp; 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304945]">&radic;</span></span> Tidak &nbsp;&nbsp;&nbsp;
+                                                    <span class="box-check"><span ng-if="item.obj[1901304946]">&radic;</span></span> Ya, Skor ..........................<br>
+                                                    Lokasi &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span class="garis-bawah" style="width: 30%;">{{item.obj[1901304948]}}</span>
+                                                    &nbsp;&nbsp;&nbsp;Durasi : <span class="garis-bawah" style="width: 30%;">{{item.obj[1901304949]}}</span><br>
+                                                    Frekuensi : <span class="garis-bawah" style="width: 70%;">{{item.obj[1901304950]}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="border-top: 1px solid black; padding: 3px 5px;">
+                                                    Nyeri hilang, bila : &nbsp; 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304951]">&radic;</span></span> Minum obat &nbsp;&nbsp;&nbsp; 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304952]">&radic;</span></span> Istirahat &nbsp;&nbsp;&nbsp; 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304953]">&radic;</span></span> Mendengarkan musik &nbsp;&nbsp;&nbsp; 
+                                                    <span class="box-check"><span ng-if="item.obj[1901304954]">&radic;</span></span> Lain-lain <span class="garis-bawah" style="width: 15%;">{{item.obj[1901304964]}}</span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="sect-box">
+                                        8. MASALAH KEPERAWATAN<br>
+                                        <table style="width: 100%; margin-left: 5px; border: none;">
+                                            <tr>
+                                                <td style="width: 33%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304955]">&radic;</span></span> Bersihan Jalan Napas Tidak Efektif</td>
+                                                <td style="width: 25%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304956]">&radic;</span></span> Nyeri Akut</td>
+                                                <td style="width: 18%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304957]">&radic;</span></span> Hipertensi</td>
+                                                <td style="width: 24%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304958]">&radic;</span></span> Kerusakan Intergritas Kulit/Jaringan</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304959]">&radic;</span></span> Risiko Cidera</td>
+                                                <td style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304960]">&radic;</span></span> Kurang Pengetahuan</td>
+                                                <td style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304961]">&radic;</span></span> Diare</td>
+                                                <td style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304962]">&radic;</span></span> Mual</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304963]">&radic;</span></span> ..............................................................</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <div class="sect-box" style="border-bottom: none;">
+                                        9. RENCANA KEPERAWATAN<br>
+                                        <table style="width: 100%; margin-left: 5px; border: none;">
+                                            <tr>
+                                                <td style="width: 25%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304965]">&radic;</span></span> Posisikan Pasien</td>
+                                                <td style="width: 25%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304966]">&radic;</span></span> Teknik Relaksasi</td>
+                                                <td style="width: 25%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304967]">&radic;</span></span> Cara Kompres</td>
+                                                <td style="width: 25%; padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304968]">&radic;</span></span> Minum Sesuai Kebutuhan</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304969]">&radic;</span></span> Rawat Inap</td>
+                                                <td colspan="3" style="padding: 1px 0;"><span class="box-check"><span ng-if="item.obj[1901304970]">&radic;</span></span> <span class="garis-bawah" style="width: 30%;">{{item.obj[1901304971]}}</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="2" style="border-top: 2px solid black; padding: 2px;">
+                                    <table style="width: 100%; page-break-inside: avoid;">
+                                        <tr>
+                                            <td style="width: 60%; vertical-align: top; font-style: italic;">
+                                                Catatan :<br>
+                                                - Beri tanda ( &radic; ) untuk kotak yang diisinya<br>
+                                                - Asesmen awal rajal dilakukan untuk setiap<br>
+                                                &nbsp;&nbsp;pasien baru dan pasien dengan diagnosis<br>
+                                                &nbsp;&nbsp;sama yang datang > 30 hari
+                                            </td>
+                                            <td style="width: 40%; text-align: center; vertical-align: top;">
+                                                Tanggal : <span class="garis-bawah">{{item.obj[1147] | date:'dd/MM/yyyy'}}</span> &nbsp;&nbsp; Jam : <span class="garis-bawah" style="min-width: 40px;">{{item.obj[1148]}}</span><br>
+                                                <br>
+                                                <!-- <img ng-src="https://api.qrserver.com/v1/create-qr-code/?size=60x60&data={{ item.obj[1901304972].namalengkap }}" alt="QR TTD" style="max-width: 60px; max-height: 60px; margin: 2px 0;" /><br> -->
+                                                ( <span style="border-bottom: 1px dotted black; display: inline-block; min-width: 150px; font-style: italic;">{{ item.obj[1901304972].namalengkap || 'Nama Jelas dan Tanda Tangan' }}</span> )
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div style="font-size: 10px; text-align: right; margin-top: 2px; font-weight: bold; padding-right: 5px;">
+                            RM03.b/Rev3-RJ/22
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid_12 no-print" style="margin-top: 20px; padding-bottom: 20px;">
+                <div class="grid_8"></div>
+                <div class="grid_2">
+                    <button class="btnTemplate1 btnHijau" onclick="printDiv()"><i class="fa fa-print"></i> Cetak</button>
+                </div>
+                <div class="grid_2">
+                    <button class="btnTemplate1" ng-click="tutupSurat()"><i class="fa fa-arrow-left"></i> Tutup</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+  </div>
+</div>
+
+<textarea id="printing-css" style="display:none;">
+    /* CSS KHUSUS PRINT - MEMASTIKAN MUAT 1 HALAMAN A4 */
+    @page { 
+        size: A4 portrait; 
+        margin: 0.5cm; /* Margin tipis agar muat 1 halaman */
+    }
+    
+    .no-print { display:none !important; } 
+    .ng-hide { display: none !important; }
+    
+    .cetak-container {
+        color: black;
+        font-family: "Times New Roman", Times, serif;
+        font-size: 9.5px; /* Disesuaikan untuk kepadatan text */
+        line-height: 1.15;
+    }
+    
+    /* BINGKAI UTAMA */
+    .main-frame { width: 100%; border: 2px solid black; border-collapse: collapse; }
+    
+    .tabel-identitas { width: 100%; border: 1px solid black; border-collapse: collapse; font-size: 9px; }
+    .tabel-identitas td { padding: 1px 4px; border: 1px solid black; }
+    
+    .cetak-judul { text-align: center; font-size: 13.5px; font-weight: bold; border-bottom: 1px solid black; padding: 4px; background-color: #f5f5f5;}
+    
+    .layout-table { width: 100%; border-collapse: collapse; border: none; }
+    .layout-table td { padding: 0; }
+    
+    .col-poli { padding: 2px !important; }
+    .col-main { padding-left: 0 !important; }
+
+    .poli-item { margin-bottom: 2px; padding-left: 5px; }
+    .sect-box { border-bottom: 1px solid black; padding: 2px 2px 2px 5px; }
+    .sect-title { font-weight: bold; margin-bottom: 2px;}
+    
+    .tabel-border { width: 100%; border-collapse: collapse; font-size: 9px; margin-top: 2px; }
+    .tabel-border th, .tabel-border td { border: 1px solid black; padding: 1px 3px; vertical-align: middle; }
+    
+    /* Wajah Skala Nyeri (Simple CSS draw) */
+    .circle-face {
+        width: 20px; height: 20px; border-radius: 50%; border: 1px solid black; 
+        display: inline-block; line-height: 20px; font-size: 8px; text-align: center;
+    }
+
+    /* Box Checkbox kustom */
+    .box-check { 
+        display: inline-block; 
+        width: 9px; 
+        height: 9px; 
+        border: 1px solid black; 
+        text-align: center; 
+        vertical-align: middle; 
+        line-height: 9px; 
+        font-size: 11px; 
+        margin-right: 2px; 
+        font-weight: bold;
+    }
+    
+    .garis-bawah { border-bottom: 1px dotted black; display: inline-block; min-width: 30px; padding: 0 2px;}
+    
+    -webkit-print-color-adjust: exact !important;
+</textarea>
+<iframe id="printing-frame" name="print_frame" src="about:blank" style="display:none;"></iframe>
+
+<script type="text/javascript">
+function printDiv() {
+    var a = document.getElementById('printing-css').value;
+    var b = document.getElementById('cetakRm').innerHTML;
+    window.frames["print_frame"].document.title = document.title;
+    window.frames["print_frame"].document.body.innerHTML = '<style>' + a + '</style>' + b;
+    window.frames["print_frame"].window.focus();
+    window.frames["print_frame"].window.print();
+}
+</script>
+<script>
+  $('.cb').on('change', function(){ 
+    UpdateCost();
+  });
+  function UpdateCost() {
+    var sum = 0;
+    $('.cb:checked').each(function(){
+       sum += Number($(this).val()); 
+    })
+    $('#totalcost').val(sum.toFixed(0));
+  }
+</script>
