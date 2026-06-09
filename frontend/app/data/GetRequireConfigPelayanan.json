@@ -3177,6 +3177,10 @@
         {
             "nameDep": "DaftarBerkasRevisiCasemixCtrl",
             "urlDep": "module/TataRekening/DaftarBerkasRevisiCasemixCtrl"
+        },
+        {
+            "nameDep": "PemberianInformasiEdukasiCtrl",
+            "urlDep": "module/EMR/PemberianInformasiEdukasiCtrl"
         }
     ]
 }
