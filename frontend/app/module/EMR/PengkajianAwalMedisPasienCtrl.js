@@ -495,6 +495,17 @@ define(['initialize'], function (initialize) {
                             // $scope.user.poto4 = dat.data[3].template
                         })
                         $scope.item.obj = []
+                        // Auto checklist "Tidak Ada Kelainan" untuk semua kelompok pemeriksaan fisik
+                        $scope.item.obj[2618] = true   // Kepala    - Tidak Ada Kelainan
+                        $scope.item.obj[1901300356] = true // Mata   - Tidak Ada Kelainan
+                        $scope.item.obj[2621] = true   // Leher     - Tidak Ada Kelainan
+                        $scope.item.obj[2624] = true   // Thorax    - Tidak Ada Kelainan
+                        $scope.item.obj[2627] = true   // Abdomen   - Tidak Ada Kelainan
+                        $scope.item.obj[2630] = true   // Extremitas - Tidak Ada Kelainan
+                        $scope.item.obj[2633] = true   // Genitalia  - Tidak Ada Kelainan
+                        $scope.item.obj[2676] = true   // Anus       - Tidak Ada Kelainan
+                        $scope.item.obj[2679] = true   // Pemeriksaan Neurologis - Tidak Ada Kelainan
+                        $scope.item.obj[1901300359] = true // Kulit  - Tidak Ada Kelainan
                         // cekDiagnosa()
                     }
                     debugger
