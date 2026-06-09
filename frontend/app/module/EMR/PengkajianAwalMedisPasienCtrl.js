@@ -575,6 +575,9 @@ define(['initialize'], function (initialize) {
                             if (dataLoad[i].type == "textbox") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
                             }
+                            if (dataLoad[i].type == "text") {
+                                $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                            }
                             if (dataLoad[i].type == "checkbox") {
                                 chekedd = false
                                 if (dataLoad[i].value == '1') {
