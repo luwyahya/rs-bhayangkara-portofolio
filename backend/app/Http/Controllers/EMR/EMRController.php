@@ -250,6 +250,11 @@ class EMRController  extends ApiController
             ->where('rm.statusenabled', true)
             ->get();
 
+        $rekanan = \DB::table('rekanan_m as rkn')
+            ->select('rkn.id', 'rkn.namarekanan')
+            ->where('rkn.statusenabled', true)
+            ->get();
+
         $ruangan = \DB::table('ruangan_m as rm')
             ->select('rm.id', 'rm.namaruangan')
             ->where('rm.statusenabled', true)
@@ -496,7 +501,8 @@ class EMRController  extends ApiController
             'pekerjaan' => $pekerjaan,
             'pegawai2' => $pegawai2,
             'terapis' => $terapis,
-            'ruangigdrajal' => $ruangIGDRajal
+            'ruangigdrajal' => $ruangIGDRajal,
+            'rekanan' => $rekanan
             // 'diagnosa'=> $diagnosa
         );
 
