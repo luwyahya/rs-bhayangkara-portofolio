@@ -29881,7 +29881,6 @@ WHERE rm.norec = '$norec_resume'
 
             if ($head['norec_emr'] == '-') {
 
-                // ✅ CEK: Apakah pasien (nocm) sudah punya noemr?
                 $cekNoemrPasien = EMRPasien::where('nocm', $head['nocm'])
                     ->where('statusenabled', true)
                     ->orderBy('tglemr', 'DESC')  // Ambil yang paling baru
@@ -29889,10 +29888,8 @@ WHERE rm.norec = '$norec_resume'
                     ->first();
                 
                 if ($cekNoemrPasien) {
-                    // ✅ SUDAH ADA → REUSE noemr yang ada
                     $noemr = $cekNoemrPasien->noemr;
                 } else {
-                    // ✅ BELUM ADA → GENERATE noemr baru dengan validasi
                     $noemr = $this->generateCodeEMRWithValidation(
                         new EMRPasien, 
                         'noemr', 
@@ -29926,7 +29923,7 @@ WHERE rm.norec = '$norec_resume'
                 $EMRPASIENDETAIL = [];
                 $EMRPASIENDETAILIMG = [];
             } else {
-                $EMR = EMRPasien::where('norec', $head['norec_emr'])
+                $EMR = EMRPasien::where('noemr', $head['norec_emr'])
                     ->where('noregistrasifk', $head['noregistrasi'])
                     ->where('kdprofile', $kdProfile)
                     ->first();
@@ -29943,8 +29940,6 @@ WHERE rm.norec = '$norec_resume'
                 }
                 
                 $noemr = $EMR->noemr;
-
-                //LOAD DATA EMR PEMBANDING
                 $EMRPASIENDETAIL = EMRPasienD::where('emrpasienfk', $noemr)
                     ->select('emrdfk', 'value')
                     ->where('emrfk', $head['emrfk'])
@@ -29963,7 +29958,6 @@ WHERE rm.norec = '$norec_resume'
                 }
             }
 
-            //VALIDASI JIKA NOREGISTRASI BEDA //
             if ((!empty($EMR) && isset($head['noregistrasi'])) && trim($EMR->noregistrasifk) != $head['noregistrasi']) {
                 $transMessage = "Kesalahan loading data..!";
                 DB::rollBack();
