@@ -29872,6 +29872,7 @@ WHERE rm.norec = '$norec_resume'
 
     public function SaveTransaksiEMRNewVer(Request $request)
     {
+        set_time_limit(300);
         $kdProfile = (int) $this->getDataKdProfile($request);
         $dataReq = $request->all();
         $head = $dataReq['head'];
@@ -29881,14 +29882,15 @@ WHERE rm.norec = '$norec_resume'
 
             if ($head['norec_emr'] == '-') {
 
-                $cekNoemrPasien = EMRPasien::where('nocm', $head['nocm'])
+                $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
+                    ->where('kdprofile', $kdProfile)
                     ->where('statusenabled', true)
                     ->orderBy('tglemr', 'DESC')  // Ambil yang paling baru
-                    ->select('noemr')
                     ->first();
                 
                 if ($cekNoemrPasien) {
-                    $noemr = $cekNoemrPasien->noemr;
+                    $EMR = $cekNoemrPasien;
+                    $noemr = $EMR->noemr;
                 } else {
                     $noemr = $this->generateCodeEMRWithValidation(
                         new EMRPasien, 
@@ -29896,31 +29898,41 @@ WHERE rm.norec = '$norec_resume'
                         15, 
                         'MR' . date('ym') . '/'
                     );
-                }
                 
-                if ($noemr == '') {
-                    $transMessage = "Gagal mengumpulkan data, Coba lagi.!";
-                    DB::rollBack();
-                    $result = array(
-                        "status" => 400,
-                        "message" => $transMessage,
-                        "as" => 'as@epic',
-                    );
-                    return $this->setStatusCode($result['status'])->respond($result, $transMessage);
-                }
+                    if ($noemr == '') {
+                        $transMessage = "Gagal mengumpulkan data, Coba lagi.!";
+                        DB::rollBack();
+                        $result = array(
+                            "status" => 400,
+                            "message" => $transMessage,
+                            "as" => 'as@epic',
+                        );
+                        return $this->setStatusCode($result['status'])->respond($result, $transMessage);
+                    }
 
-                $EMR = new EMRPasien();
-                $norecHead = $EMR->generateNewId();
-                $EMR->norec = $norecHead;
-                $norecTehMenikitunyaeuy = $norecHead;
-                $EMR->norec = $norecTehMenikitunyaeuy;
-                $EMR->kdprofile = $kdProfile;
-                $EMR->statusenabled = 1;
+                    $EMR = new EMRPasien();
+                    $norecHead = $EMR->generateNewId();
+                    $EMR->norec = $norecHead;
+                    $norecTehMenikitunyaeuy = $norecHead;
+                    $EMR->norec = $norecTehMenikitunyaeuy;
+                    $EMR->kdprofile = $kdProfile;
+                    $EMR->statusenabled = 1;
 
-                if (isset($head['noregistrasi'])) {
-                    $EMR->noregistrasifk = $head['noregistrasi'];
+                    if (isset($head['noregistrasi'])) {
+                        $EMR->noregistrasifk = $head['noregistrasi'];
+                    }
                 }
-                $EMRPASIENDETAIL = [];
+                if ($cekNoemrPasien) {
+                    $EMRPASIENDETAIL = EMRPasienD::where('emrpasienfk', $noemr)
+                        ->select('emrdfk', 'value')
+                        ->where('emrfk', $head['emrfk'])
+                        ->where('kdprofile', $kdProfile)
+                        ->where('statusenabled', 1)
+                        ->orderBy('emrdfk')
+                        ->get();
+                } else {
+                    $EMRPASIENDETAIL = [];
+                }
                 $EMRPASIENDETAILIMG = [];
             } else {
                 $EMR = EMRPasien::where('noemr', $head['norec_emr'])
