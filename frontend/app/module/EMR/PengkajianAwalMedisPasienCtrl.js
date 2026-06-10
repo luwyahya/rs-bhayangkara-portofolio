@@ -55,6 +55,13 @@ define(['initialize'], function (initialize) {
                 var combo = parseComboValue(value);
                 return combo.value + '~' + combo.text;
             }
+
+            function setDefaultDokterLogin() {
+                if ($scope.item.obj[1257] == undefined || $scope.item.obj[1257] == null || $scope.item.obj[1257].text == '') {
+                    var pegawaiLogin = medifirstService.getPegawaiLogin();
+                    $scope.item.obj[1257] = { value: pegawaiLogin.id, text: pegawaiLogin.namaLengkap };
+                }
+            }
             
             function loadData() {
                 $scope.listKesadaran = [
@@ -391,7 +398,6 @@ define(['initialize'], function (initialize) {
                     $scope.item.obj[1148] = moment($scope.now).format('HH:mm')
                     $scope.item.obj[1239] = moment($scope.now).format('YYYY-MM-DD HH:mm')
                     $scope.item.obj[1256] = moment($scope.now).format('YYYY-MM-DD HH:mm')
-                    $scope.item.obj[1257] = {value: medifirstService.getPegawaiLogin().id, text: medifirstService.getPegawaiLogin().namaLengkap}
                     debugger
                     init()
                     // cekVitalSign()
@@ -482,21 +488,26 @@ define(['initialize'], function (initialize) {
                 medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=asesmen", true).then(function(dat) {
                     $scope.isRouteLoading = false
                     debugger
+                    lanjut = false;
                     if (dat.data.data.length > 0) {
+                        var dataEmrAsesmen = null;
                         for (let i = 0; i < dat.data.data.length; i++) {
                             if (dat.data.data[i].jenisemr == 'asesmen') {
                                 lanjut = true;
+                                dataEmrAsesmen = dat.data.data[i];
+                                break;
                             }
                         }
                         if (lanjut == true) {
-                                $scope.noemr = dat.data.data[0].noemr
-                                $scope.cc.norec_emr = dat.data.data[0].noemr
+                                $scope.noemr = dataEmrAsesmen.noemr
+                                $scope.cc.norec_emr = dataEmrAsesmen.noemr
                                 nomorEMRSS = ''
-                                nomorEMRSS = dat.data.data[0].noemr
+                                nomorEMRSS = dataEmrAsesmen.noemr
                                 nomorEMR = nomorEMRSS
                                 $scope.cc.emrfk = 675;
                                 setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                         } else {
+                            setDefaultDokterLogin()
                             // cekDiagnosa()
                         }
                         // if (dat.data.data[0].jenisemr == 'pengkajianawal') {
@@ -530,6 +541,7 @@ define(['initialize'], function (initialize) {
                         $scope.item.obj[2676] = true   // Anus       - Tidak Ada Kelainan
                         $scope.item.obj[2679] = true   // Pemeriksaan Neurologis - Tidak Ada Kelainan
                         $scope.item.obj[1901300359] = true // Kulit  - Tidak Ada Kelainan
+                        setDefaultDokterLogin()
                         // cekDiagnosa()
                     }
                     debugger
@@ -647,7 +659,7 @@ define(['initialize'], function (initialize) {
                                 $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namadiagnosa: str }
     
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1168") {
+                            if (dataLoad[i].emrdfk == "1168") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
@@ -665,29 +677,29 @@ define(['initialize'], function (initialize) {
                                 $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
     
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1259") {
+                            if (dataLoad[i].emrdfk == "1259") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2241") {
+                            if (dataLoad[i].emrdfk == "2241") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2242") {
+                            if (dataLoad[i].emrdfk == "2242") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2243") {
-                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
-    
-                            }
-
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "3124") {
+                            if (dataLoad[i].emrdfk == "2243") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
 
-                            if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1257") {
+                            if (dataLoad[i].emrdfk == "3124") {
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
+    
+                            }
+
+                            if (dataLoad[i].emrdfk == "1257") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
