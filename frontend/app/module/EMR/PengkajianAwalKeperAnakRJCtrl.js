@@ -29,6 +29,93 @@ define(['initialize'], function (initialize) {
         loadCombo()
         loadRekon()
 
+        var comboValueIds = [
+            '1901304868',
+            '1901304869',
+            '1901304870',
+            '1901304871'
+        ]
+        var dateValueIds = ['1901305147', '1901305252']
+        var timeValueIds = ['1901305148', '1901305254']
+
+        function parseComboValue(value) {
+            if (value == undefined || value == null) {
+                return { value: '', text: '' }
+            }
+            if (typeof value == 'object') {
+                return {
+                    value: value.value != undefined ? value.value : value.id,
+                    text: value.text != undefined ? value.text : (value.namalengkap || value.namadiagnosa || value.nama || value.value || value.id)
+                }
+            }
+
+            var str = value.toString()
+            var res = str.split('~')
+            return {
+                value: res[0],
+                text: res.length > 1 ? res.slice(1).join('~') : res[0]
+            }
+        }
+
+        function formatComboValue(value) {
+            var combo = parseComboValue(value)
+            return combo.value + '~' + combo.text
+        }
+
+        function parsePerawatValue(value) {
+            var combo = parseComboValue(value)
+            if (combo.value == combo.text && $scope.listPerawatBidan != undefined) {
+                for (var i = 0; i < $scope.listPerawatBidan.length; i++) {
+                    if ($scope.listPerawatBidan[i].namalengkap == combo.text) {
+                        combo.value = $scope.listPerawatBidan[i].id
+                        break
+                    }
+                }
+            }
+            return { id: combo.value, namalengkap: combo.text }
+        }
+
+        function setDefaultPerawatLogin() {
+            if ($scope.item.obj[1901305253] == undefined || $scope.item.obj[1901305253] == null || $scope.item.obj[1901305253].namalengkap == '') {
+                var pegawaiLogin = medifirstService.getPegawaiLogin()
+                $scope.item.obj[1901305253] = { id: pegawaiLogin.id, namalengkap: pegawaiLogin.namaLengkap }
+            }
+        }
+
+        function parseDateValue(value) {
+            if (value == undefined || value == null || value == '') {
+                return null
+            }
+            var parsedDate = moment(value)
+            return parsedDate.isValid() ? parsedDate.toDate() : null
+        }
+
+        function parseTimeValue(value) {
+            if (value == undefined || value == null || value == '') {
+                return null
+            }
+            if (value instanceof Date) {
+                return value
+            }
+            var parsedTime = moment(value, ['HH:mm:ss', 'HH:mm'], true)
+            if (!parsedTime.isValid()) {
+                parsedTime = moment(value)
+            }
+            return parsedTime.isValid() ? parsedTime.toDate() : null
+        }
+
+        function formatDateValue(value) {
+            return value != undefined && value != null && moment(value).isValid()
+                ? moment(value).format('YYYY-MM-DD')
+                : value
+        }
+
+        function formatTimeValue(value) {
+            return value != undefined && value != null && moment(value).isValid()
+                ? moment(value).format('HH:mm')
+                : value
+        }
+
         
         $scope.listNyeriAnak = [
             {
@@ -328,6 +415,9 @@ define(['initialize'], function (initialize) {
                 $scope.listPegawai = data.data.pegawai
                 $scope.listDokter = data.data.dokter
                 $scope.listPerawatBidan = data.data.perawatBidan
+                if ($scope.item.obj[1901305253] != undefined) {
+                    $scope.item.obj[1901305253] = parsePerawatValue($scope.item.obj[1901305253])
+                }
             });
             // medifirstService.get('emr/get-combo-diagnosa-pengkajian?').then(function(dat) {
             //     $scope.listDiagnosa = dat.data.diagnosa
@@ -415,8 +505,11 @@ define(['initialize'], function (initialize) {
                 $scope.cc.norec_emr = '-'
                 $scope.cc.jenisemr = "pengkajianawalkeperanakrj"
                 paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                $scope.item.obj[1901305147] = moment($scope.cc.tglregistrasi).format('YYYY-MM-DD')
-                $scope.item.obj[1901305148] = moment($scope.now).format('HH:mm')
+                $scope.item.obj[1901305147] = parseDateValue($scope.cc.tglregistrasi)
+                $scope.item.obj[1901305148] = parseTimeValue(moment($scope.now).format('HH:mm'))
+                $scope.item.obj[1901305252] = parseDateValue($scope.now)
+                $scope.item.obj[1901305254] = parseTimeValue(moment($scope.now).format('HH:mm'))
+                setDefaultPerawatLogin()
                 init()
                 cekVitalSign()
             }
@@ -428,21 +521,26 @@ define(['initialize'], function (initialize) {
             medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=pengkajianawalkeperanakrj", true).then(function(dat) {
                 $scope.isRouteLoading = false
                 debugger
+                lanjut = false
                 if (dat.data.data.length > 0) {
+                    var dataEmrPengkajian = null
                     for (let i = 0; i < dat.data.data.length; i++) {
                         if (dat.data.data[i].jenisemr == 'pengkajianawalkeperanakrj') {
-                            lanjut = true;
+                            lanjut = true
+                            dataEmrPengkajian = dat.data.data[i]
+                            break
                         }
                     }
                     if (lanjut == true) {
-                            $scope.noemr = dat.data.data[0].noemr
-                            $scope.cc.norec_emr = dat.data.data[0].noemr
+                            $scope.noemr = dataEmrPengkajian.noemr
+                            $scope.cc.norec_emr = dataEmrPengkajian.noemr
                             nomorEMRSS = ''
-                            nomorEMRSS = dat.data.data[0].noemr
+                            nomorEMRSS = dataEmrPengkajian.noemr
                             nomorEMR = nomorEMRSS
                             $scope.cc.emrfk = 2034;
                             setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                     } else {
+                        setDefaultPerawatLogin()
                         cekDiagnosa()
                     }
                     // if (dat.data.data[0].jenisemr == 'pengkajianawalkeperanakrj') {
@@ -457,6 +555,7 @@ define(['initialize'], function (initialize) {
                     //     cekDiagnosa()
                     // }
                 } else {
+                    setDefaultPerawatLogin()
                     if ($scope.cc.objectruanganfk == 12) {
                         valueOtomatis()
                     }
@@ -504,14 +603,16 @@ define(['initialize'], function (initialize) {
 
                         }
 
-                        if (dataLoad[i].type == "datetime") {
-                            $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).format('YYYY-MM-DD')
-                        }
-                        if (dataLoad[i].type == "time") {
-                            $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
-                        }
-                        if (dataLoad[i].type == "date") {
-                            $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                        if (dateValueIds.indexOf(dataLoad[i].emrdfk.toString()) >= 0) {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseDateValue(dataLoad[i].value)
+                        } else if (timeValueIds.indexOf(dataLoad[i].emrdfk.toString()) >= 0) {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseTimeValue(dataLoad[i].value)
+                        } else if (dataLoad[i].type == "datetime") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseDateValue(dataLoad[i].value)
+                        } else if (dataLoad[i].type == "time") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseTimeValue(dataLoad[i].value)
+                        } else if (dataLoad[i].type == "date") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseDateValue(dataLoad[i].value)
                         }
 
                         if (dataLoad[i].type == "checkboxtextbox") {
@@ -528,18 +629,11 @@ define(['initialize'], function (initialize) {
                             $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namadiagnosa: str }
 
                         }
-                        if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901304868") {
-                            var str = dataLoad[i].value
-                            var res = str.split("~");
-                            // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                            $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
-
+                        if (dataLoad[i].emrdfk == "1901304868") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
                         }
-                        if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901305253") {
-                            var str = dataLoad[i].value
-                            var res = str.split("~");
-                            // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                            $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                        if (dataLoad[i].emrdfk == "1901305253") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parsePerawatValue(dataLoad[i].value)
 
                         }
                         if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "891") {
@@ -549,26 +643,14 @@ define(['initialize'], function (initialize) {
                             $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
 
                         }
-                        if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901304869") {
-                            var str = dataLoad[i].value
-                            var res = str.split("~");
-                            // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                            $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
-
+                        if (dataLoad[i].emrdfk == "1901304869") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
                         }
-                        if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901304870") {
-                            var str = dataLoad[i].value
-                            var res = str.split("~");
-                            // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                            $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
-
+                        if (dataLoad[i].emrdfk == "1901304870") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
                         }
-                        if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901304871") {
-                            debugger
-                            var str = dataLoad[i].value
-                            var res = str.split("~");
-                            // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                            $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                        if (dataLoad[i].emrdfk == "1901304871") {
+                            $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
 
                         }
                         // if (dataLoad[i].type == "combobox") {
@@ -590,6 +672,7 @@ define(['initialize'], function (initialize) {
                     }
 
                 }
+                setDefaultPerawatLogin()
             })
             cekVitalSign()
         }
@@ -603,21 +686,21 @@ define(['initialize'], function (initialize) {
             var arrobj = Object.keys($scope.item.obj) 
             var arrSave = [] 
             for (let i = arrobj.length - 1; i >= 0; i--) {
-                if ($scope.item.obj[parseInt(arrobj[i])] != undefined) {
-                    if (arrobj[i] == 1149) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].namadiagnosa })
-                    } else if (arrobj[i] == 1901305253) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].namalengkap })
-                    } else if (arrobj[i] == 1901304868) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
-                    } else if (arrobj[i] == 1901304869) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
-                    } else if (arrobj[i] == 1901304870) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
-                    } else if (arrobj[i] == 1901304871) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
+                var currentId = arrobj[i]
+                var currentValue = $scope.item.obj[currentId]
+                if (currentValue != undefined) {
+                    if (currentId == 1149) {
+                        arrSave.push({ id: currentId, values: currentValue.namadiagnosa })
+                    } else if (currentId == 1901305253) {
+                        arrSave.push({ id: currentId, values: formatComboValue(currentValue) })
+                    } else if (comboValueIds.indexOf(currentId) >= 0) {
+                        arrSave.push({ id: currentId, values: formatComboValue(currentValue) })
+                    } else if (dateValueIds.indexOf(currentId) >= 0) {
+                        arrSave.push({ id: currentId, values: formatDateValue(currentValue) })
+                    } else if (timeValueIds.indexOf(currentId) >= 0) {
+                        arrSave.push({ id: currentId, values: formatTimeValue(currentValue) })
                     } else {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
+                        arrSave.push({ id: currentId, values: currentValue })
                     } 
                 }
             }
@@ -631,6 +714,9 @@ define(['initialize'], function (initialize) {
                 }
                 medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
+                    nomorEMRSS = e.data.data.noemr
+                    $scope.noemr = e.data.data.noemr
+                    $scope.cc.norec_emr = e.data.data.noemr
                     medifirstService.postLogging('EMR', 'norec emrpasien_t', e.data.data.norec,
                         'Emr IGD ' + ' dengan No EMR - ' + e.data.data.noemr + ' pada No Registrasi '
                         + $scope.cc.noregistrasi).then(function (res) {
