@@ -25,12 +25,36 @@ define(['initialize'], function (initialize) {
             $scope.listData3 = []
             $scope.item.objcbo = [] 
             $scope.dataSource = []   
-            $scope.item.obj = []
+            $scope.item.obj = {}
             $scope.item.obj2 = []         
             $scope.item.image = '../app/images/svg/no-image.svg';
             var temp = []           
             var lanjut = false;
             LoadCacheHelper()
+
+            function parseComboValue(value) {
+                if (value == undefined || value == null) {
+                    return { value: '', text: '' };
+                }
+                if (typeof value == 'object') {
+                    return {
+                        value: value.value != undefined ? value.value : value.id,
+                        text: value.text != undefined ? value.text : (value.namalengkap || value.namadiagnosa || value.nama || value.value || value.id)
+                    };
+                }
+
+                var str = value.toString();
+                var res = str.split('~');
+                return {
+                    value: res[0],
+                    text: res.length > 1 ? res.slice(1).join('~') : res[0]
+                };
+            }
+
+            function formatComboValue(value) {
+                var combo = parseComboValue(value);
+                return combo.value + '~' + combo.text;
+            }
             
             function loadData() {
                 $scope.listKesadaran = [
@@ -494,7 +518,7 @@ define(['initialize'], function (initialize) {
                             // $scope.user.poto3 = dat.data[2].template
                             // $scope.user.poto4 = dat.data[3].template
                         })
-                        $scope.item.obj = []
+                        $scope.item.obj = {}
                         // Auto checklist "Tidak Ada Kelainan" untuk semua kelompok pemeriksaan fisik
                         $scope.item.obj[2618] = true   // Kepala    - Tidak Ada Kelainan
                         $scope.item.obj[1901300356] = true // Mata   - Tidak Ada Kelainan
@@ -512,7 +536,7 @@ define(['initialize'], function (initialize) {
                     medifirstService.get('emr/get-value-from-pengkajian-awal-2?noRegistrasi=' + $scope.cc.noregistrasi).then(function(dat) {
                         for(let i = 0; i < dat.data.length; i++) {
                             if (dat.data[i].emrdfk == 1168) {
-                                $scope.item.obj[1168] = {text: dat.data[i].value}
+                                $scope.item.obj[1168] = parseComboValue(dat.data[i].value)
                             }
                             if (dat.data[i].emrdfk == 1169) {
                                 $scope.item.obj[1169] = dat.data[i].value
@@ -536,13 +560,13 @@ define(['initialize'], function (initialize) {
                                 $scope.item.obj[1172] = dat.data[i].value
                             }
                             if (dat.data[i].emrdfk == 1259) {
-                                $scope.item.obj[2241] = {text: dat.data[i].value}
+                                $scope.item.obj[2241] = parseComboValue(dat.data[i].value)
                             }
                             if (dat.data[i].emrdfk == 1502) {
-                                $scope.item.obj[2242] = {text: dat.data[i].value}
+                                $scope.item.obj[2242] = parseComboValue(dat.data[i].value)
                             }
                             if (dat.data[i].emrdfk == 1503) {
-                                $scope.item.obj[2243] = {text: dat.data[i].value}
+                                $scope.item.obj[2243] = parseComboValue(dat.data[i].value)
                             }
                         }
                     })
@@ -555,11 +579,11 @@ define(['initialize'], function (initialize) {
                 // loadValue();
             }
             function setobjectToModel(nomorEMRSS, emrfk) {
-                medifirstService.get("emr/get-emr-transaksi-detail-polri?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
+                medifirstService.get("emr/get-emr-transaksi-detail-new?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
                     debugger
                     $scope.isLoading = false
                     var chekedd = false
-                    $scope.item.obj = []
+                    $scope.item.obj = {}
                     $scope.item.obj2 = []
                     // $scope.item.obj[68] = $scope.now
                     dataLoad = dat.data.data
@@ -624,10 +648,7 @@ define(['initialize'], function (initialize) {
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1168") {
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "890") {
@@ -645,49 +666,29 @@ define(['initialize'], function (initialize) {
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1259") {
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2241") {
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2242") {
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2243") {
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: str }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
 
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "3124") {
-                                debugger
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
 
                             if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1257") {
-                                debugger
-                                var str = dataLoad[i].value
-                                var res = str.split("~");
-                                // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                $scope.item.obj[dataLoad[i].emrdfk] = parseComboValue(dataLoad[i].value)
     
                             }
                             // if (dataLoad[i].type == "combobox") {
@@ -813,14 +814,15 @@ define(['initialize'], function (initialize) {
 
                 var arrobj = Object.keys($scope.item.obj)
                 var arrSave = []
-                debugger
                 for (var i = arrobj.length - 1; i >= 0; i--) {
-                    if(arrobj[i] == 3124 || arrobj[i] == 1257 ) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].value  + '~' + $scope.item.obj[parseInt(arrobj[i])].text })
+                    var currentId = arrobj[i]
+                    var currentValue = $scope.item.obj[currentId]
+                    if(currentId == 3124 || currentId == 1257 ) {
+                        arrSave.push({ id: currentId, values: formatComboValue(currentValue) })
                     } else if (arrobj[i] == 1168 ||   arrobj[i] == 2241 || arrobj[i] == 2242 || arrobj[i] == 2243) {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])].text })
+                        arrSave.push({ id: currentId, values: parseComboValue(currentValue).text })
                     } else {
-                        arrSave.push({ id: arrobj[i], values: $scope.item.obj[parseInt(arrobj[i])] })
+                        arrSave.push({ id: currentId, values: currentValue })
                     }
                 }
                 arrSave.push({ id: "2421", values: photo });
@@ -832,7 +834,11 @@ define(['initialize'], function (initialize) {
                     data: arrSave,
                     image: $scope.item.image != undefined && $scope.item.image != "../app/images/svg/no-image.svg" ? $scope.item.image : null
                 }
-                medifirstService.post('emr/save-emr-dinamis-new', jsonSave).then(function (e) {
+                medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
+                    nomorEMR = e.data.data.noemr
+                    nomorEMRSS = e.data.data.noemr
+                    $scope.noemr = e.data.data.noemr
+                    $scope.cc.norec_emr = e.data.data.noemr
                     // $state.go("RekamMedis.OrderJadwalBedah.ProsedurKeselamatan", {
                     //     namaEMR : $scope.cc.emrfk,
                     //     nomorEMR : e.data.data.noemr 
