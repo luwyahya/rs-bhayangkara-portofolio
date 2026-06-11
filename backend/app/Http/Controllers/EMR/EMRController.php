@@ -23313,17 +23313,30 @@ FROM
             $dataresumemedis = \DB::table('pasiendaftar_t as pd')
                 ->JOIN('antrianpasiendiperiksa_t as apd', 'apd.noregistrasifk', '=', 'pd.norec')
                 ->JOIN('resumemedis_t as rm', 'rm.noregistrasifk', '=', 'apd.norec')
-                ->select('rm.norec')
+                ->select('rm.norec', 'rm.keteranganlainnya as keteranganlainnya')
                 ->where('pd.noregistrasi', $item->noregistrasi)
                 ->where('apd.statusenabled', true)
                 ->where('pd.statusenabled', true)
-                ->get();
-            if (count($dataresumemedis) > 0) {
+                ->first();
+            // if (count($dataresumemedis) > 0) {
+            if ($dataresumemedis) {
                 $resummedis = 'Sudah diisi';
-                $detail[] = array(
-                    'path' => "RekamMedis.ResumeRI",
+                if($dataresumemedis->keteranganlainnya == 'RawatJalan'){
+                    $detail[] = array(
+                        'path' => "RekamMedis.ResumeRJ",
+                        'name' => "Resume Medis"
+                    );
+                }elseif($dataresumemedis->keteranganlainnya == 'RawatInap'){
+                    $detail[] = array(
+                        'path' => "RekamMedis.ResumeRI",
+                        'name' => "Resume Medis"
+                    );
+                }else{
+                    $detail[] = array(
+                    'path' => "RekamMedis.ResumeMedisIGD",
                     'name' => "Resume Medis"
-                );
+                    );
+                }
             } else {
                 $resummedis = 'Belum diisi';
             }
