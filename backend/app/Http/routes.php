@@ -1021,6 +1021,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-lab-resume-rj-deleted', 'EMR\EMRController@getLabResumeRjDeleted');
             Route::get('get-rad-resume-rj', 'EMR\EMRController@getRadResumeRj');
             Route::post('save-resume-medis-rj', 'EMR\EMRController@saveResumeMedisRj');
+            Route::get('get-resume-medis-rj/{noregistrasi}', 'EMR\EMRController@getResumeMedisRJ');
             Route::post('save-resume-medis-igd', 'EMR\EMRController@saveResumeMedisIgd'); // key add from polri 01-11-2024
             Route::get('get-penunjang-resume-ranap', 'EMR\EMRController@getDataPenunjangCetakanResumeRanap');
             Route::post('save-resume-medis-ri', 'EMR\EMRController@saveResumeMedisRanap');

@@ -30549,4 +30549,73 @@ WHERE rm.norec = '$norec_resume'
 
         return $this->respond($data);
     }
+
+     public function getResumeMedisRJ(Request $request, $noregistrasi)
+    {
+        $data = \DB::table('resumemedis_t as rm')
+            ->select(
+                'rm.norec',
+                'rm.tglresume',
+                'rm.tglmasuk',
+                'ru.namaruangan',
+                'rm.diagnosisawal as diagnosis',
+                'rm.icd',
+                'rm.jenispemeriksaan',
+                'rm.riwayatlalu',
+                'rm.namadokter',
+                'pg.namalengkap as namadokter2',
+                'rm.pegawaifk',
+                'pd.noregistrasi',
+                'pd.tglregistrasi',
+                'ps.nocm',
+                'ps.namapasien',
+                'rm.pegawaifk',
+                'rm.tglmasuk',
+                'rm.tglkeluar',
+                'rm.keluhanutama',
+                'rm.alergi',
+                'rm.kesadaran',
+                'rm.keadaanumum',
+                'rm.denyutjantung',
+                'rm.pernapasan',
+                'rm.systole',
+                'rm.diastole',
+                'rm.suhu',
+                'rm.pemeriksaanfisik',
+                'rm.diet',
+                'rm.keterangandiet',
+                'rm.edukasi',
+                'rm.prognosis',
+                'rm.rencanatindaklanjut',
+                'rm.tglkontrol',
+                'rm.kontrol',
+                'rm.keadaandarurat2',
+                'rm.kondisimeninggalkan',
+                'rm.pasienkeluarga',
+                'rm.namadokter',
+                'rm.pegawaifk',
+                'rm.tglcetak',
+                'rm.emrpasienfk',
+                'rm.diagdok',
+                'rm.pengobatan',
+                'rm.hasilkonsultasi',
+                'rm.rencanatindaklanjutlain',
+                'rm.kondisimeninggalkanlain'
+            )
+            ->Join('antrianpasiendiperiksa_t as apd', 'apd.norec', '=', 'rm.noregistrasifk')
+            ->Join('pasiendaftar_t as pd', 'pd.norec', '=', 'apd.noregistrasifk')
+            ->Join('pasien_m as ps', 'ps.id', '=', 'pd.nocmfk')
+            ->leftJoin('ruangan_m as ru', 'ru.id', '=', 'apd.objectruanganfk')
+            ->leftJoin('pegawai_m as pg', 'pg.id', '=', 'rm.pegawaifk')
+            ->where('rm.statusenabled', true)
+            ->where('pd.noregistrasi', $noregistrasi)
+            ->where('rm.keteranganlainnya', 'RawatJalan');
+
+        $data = $data->get();
+        $result = array(
+            'data' => $data,
+            'message' => 'Inhuman',
+        );
+        return $this->respond($result);
+    }
 }

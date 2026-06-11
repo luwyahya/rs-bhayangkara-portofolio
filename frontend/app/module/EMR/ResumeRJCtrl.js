@@ -2084,32 +2084,115 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                     $scope.listJenisDiagnosa = data.data.jenisdiagnosa;
                 });
 
-				$q.all([
-					medifirstService.get("emr/get-resume-medis/" + $scope.cc.nocm)
-				]).then(function (res) {
-					if (res[0].statResponse) {
-						var result = res[0].data.data
+				// $q.all([
+				// 	medifirstService.get("emr/get-resume-medis/" + $scope.cc.noregistrasi)
+				// ]).then(function (res) {
+				// 	if (res[0].statResponse) {
+				// 		var result = res[0].data.data
+				// 		if (result.length > 0) {
+				// 			for (let index = 0; index < result.length; index++) {
+				// 				result[index].no = index + 1
+				// 			}
+				// 		}
+
+				// 		$scope.sourceResume = new kendo.data.DataSource({
+				// 			data: result,
+				// 			pageSize: 20,
+				// 		});
+
+				// 		// Jika belum ada resume, langsung buka form input tanpa klik tombol dulu
+				// 		if (result.length === 0) {
+				// 			$scope.inputBaru();
+				// 		}
+				// 	}
+
+				// 	$scope.isRouteLoading = false;
+				// }, (error) => {
+				// 	$scope.isRouteLoading = false;
+				// 	throw error;
+				// })
+
+				medifirstService.get('emr/get-resume-medis-rj/' + $scope.cc.noregistrasi).then(function(dat) {
+					if (dat.statResponse) {
+						$scope.tampilanDepan = false
+						$scope.tampilanBelakang = true
+						$scope.isView = true
+						let result = dat.data.data
+						debugger
 						if (result.length > 0) {
 							for (let index = 0; index < result.length; index++) {
 								result[index].no = index + 1
 							}
-						}
-
-						$scope.sourceResume = new kendo.data.DataSource({
-							data: result,
-							pageSize: 20,
-						});
-
-						// Jika belum ada resume, langsung buka form input tanpa klik tombol dulu
-						if (result.length === 0) {
-							$scope.inputBaru();
+							norecresume = result[0].norec
+							$scope.item.tglMasuk = result[0].tglmasuk
+							$scope.item.tglPulang = result[0].tglkeluar
+							$scope.item.keluhanUtama = result[0].keluhanutama
+							$scope.item.alergi = result[0].alergi,
+							$scope.item.tingkatKesadaran = result[0].kesadaran 
+							$scope.item.keadaanUmum = result[0].keadaanumum
+							$scope.item.denyutJantung = result[0].denyutjantung
+							$scope.item.pernapasan = result[0].pernapasan
+							$scope.item.systole = result[0].systole
+							$scope.item.diastole = result[0].diastole
+							$scope.item.suhu = result[0].suhu
+							$scope.item.pemeriksaanFisik = result[0].pemeriksaanfisik
+							$scope.item.diet = result[0].diet 
+							$scope.item.keterangandiet = result[0].keterangandiet,
+							$scope.item.edukasi = result[0].edukasi,
+							$scope.item.prognosis = { prognosis: result[0].prognosis }
+							$scope.item.diagnosaDokter = result[0].diagdok
+							$scope.item.pengobatan = result[0].pengobatan
+							$scope.item.hasilKonsul = result[0].hasilkonsultasi
+							$scope.item.kondisiMeninggalkanLain = result[0].kondisimeninggalkanlain
+							$scope.item.carakeluarlain = result[0].rencanatindaklanjutlain
+							$scope.item.carakeluar = { statuspulang: result[0].rencanatindaklanjut }
+							$scope.item.transportasi = { transportasi: result[0].sarantransportasi }
+							if (result[0].tglkontrol != null) {
+								$scope.item.yapoli = true;
+								$scope.kontrol = true;
+								$scope.item.kontrolPoli = { namaruangan: result[0].kontrol }
+								$scope.item.tglKontrol = moment(result[0].tglkontrol).format('YYYY-MM-DD HH:mm')
+							} else {
+								$scope.item.tidakpoli = true;
+							}
+							$scope.item.darurat = result[0].keadaandarurat2
+							$scope.item.kondisiMeninggalkan = { kondisi: result[0].kondisimeninggalkan }
+							$scope.item.tglCetak = result[0].tglcetak
+							$scope.item.ttdPasien = result[0].pasienkeluarga
+							$scope.item.dpjp = { id: result[0].pegawaifk, namalengkap: result[0].namadokter }
+							// $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
+							// $scope.item.poliklinik = {
+							// 	id: parseInt($scope.cc.objectruanganfk), 
+							// 	namaruangan: $scope.cc.namaruangan
+							// };
+							 $scope.item.poliklinik = $scope.cc.namaruangan
+							// $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+							// $scope.item.jenisKelamin = {
+							// 	id: parseInt($scope.cc.objectjeniskelaminfk), 
+							// 	jeniskelamin: $scope.cc.jeniskelamin
+							// };
+							$scope.item.jenisKelamin = $scope.cc.jeniskelamin
+							$scope.item.noRm = $scope.cc.nocm
+							$scope.item.namaPasien = $scope.cc.namapasien
+							$scope.item.nik = $scope.cc.noidentitas
+							$scope.item.tglLahir = $scope.cc.tgllahir
+							$scope.item.tempatLahir = $scope.cc.tempatlahir
+							// $scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
+							// $scope.item.penjamin = {
+							// 	id: parseInt($scope.cc.objectrekananfk), 
+							// 	namarekanan: $scope.cc.namarekanan
+							// };
+							$scope.item.penjamin = $scope.cc.namarekanan
+							norec_emrr = result[0].emrpasienfk
+							loadDiagnosa()
+						} else {
+							toastr.info("Data tidak ditemukan!")
 						}
 					}
-
-					$scope.isRouteLoading = false;
+					$scope.isRouteLoading = false
 				}, (error) => {
-					$scope.isRouteLoading = false;
-					throw error;
+					$scope.isRouteLoading = false
+					throw error
 				})
 
 
