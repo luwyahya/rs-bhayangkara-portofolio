@@ -126,19 +126,26 @@
             <div class="grid_2" style="margin-top: 0.8%;">
                 <label c-label item="item" required>Jenis Kelamin</label>
             </div>
-            <div class="grid_2">
+            <!-- <div class="grid_2">
                 <input kendo-combo-box k-ng-model="item.jenisKelamin" k-data-text-field="'jeniskelamin'"
                     k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
                     k-data-source="listJenisKelamin" disabled/>
+            </div> -->
+            <div class="grid_2">
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                        ng-model="item.jenisKelamin" disabled/>
             </div>
             <div class="grid_2" style="margin-top: 0.8%;">
                 <label c-label item="item" required>Nama Penjamin</label>
             </div>
             <div class="grid_2">
-                <input kendo-combo-box k-ng-model="item.penjamin" k-data-text-field="'namarekanan'"
+                <!-- <input kendo-combo-box k-ng-model="item.penjamin" k-data-text-field="'namarekanan'"
                     k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
-                    k-data-source="listPenjamin" disabled/>
+                    k-data-source="listPenjamin" disabled/> -->
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                        ng-model="item.penjamin" disabled/> 
             </div>
+            
             <div class="grid_2" style="margin-top: 0.8%;">
                 <label c-label item="item" required>Nomor Telp Penjamin</label>
             </div>
@@ -152,9 +159,11 @@
                 <label c-label item="item" required>Poliklinik</label>
             </div>
             <div class="grid_2">
-                <input kendo-combo-box k-ng-model="item.poliklinik" k-data-text-field="'namaruangan'"
+                <!-- <input kendo-combo-box k-ng-model="item.poliklinik" k-data-text-field="'namaruangan'"
                     k-data-value-field="'id'" k-filter="'contains'" k-auto-bind="false"
-                    k-data-source="listRuangan" disabled/>
+                    k-data-source="listRuangan" disabled/> -->
+                <input c-text-box type="input" filter="'varchar'" class="k-textbox"
+                        ng-model="item.poliklinik" disabled/>
             </div>
         </div>
         <!-- <div class="grid_12">
