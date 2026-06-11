@@ -233,15 +233,26 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 				$scope.isRouteLoading = true;
 				$scope.tampilanDepan = false;
 				$scope.tampilanBelakang = true;
-				$scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
-				$scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+				// $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
+				$scope.item.poliklinik = {
+					id: parseInt($scope.cc.objectruanganfk), 
+					namaruangan: $scope.cc.namaruangan
+				};
+				// $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+				$scope.item.jenisKelamin = {
+					id: parseInt($scope.cc.objectjeniskelaminfk), 
+					jeniskelamin: $scope.cc.jeniskelamin
+				};
 				$scope.item.noRm = $scope.cc.nocm
 				$scope.item.namaPasien = $scope.cc.namapasien
 				$scope.item.nik = $scope.cc.noidentitas
 				$scope.item.tglLahir = $scope.cc.tgllahir
 				$scope.item.tempatLahir = $scope.cc.tempatlahir
-				$scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
-				
+				// $scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
+				$scope.item.penjamin = {
+					id: parseInt($scope.cc.objectrekananfk), 
+					namarekanan: $scope.cc.namarekanan
+				};
 				$scope.item.tglMasuk = $scope.cc.tglregistrasi
 				$scope.item.tglPulang = $scope.cc.tglpulang
 				$scope.item.ttdPasien = $scope.cc.namapasien
@@ -2016,14 +2027,26 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 							$scope.item.tglCetak = result[0].tglcetak
 							$scope.item.ttdPasien = result[0].pasienkeluarga
 							$scope.item.dpjp = { id: result[0].pegawaifk, namalengkap: result[0].namadokter }
-							$scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
-							$scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+							// $scope.item.poliklinik = {id:$scope.cc.objectruanganfk, namaruangan: $scope.cc.namaruangan}
+							$scope.item.poliklinik = {
+								id: parseInt($scope.cc.objectruanganfk), 
+								namaruangan: $scope.cc.namaruangan
+							};
+							// $scope.item.jenisKelamin = {id:$scope.cc.objectjeniskelaminfk, jeniskelamin: $scope.cc.jeniskelamin}
+							$scope.item.jenisKelamin = {
+								id: parseInt($scope.cc.objectjeniskelaminfk), 
+								jeniskelamin: $scope.cc.jeniskelamin
+							};
 							$scope.item.noRm = $scope.cc.nocm
 							$scope.item.namaPasien = $scope.cc.namapasien
 							$scope.item.nik = $scope.cc.noidentitas
 							$scope.item.tglLahir = $scope.cc.tgllahir
 							$scope.item.tempatLahir = $scope.cc.tempatlahir
-							$scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
+							// $scope.item.penjamin = {id:$scope.cc.objectrekananfk, namarekanan: $scope.cc.namarekanan}
+							$scope.item.penjamin = {
+								id: parseInt($scope.cc.objectrekananfk), 
+								namarekanan: $scope.cc.namarekanan
+							};
 							norec_emrr = result[0].emrpasienfk
 							loadDiagnosa()
 						} else {
