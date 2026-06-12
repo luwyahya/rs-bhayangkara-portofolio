@@ -558,8 +558,9 @@
                             <label c-label item="item" c-label-text="Keadaan Umum"></label>
                         </div>
                         <div class="grid_12">
-                            <input c-text-box type="text" filter="" class="k-textbox"
-                                ng-model="item.obj[1901300130]" />
+                            <input required style="width: 100%;" kendo-combo-box k-ng-model="item.obj[1901300130]"
+                                k-data-text-field="'text'" k-filter="'contains'" k-data-value-field="'value'"
+                                k-data-source="listKeadaanUmum" />
                         </div>
                     </div>
 
