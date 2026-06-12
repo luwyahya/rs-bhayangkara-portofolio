@@ -110,10 +110,9 @@ define(["initialize"], function (initialize) {
           $scope.item.obj[1901300115] = { namalengkap: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
           init();
           $scope.listKeadaanUmum = [
-            { text: "Baik", value: 1 },
-            { text: "Tampak Sakit Ringan", value: 2 },
-            { text: "Tampak Sakit Sedang", value: 3 },
-            { text: "Tampak Sakit Berat", value: 4 },
+            { text: "Tampak Sakit Ringan", value: 1 },
+            { text: "Tampak Sakit Sedang", value: 2 },
+            { text: "Tampak Sakit Berat", value: 3 },
           ];
           $scope.listKesadaran = [
             { text: "Compos Mentis", value: 1 },
