@@ -527,8 +527,13 @@ define(["initialize"], function (initialize) {
               $scope.item.obj[1901300129] = dataLoad[i].value;
             }
             if (dataLoad[i].emrdfk == 1901303154) {
-              $scope.item.obj[1901300130] = dataLoad[i].value;
+              var str = dataLoad[i].value;
+              var res = str.split("~");
+              $scope.item.obj[1901300130] = { value: res[0], text: res[1] };
             }
+            // if (dataLoad[i].emrdfk == 1901303154) {
+            //   $scope.item.obj[1901300130] = dataLoad[i].value;
+            // }
             // if (dataLoad[i].emrdfk == 116066) {
             //     var str = dataLoad[i].value
             //     var res = str.split("~");
