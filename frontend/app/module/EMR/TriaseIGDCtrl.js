@@ -526,7 +526,7 @@ define(["initialize"], function (initialize) {
             if (dataLoad[i].emrdfk == 116065) {
               $scope.item.obj[1901300129] = dataLoad[i].value;
             }
-            if (dataLoad[i].emrdfk == 116066) {
+            if (dataLoad[i].emrdfk == 1901303154) {
               $scope.item.obj[1901300130] = dataLoad[i].value;
             }
             // if (dataLoad[i].emrdfk == 116066) {
