@@ -9817,7 +9817,8 @@ class BridgingBPJSV2Controller extends ApiController
                 'objectkelompokpasienlastfk' => 2, //umum
                 'objectrekananfk' => 581367,
                 'tipelayanan' => 1, //reguler
-                'objectpegawaifk' => 1,
+                // 'objectpegawaifk' => 1,
+                'objectpegawaifk' => $request['dokter'],
                 'noregistrasi' => '',
                 'norec_pd' => '',
                 'israwatinap' => 'false',
@@ -9835,7 +9836,8 @@ class BridgingBPJSV2Controller extends ApiController
                 'tglregistrasi' => $request['tglReservasiFix'],
                 'objectruanganfk' => $request['poliKlinik'],
                 'objectkelasfk' => 6, //nonkelas
-                'objectpegawaifk' => 1,
+                // 'objectpegawaifk' => 1,
+                'objectpegawaifk' => $request['dokter'],
                 'objectkamarfk' => null,
                 'nobed' => null,
                 'objectdepartemenfk' => 18,
