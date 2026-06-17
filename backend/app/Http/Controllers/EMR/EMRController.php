@@ -5481,8 +5481,8 @@ class EMRController  extends ApiController
             foreach ($pelayanan as $item) {
                 $flaglab = 'N';
                 $tglhasil = '';
-                $tglcetak = '';
-                $data = DB::select(DB::raw("SELECT distinct hh.flag, hh.tglhasil, hh.tglcetak
+                $norec_hasillab = '';
+                $data = DB::select(DB::raw("SELECT distinct hh.flag, hh.tglhasil, hh.tglcetak, hh.norec as norec_hasillab
                 FROM pelayananpasien_t  as pp
                 left join hasillaboratorium_t  as hh on hh.norecpelayanan  = pp.norec 
                 where   pp.norec = '$item->norec_pp'"));
@@ -5492,9 +5492,16 @@ class EMRController  extends ApiController
                         $flaglab = $pp->flag;
                         $tglhasil = $pp->tglhasil;
                         $tglcetak = $pp->tglcetak;
+                        $norec_hasillab = $pp->norec_hasillab;
+                    } else if ($pp->flag == null) {
+                        $flaglab = 'Belum Input Lab';
+                        $tglhasil = $pp->tglhasil;
+                        $tglcetak = $pp->tglcetak;
+                        $norec_hasillab = $pp->norec_hasillab;
                     } else {
                         $tglhasil = $pp->tglhasil;
                         $tglcetak = $pp->tglcetak;
+                        $norec_hasillab = $pp->norec_hasillab;
                     }
                 }
 
@@ -5562,6 +5569,7 @@ class EMRController  extends ApiController
                     'iddokterpengirim' => $item->iddokterpengirim,
                     'statusperiksa' => $item->statusperiksa,
                     'nofoto' => $item->nofoto,
+                    'norec_hasillab' => $norec_hasillab,
                 );
             }
         }
