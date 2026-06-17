@@ -87,36 +87,42 @@ define(['initialize'], function (initialize) {
                         "&nama=" + nama +
                         ruangId + idDokter),
                 ]).
-                then(function (data) {
-                    $scope.isRouteLoading = false;
-                    var datas = data[0].data;
-                    for (var i = 0; i < datas.length; i++) {
-                        datas[i].no = i + 1
-                        var tanggal = $scope.now;
-                        var tanggalLahir = new Date(datas[i].tgllahir);
-                        var umurzz = DateHelper.CountAge(tanggalLahir, tanggal);
-                        datas[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
-                        // if (datas[i].nosurvailens != undefined) {
-                        //     datas[i].surveilans = "✔"
-                        // }else{
-                        //     datas[i].surveilans = " "
-                        // }
-                    }
-                    $scope.GridPasien = new kendo.data.DataSource({
-                        data: datas,
-                        group: $scope.group,
-                        pageSize: 10,
-                        total: data.length,
-                        serverPaging: false,
-                        schema: {
-                            model: {
-                                fields: {}
+                    then(function (data) {
+                        $scope.isRouteLoading = false;
+                        var rawResponse = data[0].data;
+                        var responseObj = Array.isArray(rawResponse) ? rawResponse[0] : rawResponse;
+                        var datas = responseObj.data || [];
+                        for (var i = 0; i < datas.length; i++) {
+                            datas[i].no = i + 1
+                            var tanggal = $scope.now;
+                            var tanggalLahir = new Date(datas[i].tgllahir);
+                            var umurzz = DateHelper.CountAge(tanggalLahir, tanggal);
+                            datas[i].umurzz = umurzz.year + ' thn ' + umurzz.month + ' bln ' + umurzz.day + ' hari'
+                            // if (datas[i].nosurvailens != undefined) {
+                            //     datas[i].surveilans = "✔"
+                            // }else{
+                            //     datas[i].surveilans = " "
+                            // }
+                        }
+                        $scope.GridPasien = new kendo.data.DataSource({
+                            data: datas,
+                            group: $scope.group,
+                            pageSize: 10,
+                            total: datas.length,
+                            serverPaging: false,
+                            schema: {
+                                model: {
+                                    fields: {}
+                                }
                             }
+                        });
+                        // var chacePeriode = '' + "~" + '' + "~" + $scope.itema.ruangan.id + "~" + $scope.itema.ruangan.namaruangan;
+                        // cacheHelper.set('DaftarAntrianDokterRanapCtrl', chacePeriode);
+                        if ($scope.itema.ruangan != undefined) {
+                            var chacePeriode = '' + "~" + '' + "~" + $scope.itema.ruangan.id + "~" + $scope.itema.ruangan.namaruangan;
+                            cacheHelper.set('DaftarAntrianDokterRanapCtrl', chacePeriode);
                         }
                     });
-                    var chacePeriode = '' + "~" + '' + "~" + $scope.itema.ruangan.id + "~" + $scope.itema.ruangan.namaruangan;
-                    cacheHelper.set('DaftarAntrianDokterRanapCtrl', chacePeriode);
-                });
             }
 
             $scope.klikGrid = function (item) {
@@ -150,68 +156,68 @@ define(['initialize'], function (initialize) {
                 }
             ]
             $scope.ColumnPasien = [{
-                    "field": "no",
-                    "title": "No",
-                    "width": "20px",
-                },
-                {
-                    "field": "tglregistrasi",
-                    "title": "Tgl Registrasi",
-                    "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
-                    "width": "80px"
-                },
-                {
-                    "field": "noregistrasi",
-                    "title": "No Registrasi",
-                    "width": "60px"
-                },
-                {
-                    "field": "nocm",
-                    "title": "No. Rekam Medis",
-                    "width": "60px"
-                },
-                {
-                    "field": "namapasien",
-                    "title": "Nama Pasien",
-                    "width": "160px"
-                },
-                {
-                    "field": "umurzz",
-                    "title": "Umur",
-                    "width": "80px"
-                },
-                {
-                    "field": "namadokter",
-                    "title": "Dokter",
-                    "width": "100px"
-                },
-                {
-                    "field": "jeniskelamin",
-                    "title": "Jenis Kelamin",
-                    "width": "80px"
-                },
-                {
-                    "field": "kelompokpasien",
-                    "title": "Tipe Pembayaran",
-                    "width": "80px"
-                },
-                // {
-                //     "field": "surveilans",
-                //     "title": "Surveilans",
-                //     "width":"80px",                    
-                // },
-                // {
-                //     field: "statusAntrian",
-                //     title: "Status",
-                //     aggregates: ["count"]
-                // }, 
-                {
-                    hidden: true,
-                    field: "namaruangan",
-                    title: "Nama Ruangan",
-                    aggregates: ["count"],
-                    groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
-                }
+                "field": "no",
+                "title": "No",
+                "width": "20px",
+            },
+            {
+                "field": "tglregistrasi",
+                "title": "Tgl Registrasi",
+                "template": "#= new moment(new Date(tglregistrasi)).format('DD-MM-YYYY HH:mm') #",
+                "width": "80px"
+            },
+            {
+                "field": "noregistrasi",
+                "title": "No Registrasi",
+                "width": "60px"
+            },
+            {
+                "field": "nocm",
+                "title": "No. Rekam Medis",
+                "width": "60px"
+            },
+            {
+                "field": "namapasien",
+                "title": "Nama Pasien",
+                "width": "160px"
+            },
+            {
+                "field": "umurzz",
+                "title": "Umur",
+                "width": "80px"
+            },
+            {
+                "field": "namadokter",
+                "title": "Dokter",
+                "width": "100px"
+            },
+            {
+                "field": "jeniskelamin",
+                "title": "Jenis Kelamin",
+                "width": "80px"
+            },
+            {
+                "field": "kelompokpasien",
+                "title": "Tipe Pembayaran",
+                "width": "80px"
+            },
+            // {
+            //     "field": "surveilans",
+            //     "title": "Surveilans",
+            //     "width":"80px",                    
+            // },
+            // {
+            //     field: "statusAntrian",
+            //     title: "Status",
+            //     aggregates: ["count"]
+            // }, 
+            {
+                hidden: true,
+                field: "namaruangan",
+                title: "Nama Ruangan",
+                aggregates: ["count"],
+                groupHeaderTemplate: "Ruangan #= value # (Jumlah: #= count#)"
+            }
             ];
 
             $scope.Page = {
