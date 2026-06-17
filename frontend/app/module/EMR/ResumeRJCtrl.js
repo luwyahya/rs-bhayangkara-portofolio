@@ -27,6 +27,8 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 			$scope.item.tglcetak = moment($scope.now).format('YYYY-MM-DD HH:mm')
 			let lab = [];
 			let rad = [];
+
+
 			let obat = [];
 			let tindakan = []
 			$scope.item.qr = ''
