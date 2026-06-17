@@ -5718,7 +5718,7 @@ class EMRController  extends ApiController
                 ->join('pelayananpasienpetugas_t as ptu', 'ptu.nomasukfk', '=', 'apd.norec')
                 ->leftjoin('pegawai_m as pg', 'pg.id', '=', 'ptu.objectpegawaifk')
                 ->select('ptu.pelayananpasien', 'pg.namalengkap', 'pg.id')
-                ->where('ptu.objectjenispetugaspefk', 4)
+                // ->where('ptu.objectjenispetugaspefk', 4)
                 ->where('pd.noregistrasi', $request['noregistrasi'])
                 ->get();
             $result = [];
