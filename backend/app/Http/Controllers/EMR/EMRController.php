@@ -6248,7 +6248,7 @@ class EMRController  extends ApiController
         $RE->rencanatindaklanjut = $dataReq['carakeluar'];
         $RE->rencanatindaklanjutlain = $dataReq['rencanatindaklanjutlain'];
         $RE->kontrol = $dataReq['kontrol'];
-        $RE->sarantransportasi = $dataReq['transportasi'];
+        // $RE->sarantransportasi = $dataReq['transportasi'];
         $RE->kondisimeninggalkan = $dataReq['meninggalkanrs'];
         $RE->kondisimeninggalkanlain = $dataReq['kondisiMeninggalkanLain'];
         $RE->tglkeluar = $dataReq['tglkeluar'];
