@@ -17976,4 +17976,55 @@ class TagihanController  extends ApiController
 
         return $this->respond($result);
     }
+
+    public function savePapjKirim(Request $request)
+    {
+        DB::beginTransaction();
+        $transStatus = 'true';
+        try {
+            $data = PAPJ::where('norec_pd', $request['norec_pd'])->first();
+
+            if ($data) {
+                $datax = PAPJ::where('norec_pd', $request['norec_pd'])
+                    ->update([
+                        'statuspapj' => 1,
+                        'pegawaifk_kirim' => $request['pegawaifk_kirim'],
+                        'ruanganfk' => $request['ruangan'],
+                        'tglkirim' => date('Y-m-d H:i:s')
+                    ]);
+                $transMessage = "Update Kirim PAPJ Berhasil";
+            } else {
+                $spapj = new PAPJ();
+                $spapj->norec = $spapj->generateNewId();
+                $spapj->norec_pd = $request['norec_pd'];
+                $spapj->pegawaifk_kirim = $request['pegawaifk_kirim'];
+                $spapj->ruanganfk = $request['ruangan'];
+                $spapj->tglkirim = date('Y-m-d H:i:s');
+                $spapj->statuspapj = 1;
+                $spapj->type = $request['type'];
+                $spapj->save();
+
+                $transMessage = "Simpan Kirim PAPJ Berhasil";
+            }
+        } catch (\Exception $e) {
+            $transStatus = 'false';
+            $transMessage = "Kirim PAPJ Gagal" . trim($e->getMessage());
+        }
+
+        if ($transStatus != 'false') {
+            DB::commit();
+            $result = array(
+                "status" => 201,
+                "message" => trim($transMessage),
+            );
+        } else {
+            DB::rollBack();
+            $result = array(
+                "status" => 400,
+                "message" => trim($transMessage),
+            );
+        }
+
+        return response()->json($result, $result['status']);
+    }
 }
