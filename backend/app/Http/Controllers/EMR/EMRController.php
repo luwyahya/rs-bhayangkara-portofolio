@@ -6590,6 +6590,26 @@ class EMRController  extends ApiController
         return $this->respond($detail);
     }
 
+    public function getVitalSignForPengkajianNewVer(Request $request)
+    {
+        $data = \DB::table('emrpasien_t as ep')
+            ->select('ep.noemr')
+            ->where('ep.noregistrasifk', $request['noRegistrasi'])
+            ->where('ep.emrfk', 147)
+            ->orderBy('ep.tglemr', 'desc')
+            ->take(1)
+            ->get();
+        $detail = [];
+        foreach ($data as $item) {
+            $detail = \DB::table('emrpasiend_t as epd')
+                // ->join('emrd_t as ed', 'ed.id', '=', 'epd.emrdfk')
+                ->select('epd.value', 'epd.emrdfk')
+                ->where('epd.emrpasienfk', $item->noemr)
+                ->get();
+        }
+        return $this->respond($detail);
+    }
+
     public function getPengkajianPasieniriall(Request $request, $nocm)
     {
         $data = \DB::table('pengkajianawalbaru_t as cp')
@@ -29901,11 +29921,21 @@ WHERE rm.norec = '$norec_resume'
 
             if ($head['norec_emr'] == '-') {
 
+                // Cek 1: berdasarkan noregistrasifk + jenisemr
                 $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
-                    ->where('kdprofile', $kdProfile)
+                    ->where('jenisemr', $head['jenisemr'])
                     ->where('statusenabled', true)
-                    ->orderBy('tglemr', 'DESC')  // Ambil yang paling baru
+                    ->orderBy('tglemr', 'DESC')
                     ->first();
+
+                // Cek 2: fallback berdasarkan noregistrasifk + emrfk (untuk record lama yang jenisemr-nya null)
+                if (!$cekNoemrPasien && isset($head['emrfk'])) {
+                    $cekNoemrPasien = EMRPasien::where('noregistrasifk', $head['noregistrasi'])
+                        ->where('emrfk', $head['emrfk'])
+                        ->where('statusenabled', true)
+                        ->orderBy('tglemr', 'DESC')
+                        ->first();
+                }
                 
                 if ($cekNoemrPasien) {
                     $EMR = $cekNoemrPasien;

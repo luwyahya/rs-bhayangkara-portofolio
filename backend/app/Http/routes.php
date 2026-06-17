@@ -1332,6 +1332,7 @@ Route::group(['middleware' => 'cors', 'prefix' => 'service'], function () {
             Route::get('get-hasil-lab', 'EMR\EMRController@getHasillab');
             Route::get('get-combo-diagnosa-pengkajian', 'EMR\EMRController@getComboDiagnosaPengkajian');
             Route::get('get-vital-sign-pengkajian', 'EMR\EMRController@getVitalSignForPengkajian');
+            Route::get('get-vital-sign-pengkajian-new', 'EMR\EMRController@getVitalSignForPengkajianNewVer');
             Route::get('get-norecIGD', 'EMR\EMRController@getnorecIGD');
             Route::get('get-norecLast', 'EMR\EMRController@getnorecruanganlast');
             Route::get('get-combo-ruangan/{noregistrasi}', 'EMR\EMRController@getcomboruangan');
