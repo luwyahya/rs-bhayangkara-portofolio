@@ -360,6 +360,20 @@ define(['initialize'], function (initialize) {
                 medifirstService.get('emr/get-combo').then(function (dat) {
                     // $scope.listPerawat = dat.data.perawatBidan
                     $scope.listDokter = dat.data.dokter
+
+                    // Fallback to fetch names if setobjectToModel ran before listDokter was loaded
+                    var dokterIds = [2447, 2448, 1901300363, 1901300364, 1901300365];
+                    for (var i = 0; i < dokterIds.length; i++) {
+                        var id = dokterIds[i];
+                        if ($scope.item && $scope.item.obj && $scope.item.obj[id]) {
+                            if ($scope.item.obj[id].id == $scope.item.obj[id].namalengkap) {
+                                var doc = $scope.listDokter.find(function(x) { return x.id == $scope.item.obj[id].id });
+                                if (doc) {
+                                    $scope.item.obj[id].namalengkap = doc.namalengkap;
+                                }
+                            }
+                        }
+                    }
                 })
                 medifirstService.get('emr/get-image-from-jenis-surat?').then(function (dat) {
                     //debugger
@@ -428,14 +442,15 @@ define(['initialize'], function (initialize) {
                         nomorEMRSS = dat.data.data[0].noemr
                         nomorEMR = nomorEMRSS
                         $scope.cc.noemr = nomorEMR
-                        $scope.cc.norec_emr = dat.data.data[0].norec
+                        $scope.cc.norec_emr = nomorEMR // previously dat.data.data[0].norec
                         $scope.cc.emrfk = '869'
                         setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                         // valueOtomatis()
                     } else {
                         $scope.item.obj[2404] = moment($scope.now).format('YYYY-MM-DD HH:mm')
                         $scope.item.obj[2446] = moment($scope.now).format('YYYY-MM-DD HH:mm')
-                        $scope.item.obj[2447] = {namalengkap: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap}
+                        $scope.item.obj[2447] = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap }
+                        $scope.item.obj[2448] = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap }
                         $scope.item.obj[2618] = true
                         $scope.item.obj[2621] = true
                         $scope.item.obj[2624] = true
@@ -579,32 +594,59 @@ define(['initialize'], function (initialize) {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
                                     namaPegawai = res[0];
-                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    var nama = res[1] ? res[1] : res[0];
+                                    if (!res[1] && $scope.listDokter) {
+                                        var doc = $scope.listDokter.find(function(x) { return x.id == res[0] });
+                                        if (doc) nama = doc.namalengkap;
+                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: nama }
 
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2448") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
                                     namaPegawai2 = res[0];
-                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    var nama = res[1] ? res[1] : res[0];
+                                    if (!res[1] && $scope.listDokter) {
+                                        var doc = $scope.listDokter.find(function(x) { return x.id == res[0] });
+                                        if (doc) nama = doc.namalengkap;
+                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: nama }
 
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300363") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
                                     namaPegawai3 = res[0];
-                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    var nama = res[1] ? res[1] : res[0];
+                                    if (!res[1] && $scope.listDokter) {
+                                        var doc = $scope.listDokter.find(function(x) { return x.id == res[0] });
+                                        if (doc) nama = doc.namalengkap;
+                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: nama }
 
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300364") {
                                     var str = dataLoad[i].value
                                     var res = str.split("~");
                                     namaPegawai4 = res[0];
-                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                    var nama = res[1] ? res[1] : res[0];
+                                    if (!res[1] && $scope.listDokter) {
+                                        var doc = $scope.listDokter.find(function(x) { return x.id == res[0] });
+                                        if (doc) nama = doc.namalengkap;
+                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: nama }
+
+                                }
+                                if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "1901300365") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    var nama = res[1] ? res[1] : res[0];
+                                    if (!res[1] && $scope.listDokter) {
+                                        var doc = $scope.listDokter.find(function(x) { return x.id == res[0] });
+                                        if (doc) nama = doc.namalengkap;
+                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: nama }
 
                                 }
                                 if (dataLoad[i].type == "combobox" && dataLoad[i].emrdfk == "2418") {
@@ -742,6 +784,13 @@ define(['initialize'], function (initialize) {
                                 .catch(function (error) {
                                     console.error("QR Error:", error);
                                 });
+                        }
+
+                        if (!$scope.item.obj[2447]) {
+                            $scope.item.obj[2447] = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
+                        }
+                        if (!$scope.item.obj[2448]) {
+                            $scope.item.obj[2448] = { id: medifirstService.getPegawaiLogin().id, namalengkap: medifirstService.getPegawaiLogin().namaLengkap };
                         }
                     })
                 }
@@ -1793,7 +1842,7 @@ define(['initialize'], function (initialize) {
                     var currentObj = $scope.item.obj[parseInt(currentId)];
                 
                     if (currentId == 2447 || currentId == 2448 || currentId == 1901300363 || currentId == 1901300364 || currentId == 1901300365  ) {
-                        arrSave.push({ id: currentId, values: currentObj ? currentObj.namalengkap : null });
+                        arrSave.push({ id: currentId, values: currentObj ? { value: currentObj.id, text: currentObj.namalengkap } : null });
                     } else if ((currentId >= 5132 && currentId <= 5136)) {
                         arrSave.push({ id: currentId, values: currentObj ? currentObj.namaDiagnosa : null });
                     } else if (arrobj[i] == 2425) {
@@ -1827,8 +1876,8 @@ define(['initialize'], function (initialize) {
                 medifirstService.post('emr/save-emr-new', jsonSave).then(function (e) {
                     nomorEMR = e.data.data.noemr
 
-                    if (e.data.data && e.data.data.norec) {
-                        $scope.cc.norec_emr = e.data.data.norec;
+                    if (e.data.data && e.data.data.noemr) {
+                        $scope.cc.norec_emr = e.data.data.noemr;
                     }
                     if (e.data.data && e.data.data.noemr) {
                         $scope.cc.noemr = e.data.data.noemr;
