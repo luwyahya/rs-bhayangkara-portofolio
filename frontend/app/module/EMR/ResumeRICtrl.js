@@ -73,6 +73,7 @@ define(['initialize', 'Configuration'], function (initialize, config) {
             $scope.cc = {};
             var noreckematian = '';
             var nosuratkematian = '';
+             var paramSearch = "";
             SetCacheHelper();
             LoadCombo();
             $scope.norecAPD = $state.params.noRec
@@ -91,6 +92,15 @@ define(['initialize', 'Configuration'], function (initialize, config) {
                 if (!$scope.norecAPD)
                     $scope.norecAPD = getCache[7]
                 $scope.item.namaruangan = getCache[12]
+                $scope.header.DataNoregis = getCache[13];
+                if ($scope.header.DataNoregis == undefined) {
+                $scope.header.DataNoregis = false;
+                }
+                if ($scope.header.DataNoregis == true) {
+                paramSearch = "noregistrasi=" + $scope.noregistrasi;
+                } else {
+                paramSearch = "nocm=" + $scope.nocm;
+                }
             }
             $scope.prognosislainlain = false
             $scope.kondisikeluarlainlain = false
@@ -9407,6 +9417,152 @@ define(['initialize', 'Configuration'], function (initialize, config) {
 
             // Panggil fungsi sekali saat inisialisasi untuk memastikan nilai awal di-set dengan benar jika ada yang true
             $scope.updateTindakanRm();
+
+
+
+            // INTEGRASI ALERGI PASIEN TO SATUSEHAT:
+            $scope.itemAlergi = {};
+            $scope.listKategori = [{'name':'food'}, {'name':'medication'}, {'name':'environment'}, {'name':'biologic'}];
+            $scope.pegawaiLogin = JSON.parse(localStorage.getItem("pegawai"));
+
+            // Opsi Kendo Grid Alergi di dalam Resume
+            $scope.alergiOpt = {
+                toolbar: [
+                    {
+                        name: "create",
+                        template: '<button ng-click="tambahAlergiBaru()" class="k-button k-button-icontext k-grid-upload"><span class="k-icon k-i-plus"></span>Tambah Alergi Pasien</button>',
+                    },
+                ],
+                pageable: true,
+                columns: [
+                    { field: "no", title: "No", width: 40 },
+                    { field: "tglinput", title: "Tanggal", width: 100 },
+                    { field: "namaalergi", title: "Jenis Alergi", width: 120 },
+                    { field: "kategori", title: "Kategori", width: 100 },
+                    { field: "reaksi", title: "Reaksi", width: 150 },
+                    { field: "keterangandata", title: "Keterangan", width: 150 },
+                    { field: "namalengkap", title: "Dokter Penemu", width: 120 },
+                    {
+                        command: [
+                            { name: "edit", text: "Edit", click: editAlergiData },
+                            { imageClass: "k-icon k-delete", text: "Hapus", click: hapusAlergiData }
+                        ],
+                        title: "Aksi",
+                        width: 130
+                    }
+                ]
+            };
+            
+
+            $rootScope.getRekamMedisCheck = function (bool) {
+                if (bool) {
+                paramSearch = "noregistrasi=" + $scope.noregistrasi;
+                initAlergi();
+                } else {
+                paramSearch = "nocm=" + $scope.nocm;
+                initAlergi();
+                }
+            };
+
+            // Fungsi panggil data (panggil fungsi ini di dalam init() utama Resume Medis)
+            function initAlergi() {
+                medifirstService.get("emr/get-combo-alergi").then(function (e) {
+                    $scope.listAlergi = e.data.alergi;
+                    $scope.listDokter = e.data.dokter;
+                });
+
+                if(paramSearch !== "") {
+                    medifirstService.get("emr/get-alergi-intoleren?" + paramSearch).then(function (res) {
+                        if (res.statResponse) {
+                            var result = res.data.data;
+                            for (let x = 0; x < result.length; x++) {
+                                result[x].no = x + 1;
+                            }
+                            $scope.sourceAlergi = new kendo.data.DataSource({
+                                data: result,
+                                pageSize: 5
+                            });
+                        }
+                    });
+                }
+            }
+
+            $scope.tambahAlergiBaru = function () {
+                $scope.itemAlergi = {
+                    tglKonsul: new Date()
+                };
+                if (JSON.parse(localStorage.getItem("pegawai"))) {
+                    let pegawai = JSON.parse(localStorage.getItem("pegawai"));
+                    $scope.itemAlergi.dokter = { id: pegawai.id, namalengkap: pegawai.namaLengkap };
+                }
+                $scope.popUpAlergi.center().open();
+            };
+
+            $scope.tutupPopUpAlergi = function () {
+                $scope.popUpAlergi.close();
+            };
+
+            function editAlergiData(e) {
+                e.preventDefault();
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                if (!dataItem) return;
+
+                $scope.itemAlergi.norec = dataItem.norec;
+                $scope.itemAlergi.tglKonsul = new Date(dataItem.tglinput);
+                $scope.itemAlergi.jenis = { id: dataItem.objectalergifk, namaalergi: dataItem.namaalergi };
+                $scope.itemAlergi.dokter = { id: dataItem.pegawaifk, namalengkap: dataItem.namalengkap };
+                $scope.itemAlergi.keterangan = dataItem.keterangandata;
+                $scope.itemAlergi.reaksi = dataItem.reaksi;
+                
+                for (let x = 0; x < $scope.listKategori.length; x++) {
+                    if(dataItem.kategori == $scope.listKategori[x].name){
+                        $scope.itemAlergi.kategori = $scope.listKategori[x];
+                        break;
+                    }
+                }
+                $scope.popUpAlergi.center().open();
+            }
+
+            function hapusAlergiData(e) {
+                e.preventDefault();
+                var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+                if (!dataItem) return;
+
+                if(confirm("Apakah anda yakin ingin menghapus data alergi ini?")) {
+                    medifirstService.post("emr/disabled-alergi-intoleren", { norec: dataItem.norec }).then(function (e) {
+                        if (e.status == 201) {
+                            initAlergi();
+                        }
+                    });
+                }
+            }
+
+            $scope.saveAlergi = function () {
+                if (!$scope.itemAlergi.jenis || !$scope.itemAlergi.kategori || !$scope.itemAlergi.reaksi) {
+                    toastr.error("Jenis, Kategori, dan Reaksi Alergi wajib diisi!");
+                    return;
+                }
+
+                var objSave = {
+                    norec: $scope.itemAlergi.norec != undefined ? $scope.itemAlergi.norec : "",
+                    norec_pd: $scope.norecPd,
+                    pegawaifk: $scope.itemAlergi.dokter.id,
+                    alergifk: $scope.itemAlergi.jenis.id,
+                    keterangan: $scope.itemAlergi.keterangan || "",
+                    reaksi: $scope.itemAlergi.reaksi || "",
+                    kategori: $scope.itemAlergi.kategori ? $scope.itemAlergi.kategori.name : null,
+                    tglinput: new moment($scope.itemAlergi.tglKonsul).format("YYYY-MM-DD HH:mm:ss"),
+                };
+
+                medifirstService.post("emr/post-alergi-intoleren", objSave).then(function (e) {
+                    $scope.popUpAlergi.close();
+                    initAlergi();
+                });
+            };
+
+            initAlergi()
+            // --- [AKHIR KODE INTEGRASI ALERGI] ---
+
         }
     ]);
 });
