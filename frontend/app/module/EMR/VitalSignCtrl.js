@@ -215,6 +215,12 @@ define(['initialize'], function (initialize) {
                                     $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
 
                                 }
+                                if (dataLoad[i].emrdfk == "1901303154") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                    // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+                                }
                             }
 
                         }
@@ -280,7 +286,6 @@ define(['initialize'], function (initialize) {
                                     var res = str.split("~");
                                     $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
                                     // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
-
                                 }
                             }
 
