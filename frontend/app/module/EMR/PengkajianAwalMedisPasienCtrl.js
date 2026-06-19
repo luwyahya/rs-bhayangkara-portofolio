@@ -402,10 +402,10 @@ define(['initialize'], function (initialize) {
                     $scope.cc.norec_emr = '-'
                     $scope.cc.jenisemr = "asesmen"
                     paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-                    $scope.item.obj[1147] = moment($scope.cc.tglregistrasi).format('YYYY-MM-DD')
+                    $scope.item.obj[1147] = moment($scope.cc.tglregistrasi).format('DD-MM-YYYY')
                     $scope.item.obj[1148] = moment($scope.now).format('HH:mm')
-                    $scope.item.obj[1239] = moment($scope.now).format('YYYY-MM-DD HH:mm')
-                    $scope.item.obj[1256] = moment($scope.now).format('YYYY-MM-DD HH:mm')
+                    $scope.item.obj[1239] = moment($scope.now).format('DD-MM-YYYY HH:mm')
+                    $scope.item.obj[1256] = moment($scope.now).format('DD-MM-YYYY HH:mm')
                     debugger
                     init()
                     cekVitalSign()
@@ -413,36 +413,36 @@ define(['initialize'], function (initialize) {
                 }
             }
             // debugger
-            // var chacePeriode = cacheHelper.get('cacheRMelektronik');
-            // if (chacePeriode != undefined) {
-            //     $scope.cc.nocm = chacePeriode[0]
-            //     $scope.cc.namapasien = chacePeriode[1]
-            //     $scope.cc.jeniskelamin = chacePeriode[2]
-            //     $scope.cc.noregistrasi = chacePeriode[3]
-            //     $scope.cc.umur = chacePeriode[4]
-            //     $scope.cc.kelompokpasien = chacePeriode[5]
-            //     $scope.cc.tglregistrasi = chacePeriode[6]
-            //     $scope.cc.norec = chacePeriode[7]
-            //     $scope.cc.norec_pd = chacePeriode[8]
-            //     $scope.cc.objectkelasfk = chacePeriode[9]
-            //     $scope.cc.namakelas = chacePeriode[10]
-            //     $scope.cc.objectruanganfk = chacePeriode[11]
-            //     $scope.cc.namaruangan = chacePeriode[12]
-            //     $scope.cc.DataNoregis = chacePeriode[12]
-            //     $scope.cc.tgllahir = chacePeriode[18]
-            //     $scope.cc.alamat = chacePeriode[15]
-            //     $scope.item.obj[1239] = moment($scope.now).format('YYYY-MM-DD HH:mm')
-            //     $scope.item.obj[1256] = moment($scope.now).format('YYYY-MM-DD HH:mm')
-            //     $scope.cc.jenisemr = "asesmen"
-            //     paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
-            //     if (nomorEMR == '-') {
-            //         $scope.cc.norec_emr = '-'
-            //     } else {
-            //         $scope.cc.norec_emr = nomorEMR
-            //     }
-            //     init()
-            //     loadValue();
-            // }
+            var chacePeriode = cacheHelper.get('cacheRMelektronik');
+            if (chacePeriode != undefined) {
+                //     $scope.cc.nocm = chacePeriode[0]
+                //     $scope.cc.namapasien = chacePeriode[1]
+                //     $scope.cc.jeniskelamin = chacePeriode[2]
+                //     $scope.cc.noregistrasi = chacePeriode[3]
+                //     $scope.cc.umur = chacePeriode[4]
+                //     $scope.cc.kelompokpasien = chacePeriode[5]
+                //     $scope.cc.tglregistrasi = chacePeriode[6]
+                //     $scope.cc.norec = chacePeriode[7]
+                //     $scope.cc.norec_pd = chacePeriode[8]
+                //     $scope.cc.objectkelasfk = chacePeriode[9]
+                //     $scope.cc.namakelas = chacePeriode[10]
+                //     $scope.cc.objectruanganfk = chacePeriode[11]
+                //     $scope.cc.namaruangan = chacePeriode[12]
+                //     $scope.cc.DataNoregis = chacePeriode[12]
+                //     $scope.cc.tgllahir = chacePeriode[18]
+                //     $scope.cc.alamat = chacePeriode[15]
+                $scope.item.obj[1239] = moment($scope.now).format('DD-MM-YYYY HH:mm')
+                //     $scope.item.obj[1256] = moment($scope.now).format('YYYY-MM-DD HH:mm')
+                //     $scope.cc.jenisemr = "asesmen"
+                //     paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
+                //     if (nomorEMR == '-') {
+                //         $scope.cc.norec_emr = '-'
+                //     } else {
+                //         $scope.cc.norec_emr = nomorEMR
+                //     }
+                //     init()
+                //     loadValue();
+            }
 
             var chekedd = false
             // var chacePeriode = cacheHelper.get('cacheRMelektronik');
@@ -538,6 +538,8 @@ define(['initialize'], function (initialize) {
                             // $scope.user.poto4 = dat.data[3].template
                         })
                         $scope.item.obj = {}
+                        $scope.item.obj[1239] = moment($scope.now).format('DD-MM-YYYY HH:mm')
+                        $scope.item.obj[1256] = moment($scope.now).format('DD-MM-YYYY HH:mm')
                         // Auto checklist "Tidak Ada Kelainan" untuk semua kelompok pemeriksaan fisik
                         $scope.item.obj[2618] = true   // Kepala    - Tidak Ada Kelainan
                         $scope.item.obj[1901300356] = true // Mata   - Tidak Ada Kelainan
@@ -642,7 +644,7 @@ define(['initialize'], function (initialize) {
                             }
 
                             if (dataLoad[i].type == "datetime") {
-                                $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).format('YYYY-MM-DD')
+                                $scope.item.obj[dataLoad[i].emrdfk] = moment(dataLoad[i].value).format('DD-MM-YYYY')
                             }
                             if (dataLoad[i].type == "time") {
                                 $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
