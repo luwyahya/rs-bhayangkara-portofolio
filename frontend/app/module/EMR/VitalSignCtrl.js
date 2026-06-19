@@ -18,7 +18,7 @@ define(['initialize'], function (initialize) {
             $scope.isRiwayat = true
             // $scope.header = {}
             var myVar = 0
-            var paramSearch =''
+            var paramSearch = ''
 
 
 
@@ -69,14 +69,14 @@ define(['initialize'], function (initialize) {
                     // if ($scope.header.DataNoregis == undefined) {
                     //     $scope.header.DataNoregis = false;
                     // }
-                    
+
                     // if ($scope.cc.DataNoregis == undefined) {
                     //     $scope.cc.DataNoregis = false;
                     // }
                     // if ($scope.cc.DataNoregis == true) {
-                        paramSearch ='noregistrasi=' + $scope.cc.noregistrasi
+                    paramSearch = 'noregistrasi=' + $scope.cc.noregistrasi
                     // } else {
-                        // paramSearch ='nocm=' + $scope.cc.nocm
+                    // paramSearch ='nocm=' + $scope.cc.nocm
                     // }
                     init()
                     $scope.listKesadaran = [
@@ -94,32 +94,32 @@ define(['initialize'], function (initialize) {
                         { text: "Tampak Sakit Sedang", value: 2 },
                         { text: "Tampak Sakit Berat", value: 3 },
                     ];
-                        $scope.listGcs = [
-                            { text: "E", value: 1},
-                            { text: "M", value: 2},
-                            { text: "V", value: 3}
-                        ];
-                        $scope.listGcsE = [
-                            { text: "1", value: 1},
-                            { text: "2", value: 2},
-                            { text: "3", value: 3},
-                            { text: "4", value: 4}
-                        ];
-                        $scope.listGcsM = [
-                            { text: "1", value: 1},
-                            { text: "2", value: 2},
-                            { text: "3", value: 3},
-                            { text: "4", value: 4},
-                            { text: "5", value: 5},
-                            { text: "6", value: 6}
-                        ];
-                        $scope.listGcsV = [
-                            { text: "1", value: 1},
-                            { text: "2", value: 2},
-                            { text: "3", value: 3},
-                            { text: "4", value: 4},
-                            { text: "5", value: 5}
-                        ];
+                    $scope.listGcs = [
+                        { text: "E", value: 1 },
+                        { text: "M", value: 2 },
+                        { text: "V", value: 3 }
+                    ];
+                    $scope.listGcsE = [
+                        { text: "1", value: 1 },
+                        { text: "2", value: 2 },
+                        { text: "3", value: 3 },
+                        { text: "4", value: 4 }
+                    ];
+                    $scope.listGcsM = [
+                        { text: "1", value: 1 },
+                        { text: "2", value: 2 },
+                        { text: "3", value: 3 },
+                        { text: "4", value: 4 },
+                        { text: "5", value: 5 },
+                        { text: "6", value: 6 }
+                    ];
+                    $scope.listGcsV = [
+                        { text: "1", value: 1 },
+                        { text: "2", value: 2 },
+                        { text: "3", value: 3 },
+                        { text: "4", value: 4 },
+                        { text: "5", value: 5 }
+                    ];
                 }
 
                 // init()
@@ -130,7 +130,7 @@ define(['initialize'], function (initialize) {
                     init()
                 }
                 else {
-                    paramSearch ='nocm=' + $scope.cc.nocm
+                    paramSearch = 'nocm=' + $scope.cc.nocm
                     init()
                 }
             }
@@ -142,7 +142,7 @@ define(['initialize'], function (initialize) {
                 $scope.item.obj = []
                 $scope.cc.norec_emr = '-'
                 $scope.dataSelected = undefined
-                
+
             }
             loadEMR()
             function loadEMR() {
@@ -164,131 +164,137 @@ define(['initialize'], function (initialize) {
                 //     $scope.item.obj = []
                 // } 
                 // else {
-                    var chekedd = false
-                    //medifirstService.get("emr/get-emr-transaksi-detail?noemr="+$state.params.nomorEMR, true).then(function(dat){
-                    medifirstService.get("emr/get-rekam-medis-dynamic?emrid=147").then(function (e) {
-                        $scope.listData = e.data
-                        $scope.item.title = e.data.title
-                        $scope.item.classgrid = e.data.classgrid
+                var chekedd = false
+                //medifirstService.get("emr/get-emr-transaksi-detail?noemr="+$state.params.nomorEMR, true).then(function(dat){
+                medifirstService.get("emr/get-rekam-medis-dynamic?emrid=147").then(function (e) {
+                    $scope.listData = e.data
+                    $scope.item.title = e.data.title
+                    $scope.item.classgrid = e.data.classgrid
 
-                        $scope.cc.emrfk = '147'
+                    $scope.cc.emrfk = '147'
 
 
-                        medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
-                            $scope.item.obj = []
-                            $scope.item.obj2 = []
-                            dataLoad = dat.data.data
-                            for (var i = 0; i <= dataLoad.length - 1; i++) {
-                                if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
-                                    if (dataLoad[i].type == "textbox") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                    medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
+                        $scope.item.obj = []
+                        $scope.item.obj2 = []
+                        dataLoad = dat.data.data
+                        for (var i = 0; i <= dataLoad.length - 1; i++) {
+                            if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
+                                if (dataLoad[i].type == "textbox") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "checkbox") {
+                                    chekedd = false
+                                    if (dataLoad[i].value == '1') {
+                                        chekedd = true
                                     }
-                                    if (dataLoad[i].type == "checkbox") {
-                                        chekedd = false
-                                        if (dataLoad[i].value == '1') {
-                                            chekedd = true
-                                        }
-                                        $scope.item.obj[dataLoad[i].emrdfk] = chekedd
-                                    }
-
-                                    if (dataLoad[i].type == "datetime") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "time") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "date") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-
-                                    if (dataLoad[i].type == "checkboxtextbox") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
-                                        $scope.item.obj2[dataLoad[i].emrdfk] = true
-                                    }
-                                    if (dataLoad[i].type == "textarea") {
-                                        $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
-                                    }
-                                    if (dataLoad[i].type == "combobox") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
-
-                                    }
+                                    $scope.item.obj[dataLoad[i].emrdfk] = chekedd
                                 }
 
+                                if (dataLoad[i].type == "datetime") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "time") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "date") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+
+                                if (dataLoad[i].type == "checkboxtextbox") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                    $scope.item.obj2[dataLoad[i].emrdfk] = true
+                                }
+                                if (dataLoad[i].type == "textarea") {
+                                    $scope.item.obj[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "combobox") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+
+                                }
                             }
-                        })
+
+                        }
+                    })
 
 
 
-                    });
+                });
                 // }
             }
             function lihatEMR() {
-                    var chekedd = false
-                    medifirstService.get("emr/get-rekam-medis-dynamic?emrid=147").then(function (e) {
-                        $scope.listData = e.data
-                        $scope.item.title = e.data.title
-                        $scope.item.classgrid = e.data.classgrid
+                var chekedd = false
+                medifirstService.get("emr/get-rekam-medis-dynamic?emrid=147").then(function (e) {
+                    $scope.listData = e.data
+                    $scope.item.title = e.data.title
+                    $scope.item.classgrid = e.data.classgrid
 
-                        $scope.cc.emrfk = '147'
+                    $scope.cc.emrfk = '147'
 
 
-                        medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
-                            $scope.item.obja = []
-                            $scope.item.obja2 = []
-                            dataLoad = dat.data.data
-                            for (var i = 0; i <= dataLoad.length - 1; i++) {
-                                if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
-                                    if (dataLoad[i].type == "textbox") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
+                    medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMR + "&emrfk=" + $scope.cc.emrfk, true).then(function (dat) {
+                        $scope.item.obja = []
+                        $scope.item.obja2 = []
+                        dataLoad = dat.data.data
+                        for (var i = 0; i <= dataLoad.length - 1; i++) {
+                            if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
+                                if (dataLoad[i].type == "textbox") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "checkbox") {
+                                    chekedd = false
+                                    if (dataLoad[i].value == '1') {
+                                        chekedd = true
                                     }
-                                    if (dataLoad[i].type == "checkbox") {
-                                        chekedd = false
-                                        if (dataLoad[i].value == '1') {
-                                            chekedd = true
-                                        }
-                                        $scope.item.obja[dataLoad[i].emrdfk] = chekedd
-                                    }
-
-                                    if (dataLoad[i].type == "datetime") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "time") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-                                    if (dataLoad[i].type == "date") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
-                                    }
-
-                                    if (dataLoad[i].type == "checkboxtextbox") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
-                                        $scope.item.obja2[dataLoad[i].emrdfk] = true
-                                    }
-                                    if (dataLoad[i].type == "textarea") {
-                                        $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
-                                    }
-                                    if (dataLoad[i].type == "combobox") {
-                                        var str = dataLoad[i].value
-                                        var res = str.split("~");
-                                        // $scope.item.objacbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
-                                        $scope.item.obja[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
-
-                                    }
+                                    $scope.item.obja[dataLoad[i].emrdfk] = chekedd
                                 }
 
+                                if (dataLoad[i].type == "datetime") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "time") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+                                if (dataLoad[i].type == "date") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = new Date(dataLoad[i].value)
+                                }
+
+                                if (dataLoad[i].type == "checkboxtextbox") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
+                                    $scope.item.obja2[dataLoad[i].emrdfk] = true
+                                }
+                                if (dataLoad[i].type == "textarea") {
+                                    $scope.item.obja[dataLoad[i].emrdfk] = dataLoad[i].value
+                                }
+                                if (dataLoad[i].type == "combobox") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    // $scope.item.objacbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
+                                    $scope.item.obja[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                }
+                                if (dataLoad[i].emrdfk == "1901303154") {
+                                    var str = dataLoad[i].value
+                                    var res = str.split("~");
+                                    $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                    // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
+
+                                }
                             }
-                        })
-                    });
+
+                        }
+                    })
+                });
             }
-            function setobjectToModel(nomorEMRSS,emrfk){
+            function setobjectToModel(nomorEMRSS, emrfk) {
                 medifirstService.get("emr/get-emr-transaksi-detail?noemr=" + nomorEMRSS + "&emrfk=" + emrfk, true).then(function (dat) {
                     $scope.item.obj = []
                     $scope.item.obj2 = []
-                
+
                     dataLoad = dat.data.data
-                    cacheHelper.set('cacheVitalSign',dataLoad)
+                    cacheHelper.set('cacheVitalSign', dataLoad)
                     for (var i = 0; i <= dataLoad.length - 1; i++) {
                         if (parseFloat($scope.cc.emrfk) == dataLoad[i].emrfk) {
                             if (dataLoad[i].type == "textbox") {
@@ -324,6 +330,12 @@ define(['initialize'], function (initialize) {
                                 var res = str.split("~");
                                 // $scope.item.objcbo[dataLoad[i].emrdfk]= {value:res[0],text:res[1]}
                                 $scope.item.obj[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                            }
+                            if (dataLoad[i].emrdfk == "1901303154") {
+                                var str = dataLoad[i].value
+                                var res = str.split("~");
+                                $scope.item.objcbo[dataLoad[i].emrdfk] = { value: res[0], text: res[1] }
+                                // $scope.item.obj[dataLoad[i].emrdfk] = { id: res[0], namalengkap: str }
 
                             }
                         }
@@ -333,21 +345,21 @@ define(['initialize'], function (initialize) {
             }
             function init() {
                 $scope.isRouteLoading = true
-                medifirstService.get("emr/get-emr-transaksi?" +paramSearch + "&jenisEmr=navigasi", true).then(function (dat) {
+                medifirstService.get("emr/get-emr-transaksi?" + paramSearch + "&jenisEmr=navigasi", true).then(function (dat) {
                     // //debugger
                     $scope.isRouteLoading = false
                     var nomorEMRSS = ''
-                    cacheHelper.set('cacheVitalSign',undefined)
-                    if( dat.data.data.length > 0){
-                        for (var i = 0; i <  dat.data.data.length; i++) {
-                            const element =  dat.data.data[i];
-                            element.no = i +1
+                    cacheHelper.set('cacheVitalSign', undefined)
+                    if (dat.data.data.length > 0) {
+                        for (var i = 0; i < dat.data.data.length; i++) {
+                            const element = dat.data.data[i];
+                            element.no = i + 1
                         }
-                        nomorEMRSS =  dat.data.data[0].noemr
+                        nomorEMRSS = dat.data.data[0].noemr
                         $scope.cc.emrfk = '147'
-                        setobjectToModel(nomorEMRSS,  $scope.cc.emrfk )
+                        setobjectToModel(nomorEMRSS, $scope.cc.emrfk)
                     }
-                   
+
                     $scope.dataDaftar = new kendo.data.DataSource({
                         data: dat.data.data,
                         pageSize: 10,
@@ -393,19 +405,19 @@ define(['initialize'], function (initialize) {
                 $scope.myVar = 2
                 $scope.showRiwayatEMR = true
             }
-            $scope.kembali = function(){
+            $scope.kembali = function () {
                 window.history().back()
             }
             $scope.kembaliIsi = function () {
                 $scope.myVar = 1
                 $scope.showRiwayatEMR = false
             }
-            $scope.hapus = function(){
-                if($scope.dataSelected == undefined){
+            $scope.hapus = function () {
+                if ($scope.dataSelected == undefined) {
                     toastr.error('pilih data dulu')
                     return
                 }
-                medifirstService.post('emr/hapus-emr-transaksi',{norec:$scope.dataSelected.norec ,emrfk:$scope.dataSelected.emrfk }).then(function(e){
+                medifirstService.post('emr/hapus-emr-transaksi', { norec: $scope.dataSelected.norec, emrfk: $scope.dataSelected.emrfk }).then(function (e) {
                     init()
                     $scope.dataSelected = undefined
                 })
@@ -425,16 +437,16 @@ define(['initialize'], function (initialize) {
                     data: arrSave//$scope.item.obj
                 }
                 medifirstService.post('emr/save-emr-dinamis', jsonSave).then(function (e) {
-                    if(medifirstService.getKelompokUser() =='suster'){
-                        var data ={
-                            "norec_apd" :$state.params.noRec,
-                            "kelompokUser" : medifirstService.getKelompokUser(),
-                            "vitalsign" : true
+                    if (medifirstService.getKelompokUser() == 'suster') {
+                        var data = {
+                            "norec_apd": $state.params.noRec,
+                            "kelompokUser": medifirstService.getKelompokUser(),
+                            "vitalsign": true
                         }
-                        medifirstService.postNonMessage('rawatjalan/save-panggil',data)
-                        .then(function (res) {
-                          
-                        })
+                        medifirstService.postNonMessage('rawatjalan/save-panggil', data)
+                            .then(function (res) {
+
+                            })
                     }
                     $scope.item.obj = []
                     $scope.item.obj[116064] = { value: 1, text: "Compos Mentis" }
@@ -464,11 +476,11 @@ define(['initialize'], function (initialize) {
             }
             $scope.showRiwayatEMR = false
             $scope.Edit = function () {
-                if ($scope.dataSelected == undefined){
+                if ($scope.dataSelected == undefined) {
                     toastr.error('Pilih data dulu')
                     return
                 }
-                  
+
                 $scope.showRiwayatEMR = false
                 $scope.myVar = 1
 
@@ -479,11 +491,11 @@ define(['initialize'], function (initialize) {
 
             }
             $scope.Lihat = function () {
-                if ($scope.dataSelected == undefined){
+                if ($scope.dataSelected == undefined) {
                     toastr.error('Pilih data dulu')
                     return
                 }
-                  
+
                 $scope.showRiwayatEMR = false
                 $scope.myVar = 1
 
@@ -498,7 +510,7 @@ define(['initialize'], function (initialize) {
                 $scope.myVar = 1
                 nomorEMR = '-'
                 $scope.cc.norec_emr = '-'
-                $scope.item.obj =[]
+                $scope.item.obj = []
                 var noemr2 = '-'
                 loadEMR()
 
@@ -553,7 +565,7 @@ define(['initialize'], function (initialize) {
                             "title": "No ",
                             "width": "10px"
                         },
-                        
+
                         {
                             "field": "tglemr",
                             "title": "Tgl EMR",
@@ -586,7 +598,7 @@ define(['initialize'], function (initialize) {
                             "title": "Nama Ruangan",
                             "width": "100px"
                         }
-                        
+
                         // {
                         //     "field": "noregistrasi",
                         //     "title": "NoRegistrasi",
@@ -605,7 +617,7 @@ define(['initialize'], function (initialize) {
 
             $scope.back = function () {
                 window.history.back();
-            }         
+            }
 
             function onSelect(e) {
                 var data3 = e.sender.dataSource._data
